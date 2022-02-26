@@ -1,0 +1,738 @@
+\section{Numeri complessi}
+\subsection{Introduzione}
+Nei numeri complessi si passa da una rappresentazione monodimensionale a una bidimensionale
+rappresentabile sul piano cartesiano. I cosiddetti numeri complessi sono elementi del campo
+$\mathbb{C}$ e sono formati dalla coppia di reali $(a, b)$.
+
+\begin{defn}
+	Chiamo \textbf{numero complesso} l'elemento
+	\begin{equation*}
+		a + bi \in \mathbb{C}
+	\end{equation*}
+	con $a, b \in \mathbb{R}$.
+\end{defn}
+
+Sul campo $\mathbb{C}$ sono definite le operazioni di somma e prodotto come segue:
+\begin{itemize}
+	\item \emph{Somma}: $(a + bi) + (c + di) = (a + c) + (b + d)i$
+	\item \emph{Prodotto}: $(a + bi) \cdot (c + di) = (ac - bd) + (ad + bc)i$
+\end{itemize}
+
+\begin{example}
+	Siano $(1, 2), (2, 3) \in \mathbb{C}$ la loro somma equivale a
+	\begin{equation*}
+		(1, 2) + (2, 3) = (3, 5)
+	\end{equation*}
+	e il loro prodotto equivale a
+	\begin{equation*}
+		(1, 2) \cdot (2, 3) = (-4, 7)
+	\end{equation*}
+\end{example}
+
+Per queste operazioni valgono le stesse propriet\`a delle operazioni in $\mathbb{R}$
+(commutativa, associativa, distributiva e elemento neutro).
+
+\textbf{NOTA}: l'elemento neutro della somma \`e $(0, 0)$, quello del prodotto \`e $(1, 0)$.
+
+I numeri del tipo $(a, 0)$, se sommati o moltiplicati fra loro, generano numeri dello stesso tipo
+e anche l'opposto e il reciproco di tali numeri \`e sempre nella stessa forma.
+
+Per alleggerire la notazione possiamo scrivere direttamente $a$ al posto di $(a, 0)$.
+
+Il numero $(0, 1)$ gode di una propriet\`a interessante:
+\begin{equation*}
+	(0, 1) \cdot (0, 1) = (-1, 0) = -1
+\end{equation*}
+Questo numero viene chiamato \textbf{unit\`a immaginaria} e lo si indica con $i$. Come possiamo
+vedere, \`e un numero che, elevato al quadrato, diventa negativo dunque \`e una delle soluzione
+per
+\begin{equation*}
+	x^2 = -1
+\end{equation*}
+
+\begin{defn}
+	Definiamo ora quella che viene chiamata \textbf{forma cartesiana} o \textbf{algebrica}.
+	Viene scritta in questo modo
+	\begin{equation*}
+		z = (a, b) = (a, 0) + (0, 1)(b, 0) = a + ib
+	\end{equation*}
+	Chiameremo $a$ \textbf{parte reale} del numero complesso $z$ e la si pu\`o indicare anche con
+	$Re(z)$, mentre $b$ prende il nome di \textbf{parte immaginaria} del numero complesso $z$ e la
+	si pu\`o indicare anche con $Im(z)$.
+	Potremmo rappresentare il numero complesso in un sistema cartesiano che prender\`a il nome di
+	\textbf{piano di Gauss} e che posso rappresentare in questo modo:
+
+	\includegraphics[width=0.9\textwidth]{immagini/Gauss}
+
+	Pongo sull'asse delle ascisse i valori reali $a$ e sulle ordinate i valori immaginari $b$.
+	In particolare i numeri che si trovano sull'asse delle ordinate ($a = 0$) si chiamano
+	\textbf{immaginari puri}.
+\end{defn}
+
+\subsection{Operazioni}
+Definiamo le operazioni di \emph{addizione}, \emph{sottrazione}, \emph{moltiplicazione} e
+\emph{divisione} utilizzando la forma cartesiana appena definita.
+Per ognuna delle operazioni consideriamo i due numeri complessi
+\begin{gather*}
+	z_1 = a + ib \\
+	z_2 = c + id
+\end{gather*}
+\begin{itemize}
+	\item \emph{Addizione}:
+	      \begin{equation*}
+		      z_1 + z_2 = (a + c) + (b + d)i
+	      \end{equation*}
+	\item \emph{Sottrazione}:
+	      \begin{equation*}
+		      z_1 + z_2 = (a - c) + (b - d)i
+	      \end{equation*}
+	\item \emph{Moltiplicazione}:
+	      \begin{equation*}
+		      z_1 \cdot z_2 = (ac - bd) + (ad + bc)i
+	      \end{equation*}
+	\item \emph{Divisione}:
+	      \begin{equation*}
+		      \frac{z_1}{z_2} = \frac{ac + bd}{c^2 + d^2} + \frac{bc - ad}{c^2 + d^2}i
+	      \end{equation*}
+\end{itemize}
+
+\begin{example}
+	Siano $z_1 = 1 + 3i$ e $z_2 = 1 - i$ allora
+	\begin{gather*}
+		z_1 + z_2 = 2 + 2i  \\
+		z_1 - z_2 = 4i      \\
+		z_1 \cdot z_2 = 4 + 2i  \\
+		z_1 / z_2 = -1 + 2i
+	\end{gather*}
+\end{example}
+
+\subsection{Forma trigonometrica}
+I punti del piano di Gauss possono essere individuati
+\begin{itemize}
+	\item dalle coordinate cartesiane $a$ e $b$.
+	\item dalle coordinate polari $\rho$ e $\theta$.
+\end{itemize}
+Le coordinate cartesiane possono essere due reali qualsiasi.
+Le coordinate polari invece hanno qualche vincolo. Per esempio $\rho \geq 0$ e $\theta$ \`e
+determinato a meno di multipli di $2 \pi$.
+
+Guardando la figura di sopra possiamo facilmente convertire $a$ e $b$ in funzione dei valori
+$\rho$ e $\theta$ per ottenere il numero in \textbf{forma trigonometrica}
+\begin{equation*}
+	z = a + ib = \rho \cos{(\theta)} + i \rho \sin{(\theta)} =
+	\rho [\cos{(\theta)} + i \sin{(\theta)}]
+\end{equation*}
+
+\begin{example}
+	Tramite semplici calcoli di trigonometria posso vedere che il numero
+	\begin{equation*}
+		z = 2 \left[ \cos{\left( \frac{3}{4} \pi \right)} +
+			i \sin{\left( \frac{3}{4} \pi \right)} \right]
+	\end{equation*}
+	in forma trigonometrica \`e equivalente al numero
+	\begin{equation*}
+		z = -\sqrt{2} + i\sqrt{2}
+	\end{equation*}
+	in forma cartesiana.
+\end{example}
+
+Se invece volessi fare una conversione da forma cartesiana a forma trigonometrica mi
+basta ricordare
+\begin{gather*}
+	\rho = \sqrt{a^2 + b^2} \\
+	\theta =
+	\begin{cases}
+		\arctan{(b / a)}       & \text{ se } a > 0 \\
+		\arctan{(b / a)} + \pi & \text{ se } a < 0
+	\end{cases}
+\end{gather*}
+\textbf{NOTA}: Se $a = 0$ allora
+\begin{equation*}
+	\theta =
+	\begin{cases}
+		\frac{\pi}{2}   & \text{ se } b > 0 \\
+		\frac{3}{2} \pi & \text{ se } b < 0
+	\end{cases}
+\end{equation*}
+Se anche $b = 0$ quindi $z = 0$ allora $\theta = 0$.
+
+\begin{example}
+	Consideriamo il numero complesso in forma cartesiana
+	\begin{equation*}
+		z = \sqrt{3} + i
+	\end{equation*}
+	Ottengo che
+	\begin{equation*}
+		\rho = \sqrt{\left( \sqrt{3} \right)^2 + 1^2} = 2
+	\end{equation*}
+	e che
+	\begin{equation*}
+		\theta = \arctan{\left( \frac{1}{\sqrt{3}} \right)} = \frac{\pi}{6}
+	\end{equation*}
+	Posso quindi scrivere il numero
+	\begin{equation*}
+		z = 2 \left[ \cos{\left( \frac{\pi}{6} \right)}
+			+ i  \sin{\left( \frac{\pi}{6} \right)} \right]
+	\end{equation*}
+\end{example}
+
+Quando il numero \`e scritto in forma trigonometrica, $\theta$ prende il nome di \textbf{argomento}
+di $z$ ed \`e, a volte, indicato con $arg(z)$. Il numero reale $\sqrt{a^2 + b^2}$ si dice invece
+\textbf{modulo} di $z$ ed \`e indicato con $|z|$.
+
+Definiamo ora le operazioni di addizione, sottrazione, moltiplicazione e divisione tra due numeri
+complessi $z_1$ e $z_2$ scritti in forma trigonometrica.
+\begin{gather*}
+	z_1 = \rho_1 (\cos{(\theta_1)} + i \sin{(\theta_1)}) \\
+	z_2 = \rho_2 (\cos{(\theta_2)} + i \sin{(\theta_2)})
+\end{gather*}
+
+\begin{itemize}
+	\item \emph{Addizione}:
+	      \begin{equation*}
+		      z_1 + z_2 = [\rho_1 \cos{(\theta_1)} + \rho_2 \cos{(\theta_2)}] +
+		      i [\rho_1 \sin{(\theta_1)} + \rho_2 \sin{(\theta_2)}]
+	      \end{equation*}
+	\item \emph{Sottrazione}:
+	      \begin{equation*}
+		      z_1 - z_2 = [\rho_1 \cos{(\theta_1)} - \rho_2 \cos{(\theta_2)}] +
+		      i [\rho_1 \sin{(\theta_1)} - \rho_2 \sin{(\theta_2)}]
+	      \end{equation*}
+	\item \emph{Moltiplicazione}:
+	      \begin{equation*}
+		      z_1 \cdot z_2 = \rho_1 \rho_2
+		      [\cos{(\theta_1  + \theta_2)} + i \sin{(\theta_1 + \theta_2)}]
+	      \end{equation*}
+	\item \emph{Divisione}:
+	      \begin{equation*}
+		      \frac{z_1}{z_2} = \frac{\rho_1}{\rho_2}
+		      [\cos{(\theta_1 - \theta_2)} + i \sin{(\theta_1 - \theta_2)}]
+	      \end{equation*}
+\end{itemize}
+
+\begin{example}
+	Siano
+	\begin{gather*}
+		z_1 = \sqrt{2} \left[\cos{\left(\frac{\pi}{4}\right)} +
+			i \sin{\left(\frac{\pi}{4}\right)}\right] \\
+		z_2 = \left[\cos{\left(\frac{\pi}{2}\right)} +
+			i \sin{\left(\frac{\pi}{2}\right)}\right]
+	\end{gather*}
+	allora
+	\begin{gather*}
+		|z_1 \cdot z_2| = \sqrt{2}                                             \\
+		\arg{(z_1 \cdot z_2)} = \frac{\pi}{4} + \frac{\pi}{2} = \frac{3}{4} \pi      \\
+		z_1 \cdot z_2 = \sqrt{2} \left[ \cos{\left( \frac{3}{4} \pi \right)}
+			+ i \sin{\left( \frac{3}{4} \pi \right)} \right]
+	\end{gather*}
+\end{example}
+
+\subsection{Forma esponenziale}
+\`E una notazione equivalente a quella trigonometrica in cui si utilizzano sempre $\rho$ e
+$\theta$ e in cui, al posto di coseno e seno, si usa l'esponenziale.
+\begin{equation*}
+	e^{i \theta } = \cos{(\theta)} + i \sin{(\theta)}
+\end{equation*}
+I numeri complessi in forma esponenziale si scrivono in questo modo:
+\begin{equation*}
+	z = a + ib = \rho [\cos{(\theta)} + i \sin{(\theta)}] = \rho e^{i \theta }
+\end{equation*}
+Per convertire in forma esponenziale un numero in forma cartesiana si calcolano $\rho$ e
+$\theta$ come per la conversione in forma trigonometrica. Trovati i valori mi basta sostituire
+come nella formula.
+
+Se il numero \`e in forma trigonometrica posso passare direttamente alla forma
+esponenziale sostituendo i valori.
+
+\begin{example}
+	Sia $z = \sqrt{3} + i$ un numero complesso scritto in forma cartesiana, la sua forma
+	trigonometrica sar\`a:
+	\begin{equation*}
+		z = 2 \left[ \cos{\left( \frac{\pi}{6} \right)} +
+			i \sin{\left( \frac{\pi}{6} \right)} \right]
+	\end{equation*}
+	mentre
+	\begin{equation*}
+		z = 2 e^{i \frac{\pi}{6}}
+	\end{equation*}
+	sar\`a la sua forma esponenziale.
+\end{example}
+
+\subsection{Radici e potenze}
+Nel caso in cui dovessimo calcolare potenze di numeri complessi ci conviene utilizzare la
+forma esponenziale, con la quale possiamo ragionare come con i numeri reali.
+\begin{equation*}
+	z^n = (\rho e^{i \theta})^n = \rho^n e^{i n \theta}
+\end{equation*}
+Possiamo passare anche in forma trigonometrica in questo modo:
+\begin{equation*}
+	\rho^n e^{i n \theta} = \rho^n [\cos{(n \theta)} + i \sin{(n \theta)}]
+\end{equation*}
+
+In generale, un procedimento veloce per svolgere le potenze di numeri scritti in forma
+cartesiana \`e questo:
+\begin{enumerate}
+	\item Converto il numero in forma esponenziale.
+	\item Elevo alla $n$.
+	\item Torno in forma cartesiana.
+\end{enumerate}
+
+\begin{example}
+	Calcolare $(1 + i)^5$.
+	Per farlo seguo i tre passi elencati sopra. Per prima cosa converto il numero in forma
+	esponenziale:
+	\begin{gather*}
+		\rho = \sqrt{1^2 + 1^2} = \sqrt{2}  \\
+		\theta = \arctan{(1 / 1)} = \pi / 4 \\
+		z = 1 + i = \sqrt{2} e^{i \frac{\pi}{4}}
+	\end{gather*}
+	Ora elevo il numero in forma esponenziale alla quinta.
+	\begin{equation*}
+		(1 + i)^5 = 4 \sqrt{2} e^{5 i \frac{\pi}{4}}
+	\end{equation*}
+	Non mi rimane che ritornare alla forma cartesiana
+	\begin{gather*}
+		a = 4 \sqrt{2} \cos{\left( \frac{5}{4} \pi \right)} = -4 \\
+		b = 4 \sqrt{2} \sin{\left( \frac{5}{4} \pi \right)} = -4
+	\end{gather*}
+	Quindi otteniamo che
+	\begin{equation*}
+		(1 + i)^5 = -4 - 4i
+	\end{equation*}
+	\`e il valore cercato.
+\end{example}
+
+\begin{defn}
+	Dato un numero complesso $w$, si dice che $z$ \`e una \textbf{radice n-esima complessa} di $w$
+	se $z^n = w$.
+	Se $w = 0$ l'unica radice \`e $z = 0$. Se invece $z \neq 0$ esistono $n$ numeri reali complessi
+	che soddisfano l'equazione, ovvero $n$ radici $n$-esime complesse.
+\end{defn}
+
+Se vogliamo trovare tutte le radici complesse di $w$ dobbiamo seguire questi passaggi:
+\begin{enumerate}
+	\item Come detto in precedenza dobbiamo trovare quel numero $z$ tale che
+	      \begin{equation*}
+		      z^n = w
+	      \end{equation*}
+	\item Portiamo $z$ e $w$ in forma esponenziale, ottenendo quindi:
+	      \begin{gather*}
+		      z = \rho e^{i \theta} \\
+		      w = r e^{i \phi}      \\
+		      \Downarrow            \\
+		      \rho^n e^{i n \theta} = r e^{i \phi}
+	      \end{gather*}
+	\item Arrivati a questo punto $r$ e $\phi$ saranno noti. Dobbiamo quindi eguagliare i
+	      moduli per ottenere $\rho$:
+	      \begin{gather*}
+		      \rho^n = r \\
+		      \Downarrow \\
+		      \rho = \sqrt[n]{r}
+	      \end{gather*}
+	      e in seguito eguagliare gli argomenti per ottenere $\theta$:
+	      \begin{gather*}
+		      n \theta = \phi \\
+		      \Downarrow      \\
+		      \theta = \frac{\phi}{n}
+	      \end{gather*}
+	      Gli argomenti possono differire per multipli di $2 \pi$ e saranno diversi per ciascuna
+	      delle $n$ radici. Dunque la formula diventa:
+	      \begin{align*}
+		      \theta_k = \frac{\phi}{n} + \frac{2k \pi}{n}
+		       & \text{ con } k = 0, \dots, n-1
+	      \end{align*}
+	\item Una volta trovati tutti i $\theta_k$ otteniamo $n$ radici complesse di questo
+	      tipo:
+	      \begin{align*}
+		      z_k = \rho e^{i \theta_k} & \text{ con } k = 0, 1, \dots, n-1
+	      \end{align*}
+	\item Come ultimo passaggio convertiamo le radici trovate in forma cartesiana.
+\end{enumerate}
+
+\begin{example}
+	Determinare le radici cubiche complesse di -1.
+	Per prima cosa portiamo -1 in forma esponenziale.
+	\begin{gather*}
+		r = \sqrt{(-1)^2} = 1 \\
+		\phi = \arctan(0) + \pi = \pi
+	\end{gather*}
+	Dunque
+	\begin{equation*}
+		w = -1 = e^{i \pi}
+	\end{equation*}
+	Dato che $w = z^n$ e che in questo caso abbiamo $n = 3$ allora posso scrivere
+	\begin{equation*}
+		e^{i \pi} = \rho^3 e^{i 3 \theta}
+	\end{equation*}
+	Se eguaglio i moduli ottengo
+	\begin{gather*}
+		\rho^3 = 1 \\
+		\Downarrow \\
+		\rho = \sqrt[3]{1} = 1
+	\end{gather*}
+	Eguagliando invece gli argomenti ottengo
+	\begin{gather*}
+		3 \theta = \pi \\
+		\Downarrow     \\
+		\theta = \frac{\pi}{3}
+	\end{gather*}
+	Ricordiamoci per\`o che devo trovare tre radici e quindi tre argomenti che differiscono
+	l'uno dall'altro per multipli di $2 \pi$.
+	Dunque avr\`o:
+	\begin{gather*}
+		\theta_0 = \frac{\pi}{3} + \frac{0}{3} = \frac{\pi}{3} \\
+		\theta_1 = \frac{\pi}{3} + \frac{2}{3} \pi = \pi       \\
+		\theta_2 = \frac{\pi}{3} + \frac{4}{3} \pi = \frac{5}{3} \pi
+	\end{gather*}
+	A questo punto non mi rimane che scrivere le radici e convertirle in forma cartesiana.
+	\begin{gather*}
+		z_0 = e^{i \frac{4}{3} \pi} = \frac{1}{2} + \frac{\sqrt{3}}{2} i \\
+		z_1 = e^{i \pi} = -1                                             \\
+		z_2 = e^{i \frac{5}{3} \pi} = \frac{1}{2} - \frac{\sqrt{3}}{2} i
+	\end{gather*}
+\end{example}
+
+\subsection{Equazioni}
+Iniziamo ora a risolvere equazioni coi numeri complessi partendo dalle equazioni di secondo grado,
+che \`e anche il motivo per cui, storicamente, i numeri complessi sono stati introdotti.
+Se ricordiamo, l'equazione
+\begin{equation*}
+	x^2 = -1
+\end{equation*}
+non ammette soluzione in $\mathbb{R}$ mentre in $\mathbb{C}$ ammette due soluzioni complesse
+ovvero le radici quadrate complesse di -1 ovvero $\pm i$.
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		x^2 + 9 = 0
+	\end{equation*}
+	Se proviamo a risolverla come una normale equazione di secondo grado ottengo che
+	\begin{equation*}
+		\Delta = -36
+	\end{equation*}
+	Normalmente non potrei usare la classica formula risolutiva ma in questo caso possiamo
+	ragionare in questo modo: sappiamo che $i^2 = -1$ quindi possiamo scrivere
+	\begin{equation*}
+		-36 = i^2 \cdot 36
+	\end{equation*}
+	A questo punto possiamo usare la formula risolutiva
+	\begin{equation*}
+		x = \frac{\pm \sqrt{i^2 \cdot 36}}{2} = \frac{\pm 6i}{2} = \pm 3i
+	\end{equation*}
+\end{example}
+
+In generale per risolvere equazioni di secondo grado coi numeri complessi si pu\`o utilizzare
+la "tradizionale" formula risolutiva
+\begin{equation*}
+	z = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation*}
+a patto di intendere la radice quadrata nella formula in senso complesso.
+
+\begin{defn}
+	Dato un generico numero complesso chiamo \textbf{complesso coniugato} o \textbf{coniugio}
+	quel numero che ha la parte immaginaria cambiata di segno. Quindi se considero il generico
+	numero complesso
+	\begin{equation*}
+		z = a - ib
+	\end{equation*}
+	il suo complesso coniugato, che indicher\`o con $\overline{z}$ il numero
+	\begin{equation*}
+		\overline{z} = a + ib
+	\end{equation*}
+	Tale numero nel piano di Gauss \`e simmetrico a $z$ rispetto all'asse delle ascisse.
+\end{defn}
+
+\begin{observation}
+	In forma esponenziale se ho
+	\begin{equation*}
+		z = \rho e^{i \theta}
+	\end{equation*}
+	allora
+	\begin{equation*}
+		\overline{z} = \rho e^{-i \theta}
+	\end{equation*}
+	sar\`a il complesso coniugato.
+\end{observation}
+
+In generale per le equazioni di secondo grado ho tre possibili casi:
+\begin{itemize}
+	\item Se $\Delta > 0$ allora ho due soluzioni reali distinte.
+	\item Se $\Delta = 0$ allora ho due soluzioni reali coincidenti.
+	\item Se $\Delta < 0$ allora ho due soluzioni complesse coniugate.
+\end{itemize}
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		z^2 - 3iz - 2 = 0
+	\end{equation*}
+	Utilizziamo la formula risolutiva.
+	\begin{equation*}
+		\Delta = (-3i)^2 + 8 = 9i^2 + 8 = -1
+	\end{equation*}
+	Quindi abbiamo che
+	\begin{equation*}
+		z = \frac{3i \pm \sqrt{-1}}{2} = \frac{3i \pm i}{2}
+	\end{equation*}
+	Da qui ricaviamo le due soluzioni
+	\begin{gather*}
+		z_1 = 2i \\
+		z_2 = i
+	\end{gather*}
+\end{example}
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		z^3 - 5iz^2 - 6z = 0
+	\end{equation*}
+	In questo caso possiamo raccogliere $z$ e riscrivere l'equazione in questo modo:
+	\begin{equation*}
+		z(z^2 - 5iz - 6) = 0
+	\end{equation*}
+	Da qui ricaviamo subito che una soluzione \`e $z = 0$.
+
+	Risolviamo ora l'equazione di secondo grado con la formula
+	\begin{equation*}
+		\Delta = 25 i^2 + 24 = -1
+	\end{equation*}
+	Quindi
+	\begin{equation*}
+		z = \frac{5i \pm \sqrt{-1}}{2} = \frac{5i \pm i}{2}
+	\end{equation*}
+	Le soluzioni sono quindi
+	\begin{gather*}
+		z_1 = 0  \\
+		z_2 = 3i \\
+		z_3 = 2i
+	\end{gather*}
+\end{example}
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		z^4 - 3iz^2 - 2 = 0
+	\end{equation*}
+	In questo caso ci conviene porre $y = z^2$ e riscriverci l'equazione come
+	\begin{equation*}
+		y^2 - 3iy - 2 = 0
+	\end{equation*}
+	Risolviamo con la solita formula
+	\begin{equation*}
+		\Delta = (-3i)^2 + 8 = 9i^2 + 8 = -1
+	\end{equation*}
+	quindi
+	\begin{equation*}
+		y = \frac{3i \pm \sqrt{-1}}{2} = \frac{3i \pm i}{2}
+	\end{equation*}
+	Le soluzioni sono quindi
+	\begin{gather*}
+		y_1 = 2i \\
+		y_2 = i
+	\end{gather*}
+	A questo punto troviamo le soluzioni dell'equazione di partenza
+	\begin{gather*}
+		y = z^2    \\
+		\Downarrow \\
+		z = \sqrt{y}
+	\end{gather*}
+	Per calcolarle possiamo usare il metodo visto precedentemente.
+	Iniziamo con il trovare le radici quadrate di $2i$. Per prima cosa convertiamo $2i$ in
+	forma esponenziale.
+	\begin{gather*}
+		r = \sqrt{2^2} = 2                            \\
+		\phi = \arctan{\left(\frac{2}{0}\right)} = \frac{\pi}{2} \\
+		2i = 2 e^{i \frac{\pi}{2}}
+	\end{gather*}
+	Da qui otteniamo che
+	\begin{gather*}
+		\rho = \sqrt{2}          \\
+		\theta_0 = \frac{\pi}{4} \\
+		\theta_1 = \frac{\pi}{4} + \pi = \frac{5}{4} \pi
+	\end{gather*}
+	Quindi
+	\begin{gather*}
+		z_1 = \sqrt{2} e^{i \frac{\pi}{4}} = 1 + i \\
+		z_2 = \sqrt{2} e^{i \frac{5}{4} \pi} = 1 - i
+	\end{gather*}
+	Calcoliamo ora le radici quadrate di $i$.
+	\begin{gather*}
+		r = \sqrt{1^2} = 1                                         \\
+		\phi = \arctan{\left( \frac{1}{0} \right)} = \frac{\pi}{2} \\
+		i = e^{i \frac{\pi}{2}}
+	\end{gather*}
+	Da qui otteniamo
+	\begin{gather*}
+		\rho = \sqrt{1} = 1      \\
+		\theta_0 = \frac{\pi}{4} \\
+		\theta_1 = \frac{\pi}{4} + \pi = \frac{5}{4} \pi
+	\end{gather*}
+	Quindi
+	\begin{gather*}
+		z_3 = e^{i \frac{\pi}{4}} = \frac{\sqrt{2}}{2} + \frac{\sqrt{2}}{2} i \\
+		z_4 = e^{i \frac{5}{4} \pi} = -\frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} i
+	\end{gather*}
+	Ricapitolando
+	\begin{gather*}
+		z_1 = 1 + i                                     \\
+		z_2 = 1 - i                                     \\
+		z_3 = \frac{\sqrt{2}}{2} + \frac{\sqrt{2}}{2} i \\
+		z_4 = -\frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} i
+	\end{gather*}
+	sono le nostre soluzioni.
+\end{example}
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		z^2 + 2 \overline{z} = -i Im(z)
+	\end{equation*}
+	Il trucco qui sta nel vedere $z$ in forma cartesiana, scriviamo quindi
+	\begin{equation*}
+		z = x + iy
+	\end{equation*}
+	Sappiamo che $\overline{z}$ \`e $z$ ma con la parte immaginaria cambiata di segno mentre
+	$Im(z)$ \`e proprio la parte immaginaria, ovvero $y$. Quindi, se sostituiamo otteniamo
+	\begin{gather*}
+		(x + iy)^2 + 2 (x - iy) = -i y       \\
+		x^2 - y^2 + 2ixy + 2x - 2iy + iy = 0 \\
+		x^2 - y^2 + 2x + 2ixy - iy = 0		 \\
+		x^2 - y^2 + 2x - i(2xy - y) = 0
+	\end{gather*}
+	Perch\'e un complesso sia 0 sia parte reale che parte immaginaria devono essere 0. Da qui
+	ricaviamo il sistema:
+	\begin{equation*}
+		\begin{cases}
+			x^2 - y^2 + 2x = 0 \\
+			2xy - y = 0
+		\end{cases}
+	\end{equation*}
+	Nella seconda equazione possiamo raccogliere $y$.
+	\begin{equation*}
+		\begin{cases}
+			y(2x - 1) = 0 \\
+			x^2 - y^2 + 2x = 0
+		\end{cases}
+	\end{equation*}
+	Da qui otteniamo due possibilit\`a:
+	\begin{gather*}
+		y = 0 			\\
+		x = \frac{1}{2}
+	\end{gather*}
+	Se $y = 0$ allora
+	\begin{gather*}
+		\begin{cases}
+			y = 0 \\
+			x^2 + 2x = 0
+		\end{cases} \\
+		\begin{cases}
+			y = 0 \\
+			x (x + 2) = 0
+		\end{cases}
+	\end{gather*}
+	Da qui otteniamo due coppie di soluzioni
+	\begin{align*}
+		\begin{cases}
+			y = 0 \\
+			x = 0
+		\end{cases} &
+		\begin{cases}
+			y = 0 \\
+			x = -2
+		\end{cases}
+	\end{align*}
+	Se invece $x = \frac{1}{2}$ allora
+	\begin{gather*}
+		\begin{cases}
+			x = \frac{1}{2} \\
+			\frac{1}{4} - y^2 + 1 = 0
+		\end{cases} \\
+		\begin{cases}
+			x = \frac{1}{2} \\
+			y^2 = \frac{5}{4}
+		\end{cases} \\
+		\begin{cases}
+			x = \frac{1}{2} \\
+			y = \sqrt{\frac{5}{4}}
+		\end{cases}
+	\end{gather*}
+	Da qui otteniamo altre due soluzioni
+	\begin{gather*}
+		\begin{cases}
+			x = \frac{1}{2} \\
+			y = \frac{\sqrt{5}}{2}
+		\end{cases} \\
+		\begin{cases}
+			x = \frac{1}{2} \\
+			y = -\frac{\sqrt{5}}{2}
+		\end{cases}
+	\end{gather*}
+	Dunque le quattro soluzioni sono
+	\begin{gather*}
+		z_1 = 0 \\
+		z_2 = -2 \\
+		z_3 = \frac{1}{2} + i \frac{\sqrt{5}}{2} \\
+		z_4 = \frac{1}{2} - i \frac{\sqrt{5}}{2}
+	\end{gather*}
+\end{example}
+
+\begin{example}
+	Risolvere l'equazione
+	\begin{equation*}
+		z^4 = - |z|
+	\end{equation*}
+	In questo caso ci conviene usare la forma esponenziale.
+	\begin{gather*}
+		z = \rho e^{i \theta} \\
+		z^4 = \rho^4 e^{4 i \theta} \\
+		-|z| = -\rho
+	\end{gather*}
+	Dunque ottengo
+	\begin{equation*}
+		\rho^4 e^{4 i \theta} = \rho e^{i \pi}
+	\end{equation*}
+	Da qui ottengo il sistema
+	\begin{gather*}
+		\begin{cases}
+			\rho^4 = \rho \\
+			4 \theta_k = \pi + 2k \pi
+		\end{cases} \\
+		\begin{cases}
+			\rho (\rho^3 - 1) = 0 \\
+			\theta_k = \frac{\pi}{4} + \frac{k \pi}{2}
+		\end{cases}
+	\end{gather*}
+	Nel caso in cui $\rho$ sia uguale a 0, qualunque sia il valore di $\theta$ otterr\`o sempre
+	\begin{equation*}
+		z = 0
+	\end{equation*}
+	Sviluppando invece $\rho^3 - 1 = 0$ ottengo che $\rho = 1$. Mi rimane solo da calcolare
+	i possibili $\theta$.
+	\begin{gather*}
+		\begin{cases}
+			\rho = 1 \\
+			\theta_0 = \frac{\pi}{4}
+		\end{cases}
+		\begin{cases}
+			\rho = 1 \\
+			\theta_1 = \frac{3}{4} \pi
+		\end{cases} \\
+		\begin{cases}
+			\rho = 1 \\
+			\theta_2 = \frac{5}{4} \pi
+		\end{cases}
+		\begin{cases}
+			\rho = 1 \\
+			\theta_3 = \frac{7}{4} \pi
+		\end{cases}
+	\end{gather*}
+	Ho dunque trovato cinque soluzioni in totale
+	\begin{gather*}
+		z_0 = 0 \\
+		z_1 = e^{i \frac{\pi}{4}} \\
+		z_2 = e^{i \frac{3}{4} \pi} \\
+		z_3 = e^{i \frac{5}{4} \pi} \\
+		z_4 = e^{i \frac{7}{4} \pi}
+	\end{gather*}
+\end{example}

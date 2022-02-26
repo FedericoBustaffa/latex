@@ -1,0 +1,38 @@
+
+\subsection{Sottospazi ortogonali}
+Sia $V$, uno spazio vettoriale munito di prodotto scalare.
+
+\begin{proposition}
+	Sia $U$ un sottospazio vettoriale di $V$. Allora esiste una base
+	ortonormale di $U$ che \`e un sottoinsieme di una base ortonormale di $V$.
+\end{proposition}
+
+\begin{theorem}
+	Sia $U$ un sottospazio vettoriale di $V$. Allora $V$ si decompone come
+	somma diretta di $U$ e di $U^\perp$:
+	\begin{equation*}
+		V = U \oplus U^\perp
+	\end{equation*}
+	In particolare vale che $dim(U^\perp) = dim(V) - dim(U)$.
+\end{theorem}
+
+\begin{observation}
+	Consideriamo $V = \mathbb{R}^n$ munito del prodotto scalare standard. Dato
+	un sottospazio $W$, con base $w_1, \dots, w_r$, se pensiamo a come si
+	scrive il prodotto scalare ci rendiamo conto che i vettori $W^\perp$ sono
+	esattamente le soluzioni del sistema
+	\begin{equation*}
+		\begin{pmatrix}
+			a_1   & \dots & a_n   \\
+			b_1   & \dots & b_n   \\
+			\dots & \dots & \dots \\
+			\dots & \dots & \dots
+		\end{pmatrix}
+		\begin{pmatrix}
+			x_1 \\ x_2 \\ \dots \\ \dots \\ x_n
+		\end{pmatrix} =
+		\begin{pmatrix}
+			0 \\ 0 \\ \dots \\ \dots \\ 0
+		\end{pmatrix}
+	\end{equation*}
+\end{observation}

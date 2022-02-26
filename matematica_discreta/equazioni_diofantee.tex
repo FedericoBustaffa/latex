@@ -1,0 +1,197 @@
+\section{Equazioni Diofantee}
+Introduciamo per prima cosa la notazione $a \mid b$ per indicare che $a$ divide $b$. Da questo
+possiamo dedurre che $b = ac$ con $c \in \mathbb{Z}$. Possiamo dedurne che $b$ \`e un multiplo
+di $a$.
+
+\subsection{Algoritmo di Euclide}
+Definiamo l'algoritmo molto semplicemente in questo modo: si applica ripetutamente
+il teorema 3.0.3 finch\'e uno dei due numeri diventa $0$, l'altro sar\`a il MCD.
+Vediamo qualche esempio per fissare meglio le idee
+\begin{example}
+	Vogliamo trovare ad esempio il MCD tra 10 e 6. Poniamo quindi $a = 10$ e $b = 6$ e
+	procediamo
+	\begin{equation*}
+		\begin{array}{ll}
+			(10, 6) & = (10 - 6, 6) \\
+			(4, 6)  & = (4, 6 - 4)  \\
+			(4, 2)  & = (4 - 2, 2)  \\
+			(2, 2)  & = (2, 2 - 2)  \\
+			(2, 0)
+		\end{array}
+	\end{equation*}
+	Abbiamo dunque ottenuto che $(10, 6) = 2$.
+\end{example}
+
+\begin{theorem}
+	Dati $a, b, q, r \in \mathbb{Z}$ tali che $a = qb + r$, vale
+	\begin{equation*}
+		\begin{array}{lll}
+			(a, b) & = (r, b)      & \text{$r =$ resto della divisione di $a$ per $b$} \\
+			(a, b) & = (a - qb, b) & \text{$a = qb + r$}
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\subsection{Risoluzione di equazioni diofantee}
+\begin{theorem}[Identit\`a di Bezout]
+	Siano $a, b$ interi non entrambi nulli
+	\begin{equation*}
+		\exists x, y \in \mathbb{Z} \mid (a, b) = ax + by
+	\end{equation*}
+\end{theorem}
+
+\begin{defn}
+	Chiamo \textbf{equazione diofantea} un'equazione del tipo
+	\begin{equation*}
+		ax + by = c
+	\end{equation*}
+	di cui cerco le soluzioni intere.
+\end{defn}
+
+\begin{theorem}
+	Dati $a, b \in \mathbb{Z}$, l'equazione diofantea
+	\begin{equation*}
+		ax + by = c
+	\end{equation*}
+	ha soluzione se e solo se $c$ \`e un multiplo di $(a, b)$.
+\end{theorem}
+
+Procediamo ora con ordine per trovare una soluzione a questa equazione.
+\begin{enumerate}
+	\item Per prima cosa troviamo l'MCD tra $a$ e $b$. Verifichiamo che l'equazione abbia
+	      soluzione e procediamo con lo studiare l'equazione semplificata dividendola per
+	      $(a, b)$.
+	\item Troviamo ora una soluzione all'equazione
+	      \begin{equation*}
+		      ax + by = 1
+	      \end{equation*}
+	      con l'algoritmo di Euclide.
+	\item Adesso moltiplichiamo tutto per $c$ (semplificato) e troviamo quindi una soluzione
+	      particolare.
+	\item Infine dobbiamo trovare una soluzione generale facendo la differenza tra l'equazione
+	      con le incognite e quella con la soluzione particolare.
+\end{enumerate}
+
+\begin{example}
+	Consideriamo l'equazione diofantea
+	\begin{equation*}
+		9x + 3y = 6
+	\end{equation*}
+	Calcoliamo per prima cosa il MCD tra 9 e 3 tramite Euclide.
+	\begin{equation*}
+		\begin{array}{ll}
+			(9, 3) & = (9 - 3, 3) \\
+			(6, 3) & = (6 - 3, 3) \\
+			(3, 3) & = (3, 3 - 3) \\
+			(3, 0)
+		\end{array}
+	\end{equation*}
+	Dunque $(9, 3) = 3$ e 6 \`e un multiplo di 3 quindi l'equazione ha soluzione.
+
+	Adesso divido tutto per 3 e ottengo l'equazione
+	\begin{equation*}
+		3x + y = 2
+	\end{equation*}
+	A questo punto cerco una soluzione particolare per l'equazione
+	\begin{equation*}
+		3x + y = 1
+	\end{equation*}
+	nello stesso modo di prima, ovvero con Euclide.
+	\begin{equation*}
+		\begin{array}{ll}
+			(3, 1) & = (3 - 1, 1)  \\
+			(2, 1) & = (2 - 1, 1)  \\
+			(1, 1) & = (1, 1 - 1)  \\
+			(1, 0) & \Rightarrow 1
+		\end{array}
+	\end{equation*}
+
+	Adesso cerco una soluzione particolare ripercorrendo l'algoritmo a ritroso.
+	\begin{equation*}
+		\begin{array}{ll}
+			1 & = 2 - 1         \\
+			2 & = 3 - 1         \\
+			  & \Downarrow      \\
+			1 & = 3 - 2 \cdot 1
+		\end{array}
+	\end{equation*}
+	Ne concludiamo che $x = 1$ e $y = -2$ ma a noi serve una soluzione per $c = 2$ quindi
+	moltiplico tutto per 2 e ottengo
+	\begin{equation*}
+		3 \cdot (2) + 1 \cdot (-4) = 2
+	\end{equation*}
+	Quindi ho ottenuto una soluzione particolare $x = 2$ e $y = -4$ alla mia equazione iniziale.
+	Tuttavia non \`e l'unica e devo quindi trovarne una generale.
+	Per farlo devo confrontare l'equazione con le incognite e quella con la soluzione particolare
+	per poi farne la differenza. Ottengo cos\`i
+	\begin{equation*}
+		\begin{array}{l}
+			3(x - 2) + (y + 4) = 0 \\
+			3(x - 2) = -(y + 4)
+		\end{array}
+	\end{equation*}
+	Quindi possiamo affermare che $3 \mid -(y + 4)$. Sappiamo per\`o che $(3, 1) = 1$, dunque
+	possiamo affermare che $3 \mid (y + 4)$ per il primo lemma. Possiamo scrivere adesso che
+	\begin{equation*}
+		\begin{array}{rl}
+			y + 4 & = 3k     \\
+			y     & = 3k - 4
+		\end{array}
+	\end{equation*}
+	Se sostituisco nell'equazione ottenuta precedentemente ottengo
+	\begin{equation*}
+		\begin{array}{rl}
+			3(x - 2) + (3k - 4 + 4) & = 0     \\
+			3x - 6 + 3k             & = 0     \\
+			x                       & = 2 - k
+		\end{array}
+	\end{equation*}
+	Le soluzioni all'equazione devono essere dunque del tipo
+	\begin{equation*}
+		\begin{cases}
+			y & = 3k - 4 \\
+			x & = 2 - k
+		\end{cases}
+	\end{equation*}
+	Infatti se sostituisco ottengo
+	\begin{equation*}
+		\begin{array}{rl}
+			3 (2 - k - 2) + (3k - 4 + 4) & = 0 \\
+			-3k + 3k                     & = 0 \\
+		\end{array}
+	\end{equation*}
+	che \`e sempre vera per qualsiasi $k \in \mathbb{Z}$.
+\end{example}
+
+\subsection{Studio delle soluzioni di un'equazione diofantea}
+Come sappiamo l'equazione diofantea
+\begin{equation*}
+	ax + by = c
+\end{equation*}
+ha soluzione se e solo se $c$ \`e un multiplo di $(a, b)$. Le soluzioni dell'equazione si
+ottengono sommando ad una particolare soluzione $(x_0, y_0)$ una qualunque soluzione
+dell'omogenea
+\begin{equation*}
+	ax + by = 0
+\end{equation*}
+Il problema \`e trovare le soluzioni dell'omogenea.
+Prendiamo ad esempio
+\begin{equation*}
+	1020x + 351y = 0
+\end{equation*}
+Una soluzione \`e $(-351, 1020)$ ma ne ho altre come ad esempio $(-k \cdot 351, k \cdot 1020)$
+con $k \in \mathbb{Z}$.
+Non sono ancora tutte per\`o. Dato che $(1020, 351) = 3$ divido tutto per 3 e ottengo
+\begin{equation*}
+	340x + 117y = 0
+\end{equation*}
+Qui le soluzioni sono del tipo $(k \cdot 117, -k \cdot 340)$ quindi prima trovavo una $x$ ogni
+351 passi ora ogni 117. In questo modo ho trovato tutte le possibili soluzioni.
+
+\begin{theorem}
+	Se $(a, b) = 1$, allora le soluzioni di
+	\begin{equation*}
+		ax + by = 0
+	\end{equation*}
+	sono tutte del tipo $(kb, -ka)$.
+\end{theorem}

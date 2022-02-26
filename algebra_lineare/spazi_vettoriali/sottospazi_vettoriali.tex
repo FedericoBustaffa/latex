@@ -1,0 +1,74 @@
+
+\subsection{Sottospazi vettoriali}
+
+\begin{defn}
+	Un \textbf{sottospazio vettoriale} $W$ di $V$ \`e un sottoinsieme di $V$
+	che (rispetto alle operazioni $+$ e $\cdot$ che rendono $V$
+	uno spazio vettoriale su $\mathbb{K}$) \`e uno spazio
+	vettoriale su $\mathbb{K}$.
+\end{defn}
+
+\begin{example}
+	Dato uno spazio vettoriale $V$ su un campo $\mathbb{K}$, $V$ e l'insieme
+	${O}$ sono sempre sottospazi di $V$.
+\end{example}
+
+\begin{defn}
+	Chiamiamo \textbf{sottospazio proprio} di $V$ un qualsiasi sottospazio
+	vettoriale di $V$ che sia diverso da $V$ e dal sottospazio ${O}$.
+\end{defn}
+
+\begin{proposition}
+	Dato uno spazio vettoriale $V$ su $\mathbb{K}$ e $W \subseteq V$, $W$ \`e
+	sottospazio vettoriale di $V$ (rispetto alle operazioni $+$ e $\cdot$ che
+	rendono $V$ uno spazio vettoriale su $\mathbb{K}$) se e solo se:
+	\begin{enumerate}
+		\item Il vettore $O$ appartiene a $W$
+		\item $\forall u, v \in W$ vale $u + v \in W$
+		\item $\forall k \in \mathbb{K} \and \forall u \in W$ vale $ku \in W$
+	\end{enumerate}
+\end{proposition}
+
+\begin{example}
+	Consideriamo lo spazio vettoriale $\mathbb{R}^2$ su $\mathbb{R}$
+	e proviamo vedere se l'insieme
+	$X = \{\forall x,y \in \mathbb{R} \mid x^2 + y^2 = 1\}$
+	\`e un sottospazio vettoriale di $\mathbb{R}^2$.
+	L'insieme in questione \`e l'insieme di punti di una circonferenza.
+	Subito notiamo che il vettore $(0, 0)$ non appartiene all'insieme
+	dunque possiamo subito concludere che $X$ non \`e un sottospazio di
+	$\mathbb{R}^2$.
+\end{example}
+
+\begin{observation}
+	Tutte le rette passanti per l'origine sono gli unici sottospazi
+	vettoriali di $\mathbb{R}^2$. Tutti gli altri sottoinsiemi
+	non sono chiusi per somma e prodotto.
+\end{observation}
+
+\begin{example}
+	Consideriamo il sottoinsieme $L$ di $\mathbb{K}[x]$ che contiene tutti
+	e soli i polinomi che hanno radice $1$, ovvero:
+	\begin{equation*}
+		L = \{p(x) \in \mathbb{K}[x] \mid p(1) = 0\}
+	\end{equation*}
+	Verifichiamo che $L$ \`e sottospazio vettoriale di $\mathbb{K}[x]$.
+	\begin{itemize}
+		\item
+		      Il polinomio $0$, che \`e il vettore $O$ di $\mathbb{K}[x]$,
+		      appartiene a $L$, infatti ha $1$ come radice (addirittura ogni
+		      elemento di $\mathbb{K}$ \`e una radice di $0$).
+		\item
+		      Se $p(x), q(x) \in L$ allora $(p + q)(x)$ appartiene a $L$,
+		      infatti:
+		      \begin{equation*}
+			      (p + q)(1) = p(1) + q(1) = 0 + 0 = 0
+		      \end{equation*}
+		\item
+		      Se $p(x) \in L$ e $k \in \mathbb{K}$ allora $k \cdot p(x) \in L$,
+		      infatti:
+		      \begin{equation*}
+			      (k \cdot p)(1) = k \cdot p(1) = k \cdot 0 = 0
+		      \end{equation*}
+	\end{itemize}
+\end{example}

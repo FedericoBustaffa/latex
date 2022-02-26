@@ -1,0 +1,93 @@
+
+\subsection{Immagine di un'applicazione lineare}
+
+La riduzione a scalini per colonna risulta molto utile anche per lo
+studio di applicazioni lineari, ed in particolare per la
+determinazione di dimensione e base dell'immagine di una applicazione
+lineare.
+
+Dati due spazi vettoriali $V$ e $W$ sul campo $\mathbb{K}$ di dimensione $n$
+e $m$ rispettivamente, consideriamo una applicazione lineare:
+\begin{equation*}
+	L : V \to W
+\end{equation*}
+Fissiamo una base $\{e_1, e_2, \dots, e_n\}$ di $V$ e una base
+$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ di $W$. Indichiamo con $[L]$
+la matrice, di forma $m \times n$, associata a $L$ nelle basi scelte.
+
+Per quanto abbiamo fin qui detto, possiamo, tramite un numero finito $k$ di
+operazioni elementari sulle colonne di $[L]$, portarla in forma a scalini
+ridotta. Ma c'\`e di pi\`u. Ogni operazione elementare sulle colonne corrisponde
+a moltiplicare la matrice iniziale $[L] \in Mat_{m \times n}(\mathbb{K})$,
+a destra, per una matrice $B$ di dimensioni $n \times n$ invertibile.
+
+\begin{theorem}
+	Siano $V, W, U$ spazi vettoriali su $\mathbb{K}$, fissiamo per ciascuno
+	una base. Siano $T : V \to W$ e $S : W \to U$ applicazioni lineari. Allora,
+	rispetto alle basi fissate, vale:
+	\begin{equation*}
+		[S \circ T] = [S][T]
+	\end{equation*}
+	dove nel membro di destra stiamo considerando il prodotto righe per colonne
+	fra matrici.
+\end{theorem}
+
+Tornando all'applicazione lineare $L$, sappiamo già che lo span delle colonne
+di $[L]$ coincide con lo span delle colonne della matrice ottenuta portando $[L]$
+in forma a scalini. Sappiamo cio\`e che $Imm(L)$ coincide con l'immagine
+dell'applicazione lineare associata alla matrice ottenuta portando i forma a
+scalini $[L]$.
+
+\begin{proposition}
+	Siano $L$ ed $M$ due applicazioni lineari, vale
+	\[ Imm(L \circ M) = Imm(L) \]
+	ossia, scritto con un'altra notazione,
+	\[ (L \circ M)(V) = L(V) \]
+\end{proposition}
+
+\begin{proposition}
+	Sia $B : V \to V$ un'applicazione lineare invertibile, allora vale
+	\[ Imm(L) = Imm(L \circ B) \]
+	\begin{proof}
+		Dato che $B$ \`e una funzione invertibile, \`e bigettiva, ossia
+		\[ B(V) = V \]. Dunque
+		\begin{equation*}
+			Imm(L \circ B) = L(B(V)) = L(V)
+		\end{equation*}
+	\end{proof}
+\end{proposition}
+
+\begin{defn}
+	Data una applicazione lineare $L : V \to W$, dove $V$ e $W$ sono due spazi
+	vettoriali di dimensione finita sul campo $\mathbb{K}$ e sia $[L]$ la matrice 
+	associata ad $L$. Se riduco in forma a scalini $[L]$, il \textbf{rango} equivale
+	al numero di pivot della matrice ottenuta.
+\end{defn}
+
+\begin{theorem}
+	Data una applicazione lineare $L$ come sopra e fissate le basi, vale che
+	il rango di $L$ \`e uguale al numero di colonne non nulle che si trovano
+	quando si trasforma $[L]$ in forma a scalini.
+\end{theorem}
+
+\begin{observation}
+	Osserviamo che il rango di una applicazione lineare $L$ \`e anche uguale al
+	\textbf{massimo numero di colonne linearmente indipendenti} di $[L]$.
+	Infatti sappiamo che $Imm(L)$ \`e il sottospazio vettoriale di $W$ generato
+	dai vettori colonna di $[L]$. Da questi vettori \`e possibile estrarre una
+	base di $Imm(L)$ e, inoltre, possiamo dire che \[dim(Imm(L)) = rango (L)\]
+\end{observation}
+
+\begin{observation}
+	Possiamo ora definire un algoritmo in 3 passi che, data una
+	applicazione lineare tra due spazi vettoriali $V$ e $W$, e fissata una base
+	$\{e_1, e_2, \dots, e_n\}$ di $V$ e una base
+	$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ di $W$, ci permette di
+	determinare la dimensione ed una base di $Imm(L)$:
+	\begin{enumerate}
+		\item Scrivere la matrice $[L]$ associata ad $L$ rispetto alle basi
+		      fissate
+		\item Ridurre $[L]$ in forma a scalini
+		\item Contare il numero di pivot per ottenere la dimensione di $Imm(L)$.
+	\end{enumerate}
+\end{observation}

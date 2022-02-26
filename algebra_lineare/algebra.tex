@@ -1,0 +1,81 @@
+\documentclass[11pt, a4paper]{article}
+
+\pdfpagewidth\paperwidth
+\pdfpageheight\paperheight
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathtools, amsmath, amssymb, amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\title{Algebra Lineare}
+\author{Federico Bustaffa}
+\date{13/02/2022}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definizione}[subsection]
+\newtheorem{observation}[defn]{Osservazione}
+\newtheorem{theorem}[defn]{Teorema}
+\newtheorem{proposition}[defn]{Proposizione}
+\newtheorem{lemma}[defn]{Lemma}
+\newtheorem{example}[defn]{Esempio}
+\newtheorem{corollary}[defn]{Corollario}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+% SPAZI VETTORIALI
+\include{spazi_vettoriali/spazi_vettoriali}
+\include{spazi_vettoriali/sottospazi_vettoriali}
+\include{spazi_vettoriali/intersezione_somma}
+\include{spazi_vettoriali/base}
+\include{spazi_vettoriali/applicazioni_lineari}
+\include{spazi_vettoriali/matrici_vettori}
+
+% RANGO APPLICAZIONI LINEARI E RIDUZIONE A SCALINI MATRICI
+\include{rango_e_scalini/operazioni_colonne}
+\include{rango_e_scalini/riduzione_e_basi}
+\include{rango_e_scalini/dimensione_nucleo_immagine}
+\include{rango_e_scalini/immagine}
+\include{rango_e_scalini/operazioni_righe}
+\include{rango_e_scalini/riduzione_e_applicazioni_lineari}
+
+% SISTEMI LINEARI
+\include{sistemi_lineari/sistemi_lineari}
+
+% FORMULA DI GRASSMANN
+\include{grassmann/grassmann}
+\include{grassmann/calcolo_intersezione}
+\include{grassmann/somma_diretta}
+
+% APPLICAZIONI LINEARI E MATRICI INVEERTIBILI
+\include{applicazioni_lineari_matrici_invertibili/endomorfismi_invertibili}
+\include{applicazioni_lineari_matrici_invertibili/metodo_matrice_inversa}
+\include{applicazioni_lineari_matrici_invertibili/cambiamento_base}
+
+% DETERMINANTE
+\include{determinante/determinante}
+\include{determinante/rango}
+\include{determinante/binet}
+\include{determinante/proprieta_determinate}
+
+% DIAGONALIZZAZIONE
+\include{diagonalizzazione/autovalori_autovettori}
+\include{diagonalizzazione/polinomio_caratteristico}
+\include{diagonalizzazione/endomorfismi_diagonalizzabili}
+\include{diagonalizzazione/molt_algebrica_geometrica}
+
+% PRODOTTI SCALARI E SPAZI EUCLIDEI
+\include{prodotto_scalare/prodotto_scalare}
+\include{prodotto_scalare/ortogonalita}
+\include{prodotto_scalare/cauchy-schwarz}
+\include{prodotto_scalare/sottospazi_ortogonali}
+
+% TEOREMA SPETTRALE
+\include{teorema_spettrale/teorema_spettrale}
+\include{teorema_spettrale/endomorfismi_simmetrici}
+
+\end{document}

@@ -1,0 +1,1442 @@
+\section{Congruenze e criteri di divisibilit\`a}
+
+\subsection{Lemmi aritmetici}
+Di seguito alcuni lemmi che ci saranno utili pi\`u tardi.
+
+\begin{lemma}
+	Siano $a, b, c \in \mathbb{Z}$ tali che
+	\begin{equation*}
+		a \mid bc \wedge (a, b) = 1
+	\end{equation*}
+	Allora $a \mid c$.
+	\begin{proof}
+		Se $(a, b) = 1$ allora esistono $x, y \in \mathbb{Z}$ tali che
+		\begin{equation*}
+			ax + by = 1
+		\end{equation*}
+		Moltiplico a sinistra e a destra per $c$ ottenendo:
+		\begin{equation*}
+			acx + bcy = c
+		\end{equation*}
+		Di sicuro $a \mid ac$ e quindi $a \mid acx$. Sappiamo anche che $a \mid bc$ e quindi
+		$a \mid bcy$. Ne concludiamo che $a \mid c$ come voluto.
+	\end{proof}
+\end{lemma}
+
+\begin{lemma}
+	Sia $p$ un numero primo ($p > 1$). Allora
+	\begin{equation*}
+		\begin{array}{lll}
+			p \mid ab & \Rightarrow & p \mid a \text{ oppure } p \mid b
+		\end{array}
+	\end{equation*}
+	\begin{proof}
+		Considero il MCD $(p, a)$. Posso avere due casi:
+		\begin{enumerate}
+			\item $(p, a) = 1$ quindi $p \mid b$.
+			\item $(p, a) = p$ quindi $p \mid a$ poich\'e $p$ \`e un divisore comune tra
+			      $a$ e $p$.
+		\end{enumerate}
+	\end{proof}
+\end{lemma}
+
+\begin{lemma}
+	Se un numero $p > 1$ ha la propriet\`a
+	\begin{equation*}
+		\begin{array}{lll}
+			p \mid ab & \Rightarrow & p \mid a \text{ oppure } p \mid b
+		\end{array}
+	\end{equation*}
+	Allora $p$ \`e un numero primo.
+	\begin{proof}
+		Devo dimostrare che gli unici divisori positivi di $p$ sono $1$ e $p$.
+		Sia $d$ un divisore di $p$. Ho che
+		\begin{equation*}
+			p = dt
+		\end{equation*}
+		Questo significa che $p \mid dt$ e quindi, per ipotesi, $p \mid d$ oppure $p \mid t$
+		\begin{itemize}
+			\item Se $p \mid d$ allora $d = py$, quindi $p = pyt$. Semplificando otteniamo
+			      $yt = 1$. Sappiamo per\`o che $t > 0$ quindi $y = t = 1$. Ne ricaviamo
+			      quindi che $p = d$.
+			\item Se $p \mid t$ allora $t = pz$ quindi $p = dpz$. Semplifico e ottengo
+			      $dz = 1$. Sappiamo che $d > 0$ quindi $d = 1$.
+		\end{itemize}
+	\end{proof}
+\end{lemma}
+
+\begin{lemma}
+	Siano $a, b, c \in \mathbb{Z}$. Se $a \mid c$, $b \mid c$ e $(a, b) = 1$ allora
+	\begin{equation*}
+		ab \mid c
+	\end{equation*}
+	\begin{proof}
+		Partiamo col dire che
+		\begin{equation*}
+			\begin{array}{lll}
+				a \mid c & \Rightarrow & c = ax    \\
+				b \mid c & \Rightarrow & b \mid ax
+			\end{array}
+		\end{equation*}
+		Per il primo lemma possiamo affermare che $b \mid x$ quindi $x = by$. Quindi
+		\begin{equation*}
+			c = ax = aby
+		\end{equation*}
+		quindi $c$ \`e un multiplo di $ab$. Concludiamo dunque che $ab \mid c$.
+	\end{proof}
+\end{lemma}
+
+\subsection{Congruenze}
+Introduciamo adesso le congruenze
+\begin{defn}
+	Siano $a, b, c \in \mathbb{Z}$ con $c > 0$
+	\begin{equation*}
+		a \equiv b \mod{c}
+	\end{equation*}
+	si dice che $a$ \`e \textbf{congruo} $b$ modulo $c$ se $c \mid a - b$
+\end{defn}
+
+\begin{example}
+	Consideriamo le seguenti congruenze
+	\begin{equation*}
+		\begin{array}{l}
+			3 \equiv 8 \mod{5}  \\
+			3 \equiv 13 \mod{5} \\
+			3 \equiv 18 \mod{5}
+		\end{array}
+	\end{equation*}
+	Se considero i numeri congrui a $3 \mod{5}$ vedo che si tratta di una successione
+	aritmetica di passo 5.
+	\begin{equation*}
+		\dots, -7, -2, 3, 8, 13, 18, \dots
+	\end{equation*}
+\end{example}
+
+\begin{observation}
+	Come sappiamo, l'operatore $\mod{}$, restituisce il resto della divisione tra due interi e
+	scrivere
+	\begin{equation*}
+		a \equiv b \mod{c}
+	\end{equation*}
+	equivale a scrivere
+	\begin{equation*}
+		a \mod{c} = b \mod{c}
+	\end{equation*}
+\end{observation}
+
+Stiamo dunque affermando che due numeri $a, b$ sono congrui modulo $c$ se il resto della
+divisione euclidea di $a$ per $c$ \`e uguale al resto della divisione euclidea di $b$ per $c$.
+Possiamo dunque fare un'ulteriore passaggio. Se scriviamo
+\begin{equation*}
+	\begin{array}{rl}
+		a & = cq + r  \\
+		b & = cq' + r
+	\end{array}
+\end{equation*}
+possiamo fare la differenza e ottenere
+\begin{equation*}
+	\begin{array}{rl}
+		a - b & = cq - cq'  \\
+		a - b & = c(q - q')
+	\end{array}
+\end{equation*}
+Quindi $a - b$ \`e un multiplo di $c$, ovvero
+\begin{equation*}
+	\begin{array}{c}
+		a - b \equiv 0 \mod{c} \\
+		\Downarrow             \\
+		a \equiv b \mod{c}
+	\end{array}
+\end{equation*}
+
+\subsection{Relazioni e classi di equivalenza}
+
+\begin{defn}
+	Preso un insieme $A$ non vuoto, una \textbf{relazione di equivalenza} (indicata con $\sim$) in $A$,
+	\`e ci\`o che mette in relazione elementi dell'insieme $A$ che condividono la stessa propriet\`a.
+	Due elementi in $A$ che condividono la stessa propriet\`a descritta dalla relazione sono detti
+	\textbf{equivalenti}.
+\end{defn}
+
+La formula
+\begin{equation*}
+	a \equiv b \mod{m}
+\end{equation*}
+ci dice che $a$ e $b$ hanno lo stesso resto nella divisione per $m$ e sono dunque
+equivalenti ($a \sim b$) per questa specifica relazione.
+
+\begin{defn}
+	Preso un insieme $A$ e un suo elemento qualsiasi $a$. La \textbf{classe di equivalenza} associata
+	ad $a$ \`e un sottoinsieme di $A$ (generalmente indicato con $[a]$) di cui fanno parte tutti gli
+	elementi di $A$ equivalenti ad $a$ secondo la relazione $\sim$.
+\end{defn}
+
+Nel caso delle congruenze l'insieme $[a]_m$ \`e formato da tutti i numeri congrui ad $a$ modulo $m$.
+\begin{equation*}
+	[a]_m = \{ x \in \mathbb{Z} \mid x \equiv a \mod{m} \}
+\end{equation*}
+e in questo caso $[a]_m$ \`e chiamata \textbf{classe resto} di $a \mod{m}$.
+
+\begin{defn}
+	Dato $m \in \mathbb{Z}$ definisco l'\textbf{anello} degli interi modulo $m$ come segue
+	\begin{equation*}
+		\mathbb{Z}_m = \{ [0]_m, [1]_m, \dots, [m - 1]_m \}
+	\end{equation*}
+	In sintesi $m$ possiede $m$ classi resto poich\'e la divisione per $m$ pu\`o portare ad $m$ diversi
+	possibili resti (da 0 a $m - 1$).
+\end{defn}
+
+\subsection{Propriet\`a}
+La congruenza, essendo una relazione di equivalenza, gode di alcune propriet\`a fondamentali.
+\begin{itemize}
+	\item \emph{Riflessivit\`a}: $a \equiv a \mod{m}$
+	\item \emph{Simmetria}: $a \equiv b \mod{m} \Rightarrow b \equiv a \mod{m}$
+	\item \emph{Transitivit\`a}: $a \equiv b \mod{m} \wedge b \equiv c \mod{m} \Rightarrow
+		      a \equiv c \mod{m}$
+\end{itemize}
+
+Di seguito altre propriet\`a utili
+\begin{itemize}
+	\item Se $m \mid a$, allora $a \equiv 0 \mod{m}$ e viceversa.
+	\item Se $m$ \`e primo, allora $ab \equiv 0 \mod{m}$ se e solo se $a \equiv 0 \mod{m}$
+	      oppure $b \equiv 0 \mod{m}$.
+\end{itemize}
+
+Se $a \equiv b \mod{m}$ e $c \equiv d \mod{m}$, allora:
+\begin{itemize}
+	\item $a + c \equiv b + d \mod{m}$
+	\item $a - c \equiv b - d \mod{m}$
+	\item $ac \equiv bd \mod{m}$
+\end{itemize}
+
+Se $a \equiv b \mod{m}$ e $n \in \mathbb{Z}$, allora
+\begin{itemize}
+	\item $a^n \equiv b^n \mod{m}$ (se $n \neq 0$ vale anche il viceversa).
+	\item $na \equiv nb \mod{m}$ (se $(n, m) = 1$ vale anche il viceversa).
+\end{itemize}
+
+\begin{example}
+	Con le propriet\`a appena elencate proviamo a ricavare qual \`e il resto della divisione
+	di $2021^{2020}$ per $3$.
+	In questo caso vogliamo sfruttare la propriet\`a delle potenze. Per prima cosa troviamo
+	il resto della divisione di 2021 per 3.
+	\begin{equation*}
+		2021 = 673 \cdot 3 + 2
+	\end{equation*}
+	quindi il resto \`e 2. Troviamo ora un numero tale che il resto della divisione per 3
+	sia 2. Il numero pi\`u vantaggioso in questo caso \`e -1. Possiamo quindi scrivere
+	\begin{equation*}
+		2021 \equiv -1 \mod{3}
+	\end{equation*}
+	A questo punto sfruttiamo la propriet\`a e scriviamo
+	\begin{equation*}
+		\begin{array}{c}
+			2021^{2020} \equiv (-1)^{2020} \mod{3} \\
+			\Downarrow                             \\
+			2021^{2020} \equiv 1 \mod{3}
+		\end{array}
+	\end{equation*}
+	Ne concludiamo che il resto della divisione di $2021^{2020}$ per 3 \`e 1.
+\end{example}
+
+\subsection{Criteri di divisibilit\`a}
+In questa sezione mostriamo un metodo per trovare i criteri di divisibilit\`a per un certo
+numero $m$.
+
+\begin{example}
+	Cerchiamo ad esempio il criterio di divisibilit\`a per 11 (gli altri si trovano in maniera
+	analoga).
+
+	Per prima cosa prendiamo un numero intero $a > 0$. Sappiamo che $a$ pu\`o essere scritto
+	in base 10 nella seguente forma:
+	\begin{equation*}
+		\begin{array}{lr}
+			a = a_n \cdot 10^n + a_{n-1} \cdot 10^{n - 1} + \cdots + a_1 \cdot 10 + a_0
+			 & a_n > 0, n \geq 0
+		\end{array}
+	\end{equation*}
+	Dato che $10 \equiv -1 \mod{11}$ si ha che
+	\begin{equation*}
+		a \equiv (-1)^n \cdot a_n  + (-1)^{n-1} \cdot a_{n-1} + \cdots + (-1) \cdot a_1 + a_0
+		\mod{11}
+	\end{equation*}
+	Senza perdere di generalit\`a posso supporre che $n$ sia pari, in tal caso la somma delle
+	cifre di posto pari sar\`a data da:
+	\begin{equation*}
+		a_0 + a_2 + \cdots + a_n
+	\end{equation*}
+	Mentre la somma delle cifre di posto dispari sar\`a data da:
+	\begin{equation*}
+		a_1 + a_3 + \cdots + a_{n-1}
+	\end{equation*}
+
+	Dire che $11 \mid a$ equivale a dire che $a \equiv 0 \mod{11}$ e questo accade se e solo se
+	\begin{equation*}
+		(a_0 + a_2 + \cdots + a_n) - (a_1 + a_3 + \cdots + a_{n-1}) \equiv 0 \mod{11}
+	\end{equation*}
+	Precisiamo che $n$ potrebbe essere dispari, semplicemente $a_n$ andrebbe a finire nel
+	conteggio delle cifre di posto dispari.
+\end{example}
+
+\textbf{Pi\`u in generale}, ci\`o che vogliamo fare \`e definire i numeri divisibili per un
+certo $m$ in base $b$.
+
+Per prima cosa prendiamo un intero $a > 0$ e scriviamolo in base $b$.
+\begin{equation*}
+	a = a_n \cdot b^n + a_{n-1} \cdot b^{n-1} + \cdots + a_1 \cdot b + a_0
+\end{equation*}
+
+Ora troviamo un numero $k$ tale che $b \equiv k \mod{m}$. Una volta trovato possiamo scrivere
+la congruenza
+\begin{equation*}
+	a \equiv k^n \cdot a_n + k^{n-1} \cdot a_{n-1} + \cdots + k \cdot a_1 + a_0 \mod{m}
+\end{equation*}
+Concludiamo dicendo che un generico intero $a$ in base $b$ \`e divisibile per $m$ se
+$a \equiv 0 \mod{m}$ ovvero se
+\begin{equation*}
+	k^n \cdot a_n + k^{n-1} \cdot a_{n-1} + \cdots + k \cdot a_1 + a_0 \equiv 0 \mod{m}
+\end{equation*}
+Il criterio assume forma diversa in base ai numeri considerati e ai passaggi aritmetici che
+si fanno.
+
+\begin{example}
+	Proviamo a ricavarci il criterio di divisibilit\`a per 2 (base 10). Sappiamo tutti che un
+	numero in base 10 \`e divisibile per 2 se la cifra delle unit\`a \`e pari. Proviamo a
+	ricavarlo aritmeticamente.
+
+	Il numero $a$ considerato \`e in base 10 quindi si pu\`o scrivere nella forma
+	\begin{equation*}
+		a = a_n \cdot 10^n + a_{n-1} \cdot 10^{n - 1} + \cdots + a_1 \cdot 10 + a_0
+	\end{equation*}
+	Ora troviamo un $k$ tale che $10 \equiv k \mod{2}$. A occhio sappiamo che il resto della
+	divisione di 10 per 2 \`e 0. Quindi ricaviamo facilmente che $k = 0$ quindi
+	\begin{equation*}
+		10 \equiv 0 \mod{2}
+	\end{equation*}
+	A questo punto possiamo scrivere che
+	\begin{equation*}
+		\begin{array}{c}
+			a \equiv 0^n \cdot a_n + 0^{n-1} \cdot a_{n-1} +
+			\cdots + 0 \cdot a_1 + a_0 \mod{2} \\
+			\Downarrow                         \\
+			a \equiv a_0 \mod{2}
+		\end{array}
+	\end{equation*}
+	Ne concludiamo che $2 \mid a$ se e solo se $a_0 \equiv 0 \mod{2}$ ovvero se l'ultima cifra
+	\`e un multiplo di 2.
+\end{example}
+
+\subsection{Cicli}
+Facciamo qualche considerazione in pi\`u per vedere altri esempi di come possono essere usate
+le congruenze e sperare di capirci qualcosa in pi\`u.
+
+Prima di tutto dobbiamo fare un'osservazione importante. Se $c = a \cdot b$ la cifra delle
+unit\`a di $c$ sar\`a la cifra delle unit\`a del prodotto tra $a_0$ e $b_0$ dove $a_0$ e $b_0$
+sono le ultime cifre di $a$ e di $b$.
+
+\begin{example}
+	Prendiamo ad esempio $12 \cdot 5 = 60$. Come detto in precedenza, abbiamo che l'ultima
+	cifra (0) \`e l'ultima cifra del prodotto delle ultime cifre ($2 \cdot 5 = 10$)
+	(sembra uno scioglilingua lo so).
+\end{example}
+
+\begin{example}
+	Vogliamo trovare l'ultima cifra di $12567^{9506}$. Come osservato in precedenza dobbiamo
+	considerare solo il 7. Se troviamo l'ultima cifra di $7^{9506}$ troviamo anche l'ultima
+	cifra di $12567^{9506}$.
+
+	Proviamo ora a scrivere in ordine l'ultima cifra delle potenze di 7.
+	\begin{equation*}
+		\begin{array}{rl}
+			7^0 & \rightarrow 1 \\
+			7^1 & \rightarrow 7 \\
+			7^2 & \rightarrow 9 \\
+			7^3 & \rightarrow 3 \\
+			7^4 & \rightarrow 1 \\
+			7^5 & \rightarrow 7 \\
+			    & \vdots
+		\end{array}
+	\end{equation*}
+	Come possiamo vedere ci sono 4 cifre ($1, 7, 9, 3$) che si ripetono ciclicamente. Questo
+	significa che dobbiamo trovare un numero $x$ tale che
+	\begin{equation*}
+		9506 \equiv x \mod{4}
+	\end{equation*}
+	Per farlo possiamo ad esempio dividere 9506 per 4 e otterremo 2376 con il resto di 2.
+	Da qui otteniamo facilmente che
+	\begin{equation*}
+		9506 \equiv 2 \mod{4}
+	\end{equation*}
+	Possiamo concludere che l'ultima cifra di $7^{9506}$ \`e uguale all'ultima cifra di
+	$7^2$, ovvero 9.
+\end{example}
+
+\subsection{Inversi}
+Gli inversi sono fondamentali per la risoluzione di equazioni con congruenze. Di seguito
+vediamo cosa sono e come trovarli.
+\begin{defn}
+	Dato $a \in \mathbb{Z}$ si diche che $a$ \`e \textbf{invertibile} modulo $m$ se esiste
+	$x \in \mathbb{Z}$ tale che
+	\begin{equation*}
+		ax \equiv 1 \mod{m}
+	\end{equation*}
+	Un tale $x$ si chiama \textbf{inverso} di $a$ modulo $m$. Chiariamo che $x$ \`e compreso
+	tra 0 e $m - 1$ ed \`e unico.
+\end{defn}
+
+Per trovare l'inverso di $a \mod{m}$ posso provare a tentativi oppure posso risolvere la
+diofantea associata nella forma
+\begin{equation*}
+	ax + my = 1
+\end{equation*}
+
+\begin{example}
+	Troviamo l'inverso di 4 modulo 5
+	\begin{equation*}
+		4x \equiv 1 \mod{5}
+	\end{equation*}
+	Posso farlo a tentativi oppure usando l'equazione diofantea
+	\begin{equation*}
+		4x + 5y = 1
+	\end{equation*}
+	In ogni caso alla fine dovrei trovare che $x = -1$.
+\end{example}
+
+\begin{theorem}
+	$a$ \`e invertibile modulo $m$ se e solo se $(a, m) = 1$
+\end{theorem}
+
+Abbiamo visto che gli inversi permettono di risolvere congruenze del tipo
+\begin{equation*}
+	ax \equiv 1 \mod{m}
+\end{equation*}
+Vediamo ora come si risolve una congruenza del tipo
+\begin{equation*}
+	ax \equiv b \mod{m}
+\end{equation*}
+
+\begin{proposition}
+	Se esiste l'inverso di $a \mod{m}$ allora risolve anche
+	\begin{equation*}
+		ax \equiv b \mod{m}
+	\end{equation*}
+\end{proposition}
+
+Devo prima trovare $x'$ tale che
+\begin{equation*}
+	ax' \equiv 1 \mod{m}
+\end{equation*}
+A questo punto mi basta moltiplicare $x'$ per $b$.
+\begin{equation*}
+	ax'b \equiv b \mod{m}
+\end{equation*}
+quindi $x = x'b$.
+
+Posso affermare quindi che
+\begin{itemize}
+	\item se esiste l'inverso di $a \mod{m}$ allora
+	      \begin{equation*}
+		      ax \equiv b \mod{m}
+	      \end{equation*}
+	      ha soluzione.
+	\item se non esiste l'inverso di $a \mod{m}$ \emph{dipende}.
+\end{itemize}
+
+\begin{theorem}
+	\begin{equation*}
+		ax \equiv b \mod{m}
+	\end{equation*}
+	\`e risolvibile se e solo se $(a, m) \mid b$
+\end{theorem}
+
+Dunque per trovare tutte le soluzioni delle congruenze del tipo
+\begin{equation*}
+	ax \equiv b \mod{m}
+\end{equation*}
+posso quindi procedere in due modi
+\begin{itemize}
+	\item \textbf{Primo metodo}: usiamo la diofantea $ax + my = b$. Trovo la soluzione $(x, y)$,
+	      scarto la $y$ e prendo la $x$ in forma parametrica che appunto risolve la congruenza.
+	\item \textbf{Secondo metodo}: risolvo aritmeticamente la congruenza, per esempio usando gli
+	      inversi.
+\end{itemize}
+
+\subsection{Sistemi di congruenze}
+Consideriamo il generico sistema
+\begin{equation*}
+	\begin{cases}
+		a_1 x \equiv b_1 \mod{m_1} \\
+		a_2 x \equiv b_2 \mod{m_2} \\
+		\dots                      \\
+		a_k x \equiv b_k \mod{m_k}
+	\end{cases}
+\end{equation*}
+
+Il primo metodo che vedremo far\`a uso del \textbf{teorema cinese del resto}.
+\begin{theorem}[Teorema cinese del resto]
+	Dato il sistema nella forma
+	\begin{equation*}
+		\begin{cases}
+			x \equiv a_1 \mod{m_1} \\
+			x \equiv a_2 \mod{m_2} \\
+			\dots                  \\
+			x \equiv a_k \mod{m_k}
+		\end{cases}
+	\end{equation*}
+	e $(m_i, m_j) = 1$ con $1 \leq i, j \leq k$ il sistema ammette una soluzione modulo
+	$m_1 \cdot m_2 \cdot ... \cdot m_k$.
+
+	Come prima cosa scriviamo $M = m_1 \cdot m_2 \cdot ... \cdot m_k$ e $M_i = \frac{M}{m_i}$.
+	Otteniamo cos\`i $k$ nuove congruenze da risolvere in questa forma
+	\begin{equation*}
+		\begin{array}{l}
+			M_1 x_1 \equiv 1 \mod{m_1} \\
+			M_2 x_2 \equiv 1 \mod{m_2} \\
+			\dots                      \\
+			M_k x_k \equiv 1 \mod{m_k}
+		\end{array}
+	\end{equation*}
+	A questo punto dobbiamo risolvere le singole congruenze troviando gli inversi, una volta
+	fatto possiamo scrivere la soluzione generale in questa forma:
+	\begin{equation*}
+		x \equiv a_1 M_1 x_1 + a_2 M_2 x_2 + \cdots + a_k M_k x_k \mod{M}
+	\end{equation*}
+\end{theorem}
+
+\begin{example}
+	Proviamo a risolvere il seguente sistema
+	\begin{equation*}
+		\begin{cases}
+			5x \equiv 25 \mod{30} \\
+			2x \equiv 1 \mod{25}
+		\end{cases}
+	\end{equation*}
+	Come notiamo anche a occhio $(30, 25) \neq 1$ pe\`o la prima equazione pu\`o essere
+	semplificata dividendo tutto per 5 e ottenendo cos\`i
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 5 \mod{6} \\
+			2x \equiv 1 \mod{25}
+		\end{cases}
+	\end{equation*}
+	A questo punto possiamo verificare che $(6, 25) = 1$ per\`o non abbiamo ancora il sistema
+	nella forma richiesta dal sistema. Per sistemare la seconda equazione troviamo il suo
+	inverso modulo 25. Per farlo risolviamo la diofantea
+	\begin{equation*}
+		2x + 25y = 1
+	\end{equation*}
+	Anche a occhio possiamo vedere che la soluzione cercata \`e $x = -12$ e $y = 1$.
+	dunque sapendo che $x = -12$ e che $a \equiv a \mod{m}$ per qualsiasi $a$ possiamo scrivere
+	\begin{equation*}
+		x \equiv -12 \mod{25}
+	\end{equation*}
+	se al posto di 12 vogliamo un numero positivo dobbiamo trovare qualcos'altro a cui 12 \`e
+	congruo modulo 25. Per farlo basta vedere il resto di $-12 / 25$ che \`e 13 quindi
+	possiamo ora scrivere il nostro sistema in questo modo
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 5 \mod{6} \\
+			x \equiv 13 \mod{25}
+		\end{cases}
+	\end{equation*}
+	Troviamo $M$ moltiplicando fra loro tutti gli $m_i$ e otteniamo
+	\begin{equation*}
+		M = 6 \cdot 25 = 150
+	\end{equation*}
+	Ora ricaviamo i vari $M_i$:
+	\begin{equation*}
+		\begin{array}{l}
+			M_1 = 150 / 6 = 25 \\
+			M_2 = 150 / 25 = 6
+		\end{array}
+	\end{equation*}
+	Concludiamo scrivendo la soluzione generale
+	\begin{equation*}
+		\begin{array}{l}
+			x \equiv 5 \cdot 25 \cdot 1 + 13 \cdot 6 \cdot (-4) \mod{150} \\
+			x \equiv -187 \mod{150}                                       \\
+			x \equiv 113 \mod{150}
+		\end{array}
+	\end{equation*}
+	Tutte le soluzioni possibili sono quindi congrue a $113 \mod{150}$.
+\end{example}
+
+Studiamo ora come risolvere il sistema nel caso i vari $m_i$ non siano a due a due coprimi.
+Dato il sistema nella solita forma standard
+\begin{equation*}
+	\begin{cases}
+		x \equiv a_1 \mod{m_1} \\
+		x \equiv a_2 \mod{m_2} \\
+		\dots                  \\
+		x \equiv a_k \mod{m_k}
+	\end{cases}
+\end{equation*}
+Non si fa altro che risolvere le congruenze in ordine e sostituire la soluzione volta per volta.
+Chiariamo meglio il tutto provando a risolvere lo stesso sistema.
+\begin{example}
+	Risolvere
+	\begin{equation*}
+		\begin{cases}
+			5x \equiv 25 \mod{30} \\
+			2x \equiv 1 \mod{25}
+		\end{cases}
+	\end{equation*}
+	Come prima passo alla forma standard
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 5 \mod{6} \\
+			x \equiv 13 \mod{25}
+		\end{cases}
+	\end{equation*}
+	Dalla prima congruenza ottengo
+	\begin{equation*}
+		x = 6k + 5
+	\end{equation*}
+	che vado a sostituire nella seconda equazione:
+	\begin{equation*}
+		\begin{array}{l}
+			6k + 5 \equiv 13 \mod{25} \\
+			6k \equiv 8 \mod{25}
+		\end{array}
+	\end{equation*}
+	Risolvo la congruenza e ottengo
+	\begin{equation*}
+		\begin{array}{l}
+			k \equiv 18 \mod{25} \\
+			k = 25y + 18
+		\end{array}
+	\end{equation*}
+	In questo caso ho finito le equazioni e quindi sostituisco a ritroso fino alla prima
+	\begin{equation*}
+		\begin{array}{ll}
+			x & = 6(25y + 18) + 5 \\
+			x & = 150y + 113
+		\end{array}
+	\end{equation*}
+	Ho ottenuto dunque lo stesso risultato
+	\begin{equation*}
+		x \equiv 113 \mod{150}
+	\end{equation*}
+\end{example}
+
+\begin{example}
+	Risolviamo il seguente sistema
+	\begin{equation*}
+		\begin{cases}
+			3x \equiv 1 \mod{14} \\
+			x \equiv 1 \mod{8}   \\
+			3x \equiv 9 \mod{5}
+		\end{cases}
+	\end{equation*}
+	Passo alla forma standard
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 5 \mod{14} \\
+			x \equiv 1 \mod{8}  \\
+			x \equiv 3 \mod{5}
+		\end{cases}
+	\end{equation*}
+	Dalla prima equazione ricavo
+	\begin{equation*}
+		x = 14k + 5
+	\end{equation*}
+	e la sostituisco nella seconda equazione
+	\begin{equation*}
+		\begin{array}{l}
+			14k + 5 \equiv 1 \mod{8} \\
+			14k \equiv -4 \mod{8}    \\
+			7k \equiv -2 \mod{4}     \\
+			7k \equiv 2 \mod{4}      \\
+			3k \equiv 2 \mod{4}      \\
+			k \equiv 2 \mod{4}       \\
+			k = 4y + 2
+		\end{array}
+	\end{equation*}
+	sostituisco questo $k$ nella prima equazione e ottengo
+	\begin{equation*}
+		x = 56y + 33
+	\end{equation*}
+	che vado a sostituire nell'ultima equazione ottenendo
+	\begin{equation*}
+		\begin{array}{l}
+			56y + 33 \equiv 3 \mod{5} \\
+			56y \equiv -30 \mod{5}    \\
+			56y \equiv 0 \mod{5}      \\
+			y \equiv 0 \mod{5}        \\
+			y = 5z
+		\end{array}
+	\end{equation*}
+	Sostituisco un ultima volta e ottengo
+	\begin{equation*}
+		\begin{array}{l}
+			x = 56 \cdot 5z + 33 \\
+			x = 280z + 33
+		\end{array}
+	\end{equation*}
+	Posso concludere che
+	\begin{equation*}
+		x \equiv 33 \mod{280}
+	\end{equation*}
+\end{example}
+
+\begin{theorem}
+	Il sistema
+	\begin{equation*}
+		\begin{cases}
+			x \equiv a \mod{m_1} \\
+			x \equiv b \mod{m_2}
+		\end{cases}
+	\end{equation*}
+	ha soluzione se e solo se
+	\begin{equation*}
+		a \equiv b \mod{(m_1, m_2)}
+	\end{equation*}
+	Ovviamente vale anche il viceversa, quindi se
+	\begin{equation*}
+		a \not \equiv b \mod{(m_1, m_2)}
+	\end{equation*}
+	allora il sistema non ha soluzione.
+\end{theorem}
+
+\begin{example}
+	Vediamo se il seguente sistema ha soluzione
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 5 \mod{12} \\
+			x \equiv 6 \mod{20}
+		\end{cases}
+	\end{equation*}
+	Trovo quindi il MCD tra 20 e 12
+	\begin{equation*}
+		\begin{array}{ll}
+			(20, 12) & = (20 - 12, 12) \\
+			(8, 12)  & = (8, 12 - 8)   \\
+			(8, 4)   & = (8 - 4, 4)    \\
+			(4, 4)   & = (4, 4 - 4)    \\
+			(4, 0)   & \Rightarrow 4
+		\end{array}
+	\end{equation*}
+	A questo punto verifico che
+	\begin{equation*}
+		6 \equiv 5 \mod{4}
+	\end{equation*}
+	Ma come \`e banale verificare, 6 e 5 non sono congrui modulo 4, dunque il sistema non
+	\`e risolvibile.
+\end{example}
+
+\begin{theorem}
+	Trovata una soluzione $x_0$ del sistema
+	\begin{equation*}
+		\begin{cases}
+			x \equiv a \mod{m_1} \\
+			x \equiv b \mod{m_2}
+		\end{cases}
+	\end{equation*}
+	per trovare le altre basta aggiungere a $x_0$ multipli di $[m_1, m_2]$.
+	Ogni soluzione $x$ del sistema sar\`a
+	\begin{equation*}
+		x \equiv x_0 \mod{[m_1, m_2]}
+	\end{equation*}
+\end{theorem}
+
+\subsection{Congruenze con parametro}
+Andiamo a vedere come risolvere congruenze del tipo
+\begin{equation*}
+	ax \equiv b \mod{mk}
+\end{equation*}
+con $k \in \mathbb{K}$ come parametro. La congruenza ha soluzione per $k$ tale che
+$(a, mk) \mid b$.
+
+\begin{example}
+	Per quali valori del parametro $k$ la congruenza
+	\begin{equation*}
+		168x \equiv 1540 \mod{35k}
+	\end{equation*}
+	ha soluzione ?
+	La soluzione si trova nei $k$ tali che $(168, 35k) \mid 1540$.
+	Proviamo ad approfondire:
+	\begin{equation*}
+		\begin{array}{ll}
+			168  & = 2^3 \cdot 3 \cdot 7          \\
+			1540 & = 2^2 \cdot 5 \cdot 7 \cdot 11 \\
+			35   & = 5 \cdot 7
+		\end{array}
+	\end{equation*}
+	Quindi
+	\begin{equation*}
+		\begin{array}{ll}
+			(168, 25k)                               & = \\
+			(2^3 \cdot 3 \cdot 7, 5 \cdot 7 \cdot k) & = \\
+			7 (2^3 \cdot 3, 5 \cdot k)               & = \\
+			7 (2^3 \cdot 3, k)
+		\end{array}
+	\end{equation*}
+	Possiamo dunque affermare che
+	\begin{equation*}
+		\begin{array}{c}
+			7 (2^3 \cdot 3, k) \mid 2^2 \cdot 5 \cdot 7 \cdot 11 \\
+			\Leftrightarrow                                      \\
+			(2^3 \cdot 3, k) \mid 2^2 \cdot 5 \cdot 11           \\
+			\Leftrightarrow                                      \\
+			(2^3, k) \cdot (3, k) \mid 2^2 \cdot 5 \cdot 11      \\
+			\Leftrightarrow                                      \\
+			2^3 \nmid k \wedge 3 \nmid k
+		\end{array}
+	\end{equation*}
+	Ne concludo che i $k$ che sto cercando sono tali che $8 \nmid k$ e $3 \nmid k$.
+\end{example}
+
+\subsection{Sistemi di congruenze con parametro}
+Procediamo ora a trovare soluzione per congruenze con un parametro usando ci\`o che abbiamo studiato
+nei paragrafi precedenti.
+
+\begin{example}
+	Risolviamo il seguente sistema
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 1 \mod{12} \\
+			x \equiv b \mod{20}
+		\end{cases}
+	\end{equation*}
+	Per quali $b$ c'\`e soluzione ?
+
+	Prima calcoliamo il MCD tra 20 e 12 e otteniamo che $(20, 12) = 4$ quindi
+	\begin{equation*}
+		b \equiv 1 \mod{4}
+	\end{equation*}
+	Scrivo quindi il sistema in questo modo:
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 1 \mod{4} \\
+			x \equiv b \mod{4}
+		\end{cases}
+	\end{equation*}
+	Quindi $1 \equiv b \mod{4}$. Ad esempio per $b = 5$ c'\`e soluzione. Troviamo quindi una
+	soluzione per
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 1 \mod{12} \\
+			x \equiv 5 \mod{20}
+		\end{cases}
+	\end{equation*}
+	Risolvendo la prima congruenza ottengo
+	\begin{equation*}
+		x = 1 + 12y
+	\end{equation*}
+	Sostituisco nella seconda equazione:
+	\begin{equation*}
+		\begin{array}{l}
+			1 + 12y \equiv 5 \mod{20} \\
+			12y \equiv 4 \mod{20}     \\
+			3y \equiv 1 \mod{5}       \\
+			y \equiv 2 \mod{5}
+		\end{array}
+	\end{equation*}
+	Risolvendo la congruenza ottengo
+	\begin{equation*}
+		y = 2 + 5z
+	\end{equation*}
+	Sostituendo in $x = 1 + 12y$ ottengo
+	\begin{equation*}
+		\begin{array}{c}
+			x = 1 + 12(2 + 5z) \\
+			x = 25 + 60z       \\
+			\Downarrow         \\
+			x \equiv 25 \mod{60}
+		\end{array}
+	\end{equation*}
+	Come potevamo aspettarci la soluzione trovata \`e modulo $[m_1, m_2]$, infatti
+	\begin{equation*}
+		[12, 20] = 60
+	\end{equation*}
+	Quindi 25 \`e una soluzione, le altre si trovano aggiungendo a questa, multipli di 60.
+\end{example}
+
+\begin{example}
+	Vediamo se c'\`e soluzione per il seguente sistema:
+	\begin{equation*}
+		\begin{cases}
+			x \equiv 3 \mod{20} \\
+			x \equiv 7 \mod{12}
+		\end{cases}
+		\Rightarrow
+		\begin{cases}
+			x \equiv 3 \mod{4} \\
+			x \equiv 3 \mod{5} \\
+			x \equiv 7 \mod{4} \\
+			x \equiv 7 \mod{3}
+		\end{cases}
+	\end{equation*}
+	Non ho fatto altro che scomporre le due equazioni iniziali in altre due equazioni
+	equivalenti.
+
+	In questo caso ho generato due congruenze modulo 4. Verifico che i due termini noti siano
+	congrui fra loro modulo 4. Se lo sono il sistema ha soluzione e dato che:
+	\begin{equation*}
+		3 \equiv 7 \mod{4}
+	\end{equation*}
+	il sistema ha soluzione.
+\end{example}
+
+\begin{theorem}
+	Il sistema nella forma
+	\begin{equation*}
+		\begin{cases}
+			A \equiv B \mod{m_1} \\
+			A \equiv B \mod{m_2}
+		\end{cases}
+	\end{equation*}
+	\`e corretto se e solo se
+	\begin{equation*}
+		A \equiv B \mod{[m_1, m_2]}
+	\end{equation*}
+\end{theorem}
+
+\subsection{Congruenze polinomiali}
+Cerchiamo di capire come trovare tutte le soluzioni di congruenze che si presentano nella forma
+\begin{equation*}
+	p(x) \equiv 0 \mod{m}
+\end{equation*}
+dove $p(x)$ \`e un polinomio di grado qualsiasi.
+
+\begin{example}
+	Trovare tutte le soluzioni di
+	\begin{equation*}
+		x^4 \equiv 1 \mod{55}
+	\end{equation*}
+	Portiamo la congruenza nella forma desiderata. Scriviamo quindi:
+	\begin{equation*}
+		x^4 - 1 \equiv 0 \mod{55}
+	\end{equation*}
+	A questo punto cerco di fattorizzare $x^4 - 1$. Posso usare il metodo che preferisco, ad
+	esempio Ruffini e ottengo:
+	\begin{equation*}
+		x^4 - 1 = (x^2 + 1)(x + 1)(x - 1)
+	\end{equation*}
+	Per il teorema studiato in precedenza abbiamo che
+	\begin{equation*}
+		\begin{array}{rcl}
+			x^4 - 1 \equiv 0 \mod{55} &
+			\Rightarrow               &
+			\begin{cases}
+				x^4 - 1 \equiv 0 \mod{5} \\
+				x^4 - 1 \equiv 0 \mod{11}
+			\end{cases}
+		\end{array}
+	\end{equation*}
+	Quindi posso scrivere che
+	\begin{equation*}
+		\begin{cases}
+			x^2 + 1 \equiv 0 \mod{5} \vee x + 1 \equiv 0 \mod{5} \vee x - 1 \equiv 0 \mod{5} \\
+			x^2 + 1 \equiv 0 \mod{11} \vee x + 1 \equiv 0 \mod{11} \vee x - 1 \equiv 0 \mod{11}
+		\end{cases}
+	\end{equation*}
+	A questo punto risolvo le congruenze una per una:
+	\begin{equation*}
+		\begin{array}{c}
+			x^2 + 1 \equiv 0 \mod{5}                   \\
+			\Downarrow                                 \\
+			x \equiv 2 \mod{5} \vee x \equiv 3 \mod{5} \\
+			\\
+			x + 1 \equiv 0 \mod{5}                     \\
+			\Downarrow                                 \\
+			x \equiv 4 \mod{5}                         \\
+			\\
+			x - 1 \equiv 0 \mod{5}                     \\
+			\Downarrow                                 \\
+			x \equiv 1 \mod{5}                         \\
+			\\
+			x^2 + 1 \equiv 0 \mod{11}                  \\
+			\Downarrow                                 \\
+			\text{Non ha soluzione}                    \\
+			\\
+			x + 1 \equiv 0 \mod{11}                    \\
+			\Downarrow                                 \\
+			x \equiv -1 \mod{11}                       \\
+			\\
+			x - 1 \equiv 0 \mod{11}                    \\
+			\Downarrow                                 \\
+			x \equiv 1 \mod{11}
+		\end{array}
+	\end{equation*}
+	Da questo ricavo che
+	\begin{equation*}
+		\begin{array}{c}
+			\begin{cases}
+				x \equiv 2 \mod{5} \\
+				x \equiv 1 \mod{11}
+			\end{cases} \vee
+			\begin{cases}
+				x \equiv 3 \mod{5} \\
+				x \equiv 1 \mod{11}
+			\end{cases} \vee  \\
+			\\
+			\begin{cases}
+				x \equiv 4 \mod{5} \\
+				x \equiv 1 \mod{11}
+			\end{cases} \vee
+			\begin{cases}
+				x \equiv 1 \mod{5} \\
+				x \equiv 1 \mod{11}
+			\end{cases} \vee  \\
+			\\
+			\begin{cases}
+				x \equiv 2 \mod{5} \\
+				x \equiv -1 \mod{11}
+			\end{cases} \vee
+			\begin{cases}
+				x \equiv 3 \mod{5} \\
+				x \equiv -1 \mod{11}
+			\end{cases} \vee \\
+			\\
+			\begin{cases}
+				x \equiv 4 \mod{5} \\
+				x \equiv -1 \mod{11}
+			\end{cases} \vee
+			\begin{cases}
+				x \equiv 1 \mod{5} \\
+				x \equiv -1 \mod{11}
+			\end{cases}
+		\end{array}
+	\end{equation*}
+	A questo punto risolvo ogni sistema per ottenere un insieme di soluzioni per la congruenza
+	iniziale.
+	\begin{equation*}
+		\begin{array}{cc}
+			x \equiv 12 \mod{55} & \vee \\
+			x \equiv 23 \mod{55} & \vee \\
+			x \equiv 34 \mod{55} & \vee \\
+			x \equiv 1 \mod{55}  & \vee \\
+			x \equiv 32 \mod{55} & \vee \\
+			x \equiv 43 \mod{55} & \vee \\
+			x \equiv 54 \mod{55} & \vee \\
+			x \equiv 21 \mod{55}
+		\end{array}
+	\end{equation*}
+	Lungo come non so cosa ma si fa cos\`i.
+\end{example}
+
+\subsection{Congruenze esponenziali}
+Vediamo ora come risolvere congruenze del tipo
+\begin{equation*}
+	a^x \equiv b \mod{m}
+\end{equation*}
+
+\begin{example}
+	Trovare tutte le soluzioni per la congruenza
+	\begin{equation*}
+		2^x \equiv 1 \mod{5}
+	\end{equation*}
+	Per tentativi risolviamo la congruenza. Per esempio per $x = 0$ o $x = 4$ soddisfiamo
+	effettivamente la congruenza dato che
+	\begin{equation*}
+		\begin{array}{ccc}
+			2^0 = 1 & \wedge & 1 \equiv 1 \mod{5}
+		\end{array}
+	\end{equation*}
+	e che
+	\begin{equation*}
+		\begin{array}{ccc}
+			2^4 = 16 & \wedge & 16 \equiv 1 \mod{5}
+		\end{array}
+	\end{equation*}
+	Ci potrebbe venire in mente che a questo punto la soluzione sia
+	\begin{equation*}
+		x \equiv 4 \mod{5}
+	\end{equation*}
+	in realt\`a se proseguiamo con i tentativi ricaviamo che anche $x = 8$ soddisfa
+	l'equazione poich\'e:
+	\begin{equation*}
+		\begin{array}{ccc}
+			2^8 = 256 & \wedge & 256 \equiv 1 \mod{5}
+		\end{array}
+	\end{equation*}
+	A questo punto possiamo notare che gli $x$ trovati sono tutti divisibili per 4
+	dunque la soluzione \`e:
+	\begin{equation*}
+		x \equiv 0 \mod{4}
+	\end{equation*}
+\end{example}
+
+Ora introduciamo uno strumento utile per lavorare col prossimo teorema. Stiamo parlando del
+triangolo di Tartaglia. Il triangolo serve a trovare facilmente i coefficienti delle potenze
+del binomio $(x + y)^n$.
+
+Il triangolo \`e formato da $n + 1$ righe. Devo disporre tutti 1 sui 2 bordi mentre i numeri
+al centro si ottengono dalla somma dei due elementi soprastanti.
+
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{immagini/Tartaglia}
+\end{center}
+
+Per muoverci all'interno del triangolo utilizziamo i cosidetti \textbf{coefficienti binomiali}
+che sono scritti in questo modo:
+\begin{equation*}
+	\begin{pmatrix}
+		n \\ k
+	\end{pmatrix}
+\end{equation*}
+Questa scrittura significa che stiamo cercando sulla riga $n$ e dobbiamo muoverci da sinistra
+verso destra di $k$ passi.
+
+\begin{example}
+	Molto banalmente abbiamo che
+	\begin{equation*}
+		\begin{pmatrix}
+			4 \\ 2
+		\end{pmatrix} = 6
+	\end{equation*}
+\end{example}
+
+Per la definizione del triangolo di tartaglia possiamo scrivere che
+\begin{itemize}
+	\item $
+		      \begin{pmatrix}
+			      n \\ 0
+		      \end{pmatrix} =
+		      \begin{pmatrix}
+			      n \\ n
+		      \end{pmatrix} = 1
+	      $
+	\item $
+		      \begin{pmatrix}
+			      n + 1 \\ k
+		      \end{pmatrix} =
+		      \begin{pmatrix}
+			      n \\ k - 1
+		      \end{pmatrix} +
+		      \begin{pmatrix}
+			      n \\ k
+		      \end{pmatrix}
+	      $ con $k \neq 0 \wedge k \neq n + 1$
+\end{itemize}
+
+\begin{proposition}
+	Siano $n, k \in \mathbb{Z}$ allora
+	\begin{equation*}
+		\begin{pmatrix}
+			n \\ k
+		\end{pmatrix} =
+		\frac{n!}{k! (n - k)!}
+	\end{equation*}
+\end{proposition}
+
+\begin{observation}
+	Sia $n \in \mathbb{Z}$ allora
+	\begin{equation*}
+		\sum_{i = 0}^n \begin{pmatrix}
+			n \\ i
+		\end{pmatrix} = 2^n
+	\end{equation*}
+\end{observation}
+
+\begin{theorem}[Teorema del binomio di Newton]
+	Siano $x, y, n \in \mathbb{Z}$ allora
+	\begin{equation*}
+		(x + y)^n = \sum_{i = 0}^n \begin{pmatrix}
+			n \\ i
+		\end{pmatrix}
+		x^{n - i} y^i
+	\end{equation*}
+\end{theorem}
+
+\begin{observation}
+	La somma a segni alterni di una riga del triangolo \`e 0.
+	\begin{equation*}
+		\sum_{i = 0}^n
+		(-1)^i
+		\begin{pmatrix}
+			n \\ i
+		\end{pmatrix} = 0
+	\end{equation*}
+\end{observation}
+
+\begin{theorem}
+	Se $p$ \`e primo tutti i numeri sulla riga $p$ eccetto gli 1 sui bordi, sono multipli
+	di $p$. Quindi se $i \neq 0$ e $i \neq p$ allora
+	\begin{equation*}
+		\begin{pmatrix}
+			p \\ i
+		\end{pmatrix} \equiv 0 \mod{p}
+	\end{equation*}
+	\begin{proof}
+		Ricordiamo che
+		\begin{equation*}
+			\begin{pmatrix}
+				n \\ k
+			\end{pmatrix} =
+			\frac{n!}{k! (n - k)!}
+		\end{equation*}
+		Sapendo questo dobbiamo dimostrare che
+		\begin{equation*}
+			\begin{pmatrix}
+				p \\ i
+			\end{pmatrix} \equiv 0 \mod{p}
+		\end{equation*}
+		Se per\`o pensiamo che
+		\begin{equation*}
+			\begin{pmatrix}
+				p \\ i
+			\end{pmatrix} =
+			\frac{p!}{i! (p - i)!}
+		\end{equation*}
+		e $p \mid p!$ quindi
+		\begin{equation*}
+			\frac{p!}{i! (p - i)!} \equiv 0 \mod{p} \\
+		\end{equation*}
+		e quindi
+		\begin{equation*}
+			\begin{pmatrix}
+				p \\ i
+			\end{pmatrix} \equiv 0 \mod{p}
+		\end{equation*}
+	\end{proof}
+\end{theorem}
+
+\begin{proposition}
+	Se $p$ \`e primo allora
+	\begin{equation*}
+		(x + y)^p \equiv x^p + y^p \mod{p}
+	\end{equation*}
+	Lo si dimostra tramite il teorema precedente.
+\end{proposition}
+
+\begin{theorem}[Piccolo teorema di Fermat]
+	Sia $p$ un numero primo e sia $a \in \mathbb{Z}$ un intero qualsiasi vale
+	\begin{equation*}
+		a^p \equiv a \mod{p}
+	\end{equation*}
+	\begin{proof}
+		Tenendo conto di tutto quel che \`e stato detto fino ad ora possiamo affermare che
+		\begin{equation*}
+			(x_1 + x_2 + \cdots + x_n)^p \equiv x_1^p + x_2^p + \cdots + x_n^p \mod{p}
+		\end{equation*}
+		Con $x_1 = x_2 = \cdots = x_n = 1$ ho che
+		\begin{equation*}
+			(1 + 1 + \cdots + 1)^p \equiv 1^p + 1^p + \cdots + 1^p \mod{p}
+		\end{equation*}
+		ovvero
+		\begin{equation*}
+			n^p \equiv n \mod{p}
+		\end{equation*}
+	\end{proof}
+\end{theorem}
+
+\begin{corollary}
+	Sia $p$ un numero primo ed $a \in \mathbb{Z}$ allora
+	\begin{equation*}
+		\begin{array}{ccc}
+			a \not \equiv 0 \mod{p} & \Rightarrow & a^{p-1} \equiv 1 \mod{p}
+		\end{array}
+	\end{equation*}
+\end{corollary}
+
+\begin{example}
+	La congruenza
+	\begin{equation*}
+		2^7 \equiv 2 \mod{7}
+	\end{equation*}
+	sappiamo essere corretta per il teorema appena enunciato.
+	Possiamo anche vedere la congruenza in questo modo
+	\begin{equation*}
+		\begin{array}{c}
+			2^6 \cdot 2 \equiv 2 \mod{7} \\
+			\Downarrow                   \\
+			2^6 \equiv 1 \mod{7}
+		\end{array}
+	\end{equation*}
+\end{example}
+
+\begin{example}
+	Ora posso risolvere la congruenza di prima in questo modo (spero):
+	\begin{equation*}
+		2^x \equiv 1 \mod{5}
+	\end{equation*}
+	Posso affermare con sicurezza che
+	\begin{equation*}
+		2^5 \equiv 2 \mod{5}
+	\end{equation*}
+	per il piccolo teorema di Fermat. Notiamo ora che $2 \not \equiv 0 \mod{5}$ dunque posso
+	applicare il corollario e scrivere:
+	\begin{equation*}
+		2^{4} \equiv 1 \mod{5}
+	\end{equation*}
+	Quindi
+	\begin{equation*}
+		x \equiv 0 \mod{4}
+	\end{equation*}
+	Ho dunque ottenuto lo stesso risultato di prima.
+\end{example}
+
+\begin{theorem}
+	Una congruenza del tipo
+	\begin{equation*}
+		a^x \equiv b \mod{p}
+	\end{equation*}
+	con $p$ primo o non ha soluzione oppure \`e del tipo
+	\begin{equation*}
+		x \equiv x_0 \mod{m}
+	\end{equation*}
+	dove $m$ \`e il pi\`u piccolo esponente $> 0$ tale che
+	\begin{equation*}
+		a^m \equiv 1 \mod{p}
+	\end{equation*}
+	\`E inoltre dimostrabile che $m \mid p-1$ dunque $m$ \`e dell'ordine di $a \mod{p}$
+\end{theorem}
+
+\begin{theorem}
+	Una congruenza del tipo
+	\begin{equation*}
+		a^x \equiv 1 \mod{p}
+	\end{equation*}
+	con $p$ primo ha sempre soluzione se $a \not \equiv 0 \mod{p}$.
+\end{theorem}
+
+\begin{proposition}
+	La soluzione di
+	\begin{equation*}
+		a^x \equiv 1 \mod{p}
+	\end{equation*}
+	sono gli $x$ multipli del periodo, ovvero
+	\begin{equation*}
+		x \equiv 0 \mod{\text{periodo}}
+	\end{equation*}
+\end{proposition}
+
+\begin{example}
+	Proviamo a risolvere la congruenza
+	\begin{equation*}
+		3^x \equiv 5 \mod{7}
+	\end{equation*}
+	Faccio un po' di tentativi e trovo che $x = 5$ soddisfa la congruenza. Infatti
+	\begin{equation*}
+		3^5 = 243 \equiv 5 \mod{7}
+	\end{equation*}
+	Per trovare il periodo risolviamo la congruenza
+	\begin{equation*}
+		3^x \equiv 1 \mod{7}
+	\end{equation*}
+	Sicuramente $x = 0$ \`e una soluzione ma non ci aiuta. Inoltre posso usare il piccolo teorema di
+	Fermat in questo modo:
+	\begin{equation*}
+		3^7 \equiv 3 \mod{7}
+	\end{equation*}
+	poich\'e 7 \`e un numero primo e poich\'e $3 \not \equiv 0 \mod{7}$ abbiamo che:
+	\begin{equation*}
+		3^6 \equiv 1 \mod{7}
+	\end{equation*}
+	quindi anche $x = 6$ \`e una soluzione. A noi interessa per\`o il pi\`u piccolo $m > 0$.
+	Dobbiamo dunque verificare che 6 sia il pi\`u piccolo. Per alleggerire i calcoli ricordiamoci che
+	$m \mid 6$ quindi cerchiamolo solo tra i divisori di 6 ovvero 1, 2, e 3:
+	\begin{equation*}
+		\begin{array}{c}
+			3^1 = 3 \not \equiv 1 \mod{7} \\
+			3^2 = 9 \not \equiv 1 \mod{7} \\
+			3^3 = 27 \not \equiv 1 \mod{7}
+		\end{array}
+	\end{equation*}
+	Ne deduco che $m = 6$ e posso concludere che
+	\begin{equation*}
+		x \equiv 5 \mod{6}
+	\end{equation*}
+	\`e la soluzione cercata.
+\end{example}
+
+\begin{defn}
+	Sia $n \in \mathbb{Z}$, la funzione $\phi$ \`e detta \textbf{funzione di Eulero} e
+	$\phi (m)$ equivale al numero di elementi invertibili modulo $m$. E come sappiamo un intero
+	$a$ \`e invertibile modulo $m$ se e solo se $(a, m) = 1$ ovvero se \`e coprimo con $m$.
+	Possiamo dunque affermare in alternativa che $\phi (m)$ equivale al numero di elementi
+	compresi fra 1 e $m$ coprimi con $m$.
+\end{defn}
+
+\begin{theorem}[Teorema di Eulero]
+	Siano $a, m \in \mathbb{Z}$. Se $a$ \`e invertibile modulo $m$ allora
+	\begin{equation*}
+		a^{\phi(m)} \equiv 1 \mod{m}
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Sia $p$ primo e $k \in \mathbb{N}$ allora
+	\begin{equation*}
+		\begin{array}{ll}
+			\phi (p)   & = p - 1           \\
+			\phi (p^k) & = p^k - p^{k - 1}
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Se $n = ab$ con $(a, b) = 1$ allora
+	\begin{equation*}
+		\phi (n) = \phi (a) \cdot \phi (b)
+	\end{equation*}
+\end{theorem}
+
+\begin{example}
+	A quanto equivale $\phi (40)$ ?
+
+	Per prima cosa scomponiamo 40 in fattori primi e otteniamo:
+	\begin{equation*}
+		40 = 2^3 \cdot 5
+	\end{equation*}
+	Ora calcoliamo quante vale $\phi$ per ciascun fattore
+	\begin{equation*}
+		\begin{array}{ll}
+			\phi (2^3) & = 4 \\
+			\phi (5)   & = 4
+		\end{array}
+	\end{equation*}
+	dunque
+	\begin{equation*}
+		\phi (40) = 4 \cdot 4 = 16
+	\end{equation*}
+\end{example}
+
+Possiamo usare il teorema anche per risolvere molto pi\`u velocemente le congruenze del tipo
+\begin{equation*}
+	a^x \equiv 1 \mod{p}
+\end{equation*}
+Ci basta verificare che $(a, p) = 1$ e a quel punto ci basta calcolare $\phi (p)$. Per il teorema
+otteniamo che
+\begin{equation*}
+	a^{\phi (p)} \equiv 1 \mod{p}
+\end{equation*}
+A questo punto vediamo quali divisori di $\phi (p)$ soddisfano la congruenza. Nel caso ce ne
+fossero, il pi\`u piccolo tra loro (chiamiamolo $k$) sar\`a la nostra nuova $x$.
+Otterr\`o dunque:
+\begin{equation*}
+	\begin{array}{c}
+		a^k \equiv 1 \mod{p} \\
+		\Downarrow           \\
+		x \equiv 0 \mod{k}
+	\end{array}
+\end{equation*}
+Nel caso in cui non ci siano divisori che soddisfino la congruenza la soluzione sar\`a:
+\begin{equation*}
+	x \equiv 0 \mod{\phi (p)}
+\end{equation*}
+
+\begin{example}
+	Risolviamo la congruenza
+	\begin{equation*}
+		2^x \equiv 1 \mod{5}
+	\end{equation*}
+	Notiamo subito che $(2, 5) = 1$. Calcoliamo $\phi (5) = 4$ e otteniamo dunque che
+	\begin{equation*}
+		\begin{array}{l}
+			2^{\phi (5)} \equiv 1 \mod{5} \\
+			2^{4} \equiv \mod{5}
+		\end{array}
+	\end{equation*}
+	Dobbiamo per\`o assicurarci che 4 sia il minimo esponente tale che
+	\begin{equation*}
+		2^x \equiv 1 \mod{5}
+	\end{equation*}
+	Nel caso ce ne fosse uno diverso da 4 sarebbe un suo divisore. In questo caso n\'e 2 n\'e 1
+	soddisfano la congruenza quindi la soluzione \`e
+	\begin{equation*}
+		x \equiv 0 \mod{4}
+	\end{equation*}
+\end{example}

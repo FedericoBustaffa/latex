@@ -1,0 +1,83 @@
+
+% APPLICAZIONI LINEARI
+
+\subsection{Applicazioni Lineari}
+Le applicazioni lineari non sono altro che funzioni che mandano
+sottospazi in sottospazi
+
+\begin{example}
+	Consideriamo la funzione $\textit{f} : \mathbb{R}^2 \to \mathbb{R}^2$
+	definita da
+	\begin{equation*}
+		\textit{f}\left(
+		\begin{pmatrix}
+				x \\ y
+			\end{pmatrix}
+		\right) =
+		\begin{pmatrix}
+			x \\ x^2
+		\end{pmatrix}
+	\end{equation*}
+
+	La funzione $f$ manda i punti
+	$\begin{psmallmatrix}
+			x \\ x
+		\end{psmallmatrix}$,
+	con la prima e seconda coordinata uguali, ovvero i punti della retta
+	di equazione $x = y$, nella parabola di equazione $y = x^2$.
+	Ma, come sappiamo, la retta $y = x$, passando dall'origine, \`e un
+	sottospazio di $\mathbb{R}^2$, mentre la parabola non lo \`e.
+	Si devono dunque considerare applicazioni con propriet\`a particolari.
+\end{example}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali di dimensione finita sul campo
+	$\mathbb{K}$. Un'applicazione $L$ da $V$ in $W$ \`e detta
+	\textbf{lineare} se soddisfa le seguenti propriet\`a:
+	\begin{itemize}
+		\item $\forall v_1, v_2 \in V$ vale \[ L(v_1 + v_2) = L(v_1) + L(v_2) \]
+		\item
+		      $\forall \lambda \in \mathbb{K}$ e $\forall v \in V$
+		      vale \[ L(\lambda v) = \lambda L(v) \]
+	\end{itemize}
+\end{defn}
+
+\begin{observation}
+	Soddisfare le due propriet\`a, da parte di un'applicazione lineare $L$,
+	\`e equivalente a soddisfare la seguente propriet\`a:
+
+	$\forall v_1, v_2 \in V$ e $\forall \lambda, \mu \in \mathbb{K}$ vale
+	\begin{equation*}
+		L(\lambda v_1 + \mu v_2) = \lambda L(v_1) + \mu L(v_2)
+	\end{equation*}
+\end{observation}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
+	lineare da $V$ in $W$. Chiamo \textbf{immagine} di $L$, e la indico con
+	$Imm(L)$, il seguente sottoinsieme di $W$:
+	\begin{equation*}
+		Imm(L) = \{w \in W \mid \forall v \in V, \quad L(v) = w\}
+	\end{equation*}
+\end{defn}
+
+\begin{proposition}
+	\`E dimostrabile che \[ Imm(L) = Span(L(e_1), \dots, L(e_n)) \]
+	dove $\{e_1, \dots, e_n\}$ \`e una base di $V$.
+\end{proposition}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
+	lineare da $V$ in $W$. Chiamo \textbf{nucleo} di $L$, e lo indico con
+	$Ker(L)$, il seguente sottoinsieme di $V$:
+	\begin{equation*}
+		Ker(L) = \{v \in V \mid L(v) = O\}
+	\end{equation*}
+\end{defn}
+
+Di seguito qualche propriet\`a utile:
+\begin{enumerate}
+	\item $Ker(L)$ \`e un sottospazio vettoriale di $V$.
+	\item $Imm(L)$ \`e un sottospazio vettoriale di $W$.
+	\item $L$ \`e iniettiva se e solo se $Ker(L) = \{O\}$.
+\end{enumerate}

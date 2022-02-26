@@ -1,0 +1,83 @@
+
+% INTERSEZIONE E SOMMA DI SOTTOSPAZI
+
+\subsection{Intersezione e somma di sottospazi vettoriali}
+Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$,
+la somma \`e il pi\`u piccolo sottospazio vettoriale di $V$
+che contenga sia $U$ che $W$ mentre l'intersezione \`e il pi\`u
+grande sottospazio vettoriale di $V$ contenuto sia in $U$ che in $W$.
+
+\begin{proposition}
+	Sia $V$ uno spazio vettoriale su un campo $\mathbb{K}$, $U$ e $W$ due
+	sottospazi di $V$, allora $U \cap W$ \`e un sottospazio vettoriale di $V$.
+	\begin{proof}
+		Ci interessa verificare che $U \cap W$ verifichi le propriet\`a della
+		definizione:
+		\begin{enumerate}
+			\item $O \in U \cap W$, infatti essendo $U$ e $W$ due sottospazi,
+			      certamente $O \in U$ e $O \in W$.
+			\item Siano $v_1, v_2 \in U \cap W$ allora:
+			      \begin{equation*}
+				      \begin{cases}
+					      v_1 + v_2 \in U \\
+					      v_1 + v_2 \in W
+				      \end{cases}
+				      \Rightarrow{v_1 + v_2 \in U \cap W}
+			      \end{equation*}
+			\item Sia $v \in U \cap W$ allora $\forall \lambda \in
+				      \mathbb{K}$ si ha:
+			      \begin{equation*}
+				      \begin{cases}
+					      \lambda v \in U \\
+					      \lambda v \in W
+				      \end{cases}
+				      \Rightarrow{\lambda v \in U \cap W}
+			      \end{equation*}
+		\end{enumerate}
+	\end{proof}
+\end{proposition}
+
+Per cercare il pi\`u piccolo sottospazio contenente sia $U$ che $W$
+verrebbe da pensare all'unione insiemistica, tuttavia, in generale non
+\`e vero che $U \cup W$ \`e un sottospazio vettoriale di $V$.
+
+Dunque il pi\`u piccolo sottospazio vettoriale di $V$ che contiene sia
+$U$ che $W$ deve necessariamente (per essere chiuso per la somma)
+contenere tutti gli elementi della forma $u + v$ dove $u \in U$ e
+$w \in W$.
+
+\begin{example}
+	Provare che se $V = \mathbb{R}^2$ e $U$ e $W$ sono due rette distinte
+	passanti per $O$, allora $U \cup W$ non \`e un sottospazio di $V$.
+
+	Basta mostrare che, presi $u \in U$ e $w \in W$, entrambi diversi
+	dall'origine, $v + w$ non appartiene all'unione $U \cup W$.
+\end{example}
+
+\begin{defn}
+	Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$
+	su $\mathbb{K}$, chiamo \textbf{somma} di $U$ e $W$ l'insieme
+	\begin{equation*}
+		U + W = \{u + w \mid u \in U, w \in W\}
+	\end{equation*}
+\end{defn}
+
+\begin{proposition}
+
+	Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$
+	su $\mathbb{K}$, $U + W$ \`e un sottospazio vettoriale di $V$ (ed
+	\`e il pi\`u piccolo contenente $U$ e $W$).
+	\begin{proof}
+		$O \in U + W$, infatti appartiene sia ad $U$ che a $W$.
+
+		Ora dati $a \in \mathbb{K}$ e $x, y \in U + W$, per definizione di
+		$U + W$ esistono $u_1, u_2 \in U$ e $w_1, w_2 \in W$ tali che:
+		$x = u_1 + w_1$ e $y = u_2 + w_2$. Dunque
+		\begin{equation*}
+			x + y = (u_1 + w_1) + (u_2 + w_2) = (u_1 + u_2) + (w_1 + w_2) \in U + W
+		\end{equation*}
+		\begin{equation*}
+			ax = a(u_1 + w_1) = au_1 + aw_1 \in U + W
+		\end{equation*}
+	\end{proof}
+\end{proposition}

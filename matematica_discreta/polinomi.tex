@@ -1,0 +1,431 @@
+\section{Fattorizzazione di polinomi}
+\subsection{Strutture algebriche}
+\begin{defn}
+	Chiamo \textbf{struttura algebrica}, un insieme su cui sono definite delle operazioni
+	fra i suoi elementi. Tali operazioni possono essere unarie, binarie, ternarie ecc.
+\end{defn}
+
+\begin{defn}
+	Sia $S$ l'insieme considerato le \textbf{operazioni} $*$ sono funzioni che associano ad
+	uno o pi\`u elementi dell'insieme $S$ un elemento dell'insieme $S$. Possono essere di
+	vario tipo:
+	\begin{equation*}
+		\begin{array}{l}
+			\text{unaria: } * : S \rightarrow S           \\
+			\text{binaria: } * : S \times S \rightarrow S \\
+			\dots
+		\end{array}
+	\end{equation*}
+\end{defn}
+
+\begin{defn}
+	Chiamo \textbf{gruppo} una struttura algebrica caratterizzata da un insieme $G$ e da
+	un'operazione binaria $*$ che gode delle seguenti propriet\`a:
+	\begin{itemize}
+		\item Deve essere \emph{associativa}: $(a * b) * c = a * (b * c)$.
+		\item Deve esistere l'\emph{elemento neutro}: $a * E = a$.
+		\item Ogni elemento di $G$ ha un \emph{inverso}: $a * inv(a) = E$
+	\end{itemize}
+	Aggiungiamo che nel caso in cui la struttura in questione possieda anche la propriet\`a
+	commutativa per $*$
+	\begin{equation*}
+		a * b = b * a
+	\end{equation*}
+	allora si tratta di \textbf{gruppo abeliano}.
+\end{defn}
+
+\begin{example}
+	L'insieme dei numeri reali $\mathbb{R}$ con l'operazione di somma \`e un gruppo abeliano.
+	Se invece considero $\mathbb{R}$ con l'operazione di prodotto non ottengo pi\`u un gruppo
+	dato che la terza propriet\`a non \`e soddisfatta per tutti i valori in $\mathbb{R}$.
+\end{example}
+
+\begin{defn}
+	Chiamo $H$ un \textbf{sottogruppo} di $G$ se $H$ \`e esso stesso un gruppo rispetto
+	all'operazione $*$. In tal caso si user\`a la notazione:
+	\begin{equation*}
+		H < G
+	\end{equation*}
+\end{defn}
+
+\begin{theorem}
+	Siano $G$ un gruppo, allora $H \subset G$ \`e un sottogruppo di $G$ se e solo se:
+	\begin{itemize}
+		\item Elemento neutro in $H$: $E \in H$.
+		\item Chiusura rispetto a $*$: se $a, b \in H$ allora $a * b \in H$.
+		\item Chiusura per l'inverso: se $a \in H$ allora $a^{-1} \in H$.
+	\end{itemize}
+\end{theorem}
+
+\begin{defn}
+	Sia $S$ un sottoinsieme chiamo \textbf{sottogruppo generato} da $S$ il pi\`u piccolo
+	sottogruppo contenente $S$ e lo indico con $<S>$. Quando un gruppo \`e generato da un
+	unico elemento si dir\`a che il gruppo \`e \textbf{ciclico}.
+\end{defn}
+
+\begin{defn}
+	Chiamo \textbf{anello} una struttura algebrica formata da un insieme $A$ dotato di due
+	operazioni (somma e prodotto).
+\end{defn}
+
+\begin{theorem}
+	Dato un gruppo $A$ munito di somma e prodotto \`e un anello se e solo se:
+	\begin{itemize}
+		\item Il gruppo formato da $A$ munito della somma \`e abeliano.
+		\item L'operazione di prodotto \`e associativa.
+		\item Valgono le seguenti leggi distributive:
+		      \begin{equation*}
+			      \begin{array}{ll}
+				      a \cdot (b + c) & = ab + ac \\
+				      (a + b) \cdot c & = ac + bc
+			      \end{array}
+		      \end{equation*}
+	\end{itemize}
+	Ci sono ulteriori propriet\`a che il prodotto pu\`o avere per certi insiemi e questo
+	pu\`o generare nuovi tipi di anello:
+	\begin{itemize}
+		\item Se il prodotto \`e commutativo, si ha un \textbf{anello commutativo}.
+		\item Se il prodotto ha un elemento neutro, si ha un \textbf{anello con unit\`a}.
+		\item Se l'insieme viene privato dello zero per la somma e si crea un gruppo rispetto
+		      al prodotto si ha un \textbf{anello di divisione} o \textbf{corpo}.
+	\end{itemize}
+\end{theorem}
+
+\begin{example}
+	L'insieme $\mathbb{Z}$ rispetto a somma e prodotto \`e un anello commutativo.
+\end{example}
+
+\begin{example}
+	L'insieme
+	\begin{equation*}
+		\mathbb{Z}/_6 = \{ [0], [1], [2], [3], [4], [5] \}
+	\end{equation*}
+	\`e un anello commutativo poich\'e
+	\begin{equation*}
+		[2] \cdot [3] = [0]
+	\end{equation*}
+\end{example}
+
+\begin{defn}
+	Chiamo \textbf{campo} un corpo commutativo.
+\end{defn}
+
+\begin{example}
+	Tutti gli insiemi $\mathbb{R}, \mathbb{Q}, \mathbb{C}$ sono campi.
+\end{example}
+
+\begin{defn}
+	Diremo che $B \subset A$ \`e un \textbf{sottoanello} di $A$ se $B$ \`e esso stesso un
+	anello rispetto alle operazioni ereditate da $A$.
+\end{defn}
+
+\begin{defn}
+	Sia $x \in A$. Se esiste $y \in A$, $y \neq 0$ tale che
+	\begin{equation*}
+		x \cdot y = 0
+	\end{equation*}
+	allora chiamo \textbf{divisore di zero sinistro} l'elemento $x$ di $A$.
+
+	Analogamente se esiste $y \in A$, $y \neq 0$ tale che
+	\begin{equation*}
+		y \cdot x = 0
+	\end{equation*}
+	allora chiamo $x$ \textbf{divisore di zero destro}.
+\end{defn}
+
+\begin{defn}
+	Un anello commutativo con unit\`a privo di divisori di zero si dice
+	\textbf{dominio	di integrit\`a}.
+\end{defn}
+
+\begin{proposition}
+	Ogni campo \`e un dominio di integrit\`a.
+\end{proposition}
+
+\begin{example}
+	L'insieme $\mathbb{Z}$ \`e un dominio di integrit\`a.
+\end{example}
+
+\subsection{Polinomi}
+
+\begin{defn}
+	Chiamo
+	\begin{equation*}
+		p(x) = a_0 + a_1x + a_2x^2 + \cdots + a_n x^n \text{ con $a_n \neq 0$}
+	\end{equation*}
+	\textbf{polinomio di grado n} con $a_0, a_1, \dots, a_n \in \mathbb{R}$
+	(oppure $\mathbb{C}$, $\mathbb{Z}/_m$, $\mathbb{Q}$, ecc.). Inoltre $p(x) \in \mathbb{R}[x]$
+	(oppure $\mathbb{C}[x]$, $\mathbb{Z}/_m [x]$, $\mathbb{Q}[x]$ ecc.).
+\end{defn}
+
+\begin{defn}
+	Sia $p(x)$ un generico polinomio di grado $n$, definisco \textbf{radice} del polinomio
+	il numero $r$ tale che
+	\begin{equation*}
+		a_0 + a_1 r + a_2 r^2 + \cdots + a_n r^n = 0
+	\end{equation*}
+	In sintesi se $p(r) = 0$ allora $r$ \`e una radice del polinomio.
+\end{defn}
+
+\begin{observation}[Polinomi di primo grado]
+	Possiamo dimostrare che i polinomi di primo grado con coefficienti sul campo $\mathbb{K}$
+	hanno sempre una radice in $\mathbb{K}$. Consideriamo il generico polinomio di primo grado
+	\begin{equation*}
+		ax + b = 0
+	\end{equation*}
+	Abbiamo che la sua radice \`e
+	\begin{equation*}
+		x = -b a^{-1}
+	\end{equation*}
+	Sappiamo che $-b$ esiste perch\'e per ogni elemento in $\mathbb{K}$ esiste il suo inverso
+	rispetto alla somma e sappiamo che esiste anche $a^{-1}$ perch\'e in un campo ogni elemento
+	\`e invertibile rispetto al prodotto.
+
+	Tuttavia c'\`e da precisare che i polinomi hanno sempre radice in un campo ma non \`e
+	sempre detto che ne abbiano in un anello.
+\end{observation}
+
+\begin{observation}[polinomi di secondo grado]
+	I polinomi di secondo grado potrebbe non avere radici nel campo $\mathbb{K}$ considerato
+	ma potrebbero averne in altri campi.
+	Per esempio
+	\begin{equation*}
+		x^2 = 2
+	\end{equation*}
+	non ha radici in $\mathbb{Q}$ poich\'e $\sqrt{2}$ non \`e un numero razionale ovvero non
+	\`e esprimibile come $a / b$.
+\end{observation}
+
+\begin{theorem}[Regola di annullamento del prodotto]
+	Se $ab = 0$ allora $a = 0$ oppure $b = 0$.
+	\begin{proof}
+		Se $ab = 0$ e $a \neq 0$ allora esiste $a^{-1}$. Quindi
+		\begin{equation*}
+			\begin{array}{ll}
+				a^{-1}(ab) & = (a^{-1}a)b      \\
+				1b         & \Rightarrow b = 0
+			\end{array}
+		\end{equation*}
+	\end{proof}
+	Va per\`o chiarito che funziona per i campi ma non per gli anelli.
+\end{theorem}
+
+\subsection{Divisione con resto tra polinomi}
+
+\begin{theorem}
+	Dati due polinomi $p(x), g(x) \in \mathbb{K}[x]$ con campo $\mathbb{K}$, esiste un
+	quoziente $q(x)$ e un resto $r(x)$ in $\mathbb{K}[x]$ tali che
+	\begin{equation*}
+		p(x) = g(x) q(x) + r(x)
+	\end{equation*}
+	con
+	\begin{equation*}
+		deg(r(x)) < deg(g(x))
+	\end{equation*}
+\end{theorem}
+
+Si procede come per le divisioni euclidee tra numeri interi ma l'obbiettivo ad ogni passaggio
+\`e annullare il grado maggiore del polinomio.
+
+\begin{example}
+	Consideriamo
+	\begin{equation*}
+		\frac{x^3 - 2x^2 - x -6}{x^2 + x + 2} = x - 3 \text{ (resto 0)}
+	\end{equation*}
+	Infatti
+	\begin{equation*}
+		(x - 3)(x^2 + x + 2) = (x^3 - 2x^2 - x - 6)
+	\end{equation*}
+\end{example}
+
+\begin{defn}
+	Chiamo $p(x)$ \textbf{polinomio monico} se $a_n = 1$ ovvero se il coefficiente del monomio
+	di grado massimo \`e proprio 1.
+\end{defn}
+
+\subsection{Teorema di Ruffini}
+\begin{defn}
+	Dico che $p(x) \mid g(x)$ (divide) se $p(x), g(x) \in \mathbb{K}[x]$ sono tali che
+	la divisione $g(x) / p(x)$ da resto zero.
+\end{defn}
+
+\begin{theorem}[Teorema di Ruffini]
+	Se $p(x) \in \mathbb{K}[x]$ e $a \in \mathbb{K}$ allora
+	\begin{equation*}
+		\begin{array}{ccc}
+			p(a) = 0 & \Leftrightarrow & (x - a) \mid p(x)
+		\end{array}
+	\end{equation*}
+	\begin{proof}
+		Si dimostra facilmente scrivendo
+		\begin{equation*}
+			\begin{array}{ll}
+				p(x) & = (x - a) q(x) + r \\
+				p(a) & = (a - a) q(a) + r \\
+				p(a) & = r
+			\end{array}
+		\end{equation*}
+		Dunque $p(a) = 0$ se e solo se $r = 0$ ovvero se $(x - a) \mid p(x)$.
+	\end{proof}
+\end{theorem}
+
+\subsection{Polinomi irriducibili}
+Il concetto \`e simile ai numeri primi in $\mathbb{Z}$.
+
+\begin{defn}
+	Chiamo $p(x) \in \mathbb{K}[x]$ \textbf{polinomio irriducibile} se non si fattorizza nella
+	forma $p(x) = a(x)b(x)$ con $deg(a(x)), deg(b(x)) < deg(p(x))$.
+\end{defn}
+
+\begin{observation}
+	Siano $a(x), b(x) \in \mathbb{K}[x]$ allora
+	\begin{equation*}
+		deg(a(x) \cdot b(x)) = deg(a(x)) + deg(b(x))
+	\end{equation*}
+\end{observation}
+
+\begin{observation}
+	Non si deve confondere l'essere fattorizzabile con l'avere radici. Un polinomio ha
+	radici se e solo se ha un fattore di primo grado.
+\end{observation}
+
+\begin{observation}
+	In un campo vale che se $p(x) = a(x)b(x)$ allora le radici di $p(x)$ sono
+	l'unione delle radici di $a(x)$ con le radici di $b(x)$.
+\end{observation}
+
+\begin{observation}[Polinomi di terzo grado]
+	Se $p(x)$ \`e di terzo grado e si fattorizza allora ha soluzione perch\'e un fattore sar\`a
+	di primo grado e l'altro di secondo grado.
+\end{observation}
+
+\begin{proposition}
+	Ogni polinomio si fattorizza in $\mathbb{R}[x]$ in un prodotto di fattori di primo e secondo
+	grado.
+\end{proposition}
+
+\begin{lemma}[Lemma di Gauss]
+	Se un polinomio \`e irriducibile in $\mathbb{Z}[x]$, allora lo \`e anche in
+	$\mathbb{Q}[x]$.
+
+	Messo in altri termini: Se un polinomio in $\mathbb{Z}[x]$ \`e fattorizzabile in
+	$\mathbb{Q}[x]$ allora \`e fattorizzabile anche in $\mathbb{Z}[x]$.
+\end{lemma}
+
+\begin{theorem}
+	Dato $p(x)$ esistono $p_1(x), \dots, p_k(x)$ tali che
+	\begin{equation*}
+		p(x) = p_1(x) \cdot ... \cdot p_k(x) \text{ con $p_i(x)$ irriducibili}
+	\end{equation*}
+	e questa scomposizione \`e unica a meno di fattori numerici e ordine dei fattori.
+\end{theorem}
+
+\subsection{Fattorizzazione}
+Di seguito tratteremo tecniche per la fattorizzazione e studieremo le condizioni in cui
+un polinomio \`e riducibile o meno.
+
+Partiamo con l'elencare i seguenti prodotti notevoli che ci saranno utili pi\`u avanti.
+\begin{itemize}
+	\item \emph{Differenza di quadrati}: $a^2 - b^2 = (a + b)(a - b)$
+	\item \emph{Somma di cubi}: $a^3 + b^3 = (a + b)(a^2 - ab + b^2)$
+	\item \emph{Differenza di cubi}: $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$
+\end{itemize}
+
+\begin{example}
+	Proviamo a fattorizzare
+	\begin{equation*}
+		x^6 - 1
+	\end{equation*}
+	Possiamo usare il prodotto notevole per la differenza di quadrati.
+	\begin{equation*}
+		x^6 - 1 = (x^3 + 1)(x^3 - 1)
+	\end{equation*}
+	A questo punto posso usare la somma di cubi per il primo fattore e la differenza di cubi per
+	il secondo:
+	\begin{equation*}
+		(x^3 + 1)(x^3 - 1) = (x + 1)(x^2 - x + 1)(x - 1)(x^2 + x + 1)
+	\end{equation*}
+	Svolgendo i calcoli ottengo che le radici sono $x = -1$ e $x = 1$.
+\end{example}
+
+\begin{theorem}
+	Sia
+	\begin{equation*}
+		p(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_n x^n
+	\end{equation*}
+	un generico polinomio in $\mathbb{Z}[x]$ e sia $\frac{c}{d}  \in \mathbb{Q}$ con
+	$c, d \in \mathbb{Z}$ ridotti ai minimi termini.
+
+	Se
+	\begin{equation*}
+		p \left( \frac{c}{d} \right) = 0
+	\end{equation*}
+	allora $c \mid a_0$ e $d \mid a_n$
+	\begin{proof}
+		Scriviamo
+		\begin{equation*}
+			p \left( \frac{c}{d} \right) =
+			a_0 + a_1 \frac{c}{d} + a_2 \frac{c^2}{d^2} + \dots + a_n \frac{c^n}{d^n} = 0
+		\end{equation*}
+		Questo \`e vero se e solo se
+		\begin{equation*}
+			a_0 d^n + a_1 c d^{n - 1} + a_2 c^2 d^{n-2} + \cdots + a_n c^n = 0
+		\end{equation*}
+		Da quest'ultima equazione deduco che $a_n c^n$ \`e un multiplo di $d$ quindi $d \mid a_n$.
+		Deduco anche che $a_0 d^n$ \`e un multiplo di $c$ quindi $c \mid a_0$.
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}
+	Se $\mathbb{K}$ \`e un campo, $p(x) \in \mathbb{K}[x]$, $p(x) = g(x)h(x)$ sempre in
+	$\mathbb{K}[x]$ allora
+	\begin{equation*}
+		\{ \text{radici } p(x) \} =
+		\{ \text{radici } g(x) \} \cup \{ \text{radici } h(x) \}
+	\end{equation*}
+	ovvero
+	\begin{equation*}
+		\begin{array}{ccc}
+			p(a) = 0 & \Leftrightarrow & g(a) = 0 \vee h(a) = 0
+		\end{array}
+	\end{equation*}
+	Segno del fatto che nei campi vale la regola di annullamento del prodotto.
+\end{theorem}
+
+\begin{theorem}
+	Se $\mathbb{K}$ \`e solo un anello allora
+	\begin{equation*}
+		\{ \text{radici } p(x) \} \supseteq
+		\{ \text{radici } g(x) \} \cup \{ \text{radici } h(x) \}
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Se $\mathbb{K}$ \`e un campo, $p(x) = a_0 + a_1 x + \cdots + a_n x^n$ di grado $n$ allora
+	$p(x)$ ha al massimo $n$ radici in $\mathbb{K}$.
+	\begin{proof}
+		Se $n = 1$, quindi il polinomio \`e $p(x) = a_0 + a_1 x = 0$ l'unica radice \`e
+		\begin{equation*}
+			x = \frac{-a_0}{a_1}
+		\end{equation*}
+
+		Se $n > 1$ allora vedo se ha radici. Se non ne ha ho finito.
+
+		Se $\alpha$ \`e una radice allora
+		\begin{equation*}
+			p(x) = (x - \alpha) q(x) \text{ con } deg(n - 1)
+		\end{equation*}
+		Si pu\`o dimostrare per induzione che $q(x)$ ha $n - 1$ radici.
+
+		Le radici di $p(x)$ sono date da
+		\begin{equation*}
+			\{ \text{radici } q(x) \} \cup \{ \alpha \}
+		\end{equation*}
+		quindi $p(x)$ ha al massimo $n$ radici.
+	\end{proof}
+\end{theorem}
+
+\begin{observation}
+	Se $\mathbb{K}$ \`e un anello, un polinomio di grado $n$ in $\mathbb{K}[x]$ potrebbe
+	avere pi\`u di $n$ radici.
+\end{observation}

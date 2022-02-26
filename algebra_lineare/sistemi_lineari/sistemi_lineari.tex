@@ -1,0 +1,130 @@
+
+\section{Sistemi lineari}
+
+\subsection{Risoluzione di sistemi tramite riduzione per righe}
+Per risolvere sistemi lineari non omogenei torner\`a molto utile la riduzione
+a scalini per righe di una matrice. Quello che vedremo sar\`a il metodo noto come
+\emph{metodo di	eliminazione di Gauss}.
+
+\begin{example}
+	Prendiamo il sistema
+	\begin{equation*}
+		\begin{cases}
+			x + 2y + 2z + 2t = 1 \\
+			x +5y + 6z -2t = 9   \\
+			8x - y -2z -2t = 0   \\
+			2y + 6z + 8t = 3
+		\end{cases}
+	\end{equation*}
+	
+	Tutte le informazioni del sistema sono contenute nella seguente
+	\emph{matrice completa associata al sistema}:
+	\begin{equation*}
+		M = \begin{pmatrix}
+			1 & 2  & 2  & 2  & 1  \\
+			1 & 5  & 6  & -2 & -5 \\
+			8 & -1 & -2 & -2 & 0  \\
+			0 & 2  & 6  & 8  & 3
+		\end{pmatrix}
+	\end{equation*}
+	Ogni riga contiene i coefficienti di una delle equazioni.
+	Sia $S \subset \mathbb{R}^4$ l'insieme delle soluzioni del sistema, ovvero
+	il sottoinsieme di $\mathbb{R}^4$ costituito dai vettori
+	$\begin{psmallmatrix} a \\ b \\ c \\ d \end{psmallmatrix}$ tali che, se poniamo
+	\begin{gather*}
+		x = a \\
+		y = b \\
+		z = c \\
+		t = d
+	\end{gather*}
+	tutte le equazioni del sistema diventano delle uguaglianze vere.
+\end{example}
+
+
+\begin{theorem}
+	L'insieme delle soluzioni di un sistema di equazioni lineari associato alla
+	matrice $M$ coincide con l'insieme delle soluzioni di un sistema associato
+	alla matrice $M'$ ottenuta riducendo $M$ in forma a scalini per righe.
+\end{theorem}
+
+\begin{observation}
+	In concreto questo significa che, nel risolvere il sistema, ogni scalino
+	lungo lascerà "libere" alcune variabili, come vediamo nel seguente esempio.
+	Supponiamo che un certo sistema omogeneo a coefficienti in $\mathbb{R}$
+	conduca alla matrice a scalini:
+	\begin{equation*}
+		M' = \begin{pmatrix}
+			1 & 0 & 2        & 2  & 0 \\
+			0 & 1 & \sqrt{3} & 12 & 0 \\
+			0 & 0 & 0        & 6  & 0 \\
+			0 & 0 & 0        & 0  & 0 \\
+			0 & 0 & 0        & 0  & 0
+		\end{pmatrix}
+	\end{equation*}
+	Allora il sistema finale associato \`e
+	\begin{equation*}
+		\begin{cases}
+			x + 2z + 2t         & = 0 \\
+			y + \sqrt{3}z + 12t & = 0 \\
+			6t                  & = 0
+		\end{cases}
+	\end{equation*}
+	Se facciamo qualche sostituzione otteniamo:
+	\begin{equation*}
+		\begin{cases}
+			x & = -2z         \\
+			y & = -\sqrt{3} z \\
+			t & = 0
+		\end{cases}
+	\end{equation*}
+	La variabile $z$ resta "libera" e l'insieme delle soluzioni \`e il seguente
+	sottospazio di $\mathbb{R}^4$:
+	\begin{equation*}
+		S = \{ (-2z, -\sqrt{3}z, z, 0 ) \mid z \in \mathbb{R} \}
+	\end{equation*}
+\end{observation}
+
+Lo stesso procedimento vale per sistemi lineari non omogenei.
+Quello che dobbiamo fare \`e sostanzialmente considerare la matrice $M$ associata 
+al sistema portarla in forma a scalini e risolvere il nuovo sistema associato.
+
+\begin{example}
+	Consideriamo il sistema
+	\[
+		\begin{cases}
+			x + 2y + z & = 1 \\
+			x - y      & = 3 \\
+			y + z      & = 2
+		\end{cases}
+	\]
+	Scriviamo la matrice associata.
+	\[
+		\begin{pmatrix}
+			1 & 2  & 1 & 1 \\
+			1 & -1 & 0 & 3 \\
+			0 & 1  & 1 & 2
+		\end{pmatrix}
+	\]
+	Se ridotta a scalini per righe otteniamo
+	\[
+		\begin{pmatrix}
+			1 & 2  & 1  & 1  \\ 
+			0 & -3 & -1 & 2  \\ 
+			0 & 0  & 2  & 8 
+		\end{pmatrix}
+	\]
+	E dunque otteniamo il nuovo sistema 
+	\[
+		\begin{cases}
+			x + 2y + z & = 1 \\
+			-3y - z    & = 2 \\ 
+			2z         & = 8
+		\end{cases}
+		\quad \Rightarrow \quad
+		\begin{cases}
+			x & = 1  \\ 
+			y & = -2 \\ 
+			z & = 4
+		\end{cases}
+	\]
+\end{example}

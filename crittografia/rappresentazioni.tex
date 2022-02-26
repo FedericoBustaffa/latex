@@ -1,0 +1,98 @@
+\chapter{Rappresentazione matematica di oggetti}
+\section{Metodi di rappresentazione}
+\subsection{Alfabeti e sequenze}
+Posso definire una alfabeto $\Gamma$ di cardinalit\`a $s$. Nel caso dovessi
+rappresentare $N$ oggetti
+\begin{itemize}
+	\item $d(s, N)$ sarebbe la lunghezza della sequenza pi\`u lunga che rappresenta un
+	      oggetto dell'insieme.
+	\item $d_{\min}(s, N)$ sarebbe il valore minimo di $d(s, N)$ tra tutte le
+	      rappresentazioni possibili.
+	\item Un metodo di rappresentazione \`e tanto migliore, quanto pi\`u
+	      $d(s, N)$ si avvicina a $d_{\min}(s, N)$.
+\end{itemize}
+
+\subsection{Rappresentazione binaria}
+In questo caso abbiamo $s = 2$ e l'alfabeto sar\`a $\Gamma = \{ 0, 1 \}$. Questo
+alfabeto ha due caratteristiche fondamentali:
+\begin{itemize}
+	\item Per ogni $k \geq 1$, abbiamo $2^k$ sequenze di lunghezza $k$.
+	\item Il numero totale di sequenze lunghe da 1 a $k$ \`e dato da
+	      \[
+		      \sum_{i = 1}^k 2^i = 2^{k + 1} - 2
+	      \]
+\end{itemize}
+Nel caso in cui avessi $N$ sequenze da rappresentare risulterebbe che
+\begin{itemize}
+	\item $2^{k + 1} - 2 \geq N$
+	\item $k \geq \log_2 (N + 2) - 1$
+\end{itemize}
+Il numero $\lceil \log_2 N \rceil$ sono i caratteri binari sufficienti per costruire $N$
+sequenze differenti. In sostanza posso costruire $N$ sequenze differenti tutte di
+$\lceil log_2 N \rceil$ caratteri.
+
+Per esempio se considero $N = 7$ ho che \[ \lceil \log_2 7 \rceil = 3 \] Dunque mi bastano
+stringhe binarie di lunghezza 3 per costruire 7 sequenze diverse.
+\[ 0 \quad 1 \quad 00 \quad 01 \quad 10 \quad 11 \quad 000 \]
+
+\subsection{Rappresentazione di interi}
+La notazione posizionale per rappresentare numeri interi \`e una rappresentazione
+efficiente, indipedentemente dalla base $s \geq 2$ scelta.
+
+Un numero $N$ \`e rappresentato con un numero $d$ di cifre tale che
+\[ \lceil \log_2 N \rceil \leq d \leq \lceil \log_2 N \rceil + 1 \]
+C'\`e quindi una \textbf{riduzione logaritmica} tra il valore $N$ di un numero e la
+lunghezza $d$ della sua rappresentazione.
+
+\subsection{Calcolabilit\`a e complessit\`a}
+\begin{itemize}
+	\item La \textbf{calcolabilit\`a} si occupa delle questioni fondamentali circa la
+	      potenza e le limitazioni dei sistemi di calcolo. Si occuopa di definire le
+	      nozioni di \textbf{algoritmo} e \textbf{problema non decidibile}. In altre
+	      parole si occupa di classificare i problemi in \emph{risolvibili} e
+	      \emph{non risolvibili}.
+	\item La \textbf{complessit\`a} si dare la nozione di \text{algoritmo efficiente}
+	      e di \textbf{problema intrattabile}. In altre parole divide i problemi in
+	      \emph{"facili"} e \emph{"difficili"}.
+\end{itemize}
+
+\subsection{Insiemi numerabili}
+\begin{itemize}
+	\item Due insiemi $A$ e $B$ hanno lo stesso numero di elementi se e solo se si pu\`o
+	      stabilire una \textbf{corrispondenza biunivoca} tra i loro elementi.
+	\item Un insieme \`e \textbf{numerabile} se e solo se i suoi elementi possono essere
+	      messi in \textbf{corrispondenza biunivoca con i numeri naturali}.
+\end{itemize}
+
+\subsection{Enumerazione delle sequenze}
+Se si vogliono elencare in un ordine ragionevole le sequenze di lunghezza finita
+costruite su un alfabeto finito ci scontreremmo con un problema: le sequenze non sono
+in numero finito, quindi non si potr\`a completare l'elenco.
+
+Lo scopo in questo caso \`e raggiungere qualsiasi sequenza $\sigma$ arbitrariamente
+scelta in un numero finito di passi. Per fare ci\`o $\sigma$ deve trovarsi a distanza
+finita dall'inizio dell'elenco.
+
+Osserviamo che la numerazione delle sequenze \`e possibile perch\'e esse sono di
+lunghezza finita anche se illimitata: scelto $d$ arbitrariamente esistono sequenze
+di lunghezza maggiore di $d$. Per sequenze di lunghezza infinita la numerazione non
+sarebbe possibile.
+
+\subsection{Il problema dell'arresto}
+Si tratta di un algoritmo che indaga sulle proprit\`a di un altro algoritmo, trattato
+come dato di input.
+
+Consiste nel verificare se un generico programma termini la sua esecuzione oppure
+se entra in un ciclo infinito.
+
+Turing ha tuttavia dimostrato che, riuscire a dimostrare se un programma arbitrario
+si arresta e termina la sua esecuzione \`e \textbf{impossibile}.
+
+\begin{theorem}
+	Il problema dell'arresto \`e indecidibile.
+	\begin{proof}
+		Per dimostrarlo proviamo a dobbiamo considerare un generico algoritmo $A$ con
+		un generico input $I$. L'algoritmo arresto prende in input $A$ e $I$ e
+		ritorna vero se $A$ termina oppure falso se non termina.
+	\end{proof}
+\end{theorem}

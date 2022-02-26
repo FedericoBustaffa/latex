@@ -1,0 +1,52 @@
+
+\section{Applicazioni lineari e matrici invertibili}
+\subsection{Endomorfismi lineari invertibili}
+
+\begin{defn}
+	Consideriamo uno spazio vettoriale $V$ di dimensione $n$ sul campo $\mathbb{K}$ e
+	una applicazione lineare $L : V \to V$. Una tale applicazione lineare si dice
+	\textbf{endomorfismo lineare di $V$}. Indicheremo con $End(V)$ l'insieme di tutti gli
+	endomorifsimi lineari di $V$.
+\end{defn}
+
+\begin{proposition}
+	Un endomorfismo $L$ di $V$ \`e invertibile se e solo se ha rango $n$. La
+	funzione inversa $L^{-1} : V \to V$ \`e anch'essa un'applicazione lineare.
+\end{proposition}
+
+\begin{observation}
+	Dati due spazi $V$ e $W$ entrambi di dimensione $n$ e una applicazione lineare
+	$L : V \to W$, l'applicazione lineare $L$ \`e invertibile se e solo se ha rango
+	$n$; l'applicazione inversa $L^{-1}$ \`e anch'essa lineare.
+	Abbiamo invece gi\`a osservato che se $V$ e $W$ hanno dimensioni diverse,
+	rispettivamente $m$ e $n$, nessuna applicazione lineare $L$ da $V$ a $W$ pu\`o
+	essere invertibile. Infatti, avendo in mente la relazione che lega la dimensione
+	del nucleo di $L$, dell'immagine di $L$ e di $V$
+	($dim(Imm(L)) + dim(Ker(L)) = dim(V)$), si ha che:
+	\begin{itemize}
+		\item se $m > n$ allora la dimensione di $Imm(L)$ \`e al massimo $n$.
+		      Quindi la dimensione di $Ker(L)$ \`e almeno $m - n$, ovvero
+		      maggiore di 0, e $L$ non \`e iniettiva.
+		\item se $m < n$ allora la dimensione di $Imm(L)$ \`e al massimo $m$.
+		      Quindi la dimensione di $Imm(L)$ \`e minore della dimensione di
+		      $W$, e $L$ non \`e surgettiva.
+	\end{itemize}
+\end{observation}
+
+Se fissiamo una base di $V$, ad ogni endomorfismo $L \in End(V)$ viene associata
+una matrice $[L] \in Mat_{n \times n}(\mathbb{K})$. Se $L$ \`e invertibile,
+consideriamo l'inversa $L^{-1}$ e la matrice ad essa associata $[L^{-1}]$.
+Visto che $L \circ L^{-1} = L^{-1} \circ L = I$, vale
+\begin{equation*}
+	[L^{-1}][L] = [L][L^{-1}] = [I] = I
+\end{equation*}
+
+Dunque la matrice $[L]$ \`e invertibile e ha per inversa $[L^{-1}]$.
+Possiamo affermare anche il viceversa: se la matrice $[L]$ associata ad un
+endomorfismo lineare \`e invertibile allora anche $L$ \`e invertibile e la sua
+inversa \`e l'applicazione associata alla matrice $[L^{-1}]$.
+
+\begin{corollary}
+	Una matrice $A \in Mat_{n \times n}(\mathbb{K})$ \`e invertibile se e solo se
+	il suo rango \`e $n$.
+\end{corollary}

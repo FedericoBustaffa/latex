@@ -1,0 +1,177 @@
+\subsection{Riduzione a scalini e studio delle basi}
+
+\begin{theorem}
+	Sia $V$ uno spazio vettoriale su $\mathbb{K}$ che ammette una base
+	finita, allora tutte le basi di $V$ hanno la stessa cardinalit\`a.
+\end{theorem}
+
+\begin{corollary}
+	In uno spazio vettoriale $V$ di dimensione $n$, dati $n$ vettori
+	linearmente indipendenti questi sono anche una base di $V$. Allo
+	stesso modo, dati $n$ vettori che generano $V$, questi sono anche una
+	base di $V$.
+\end{corollary}
+
+Considerzioni simili a quelle fatte fino ad ora ci consentono di descrivere
+un criterio concreto per decidere se, dato uno spazio vettoriale $V$ di
+dimensione $n$ ed una base $e_1, \dots, e_n$ di $V$, e dati $n$ vettori
+$v_1, \dots, v_n$ di $V$, tali vettori costituiscono una base di $V$ o no.
+
+Il criterio \`e espresso dai seguenti punti:
+\begin{enumerate}
+	\item Esprimiamo i vettori $v_1, \dots, v_n$ trovandone i coefficienti rispetto
+	      alla base $e_1, \dots, e_n$.
+	\item Poniamoli in colonna uno accanto all'altro. Cos\`i facendo otteniamo una
+	      matrice $M$ che \`e $n \times n$.
+	\item Riduciamo $M$ in forma a scalini ridotta ottenendo $M'$.
+	\item A questo punto, se $M'$ \`e l'identit\`a, allora $\{v_1, \dots, v_n\}$
+	      \`e una base di $V$, altrimenti no.
+\end{enumerate}
+
+\begin{example}
+	Verificare che i seguenti vettori siano una base di $\mathbb{R}^4$.
+	\begin{equation*}
+		v_1 = \begin{pmatrix}
+			1 \\ 1 \\ 0 \\ 0
+		\end{pmatrix} \quad
+		v_2 = \begin{pmatrix}
+			0 \\ 1 \\ 1 \\ 0
+		\end{pmatrix} \quad
+		v_3 = \begin{pmatrix}
+			0 \\ 0 \\ 1 \\ 1
+		\end{pmatrix} \quad
+		v_4 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 1
+		\end{pmatrix}
+	\end{equation*}
+	Verifichiamo col nuovo metodo che si tratta di una base.
+	Scriviamo dunque la matrice
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			1 & 1 & 0 & 0 \\
+			0 & 1 & 1 & 0 \\
+			0 & 0 & 1 & 1 \\
+		\end{pmatrix}
+	\end{equation*}
+	Portandola in forma a scalini ridotta diventa
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 1 & 0 \\
+			0 & 0 & 0 & 1
+		\end{pmatrix}
+	\end{equation*}
+	Dunque $\{v_1, v_2, v_3, v_4\}$ \`e una base di $\mathbb{R}^4$.
+\end{example}
+
+\begin{theorem}[Completamento]
+	Dato uno spazio vettoriale $V$ di dimensione $n$, ogni
+	sottoinsieme $B = \{v_1, \dots, v_k\} \subset V$ di vettori
+	linearmente indipendenti di cardinalit\`a $k$, con
+	$1 \leq k \leq n$, pu\`o essere completato ad una base di $V$
+	aggiungendo a $B$ $n - k$ vettori di $V \backslash Span(B)$.
+	\begin{proof}
+		La dimostrazione che segue ci fornisce un algoritmo per trovare
+		vettori da aggiungere al sottoinsieme $B$ per riuscire a trovare
+		una base di $V$.
+		\begin{enumerate}
+			\item Si scrivono i vettori $v_1, \dots, v_k$ come
+			      vettori colonna rispetto a una base data, e si considera
+			      la matrice $M$ che ha questi vettori come colonne.
+			\item Si riduce $M$ in forma a scalini.
+			\item Tutte le volte le volte che troviamo uno scalino lungo
+			      (altezza $\geq 2$, dove l'altezza \`e la differenza di profondit\`a
+			      tra due colonne adiacenti che formano lo scalino lungo) possiamo
+			      facilmente trovare $i - 1$ vettori $w_1, \dots, w_{i - 1}$ tali che
+			      $\{v_1, \dots, v_k, w_1, \dots, w_{i - 1}\}$ \`e ancora un
+			      insieme di vettori linearmente indipendenti.
+			\item Supponiamo infatti che $M$ abbia uno scalino di lunghezza $i$,
+			      ovvero in una certa colonna abbia il pivot alla riga $t$ e nella
+			      colonna successiva alla riga $t+i$, e sia $i > 1$. Allora
+			      per $j$ che varia tra 1 ed $i - 1$.
+			\item Scegliere un vettore $w_j$ tale che abbia tutti
+			      0 tranne un 1 in corrispondeza della riga $(t + j)$-esima.
+			      \`E facile osservare che ogni $w_j$ non appartiene
+			      allo $Span(v_1, \dots, v_k, w_1, \dots, w_{j-1})$. Dunque ad
+			      ogni aggiunta di $w_j$, l'insieme
+			      $\{v_1, \dots, v_k, w_1, \dots, w_j\}$ rimane un insieme di
+			      vettori linearmente indipendenti di $V$.
+			\item Ripetiamo questa aggiunta di vettori $w_k$ per ogni scalino
+			      lungo che troviamo in $M$, trovando cos\`i alla fine $n$ vettori
+			      linearmente indipendenti, dunque una base di $V$ come richiesto.
+		\end{enumerate}
+	\end{proof}
+\end{theorem}
+
+\begin{example}
+	Illustriamo il metodo descritto con un esempio. Supponiamo che
+	$V = \mathbb{R}^7$ e siano dati i 4 vettori linearmente
+	indipendenti che, scritti rispetto alla base standard di
+	$\mathbb{R}^7$, sono rappresentati come segue:
+	\begin{equation*}
+		v_1 = \begin{pmatrix}
+			1 \\ 1 \\ 0 \\ 2 \\ 1 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		v_2 = \begin{pmatrix}
+			0 \\ 1 \\ 0 \\ 2 \\ 1 \\ 0 \\ 3
+		\end{pmatrix} \quad
+		v_3 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		v_4 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 2
+		\end{pmatrix}
+	\end{equation*}
+	La matrice $M$ in questo caso \`e:
+	\begin{equation*}
+		M = \begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			1 & 1 & 0 & 0 \\
+			0 & 0 & 0 & 0 \\
+			2 & 2 & 0 & 0 \\
+			1 & 1 & 1 & 1 \\
+			0 & 0 & 0 & 0 \\
+			1 & 3 & 1 & 2
+		\end{pmatrix}
+	\end{equation*}
+	Riduciamola a scalini per colonne.
+	\begin{equation*}
+		M' = \begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 0 & 0 \\
+			0 & 2 & 0 & 0 \\
+			1 & 0 & 1 & 0 \\
+			0 & 0 & 0 & 0 \\
+			0 & 1 & 2 & 1
+		\end{pmatrix}
+	\end{equation*}
+	Il primo scalino lungo ha altezza 3. Come osservato nella dimostrazione
+	del teorema del completamento, i vettori
+	\begin{equation*}
+		w_1 = \begin{pmatrix}
+			0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0
+		\end{pmatrix} \quad
+		w_2 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0
+		\end{pmatrix}
+	\end{equation*}
+	non appartengono al sottospazio generato dalle colonne di $M'$, e si
+	osserva immediatamente che $\{v_1, v_2, v_3, v_4, w_1, w_2\}$ \`e un
+	insieme di vettori linearmente indipendenti di $\mathbb{R}^7$.
+
+	Similmente prendendo in considerazione il secondo scalino lungo, notiamo
+	che il vettore
+	\begin{equation*}
+		w_3 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0
+		\end{pmatrix}
+	\end{equation*}
+	non appartiene al sottospazio generato da $v_1, v_2, v_3, v_4, w_1, w_2$.
+
+	A questo punto abbiamo ottenuto l'insieme di vettori linearmente indipendenti
+	$\{v_1, v_2, v_3, v_4, w_1, w_2, w_3\}$ di $\mathbb{R}^7$ e dato che
+	$\mathbb{R}^7$ ha dimensione 7 abbiamo ottenuto una base di $\mathbb{R}^7$.
+\end{example}

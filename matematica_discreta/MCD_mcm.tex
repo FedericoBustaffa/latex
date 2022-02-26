@@ -1,0 +1,291 @@
+\section{Massimo comun divisore e minimo comune multiplo}
+Parliamo ora di massimo comune divisore, minimo comune multiplo e numeri primi.
+
+\subsection{Massimo comune divisore}
+
+\begin{defn}
+	Chiamo \textbf{massimo comune divisore} tra $a$ e $b$ il numero $d$ tale che $d \mid a$ e
+	$d \mid b$ ($d$ \`e un divisore comune) e preso un qualsiasi divisore comune $d'$ tra $a$
+	e $b$, $d' \leq d$ ($d$ \`e il massimo). D'ora in poi indicheremo il massimo comune divisore
+	tra due numeri $a, b$ con $(a, b)$.
+\end{defn}
+
+\begin{theorem}
+	Dati $a, b \in \mathbb{Z}$, vale
+	\begin{equation*}
+		\begin{array}{llll}
+			(a, b) & = (-a , b) & = (-a, -b) & = \dots
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Dati $a, b \in \mathbb{Z}$ e sia $(a, b)$ il massimo comun divisore tra loro, vale
+	\begin{equation*}
+		\begin{array}{lll}
+			(a, b) & = (a - b, b) & = (a, b - a)
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\begin{proposition}
+	Siano $a, b, n \in \mathbb{Z}$, vale
+	\begin{equation*}
+		(an, bn) = n(a, b)
+	\end{equation*}
+\end{proposition}
+
+\begin{theorem}
+	Siano $c, x, y \in \mathbb{Z}$ tre interi qualsiasi. Se
+	\begin{equation*}
+		\begin{array}{rcl}
+			(c, x) = 1 & \Rightarrow & (c, xy) = (c, y)
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\subsection{Minimo comune multiplo}
+
+\begin{defn}
+	Chiamo \textbf{minimo comune multiplo} tra $a$ e $b$ il numero $t$ tale che $a \mid t$
+	e $b \mid t$ ($t$ \`e un multiplo comune) e preso un qualsiasi multiplo comune $t'$ fra
+	$a$ e $b$, $t \leq t'$ ($t$ \`e il minimo). D'ora in poi verr\`a utilizzata la notazione
+	$[a, b]$ per indicare il minimo comune multiplo tra $a$ e $b$.
+\end{defn}
+
+\begin{proposition}
+	Siano $a, b \in \mathbb{Z}$ due interi tali che
+	\begin{equation*}
+		\begin{array}{ll}
+			d & = (a, b) \\
+			t & = [a, b]
+		\end{array}
+	\end{equation*}
+	allora
+	\begin{equation*}
+		d \cdot t = a \cdot b
+	\end{equation*}
+\end{proposition}
+
+\begin{proposition}
+	Dati $a, b, c \in \mathbb{Z}$ vale che
+	\begin{equation*}
+		[a, b] \mid c \Leftrightarrow a \mid c \wedge b \mid c
+	\end{equation*}
+\end{proposition}
+
+\subsection{Scomposizione in numeri primi}
+Prima di addentrarci nell'argomento \`e necessario fornire una definizione di numero primo
+
+\begin{defn}
+	Se numero $p > 1$ possiede la propriet\`a:
+	\begin{equation*}
+		\begin{array}{rcl}
+			p \mid ab & \Rightarrow & p \mid a \text{ oppure } p \mid b
+		\end{array}
+	\end{equation*}
+	allora \`e un numero \textbf{primo}.
+\end{defn}
+
+\begin{theorem}[Teorema fondamentale dell'aritmetica]
+	Ogni numero naturale $n \geq 1$ si scrive in maniera univoca come prodotto di numeri primi.
+
+	Questo teorema si compone di due punti fondamentali: esistenza e unicit\`a.
+	\begin{proof}[Esistenza]
+		Dimostriamo per induzione che, per un qualsiasi numero naturale $n$, esistono $k$ numeri
+		primi che lo fattorizzano.
+		Consideriamo il numero $n$ e consideriamo due casi:
+		\begin{enumerate}
+			\item Se $n$ \`e primo ottengo direttamente il risultato poich\'e $n$ \`e la
+			      fattorizzazione di se stesso in numeri primi.
+			\item Se $n$ non \`e primo allora esiste almeno un altro suo divisore $a$ diverso da
+			      1 e da $n$. Posso quindi affermare che
+			      \begin{equation*}
+				      n = ab
+			      \end{equation*}
+			      A questo punto posso applicare l'ipotesi anche ad $a$ e $b$ in questo modo:
+			      \begin{equation*}
+				      \begin{array}{ll}
+					      a & = p_1 p_2 \dots p_k \\
+					      b & = q_1 q_2 \dots q_r
+				      \end{array}
+			      \end{equation*}
+			      Quindi posso scrivere $n$ in questo modo
+			      \begin{equation*}
+				      n = (p_1 p_2 \dots p_k)(q_1 q_2 \dots q_r)
+			      \end{equation*}
+			      Sono quindi riuscito a scrivere $n$ come prodotto di numeri primi.
+		\end{enumerate}
+	\end{proof}
+
+	\begin{proof}[Unicit\`a]
+		Dimostriamo per induzione, che, la rappresentazione trovata nella dimostrazione
+		precedente \`e unica, qualsiasi sia il numero naturale $n$.
+		\begin{enumerate}
+			\item Nel caso iniziale $n = 1$ non abbiamo altra scelta che fare il prodotto vuoto
+			      di numeri primi.
+			\item Nel caso $n > 1$ consideriamo due possibili rappresentazioni di $n$:
+			      \begin{equation*}
+				      \begin{array}{ll}
+					      n & = p_1 p_2 \dots p_k \\
+					      n & = q_1 q_2 \dots q_r
+				      \end{array}
+			      \end{equation*}
+			      con tutti i $p_i$ e $q_i$ numeri primi.
+			      Dato che $p_1$ \`e primo e divide $n$ allora
+			      \begin{equation*}
+				      p \mid p_2 \dots p_k
+			      \end{equation*}
+			      e
+			      \begin{equation*}
+				      p \mid q_1 q_2 \dots q_r
+			      \end{equation*}
+			      Ma come sappiamo, per le propriet\`a dei numeri primi questo significa che
+			      $p_1$ divide uno dei $q_i$. Senza perdere di generalit\`a possiamo supporre
+			      $q_1$. Se per\`o $p_1 \mid q_1$ e sono entrambi primi allora $p_1 = q_1$ quindi:
+			      \begin{equation*}
+				      \frac{n}{p_1} = p_2 \dots p_k
+			      \end{equation*}
+			      e
+			      \begin{equation*}
+				      \frac{n}{q_1} = q_2 \dots q_r
+			      \end{equation*}
+			      Ma se $p_1 = q_1$
+			      \begin{equation*}
+				      \frac{n}{p_1} = q_2 \dots q_r
+			      \end{equation*}
+			      Seguendo questo schema possiamo affermare che per ogni $p_i$ c'\`e un $q_j$
+			      tale che $p_i = q_j$ e dunque la rappresentazione \`e la stessa ed \`e dunque
+			      unica.
+		\end{enumerate}
+	\end{proof}
+\end{theorem}
+
+\subsection{Principio di inclusione esclusione}
+Il principio di inclusione esclusione ci permette di determinare la cardinalit\`a dell'unione
+di insiemi finiti in funzione delle cardinalit\`a delle intersezioni.
+
+A noi, in particolare, serve a contare multipli o divisori per certi insiemi. Questo ci sar\`a
+utile pi\`u tardi per risolvere sistemi di congruenze con parametro.
+
+\begin{theorem}[Principio di inclusione esclusione per 2 insiemi]
+	Siano $A$ e $B$ due insiemi, la cardinalit\`a della loro unione \`e data da
+	\begin{equation*}
+		|A \cup B| = |A| + |B| - |A \cap B|
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}[Principio di inclusione esclusione per $n$ insiemi]
+	Consideriamo $n$ insiemi $X_1, \dots, X_n$. La cardinalit\`a della loro unione \`e
+	data da
+	\begin{equation*}
+		|\cup_{i = 1}^n X_i| = \sum_{k=1}^n (-1)^{k-1}
+		\sum_{1 \leq i_1 < \dots < i_k \leq n}
+		|A_{i_1} \cap \cdots \cap A_{i_k}|
+	\end{equation*}
+\end{theorem}
+
+\begin{example}
+	Quanti $m$ tali che $m$ non \`e n\'e un multiplo di 8 n\'e un multiplo di 3 sono compresi
+	tra 1 e 100 ?
+
+	Contiamo i multipli di 8 tra 1 e 100
+	\begin{equation*}
+		\frac{100}{8} = 12
+	\end{equation*}
+	Contiamo ora i multipli di 3 tra 1 e 100:
+	\begin{equation*}
+		\frac{100}{3} = 33
+	\end{equation*}
+	Ora contiamo quanti $m$ sono sia multipli di 8 sia multipli di 3:
+	\begin{equation*}
+		\frac{100}{8 \cdot 3} = 4
+	\end{equation*}
+	(considero sempre la parte intera della divisione).
+
+	A questo punto applico il principio di inclusione esclusione e ottengo
+	\begin{equation*}
+		12 + 33 - 4 = 41
+	\end{equation*}
+	Ho contato cos\`i tutti i multipli di 3 e tutti i multipli di 8 compresi fra 1 e 100.
+	Dato che a noi servivano i numeri che non fossero multipli n\'e di 3 n\'e di 8 basta
+	fare la differenza
+	\begin{equation*}
+		100 - 41 = 59
+	\end{equation*}
+	per ottenere il risultato desiderato.
+\end{example}
+
+Usiamo questo principio per vedere altre propriet\`a del MCD e del mcm
+
+\begin{example}
+	Consideriamo due numeri $n$ e $m$:
+	\begin{equation*}
+		\begin{array}{ll}
+			n & = 2^3 \cdot 5^2 \cdot 7 \cdot 11^4 \\
+			m & = 2^2 \cdot 3 \cdot 5^4 \cdot 11^3
+		\end{array}
+	\end{equation*}
+	Siano $I_n$ e $I_m$ gli insiemi delle potenza dei numeri primi che dividono $n$ e $m$:
+	\begin{equation*}
+		\begin{array}{ll}
+			I_n & = \{ 1, 2, 2^2, 2^3, 5, 5^2, 7, 11, 11^2, 11^3, 11^4 \} \\
+			I_m & = \{ 1, 2, 2^2, 3, 5, 5^2, 5^3, 5^4, 11, 11^2, 11^3 \}
+		\end{array}
+	\end{equation*}
+	Consideriamo ora il MCD e il mcm fra $n$ e $m$:
+	\begin{equation*}
+		\begin{array}{ll}
+			(n, m)              & = 2^2 \cdot 5^2 \cdot 11^3         \\
+			\left[ n, m \right] & = 2^3 \cdot 3 \cdot 5^4 \cdot 11^4
+		\end{array}
+	\end{equation*}
+	L'intersezione dei due insiemi precedenti \`e l'insieme delle potenze dei numeri primi
+	che dividono $(n, m)$, invece, l'unione dei due insiemi \`e l'insieme delle potenze dei
+	numeri primi che dividono $[n, m]$:
+	\begin{equation*}
+		\begin{array}{ll}
+			I_n \cap I_m & = \{ 1, 2, 2^2, 5, 5^2, 11, 11^2, 11^3 \}                         \\
+			I_n \cup I_m & = \{ 1, 2, 2^2, 2^3, 3, 5, 5^2, 5^3, 5^4, 11, 11^2, 11^3, 11^4 \}
+		\end{array}
+	\end{equation*}
+\end{example}
+
+\begin{theorem}
+	Consideriamo $a, x, y \in \mathbb{Z}$ tre numeri interi qualsiasi:
+	\begin{equation*}
+		(a, [x, y]) = [(a, x), (a, y)]
+	\end{equation*}
+	Quindi
+	\begin{equation*}
+		I_a \cap (I_x \cup I_y) = (I_a \cap I_x) \cup (I_a \cap I_y)
+	\end{equation*}
+	ne ricaviamo una sorta di propriet\`a distributiva.
+\end{theorem}
+
+\begin{theorem}
+	Se $(x, y) = 1$ allora
+	\begin{equation*}
+		[x, y] = \pm xy
+	\end{equation*}
+	infatti
+	\begin{equation*}
+		I_x \cap I_y = \varnothing
+	\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+	Siano $a, x, y \in \mathbb{Z}$
+	\begin{equation*}
+		\begin{array}{rcl}
+			(a, x) = 1 & \Rightarrow & (a, xy) = (a, y)
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\begin{observation}
+	Siano $a, b, e \in \mathbb{Z}$ tre interi qualsiasi e $p$ un numero primo vale:
+	\begin{equation*}
+		a = \pm b \Leftrightarrow \forall p, e \; p^e \mid a \Leftrightarrow p^e \mid b
+	\end{equation*}
+\end{observation}

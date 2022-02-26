@@ -1,0 +1,72 @@
+\section{Introduzione}
+\subsection{Insiemi}
+Iniziamo col definire gli i seguenti insiemi
+\begin{equation*}
+	\begin{array}{lll}
+		\mathbb{N} & = \{ 0, 1, 2, \dots \}
+		           & \text{insieme dei numeri naturali}                              \\
+		\mathbb{Z} & = \{ -2, -1, 0, 1, 2 \}
+		           & \text{insieme dei numeri interi}                                \\
+		\mathbb{Q} & = \{ \frac{a}{b} \mid a, b \in \mathbb{Z} \wedge b \neq 0 \}
+		           & \text{insieme dei numeri razionali}                             \\
+		\mathbb{R} & = \{ \dots, \sqrt{2}, \pi, \dots \}
+		           & \text{Insieme dei numeri reali}                                 \\
+		\mathbb{C} & = \{ a + ib \mid a, b \in \mathbb{R}, i = \sqrt{-1}, i^2 = -1\}
+		           & \text{insieme dei numeri complessi}
+	\end{array}
+\end{equation*}
+
+Le operazioni di addizione e moltiplicazione sono permesse ma possono essere definite
+in maniera diversa a seconda dell'insieme su cui si sta lavorando.
+
+\subsection{Propriet\`a}
+\begin{itemize}
+	\item Transitiva per il $<$
+	      \begin{equation*}
+		      x < y \wedge y < z \Rightarrow x < z
+	      \end{equation*}
+
+	\item Totalit\`a per il $<$
+	      \begin{equation*}
+		      x < y \vee x = y \vee y < x
+	      \end{equation*}
+
+	\item Transitiva per $\leq$
+	      \begin{equation*}
+		      x \leq y \wedge y \leq z \Rightarrow x \leq z
+	      \end{equation*}
+
+	\item Totalit\`a per il $\leq$
+	      \begin{equation*}
+		      x \leq y \vee y \leq x
+	      \end{equation*}
+\end{itemize}
+Ovviamente queste propriet\`a sono analoghe per il $>$ e per il $\geq$.
+
+\begin{observation}
+	\begin{equation*}
+		\begin{array}{lll}
+			x < y    & \Leftrightarrow & x \leq y \wedge x \neq y \\
+			x \leq y & \Leftrightarrow & x < y \vee x = y
+		\end{array}
+	\end{equation*}
+\end{observation}
+
+Tutte queste propriet\`a valgono per tutti gli insiemi definiti prima tranne che per
+$\mathbb{C}$. In $\mathbb{N}$ vale un'altra proprit\`a, ovvero quella del
+\emph{minimo}, definita in questo modo: Ogni insieme non vuoto di numeri naturali
+ha un minimo.
+
+\begin{example}
+	\begin{equation*}
+		A = \{x \in \mathbb{N} \mid \text{$x$ \`e primo}\}
+	\end{equation*}
+	In questo caso il $\min{A} = 2$.
+
+\end{example}
+Pi\`u in generale $n = \min{A}$ dove ha \`e un insieme non nullo di naturali
+se e solo se
+\begin{itemize}
+	\item $n \in A$
+	\item $\forall x \in A \; n \leq x$
+\end{itemize}

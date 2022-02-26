@@ -1,0 +1,125 @@
+
+\section{Teorema spettrale}
+\subsection{Introduzione al teorema spettrale}
+
+\begin{theorem}
+	Sia $T : V \to V$ un endomorfismo di uno spazio vettoriale $V$ di dimensione
+	finita sul campo $\mathbb{K}$ (con $\mathbb{K} = \mathbb{R}$ o
+	$\mathbb{K} = \mathbb{C}$) e munito di prodotto scalare. Esiste allora un
+	endomorfismo $T^*$ univocamente determinato tale che
+	\begin{equation*}
+		\langle T(u), v \rangle = \langle u, T^*(v) \rangle
+	\end{equation*}
+	per ogni $u, v \in V$. Se si fissa in $V$ una base ortonormale vale che la
+	matrice $[T^*]$ di $T$ rispetto a tale base \`e la trasposta della coniugata
+	di $[T]$.
+\end{theorem}
+
+Sottolineiamo che per l'esistenza dell'endomorfismo $T^*$ \`e fondamentale che
+lo spazio $V$ abbia dimensione finita.
+
+\begin{defn}
+	L'endomorfismo $T^*$ si dice \textbf{aggiunto} di $T$. Se vale che $T = T^*$
+	allora $T$ si dice \textbf{autoaggiunto}.
+\end{defn}
+
+Osserviamo che nel caso in cui $\mathbb{K} = \mathbb{R}$, se fissiamo una base
+ortonormale di $V$ e consideriamo un endomorfismo $T$ autoaggiunto, allora la
+matrice $[T]$ rispetto a tale base \`e simmetrica, ossia, indicando con $[T]^t$
+la trasposta di $[T]$, vale
+\begin{equation*}
+	[T] = [T]^t
+\end{equation*}
+Viceversa, se un endomorfismo \`e rappresentato, rispetto ad una base ortonormale,
+da una matrice simmetrica, allora si mostra facilmente che \`e autoaggiunto.
+Per questo motivo nel caso in cui $\mathbb{K} = \mathbb{R}$ un endomorfismo
+autoaggiunto si dice anche \textbf{simmetrico}.
+
+\begin{theorem}
+	Sia $T : V \to V$ un endomorfismo autoaggiunto di uno spazio vettoriale $V$
+	di dimensione finita sul campo $\mathbb{K}$. Sia $\lambda$ un autovalore di
+	$T$. Allora $\lambda \in \mathbb{R}$.
+\end{theorem}
+
+\begin{theorem}
+	Sia $T : V \to V$ un endomorfismo lineare simmetrico di uno spazio vettoriale
+	$V$ di dimensione finita sul campo $\mathbb{K} = \mathbb{R}$. Allora sono vere
+	le seguenti affermazioni:
+	\begin{enumerate}
+		\item Il polinomio caratteristico $P_T(t)$ ha tutte le radici reali e si
+		      fattorizza come prodotto di fattori lineari su $\mathbb{R}$.
+		\item L'endomorfismo $T$ ha almeno un autovettore non nullo.
+		\item Siano $v_1, \dots, v_r$ autovettori di $T$, relativi ad autovalori
+		$\lambda_1, \dots, \lambda_r$. Allora l'insieme di vettori 
+		$\{v_1, \dots, v_r\}$ \`e ortogonale.
+	\end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+	Sia $V$ uno spazio vettoriale sul campo $\mathbb{K} = \mathbb{R}$ oppure
+	$\mathbb{K} = \mathbb{C}$, di dimensione finita e munito di prodotto scalare.
+	Sia $T : V \to V$ un endomorfismo, e sia $W$ un sottospazio di $V$ invariante
+	per $T$, ossia tale che $T(W) \subset W$. Allora $W^\perp$ \`e invariante per
+	$T^*$.
+\end{lemma}
+
+\begin{theorem}[Teorema spettrale, caso reale]
+	Sia $T : V  \to V$ un endomorfismo simmetrico di uno spazio vettoriale $V$ su
+	$\mathbb{K} = \mathbb{R}$ di dimensione finita maggiore di 0. Allora esiste una
+	base ortonormale di $V$ i cui elementi sono autovettori di $T$.
+\end{theorem}
+
+\begin{example}
+	Consideriamo l'endomorfismo $T : \mathbb{R}^2 \to \mathbb{R}^2$ la cui matrice,
+	rispetto alla base standard \`e
+	\begin{equation*}
+		[T] = \begin{pmatrix}
+			1 & 2 \\
+			2 & 1
+		\end{pmatrix}
+	\end{equation*}
+	Osserviamo che \`e un endomorfismo simmetrico, infatti la sua matrice rispetto
+	alla base standard (che \`e una base ortonormale) \`e simmetrica. Dunque per
+	il teorema spettrale sappiamo che $T$ \`e diagonalizzabile e ci aspettiamo di
+	trovare una base ortonormale che lo diagonalizzi.
+
+	Il polinomio caratteristico \`e
+	\begin{equation*}
+		P_T(t) = t^2 - 2t - 3 = (t - 3)(t + 1)
+	\end{equation*}
+	dunque gli autovalori sono 3 e -1, entrambi con molteplicit\`a algebrica 1.
+	Questo gi\`a ci conferma che $T$ \`e diagonalizzabile. Troviamo l'autospazio
+	$V_3$:
+	\begin{equation*}
+		V_3 = Ker(T - 3I) = Ker \begin{pmatrix}
+			-2 & 2  \\
+			2  & -2
+		\end{pmatrix}
+	\end{equation*}
+	L'autospazio $V_3$ ha dunque dimensione 1 ed \`e generato dal vettore
+	$v = \begin{pmatrix} 1 \\ 1	\end{pmatrix}$. Troviamo l'autospazio $V_{-1}$:
+	\begin{equation*}
+		V_{-1} = Ker(T + I) = Ker \begin{pmatrix}
+			2 & 2 \\
+			2 & 2
+		\end{pmatrix}
+	\end{equation*}
+	L'autospazio $V_{-1}$ ha dimensione 1 ed \`e generato dal vettore
+	$w = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$. I due vettori $v$ e $w$ sono
+	ortogonali. Concludiamo dunque che la base ortonormale data dai vettori
+	\begin{equation*}
+		\begin{pmatrix}
+			\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}
+		\end{pmatrix},
+		\begin{pmatrix}
+			\frac{1}{\sqrt{2}} \\ \frac{1}{-\sqrt{2}}
+		\end{pmatrix}
+	\end{equation*}
+	\`e una base di autovettori per $T$, in accordo col teorema spettrale
+\end{example}
+
+\begin{theorem}[Teorema spettrale in $\mathbb{R}$ e $\mathbb{C}$]
+	Sia $T : V  \to V$ un endomorfismo autoaggiunto di uno spazio vettoriale $V$ di
+	dimensione finita su $\mathbb{K} = \mathbb{R}$ o $\mathbb{K} = \mathbb{C}$.
+	Allora esiste una base ortonormale di $V$ i cui elementi sono autovettori di $T$.
+\end{theorem}

@@ -1,0 +1,295 @@
+\section{Calcolo combinatorio}
+\subsection{Principio fondamentale del calcolo combinatorio}
+Introduciamo questo capitolo sul calcolo combinatorio parlando del
+\textbf{principio fondamentale del calcolo combinatorio}.
+
+\begin{theorem}[Principio fondamentale del calcolo combinatorio]
+	Se una scelta \`e univocamente determinata da una sequenza di $n$ passi successivi, con
+	$k_1$ possibilit\`a per il primo passo, $k_2$ possibilit\`a per il secondo, ..., $k_n$
+	possibilit\`a per l'$n$-esimo passo, il numero di scelte possibili \`e il prodotto:
+	\begin{equation*}
+		k_1 \cdot k_2 \cdot ... \cdot k_n
+	\end{equation*}
+\end{theorem}
+
+Ora per\`o dobbiamo fare distinzione sui possibili modi in cui scelgo $k_i$ in base al tipo di
+problema che sto trattando. Sostanzialmente devo fare due scelte nella scelta del passo $k_i$.
+Devo decidere se
+\begin{itemize}
+	\item Conta l'ordine
+	\item Sono ammesse ripetizioni
+\end{itemize}
+Le due scelte sono totalemente indipendenti l'una dall'altra e daranno vita a tipologie di problemi
+diverse che tratteremo nei prossimi capitoli.
+
+\subsection{Combinazioni semplici}
+\begin{defn}
+	Se non conta l'ordine e non ammetto ripetizioni si tratta di una
+	\textbf{combinazione semplice}.
+\end{defn}
+
+In pratica abbiamo un insieme di partenza di $n$ elementi da cui vogliamo sceglierne $k$ senza
+per\`o avere ripetizioni.
+Avremmo dunque che le possibili combinazioni sono date dal coefficiente binomiale:
+\begin{equation*}
+	C_{n, k} =
+	\begin{pmatrix}
+		n \\ k
+	\end{pmatrix} =
+	\frac{n!}{k! (n - k)!}
+\end{equation*}
+
+\begin{example}
+	In quanti modi posso scegliere 3 persone da un gruppo di 90 persone ?
+
+	Le possibili combinazioni sono:
+	\begin{equation*}
+		C_{90, 3} =
+		\begin{pmatrix}
+			90 \\ 3
+		\end{pmatrix} =
+		\frac{90!}{3! \cdot 87!} = 117480
+	\end{equation*}
+\end{example}
+
+\begin{theorem}
+	Sia $X$ un insieme e sia
+	\begin{equation*}
+		\mathcal{P}(X) = \{ Y \mid Y \subseteq X \}
+	\end{equation*}
+	l'insieme di tutti i sottoinsiemi di $X$ allora se
+	\begin{equation*}
+		\begin{array}{ccc}
+			|X| = n & \Rightarrow & |\mathcal{P}(X)| = 2^n
+		\end{array}
+	\end{equation*}
+\end{theorem}
+
+\subsection{Combinazioni con ripetizione}
+\begin{defn}
+	Se non conta l'ordine e ammetto ripetizioni si tratta di una
+	\textbf{combinazione con ripetizione}.
+\end{defn}
+
+Qui abbiamo sempre un insieme di $n$ elementi dal quale vogliamo sceglierne $k$ ma in questo caso
+ammetto ripetizioni quindi posso prendere lo stesso elemento pi\`u volte.
+In questo caso abbiao che le possibili combinazioni sono date dal coefficiente binomiale:
+\begin{equation*}
+	C_{n, k}^r =
+	\begin{pmatrix}
+		n + k - 1 \\ k
+	\end{pmatrix} =
+	\frac{(n + k - 1)!}{k! (n - 1)!}
+\end{equation*}
+
+\begin{example}
+	In quanti modi posso estrarre 4 biglie numerate con reimmissione da un'urna con con
+	10 biglie ?
+
+	Le possibili combinazioni sono:
+	\begin{equation*}
+		C_{10, 4}^r =
+		\begin{pmatrix}
+			10 + 4 - 1 \\ 4
+		\end{pmatrix} =
+		\frac{13!}{4! \cdot 9!} = 715
+	\end{equation*}
+\end{example}
+
+\subsection{Disposizioni semplici}
+\begin{defn}
+	Se conta l'ordine e non ammetto ripetizioni si tratta di una \textbf{disposizione semplice}.
+\end{defn}
+
+In questo caso vogliamo estrarre $k$ elementi da un insieme di $n$ elementi tenendo conto
+dell'ordine e senza ammettere ripetizioni.
+Il numero di disposizioni possibili \`e dato dalla formula:
+\begin{equation*}
+	D_{n, k} = \frac{n!}{(n - k)!}
+\end{equation*}
+
+\begin{example}
+	In quanti modi \`e possibile formare il podio alla fine di un campionato da 20 squadre ?
+
+	Il numero di possibili disposizioni \`e dunque
+	\begin{equation*}
+		D_{20, 3} = \frac{20!}{17!} = 6840
+	\end{equation*}
+\end{example}
+
+\subsection{Disposizioni con ripetizione}
+\begin{defn}
+	Se conta l'ordine e ammetto ripetizioni si tratta di una \textbf{disposizione con ripetizione}
+\end{defn}
+
+Anche qui vogliamo estrarre $k$ elementi da un insieme di $n$ elementi tenendo conto dell'ordine
+per\`o stavolta ammettiamo ripetizioni.
+Il numero di disposizioni possibili \`e dato dalla formula:
+\begin{equation*}
+	D_{n, k}^r = n^k
+\end{equation*}
+
+\begin{example}
+	Quante password numeriche di 6 cifre esistono ?
+
+	Il numero di possibili disposizioni \`e:
+	\begin{equation*}
+		D_{10, 6} = 10^6 = 1000000
+	\end{equation*}
+\end{example}
+
+Esiste anche un metodo per visualizzare meglio il problema delle disposizioni tramite gli insiemi.
+\begin{theorem}
+	Siano $A$ e $B$ due insiemi finiti e sia $A \times B$ il loro prodotto cartesiano definito
+	come segue
+	\begin{equation*}
+		A \times B = \{ (a, b) | a \in A, b \in B \}
+	\end{equation*}
+	allora
+	\begin{equation*}
+		|A \times B| = |A| \cdot |B|
+	\end{equation*}
+\end{theorem}
+
+\begin{example}
+	Se considero il lancio di due dadi a 6 facce, avrei 36 possibili coppie. Questo perch\'e
+	dobbiamo immaginarci i possibili valori delle facce di un dado contenuti in un insieme
+	\begin{equation*}
+		F = \{ 1, 2, 3, 4, 5, 6 \}
+	\end{equation*}
+	Dato che i dadi lanciati sono due, le possibili coppie di valori sono elementi dell'insieme
+	\begin{equation*}
+		F \times F = \{ (1, 1), (1, 2), \dots (6, 6) \}
+	\end{equation*}
+	e come abbiamo visto prima la cardinalit\`a di un prodotto cartesiano \`e data dal prodotto
+	delle cardinalit\`a degli insiemi che lo compongono, quindi:
+	\begin{equation*}
+		\begin{array}{lll}
+			|F|          & = 6                \\
+			             & \Downarrow         \\
+			|F \times F| & = 6 \cdot 6 & = 36
+		\end{array}
+	\end{equation*}
+
+	Lo stesso problema si risolve con la formula delle disposizioni con ripetizione. Abbiamo
+	$n = 6$ dato che i valori possibili sono 6 e $k = 2$ dato che i dadi sono 2. Dunque abbiamo
+	\begin{equation*}
+		D_{6, 2}^r = 6^2 = 36
+	\end{equation*}
+	possibili coppie.
+\end{example}
+
+\begin{observation}
+	Possiamo usare la formula insiemistica poich\'e la cardinalit\`a di un prodotto cartesiano
+	tiene conto dell'ordine in cui sono gli elementi della tupla estratta e perch\'e conta
+	anche le volte in cui ho ripetizioni.
+
+	In sintesi:
+	\begin{itemize}
+		\item $(a, b) \neq (b, a)$ quindi conto due elementi.
+		\item posso estrarre pi\`u volte lo stesso elemento quindi \`e contata anche la
+		      coppia $(a, a)$.
+	\end{itemize}
+
+\end{observation}
+
+
+\subsection{Permutazioni semplici}
+\begin{defn}
+	Se conta l'ordine, non ammetto ripetizioni e $n = k$ si tratta di una
+	\textbf{permutazione semplice}.
+\end{defn}
+
+Dato che $n = k$ si tratta di ridistribuire tutti gli $n$ elementi dell'insieme di partenza per
+ottenere nuove configurazioni. In questo caso per\`o non ammetteremo ripetizioni, ovvero non
+potremo utilizzare pi\`u di una volta un elemento dell'insieme di partenza.
+Il numero di permutazioni possibili \`e dato dalla formula:
+\begin{equation*}
+	P_n = n!
+\end{equation*}
+
+\begin{example}
+	Quanti sono gli anagrammi della parola "gelato" ?
+
+	Il numero di possibili configurazioni \`e:
+	\begin{equation*}
+		P_{6} = 6! = 720
+	\end{equation*}
+\end{example}
+
+\subsection{Permutazioni con ripetizione}
+\begin{defn}
+	Se conta l'ordine, ammetto ripetizioni e $n = k$ si tratta di una
+	\textbf{permutazione con ripetizione}.
+\end{defn}
+
+In questo caso ho a che fare con un insieme in cui lo stesso elemento, se ripetuto incrementa
+la cardinalit\`a $n$ dell'insieme di partenza. Bisogna tenere di conto anche quante volte
+questo elemento viene ripetuto.
+Il numero di possibili configurazioni \`e dato dalla formula:
+\begin{equation*}
+	P_n^r = \frac{n!}{r_1! \cdot r_2! \cdot ... \cdot r_s!}
+\end{equation*}
+dove $r_i$ \`e il numero di volte che l'elemento \`e stato ripetuto.
+
+\begin{example}
+	Quanti anagrammi ha la parola "mamma" ?
+
+	Stavolta abbiamo la lettera "m" che si ripete 3 volte e la lettera "a" che si ripete 2 volte.
+	Quindi abbiamo che:
+	\begin{equation*}
+		\begin{array}{c}
+			r_m = 3 \\
+			r_a = 2
+		\end{array}
+	\end{equation*}
+	Abbiamo dunque
+	\begin{equation*}
+		P_5^r = \frac{5!}{3! \cdot 2!} = 10
+	\end{equation*}
+	anagrammi possibili.
+\end{example}
+
+\subsection{Esempi}
+
+\begin{example}
+	Vogliamo contare quante sono le soluzioni intere non negative di
+	\begin{equation*}
+		x + y + z = 4
+	\end{equation*}
+	Prendiamo ad esempio la soluzione $(2, 2, 0)$.
+	Pensiamo di rappresentarla con una stringa binaria (attenzione: non dobbiamo fare nessuna
+	conversione in base 2) rappresentando $x, y, z$ come somma di 1 e mettendo degli 0 come
+	separatori. La soluzione sopra sar\`a dunque rappresentata come segue:
+	\begin{equation*}
+		\begin{array}{cccc}
+			\underbrace{11}_{\text{$x$ uni}}   &
+			\underbrace{0}_{\text{separatore}} &
+			\underbrace{11}_{\text{$y$ uni}}   &
+			\underbrace{0}_{\text{separatore}}
+		\end{array}
+	\end{equation*}
+	In questo caso abbiamo $z = 0$ quindi $z$ non pu\`o essere rappresentato poich\'e abbiamo
+	0 uni con cui rappresentarlo.
+	Il problema \`e diventato estrarre 2 posizioni dalle 6 possibili quindi parliamo di una
+	combinazione semplice con $n = 6$ e $k = 2$.
+	\begin{equation*}
+		\begin{pmatrix}
+			6 \\ 2
+		\end{pmatrix} =
+		\frac{6!}{2! \cdot 4!} = 15
+	\end{equation*}
+\end{example}
+
+Il problema appena risolto ci da una formula generale per trovare il numero di soluzioni
+intere non negative di una qualsiasi equazione del tipo
+\begin{equation*}
+	x_1 + x_2 + \cdots + x_k = n
+\end{equation*}
+Per trovare il numero di soluzioni ci baster\`a sviluppare il coefficiente binomiale
+\begin{equation*}
+	\begin{pmatrix}
+		n + k - 1 \\ k - 1
+	\end{pmatrix} =
+	\frac{(n + k - 1)!}{(k - 1)! \cdot n!}
+\end{equation*}

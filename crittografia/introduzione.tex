@@ -1,0 +1,89 @@
+\chapter{Introduzione}
+
+\section{Crittografia e cifrari}
+
+\subsection{Crittografia e crittoanalisi}
+La \textbf{crittografia} si occupa dei metodi di cifratura mentre la
+\textbf{crittoanalisi} dei metodi di decifrazione di un messaggio.
+Entrambe si possono riunire sotto la branca della \textbf{crittologia}.
+
+\subsection{Cifratura}
+La \textbf{funzione di cifratura}
+\[ \mathcal{C}(m) = x \]
+cifra una certo \textbf{messaggio} $m$ in un \textbf{crittogramma} $x$. Dev'essere
+\emph{iniettiva} e la sua inversa sar\`a la cosidetta \textbf{funzione di decifrazione}.
+
+\subsection{Cifrario di Cesare}
+L'idea del cifrario \`e ottenere un crittogramma sostituendo ogni lettere del messaggio
+con la lettera tre posizioni pi\`u avanti nell'alfabeto. Se si supera la Z, si riparte
+dalla A.
+
+La segretezza dipendeva dalla conoscenza del metodo. Una volta scoperto il metodo di
+cifratura il cifrario diventa inutile.
+
+\subsection{Cifrari per uso ristretto e per uso generale}
+\begin{itemize}
+	\item I \textbf{cifrari per uso ristretto} hanno la caratteristica di tenere la
+	      funzione di cifratura e decifrazione, segrete in ogni loro aspetto.
+	\item I \textbf{cifrari per uso generale}, al contrario, rendono pubbliche le
+	      funzioni di cifratura e decifrazione. Tengono tuttavia una chiave segreta che
+	      sar\`a diversa per ogni coppia di utenti e inserita come parametro nelle
+	      funzioni di cifratura e decifrazione.
+
+	      Se non si conosce la chiave non si deve poter risalire al messaggio in chiaro
+	      neppure conoscendo le due funzioni.
+\end{itemize}
+
+\subsection{Chiavi}
+Il numero delle chiavi dev'essere di ordine abbastanza grande da rendere impossibile
+o molto dispendioso il metodo di provarle tutte (forza bruta). Inoltre la chiave deve
+essere scelta in modo \textbf{casuale}.
+
+\subsection{Attacchi}
+L'obbiettivo di un attacco \`e ovviamente quello di forzare il sistema. Il metodo e il
+livello di pericolosit\`a dipendono dalle informazioni in possesso del crittoanalista.
+Di seguito alcune tipologie di attacco:
+\begin{itemize}
+	\item \textbf{Cipher Text}: Il crittoanalista rileva solo crittogrammi sul
+	      canale e cerca di estrapolarne informazioni.
+	\item \textbf{Know Plain-Text}: Il crittoanalista conosce una serie di coppie
+	      (messaggio, crittogramma).
+	\item \textbf{Chosen Plain-Text}: Il crittoanalista si procura una serie di coppie
+	      (messaggio, crittogramma) relative ai messaggi in chiaro da lui scelti.
+\end{itemize}
+
+\subsection{Cifrario perfetto}
+Un \textbf{cifrario perfetto} deve possedere le seguenti caratteristiche:
+\begin{itemize}
+	\item Il messaggio in chiaro e il crittogramma risultano del tutto scorrelati tra
+	      loro.
+	\item Nessuna informazione sul testo in chiaro pu\`o filtrare dal crittogramma.
+	\item La conoscenza del crittoanalista non cambia dopo aver osservato un
+	      crittogramma.
+\end{itemize}
+Ad oggi i cifrari usati non sono perfetti ma sono dichiarati \textbf{sicuri} perch\'e
+rimasti inviolati e perch\'e la loro violazione si basa su problemi matematici molto
+complessi. Se si riuscisse a trovare delle soluzioni efficienti per tali problemi 
+la sicurezza di tali cifrari crollerebbe.
+
+\subsection{Cifrari simmetrici}
+In questi cifrari la \textbf{chiave di cifratura} \`e uguale alla
+\textbf{chiave di decifrazione} ed \`e nota solo ai due comunicanti. Il messaggio \`e 
+diviso in blocchi lunghi come la chiave. La chiave \`e utilizzata per trasformare un 
+blocco del messaggio in un blocco del crittogramma.
+
+\subsection{Cifrari a chiave pubblica}
+In questo caso la \textbf{chiave di cifratura} \`e pubblica e anche le
+\textbf{funzioni di cifratura e decifrazione} lo sono. Ci\`o che \`e privato \`e la
+\textbf{chiave di decifrazione}.
+
+In questo tipo di cifrari, la funzione di cifratura dev'essere di tipo
+\textbf{one-way trap-door}, ovvero, cifrare dev'essere computazionalmente facile e
+decifrare dev'essere computazionalmente difficile (a meno che non si conosca la chiave).
+
+\subsection{Attacchi chosen plain-text}
+Dato che la funzione di cifratura e anche la sua chiave sono pubbliche,
+il crittoanalista pu\`o cifrare un numero a piacimento di messaggi, confrontarli con i
+messaggi crittografati che sta provando a decifrare e, nel caso in cui trovi una
+corrispondenza tra qualcuno dei suoi crittogrammi e qualcuno da decifrare significa che
+ha trovato il messaggio in questione.

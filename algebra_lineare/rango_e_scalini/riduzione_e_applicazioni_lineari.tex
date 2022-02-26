@@ -1,0 +1,50 @@
+
+\subsection{Riduzione a scalini e applicazioni lineari}
+
+\begin{theorem}
+	Data una applicazione lineare $L : V \to W$ tra due spazi vettoriali $V$ e
+	$W$ sul campo $\mathbb{K}$, e data la matrice $[L]$ associata a $L$ rispetto
+	a due basi fissate di $V$ e $W$:
+	\begin{enumerate}
+		\item Il massimo numero di righe linearmente indipendenti di $[L]$ \`e
+		      uguale al massimo numero di colonne linearmente indipendenti di
+		      $[L]$, ossia al rango di $L$.
+		\item Se si riduce la matrice $[L]$ a scalini, sia che lo si faccia
+		      per righe, sia che lo si faccia per colonne, il numero di scalini
+		      sar\`a sempre uguale al rango di $L$.
+	\end{enumerate}
+\end{theorem}
+
+\begin{observation}
+	Se componiamo $L$ a destra o a sinistra per una	applicazione invertibile,
+	il rango non cambia. Dunque, se moltiplichiamo $[L]$ a destra o a sinistra
+	per matrici invertibili, anche il rango della matrice prodotto non cambia.
+\end{observation}
+
+\begin{proposition}
+	Se $A$ \`e una matrice $m \times n$ a valori su un campo $\mathbb{K}$, ed
+	indichiamo con $e_1, \dots, e_n$ le sue colonne, e $B$ \`e una riduzione
+	a scalini per righe di $A$, allora le colonne di $A$ in corrispondenza alla
+	posizione dei pivot di $B$ formano una base dello $Span$ delle colonne di $A$
+	($Span(e_1, \dots, e_n)$).
+\end{proposition}
+
+\begin{observation}
+	A partire dalla proposizione precedente possiamo ricavare un algoritmo per
+	estrarre una base di uno spazio vettoriale da un insieme di generatori.
+	
+	Consideriamo $V$ uno spazio vettoriale di dimensione $n$ e del quale 
+	conosciamo una base $\{e_1, \dots, e_n\}$. Consideriamo $k$ vettori
+	$v_1, \dots, v_k$ di $V$ e il sottospazio di $V$ generato da 
+	$Span(v_1, \dots, v_k)$. Se vogliamo estrarre una base di 
+	$Span(v_1, \dots, v_k)$ da $v_1, \dots, v_k$ seguiamo questi passaggi:
+	\begin{enumerate}
+		\item Scriviamo le coordinate dei $v_i$ rispetto alla base
+		      $\{e_1, \dots, e_n\}$ e le	consideriamo come colonne di
+		      una matrice $M$.
+		\item Porto $M$ in forma a scalini per riga.
+		\item I vari vettori $v_i$ con indice $i$ in corrispondenza dei pivot di $M'$
+		      ($M$ in forma a scalini) formano una base di $Span(v_1, \dots, v_k)$,
+		      estratta dall'insieme di generatori $\{v_1, \dots, v_k\}$.
+	\end{enumerate}
+\end{observation}
