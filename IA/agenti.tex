@@ -1,1 +1,91 @@
 \chapter{Agenti Intelligenti}
+Un \textbf{agente intelligente} \`e definito come un qualcosa che interagisce con un
+ambiente, riceve delle \textbf{percezioni} e risponde a queste percezioni con degli
+\textbf{attuatori}.
+
+\section{Caratteristiche degli agenti}
+Un agente intelligente pu\`o avere diverse caratteristiche:
+\begin{itemize}
+	\item \`E \textbf{situato}, ovvero riceve \emph{percezioni} dall'ambiente e reagisce tramite
+	      delle azioni.
+	\item Hanno abilit\`a \textbf{sociale}, ovvero comunicano, collaborano e si difendono da
+	      altri agenti.
+	\item Hanno opinioni, obbiettivi e intenzioni.
+	\item Sono \textbf{embodied}: hanno un corpo e forse provano emozioni.
+\end{itemize}
+
+\subsection{Percezioni e azioni}
+\begin{itemize}
+	\item La \textbf{percezione} \`e un input che proviene dai sensori.
+	\item La \textbf{sequenza percettiva} \`e la storia completa delle percezioni.
+	\item La \textbf{scelta delle azioni} \`e una funzione che dipende \emph{unicamente}
+	      dalla sequenza percettiva.
+	\item La \textbf{funzione agente} definisce l'azione da compiere per ogni sequenza
+	      percettiva ed \`e implementata da un \textbf{programma agente}.
+	\item Il compito dell'IA \`e progettare il programma agente.
+\end{itemize}
+
+\section{Agenti razionali}
+Un \textbf{agente razionale} interagisce con il suo ambiente in maniera "efficace", ovvero
+fa la cosa "giusta". Per valutare un agente serve un criterio oggettivo dell'effetto delle
+azioni che questo compie. Si deve avere anche una misura delle prestazioni dell'agente
+valutata su pi\`u ambienti, e basato sul come vogliamo che questo si evolva.
+
+La razionalit\`a \`e relativa e dipende da molti fattori come:
+\begin{itemize}
+	\item La misura delle prestazioni.
+	\item La conoscenza pregressa dell'ambiente.
+	\item Le percezioni presenti e passate.
+	\item Le capacit\`a dell'agente.
+\end{itemize}
+In definitiva, un agente razionale, per ogni sequenza di percezioni compie l'azione che
+massimizza il valore atteso della misura delle prestazioni, considerando le sue percezioni
+passate e la sua conoscenza pregressa.
+
+Raramente tutta la conoscenza sull'ambiente pu\`o essere fornita a priori. L'agente deve
+essere in grado di modificare il proprio comportamento con l'esperienza.
+\subsection{Agenti autonomi}
+Un agente \`e \textbf{autonomo} nella misura in cui il suo comportamento dipende dalla sua
+capacit\`a di ottenere esperienza.
+
+\section{Ambienti}
+Per definire un problema per un agente si deve caratterizzare l'ambiente in cui questo opera.
+Di seguito vediamo quali sono i criteri con cui un ambiente viene descritto.
+\begin{itemize}
+	\item \textbf{Osservabilit\`a}: \`e \textbf{completamente osservabile}, quando
+	      l'apparato percettivo \`e in grado di dare una conoscenza completa dell'ambiente,
+	      \`e \textbf{parzialmente osservabile} quando sono presenti limiti
+	      o inaccuratezze sull'apparato percettivo.
+	\item \textbf{Ambienti singoli e multiagente}: \`e \textbf{singolo} quando
+	      pu\`o variare per via di eventi o di azioni di altri agenti.
+	      \`E \textbf{multiagente competitivo} se pi\`u agenti si ostacolano a vicenda
+	      oppure \textbf{multiagente cooperativo} nel caso gli agenti si aiutino l'un
+	      l'altro per risolvere il problema.
+	\item \textbf{Predicibilit\`a}: \`e \textbf{deterministisco}, nel caso in cui lo stato
+	      successivo \`e completamente determinato dallo stato corrente e dall'azione. \`E
+	      \textbf{Stocastico} se esistono elementi di incertezza con associata probabilit\`a.
+	      \`E \textbf{non deterministisco} se si tiene traccia di pi\`u stati possibili ma
+	      non in base ad una probabilit\`a.
+	\item \textbf{Ambienti episodici e sequenziali}: \`e \textbf{episodico} se l'esperienze
+	      dell'agente \`e divisa in episodi atomici indipendenti. \`E \textbf{sequenziale}
+	      se ogni decisione influenza le successive.
+	\item \textbf{Ambienti statici e dinamici}: \`e \textbf{statico} se non cambia mentre
+	      l'agente decide l'azione. \`E \textbf{dinamico} se cambia nel tempo. \`E
+	      \textbf{Semi-dinamico} se l'ambiente non cambia ma la valutazione dell'agente s\`i.
+	\item \textbf{Ambienti discreti e continui}: pu\`o essere \textbf{discreto} o
+	      \textbf{continuo} in base ai valori che si possono assumere.
+	\item \textbf{Ambienti noti e ignoti}: pu\`o essere \textbf{noto} o \textbf{ignoto} in
+	      base allo stato di conoscenza dell'agente (noto non significa osservabile).
+\end{itemize}
+
+\section{Struttura degli agenti}
+Come abbiamo gi\`a detto un agente \`e composto da un'architettura di base e da un programma
+agente. L'architettura serve a capatare le percezioni dall'ambiente e a rispondere agli
+stimoli con gli attuatori. Il programma agente implementa in concreto la risposta basata
+sulle percezioni.
+
+\subsection{Programma agente}
+In generale, il programma agente, prende in input delle percezioni e ritorna delle azioni.
+Per scegliere la migliore azione possibile si basa sulla memoria delle percezioni precedenti.
+Dopo avere compiuto l'azione si aggiorna la memoria con l'azione appena compiuta e si ritorna
+l'azione scelta.
