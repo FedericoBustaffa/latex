@@ -1,0 +1,160 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{../packages/codestyle}
+
+\RequirePackage{xcolor}
+
+\definecolor{bg}{rgb}{0.9, 0.9, 0.9}
+\definecolor{t}{rgb}{0.1, 0.1, 0.1}
+\definecolor{k1}{rgb}{0.2, 0.3, 1.0}
+\definecolor{k2}{rgb}{0.8, 0.6, 0.1}
+\definecolor{s}{rgb}{0.7, 0.2, 0.2}
+\definecolor{c}{rgb}{0.5, 0.5, 0.5}
+
+\RequirePackage{listings}
+
+\renewcommand{\ttdefault}{pcr}
+
+% PSEUDO CODICE
+\lstdefinelanguage{pseudo}{
+	sensitive=true,
+	% Keywords
+	morekeywords={
+		if, then, else, for, foreach, in, do, while,
+		and, or, return, true, false
+	},
+	% Strings
+	morestring=[b]",
+	% Comments
+	morecomment=[l]//,
+	morecomment=[s]{/*}{*/}
+}
+
+\lstdefinestyle{pseudo-style}{
+	language=pseudo,
+	backgroundcolor=\color{bg},
+	basicstyle=\small\ttfamily\color{black},
+	showstringspaces=false,
+	keywordstyle=\bfseries\color{black},
+	commentstyle=\color{c},
+	numberstyle=\scriptsize,
+	breaklines=true,
+	frame=single,
+	numbers=left,
+	tabsize=2
+}
+
+% PYTHON
+\lstdefinelanguage{python}{
+	sensitive=true,
+	% Keywords
+	keywords={import, from, in, while, for, if, elif, else, try, except,
+	+, -, *, /, =, ==, <, >, and, or, !, \%},
+	keywords=[2]{def, True, False},
+	% Strigs
+	morestring=[b]",
+	morestring=[b]',
+	% comments
+	morecomment=[l]{\#}
+}
+
+\lstdefinestyle{python-style}{
+	language=python,
+	backgroundcolor=\color{bg},
+	basicstyle=\small\ttfamily\color{t},
+	keywordstyle=\color{k1}\bfseries,
+	keywordstyle=[2]\color{k2}\bfseries,
+	stringstyle=\color{s},
+	showstringspaces=false,
+	commentstyle=\color{c},
+	numberstyle=\scriptsize,
+	breaklines=true
+	frame=single,
+	numbers=left,
+	tabsize=2
+}
+
+% HTML
+\lstdefinelanguage{html5}{
+	language=html,
+	sensitive=true,
+	alsoletter={<>=-},
+	morecomment=[s]{<!-}{-->},
+	tag=[s],
+	otherkeywords={
+			% Standard tags
+			!DOCTYPE, html, head, title, style, link, meta, body,
+			% Divs
+			div,
+			% scripts
+			script,
+			% More tags...
+			canvas, svg, rect, animateTransform, video, source, iframe,
+			image, header, article
+		}
+}
+
+\lstdefinestyle{html5-style} {
+	language=html5,
+	% General design
+	backgroundcolor=\color{bg},
+	basicstyle={\small\ttfamily},
+	frame=single,
+	% line-numbers
+	numbers=left,
+	stepnumber=1,
+	firstnumber=1,
+	numberfirstline=true,
+	% Code design
+	keywordstyle=\color{k1}\bfseries,
+	keywordstyle=[2]\color{k2}\bfseries,
+	stringstyle=\color{s}\ttfamily\bfseries,
+	commentstyle=\color{c}\ttfamily,
+	% Code
+	alsodigit={.:;},
+	tabsize=2,
+	showtabs=false,
+	showspaces=false,
+	showstringspaces=false,
+	extendedchars=true,
+	breaklines=true,
+}
+
+% JavaScript
+\lstdefinelanguage{javascript}{
+	morekeywords={
+		typeof, new, true, false, catch, function, return, null, catch, switch,
+		var, if, in, while, do, else, case, break
+	},
+	morecomment=[s]{/*}{*/},
+	morecomment=[l]//,
+	morestring=[b]",
+	morestring=[b]',
+	morestring=[b]`
+}
+
+\lstdefinestyle{javascript-style} {
+	% General design
+	backgroundcolor=\color{bg},
+	basicstyle={\small\ttfamily},
+	frame=single,
+	% line-numbers
+	numbers=left,
+	stepnumber=1,
+	firstnumber=1,
+	numberfirstline=true,
+	% Code design
+	identifierstyle=\color{black},
+	keywordstyle=\color{k1}\bfseries,
+	ndkeywordstyle=[2]\color{k2}\bfseries,
+	stringstyle=\color{s}\ttfamily,
+	commentstyle=\color{c}\ttfamily,
+	% Code
+	language=JavaScript,
+	alsodigit={.:;},
+	tabsize=2,
+	showtabs=false,
+	showspaces=false,
+	showstringspaces=false,
+	extendedchars=true,
+	breaklines=true,
+}

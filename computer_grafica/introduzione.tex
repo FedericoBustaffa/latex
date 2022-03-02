@@ -4,7 +4,7 @@
 \subsection{HTML}
 Prima di tutto costruiamo un semplice file html che servir\`a ad eseguire il codice JavaScript
 all'interno di un browser.
-\begin{lstlisting}[style=html]
+\begin{lstlisting}[style=html5-style]
 <html>
 
 <head>
@@ -22,11 +22,11 @@ L'id "\emph{CANVAS}" servir\`a a collegare il canvas col codice JavaScript.
 
 \subsection{Inizializzare WebGL}
 Per utilizzare WebGL ci servir\`a un oggetto di tipo \emph{WebGLRenderingContext}.
-\begin{lstlisting}[style=js]
+\begin{lstlisting}[style=javascript-style]
 var gl = null;
 \end{lstlisting}
 Per inizializzarlo usiamo l'elemento canvas dichiarato nel codice html usando il suo id.
-\begin{lstlisting}[style=js, firstnumber=2]
+\begin{lstlisting}[style=javascript-style, firstnumber=2]
 function initWebGL() {
 	canvas = document.GetElementById("CANVAS");
 	gl = canvas.getContext("webgl");
@@ -34,7 +34,7 @@ function initWebGL() {
 \end{lstlisting}
 Ora serve indicare una funzione che venga eseguita appena la finestra viene caricata. Lo
 facciamo in questo modo:
-\begin{lstlisting}[style=js, firstnumber=6]
+\begin{lstlisting}[style=javascript-style, firstnumber=6]
 function run() {
 	initWebGL();
 }
