@@ -1,8 +1,8 @@
 \chapter{Problem solving}
 \section{Formulazione di un problema}
 \subsection{Agenti risolutori di problemi}
-Gli \textbf{agenti risolutori di problemi} adottano il paradigma della risoluzione di problemi
-come \textbf{ricerca} in uno \textbf{spazio di stati}.
+Gli \textbf{agenti risolutori di problemi} adottano il paradigma della risoluzione di
+problemi come \textbf{ricerca} in uno \textbf{spazio di stati}.
 
 Sono agenti basati su modello e con obbiettivo che adottano una rappresentazione
 \textbf{atomica} dello stato e pianificano l'intera sequenza di mosse prima di agire.
@@ -48,3 +48,45 @@ obbiettivo.
 
 Vengono valutati in base al \textbf{costo di ricerca} di una soluzione e anche
 all'\textbf{efficienza} della soluzione trovata.
+
+\subsection{Ricerca della soluzione}
+Per trovare una soluzione si genera un \textbf{albero di ricerca} sovrapposto allo spazio
+degli stati (generato da possibili azioni).
+
+Ma come si genera l'albero di ricerca ?
+\begin{enumerate}
+	\item La radice dell'albero corrisponde allo stato iniziale.
+	\item Ad ogni passo si sceglie una foglia dell'albero generato fino a quel momento.
+	\item Le foglie costituiscono la \textbf{frontiera}.
+	\item Ogni volta che visitiamo una foglia \textbf{espandiamo} tale nodo.
+\end{enumerate}
+Dobbiamo chiarire che un \emph{nodo} e uno \emph{stato} non sono la stessa cosa. Uno stato
+\`e un'osservazione sul mondo del problema. Un nodo \`e una componente dell'albero di
+ricerca e pu\`o capitare di avere pi\`u nodi con lo stesso stato.
+
+\newpage
+\subsubsection{Ricerca ad albero}
+In questo tipo di ricerca non c'\`e alcun controllo sulla possibile
+duplicazione di nodi con stati gi\`a visitati.
+
+\begin{lstlisting}[language=pseudo, style=pseudo-style]
+Tree-Search (problema)
+	// inizializzazione frontiera con lo stato iniziale
+	radice = statoIniziale
+	frontiera.push(radice);
+	while true
+		// Non esiste una soluzione
+		if frontiera.isEmpty() then
+			return FALLIMENTO;
+		
+		// Prendo un nodo dalla frontiera
+		nodo = frontiera.pop();
+
+		// Nel caso in cui si trovi il nodo obbiettivo
+		if nodo.stato = statoObiettivo then
+			return SOLUZIONE;
+		
+		// Espansione nodo
+		foreach foglia in nodo.foglie()
+			frontiera.push(foglia);
+\end{lstlisting}

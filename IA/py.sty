@@ -4,6 +4,24 @@
 \RequirePackage{xcolor}
 \RequirePackage{listings}
 
+% Definizione linguaggi
+
+% PSEUDO CODICE
+\lstdefinelanguage{pseudo}{
+	sensitive=true,
+	% Keywords
+	morekeywords={
+		if, then, else, for, foreach, in, do, while,
+		and, or, return, true, false
+	},
+	% Strings
+	morestring=[b]",
+	% Comments
+	morecomment=[l]//,
+	morecomment=[s]{/*}{*/}
+}
+
+% PYTHON
 \lstdefinelanguage{python}{
 	sensitive=true,
 	% Keywords
@@ -17,6 +35,7 @@
 	morecomment=[l]{\#}
 }
 
+% Definizione stili
 \definecolor{bg}{rgb}{0.9, 0.9, 0.9}
 \definecolor{t}{rgb}{0.1, 0.1, 0.1}
 \definecolor{k1}{rgb}{0.2, 0.3, 1.0}
@@ -24,7 +43,23 @@
 \definecolor{s}{rgb}{0.7, 0.2, 0.2}
 \definecolor{c}{rgb}{0.5, 0.5, 0.5}
 
-\lstdefinestyle{py}{
+\renewcommand{\ttdefault}{pcr}
+
+\lstdefinestyle{pseudo-style}{
+	language=pseudo,
+	backgroundcolor=\color{bg},
+	basicstyle=\small\ttfamily\color{black},
+	showstringspaces=false,
+	keywordstyle=\bfseries\color{black},
+	commentstyle=\color{c},
+	numberstyle=\scriptsize,
+	breaklines=true,
+	frame=single,
+	numbers=left,
+	tabsize=3
+}
+
+\lstdefinestyle{python-style}{
 	language=python,
 	backgroundcolor=\color{bg},
 	basicstyle=\small\ttfamily\color{t},
@@ -37,5 +72,5 @@
 	breaklines=true
 	frame=single,
 	numbers=left,
-	tabsize=4
+	tabsize=3
 }
