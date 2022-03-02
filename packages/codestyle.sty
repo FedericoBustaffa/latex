@@ -13,6 +13,20 @@
 \RequirePackage{listings}
 
 \renewcommand{\ttdefault}{pcr}
+\lstset{
+	backgroundcolor=\color{bg},
+	basicstyle=\small\ttfamily\color{t},
+	keywordstyle=\color{k1}\bfseries,
+	keywordstyle=[2]\color{k2}\bfseries,
+	stringstyle=\color{s},
+	showstringspaces=false,
+	commentstyle=\color{c},
+	numberstyle=\scriptsize,
+	breaklines=true
+	frame=single,
+	numbers=left,
+	tabsize=2
+}
 
 % PSEUDO CODICE
 \lstdefinelanguage{pseudo}{
@@ -57,22 +71,6 @@
 	morecomment=[l]{\#}
 }
 
-\lstdefinestyle{python-style}{
-	language=python,
-	backgroundcolor=\color{bg},
-	basicstyle=\small\ttfamily\color{t},
-	keywordstyle=\color{k1}\bfseries,
-	keywordstyle=[2]\color{k2}\bfseries,
-	stringstyle=\color{s},
-	showstringspaces=false,
-	commentstyle=\color{c},
-	numberstyle=\scriptsize,
-	breaklines=true
-	frame=single,
-	numbers=left,
-	tabsize=2
-}
-
 % HTML
 \lstdefinelanguage{html5}{
 	language=html,
@@ -93,32 +91,6 @@
 		}
 }
 
-\lstdefinestyle{html5-style} {
-	language=html5,
-	% General design
-	backgroundcolor=\color{bg},
-	basicstyle={\small\ttfamily},
-	frame=single,
-	% line-numbers
-	numbers=left,
-	stepnumber=1,
-	firstnumber=1,
-	numberfirstline=true,
-	% Code design
-	keywordstyle=\color{k1}\bfseries,
-	keywordstyle=[2]\color{k2}\bfseries,
-	stringstyle=\color{s}\ttfamily\bfseries,
-	commentstyle=\color{c}\ttfamily,
-	% Code
-	alsodigit={.:;},
-	tabsize=2,
-	showtabs=false,
-	showspaces=false,
-	showstringspaces=false,
-	extendedchars=true,
-	breaklines=true,
-}
-
 % JavaScript
 \lstdefinelanguage{javascript}{
 	morekeywords={
@@ -130,31 +102,4 @@
 	morestring=[b]",
 	morestring=[b]',
 	morestring=[b]`
-}
-
-\lstdefinestyle{javascript-style} {
-	% General design
-	backgroundcolor=\color{bg},
-	basicstyle={\small\ttfamily},
-	frame=single,
-	% line-numbers
-	numbers=left,
-	stepnumber=1,
-	firstnumber=1,
-	numberfirstline=true,
-	% Code design
-	identifierstyle=\color{black},
-	keywordstyle=\color{k1}\bfseries,
-	ndkeywordstyle=[2]\color{k2}\bfseries,
-	stringstyle=\color{s}\ttfamily,
-	commentstyle=\color{c}\ttfamily,
-	% Code
-	language=JavaScript,
-	alsodigit={.:;},
-	tabsize=2,
-	showtabs=false,
-	showspaces=false,
-	showstringspaces=false,
-	extendedchars=true,
-	breaklines=true,
 }

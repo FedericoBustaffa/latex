@@ -29,7 +29,7 @@ Se volessimo disegnare un triangolo, la prima cosa che probabilmente ci verr\`a 
 \`e specificare le coordinate $(x, y)$ dei tre vertici.
 
 Iniziamo con il definire un array di \emph{float} contenente i nostri vertici.
-\begin{lstlisting}[style=javascript-style]
+\begin{lstlisting}[language=javascript]
 function geometrySetup() {
 	var data = new Float32Array([
 		-0.5, -0.5,
@@ -39,7 +39,7 @@ function geometrySetup() {
 \end{lstlisting}
 Ora vogliamo rendere questi valori visibili dalla scheda grafica. Per farlo dobbiamo metterli
 in un \textbf{buffer} da cui poi verranno letti.
-\begin{lstlisting}[style=javascript-style, firstnumber=7]
+\begin{lstlisting}[language=javascript, firstnumber=7]
 	var buffer = gl.createBuffer();
 	gl.bindbuffer(gl.ARRAY_BUFFER, buffer);
 	gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
@@ -68,7 +68,7 @@ avere ogni vertice della geometria che disegnamo. In questo caso abbiamo solo la
 del vertice ma in futuro potremo inserire anche altri attributi come ad esempio il colore.
 
 Per il momenti limitiamoci a scrivere una cosa di questo tipo:
-\begin{lstlisting}[style=javascript-style, firstnumber=10]
+\begin{lstlisting}[language=javascript, firstnumber=10]
 	gl.enableVertexAttribArray(0);
 	gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 8, 0);
 }
@@ -113,7 +113,7 @@ Gli shader possono essere di due tipi: \textbf{vertex} e \textbf{fragment}.
 
 \subsubsection{Vertex Shader}
 Il vertex shader si occupa di assemblare la geometria che vogliamo disegnare.
-\begin{lstlisting}[style=javascript-style]
+\begin{lstlisting}[language=javascript]
 function shaderSetup() {
 	var vs_source =
 		`attribute vec2 aPosition;
@@ -135,7 +135,7 @@ indica la posizione di ci\`o che sto disegnando.
 \subsubsection{Fragment Shader}
 Il fragment shader si occupa della fase di rasterizzazione, in cui si va a decidere il
 colore di ci\`o che viene visualizzato.
-\begin{lstlisting}[style=javascript-style, firstnumber=8]
+\begin{lstlisting}[language=javascript, firstnumber=8]
 	var fs_source =
 		`void main()
 		{
@@ -150,7 +150,7 @@ il blu sono a 0, ci aspettiamo di vedere un triangolo rosso.
 
 \subsubsection{Compilazione}
 Compiliamo i sorgenti.
-\begin{lstlisting}[style=javascript-style, firstnumber=14]
+\begin{lstlisting}[language=javascript, firstnumber=14]
 	var vertex = gl.createShader(gl.VERTEX_SHADER);
 	gl.shaderSource(vertex, vs_source);
 	gl.compileShader(vertex);
@@ -161,7 +161,7 @@ Compiliamo i sorgenti.
 \end{lstlisting}
 \newpage
 Adesso dobbiamo linkare il tutto in unico programma.
-\begin{lstlisting}[style=javascript-style, firstnumber=21]
+\begin{lstlisting}[language=javascript, firstnumber=21]
 	var program = gl.createProgram();
 	gl.attachShader(program, vertex);
 	gl.attachShader(program, fragment);
@@ -169,7 +169,7 @@ Adesso dobbiamo linkare il tutto in unico programma.
 	gl.useProgram(program);
 \end{lstlisting}
 Concludiamo con questo comando
-\begin{lstlisting}[style=javascript-style, firstnumber=26]
+\begin{lstlisting}[language=javascript, firstnumber=26]
 	gl.bindAttribLocation(program, 0, "aPosition");
 }
 \end{lstlisting}
@@ -179,7 +179,7 @@ si tratta delle coordinate dei vertici del triangolo.
 
 \section{Draw}
 Non ci rimane che invocare le funzioni necessarie per disegnare il nostro triangolo rosso.
-\begin{lstlisting}[style=javascript-style]
+\begin{lstlisting}[language=javascript]
 function drawTriangle() {
 	gl.clearColor(1.0, 1.0, 1.0, 1.0);
 	gl.clear(COLOR_BUFFER_BIT);
@@ -194,7 +194,7 @@ iniziare mentre il terzo indica il numero di vertici che voglio disegnare.
 
 Ricoridiamoci che la funzione \emph{run} scritta all'inizio dovr\`a essere aggiornata
 in questo modo:
-\begin{lstlisting}[style=javascript-style]
+\begin{lstlisting}[language=javascript]
 function run() {
 	initWebGL();
 	geometrySetup();
