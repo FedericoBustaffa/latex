@@ -3,20 +3,17 @@ L'obbiettivo per il momento \`e disegnare un triangolo di questo tipo:
 \begin{center}
 	\begin{tikzpicture}[scale=2.5]
 		\draw[->, dashed]
-		(-1.0, 0) node[above] {-1.0}
-		--
+		(-1.0, 0) node[above] {-1.0} --
 		(1.0, 0) node[above] {1.0} node[below] {$x$};
+
 		\draw[->, dashed]
-		(0, -1) node[right] {-1.0}
-		--
+		(0, -1) node[right] {-1.0} --
 		(0, 1) node[right] {1.0} node[left] {$y$};
+
 		\filldraw[color=red, fill=red!60, very thick]
-		(-0.5, -0.5) node[left, color=black] {(-0.5, -0.5)}
-		--
-		(0, 0.5) node[right, color=black] {(0.0, 0.5)}
-		--
-		(0.5, -0.5) node[right, color=black] {(0.5, -0.5)}
-		--
+		(-0.5, -0.5) node[left, color=black] {(-0.5, -0.5)} --
+		(0, 0.5) node[right, color=black] {(0.0, 0.5)} --
+		(0.5, -0.5) node[right, color=black] {(0.5, -0.5)} --
 		cycle;
 	\end{tikzpicture}
 \end{center}
@@ -28,7 +25,7 @@ che vogliamo visualizzare.
 Se volessimo disegnare un triangolo, la prima cosa che probabilmente ci verr\`a in mente
 \`e specificare le coordinate $(x, y)$ dei tre vertici.
 
-Iniziamo con il definire un array di \emph{float} contenente i nostri vertici.
+Iniziamo con il definire un array di \verb|float| contenente i nostri vertici.
 \begin{lstlisting}[language=javascript]
 function geometrySetup() {
 	var data = new Float32Array([
@@ -47,13 +44,13 @@ in un \textbf{buffer} da cui poi verranno letti.
 Spieghiamo queste 3 righe di codice:
 \begin{enumerate}
 	\item Viene creato un buffer nella memoria della GPU.
-	\item Il buffer viene associato a un target (in questo caso \emph{ARRAY\_BUFFER}).
-	\item I dati dell'array \emph{data} vengono caricati nel buffer.
+	\item Il buffer viene associato a un target (in questo caso \verb|ARRAY_BUFFER|).
+	\item I dati dell'array \verb|data| vengono caricati nel buffer.
 
 	      L'ultimo parametro \`e un
 	      suggerimento che per l'ottimizzazione. In questo caso ci dice che i dati caricati
 	      nel buffer non dovrebbero variare molto. Nel caso in cui volessimo disegnare
-	      qualcosa in movimento potrebbe essere una buona scelta usare \emph{DYNAMIC\_DRAW}.
+	      qualcosa in movimento potrebbe essere una buona scelta usare \verb|DYNAMIC_DRAW|.
 \end{enumerate}
 
 \subsection{Vertex Attribute Array}
@@ -83,9 +80,9 @@ buffer.
 	      che vogliamo descrivere \`e la posizione del vertice (coppia $(x, y)$ di
 	      coordinate).
 	\item Il terzo parametro \`e semplicemente il \textbf{tipo} dei singoli valori dell'array.
-	      Nel nostro caso abbiamo un array di float quindi scriviamo \emph{gl.FLOAT}.
+	      Nel nostro caso abbiamo un array di float quindi scriviamo \verb|gl.FLOAT|.
 	\item Il quarto parametro \`e la \textbf{normalizzazione} ma la vedremo pi\`u avanti.
-	      Per ora lasciamolo a \emph{false}.
+	      Per ora lasciamolo a \verb|false|.
 	\item Il quinto parametro \`e la \textbf{stride}. Indica il numero di byte che intercorre
 	      tra i dati che descrivono un vertice e quello successivo. In sostanza ci dice ogni
 	      quanti byte inizia la descrizione di un nuovo vertice. Nel nostro caso abbiamo 8
@@ -124,12 +121,12 @@ function shaderSetup() {
 		}`
 	;
 \end{lstlisting}
-La variabile \emph{aPosition} ha due tipi: \textbf{attribute} e \textbf{vec2}. Il primo
+La variabile \verb|aPosition| ha due tipi: \verb|attribute| e \verb|vec2|. Il primo
 indica che il valore deve essere preso dall'array degli attributi visto in precedenza
 (dopo vediamo come fare nello specifico). Il secondo tipo indica semplicemente che
 si tratta di una coppia di valori o vettore bidimensionale.
 
-Nel \emph{main} \`e presente la variabile \emph{gl\_Position}, una variabile speciale, che
+Nel \verb|main| \`e presente la variabile \verb|gl_Position|, una variabile speciale, che
 indica la posizione di ci\`o che sto disegnando.
 
 \subsubsection{Fragment Shader}
@@ -143,7 +140,7 @@ colore di ci\`o che viene visualizzato.
 		}`
 	;
 \end{lstlisting}
-In questo caso abbiamo solo la variabile \emph{gl\_FragColor} un vettore a 4 dimensioni.
+In questo caso abbiamo solo la variabile \verb|gl_FragColor| un vettore a 4 dimensioni.
 I primi 3 valori sono i valori di rosso, verde e blu, il quarto valore \`e la trasparenza.
 Tutti e quattro i valori vanno da 0 a 1. Dato che abbiamo il rosso a 1, mentre il verde e
 il blu sono a 0, ci aspettiamo di vedere un triangolo rosso.
@@ -174,7 +171,7 @@ Concludiamo con questo comando
 }
 \end{lstlisting}
 il quale indica allo shader di prendere le informazioni dalla posizione 0 dell'array degli
-attributi e metterle dentro la variabile \emph{aPosition} del vertex shader. In questo caso
+attributi e metterle dentro la variabile \verb|aPosition| del vertex shader. In questo caso
 si tratta delle coordinate dei vertici del triangolo.
 
 \section{Draw}
@@ -192,7 +189,7 @@ L'ultima \`e quella che disegner\`a il triangolo. Il primo parametro dice di con
 gruppi di 3 vertici alla volta (triangoli per l'appunto). Il secondo indica da che vertice
 iniziare mentre il terzo indica il numero di vertici che voglio disegnare.
 
-Ricoridiamoci che la funzione \emph{run} scritta all'inizio dovr\`a essere aggiornata
+Ricoridiamoci che la funzione \verb|run| scritta all'inizio dovr\`a essere aggiornata
 in questo modo:
 \begin{lstlisting}[language=javascript]
 function run() {
@@ -203,3 +200,72 @@ function run() {
 }
 \end{lstlisting}
 Arrivati a questo punto dovremmo avere a schermo il nostro triangolo rosso su sfondo bianco.
+
+\newpage
+\section{Index Buffer}
+Se volessimo disgnare un quadrato baster\`a unire due triangoli rettangoli per l'ipotenusa.
+
+\begin{center}
+	\begin{tikzpicture}[scale=2.5]
+		\filldraw[color=red, fill=red!60, very thick]
+		(-0.5, -0.5) --
+		(-0.5, 0.5) --
+		(0.5, -0.5) --
+		cycle;
+
+		\filldraw[color=red, fill=red!60, very thick]
+		(-0.5, 0.5) --
+		(0.5, 0.5) --
+		(0.5, -0.5) --
+		cycle;
+	\end{tikzpicture}
+\end{center}
+Per farlo posso usare il metodo visto in precedenza per disegnare triangoli. Dovr\`o quindi
+specificare altri tre vertici per il secondo triangolo:
+\begin{lstlisting}[language=javascript]
+	var data = new Float32Array([
+		// primo triangolo
+		-0,5, -0.5,
+		-0.5,  0.5,
+		 0.5,  0.5,
+
+		// secondo triangolo
+		 0.5,  0.5,
+		 0.5, -0.5,
+		-0.5, -0.5
+	]);
+\end{lstlisting}
+Per disegnare il quadrato dovr\`o modificare anche la chiamata alla funzione
+\verb|drawArrays|:
+\begin{lstlisting}[language=javascript]
+	gl.drawArrays(gl.TRIANGLES, 0, 6);
+\end{lstlisting}
+Adesso l'ultimo parametro \`e diventato 6 perch\'e stiamo passando sei vertici.
+
+Cos\`i facendo otteniamo il nostro quadrato ma non \`e il modo pi\`u efficente. Notiamo
+che stiamo specificando due volte i due vertici in comune tra i due triangoli. Se pensiamo
+di fare un progetto pi\`u grande lo spreco in memoria \`e prestazioni potrebbe essere
+significativo.
+
+Per ottimizzare questo aspetto introduciamo un nuovo oggetto, l'\textbf{index buffer}.
+L'idea \`e quella di indicizzare ogni vertice della figura geometrica che stiamo disegnando.
+\begin{center}
+	\begin{tikzpicture}[scale=2.5]
+		\filldraw[color=red, fill=red!60, very thick]
+		(-0.5, -0.5) node[left, color=black] {0} --
+		(-0.5, 0.5) node[left, color=black] {1} --
+		(0.5, 0.5) node[right, color=black] {2} --
+		(0.5, -0.5) node[right, color=black] {3} --
+		cycle;
+	\end{tikzpicture}
+\end{center}
+Nel dettaglio, per disegnare il quadrato di prima, dovremmo specificare ogni vertice una sola
+volta. L'array \verb|data| diventer\`a quindi
+\begin{lstlisting}[language=javascript]
+	var data = new Float32Array([
+		-0.5, -0.5, // vertice 0
+		-0.5,  0.5, // vertice 1
+		 0.5,  0.5, // vertice 2
+		 0.5, -0.5  // vertice 3
+	]);
+\end{lstlisting}

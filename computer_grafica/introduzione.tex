@@ -17,11 +17,11 @@ all'interno di un browser.
 
 </html>
 \end{lstlisting}
-In questo caso il file \emph{code.js} \`e il file JavaScript in cui andremo a lavorare.
-L'id "\emph{CANVAS}" servir\`a a collegare il canvas col codice JavaScript.
+In questo caso il file \verb|code.js| \`e il file JavaScript in cui andremo a lavorare.
+L'id \verb|CANVAS| servir\`a a collegare il canvas col codice JavaScript.
 
 \subsection{Inizializzare WebGL}
-Per utilizzare WebGL ci servir\`a un oggetto di tipo \emph{WebGLRenderingContext}.
+Per utilizzare WebGL ci servir\`a un oggetto di tipo \verb|WebGLRenderingContext|.
 \begin{lstlisting}[language=javascript]
 var gl = null;
 \end{lstlisting}
@@ -41,7 +41,7 @@ function run() {
 
 window.onload = run;
 \end{lstlisting}
-questa funzione \emph{run} verr\`a ampliata in seguito.
+questa funzione \verb|run| verr\`a ampliata in seguito.
 Se eseguito tutto correttamente verr\`a visualizzato un quadrato bianco con il contorno nero.
 
 \subsection{Scena}
@@ -52,12 +52,11 @@ un diagramma cartesiano di questo tipo:
 \begin{center}
 	\begin{tikzpicture}[scale=2.5]
 		\draw[->, dashed]
-		(-1, 0) node[above] {-1.0}
-		--
+		(-1, 0) node[above] {-1.0} --
 		(1, 0) node[above] {1.0} node[below] {$x$};
+
 		\draw[->, dashed]
-		(0, -1) node[right] {-1.0}
-		--
+		(0, -1) node[right] {-1.0} --
 		(0, 1) node[right] {1.0} node[left] {$y$};
 	\end{tikzpicture}
 \end{center}
@@ -71,12 +70,11 @@ l'asse $x$ pi\`u lunga ma sempre con valori compresi tra -1 e 1.
 \begin{center}
 	\begin{tikzpicture}[scale=2.5]
 		\draw[->, dashed]
-		(-2.0, 0) node[above] {-1.0}
-		--
+		(-2.0, 0) node[above] {-1.0} --
 		(2.0, 0) node[above] {1.0} node[below] {$x$};
+
 		\draw[->, dashed]
-		(0, -1) node[right] {-1.0}
-		--
+		(0, -1) node[right] {-1.0} --
 		(0, 1) node[right] {1.0} node[left] {$y$};
 	\end{tikzpicture}
 \end{center}
