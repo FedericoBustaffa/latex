@@ -38,7 +38,7 @@ Ora vogliamo rendere questi valori visibili dalla scheda grafica. Per farlo dobb
 in un \textbf{buffer} da cui poi verranno letti.
 \begin{lstlisting}[language=javascript, firstnumber=7]
 	var buffer = gl.createBuffer();
-	gl.bindbuffer(gl.ARRAY_BUFFER, buffer);
+	gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 	gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
 \end{lstlisting}
 Spieghiamo queste 3 righe di codice:
@@ -251,6 +251,7 @@ Per ottimizzare questo aspetto introduciamo un nuovo oggetto, l'\textbf{index bu
 L'idea \`e quella di indicizzare ogni vertice della figura geometrica che stiamo disegnando.
 \begin{center}
 	\begin{tikzpicture}[scale=2.5]
+		\label{fig:index}
 		\filldraw[color=red, fill=red!60, very thick]
 		(-0.5, -0.5) node[left, color=black] {0} --
 		(-0.5, 0.5) node[left, color=black] {1} --
@@ -269,3 +270,36 @@ volta. L'array \verb|data| diventer\`a quindi
 		 0.5, -0.5  // vertice 3
 	]);
 \end{lstlisting}
+Ora creiamo un index buffer in questo modo
+\begin{lstlisting}[language=javascript]
+	var indices = new Uint16Array([
+		0, 1, 2,
+		2, 3, 0
+	]);
+
+	var indexBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+\end{lstlisting}
+In riferimento alla figura del quadrato con i vertici indicizzati vista in precedenza,
+l'intento del codice scritto sopra \`e quello di usare i vertici $\{ 0, 1, 2 \}$ per disegnare
+il primo triangolo e i vertici $\{ 2, 3, 0 \}$ per disegnare il secondo.
+
+A questo punto non ci rimane che introdurre una nuova funzione che sostituir\`a
+la \verb|drawArrays| vista in precedenza.
+\begin{lstlisting}
+	gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+\end{lstlisting}
+Vediamo meglio i parametri di questa funzione
+\begin{itemize}
+	\item Il primo parametro \`e un target. In questo caso abbiamo lo stesso di
+	      \verb|drawArrays| ovvero \verb|TRIANGLES|.
+	\item Il secondo parametro \`e il numero di indici utilizzati.
+	\item Il terzo parametro \`e il tipo di dato utilizzato per rappresentare gli indici.
+	      In questo caso abbiamo un \verb|Uint16Array|, quindi specifichiamo
+	      \verb|UNSIGNED_SHORT|.
+	\item Il quarto parametro \`e un offset che indica dopo quanti byte iniziare a leggere
+	      l'array degli indici.
+\end{itemize}
+Ecco che in questo modo abbiamo "\emph{riciclato}" vertici comuni ai due triangoli per poter
+disegnare la nostra figura (in particolare i vertici \verb|0| e \verb|2|).
