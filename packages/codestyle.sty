@@ -5,8 +5,7 @@
 
 \definecolor{bg}{rgb}{0.9, 0.9, 0.9}
 \definecolor{t}{rgb}{0.1, 0.1, 0.1}
-\definecolor{k1}{rgb}{0.2, 0.3, 1.0}
-\definecolor{k2}{rgb}{0.8, 0.6, 0.1}
+\definecolor{k}{rgb}{0.2, 0.3, 1.0}
 \definecolor{s}{rgb}{1, 0.5, 0.0}
 \definecolor{c}{rgb}{0.5, 0.5, 0.5}
 
@@ -16,8 +15,7 @@
 \lstset{
 	backgroundcolor=\color{bg},
 	basicstyle=\small\ttfamily\color{t},
-	keywordstyle=\color{k1}\bfseries,
-	keywordstyle=[2]\color{k2}\bfseries,
+	keywordstyle=\color{k}\bfseries,
 	stringstyle=\color{s},
 	showstringspaces=false,
 	commentstyle=\color{c},
@@ -47,23 +45,17 @@
 	language=pseudo,
 	backgroundcolor=\color{bg},
 	basicstyle=\small\ttfamily\color{black},
-	showstringspaces=false,
-	keywordstyle=\bfseries\color{black},
-	commentstyle=\color{c},
-	numberstyle=\scriptsize,
-	breaklines=true,
-	frame=single,
-	numbers=left,
-	tabsize=2
+	keywordstyle=\bfseries\color{black}
 }
 
 % PYTHON
 \lstdefinelanguage{python}{
 	sensitive=true,
 	% Keywords
-	keywords={import, from, in, while, for, if, elif, else, try, except,
-	+, -, *, /, =, ==, <, >, and, or, !, \%},
-	keywords=[2]{def, True, False},
+	keywords={
+		import, from, in, while, for, if, elif, else, try, except,
+		def, True, False, return
+	},
 	% Strigs
 	morestring=[b]",
 	morestring=[b]',

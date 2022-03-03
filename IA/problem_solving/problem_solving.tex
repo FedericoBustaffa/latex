@@ -35,9 +35,9 @@ Un problema pu\`o essere definito formalmente con queste cinque componenti:
 	\item[Stato iniziale:] Lo stato da cui si parte.
 	\item[Azioni possibili:] Dipendono dallo stato corrente e portano in un nuovo stato.
 	\item[Modello di transizione:] Descrizione dello spazio degli stati e come si effettua
-	      la transizione dall'uno all'altro.
+		la transizione dall'uno all'altro.
 	\item[Test obbiettivo:] Ho un insieme di stati obbiettivo e devo verificare se gli stati
-	      che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
+		che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
 	\item[Costo del cammino:] \`E la somma del costo delle azioni (transizioni di stato).
 \end{description}
 
@@ -64,12 +64,34 @@ Dobbiamo chiarire che un \emph{nodo} e uno \emph{stato} non sono la stessa cosa.
 \`e un'osservazione sul mondo del problema. Un nodo \`e una componente dell'albero di
 ricerca e pu\`o capitare di avere pi\`u nodi con lo stesso stato.
 
-\newpage
 \subsubsection{Ricerca ad albero}
-In questo tipo di ricerca non c'\`e alcun controllo sulla possibile
-duplicazione di nodi con stati gi\`a visitati.
+Quello che facciamo in questo caso \`e una \textbf{visita} dello spazio degli stati finch\'e non
+si giunge allo \textbf{stato obbiettivo} o finch\'e, dopo aver visitato tutti gli stati, ci
+rendiamo conto di aver esplorato tutto lo spazio degli stati (o almeno quello esplorabile
+partendo dallo stato fornito in partenza).
 
-\begin{lstlisting}[language=pseudo, style=pseudo-style]
+Per fare la visita avremo bisogno di un buffer che chiameremo \textbf{frontiera}, dove metteremo
+gli stati adiacenti a quello corrente che intendiamo visitare.
+
+\newpage
+L'algoritmo procede in questo modo:
+\begin{enumerate}
+	\item Si sceglie uno stato iniziale e si mette nella frontiera.
+	\item Si entra in un ciclo da cui si pu\`o uscire solo in due modi:
+	      \begin{itemize}
+		      \item Si trova la soluzione.
+		      \item Si esaurisce tutto lo spazio degli stati senza trovare la soluzione (quindi
+		            non esiste).
+	      \end{itemize}
+	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
+	      stati visitabili e quindi non c'\`e una soluzione e l'algoritmo termina con
+	      fallimento.
+	\item Si estrae un nodo dalla frontiera e controlliamo se lo stato \`e equivalente allo
+	      stato obbiettivo, se s\`i, l'algoritmo termina ritornando la soluzione.
+	\item Si inseriscono tutti i nodi figlio del nodo corrente nella frontiera.
+	\item Si torna al punto 2.
+\end{enumerate}
+\begin{lstlisting}[style=pseudo-style]
 Tree-Search (problema)
 	// inizializzazione frontiera con lo stato iniziale
 	radice = statoIniziale
@@ -81,12 +103,50 @@ Tree-Search (problema)
 		
 		// Prendo un nodo dalla frontiera
 		nodo = frontiera.pop();
-
+		
 		// Nel caso in cui si trovi il nodo obbiettivo
-		if nodo.stato = statoObiettivo then
+		if nodo.stato = statoObbiettivo then
 			return SOLUZIONE;
 		
 		// Espansione nodo
 		foreach foglia in nodo.foglie()
 			frontiera.push(foglia);
 \end{lstlisting}
+Il problema di questo tipo di ricerca \`e che non si tiene traccia dei nodi gi\`a visitati
+quindi si potrebbe entrare in cicli da cui, non potendo pi\`u uscire, non riusciremmo n\'e
+a trovare una soluzione n\'e riusciremmo a capire se questa esiste o meno.
+
+\subsubsection{Nodi dell'albero di ricerca}
+Un nodo \`e una struttura dati con quattro componenti:
+\begin{itemize}
+	\item Stato
+	\item Riferimento al padre
+	\item L'azione effettuata per generarlo
+	\item Il costo del cammino dal nodo iniziale, indicato con $g(n)$
+\end{itemize}
+
+\subsubsection{La struttura dati della frontiera}
+La frontiera \`e implementata come una lista che contiene i nodi in attesa di essere espansi.
+In generale, tale lista ha a disposizione le due funzioni \verb|pop| e \verb|push| per rimuovere
+e inserire nodi nella lista. Quello che cambia sono le possibili implementazione della lista
+che daranno poi vita a diverse possibili strategie.
+
+Nello specifico posso adottare 3 politiche principali:
+\begin{itemize}
+	\item FIFO, per implementare una coda da cui estraggo l'elemento in testa e inserisco
+	      nuovi elementi in fondo (BF o Breadth-First).
+	\item LIFO, per implementare una pila da cui estraggo l'elemento in testa e inserisco nuovi
+	      elementi sempre in testa (DF o Depht-First).
+	\item Coda con priorit\`a, in cui si estrae l'elemento a priorit\`a pi\`u alta e dopo
+	      l'inserimento di nuovi elementi si riordina tutta la coda in base alle priorit\`a
+	      (UC).
+\end{itemize}
+
+\subsubsection{Valutazione di una strategia di ricerca}
+Ci sono quattro parametri fondamentali per valutare una strategia:
+\begin{itemize}
+	\item \textbf{Completezza}: se la soluzione esiste viene trovata.
+	\item \textbf{Ottimalit\`a}: trova la soluzione migliore con costo minore.
+	\item \textbf{Complessit\`a in tempo}: tempo richiesto per trovare la soluzione.
+	\item \textbf{Complessit\`a in spazio}: memoria richiesta.
+\end{itemize}
