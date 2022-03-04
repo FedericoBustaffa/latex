@@ -200,6 +200,7 @@ gi\`a esplorati. In sintesi guadagnamo in completezza ma perdiamo in utilizzo de
 BFS_grafo (problema)
 	radice = problema.statoIniziale;
 	frontiera.push(radice);
+	esplorati = [];
 	risultato = null;
 	while risultato == null
 		if frontiera.isEmpty() then
@@ -266,14 +267,62 @@ DFS_albero_ricorsivo (problema, nodo)
 		return fallimento;
 \end{lstlisting}
 
-\subsubsection{Ricerca in profondit\`a su grafo}
+\subsubsection{Ricerca in profondit\`a su grafo (versione iterativa)}
 Con questo metodo non abbiamo pi\`u il problema della possibile visita di nodi gi\`a visitati
 ma perdiamo il vantaggio in memoria del metodo precedente.
 \begin{lstlisting}[style=pseudo-style]
 DFS_grafo (problema)
 	radice = statoIniziale;
 	frontiera.push(radice);
-	while 
+	esplorati = [];
+	risultato = null;
+	while risultato == null
+		if frontiera.isEmpty() then
+			risultato = FALLIMENTO;
+		else
+			nodo = frontiera.pop();
+			esplorati.push(nodo);
+			foreach azione in problema.Azioni(nodo.stato)
+				figlio = Nodo(problema, nodo, azione);
+				if figlio not in esplorati then
+					if problema.statoObbiettivo == figlio.stato then
+						risultato = SOLUZIONE;
+					else
+						frontiera.push(figlio);
+	return risultato;	
 \end{lstlisting}
+Come possiamo notare, l'algoritmo \`e identico a quello ricerca BFS su grafo. Ci\`o che cambia
+e che ci permette di effettuare una visita in profondit\`a \`e il fatto che la lista \`e
+implementata con una politica LIFO.
 
 \subsubsection{Analisi DFS}
+Per questo algoritmo dobbiamo differenziare tra la variante su albero e su grafo. Sulla prima
+possiamo dire che:
+\begin{itemize}
+	\item Non \`e completa.
+	\item Non \`e ottimale.
+	\item La complessit\`a in tempo \`e $O(b^m)$ dove $m$ \`e la lunghezza massima dei cammini
+	      nello spazio degli stati (pu\`o essere maggiore di $O(b^d)$).
+	\item La complessit\`a in spazio \`e $O(bm)$.
+\end{itemize}
+Per la versione su grafo possiamo dire che:
+\begin{itemize}
+	\item \`E completa in spazi di stati finiti. Ma non completa per spazi infiniti.
+	\item Non \`e ottimale.
+	\item La complessit\`a in tempo \`e $O(b^m)$.
+	\item La complessit\`a in spazio \`e $O(b^m)$.
+\end{itemize}
+
+\subsection{Ricerca in profondit\`a limitata - DLS}
+Questo algoritmo \`e una variante della DFS in cui si da un limite di profondit\`a oltre
+il quale non si deve scendere.
+
+\subsubsection{Analisi DLS}
+Leggermente migliore della DFS, possiamo affermare che:
+\begin{itemize}
+	\item \`E completa per problemi in cui si conosce un limite superiore per la profondit\`a
+	      della soluzione ($d < l$ dove $l$ \`e il limite di profondit\`a).
+	\item Non \`e ottimale.
+	\item La complessit\`a in tempo \`e $O(b^l)$.
+	\item La complessit\`a in spazio \`e $O(bl)$ (per la versione su albero).
+\end{itemize}
