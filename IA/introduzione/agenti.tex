@@ -89,3 +89,44 @@ In generale, il programma agente, prende in input delle percezioni e ritorna del
 Per scegliere la migliore azione possibile si basa sulla memoria delle percezioni precedenti.
 Dopo avere compiuto l'azione si aggiorna la memoria con l'azione appena compiuta e si ritorna
 l'azione scelta.
+
+\subsection{Agenti risolutori di problemi}
+Gli \textbf{agenti risolutori di problemi} adottano il paradigma della risoluzione di
+problemi come \textbf{ricerca} in uno \textbf{spazio di stati}.
+
+Sono agenti basati su modello e con obbiettivo che adottano una rappresentazione
+\textbf{atomica} dello stato e pianificano l'intera sequenza di mosse prima di agire.
+
+\subsubsection{Processo di risoluzione}
+Il processo di risoluzione di un problema si compone di quattro passi principali:
+\begin{enumerate}
+	\item Determinazione dell'obbiettivo.
+	\item Formulazione del problema, che consiste nella rappresentazione di
+	      \begin{itemize}
+		      \item stati
+		      \item azioni
+	      \end{itemize}
+	\item Determinazione della soluzione mediante \textbf{ricerca}
+	\item Esecuzione del piano.
+\end{enumerate}
+
+\subsubsection{Assunzioni sull'ambiente}
+Per adesso assumiamo che l'ambiente sia:
+\begin{itemize}
+	\item Statico
+	\item Osservabile
+	\item Discreto
+	\item Deterministico
+\end{itemize}
+
+\subsubsection{Formulazione del problema}
+Un problema pu\`o essere definito formalmente con queste cinque componenti:
+\begin{description}
+	\item[Stato iniziale:] Lo stato da cui si parte.
+	\item[Azioni possibili:] Dipendono dallo stato corrente e portano in un nuovo stato.
+	\item[Modello di transizione:] Descrizione dello spazio degli stati e come si effettua
+	      la transizione dall'uno all'altro.
+	\item[Test obbiettivo:] Ho un insieme di stati obbiettivo e devo verificare se gli stati
+	      che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
+	\item[Costo del cammino:] \`E la somma del costo delle azioni (transizioni di stato).
+\end{description}
