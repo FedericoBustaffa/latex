@@ -35,9 +35,9 @@ Un problema pu\`o essere definito formalmente con queste cinque componenti:
 	\item[Stato iniziale:] Lo stato da cui si parte.
 	\item[Azioni possibili:] Dipendono dallo stato corrente e portano in un nuovo stato.
 	\item[Modello di transizione:] Descrizione dello spazio degli stati e come si effettua
-	      la transizione dall'uno all'altro.
+		la transizione dall'uno all'altro.
 	\item[Test obbiettivo:] Ho un insieme di stati obbiettivo e devo verificare se gli stati
-	      che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
+		che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
 	\item[Costo del cammino:] \`E la somma del costo delle azioni (transizioni di stato).
 \end{description}
 
@@ -169,22 +169,27 @@ tramite una lista con politica FIFO. Si procede in questo modo:
 
 \subsubsection{Ricerca in ampiezza su albero}
 In questo tipo di ricerca non si gestisce il problema di eventuali stati gi\`a esplorati.
+Cos\`i facendo andiamo incontro alla possibilit\`a di incontrare cicli da cui poi non
+riusciremmo pi\`u a uscire.
 \begin{lstlisting}[style=pseudo-style]
 BFS_albero (problema)
 	radice = problema.statoIniziale;
 	frontiera.push(radice);
-	while true
+	risultato = null;
+	while risultato == null
 		if frontiera.isEmpty() then
-			return FALLIMENTO;
-		
-		nodo = frontiera.pop();
-		/* per ogni azione possibile da quel nodo genero un 
-		nodo figlio */
-		foreach azione in problema.Azioni(nodo.stato)
-			figlio = Nodo(problema, nodo, azione);
-			if problema.statoObbiettivo == figlio.stato then
-				return SOLUZIONE;
-			frontiera.push(figlio);
+			risultato = FALLIMENTO;
+		else
+			nodo = frontiera.pop();
+			/* per ogni azione possibile da quel nodo genero un 
+			nodo figlio */
+			foreach azione in problema.Azioni(nodo.stato)
+				figlio = Nodo(problema, nodo, azione);
+				if problema.statoObbiettivo == figlio.stato then
+					risultato = SOLUZIONE;
+				else
+					frontiera.push(figlio);
+	return risultato;
 \end{lstlisting}
 
 \subsubsection{Ricerca in ampiezza su grafo}
@@ -193,28 +198,82 @@ con una struttura dati aggiuntiva in cui, per l'appunto andiamo a inserire tutti
 gi\`a esplorati. In sintesi guadagnamo in completezza ma perdiamo in utilizzo della memoria.
 \begin{lstlisting}[style=pseudo-style]
 BFS_grafo (problema)
-radice = problema.statoIniziale;
-frontiera.push(radice);
-while true
-	if frontiera.isEmpty() then
-		return FALLIMENTO;
-	
-	nodo = frontiera.pop();
-	esplorati.push(nodo);
-	/* per ogni azione possibile da quel nodo genero un 
-	nodo figlio */
-	foreach azione in problema.Azioni(nodo.stato)
-		figlio = Nodo(problema, nodo, azione);
-		if figlio not in esplorati then
-			if problema.statoObbiettivo == figlio.stato then
-				return SOLUZIONE;
-			frontiera.push(figlio);
+	radice = problema.statoIniziale;
+	frontiera.push(radice);
+	risultato = null;
+	while risultato == null
+		if frontiera.isEmpty() then
+			risultato = FALLIMENTO;
+		else
+			nodo = frontiera.pop();
+			esplorati.push(nodo);
+			/* per ogni azione possibile da quel nodo genero un 
+			nodo figlio */
+			foreach azione in problema.Azioni(nodo.stato)
+				figlio = Nodo(problema, nodo, azione);
+				if figlio not in esplorati then
+					if problema.statoObbiettivo == figlio.stato then
+						risultato = SOLUZIONE;
+					else
+						frontiera.push(figlio);
+	return risultato;
 \end{lstlisting}
 
-\subsubsection{Analisi della complessit\`a in spazio e tempo}
+\subsubsection{Analisi BFS}
 Introduciamo tre valori utili all'analisi degli algoritmi.
 \begin{itemize}
 	\item \textbf b = fattore di ramificazione (numero massimo di successori)
 	\item \textbf d = profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
 	\item \textbf m = lunghezza massima dei cammini nello spazio degli stati
 \end{itemize}
+Per quanto riguarda la ricerca in ampiezza (BFS) possiamo dire che
+\begin{itemize}
+	\item \`E completa.
+	\item \`E ottimale se gli operatori hanno tutti lo stesso costo $k$, cio\`e
+	      \[ g(n) = k \cdot depth(n) \]
+	      dove $g(n)$ \`e il costo del cammino per arrivare a $n$.
+	\item La complessit\`a in tempo \`e rappresentata da
+	      \[ T(b, d) = b + b^2 + \cdots + b^d \rightarrow O(b^d) \]
+	\item La complessit\`a in sapzio \`e $O(b^d)$.
+\end{itemize}
+
+\subsection{Ricerca in profondit\`a - DFS}
+L'algoritmo di ricerca DFS si basa su una visita in profondit\`a, ovvero, una volta visitato
+un figlio del nodo, si procede alla visita del figlio del figlio. Si procede cos\`i finch\'e
+non si raggiunge il nodo obbiettivo oppure finch\'e non si raggiunge un nodo senza figli.
+L'ordine di visita \`e dato  tramite una lista con politica LIFO.
+\begin{enumerate}
+	\item Visito il nodo corrente.
+	\item Se \`e il nodo contenente lo stato soluzione termino ritornando la soluzione.
+	\item Visito il primo figlio del nodo corrente.
+	\item Torno al punto 1.
+\end{enumerate}
+
+\subsubsection{Ricerca in profondit\`a su albero (versione ricorsiva)}
+Come prima non viene gestito il problema dei nodi gi\`a esplorati e in questo caso adotta un
+approccio di tipo ricorsivo, che fornisce un vantaggio in spazio visto che non dobbiamo
+salvarci in memoria gli stati ma vengono tenuti in uno stack in caso di fallimento.
+\begin{lstlisting}[style=pseudo-style]
+DFS_albero_ricorsivo (problema, nodo)
+	if nodo.stato == problema.statoObbiettivo then
+		return SOLUZIONE(nodo);
+	
+	foreach azione in problema.Azioni(nodo.stato)
+		figlio = Nodo(problema, nodo, azione);
+		risultato = DFS_albero_ricorsivo(problema, figlio);
+		if risultato != fallimento then
+			return risultato;
+		return fallimento;
+\end{lstlisting}
+
+\subsubsection{Ricerca in profondit\`a su grafo}
+Con questo metodo non abbiamo pi\`u il problema della possibile visita di nodi gi\`a visitati
+ma perdiamo il vantaggio in memoria del metodo precedente.
+\begin{lstlisting}[style=pseudo-style]
+DFS_grafo (problema)
+	radice = statoIniziale;
+	frontiera.push(radice);
+	while 
+\end{lstlisting}
+
+\subsubsection{Analisi DFS}
