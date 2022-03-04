@@ -35,9 +35,9 @@ Un problema pu\`o essere definito formalmente con queste cinque componenti:
 	\item[Stato iniziale:] Lo stato da cui si parte.
 	\item[Azioni possibili:] Dipendono dallo stato corrente e portano in un nuovo stato.
 	\item[Modello di transizione:] Descrizione dello spazio degli stati e come si effettua
-		la transizione dall'uno all'altro.
+	      la transizione dall'uno all'altro.
 	\item[Test obbiettivo:] Ho un insieme di stati obbiettivo e devo verificare se gli stati
-		che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
+	      che ho raggiunto sono quelli nell'insieme obbiettivo oppure no.
 	\item[Costo del cammino:] \`E la somma del costo delle azioni (transizioni di stato).
 \end{description}
 
@@ -92,23 +92,23 @@ L'algoritmo procede in questo modo:
 	\item Si torna al punto 2.
 \end{enumerate}
 \begin{lstlisting}[style=pseudo-style]
-Tree-Search (problema)
+Ricerca_albero (problema)
 	// inizializzazione frontiera con lo stato iniziale
-	radice = statoIniziale
+	radice = problema.statoIniziale;
 	frontiera.push(radice);
 	while true
-		// Non esiste una soluzione
+		// non esiste una soluzione
 		if frontiera.isEmpty() then
 			return FALLIMENTO;
 		
-		// Prendo un nodo dalla frontiera
+		// prendo un nodo dalla frontiera
 		nodo = frontiera.pop();
 		
-		// Nel caso in cui si trovi il nodo obbiettivo
-		if nodo.stato = statoObbiettivo then
+		// nel caso in cui si trovi il nodo obbiettivo
+		if nodo.stato == problema.statoObbiettivo then
 			return SOLUZIONE;
 		
-		// Espansione nodo
+		// espansione nodo
 		foreach foglia in nodo.foglie()
 			frontiera.push(foglia);
 \end{lstlisting}
@@ -149,4 +149,72 @@ Ci sono quattro parametri fondamentali per valutare una strategia:
 	\item \textbf{Ottimalit\`a}: trova la soluzione migliore con costo minore.
 	\item \textbf{Complessit\`a in tempo}: tempo richiesto per trovare la soluzione.
 	\item \textbf{Complessit\`a in spazio}: memoria richiesta.
+\end{itemize}
+
+\section{Algoritmi di ricerca su grafo}
+\subsection{Ricerca in ampiezza - BFS}
+L'algoritmo BFS si basa sul visitare tutti i nodi adiacenti a quello corrente prima di
+scendere ulteriormente in profondit\`a. In questo caso la frontiera \`e implementata
+tramite una lista con politica FIFO. Si procede in questo modo:
+\begin{enumerate}
+	\item Inserisco il nodo iniziale nella frontiera.
+	\item Estraggo un nodo dalla frontiera.
+	\item Se la frontiera \`e vuota ho terminato la visita senza trovare il nodo soluzione.
+	\item Si valuta che il nodo corrente sia o meno il nodo soluzione. Se lo \`e, termino
+	      ritornando la soluzione.
+	\item Inserisco tutti i nodi adiacenti a quello corrente (tranne il padre) nella
+	      frontiera.
+	\item Torno al punto 2.
+\end{enumerate}
+
+\subsubsection{Ricerca in ampiezza su albero}
+In questo tipo di ricerca non si gestisce il problema di eventuali stati gi\`a esplorati.
+\begin{lstlisting}[style=pseudo-style]
+BFS_albero (problema)
+	radice = problema.statoIniziale;
+	frontiera.push(radice);
+	while true
+		if frontiera.isEmpty() then
+			return FALLIMENTO;
+		
+		nodo = frontiera.pop();
+		/* per ogni azione possibile da quel nodo genero un 
+		nodo figlio */
+		foreach azione in problema.Azioni(nodo.stato)
+			figlio = Nodo(problema, nodo, azione);
+			if problema.statoObbiettivo == figlio.stato then
+				return SOLUZIONE;
+			frontiera.push(figlio);
+\end{lstlisting}
+
+\subsubsection{Ricerca in ampiezza su grafo}
+Con questo metodo si ovvia al problema della possibile espansione di nodi gi\`a esplorati
+con una struttura dati aggiuntiva in cui, per l'appunto andiamo a inserire tutti i nodi
+gi\`a esplorati. In sintesi guadagnamo in completezza ma perdiamo in utilizzo della memoria.
+\begin{lstlisting}[style=pseudo-style]
+BFS_grafo (problema)
+radice = problema.statoIniziale;
+frontiera.push(radice);
+while true
+	if frontiera.isEmpty() then
+		return FALLIMENTO;
+	
+	nodo = frontiera.pop();
+	esplorati.push(nodo);
+	/* per ogni azione possibile da quel nodo genero un 
+	nodo figlio */
+	foreach azione in problema.Azioni(nodo.stato)
+		figlio = Nodo(problema, nodo, azione);
+		if figlio not in esplorati then
+			if problema.statoObbiettivo == figlio.stato then
+				return SOLUZIONE;
+			frontiera.push(figlio);
+\end{lstlisting}
+
+\subsubsection{Analisi della complessit\`a in spazio e tempo}
+Introduciamo tre valori utili all'analisi degli algoritmi.
+\begin{itemize}
+	\item \textbf b = fattore di ramificazione (numero massimo di successori)
+	\item \textbf d = profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
+	\item \textbf m = lunghezza massima dei cammini nello spazio degli stati
 \end{itemize}
