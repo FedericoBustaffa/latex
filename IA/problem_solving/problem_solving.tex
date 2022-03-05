@@ -36,9 +36,9 @@ Un nodo \`e una struttura dati con quattro componenti:
 
 \subsection{La struttura dati della frontiera}
 La \textbf{frontiera} \`e implementata come una lista che contiene i nodi in attesa di essere
-espansi. In generale, tale lista ha a disposizione le due funzioni \verb|pop| e \verb|push|
-per rimuovere e inserire nodi nella lista. Quello che cambia sono le possibili implementazione
-della lista che daranno poi vita a diverse possibili strategie.
+espansi (visitati). In generale, tale lista ha a disposizione le due funzioni \verb|pop| e
+\verb|push| per rimuovere e inserire nodi nella lista. Quello che cambia sono le possibili
+implementazioni della lista che daranno poi vita a diverse possibili strategie.
 
 Nello specifico posso adottare 3 politiche principali:
 \begin{itemize}
@@ -59,26 +59,22 @@ Ci sono quattro parametri fondamentali per valutare una strategia:
 	\item \textbf{Complessit\`a in tempo}: tempo richiesto per trovare la soluzione.
 	\item \textbf{Complessit\`a in spazio}: memoria richiesta.
 \end{itemize}
+Introduciamo inoltre tre valori utili all'analisi degli algoritmi di ricerca che generano
+un albero di ricerca.
+\begin{itemize}
+	\item \textbf b = fattore di ramificazione (numero massimo di successori)
+	\item \textbf d = profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
+	\item \textbf m = lunghezza massima dei cammini nello spazio degli stati
+\end{itemize}
 
 \section{Ricerca su albero}
-Quello che facciamo \`e una \textbf{visita} dello spazio degli stati finch\'e non
-si giunge allo \textbf{stato obbiettivo} o finch\'e, dopo aver visitato tutti gli stati, ci
-rendiamo conto di aver esplorato tutto lo spazio degli stati (o almeno quello esplorabile
-partendo dallo stato fornito in partenza).
+L'algoritmo in questione ha la caratteristica di essere efficiente in memoria, tuttavia
+non tiene traccia dei nodi gi\`a visitati. Questo potrebbe portare la ricerca a compiere
+cammini ciclici da cui poi non si riuscirebbe pi\`u ad uscire.
 
-Per fare la visita avremo bisogno di un buffer che chiameremo \textbf{frontiera}, dove metteremo
-gli stati adiacenti a quello corrente che intendiamo visitare.
-
-\subsection{Algoritmo}
-L'algoritmo procede in questo modo:
+I passi principali dell'algoritmo sono questi:
 \begin{enumerate}
 	\item Si sceglie uno stato iniziale e si mette nella frontiera.
-	\item Si entra in un ciclo da cui si pu\`o uscire solo in due modi:
-	      \begin{itemize}
-		      \item Si trova la soluzione.
-		      \item Si esaurisce tutto lo spazio degli stati senza trovare la soluzione (quindi
-		            non esiste).
-	      \end{itemize}
 	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
 	      stati visitabili e quindi non c'\`e una soluzione e l'algoritmo termina con
 	      fallimento.
@@ -111,89 +107,42 @@ ricerca_albero (problema)
 					frontiera.push(figlio);
 	return risultato;
 \end{lstlisting}
-Il problema di questo tipo di ricerca \`e che non si tiene traccia dei nodi gi\`a visitati
-quindi si potrebbe entrare in cicli da cui, non potendo pi\`u uscire, non riusciremmo n\'e
-a trovare una soluzione n\'e riusciremmo a capire se questa esiste o meno. Non si tiene neanche
-traccia del nodo da cui si \`e venuti (nodo padre), quindi, se le azioni lo consentono potremmo
-anche tornare a visitare il nodo padre. Controllare quest'ultima cosa non grava sull'occupazione
-di memoria ma non risolve il problema della creazione di cicli.
 
 \section{Ricerca su grafo}
-\subsection{Ricerca in ampiezza - BFS}
+Questo tipo di ricerca si differenzia da quella su albero perch\'e stavolta si tiene traccia
+dei nodi gi\`a visitati e dunque non si rischia di entrare in cicli. L'occupazione di memoria
+potrebbe essere tuttavia notevole.
+
+L'algoritmo non \`e molto diverso dal precendente e segue i seguenti passi:
+\begin{enumerate}
+	\item Si sceglie uno stato iniziale e si mette nella frontiera.
+	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
+	      stati visitabili e quindi non c'\`e una soluzione e l'algoritmo termina con
+	      fallimento.
+	\item Si estrae un nodo dalla frontiera, se contiene lo stato obbiettivo l'algoritmo
+	      termina ritornando la soluzione.
+	\item Inserisco il nodo nella lista dei nodi esplorati.
+	\item Espando il nodo e inserisco i nodi figlio nella frontiera solo se non ci sono gi\`a
+	      e se non sono nemmeno nella lista dei nodi esplorati.
+	\item Si torna al punto 2.
+\end{enumerate}
+
+\section{Ricerca in ampiezza - BFS}
 L'algoritmo BFS si basa sul visitare tutti i nodi adiacenti a quello corrente prima di
 scendere ulteriormente in profondit\`a. In questo caso la frontiera \`e implementata
 tramite una lista con politica FIFO. Si procede in questo modo:
-\begin{enumerate}
-	\item Inserisco il nodo iniziale nella frontiera.
-	\item Estraggo un nodo dalla frontiera.
-	\item Se la frontiera \`e vuota ho terminato la visita senza trovare il nodo soluzione.
-	\item Si valuta che il nodo corrente sia o meno il nodo soluzione. Se lo \`e, termino
-	      ritornando la soluzione.
-	\item Inserisco tutti i nodi adiacenti a quello corrente (tranne il padre) nella
-	      frontiera.
-	\item Torno al punto 2.
-\end{enumerate}
 
-\subsubsection{Ricerca in ampiezza su albero}
+\subsection{Ricerca in ampiezza su albero}
 In questo tipo di ricerca non si gestisce il problema di eventuali stati gi\`a esplorati.
 Cos\`i facendo andiamo incontro alla possibilit\`a di incontrare cicli da cui poi non
 riusciremmo pi\`u a uscire.
-\begin{lstlisting}[style=pseudo-style]
-BFS_albero (problema)
-	radice = problema.statoIniziale;
-	frontiera.push(radice);
-	risultato = null;
-	while risultato == null
-		if frontiera.isEmpty() then
-			risultato = FALLIMENTO;
-		else
-			nodo = frontiera.pop();
-			/* per ogni azione possibile da quel nodo genero un 
-			nodo figlio */
-			foreach azione in problema.Azioni(nodo.stato)
-				figlio = Nodo(problema, nodo, azione);
-				if problema.statoObbiettivo == figlio.stato then
-					risultato = SOLUZIONE;
-				else
-					frontiera.push(figlio);
-	return risultato;
-\end{lstlisting}
 
-\subsubsection{Ricerca in ampiezza su grafo}
+\subsection{Ricerca in ampiezza su grafo}
 Con questo metodo si ovvia al problema della possibile espansione di nodi gi\`a esplorati
 con una struttura dati aggiuntiva in cui, per l'appunto andiamo a inserire tutti i nodi
 gi\`a esplorati. In sintesi guadagnamo in completezza ma perdiamo in utilizzo della memoria.
-\begin{lstlisting}[style=pseudo-style]
-BFS_grafo (problema)
-	radice = problema.statoIniziale;
-	frontiera.push(radice);
-	esplorati = [];
-	risultato = null;
-	while risultato == null
-		if frontiera.isEmpty() then
-			risultato = FALLIMENTO;
-		else
-			nodo = frontiera.pop();
-			esplorati.push(nodo.stato);
-			/* per ogni azione possibile da quel nodo genero un 
-			nodo figlio */
-			foreach azione in problema.Azioni(nodo.stato)
-				figlio = Nodo(problema, nodo, azione);
-				if figlio.stato not in esplorati and figlio not in frontiera then
-					if problema.statoObbiettivo == figlio.stato then
-						risultato = SOLUZIONE;
-					else
-						frontiera.push(figlio);
-	return risultato;
-\end{lstlisting}
 
-\subsubsection{Analisi BFS}
-Introduciamo tre valori utili all'analisi degli algoritmi.
-\begin{itemize}
-	\item \textbf b = fattore di ramificazione (numero massimo di successori)
-	\item \textbf d = profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
-	\item \textbf m = lunghezza massima dei cammini nello spazio degli stati
-\end{itemize}
+\subsection{Analisi BFS}
 Per quanto riguarda la ricerca in ampiezza (BFS) possiamo dire che
 \begin{itemize}
 	\item \`E completa.
@@ -280,7 +229,6 @@ Per la versione su grafo possiamo dire che:
 	\item La complessit\`a in spazio \`e $O(b^m)$.
 \end{itemize}
 
-\newpage
 \subsection{Ricerca in profondit\`a limitata - DLS}
 Questo algoritmo \`e una variante della DFS in cui si da un limite di profondit\`a oltre
 il quale non si deve scendere.
