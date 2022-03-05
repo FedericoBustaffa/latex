@@ -13,64 +13,17 @@ degli stati (generato da possibili azioni).
 Ma come si genera l'albero di ricerca ?
 \begin{enumerate}
 	\item La radice dell'albero corrisponde allo stato iniziale.
-	\item Ad ogni passo si sceglie una foglia dell'albero generato fino a quel momento.
-	\item Le foglie costituiscono la \textbf{frontiera}.
-	\item Ogni volta che visitiamo una foglia \textbf{espandiamo} tale nodo.
+	\item Ad ogni passo si sceglie un nodo figlio del nodo corrente.
+	\item I figli del nodo corrente vengono inseriti nella \textbf{frontiera}, struttura
+	      dati dove vengono messi i nodi in attesa di essere visitati (approfondimento
+	      pi\`u avanti).
+	\item Estraiamo i nodi uno ad uno dalla frontiera per visitarli ripetendo il solito
+	      procedimento.
+	\item Ogni volta che visitiamo un nodo lo stiamo \textbf{espandendo}.
 \end{enumerate}
 Dobbiamo chiarire che un \emph{nodo} e uno \emph{stato} non sono la stessa cosa. Uno stato
 \`e un'osservazione sul mondo del problema. Un nodo \`e una componente dell'albero di
 ricerca e pu\`o capitare di avere pi\`u nodi con lo stesso stato.
-
-\section{Ricerca ad albero}
-Quello che facciamo in questo caso \`e una \textbf{visita} dello spazio degli stati finch\'e non
-si giunge allo \textbf{stato obbiettivo} o finch\'e, dopo aver visitato tutti gli stati, ci
-rendiamo conto di aver esplorato tutto lo spazio degli stati (o almeno quello esplorabile
-partendo dallo stato fornito in partenza).
-
-Per fare la visita avremo bisogno di un buffer che chiameremo \textbf{frontiera}, dove metteremo
-gli stati adiacenti a quello corrente che intendiamo visitare.
-\newpage
-L'algoritmo procede in questo modo:
-\begin{enumerate}
-	\item Si sceglie uno stato iniziale e si mette nella frontiera.
-	\item Si entra in un ciclo da cui si pu\`o uscire solo in due modi:
-	      \begin{itemize}
-		      \item Si trova la soluzione.
-		      \item Si esaurisce tutto lo spazio degli stati senza trovare la soluzione (quindi
-		            non esiste).
-	      \end{itemize}
-	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
-	      stati visitabili e quindi non c'\`e una soluzione e l'algoritmo termina con
-	      fallimento.
-	\item Si estrae un nodo dalla frontiera e controlliamo se lo stato \`e equivalente allo
-	      stato obbiettivo, se s\`i, l'algoritmo termina ritornando la soluzione.
-	\item Si inseriscono tutti i nodi figlio del nodo corrente nella frontiera.
-	\item Si torna al punto 2.
-\end{enumerate}
-\begin{lstlisting}[style=pseudo-style]
-Ricerca_albero (problema)
-	// inizializzazione frontiera con lo stato iniziale
-	radice = problema.statoIniziale;
-	frontiera.push(radice);
-	while true
-		// non esiste una soluzione
-		if frontiera.isEmpty() then
-			return FALLIMENTO;
-		
-		// prendo un nodo dalla frontiera
-		nodo = frontiera.pop();
-		
-		// nel caso in cui si trovi il nodo obbiettivo
-		if nodo.stato == problema.statoObbiettivo then
-			return SOLUZIONE;
-		
-		// espansione nodo
-		foreach foglia in nodo.foglie()
-			frontiera.push(foglia);
-\end{lstlisting}
-Il problema di questo tipo di ricerca \`e che non si tiene traccia dei nodi gi\`a visitati
-quindi si potrebbe entrare in cicli da cui, non potendo pi\`u uscire, non riusciremmo n\'e
-a trovare una soluzione n\'e riusciremmo a capire se questa esiste o meno.
 
 \subsection{Nodi dell'albero di ricerca}
 Un nodo \`e una struttura dati con quattro componenti:
@@ -82,10 +35,10 @@ Un nodo \`e una struttura dati con quattro componenti:
 \end{itemize}
 
 \subsection{La struttura dati della frontiera}
-La frontiera \`e implementata come una lista che contiene i nodi in attesa di essere espansi.
-In generale, tale lista ha a disposizione le due funzioni \verb|pop| e \verb|push| per rimuovere
-e inserire nodi nella lista. Quello che cambia sono le possibili implementazione della lista
-che daranno poi vita a diverse possibili strategie.
+La \textbf{frontiera} \`e implementata come una lista che contiene i nodi in attesa di essere
+espansi. In generale, tale lista ha a disposizione le due funzioni \verb|pop| e \verb|push|
+per rimuovere e inserire nodi nella lista. Quello che cambia sono le possibili implementazione
+della lista che daranno poi vita a diverse possibili strategie.
 
 Nello specifico posso adottare 3 politiche principali:
 \begin{itemize}
@@ -107,7 +60,65 @@ Ci sono quattro parametri fondamentali per valutare una strategia:
 	\item \textbf{Complessit\`a in spazio}: memoria richiesta.
 \end{itemize}
 
-\section{Algoritmi di ricerca su grafo}
+\section{Ricerca su albero}
+Quello che facciamo \`e una \textbf{visita} dello spazio degli stati finch\'e non
+si giunge allo \textbf{stato obbiettivo} o finch\'e, dopo aver visitato tutti gli stati, ci
+rendiamo conto di aver esplorato tutto lo spazio degli stati (o almeno quello esplorabile
+partendo dallo stato fornito in partenza).
+
+Per fare la visita avremo bisogno di un buffer che chiameremo \textbf{frontiera}, dove metteremo
+gli stati adiacenti a quello corrente che intendiamo visitare.
+
+\subsection{Algoritmo}
+L'algoritmo procede in questo modo:
+\begin{enumerate}
+	\item Si sceglie uno stato iniziale e si mette nella frontiera.
+	\item Si entra in un ciclo da cui si pu\`o uscire solo in due modi:
+	      \begin{itemize}
+		      \item Si trova la soluzione.
+		      \item Si esaurisce tutto lo spazio degli stati senza trovare la soluzione (quindi
+		            non esiste).
+	      \end{itemize}
+	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
+	      stati visitabili e quindi non c'\`e una soluzione e l'algoritmo termina con
+	      fallimento.
+	\item Si estrae un nodo dalla frontiera e controlliamo se lo stato \`e equivalente allo
+	      stato obbiettivo, se s\`i, l'algoritmo termina ritornando la soluzione.
+	\item Si inseriscono tutti i nodi figlio del nodo corrente nella frontiera.
+	\item Si torna al punto 2.
+\end{enumerate}
+\begin{lstlisting}[style=pseudo-style]
+ricerca_albero (problema)
+	// inizializzazione frontiera con lo stato iniziale
+	radice = problema.statoIniziale;
+	frontiera.push(radice);
+	risultato = null;
+	while risultato == null
+		// non esiste una soluzione
+		if frontiera.isEmpty() then
+			risultato = FALLIMENTO;
+		else
+			// prendo un nodo dalla frontiera
+			nodo = frontiera.pop();
+		
+			// nel caso in cui si trovi il nodo obbiettivo
+			if nodo.stato == problema.statoObbiettivo then
+				risultato = SOLUZIONE;
+			else
+				// espansione nodo
+				foreach azione in problema.Azioni(nodo.stato)
+					figlio = Nodo(problema, nodo, azione);
+					frontiera.push(figlio);
+	return risultato;
+\end{lstlisting}
+Il problema di questo tipo di ricerca \`e che non si tiene traccia dei nodi gi\`a visitati
+quindi si potrebbe entrare in cicli da cui, non potendo pi\`u uscire, non riusciremmo n\'e
+a trovare una soluzione n\'e riusciremmo a capire se questa esiste o meno. Non si tiene neanche
+traccia del nodo da cui si \`e venuti (nodo padre), quindi, se le azioni lo consentono potremmo
+anche tornare a visitare il nodo padre. Controllare quest'ultima cosa non grava sull'occupazione
+di memoria ma non risolve il problema della creazione di cicli.
+
+\section{Ricerca su grafo}
 \subsection{Ricerca in ampiezza - BFS}
 L'algoritmo BFS si basa sul visitare tutti i nodi adiacenti a quello corrente prima di
 scendere ulteriormente in profondit\`a. In questo caso la frontiera \`e implementata
