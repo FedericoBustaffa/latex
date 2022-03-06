@@ -128,19 +128,11 @@ L'algoritmo non \`e molto diverso dal precendente e segue i seguenti passi:
 \end{enumerate}
 
 \section{Ricerca in ampiezza - BFS}
-L'algoritmo BFS si basa sul visitare tutti i nodi adiacenti a quello corrente prima di
-scendere ulteriormente in profondit\`a. In questo caso la frontiera \`e implementata
-tramite una lista con politica FIFO. Si procede in questo modo:
-
-\subsection{Ricerca in ampiezza su albero}
-In questo tipo di ricerca non si gestisce il problema di eventuali stati gi\`a esplorati.
-Cos\`i facendo andiamo incontro alla possibilit\`a di incontrare cicli da cui poi non
-riusciremmo pi\`u a uscire.
-
-\subsection{Ricerca in ampiezza su grafo}
-Con questo metodo si ovvia al problema della possibile espansione di nodi gi\`a esplorati
-con una struttura dati aggiuntiva in cui, per l'appunto andiamo a inserire tutti i nodi
-gi\`a esplorati. In sintesi guadagnamo in completezza ma perdiamo in utilizzo della memoria.
+L'algoritmo BFS compie una visita in ampiezza, ovvero, visita prima tutti i nodi che stanno
+alla stessa profondit\`a dell'albero di ricerca e poi scende pi\`u in profondit\`a.
+Questo ci garantisce l'ottimo della soluzione trovata (se esiste). Per creare questo
+tipo di algoritmo baster\`a implementare la frontiera come una lista con politica FIFO
+(coda) e procedere come descritto sopra.
 
 \subsection{Analisi BFS}
 Per quanto riguarda la ricerca in ampiezza (BFS) possiamo dire che
@@ -154,19 +146,16 @@ Per quanto riguarda la ricerca in ampiezza (BFS) possiamo dire che
 	\item La complessit\`a in sapzio \`e $O(b^d)$.
 \end{itemize}
 
-\subsection{Ricerca in profondit\`a - DFS}
-L'algoritmo di ricerca DFS si basa su una visita in profondit\`a, ovvero, una volta visitato
-un figlio del nodo, si procede alla visita del figlio del figlio. Si procede cos\`i finch\'e
-non si raggiunge il nodo obbiettivo oppure finch\'e non si raggiunge un nodo senza figli.
-L'ordine di visita \`e dato  tramite una lista con politica LIFO.
-\begin{enumerate}
-	\item Visito il nodo corrente.
-	\item Se \`e il nodo contenente lo stato soluzione termino ritornando la soluzione.
-	\item Visito il primo figlio del nodo corrente.
-	\item Torno al punto 1.
-\end{enumerate}
+\section{Ricerca in profondit\`a - DFS}
+L'algoritmo di ricerca DFS effettua una visita in profondit\`a, ovvero, continua a scendere
+in profondit\`a finch\'e non trova un nodo senza figli e quindi torna indietro fino alla
+prima diramazione da cui \`e possibile ricominciare a scendere. Ovviamente se si trova la
+soluzione ci si ferma prima. L'algoritmo rimane il solito illustrato in precendeza, sia per
+la versione su albero che per la versione su grafo. Ci\`o che rende possibile questa
+modalit\`a di visita \`e l'implementazione della frontiera come una lista con politica LIFO
+(pila).
 
-\subsubsection{Ricerca in profondit\`a su albero (versione ricorsiva)}
+\subsection{Ricerca in profondit\`a su albero (versione ricorsiva)}
 Come prima non viene gestito il problema dei nodi gi\`a esplorati e in questo caso adotta un
 approccio di tipo ricorsivo, che fornisce un vantaggio in spazio visto che non dobbiamo
 salvarci in memoria gli stati ma vengono tenuti in uno stack in caso di fallimento.
@@ -183,35 +172,7 @@ DFS_albero_ricorsivo (problema, nodo)
 		return fallimento;
 \end{lstlisting}
 
-\subsubsection{Ricerca in profondit\`a su grafo (versione iterativa)}
-Con questo metodo non abbiamo pi\`u il problema della possibile visita di nodi gi\`a visitati
-ma perdiamo il vantaggio in memoria del metodo precedente.
-\begin{lstlisting}[style=pseudo-style]
-DFS_grafo (problema)
-	radice = statoIniziale;
-	frontiera.push(radice);
-	esplorati = [];
-	risultato = null;
-	while risultato == null
-		if frontiera.isEmpty() then
-			risultato = FALLIMENTO;
-		else
-			nodo = frontiera.pop();
-			esplorati.push(nodo.stato);
-			foreach azione in problema.Azioni(nodo.stato)
-				figlio = Nodo(problema, nodo, azione);
-				if figlio.stato not in esplorati and figlio not in frontiera then
-					if problema.statoObbiettivo == figlio.stato then
-						risultato = SOLUZIONE;
-					else
-						frontiera.push(figlio);
-	return risultato;	
-\end{lstlisting}
-Come possiamo notare, l'algoritmo \`e identico a quello ricerca BFS su grafo. Ci\`o che cambia
-e che ci permette di effettuare una visita in profondit\`a \`e il fatto che la lista \`e
-implementata con una politica LIFO.
-
-\subsubsection{Analisi DFS}
+\subsection{Analisi DFS}
 Per questo algoritmo dobbiamo differenziare tra la variante su albero e su grafo. Sulla prima
 possiamo dire che:
 \begin{itemize}
@@ -229,11 +190,11 @@ Per la versione su grafo possiamo dire che:
 	\item La complessit\`a in spazio \`e $O(b^m)$.
 \end{itemize}
 
-\subsection{Ricerca in profondit\`a limitata - DLS}
+\section{Ricerca in profondit\`a limitata - DLS}
 Questo algoritmo \`e una variante della DFS in cui si da un limite di profondit\`a oltre
 il quale non si deve scendere.
 
-\subsubsection{Analisi DLS}
+\subsection{Analisi DLS}
 Leggermente migliore della DFS, possiamo affermare che:
 \begin{itemize}
 	\item \`E completa per problemi in cui si conosce un limite superiore per la profondit\`a
@@ -266,7 +227,7 @@ Pi\`u nello specifico, si preferisce la ricerca
 \end{itemize}
 Nella \textbf{ricerca bidirezionale} si procede nelle due direzioni fino ad incontrarsi.
 
-\subsubsection{Analisi ricerca bidirezionale}
+\subsection{Analisi ricerca bidirezionale}
 Su questo tipo di ricerca possiamo dire che:
 \begin{itemize}
 	\item La complessit\`a in tempo \`e $O(b^{d/2})$ assumendo test di intersezione in
@@ -276,57 +237,15 @@ Su questo tipo di ricerca possiamo dire che:
 
 \section{Ricerca di costo uniforme UC}
 \`E una generalizzazione della ricerca in ampiezza: si sceglie il nodo di costo minore sulla
-frontiera, si espende sui nodi adiacenti di uguale costo invece che sui nodi adiacenti di
+frontiera e si espande sui nodi adiacenti di uguale costo invece che sui nodi adiacenti di
 uguale profondit\`a.
 La frontiera \`e implementata da una lista ordinata per costo di cammino crescente (in cima
 ci vanno i nodi di costo minore).
-\subsection{Ricerca di costo uniforme su albero}
-Vediamo un'idea di algoritmo di questo tipo di ricerca:
-\begin{lstlisting}[style=pseudo-style]
-UC_albero (problema)
-	radice = statoIniziale;
-	frontiera.push(radice);
 
-	while true
-		if frontiera.isEmpty() then
-			return FALLIMENTO;
-		
-		nodo = frontiera.pop();
-		if nodo.stato == problema.statoObbiettivo then
-			return SOLUZIONE;
-		
-		foreach azione in problema.Azioni(nodo.stato)
-			figlio = Nodo(problema, nodo, azione);
-			frontiera.push(figlio);
-\end{lstlisting}
-
-\subsection{Ricerca di costo uniforme su grafo}
-Come per i precedenti ora teniamo conto degli stati gi\`a esplorati.
-\begin{lstlisting}[style=pseudo-style]
-UC_grafo (problema)
-	radice = statoIniziale;
-	frontiera.push(radice);
-	esplorati = [];
-
-	while true
-		if frontiera.isEmpty() then
-			return FALLIMENTO;
-		
-		nodo = frontiera.pop();
-		esplorati.push(nodo.stato);
-		
-		foreach azione in problema.Azioni(nodo.stato)
-			figlio = Nodo(problema, nodo, azione);
-			if figlio.stato not in esplorati and figlio not in frontiera then
-				if nodo.stato == problema.statoObbiettivo then
-					return SOLUZIONE;
-				frontiera.push(figlio);
-\end{lstlisting}
-
-\subsubsection{Analisi UC}
+\subsection{Analisi UC}
 Su questo tipo di algoritmo possiamo dire che:
 \begin{itemize}
-	\item \`E completo e ottimo a patto che il costo degli archi sia maggiore di
+	\item \`E completo e ottimale a patto che il costo degli archi sia maggiore di
 	      $\epsilon > 0$
 	\item Assunto $C$ come costo della soluzione ottima $\lfloor C/\epsilon \rfloor$ \`e
 	      il numero di mosse nel caso peggiore.
