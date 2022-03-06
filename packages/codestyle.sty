@@ -12,6 +12,8 @@
 \RequirePackage{listings}
 
 \renewcommand{\ttdefault}{pcr}
+
+
 \lstset{
 	backgroundcolor=\color{bg},
 	basicstyle=\small\ttfamily\color{t},
@@ -95,3 +97,8 @@
 	morestring=[b]',
 	morestring=[b]`
 }
+
+\lstnewenvironment{pseudo}{\lstset{language=pseudo, style=pseudo-style}}{}
+\lstnewenvironment{python}{\lstset{language=python}}{}
+\lstnewenvironment{html}{\lstset{language=html5}}{}
+\lstnewenvironment{javascript}{\lstset{language=javascript}}{}

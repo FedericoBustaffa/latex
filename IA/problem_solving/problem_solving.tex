@@ -159,18 +159,19 @@ modalit\`a di visita \`e l'implementazione della frontiera come una lista con po
 Come prima non viene gestito il problema dei nodi gi\`a esplorati e in questo caso adotta un
 approccio di tipo ricorsivo, che fornisce un vantaggio in spazio visto che non dobbiamo
 salvarci in memoria gli stati ma vengono tenuti in uno stack in caso di fallimento.
-\begin{lstlisting}[style=pseudo-style]
-DFS_albero_ricorsivo (problema, nodo)
+\noindent
+\begin{pseudo}
+	DFS_albero_ricorsivo (problema, nodo)
 	if nodo.stato == problema.statoObbiettivo then
-		return SOLUZIONE(nodo);
-	
+	return SOLUZIONE(nodo);
+
 	foreach azione in problema.Azioni(nodo.stato)
-		figlio = Nodo(problema, nodo, azione);
-		risultato = DFS_albero_ricorsivo(problema, figlio);
-		if risultato != fallimento then
-			return risultato;
-		return fallimento;
-\end{lstlisting}
+	figlio = Nodo(problema, nodo, azione);
+	risultato = DFS_albero_ricorsivo(problema, figlio);
+	if risultato != FALLIMENTO then
+	return risultato;
+	return FALLIMENTO;
+\end{pseudo}
 
 \subsection{Analisi DFS}
 Per questo algoritmo dobbiamo differenziare tra la variante su albero e su grafo. Sulla prima
