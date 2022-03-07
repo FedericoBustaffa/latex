@@ -250,4 +250,27 @@ Vale che $h(goal) = 0$ ma ammissibilit\`a e consistenza non sono automatiche.
 
 \section{Algoritmi euristici ottimizzati in spazio}
 \subsection{Beam Search}
+\`E una variante della Best-First che tiene, ad ogni passo, solo i $k$ nodi pi\`u
+promettenti, dove $k$ \`e l'\emph{ampiezza del raggio} (beam). Anche se pi\`u efficiente
+in spazio la Beam Search non \`e completa.
+
 \subsection{IDA*}
+Questo algoritmo combina A* con ID. Si fa in sostanza una ricerca in profondit\`a con
+un limite dato dal valore della funzione $f$ (e non dalla profondit\`a). Tale limite viene
+aumentato ad ogni iterazione, fino a trovare la soluzione.
+
+\subsubsection{Di quanto incrementare il limite ?}
+La scelta dell'incremento \`e fondamentale per garantire l'ottimalit\`a, ma come
+sceglierlo ?
+\begin{itemize}
+	\item Nel caso di costo fisso delle azioni, il limite viene incrementato del costo
+	      delle azioni.
+	\item Nel caso di costo variabile delle azioni ho due opzioni:
+	      \begin{itemize}
+		      \item Prendo il costo minimo.
+		      \item Ad ogni passo prendo il valore minimo delle $f$ scartate
+		            all'iterazione precedente.
+	      \end{itemize}
+\end{itemize}
+L'algoritmo IDA* \`e completo e ottimale se rispetto le regole di incremento di $f$-limit 
+viste poco fa e la complessit\`a in spazio \`e $O(bd)$.
