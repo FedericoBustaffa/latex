@@ -26,8 +26,8 @@ Greedy Best-First in cui si basa la scelta interamente sul valore dell'euristica
 
 \section{Algoritmo A}
 \begin{definition}
-	Un algoritmo A \`e un algoritmo Best-First con una funzione di valutazione dello
-	stato del tipo:
+	Un \textbf{algoritmo A} \`e un algoritmo Best-First con una funzione di valutazione
+	dello stato del tipo:
 	\[ f(n) = g(n) + h(n) \quad \text{con } h(n) \geq 0 \wedge h(goal) = 0 \]
 \end{definition}
 Come casi particolari dell'algoritmo A vedremo
@@ -57,3 +57,197 @@ Come casi particolari dell'algoritmo A vedremo
 		giunto al nodo \emph{goal}.
 	\end{proof}
 \end{theorem}
+
+\section{Algoritmo A*}
+Questo algoritmo \`e un algoritmo ideale che utilizza una funzione $f^*$ (oracolo) di questo
+tipo \[ f^*(n) = g^*(n) + h^*(n) \] dove
+\begin{itemize}
+	\item $g^*(n)$ \`e il costo del cammino minimo dalla radice a $n$.
+	\item $h^*(n)$ \`e il costo del cammino minimo da $n$ al nodo \emph{goal}.
+	\item $f^*(n)$ \`e il costo del cammino minimo da radice a \emph{goal}, attraverso $n$.
+\end{itemize}
+Normalmente $g(n) \geq g^*(n)$ e $h(n)$ \`e una stima di $h^*(n)$. Tale stima pu\`o essere
+una \textbf{sottostima} o una \textbf{sovrastima} della distanza dalla soluzione.
+
+\begin{definition}
+	Un'euristica $h$ \`e ammissibile se
+	\[ \forall n \quad h(n) \leq h^*(n) \]
+	cio\`e se $h$ \`e una sottostima.
+\end{definition}
+
+\begin{definition}
+	Un \textbf{algoritmo A*} \`e un algoritmo A in cui $h$ \`e una funzione euristica
+	ammissibile.
+\end{definition}
+
+\begin{theorem}
+	Gli algoritmi A* sono ottimali.
+\end{theorem}
+
+\begin{corollary}
+	BF\textsuperscript{(+)} e UC sono ottimali ($h(n) = 0$).
+\end{corollary}
+
+\subsection{Osservazioni su A*}
+Rispetto alla Greedy Best-First la componente $g$ fa s\`i che si abbandonino cammini che
+vanno troppo in profondit\`a.
+
+Ma come scegliere $h$ ?
+\begin{itemize}
+	\item Una sottostima $h$ pu\`o farci compiere lavoro inutile per\`o non ci fa perdere
+	      l'ottimo.
+	\item Una sovrastima invece potrebbe farci compiere meno lavoro ma col rischi di perdere
+	      l'ottimo.
+\end{itemize}
+
+\subsection{Ottimalit\`a di A*}
+\begin{itemize}
+	\item Nel caso di ricerca su albero, l'uso di un'euristica ammissibile \`e sufficiente a
+	      garantire l'ottimalit\`a di A*.
+	\item Nel caso di ricerca su grafo serve una propriet\`a pi\`u forte: la
+	      \textbf{consistenza}. La consistenza fa s\`i che si eviti di scartare candidati
+	      ottimi. Per farlo cerchiamo condizioni in grado di garantire che il primo nodo
+	      espanso sia il migliore.
+\end{itemize}
+
+\begin{definition}
+	Un'euristica \`e detta \textbf{consistente} se
+	\begin{itemize}
+		\item $h(goal) = 0$
+		\item $\forall n \quad h(n) \leq c(n, a, n') + h'(n)$ dove $c$ \`e il costo dell'azione
+		      $a$ per arrivare da $n$ a $n'$ ($n'$ \`e il successore di $n$).
+		\item Segue che $f(n) \leq f(n')$.
+	\end{itemize}
+\end{definition}
+
+\begin{theorem}
+	Se $h$ \`e consistente la $f$ non decresce mai lungo i cammini (euristica
+	\textbf{monot\`ona}).
+	\begin{proof}
+		Se \[ h(n) \leq c(n, a, n') + h(n') \] allora
+		\[ g(n) + h(n) \leq g(n) + c(n, a, n') + h(n') \]
+		ma siccome
+		\[ g(n) + c(n, a, n') = g(n') \] allora
+		\[ g(n) + h(n) \leq g(n') + h(n') \] che equivale a dire
+		\[ f(n) \leq f(n') \]
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}
+	Un'euristica monot\`ona \`e ammissibile
+\end{theorem}
+Le euristiche monot\`one garantiscono che la soluzione meno costosa venga trovata per prima
+e quindi sono ottimali anche nella ricerca su grafo. Questo perch\'e
+\begin{itemize}
+	\item Non si devono recuperare tra gli antenati nodi con costo minore.
+	\item La lista degli esplorati ci garantisce che lo stato gi\`a esplorato sia sul cammino
+	      ottimo quindi, posso evitare di inserire il nodo corrente senza perdere
+	      l'ottimalit\`a.
+	\item Sostituisco un nodo gi\`a nella frontiera con uno che ha lo stesso stato ma costo
+	      del cammino minore.
+\end{itemize}
+Ogni volta che A* seleziona un nodo $n$ per l'espansione, il cammino ottimo a tale nodo \`e stato
+trovato. Se cos\`i non fosse, ci sarebbe un un altro nodo $m$ della frontiera sul cammino
+ottimo, con $f(m)$ minore. Ma ci\`o non \`e possibile perch\'e tale nodo sarebbe gi\`a stato
+espanso.
+
+Quando A* seleziona il nodo \emph{goal} ho il cammino ottimo.
+
+\subsection{Vantaggi di A*}
+A* risulta vantaggioso per tre motivi fondamentalmente:
+\begin{itemize}
+	\item Espande tutti i nodi con $f(n) < C^*$ dove $C^*$ \`e il costo minimo.
+	\item Espande alcuni nodi con $f(n) = C^*$.
+	\item Non espande alcun nodo con $f(n) > C^*$. Alcuni nodi non vengono proprio considerati
+	      per l'espansione (\emph{pruning}). Per tagliare pi\`u rami dell'albero di ricerca cerco
+	      euristiche con valore pi\`u alto possibile (pi\`u informate).
+\end{itemize}
+
+\subsection{Bilancio su A*}
+I punti a favore sono
+\begin{itemize}
+	\item A* \`e completo.
+	\item A* con un'euristica monot\`ona \`e ottimale.
+	\item A* \`e ottimamente efficiente, ovvero, a parit\`a di euristica, nessun altro algoritmo
+	      espande meno nodi.
+\end{itemize}
+I problemi sono
+\begin{itemize}
+	\item La scelta/costruzione dell'euristiche.
+	\item La complessit\`a in spazio, che \`e $O(b^{d+1})$ per via della frontiera.
+\end{itemize}
+
+\section{Costruzione di euristiche}
+\subsection{Valutazione di funzioni euristiche}
+A parit\`a di ammissibilit\`a, un'euristica pu\`o essere pi\`u efficiente di un'altra nel trovare
+il cammino soluzione migliore. Questo dipende da quanto \`e informata l'euristica.
+Pi\`u l'euristica \`e informata pi\`u \`e efficiente
+\begin{itemize}
+	\item Se $h(n) = 0$ non sono niente.
+	\item $h^*(n)$ \`e l'oracolo che sa gi\`a il cammino minimo.
+\end{itemize}
+
+\begin{theorem}
+	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora i nodi espansi da A*
+	con $h_2$ sono un sottoinsieme di quelli espansi da A* con $h_1$.
+\end{theorem}
+
+\begin{theorem}
+	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora A* con $h_2$ \`e almeno
+	efficiente quanto A* con $h_1$
+\end{theorem}
+In generale un'euristica pi\`u informata riduce lo spazio di ricerca ma \`e, tipicamente, pi\`u
+costosa da calcolare.
+
+\subsection{Misura del potere euristico}
+Per riuscire a valutare meglio algoritmi di ricerca con euristica introduciamo il
+\textbf{fattore di diramazione effettivo (b*)}. Tale valore rappresenta il fattore di diramazione
+di un albero uniforme con $N + 1$ nodi ed \`e la soluzione dell'equazione
+\[ N + 1 = b^* + (b^*)^2 + \dots + (b^*)^d \] dove $N$ \`e il numero di nodi generati e $d$ \`e
+la profondit\`a della soluzione.
+
+In genere una buona euristica ha una $b^*$ abbastanza vicino a 1 ($< 1.5$).
+
+\subsubsection{Capacit\`a di esplorazione}
+\`E importante sapere che, migliorando di poco l'euristica, si migliora di molto la capacit\`a
+di esplorazione (si va pi\`u in profondit\`a pi\`u in fretta).
+
+\subsection{Inventare un'euristica}
+Esistono alcune strategie per ottenere euristiche ammissibili.
+
+\subsubsection{Rilassamento del problema}
+Posso rilassare i vincoli del problema per ottenere sottostime.
+
+\subsubsection{Massimizzazione di euristiche}
+Se si hanno una serie di euristiche ammissibili, senza che nessuna ne domini un'altra allora
+conviene prendere il massimo dei loro valori.
+
+\subsubsection{Pattern disgiunti}
+Posso creare un'euristica per la risoluzione di un sottoproblema, ottenendo cos\`i una sottostima
+del costo del problema intero. A questo punto salvo ogni istanza del sottoproblema in un database
+di pattern (con relativo costo della soluzione) e uso il database per trovare un'euristica
+ammissibile.
+
+A questo punto possiamo fare lo stesso per pi\`u sottoproblemi ottenendo altre euristiche
+ammissibili. Se prendo quella con valore massimo ho sempre un'euristica ammissibile.
+
+Non \`e tuttavia possibile sommarle per ottenere un'euristica ancora pi\`u accurata. Questo
+perch\'e la soluzione ai sottoproblemi interferiscono tra loro e perch\'e in generale la somma
+delle euristiche non \`e ammissibile.
+
+Ecco che ci vengono in aiuto i \textbf{database di pattern disgiunti} che ci permettono di
+sommare i costi e sono anche molto efficienti.
+
+\subsubsection{Costruzione tramite apprendimento}
+Si possono apprendere nuove euristiche tramite l'esperienza, si fa cio\`e girare il programma
+per ottenere informazioni utili alla costruzione dell'euristica.
+
+\subsubsection{Combinazione di euristiche}
+Si possono combinare pi\`u euristiche come combinazione lineare
+\[ h(n) = c_1 x_1(n) + \dots + c_k x_k(n) \]
+In questo caso il peso dei coefficienti pu\`o essere regolato sempre con l'\emph{esperienza}.
+Vale che $h(goal) = 0$ ma ammissibilit\`a e consistenza non sono automatiche.
+
+\section{Algoritmi euristici ottimizzati in spazio}
+\subsection{Beam Search}
+\subsection{IDA*}

@@ -88,24 +88,20 @@ ricerca_albero (problema)
 	// inizializzazione frontiera con lo stato iniziale
 	radice = problema.statoIniziale;
 	frontiera.push(radice);
-	risultato = null;
-	while risultato == null
+	while true
 		// non esiste una soluzione
 		if frontiera.isEmpty() then
-			risultato = FALLIMENTO;
-		else
-			// prendo un nodo dalla frontiera
-			nodo = frontiera.pop();
+			return FALLIMENTO;
+		// prendo un nodo dalla frontiera
+		nodo = frontiera.pop();
 		
-			// nel caso in cui si trovi il nodo obbiettivo
-			if nodo.stato == problema.statoObbiettivo then
-				risultato = SOLUZIONE;
-			else
-				// espansione nodo
-				foreach azione in problema.Azioni(nodo.stato)
-					figlio = Nodo(problema, nodo, azione);
-					frontiera.push(figlio);
-	return risultato;
+		// nel caso in cui si trovi il nodo obbiettivo
+		if nodo.stato == problema.statoObbiettivo then
+			return SOLUZIONE;
+		// espansione nodo
+		foreach azione in problema.Azioni(nodo.stato)
+			figlio = Nodo(problema, nodo, azione);
+			frontiera.push(figlio);
 \end{lstlisting}
 
 \section{Ricerca su grafo}
@@ -126,6 +122,28 @@ L'algoritmo non \`e molto diverso dal precendente e segue i seguenti passi:
 	      e se non sono nemmeno nella lista dei nodi esplorati.
 	\item Si torna al punto 2.
 \end{enumerate}
+\newpage
+\begin{lstlisting}[style=pseudo-style]
+ricerca_grafo (problema)
+	// inizializzazione frontiera con stato iniziale
+	radice = problema.statoIniziale;
+	frontiera.push(radice);
+	esplorati = [];
+	while true
+		// non esiste soluzione
+		if frontiera.isEmpty() then
+			return FALLIMENTO;
+		else
+			// prendo un nodo dalla frontiera
+			nodo = frontiera.pop();
+			esplorati.push(nodo.stato);
+			foreach azione in problema.Azioni(nodo.stato)
+				figlio = Nodo(problema, nodo, azione);
+				if figlio.stato not in esplorati and figlio not in frontiera then
+					if nodo.stato == problema.statoObbiettivo then
+						return SOLUZIONE;
+					frontiera.push(figlio);
+\end{lstlisting}
 
 \section{Ricerca in ampiezza - BFS}
 L'algoritmo BFS compie una visita in ampiezza, ovvero, visita prima tutti i nodi che stanno
