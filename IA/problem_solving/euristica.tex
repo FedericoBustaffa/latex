@@ -6,3 +6,54 @@ per riconoscere i cammini pi\`u promettenti, si fa cio\`e una stima del costo fu
 Si introduce cos\`i il concetto di \textbf{conoscenza euristica}, che aiuta a fare scelte
 \emph{oculate}. In questo modo si riduce la ricerca, si trova una \emph{buona} soluzione
 in tempi accettabili e, sotto certe condizioni, garantisce completezza e ottimalit\`a.
+
+\section{Funzione di valutazione euristica}
+Per fare ci\`o di cui abbiamo parlato in precedenza dobbiamo introdurre una funzione
+$f$, detta \textbf{funzione di valutazione euristica} definita come segue:
+\[ f(n) = g(n) + h(n) \]
+dove $g(n)$ \`e il costo del cammino per arrivare al nodo $n$ e $h(n)$ \`e una stima
+del costo del cammino per raggiungere il nodo \emph{goal} dal nodo $n$ secondo l'euristica
+scelta.
+
+\section{Ricerca Best-First}
+Questo algoritmo si rif\`a all'algoritmo UC ma stavolta si fa una stima di costo per
+la coda con priorit\`a. In sostanza, ad ogni passo, si sceglie il nodo sulla frontiera
+per cui il valore di $f$ \`e il migliore (il nodo pi\`u promettente).
+
+\subsection{Ricerca Greedy Best-First}
+Se usiamo solo $h$ per la scelta del nodo ovvero se $f(n) = h(n)$ abbiamo la variante
+Greedy Best-First in cui si basa la scelta interamente sul valore dell'euristica.
+
+\section{Algoritmo A}
+\begin{definition}
+	Un algoritmo A \`e un algoritmo Best-First con una funzione di valutazione dello
+	stato del tipo:
+	\[ f(n) = g(n) + h(n) \quad \text{con } h(n) \geq 0 \wedge h(goal) = 0 \]
+\end{definition}
+Come casi particolari dell'algoritmo A vedremo
+\begin{itemize}
+	\item Ricerca Uniforme (UC) se $h(n) = 0$.
+	\item Greedy Best-First se $g(n) = 0$.
+\end{itemize}
+
+\begin{theorem}
+	L'algoritmo A \`e completo se
+	\[ g(n) \geq d(n) \cdot \epsilon \quad \]
+	dove $d(n)$ \`e la profondit\`a del nodo $n$ e $\epsilon > 0$ \`e il costo minimo di
+	un arco.
+	\begin{proof}
+		Sia $\{ n_0, n_1, ..., n', ..., n_k \}$ un cammino soluzione. Sia $n'$ un nodo
+		della frontiera su un cammino soluzione allora $n'$ prima o poi sar\`a espanso.
+
+		Infatti esistono solo un numero finito di nodi $x$ che possono essere aggiunti
+		alla frontiera con $f(x) \leq f(n')$
+
+		Quindi se non si trova una soluzione prima, $n'$ verr\`a espanso e i suoi
+		successori verranno aggiunti alla frontiera. Tra questi anche il successore sul
+		cammino soluzione.
+
+		Il ragionamento si pu\`o ripetere fino a dimostrare che anche il nodo \emph{goal}
+		verr\`a selezionato per l'espansione. Tuttavia l'algoritmo termina una volta
+		giunto al nodo \emph{goal}.
+	\end{proof}
+\end{theorem}
