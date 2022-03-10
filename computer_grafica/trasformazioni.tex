@@ -1,6 +1,5 @@
 \chapter{Trasformazioni}
 \section{Algebra vettoriale}
-\subsection{Entit\`a geometriche}
 Le entit\`a utilizzate sono \textbf{punti} e \textbf{vettori}, questi ultimi definiti da
 \emph{modulo}, \emph{direzione} e \emph{verso}.
 
@@ -14,7 +13,7 @@ Definiamo qualche operazione utile per queste due entit\`a:
 \end{itemize}
 
 \subsection{Prodotto scalare tra due vettori}
-Il prodotto tra due vettori $a$ e $b$ scritto come $a \cdot b$ equivale a:
+Il prodotto scalare tra due vettori $a$ e $b$ scritto come $a \cdot b$ equivale a:
 \[ a \cdot b = \sum_{i=1}^n a_1 b_1 + \dots + a_n b_n  \]
 Questo significa che
 \[ a \cdot b = \| a \| \| b \| \cos{(\theta)} \]
@@ -29,7 +28,46 @@ Altre propriet\`a:
 \end{itemize}
 
 \subsection{Prodotto vettoriale tra due vettori}
+Il prodotto tra due vettori $a$ e $b$ scritto come $a \times b$ equivale a:
+\[
+	a \times b = \begin{pmatrix}
+		a_y b_z - b_y a_z \\ b_x a_z - a_x b_z \\ a_x b_y - b_x a_y
+	\end{pmatrix}
+\]
+Per ricordarsi il calcolo si pu\`o usare questo metodo: si calcola il determinante della
+matrice
+\[
+	det \begin{pmatrix}
+		i   & j   & k   \\
+		a_x & a_y & a_z \\
+		b_x & b_y & b_z
+	\end{pmatrix} =
+	i(a_y b_z - b_y a_z) - j(a_x b_z - b_x a_z) + k(a_x b_y - b_x a_y)
+\]
+Questo prodotto ci fornisce un vettore ortogonale sia ad $a$ che a $b$.
+\[ (a \times b) \cdot a = (a \times b ) \cdot b = 0 \]
+Non vale la propriet\`a commutativa ma vale la distributiva per la somma.
+\[ a \times (b + c) = a \times b + a \times c \]
+La norma equivale a
+\[ \| a \times b \| = \| a \| \| b \| \sin(\theta) \]
 
+\subsection{Coordinate polari}
+Le \textbf{coordinate polari} servono a esprimere punti e vettori tramite la tupla
+$(\theta, \rho)$ dove
+\begin{itemize}
+	\item $\theta$ \`e l'angolo formato con l'asse $x$.
+	\item $\rho$ \`e la distanza dall'origine.
+\end{itemize}
+Se vogliamo passare da coordinate polari a cartesiane
+\begin{gather*}
+	x = \rho \cdot \cos(\theta) \\
+	y = \rho \cdot \sin(\theta)
+\end{gather*}
+Viceversa se vogliamo passare da coordinate cartesiano a polari
+\begin{gather*}
+	\theta = \arctan(2 \cdot (y, x)) \\
+	\rho = \sqrt{x^2 + y^2}
+\end{gather*}
 
 \section{Trasformazioni geometriche}
 Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti e vettori
@@ -37,11 +75,63 @@ in vettori. Quando parliamo vogliamo \emph{trasformare} un oggetto intendiamo l'
 della stessa trasformazione a tutti i punti dell'oggetto.
 
 \subsection{Traslazione}
+Tipicamente usata per muovere gli oggetti disegnati. Se vogliamo traslare un punto $p$ abbiamo
+bisgno di un vettore $v$ che ci indica di quando traslare le sue coordinate (in questo caso
+solo $x$ e $y$).
+\[
+	T_v(p) = p + v =
+	\begin{pmatrix}
+		p_x \\ p_y
+	\end{pmatrix} +
+	\begin{pmatrix}
+		v_x \\ v_y
+	\end{pmatrix} =
+	\begin{pmatrix}
+		p_x + v_x \\ p_y + v_y
+	\end{pmatrix}
+\]
 
 \subsection{Scalatura}
+Tipicamente usata per cambiare la dimensione di un oggetto. Per ottenere questa trasformazione
+si moltiplicano tutti i punti della figura per un fattore di scalatura.
+\[
+	S_{(s_x, s_y)}(p) =
+	\begin{pmatrix}
+		S_x \cdot p_x \\
+		S_y \cdot p_y
+	\end{pmatrix}
+\]
+Se $S_x = S_y$ allora la scalatura \`e \textbf{uniforme o isotropica} (le proporzioni
+dell'oggetto non cambiano). Altrimenti si dice che la scalatura \`a
+\textbf{non uniforme o anisotropica}.
 
 \subsection{Rotazione}
-
+Ruotare di un angolo $\theta$ un punto
+\[
+	p = \begin{pmatrix}
+		\rho \cdot \cos(\phi) \\
+		\rho \cdot \sin(\phi)
+	\end{pmatrix}\]
+equivale a fare
+\[
+	R_\theta(p) =
+	\begin{pmatrix}
+		\rho \cdot \cos(\phi + \theta) \\
+		\rho \cdot \sin(\phi + \theta)
+	\end{pmatrix}
+\]
+Per semplificare i calcoli possiamo ricordarci che
+\begin{gather*}
+	\cos(\phi + \theta) = \cos(\phi) \cos(\theta) - \sin(\phi) \sin(\theta) \\
+	\sin(\phi + \theta) = \sin(\theta) \cos(\phi) + \sin(\phi) \cos(\theta)
+\end{gather*}
+Posso quindi riscrivere la funzione di rotazione come
+\[
+	R_\theta(p) =
+	\begin{pmatrix}
+		\cos(\theta)p_x - sin(\theta)p_y \\
+		\sin(\theta)p_x + \cos(\theta)p_y
+	\end{pmatrix}\]
 \subsection{Taglio}
 
 \section{Trasformazioni con matrici}
