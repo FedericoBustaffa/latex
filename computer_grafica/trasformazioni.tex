@@ -69,6 +69,11 @@ Viceversa se vogliamo passare da coordinate cartesiano a polari
 	\rho = \sqrt{x^2 + y^2}
 \end{gather*}
 
+\subsection{Prodotto riga per colonna}
+Siano $A_{n \times m}, B_{m \times r}$ due matrici, il prodotto riga per colonna
+sar\`a una matrice $C$ di formato $n \times r$. Per calcolare l'elemento $c_{ij}$
+\[ c_{ij} = \sum_{k = 1}^m a_{i,k} \cdot b_{k,j} \]
+
 \section{Trasformazioni geometriche}
 Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti e vettori
 in vettori. Quando parliamo vogliamo \emph{trasformare} un oggetto intendiamo l'applicazione
@@ -135,9 +140,17 @@ Posso quindi riscrivere la funzione di rotazione come
 \]
 
 \subsection{Taglio}
+\`E una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
+dell'altro.
+\[
+	Sh_{k, y}(p) =
+	\begin{pmatrix}
+		p_x + k \cdot p_y \\
+		p_y
+	\end{pmatrix}
+\]
 
-
-\section{Trasformazioni con matrici}
+\section{Matrice di trasformazione}
 
 
 \subsection{Composizione di trasformazioni}
