@@ -63,7 +63,7 @@ Posso quindi riscrivere la funzione di rotazione come
 	\end{pmatrix}
 \]
 
-\subsection{Taglio}
+\subsection{Strappo}
 \`E una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
 dell'altro.
 \[
@@ -73,11 +73,26 @@ dell'altro.
 		p_y
 	\end{pmatrix}
 \]
+Si pu\`o comunque ottenere come combinazione di rotazioni e scalature non uniformi.
 
 \section{Matrice di trasformazione}
+Di norma \`e utile utilizzare una notazione con matrice per le trasformazioni che rende
+il codice pi\`u compatto e pi\`u agevole da maneggiare.
 
+Per esempio consideriamo il generico punto $p$ nello spazio bidimensionale. Una generica
+trasformazione mi far\`a ottenere il punto $p'$ in questo modo:
+\begin{gather*}
+	p'_x = a_{xx} p_x + a_{xy} p_y \\
+	p'_y = a_{yx} p_x + a_{yy} p_y
+\end{gather*}
+Dove i vari $a$ sono i coefficienti che dipendono dal tipo di trasformazione che si
+vuole applicare.
 
-\subsection{Composizione di trasformazioni}
-
-
-\section{Frame}
+Posso usare la notazione con matrice e scrivere:
+\begin{gather*}
+	p' = \begin{pmatrix}
+		a_{xx} & a_{xy} \\
+		a_{yx} & a_{yy}
+	\end{pmatrix} \cdot p
+\end{gather*}
+Quella appena scritta viene chiamata \textbf{matrice di trasformazione}

@@ -73,3 +73,25 @@ Viceversa se vogliamo passare da coordinate cartesiano a polari
 Siano $A_{n \times m}, B_{m \times r}$ due matrici, il prodotto riga per colonna
 sar\`a una matrice $C$ di formato $n \times r$. Per calcolare l'elemento $c_{ij}$
 \[ c_{ij} = \sum_{k = 1}^m a_{i,k} \cdot b_{k,j} \]
+
+Nel caso in cui si voglia moltiplicare una matrice $M$ di formato $p \times q$ e un
+vettore $v$ di lunghezza $q$ si pu\`o vedere il prodotto come una combinazione lineare
+delle colonne della matrice per le singole componenti del vettore.
+\begin{gather*}
+	M \cdot v =
+	\begin{pmatrix}
+		m_{11} & \dots & m_{1p} \\
+		\dots  & \dots & \dots  \\
+		m_{q1} & \dots & m_{qp}
+	\end{pmatrix} \cdot
+	\begin{pmatrix}
+		v_1 \\ \dots \\ v_q
+	\end{pmatrix} \\
+	= v_1 \begin{pmatrix}
+		m_{11} \\ \dots \\ m_{q1}
+	\end{pmatrix} \cdot
+	... \cdot
+	v_q \begin{pmatrix}
+		m_{1p} \\ \dots \\ m_{qp}
+	\end{pmatrix}
+\end{gather*}
