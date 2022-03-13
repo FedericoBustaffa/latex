@@ -30,18 +30,18 @@ Altre propriet\`a:
 \subsection{Prodotto vettoriale tra due vettori}
 Il prodotto tra due vettori $a$ e $b$ scritto come $a \times b$ equivale a:
 \[
-	a \times b = \begin{pmatrix}
+	a \times b = \begin{bmatrix}
 		a_y b_z - b_y a_z \\ b_x a_z - a_x b_z \\ a_x b_y - b_x a_y
-	\end{pmatrix}
+	\end{bmatrix}
 \]
 Per ricordarsi il calcolo si pu\`o usare questo metodo: si calcola il determinante della
 matrice
 \[
-	det \begin{pmatrix}
+	det \begin{bmatrix}
 		i   & j   & k   \\
 		a_x & a_y & a_z \\
 		b_x & b_y & b_z
-	\end{pmatrix} =
+	\end{bmatrix} =
 	i(a_y b_z - b_y a_z) - j(a_x b_z - b_x a_z) + k(a_x b_y - b_x a_y)
 \]
 Questo prodotto ci fornisce un vettore ortogonale sia ad $a$ che a $b$.
@@ -79,19 +79,19 @@ vettore $v$ di lunghezza $q$ si pu\`o vedere il prodotto come una combinazione l
 delle colonne della matrice per le singole componenti del vettore.
 \begin{gather*}
 	M \cdot v =
-	\begin{pmatrix}
+	\begin{bmatrix}
 		m_{11} & \dots & m_{1p} \\
 		\dots  & \dots & \dots  \\
 		m_{q1} & \dots & m_{qp}
-	\end{pmatrix} \cdot
-	\begin{pmatrix}
+	\end{bmatrix} \cdot
+	\begin{bmatrix}
 		v_1 \\ \dots \\ v_q
-	\end{pmatrix} \\
-	= v_1 \begin{pmatrix}
+	\end{bmatrix} \\
+	= v_1 \begin{bmatrix}
 		m_{11} \\ \dots \\ m_{q1}
-	\end{pmatrix} \cdot
+	\end{bmatrix} \cdot
 	... \cdot
-	v_q \begin{pmatrix}
+	v_q \begin{bmatrix}
 		m_{1p} \\ \dots \\ m_{qp}
-	\end{pmatrix}
+	\end{bmatrix}
 \end{gather*}

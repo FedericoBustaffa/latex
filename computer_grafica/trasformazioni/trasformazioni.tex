@@ -3,51 +3,60 @@ Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti
 in vettori. Quando parliamo vogliamo \emph{trasformare} un oggetto intendiamo l'applicazione
 della stessa trasformazione a tutti i punti dell'oggetto.
 
+Per semplicit\`a faremo riferimento a punti nel piano bidimensionale
+\[ p = \begin{bmatrix} p_x \\ p_y \end{bmatrix} \]
+
 \subsection{Traslazione}
-Tipicamente usata per muovere gli oggetti disegnati. Se vogliamo traslare un punto $p$ abbiamo
-bisgno di un vettore $v$ che ci indica di quando traslare le sue coordinate (in questo caso
-solo $x$ e $y$).
+Se vogliamo traslare un punto $p$ abbiamo bisogno di un vettore $v$ che ci indichi di quando
+traslare le sue coordinate.
 \[
 	T_v(p) = p + v =
-	\begin{pmatrix}
+	\begin{bmatrix}
 		p_x \\ p_y
-	\end{pmatrix} +
-	\begin{pmatrix}
+	\end{bmatrix} +
+	\begin{bmatrix}
 		v_x \\ v_y
-	\end{pmatrix} =
-	\begin{pmatrix}
+	\end{bmatrix} =
+	\begin{bmatrix}
 		p_x + v_x \\ p_y + v_y
-	\end{pmatrix}
+	\end{bmatrix}
 \]
+La traslazione \`e indipendente dalle coordinate del punto.
 
 \subsection{Scalatura}
-Tipicamente usata per cambiare la dimensione di un oggetto. Per ottenere questa trasformazione
-si moltiplicano tutti i punti della figura per un fattore di scalatura.
+Utile per cambiare la dimensione di un oggetto. Per ottenere questa trasformazione si
+moltiplicano tutti i punti della figura per un fattore di scalatura.
 \[
-	S_{(s_x, s_y)}(p) =
-	\begin{pmatrix}
-		S_x \cdot p_x \\
-		S_y \cdot p_y
-	\end{pmatrix}
+	S_{s_x, s_y}(p) =
+	\begin{bmatrix}
+		s_x \cdot p_x \\
+		s_y \cdot p_y
+	\end{bmatrix}
 \]
-Se $S_x = S_y$ allora la scalatura \`e \textbf{uniforme o isotropica} (le proporzioni
-dell'oggetto non cambiano). Altrimenti si dice che la scalatura \`a
+Se $s_x = s_y$ allora la scalatura \`e \textbf{uniforme o isotropica} (le proporzioni
+dell'oggetto non cambiano). Altrimenti si dice che la scalatura \`e
 \textbf{non uniforme o anisotropica}.
 
 \subsection{Rotazione}
-Ruotare di un angolo $\theta$ un punto
+Utile per ruotare di un angolo $\theta$ un punto (solo rispetto all'origine ?). Per
+effettuare una rotazione abbiamo bisogno di convertire le coordinate cartesiane del
+nostro punto in coordinate polari.
 \[
-	p = \begin{pmatrix}
-		\rho \cdot \cos(\phi) \\
-		\rho \cdot \sin(\phi)
-	\end{pmatrix}\]
-equivale a fare
+	p = \begin{bmatrix}
+		p_x \\ p_y
+	\end{bmatrix} =
+	\begin{bmatrix}
+		\rho \cos(\phi) \\
+		\rho \sin(\phi)
+	\end{bmatrix}\]
+Se volessi quindi, ruotare il punto $p$ di un angolo $\theta$ rispetto a dove si trova
+dovrei svolgere un'operazione di questo tipo:
 \[
 	R_\theta(p) =
-	\begin{pmatrix}
-		\rho \cdot \cos(\phi + \theta) \\
-		\rho \cdot \sin(\phi + \theta)
-	\end{pmatrix}
+	\begin{bmatrix}
+		\rho \cos(\phi + \theta) \\
+		\rho \sin(\phi + \theta)
+	\end{bmatrix}
 \]
 Per semplificare i calcoli possiamo ricordarci che
 \begin{gather*}
@@ -55,23 +64,30 @@ Per semplificare i calcoli possiamo ricordarci che
 	\sin(\phi + \theta) = \sin(\theta) \cos(\phi) + \sin(\phi) \cos(\theta)
 \end{gather*}
 Posso quindi riscrivere la funzione di rotazione come
-\[
+\begin{gather*}
 	R_\theta(p) =
-	\begin{pmatrix}
-		\cos(\theta)p_x - sin(\theta)p_y \\
-		\sin(\theta)p_x + \cos(\theta)p_y
-	\end{pmatrix}
-\]
+	\begin{bmatrix}
+		\rho [ \cos(\phi) \cos(\theta) - \sin(\phi) \sin(\theta) ] \\
+		\rho [ \sin(\theta) \cos(\phi) + \sin(\phi) \cos(\theta) ]
+	\end{bmatrix} \\
+	R_\theta(p) = \begin{bmatrix}
+		p_x \cos(\theta) - p_y \sin(\theta) \\
+		p_x \sin(\theta) + p_y \cos(\theta)
+	\end{bmatrix}
+\end{gather*}
+In questo modo non riesco a modificare il centro di rotazione in nessun modo e nemmeno
+ampliare il raggio della rotazione. Per questo secondo problema si potrebbe optare
+per una traslazione nella direzione del raggio di opportuna intensit\`a.
 
 \subsection{Strappo}
 \`E una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
 dell'altro.
 \[
 	Sh_{k, y}(p) =
-	\begin{pmatrix}
+	\begin{bmatrix}
 		p_x + k \cdot p_y \\
 		p_y
-	\end{pmatrix}
+	\end{bmatrix}
 \]
 Si pu\`o comunque ottenere come combinazione di rotazioni e scalature non uniformi.
 
@@ -90,9 +106,9 @@ vuole applicare.
 
 Posso usare la notazione con matrice e scrivere:
 \begin{gather*}
-	p' = \begin{pmatrix}
+	p' = \begin{bmatrix}
 		a_{xx} & a_{xy} \\
 		a_{yx} & a_{yy}
-	\end{pmatrix} \cdot p
+	\end{bmatrix} \cdot p
 \end{gather*}
 Quella appena scritta viene chiamata \textbf{matrice di trasformazione}
