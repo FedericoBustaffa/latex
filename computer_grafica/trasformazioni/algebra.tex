@@ -1,7 +1,8 @@
 \chapter{Trasformazioni}
 \section{Algebra vettoriale}
-Le entit\`a utilizzate sono \textbf{punti} e \textbf{vettori}, questi ultimi definiti da
-\emph{modulo}, \emph{direzione} e \emph{verso}.
+Per padroneggiare al meglio le trasformazioni \`e necessaria una conoscenza di base
+dell'algebra lineare, in particolare dobbiamo saper maneggiare \textbf{vettori} e
+\textbf{matrici} agilmente.
 
 \subsection{Operazioni su punti e vettori}
 Definiamo qualche operazione utile per queste due entit\`a:
@@ -69,7 +70,7 @@ Viceversa se vogliamo passare da coordinate cartesiano a polari
 	\rho = \sqrt{x^2 + y^2}
 \end{gather*}
 
-\subsection{Prodotto riga per colonna}
+\subsection{Prodotto riga per colonna tra matrici}
 Siano $A_{n \times m}, B_{m \times r}$ due matrici, il prodotto riga per colonna
 sar\`a una matrice $C$ di formato $n \times r$. Per calcolare l'elemento $c_{ij}$
 \[ c_{ij} = \sum_{k = 1}^m a_{i,k} \cdot b_{k,j} \]
@@ -95,3 +96,9 @@ delle colonne della matrice per le singole componenti del vettore.
 		m_{1p} \\ \dots \\ m_{qp}
 	\end{bmatrix}
 \end{gather*}
+\textbf{NOTA}: Il prodotto riga per colonna \textbf{non} gode della propriet\`a
+commutativa, dunque la propriet\`a appena vista vale solo se la moltiplicazione viene
+svolta con quell'ordine e il vettore $v$ \`e un vettore colonna.
+
+Vedremo pi\`u avanti che la non commutativit\`a di questa operazione sar\`a fondamentale
+per definire diversi tipi di trasformazione.
