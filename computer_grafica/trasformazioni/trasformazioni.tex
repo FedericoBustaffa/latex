@@ -198,18 +198,10 @@ una rotazione di $\theta = 45^\circ$.
 \begin{center}
 	\begin{tikzpicture}[scale=0.5]
 		% assi cartesiani
-		\draw[dashed]
-		(-2,0) --
-		(0, 0);
-		\draw[dashed]
-		(0, -2) --
-		(0, 0);
-		\draw[->, dashed]
-		(0, 0) --
-		(10, 0);
-		\draw[->, dashed]
-		(0, 0) --
-		(0, 5);
+		\draw[dashed](-2,0) -- (0, 0);
+		\draw[dashed] (0, -2) -- (0, 0);
+		\draw[->, dashed] (0, 0) -- (10, 0);
+		\draw[->, dashed] (0, 0) -- (0, 5);
 		% prima della trasformazione
 		\filldraw[color=red, fill=red!60, very thick]
 		(-1, -1) --
@@ -217,8 +209,9 @@ una rotazione di $\theta = 45^\circ$.
 		(1, 1) --
 		(1, -1) --
 		cycle;
+		\draw[color=black, very thick, ->] (1.2, 0) -- (3.4, 0);
 		% dopo la trasformazione
-		\filldraw[color=red, fill=red!60, very thick]
+		\filldraw[color=yellow, fill=yellow!60, very thick]
 		(5, -1.41421) --
 		(3.5857, 0) --
 		(5, 1.41421) --
@@ -230,18 +223,10 @@ In questo caso abbiamo applicato prima la una rotazione e poi la traslazione.
 \begin{center}
 	\begin{tikzpicture}[scale=0.5]
 		% assi cartesiani
-		\draw[dashed]
-		(-2,0) --
-		(0, 0);
-		\draw[dashed]
-		(0, -2) --
-		(0, 0);
-		\draw[->, dashed]
-		(0, 0) --
-		(10, 0);
-		\draw[->, dashed]
-		(0, 0) --
-		(0, 5);
+		\draw[dashed] (-2,0) -- (0, 0);
+		\draw[dashed] (0, -2) -- (0, 0);
+		\draw[->, dashed] (0, 0) -- (10, 0);
+		\draw[->, dashed] (0, 0) -- (0, 5);
 		% prima della trasformazione
 		\filldraw[color=red, fill=red!60, very thick]
 		(-1, -1) --
@@ -249,8 +234,9 @@ In questo caso abbiamo applicato prima la una rotazione e poi la traslazione.
 		(1, 1) --
 		(1, -1) --
 		cycle;
+		\draw[color=black, very thick, ->] (1.1, 1.1) -- (2, 2);
 		% dopo la trasformazione
-		\filldraw[color=red, fill=red!60, very thick]
+		\filldraw[color=yellow, fill=yellow!60, very thick]
 		(2.8284, 1.41421) --
 		(1.41421, 2.8284) --
 		(2.8284, 4.2426) --
@@ -301,4 +287,4 @@ Una trasformazione si dice \textbf{affine} se e solo se:
 Traslazione, rotazione e scalatura sono trasformazioni \emph{affini}. Anche una qualsiasi
 composizione di trasformazioni affini \`e a sua volta \emph{affine}.
 
-\section{Sistemi di riferimento (Frame)}
+\section{Sistemi di riferimento}
