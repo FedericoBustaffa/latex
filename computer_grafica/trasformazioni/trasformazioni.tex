@@ -198,16 +198,34 @@ poi ruotata intorno all'origine. Se applicassi prima la rotazione e poi la trasl
 prima girerebbe su se stessa e poi verrebbe traslata.
 
 Vediamo ora una esempio di quanto appena detto usando un quadrato
-\begin{center}
-	\begin{tikzpicture}
+\begin{figure}[!h]
+	\caption{
+		prima traslo di $v = \begin{bsmallmatrix} 4 \\ 0 \end{bsmallmatrix}$
+		poi ruoto con un angolo $\theta = 45^\circ$}
+	\begin{tikzpicture}[scale=0.5]
+		% assi cartesiani
+		\draw[->, dashed]
+		(0, 0) --
+		(10, 0);
+		\draw[->, dashed]
+		(0, 0) --
+		(0, 10);
+		% prima della trasformazione
 		\filldraw[color=red, fill=red!60, very thick]
-		(-3.5, -0.5) --
-		(-3.5, 0.5) --
-		(-2.5, 0.5) --
-		(-2.5, -0.5) --
+		(-1, -1) --
+		(-1, 1) --
+		(1, 1) --
+		(1, -1) --
+		cycle;
+		% dopo la trasformazione
+		\filldraw[color=red, fill=red!60, very thick]
+		(4, -1.41421) --
+		(3.41421, 0) --
+		(4, 1.41421) --
+		(5.41421, 1.41421) --
 		cycle;
 	\end{tikzpicture}
-\end{center}
+\end{figure}
 
 
 \subsubsection{Cambiare il centro di rotazione}
