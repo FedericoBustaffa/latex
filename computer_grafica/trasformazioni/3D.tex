@@ -1,0 +1,53 @@
+\section{Trasformazioni tridimensionali}
+Tutto ci\`o che \`e stato detto fin ad ora per lo spazio bidimensionale va esteso al mondo
+tridimensionale. Per farlo ci basta aggiungere una riga e una colonna alla matrice di
+trasformazione.
+
+D'ora in poi avremo a che fare con matrici $4 \times 4$ e vettori a 4 dimensioni.
+
+\subsection{Rotazione in 3D}
+Nello spazio tridimensionale \`e necessario determinare intorno a quale dei tre assi ruotare.
+Quel che abbiamo fatto fino ad ora nello spazio bidimensionale era ruotare la nostra
+geometria intorno all'asse $z$.
+
+D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo modo:
+\begin{itemize}
+	\item Rotazione intorno all'asse $x$
+	      \[
+		      R_x(\theta) = \begin{bmatrix}
+			      1 & 0            & 0             & 0 \\
+			      0 & \cos(\theta) & -\sin(\theta) & 0 \\
+			      0 & \sin(\theta) & \cos(\theta)  & 0 \\
+			      0 & 0            & 0             & 1
+		      \end{bmatrix}
+	      \]
+	\item Rotazione intorno all'asse $y$
+	      \[
+		      R_x(\theta) = \begin{bmatrix}
+			      \cos(\theta) & 0 & -\sin(\theta) & 0 \\
+			      0            & 1 & 0             & 0 \\
+			      \sin(\theta) & 0 & \cos(\theta)  & 0 \\
+			      0            & 0 & 0             & 1
+		      \end{bmatrix}
+	      \]
+	\item Rotazione intorno all'asse $z$
+	      \[
+		      R_x(\theta) = \begin{bmatrix}
+			      \cos(\theta) & -\sin(\theta) & 0 & 0 \\
+			      \sin(\theta) & \cos(\theta)  & 0 & 0 \\
+			      0            & 0             & 1 & 0 \\
+			      0            & 0             & 0 & 1
+		      \end{bmatrix}
+	      \]
+\end{itemize}
+
+\subsubsection{Rotazione intorno ad un asse generico}
+Il procedimento \`e analogo a quello nello spazio bidimensionale.
+\begin{enumerate}
+	\item Considero un frame tale per cui l'asse $z$ \`e l'asse attorno al quel voglio far
+	      ruotare la mia figura.
+	\item Applico una trasformazione che porti tale frame a combaciare col frame
+	      canonico.
+	\item Effettuo la rotazione intorno all'asse $z$ del frame canonico.
+	\item Riporto il frame nella sua posizione iniziale.
+\end{enumerate}

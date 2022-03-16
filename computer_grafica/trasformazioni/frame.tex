@@ -102,3 +102,16 @@ frame.
 
 Volendo posso anche trasformare un frame e muovere tutta la geometria con esso, in modo tale
 da avere le stesse coordinate rispetto al frame iniziale.
+
+Supponiamo di avere un punto definito rispetto al frame $F_1$, se io applicassi una matrice
+di trasformazione $A$ al punto le coordinate rispetto a $F_1$ cambierebbero. Posso ottenere
+lo stesso effetto visivo applicando la matrice $A^{-1}$ al frame. In questo modo $F_1$
+si trasformer\`a in un altro frame $F_2$, il punto si trasformer\`a con esso ma le
+coordinate del punto rispetto a $F_2$ saranno le stesse del punto rispetto a $F_1$.
+\[ F_2 = A^{-1} F_1 \]
+
+\subsection{Gerarchia dei frame}
+\`E conveniente pensare ad una gerarchia dei frame in cui definisco una serie di frame
+rispetto ad altri frame, il tutto per riuscire a definire piccole parti della scena
+in maniera pi\`u agevole e precisa, usando le coordinate vicino all'origine degli assi.
+Molto pi\`u convieniente che utilizzare coordinate come (1000, 234, -242) per esempio.
