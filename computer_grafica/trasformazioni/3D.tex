@@ -42,12 +42,18 @@ D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo
 \end{itemize}
 
 \subsubsection{Rotazione intorno ad un asse generico}
-Il procedimento \`e analogo a quello nello spazio bidimensionale.
-\begin{enumerate}
-	\item Considero un frame tale per cui l'asse $z$ \`e l'asse attorno al quel voglio far
-	      ruotare la mia figura.
-	\item Applico una trasformazione che porti tale frame a combaciare col frame
-	      canonico.
-	\item Effettuo la rotazione intorno all'asse $z$ del frame canonico.
-	\item Riporto il frame nella sua posizione iniziale.
-\end{enumerate}
+\begin{itemize}
+	\item Il primo procedimento \`e analogo a quello nello spazio bidimensionale.
+	      \begin{enumerate}
+		      \item Considero un frame tale per cui l'asse $z$ \`e l'asse attorno al quel
+		            voglio far ruotare la mia figura.
+		      \item Applico una trasformazione che porti tale frame a combaciare col frame
+		            canonico.
+		      \item Effettuo la rotazione intorno all'asse $z$ del frame canonico.
+		      \item Riporto il frame nella sua posizione iniziale.
+	      \end{enumerate}
+	\item Il secondo procedimento usa la formula di Rodriguez per ottenere il punto $p'$
+	\[
+		p' = \cos(\theta) p + (1 - \cos(\theta))(p \cdot r) r + \sin(\theta)(r \times p)
+	\]
+\end{itemize}
