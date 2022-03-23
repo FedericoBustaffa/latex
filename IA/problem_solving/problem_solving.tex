@@ -62,17 +62,17 @@ Ci sono quattro parametri fondamentali per valutare una strategia:
 Introduciamo inoltre tre valori utili all'analisi degli algoritmi di ricerca che generano
 un albero di ricerca.
 \begin{itemize}
-	\item \textbf b = fattore di ramificazione (numero massimo di successori)
-	\item \textbf d = profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
-	\item \textbf m = lunghezza massima dei cammini nello spazio degli stati
+	\item \textbf b: fattore di ramificazione (numero massimo di successori)
+	\item \textbf d: profondit\`a del nodo obbiettivo pi\`u vicino al nodo iniziale
+	\item \textbf m: lunghezza massima dei cammini nello spazio degli stati
 \end{itemize}
 
 \section{Ricerca su albero}
 L'algoritmo in questione ha la caratteristica di essere efficiente in memoria, tuttavia
-non tiene traccia dei nodi gi\`a visitati. Questo potrebbe portare la ricerca a compiere
+non tiene traccia dei nodi gi\`a visitati. Questo potrebbe portare l'algoritmo a compiere
 cammini ciclici da cui poi non si riuscirebbe pi\`u ad uscire.
 
-I passi principali dell'algoritmo sono questi:
+L'algoritmo si divide in 5 passi:
 \begin{enumerate}
 	\item Si sceglie uno stato iniziale e si mette nella frontiera.
 	\item Verifichiamo che la frontiera non sia vuota, se lo \`e abbiamo esaurito tutti gli
