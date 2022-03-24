@@ -1,4 +1,4 @@
-\chapter{Ricerca euristica}
+\chapter{Ricerca euristica} \label{chapter: euristica}
 La ricerca esaustiva, per problemi con complessit\`a esponenziale, non \`e praticabile.
 Quello che di solito viene fatto \`e usare la conoscenza del problema e l'esperienza
 per riconoscere i cammini pi\`u promettenti, si fa cio\`e una stima del costo futuro.
@@ -11,9 +11,14 @@ in tempi accettabili e, sotto certe condizioni, garantisce completezza e ottimal
 Per fare ci\`o di cui abbiamo parlato in precedenza dobbiamo introdurre una funzione
 $f$, detta \textbf{funzione di valutazione euristica} definita come segue:
 \[ f(n) = g(n) + h(n) \]
-dove $g(n)$ \`e il costo del cammino per arrivare al nodo $n$ dal nodo di partenza e $h(n)$
-\`e una stima del costo del cammino per raggiungere il nodo \emph{goal} dal nodo $n$
-secondo l'euristica scelta.
+dove
+\begin{itemize}
+	\item $g(n)$ \`e il costo del cammino per arrivare al nodo $n$ dal nodo di partenza.
+	\item $h(n)$ \`e una stima del costo del cammino per raggiungere il nodo \emph{goal}
+	      dal nodo $n$ secondo l'euristica scelta.
+	\item $f(n)$ \`e il costo stimato del cammino per arrivare dal nodo di partenza
+	      al nodo \emph{goal} passando da $n$.
+\end{itemize}
 
 \begin{example}
 	Se volessi trovare il percorso migliore per muovermi da una citt\`a $A$ ad una
@@ -94,7 +99,7 @@ Ho una \textbf{sovrastima} quando \[ h(n) \geq h^*(n) \] ovvero quando il valore
 \emph{peggiore} di quello di $h^*$.
 
 \begin{definition}
-	Un'euristica $h$ \`e ammissibile se
+	Un'euristica $h$ \`e detta \textbf{ammissibile} se
 	\[ \forall n \quad h(n) \leq h^*(n) \]
 	cio\`e se $h$ \`e una sottostima.
 \end{definition}
@@ -109,7 +114,7 @@ Ho una \textbf{sovrastima} quando \[ h(n) \geq h^*(n) \] ovvero quando il valore
 \end{theorem}
 
 \begin{corollary}
-	BF\textsuperscript{(+)} e UC sono ottimali ($h(n) = 0$).
+	BF e UC sono ottimali ($h(n) = 0$).
 \end{corollary}
 
 \subsection{Osservazioni su A*}
@@ -138,8 +143,8 @@ Ma come scegliere $h$ ?
 	Un'euristica \`e detta \textbf{consistente} se
 	\begin{itemize}
 		\item $h(goal) = 0$
-		\item $\forall n \quad h(n) \leq c(n, a, n') + h'(n)$ dove $c$ \`e il costo dell'azione
-		      $a$ per arrivare da $n$ a $n'$ ($n'$ \`e il successore di $n$).
+		\item $\forall n \quad h(n) \leq c(n, a, n') + h'(n)$ dove $c$ \`e il costo
+		      dell'azione $a$ per arrivare da $n$ a $n'$ ($n'$ \`e un successore di $n$).
 		\item Segue che $f(n) \leq f(n')$.
 	\end{itemize}
 \end{definition}
@@ -157,6 +162,7 @@ Ma come scegliere $h$ ?
 	\end{proof}
 \end{theorem}
 
+\subsubsection{Euristiche monot\`one}
 \begin{theorem}
 	Un'euristica monot\`ona \`e ammissibile
 \end{theorem}
@@ -203,8 +209,8 @@ I problemi sono
 
 \section{Costruzione di euristiche}
 \subsection{Valutazione di funzioni euristiche}
-A parit\`a di ammissibilit\`a, un'euristica pu\`o essere pi\`u efficiente di un'altra nel trovare
-il cammino soluzione migliore. Questo dipende da quanto \`e informata l'euristica.
+A parit\`a di ammissibilit\`a, un'euristica pu\`o essere pi\`u efficiente di un'altra nel
+trovare il cammino soluzione migliore. Questo dipende da quanto \`e informata l'euristica.
 Pi\`u l'euristica \`e informata pi\`u \`e efficiente
 \begin{itemize}
 	\item Se $h(n) = 0$ non sono niente.
@@ -212,16 +218,16 @@ Pi\`u l'euristica \`e informata pi\`u \`e efficiente
 \end{itemize}
 
 \begin{theorem}
-	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora i nodi espansi da A*
-	con $h_2$ sono un sottoinsieme di quelli espansi da A* con $h_1$.
+	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora i nodi espansi da
+	A* con $h_2$ sono un sottoinsieme di quelli espansi da A* con $h_1$.
 \end{theorem}
 
 \begin{theorem}
-	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora A* con $h_2$ \`e almeno
-	efficiente quanto A* con $h_1$
+	Siano $h_1, h_2$ due euristiche tali che \[ h_1 \leq h_2 \] allora A* con $h_2$ \`e
+	almeno efficiente quanto A* con $h_1$
 \end{theorem}
-In generale un'euristica pi\`u informata riduce lo spazio di ricerca ma \`e, tipicamente, pi\`u
-costosa da calcolare.
+In generale un'euristica pi\`u informata riduce lo spazio di ricerca ma \`e, tipicamente,
+pi\`u costosa da calcolare.
 
 \subsection{Misura del potere euristico}
 Per riuscire a valutare meglio algoritmi di ricerca con euristica introduciamo il
@@ -233,30 +239,30 @@ la profondit\`a della soluzione.
 In genere una buona euristica ha una $b^*$ abbastanza vicino a 1 ($< 1.5$).
 
 \subsubsection{Capacit\`a di esplorazione}
-\`E importante sapere che, migliorando di poco l'euristica, si migliora di molto la capacit\`a
-di esplorazione (si va pi\`u in profondit\`a pi\`u in fretta).
+\`E importante sapere che, migliorando di poco l'euristica, si migliora di molto la
+\textbf{capacit\`a di esplorazione} (si va pi\`u in profondit\`a pi\`u in fretta).
 
-\subsection{Inventare un'euristica}
-Esistono alcune strategie per ottenere euristiche ammissibili.
+\subsection{Costruire un'euristica ammissibile}
+Di seguito sono elencate brevemente alcune strategie per ottenere euristiche ammissibili.
 
 \subsubsection{Rilassamento del problema}
-Posso rilassare i vincoli del problema per ottenere sottostime.
+Si posso rilassare i vincoli del problema per ottenere sottostime.
 
 \subsubsection{Massimizzazione di euristiche}
-Se si hanno una serie di euristiche ammissibili, senza che nessuna ne domini un'altra allora
-conviene prendere il massimo dei loro valori.
+Se si hanno una serie di euristiche ammissibili, senza che nessuna ne domini un'altra
+allora conviene prendere il massimo dei loro valori.
 
 \subsubsection{Pattern disgiunti}
-Posso creare un'euristica per la risoluzione di un sottoproblema, ottenendo cos\`i una sottostima
-del costo del problema intero. A questo punto salvo ogni istanza del sottoproblema in un database
-di pattern (con relativo costo della soluzione) e uso il database per trovare un'euristica
-ammissibile.
+Posso creare un'euristica per la risoluzione di un sottoproblema, ottenendo cos\`i una
+sottostima del costo del problema intero. A questo punto salvo ogni istanza del
+sottoproblema in un database di pattern (con relativo costo della soluzione) e uso il
+database per trovare un'euristica ammissibile.
 
-A questo punto possiamo fare lo stesso per pi\`u sottoproblemi ottenendo altre euristiche
+Possiamo fare lo stesso per pi\`u sottoproblemi ottenendo altre euristiche
 ammissibili. Se prendo quella con valore massimo ho sempre un'euristica ammissibile.
 
 Non \`e tuttavia possibile sommarle per ottenere un'euristica ancora pi\`u accurata. Questo
-perch\'e la soluzione ai sottoproblemi interferiscono tra loro e perch\'e in generale la somma
+perch\'e le soluzioni ai sottoproblemi interferiscono tra loro e perch\'e in generale la somma
 delle euristiche non \`e ammissibile.
 
 Ecco che ci vengono in aiuto i \textbf{database di pattern disgiunti} che ci permettono di
@@ -279,11 +285,11 @@ promettenti, dove $k$ \`e l'\emph{ampiezza del raggio} (beam). Anche se pi\`u ef
 in spazio la Beam Search non \`e completa.
 
 \subsection{IDA*}
-Questo algoritmo combina A* con ID. Si fa in sostanza una ricerca in profondit\`a con
-un limite dato dal valore della funzione $f$ (e non dalla profondit\`a). Tale limite viene
-aumentato ad ogni iterazione, fino a trovare la soluzione.
+Questo algoritmo combina A* con ID (ricerca non informata). Si fa in sostanza una ricerca in
+profondit\`a con un limite dato dal valore della funzione $f$ (e non dalla profondit\`a).
+Tale limite viene aumentato ad ogni iterazione, fino a trovare la soluzione.
 
-\subsubsection{Di quanto incrementare il limite ?}
+\subsubsection{Di quanto incrementare \emph{f}-limit ?}
 La scelta dell'incremento \`e fondamentale per garantire l'ottimalit\`a, ma come
 sceglierlo ?
 \begin{itemize}
@@ -296,5 +302,5 @@ sceglierlo ?
 		            all'iterazione precedente.
 	      \end{itemize}
 \end{itemize}
-L'algoritmo IDA* \`e completo e ottimale se rispetto le regole di incremento di $f$-limit
-viste poco fa e la complessit\`a in spazio \`e $O(bd)$.
+L'algoritmo IDA* \`e completo e ottimale se sono rispettate le regole di incremento di $f$-limit
+viste poco fa. La complessit\`a in spazio \`e $O(bd)$.

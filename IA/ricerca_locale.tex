@@ -1,0 +1,40 @@
+\chapter{Ricerca locale}
+Nella ricerca classica, vista nei capitoli \ref{chapter: ricerca non informata}
+e \ref{chapter: euristica}, l'agente risolutore assume che l'ambiente sia
+completamente osservabile e deterministico e che si trovi nelle condizioni di
+produrre un piano che pu\`o essere eseguito senza intoppi per raggiungere
+l'obbiettivo.
+
+\subsubsection{Ambienti pi\`u realistici}
+La ricerca nell'intero spazio degli stati, che sia sistematica o con euristica,
+\`e troppo costosa. Abbiamo bisogno di metodi di \textbf{ricerca locale} che siano
+anche in grado di gestire ambienti parzialmente osservabili e azioni non
+deterministiche.
+
+\subsubsection{Algoritmi di ricerca locale}
+Gli algoritmi visti fino ad ora esplorano gli spazi di ricerca alla ricerca di un
+goal e restituiscono un \emph{cammino soluzione}. Ma a volte la soluzione del problema
+coincide con lo stato goal. Gli algoritmi di ricerca locale sono adatti per problemi in
+cui:
+\begin{itemize}
+	\item La sequenza di azioni non \`e importante: quello che conta \`e unicamente
+	      lo stato goal.
+	\item Tutti gli elementi della soluzione sono nello stato ma alcuni vincoli sono
+	      violati.
+\end{itemize}
+Gli algoritmi di ricerca locale in generale:
+\begin{itemize}
+	\item Non sono sistematici.
+	\item Tengono traccia solo del nodo corrente e si spostano sui nodi adiacenti.
+	\item Non tengono traccia dei cammini, dunque
+	      \begin{itemize}
+		      \item Sono efficienti in memoria.
+		      \item Possono trovare soluzioni ragionevoli anche in spazi molto grandi e
+		            infiniti (come nel continuo).
+	      \end{itemize}
+	\item Sono utili per risolvere problemi di ottimizzazione, come trovare:
+	      \begin{itemize}
+		      \item Lo stato migliore secondo una funzione obbiettivo.
+		      \item Lo stato di costo minore.
+	      \end{itemize}
+\end{itemize}
