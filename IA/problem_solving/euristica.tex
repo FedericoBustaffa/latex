@@ -11,16 +11,26 @@ in tempi accettabili e, sotto certe condizioni, garantisce completezza e ottimal
 Per fare ci\`o di cui abbiamo parlato in precedenza dobbiamo introdurre una funzione
 $f$, detta \textbf{funzione di valutazione euristica} definita come segue:
 \[ f(n) = g(n) + h(n) \]
-dove $g(n)$ \`e il costo del cammino per arrivare al nodo $n$ e $h(n)$ \`e una stima
-del costo del cammino per raggiungere il nodo \emph{goal} dal nodo $n$ secondo l'euristica
-scelta.
+dove $g(n)$ \`e il costo del cammino per arrivare al nodo $n$ dal nodo di partenza e $h(n)$
+\`e una stima del costo del cammino per raggiungere il nodo \emph{goal} dal nodo $n$
+secondo l'euristica scelta.
+
+\begin{example}
+	Se volessi trovare il percorso migliore per muovermi da una citt\`a $A$ ad una
+	citt\`a $B$ passando per delle tappe intermedie potrei decidere di scegliere la tappa in
+	successiva base a quanto dista da $B$ in linea d'aria. In questo caso la distanza in linea
+	d'aria sar\`a la nostra euristica $h$.
+\end{example}
 
 \section{Ricerca Best-First}
-Questo algoritmo si rif\`a all'algoritmo UC ma stavolta si fa una stima di costo per
-la coda con priorit\`a. In sostanza, ad ogni passo, si sceglie il nodo sulla frontiera
-per cui il valore di $f$ \`e il migliore (il nodo pi\`u promettente).
+Questo algoritmo utilizza UC come algoritmo per la ricerca ma stavolta si fa una stima di
+costo per la coda con priorit\`a. In sostanza, ad ogni passo, si sceglie il nodo sulla
+frontiera per cui il valore di $f$ \`e il migliore (il nodo pi\`u promettente).
 
-\subsection{Ricerca Greedy Best-First}
+In alcuni casi per valore \emph{migliore} si intende il valore pi\`u alto mentre in altri
+casi si intende quello pi\`u basso, tutto dipende dal tipo di problema.
+
+\subsubsection{Ricerca Greedy Best-First}
 Se usiamo solo $h$ per la scelta del nodo ovvero se $f(n) = h(n)$ abbiamo la variante
 Greedy Best-First in cui si basa la scelta interamente sul valore dell'euristica.
 
@@ -30,17 +40,17 @@ Greedy Best-First in cui si basa la scelta interamente sul valore dell'euristica
 	dello stato del tipo:
 	\[ f(n) = g(n) + h(n) \quad \text{con } h(n) \geq 0 \wedge h(goal) = 0 \]
 \end{definition}
-Come casi particolari dell'algoritmo A vedremo
+I casi particolari di un algoritmo A sono
 \begin{itemize}
-	\item Ricerca Uniforme (UC) se $h(n) = 0$.
+	\item Ricerca di costo uniforme (UC) se $h(n) = 0$.
 	\item Greedy Best-First se $g(n) = 0$.
 \end{itemize}
 
 \begin{theorem}
 	L'algoritmo A \`e completo se
 	\[ g(n) \geq d(n) \cdot \epsilon \quad \]
-	dove $d(n)$ \`e la profondit\`a del nodo $n$ e $\epsilon > 0$ \`e il costo minimo di
-	un arco.
+	dove $d(n)$ \`e la profondit\`a del nodo $n$ nell'albero di ricerca e $\epsilon > 0$
+	\`e il costo minimo di un arco.
 	\begin{proof}
 		Sia $\{ n_0, n_1, ..., n', ..., n_k \}$ un cammino soluzione. Sia $n'$ un nodo
 		della frontiera su un cammino soluzione allora $n'$ prima o poi sar\`a espanso.
@@ -59,15 +69,29 @@ Come casi particolari dell'algoritmo A vedremo
 \end{theorem}
 
 \section{Algoritmo A*}
-Questo algoritmo \`e un algoritmo ideale che utilizza una funzione $f^*$ (oracolo) di questo
+Questo \`e un algoritmo \emph{ideale} che utilizza una funzione $f^*$ (oracolo) di questo
 tipo \[ f^*(n) = g^*(n) + h^*(n) \] dove
 \begin{itemize}
 	\item $g^*(n)$ \`e il costo del cammino minimo dalla radice a $n$.
 	\item $h^*(n)$ \`e il costo del cammino minimo da $n$ al nodo \emph{goal}.
 	\item $f^*(n)$ \`e il costo del cammino minimo da radice a \emph{goal}, attraverso $n$.
 \end{itemize}
-Normalmente $g(n) \geq g^*(n)$ e $h(n)$ \`e una stima di $h^*(n)$. Tale stima pu\`o essere
-una \textbf{sottostima} o una \textbf{sovrastima} della distanza dalla soluzione.
+Normalmente $g(n) \geq g^*(n)$ e $h(n)$ \`e una stima di $h^*(n)$.
+
+\subsubsection{Sottostima}
+Ho una \textbf{sottostima} quando \[ h(n) \leq h^*(n) \] ovvero quando il valore di $h$ \`e
+\emph{migliore} di quello di $h^*$ ma non pu\`o tuttavia essere quello \emph{reale}.
+
+\begin{example}
+	Se voglio muovermi da una citt\`a ad un'altra la distanza fra le due sar\`a sicuramente
+	minore in linea d'aria ma nella pratica posso muovermi solo lungo le strade. Nel caso
+	in cui ci sia una strada perfettamente dritta che corrisponde alla linea d'aria tra le
+	due citt\`a avr\`o che $h(n) = h^*(n)$.
+\end{example}
+
+\subsubsection{Sovrastima}
+Ho una \textbf{sovrastima} quando \[ h(n) \geq h^*(n) \] ovvero quando il valore di $h$ \`e
+\emph{peggiore} di quello di $h^*$.
 
 \begin{definition}
 	Un'euristica $h$ \`e ammissibile se

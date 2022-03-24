@@ -147,16 +147,13 @@ ricerca_grafo (problema)
 				frontiera.push(figlio);
 \end{lstlisting}
 
-\subsection{Strategie di ricerca}
-Di seguito le specificazioni delle tipologie di ricerca spiegate in precedenza.
-
-\subsubsection{Ricerca in ampiezza - BF}
+\subsection{Ricerca in ampiezza - BF}
 L'algoritmo BF compie una visita in ampiezza, ovvero, visita prima tutti i nodi
 successoriche del nodo che estratto dalla frontiera, in seguito scende in profondit\`a.
 Per creare questo tipo di algoritmo baster\`a implementare la frontiera come una lista
 con politica FIFO (coda).
 
-\paragraph{Analisi BF}
+\subsubsection{Analisi BF}
 \begin{itemize}
 	\item \`E completo.
 	\item \`E ottimale se gli operatori hanno tutti lo stesso costo $k$, cio\`e
@@ -165,21 +162,22 @@ con politica FIFO (coda).
 	\item La complessit\`a in spazio \`e $O(b^d)$.
 \end{itemize}
 
-\subsubsection{Ricerca in profondit\`a - DF}
+\subsection{Ricerca in profondit\`a - DF}
 L'algoritmo di ricerca DF effettua una visita in profondit\`a, ovvero, continua a scendere
 in profondit\`a finch\'e non trova un nodo senza figli e quindi torna indietro fino alla
 prima diramazione da cui \`e possibile ricominciare a scendere. Ovviamente se si trova la
 soluzione ci si ferma prima. Per implementare questa strategia la frontiera sar\`a una
 lista con politica LIFO (pila).
 
-\paragraph{Analisi DF su albero}
+\subsubsection{Analisi DF}
+\paragraph{Versione su albero}
 \begin{itemize}
 	\item Non \`e completo.
 	\item Non \`e ottimale.
 	\item La complessit\`a in tempo \`e $O(b^m)$ (pu\`o essere maggiore di $O(b^d)$).
 	\item La complessit\`a in spazio \`e $O(bm)$.
 \end{itemize}
-\paragraph{Analisi DF su grafo}
+\paragraph{Versione su grafo}
 \begin{itemize}
 	\item \`E completo in spazi di stati finiti.
 	\item Non \`e ottimale.
@@ -187,7 +185,7 @@ lista con politica LIFO (pila).
 	\item La complessit\`a in spazio \`e $O(b^m)$.
 \end{itemize}
 
-\subsubsection{DF ricorsiva su albero}
+\subsection{DF ricorsiva su albero}
 Come prima non viene gestito il problema dei nodi gi\`a esplorati e in questo caso adotta un
 approccio di tipo ricorsivo, che fornisce un vantaggio in spazio visto che non dobbiamo
 salvarci in memoria gli stati ma vengono tenuti in uno stack in caso di fallimento.
@@ -204,11 +202,11 @@ DF_albero_ricorsivo (problema, nodo)
 		return FALLIMENTO;
 \end{lstlisting}
 
-\subsubsection{Ricerca in profondit\`a limitata - DL}
+\subsection{Ricerca in profondit\`a limitata - DL}
 Questo algoritmo \`e una variante della DF in cui si da un limite di profondit\`a oltre
 il quale non si deve scendere.
 
-\paragraph{Analisi DL}
+\subsubsection{Analisi DL}
 \begin{itemize}
 	\item \`E completo per problemi in cui si conosce un limite superiore per la profondit\`a
 	      della soluzione ($d < l$ dove $l$ \`e il limite di profondit\`a).
@@ -217,7 +215,7 @@ il quale non si deve scendere.
 	\item La complessit\`a in spazio \`e $O(bl)$ su albero e $O(b^l)$ su grafo.
 \end{itemize}
 
-\subsubsection{Ricerca bidirezionale}
+\subsection{Ricerca bidirezionale}
 Per la costruzione di nuove strategie possiamo porci il problema della direzione verso cui
 effettuare la ricerca.
 Da qui possono nascere due possibili approcci:
@@ -241,21 +239,21 @@ Pi\`u nello specifico, si preferisce la ricerca
 \end{itemize}
 Nella \textbf{ricerca bidirezionale} si procede nelle due direzioni fino ad incontrarsi.
 
-\paragraph{Analisi ricerca bidirezionale}
+\subsubsection{Analisi ricerca bidirezionale}
 \begin{itemize}
 	\item La complessit\`a in tempo \`e $O(b^{d/2})$ assumendo test di intersezione in
 	      tempo costante.
 	\item La complessit\`a in spazio \`e $O(b^{d/2})$.
 \end{itemize}
 
-\subsubsection{Ricerca di costo uniforme UC}
+\subsection{Ricerca di costo uniforme UC}
 \`E una generalizzazione di BF: si sceglie il nodo di costo minore
 sulla frontiera e si espandono i nodi adiacenti di uguale costo invece che i nodi
 adiacenti di uguale profondit\`a.
 La frontiera \`e implementata da una lista ordinata per costo di cammino crescente (coda
 di priorit\`a).
 
-\paragraph{Analisi UC}
+\subsubsection{Analisi UC}
 \begin{itemize}
 	\item \`E completo e ottimale a patto che il costo degli archi sia maggiore di un certo
 	      $\epsilon > 0$.
