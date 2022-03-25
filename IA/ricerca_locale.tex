@@ -79,3 +79,83 @@ trovarsi pi\`u avanti.
 	      di successo \`e $p$, saranno necessarie in media $1 / p$ ripartenze per trovare la soluzione.
 	      \`E tendenzialmente completo ma se ci sono molti minimi/massimi locali si blocca spesso.
 \end{itemize}
+
+\section{Tempra simulata}
+Questo algoritmo \`e in analogia con il processo di tempra dei metalli in metallurgia. I metalli vengono
+portati a temperature molto elevate e raffreddati gradualmente consentendo di cristallizzare in uno stato
+a pi\`u bassa energia.
+
+L'algoritmo di \textbf{tempra simulata} combina Hill climbing con una scelta stocastica (non del tutto
+casuale).
+\subsubsection{Parametri}
+Per simulare al meglio il processo abbiamo bisogno di alcuni parametri:
+\begin{itemize}
+	\item $T$: \`e la temperatura. Decresce col progredire dell'algoritmo secondo un piano definito.
+	\item $\Delta E$: corrisponde alla variazione dell'energia. Equivale a $f(n') - f(n)$.
+	\item $p$: probabilit\`a del nodo $n'$ di essere scelto. Equivale a $p = e^{\Delta E / T}$ ed \`e
+	      compresa tra 0 e 1.
+\end{itemize}
+
+\subsubsection{Procedimento}
+Ad ogni passo si sceglie un successore $n'$ a caso:
+\begin{itemize}
+	\item Se migliora lo stato corrente viene espanso.
+	\item Altrimenti (caso $\Delta E = f(n') - f(n) < 0$) quel nodo viene scelto con probabilit\`a: $p = e^{\Delta E / T}$.
+	      Si genera un numero casuale compreso tra 0 e 1: se \`e $< p$ allora viene scelto come successore, altrimenti no.
+\end{itemize}
+Dunque $p$ \`e inversamente proporzionale al peggioramento. Infatti se la mossa peggiora molto, $\Delta E$ sar\`a un negativo
+molto alto che abbasser\`a molto il valore di $p$.
+
+Come gi\`a detto in precedenza $T$ decresce col progredire dell'algoritmo facendo cos\`i abbassare anche il valore di $p$ rendendo
+Progredendo rende pi\`u improbabili mosse peggiorative. Il valore iniziale di $T$ \`e tale che, per valori medi di $\Delta E$, la
+probabilit\`a $p$ sia $0.5$ circa.
+
+\subsubsection{Analisi}
+La probabilit\`a di una mossa in discesa diminuisce col passare del tempo e l'algoritmo si comporta sempre di pi\`u come Hill climbing.
+Se $T$ viene decrementato abbastanza lentamente, con probabilit\`a tendente a 1, si raggiunge l'ottimo.
+
+\section{Local Beam}
+\`E una versione locale di Beam Search in cui si tengono in memoria $k$ stati, anzich\'e uno solo. Ad ogni passo si generano i successori
+di tutti i $k$ stati: se si trova un goal ci si ferma, altrimenti si prosegue con i $k$ migliori tra questi.
+
+\subsection{Locale Beam stocastica}
+Si introduce un elemento di casualit\`a. Si scelgono $k$ successori ma con probabilit\`a maggiore per i migliori.
+
+\section{Algoritmi genetici}
+Sono varianti della Beam Search stocastica in cui gli stati successori sono ottenuti combinando due stati genitore.
+Introduciamo una nuova terminologia:
+\begin{itemize}
+	\item \textbf{individui}: stati.
+	\item \textbf{popolazione}: insieme di individui.
+	\item \textbf{fitness}: funzione di valutazione degli individui.
+	\item \textbf{accoppiamenti}: crossover tra due individui.
+	\item \textbf{mutazione genetica}: elemento casuale inserito nello stato successore.
+	\item \textbf{generazioni}: popolazione successiva ad una popolazione di stati genitore.
+\end{itemize}
+
+\subsubsection{Procedimento}
+\begin{enumerate}
+	\item Abbiamo la popolazione iniziale composta da $k$ individui generati casualmente. Ogni individuo \`e rappresentato come una stringa.
+	\item Gli individui sono valutati da una funzione fitness.
+	\item Si selezionano gli individui per gli accoppiamenti con una probabilit\`a proporzionale alla fitness.
+	\item Le coppie danno vita alla generazione successiva:
+	      \begin{itemize}
+		      \item Combinando materiale genetico (crossover).
+		      \item Mutazione genetica (casuale).
+	      \end{itemize}
+	\item La popolazione ottenuta dovrebbe essere migliore.
+	\item Si ripete fino ad ottenere stati abbastanza buoni (stato obbiettivo).
+\end{enumerate}
+
+\subsubsection{Pro}
+Gli algoritmi di questo tipo:
+\begin{itemize}
+	\item Hanno la tendenza a salire della Beam Search stocastica.
+	\item Favoriscono l'interscambio di informazioni tra thread paralleli di ricerca.
+	\item Funzionano meglio se il problema ha componenti significative rappresentate in sottostringhe.
+\end{itemize}
+
+\subsubsection{Contro}
+Il punto critico di questi algoritmi \`e proprio la rappresentazione del problema in stringhe.
+
+\section{Ricerca negli spazi continui}
