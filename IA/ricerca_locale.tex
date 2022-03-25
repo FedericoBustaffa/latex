@@ -173,3 +173,14 @@ che restituisce la direzione di massima pendenza in un determinato punto.
 	\[ \nabla f(x_1, \dots, x_k) = ((f_{x_1}(x_1, \dots, x_k), \dots, f_{x_k}(x_1, \dots, x_k))) \]
 	dove $f_{x_i}$ \`e la derivata parziale rispetto alla variabile $x_i$.
 \end{definition}
+
+In generale si procede con un Hill climbing iterativo in cui si sceglie il successore in questo modo
+\[ x_{\text{new}} = x \pm \eta \nabla f (x) \]
+Dove $\eta$ \`e la dimensione del passo da compiere. Se devo salire, dunque massimizzare il valore cercato svolgo un'operazione di somma,
+se devo scendere faccio la differenza (ecco perch\'e ho messo $\pm$ nella formula).
+
+Questo algoritmo quantifica lo spostamento senza cercarlo tra gli infiniti possibili successori. Mi dice quindi di quanto spostarmi.
+Se vado oltre il massimo o il minimo il segno dell'operazione si inverte e torno indietro.
+
+La dimensione del passo $\eta$ dev'essere scelta correttamente: troppo grande fa fare passi troppo ampi e si rischia di non arrivare mai all'ottimo,
+troppo piccolo fa fare passi troppo piccoli e si ha una ricerca troppo lenta.
