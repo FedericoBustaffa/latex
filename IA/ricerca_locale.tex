@@ -159,3 +159,17 @@ Gli algoritmi di questo tipo:
 Il punto critico di questi algoritmi \`e proprio la rappresentazione del problema in stringhe.
 
 \section{Ricerca negli spazi continui}
+Molti casi reali hanno spazi di ricerca continua che hanno quindi un fattore di ramificazione infinito. I tipi di ricerca visti fino
+ad ora non sono quindi opzioni valide per questo tipo di problemi.
+
+L'approccio che invece viene utilizzato ci porta a descrivere lo stato con \textbf{variabili continue} e \textbf{vettori}.
+
+Per trovare il minimo o il massimo di una funzione \emph{continua} e \emph{differenziabile} viene utilizzato il \textbf{gradiente},
+che restituisce la direzione di massima pendenza in un determinato punto.
+
+\begin{definition}
+	Data una funzione obbiettivo $f$, il gradiente \`e definito come il vettore che ha per componenti le derivate parziali rispetto alle
+	variabili della funzione:
+	\[ \nabla f(x_1, \dots, x_k) = ((f_{x_1}(x_1, \dots, x_k), \dots, f_{x_k}(x_1, \dots, x_k))) \]
+	dove $f_{x_i}$ \`e la derivata parziale rispetto alla variabile $x_i$.
+\end{definition}
