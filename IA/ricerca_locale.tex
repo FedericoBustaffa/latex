@@ -1,15 +1,14 @@
 \chapter{Ricerca locale}
-Nella ricerca classica, vista nei capitoli \ref{chapter: ricerca non informata}
-e \ref{chapter: euristica}, l'agente risolutore assume che l'ambiente sia
-completamente osservabile e deterministico e che si trovi nelle condizioni di
-produrre un piano che pu\`o essere eseguito senza intoppi per raggiungere
-l'obbiettivo.
-
-\subsubsection{Ambienti pi\`u realistici}
 La ricerca nell'intero spazio degli stati, che sia sistematica o con euristica,
-\`e troppo costosa. Abbiamo bisogno di metodi di \textbf{ricerca locale} che siano
-anche in grado di gestire ambienti parzialmente osservabili e azioni non
+\`e troppo costosa. In questo capitolo andremo a parlare di metodi di \textbf{ricerca locale},
+che saranno molto utili in seguito per gestire ambienti parzialmente osservabili e azioni non
 deterministiche.
+
+Gli algoritmi che vedremo inseriscono loro stessi elementi di casualit\`a ad esempio per venire
+fuori da una situazione di stallo, tuttavia il problema, cos\`i come il suo spazio degli stati,
+rimangono invariati dall'inizio alla fine.
+
+Nel prossimo capitolo tratteremo problemi il cui spazio degli stati varia \textbf{dinamicamente} nel tempo.
 
 \subsubsection{Algoritmi di ricerca locale}
 Gli algoritmi visti fino ad ora esplorano gli spazi di ricerca alla ricerca di un
@@ -71,11 +70,12 @@ trovarsi pi\`u avanti.
 \subsubsection{Miglioramenti per Hill climbing}
 \begin{itemize}
 	\item Consentire un numero limitato di mosse \textbf{laterali}, ovvero si continua anche
-	      a parit\`a di $h$
-	\item Hill climbing stocastico: si sceglie a caso tra le mosse in salita (se il problema
+	      a parit\`a di $h$.
+	\item \textbf{Hill climbing stocastico}: si sceglie a caso tra le mosse in salita (se il problema
 	      \`e trovare un minimo) per provare a superare il minimo locale e riuscire a proseguire.
-	\item Hill climbing con prima scelta.
-	\item Hill climbing con riavvio casuale: si riparte da un punto passato. Se la probabilit\`a
+	\item \textbf{Hill climbing con prima scelta}: si sceglie il primo successore che migliora lo stato
+	      attuale.
+	\item \textbf{Hill climbing con riavvio casuale}: si riparte da un punto passato. Se la probabilit\`a
 	      di successo \`e $p$, saranno necessarie in media $1 / p$ ripartenze per trovare la soluzione.
 	      \`E tendenzialmente completo ma se ci sono molti minimi/massimi locali si blocca spesso.
 \end{itemize}
