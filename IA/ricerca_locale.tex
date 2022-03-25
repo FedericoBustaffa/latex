@@ -38,3 +38,44 @@ Gli algoritmi di ricerca locale in generale:
 		      \item Lo stato di costo minore.
 	      \end{itemize}
 \end{itemize}
+
+\section{Hill climbing}
+\`E una ricerca locale di tipo greedy. Vengono generati i successori e valutati. Il successore
+viene scelto se migliora lo stato attuale. Ci sono tre sottocategorie di questo algoritmo che
+dipendono dalla modalit\`a di scelta del successore:
+\begin{itemize}
+	\item Se viene scelto il successore migliore abbiamo un \textbf{Hill climbing a salita rapida}.
+	\item Se ne viene preso uno a caso tra quelli che migliorano lo stato abbiamo un
+	      \textbf{Hill climbing stocastico}.
+	\item Se viene scelto il primo successore che migliore lo stato abbiamo un
+	      \textbf{Hill climbing con prima scelta}.
+\end{itemize}
+Se nessuno dei successori \`e migliore l'algoritmo fallisce.
+
+\begin{lstlisting}[style=pseudo-style]
+Hill_climbing(problema)
+	nodo = problema.statoIniziale;
+	while true
+		successore = nodo.migliorSuccessore()
+		if successore.valore <= nodo.valore then
+			return nodo.valore;
+		nodo = successore;
+\end{lstlisting}
+
+\subsubsection{Massimi e minimi locali}
+Questo algoritmo ha per\`o a che fare con il problema dei \textbf{massimi e minimi locali}, ovvero
+si potrebbe arrivare ad un punto in cui nessun successore migliora lo stato facendo cos\`i terminare
+l'algoritmo senza arrivare all'ottimo, ovvero il \textbf{massimo o minimo globale} che potrebbe
+trovarsi pi\`u avanti.
+
+\subsubsection{Miglioramenti per Hill climbing}
+\begin{itemize}
+	\item Consentire un numero limitato di mosse \textbf{laterali}, ovvero si continua anche
+	      a parit\`a di $h$
+	\item Hill climbing stocastico: si sceglie a caso tra le mosse in salita (se il problema
+	      \`e trovare un minimo) per provare a superare il minimo locale e riuscire a proseguire.
+	\item Hill climbing con prima scelta.
+	\item Hill climbing con riavvio casuale: si riparte da un punto passato. Se la probabilit\`a
+	      di successo \`e $p$, saranno necessarie in media $1 / p$ ripartenze per trovare la soluzione.
+	      \`E tendenzialmente completo ma se ci sono molti minimi/massimi locali si blocca spesso.
+\end{itemize}
