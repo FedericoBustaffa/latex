@@ -133,4 +133,23 @@ uso di \textbf{euristiche} per stimare la bont\`a di uno stato del gioco.
 
 Per farlo aggiungeremo al paradigma descritto in precedenza una funzionae di valutazione euristica, \verb|Eval(s)|.
 
-La nuova strategia si
+La nuova strategia consiste nel guardare avanti di $d$ livelli.
+\begin{itemize}
+	\item Si espande l'albero di ricerca un certo numero di livelli $d$ compatibile con tempo e spazio a disposizione.
+	\item Si valutano gli stati ottenuti e si propaga indietro il risultato con la regola del \verb|MAX| e \verb|MIN|.
+\end{itemize}
+Il risultato \`e come prima un algoritmo MinMax ma con \textbf{Cutoff}. Perci\`o nelle funzioni \verb|MinValue| e
+\verb|MaxValue| viste prima:
+\begin{lstlisting}[style=pseudo-style]
+	if Terminal_Test(state) then
+		return Utility(state);
+\end{lstlisting}
+diventa
+\begin{lstlisting}[style=pseudo-style]
+	if Cutoff(state, depth) then
+		return Eval(state);
+\end{lstlisting}
+La funzione \verb|Cutoff| mi dice se ho raggiunto il livello $d$ che interpreto come stato terminale. Se l'ho raggiunto
+allora applica \verb|Eval|.
+
+\subsubsection{Calcolo del valore H-MinMax}
