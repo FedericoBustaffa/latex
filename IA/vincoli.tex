@@ -1,0 +1,61 @@
+\chapter{Problemi di soddisfacimento di vincoli}
+I \textbf{problemi di soddisfacimento di vincoli} (\textbf{CSP}) hanno una rappresentazione dello stato
+\textbf{fattorizzata} ed esistono euristiche generali che consentono la risoluzione efficiente di tali problemi.
+
+\section{Paradigma per problemi CSP}
+Il problema \`e descritto da tre componenti:
+\begin{itemize}
+	\item Un insieme di variabili $X$.
+	\item Un insieme di domini $D$, dove $D_i$ \`e l'insieme di valori possibili per $X_i$.
+	\item Un insieme di vincoli $C$, espressi come relazioni tra le variabili.
+\end{itemize}
+Se volessimo formulare il problema nel modo visto fin ora abbiamo:
+\begin{itemize}
+	\item \textbf{Stato}: assegnamento (\textbf{parziale} o \textbf{completo}) di valori a variabili.
+	\item \textbf{Stato iniziale}: assegnamento vuoto.
+	\item \textbf{Azione}: assegnamento di un valore ad una variabile.
+	\item \textbf{Soluzione}: assegnamento \textbf{completo} (le variabili hanno tutte un valore) e
+	      \textbf{consistente} (i vincoli sono tutti soddisfatti).
+\end{itemize}
+In questo caso non avremo un grafo degli stati ma uno stato dei vincoli, in cui i nodi sono le variabili
+e gli archi sono i vincoli.
+
+\subsection{Strategie per problemi CSP}
+Le strategie che possiamo adottare ora sono:
+\begin{itemize}
+	\item Utilizzare delle euristiche specifiche per questa classe di problemi.
+	\item Fare delle \textbf{inferenze} che ci portano a restringere i domini e quindi a limitare la ricerca:
+	      \textbf{propagazione dei vincoli}.
+	\item Fare \textbf{backtracking intelligente}.
+\end{itemize}
+
+\subsection{Ricerca in problemi CSP}
+La ricerca in questo tipo di problemi si basa sull'assegnazione, ad ogni passo, di un valore ad una variabile.
+La massima profondit\`a di ricerca \`e data dal numero $n$ di variabili.
+
+Ingenuamente si potrebbe pensare che l'\textbf{ampiezza dello spazio di ricerca} sia il prodotto della cardinalit\`a
+dei domini. Se cos\`i fosse avremmo un \textbf{fattore di diramazione} che \`e uguale a: $nd$ al primo passo,
+$(n-1)d$ al secondo e cos\`i via. Otteremmo quindi un fattore di diramazione complessivo di $n! \cdot d^n$.
+
+Fortunatamente si pu\`o \textbf{ridurre drasticamente} il fattore di diramazione tenendo di conto che l'ordine con
+cui si assegnano le variabili non conta (il \emph{goal} \`e \textbf{commutativo}).
+
+\subsubsection{Backtracking a profondit\`a limitata}
+Questo tipo di ricerca ha due punti cardine:
+\begin{itemize}
+	\item \textbf{Controllo anticipato} della violazione dei vincoli: \`e inutile andare avanti se un vincolo \`e
+	      stato violato.
+	\item La ricerca \`e \textbf{limitata} naturalmente in profondit\`a dal numero di variabili quindi il metodo
+	      \`e \textbf{completo}.
+\end{itemize}
+L'algoritmo si compone di 9 passi:
+\begin{enumerate}
+	\item Controllo completezza assegnamento.
+\end{enumerate}
+\begin{lstlisting}[style=pseudo-style]
+Backtrack(assignment, csp)
+	if assignment.isComplete() then
+		return assignment;
+	var = csp.UnassignedVariable();
+	foreach value in 
+\end{lstlisting}
