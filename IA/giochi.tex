@@ -1,1 +1,136 @@
 \chapter{Giochi con avversario}
+Fino ad ora abbiamo avuto a che fare con ambienti completamente osservabili, deterministici, a utente singolo e
+composti da stati atomici.
+
+Per trattare problemi come i \textbf{giochi con avversario} dobbiamo cambiare il paradigma e andare verso ambienti
+\emph{pi\`u realistici} e considerare ambienti parzialmente osservabili, non deterministici, multiagente e con una
+rappresentazione degli stati pi\`u complessa.
+
+In questo tipo di ambiente le \textbf{percezioni} sono fondamentali per restringere lo spazio degli stati e informano
+l'algoritmo sull'effetto delle azioni. L'agente in questo caso elabora un \textbf{piano di contingenza}, ovvero una
+strategia che tiene conto delle diverse eventualit\`a.
+
+Il modello di transizione in questo caso restituisce un insieme di stati (l'agente non sa in quale si ritrover\`a).
+
+\subsubsection{Alberi di ricerca AND-OR}
+Un albero di ricerca AND-OR ci viene incontro in questa situazione ed \`e strutturato come segue:
+\begin{itemize}
+	\item I nodi \textbf{OR} sono le scelte dell'agente.
+	\item I nodi \textbf{AND} sono le diverse contingenze da considerare. Sono cio\`e le scelte dell'ambiente, composte
+	      da pi\`u stati possibili.
+	\item Una soluzione ad un problema di ricerca AND-OR \`e un albero che:
+	      \begin{itemize}
+		      \item Ha un nodo obbiettivo in ogni foglia.
+		      \item Specifica un'unica azione nei nodi OR.
+		      \item Include tutti gli archi uscenti da nodi AND (tutte le contingenze).
+	      \end{itemize}
+\end{itemize}
+
+\subsubsection{Panoramica giochi con avversario}
+In questo capitolo parleremo dei \textbf{giochi con avversario}, in cui si deve tener conto della mossa dell'avversario,
+che sar\`a ignota fino a che non sar\`a compiuta. Il compito dell'agente \`e cercare di prevederla analizzando tra le
+mosse possibili, le pi\`u probabili e costruire di conseguenza una strategia per vincere.
+
+\section{Paradigma per giochi con avversario}
+Il paradigma che stiamo per introdurre serve a trattare giochi con avversario come ad esempio gli scacchi. Ed \`e formulato
+come segue:
+\begin{itemize}
+	\item Si devono avere regole semplici e formalizzabili.
+	\item L'ambiente dev'essere accessibile e deterministico.
+	\item Due giocatori che giocano a turno.
+	\item Giochi a somma zero (se uno vince l'altro perde).
+	\item Ambiente multiagente competitivo e strategico.
+	\item Complessit\`a e vincoli di tempo reale (si ha a disposizione un tempo limitato per pensare).
+\end{itemize}
+In questo tipo di giochi una delle strategie migliori \`e quella di eseguire una mossa, provare a identificare la
+contromossa dell'avversario per elaborare una contromossa, vedere cosa fa l'avversario e rielaborare in base alla
+mossa compiuta.
+
+\subsubsection{Giochi come problemi di ricerca}
+Il problema del gioco visto come un problema di ricerca apparir\`a in questo modo:
+\begin{itemize}
+	\item \textbf{Stati}: configurazioni o posizioni del gioco. Con la notazione \verb|Player(s)| indichiamo il giocatore
+	      a cui tocca muovere nello stato \verb|s|.
+	\item \textbf{Stato iniziale}: configurazione iniziale del gioco.
+	\item \verb|Actions(s)|: mosse legali nello stato \verb|s|.
+	\item \verb|Result(s, a)|: stato risultante da una mossa.
+	\item \verb|Terminal_Test(s)|: vero se \verb|s| \`e uno stato terminale, falso altrimenti.
+	\item \verb|Utility(s, p)|: valore numerico che valuta gli stati terminali del gioco per il giocatore \verb|p|.
+\end{itemize}
+
+\section{MinMax}
+La \textbf{ricerca MinMax} consiste nella valutazione dello stato successivo facendo riferimento al suo
+\textbf{valore MinMax}.
+
+La miglior mossa da fare \`e quella che tiene di conto anche della contromossa dell'avversario. L'algoritmo MinMax
+assume che l'avversario giochi sempre al massimo delle sue possibilit\`a.
+
+Ci\`o che vogliamo fare \`e massimizzare l'efficacia della mossa del giocatore a cui tocca fare la mossa e minimizzare
+l'efficacia della mossa dell'avversario. Chiameremo quindi \verb|MAX| il giocatore a cui tocca effettuare la mossa
+e \verb|MIN| l'avversario.
+
+\subsubsection{Calcolo del valore MinMax}
+Nella pratica il valore MinMax di uno stato si calcola come segue:
+\begin{enumerate}
+	\item Se lo stato \`e uno stato terminale applico ritorno \verb|Utility(s, MAX)|.
+	\item Se sto valutando la mossa che deve fare \verb|MAX| ritorno il massimo tra i valori MinMax di tutti i possibili
+	      successori generabili a partire dallo stato \verb|s|.
+	\item Se sto valutando la mossa che deve fare \verb|MIN| ritorno il minimo tra i valori MinMax di tutti i possibili
+	      successori generabili dallo stato \verb|s|.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+MinMaxDecision(state)
+	value = -infty;
+	best_action = None;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		min_value = MinValue(next_state);
+		if min_value > value then
+			value = min_value;
+			best_action = action;
+
+	return best_action;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+MinValue(state)
+	if Terminal_Test(state) then
+		return Utility(state);
+	value = infty;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		value = Min(value, MaxValue(next_state));
+	
+	return value;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+MaxValue(state)
+	if Terminal_Test(state) then
+		return Utility(state);
+	value = -infty;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		value = Max(value, MinValue(next_state));
+	
+	return value;
+\end{lstlisting}
+Come possiamo vedere, l'algoritmo sceglie la mossa successiva tra quelle che mettono maggiormente in difficolt\`a
+l'avversario. Ovvero tra quelle che minimizzano maggiormente l'efficacia della mossa successiva dell'avversario.
+
+\textbf{NOTA}: In generale non conviene scegliere la mossa ottima se l'avversario gioca in maniera \emph{sub-ottima}.
+
+\subsubsection{Analisi MinMax}
+\begin{itemize}
+	\item La complessit\`a in tempo \`e $O(b^m)$.
+	\item La complessit\`a in spazio \`e $O(bm)$.
+\end{itemize}
+
+\section{MinMax euristico}
+Per giochi molto complessi \`e impensabile un'esplorazione sistematica dello spazio degli stati. \`E necessario fare
+uso di \textbf{euristiche} per stimare la bont\`a di uno stato del gioco.
+
+Per farlo aggiungeremo al paradigma descritto in precedenza una funzionae di valutazione euristica, \verb|Eval(s)|.
+
+La nuova strategia si
