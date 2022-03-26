@@ -201,14 +201,21 @@ decide se si pu\`o abbandonare l'esplorazione del sotto-albero.
 		      \item $v \leq \alpha$ per i nodi \verb|MIN| (taglio $\alpha$).
 	      \end{itemize}
 \end{enumerate}
-
+Tutto rimane uguale tranne per il fatto che \verb|value| viene inizializzato con \verb|MaxValue| valutato
+tra $-\infty$ e $+\infty$.
 \begin{lstlisting}[style=pseudo-style]
 AlphaBeta(state)
 	value = MaxValue(state, -infty, +infty);
-
-	return boh;
+	best_action = None;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		min_value = MinValue(next_state, -infty, +infty);
+		if min_value > value then
+			value = min_value;
+			best_action = action
+	
+			return best_action;
 \end{lstlisting}
-
 \begin{lstlisting}[style=pseudo-style]
 MaxValue(state, alpha, beta)
 	if Terminal_Test(state) then
