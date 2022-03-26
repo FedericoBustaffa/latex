@@ -69,14 +69,14 @@ Ci\`o che vogliamo fare \`e massimizzare l'efficacia della mossa del giocatore a
 l'efficacia della mossa dell'avversario. Chiameremo quindi \verb|MAX| il giocatore a cui tocca effettuare la mossa
 e \verb|MIN| l'avversario.
 
-\subsubsection{Calcolo del valore MinMax}
+\subsection{Calcolo del valore MinMax}
 Nella pratica il valore MinMax di uno stato si calcola come segue:
 \begin{enumerate}
 	\item Se lo stato \`e uno stato terminale applico ritorno \verb|Utility(s, MAX)|.
 	\item Se sto valutando la mossa che deve fare \verb|MAX| ritorno il massimo tra i valori MinMax di tutti i possibili
 	      successori generabili a partire dallo stato \verb|s|.
 	\item Se sto valutando la mossa che deve fare \verb|MIN| ritorno il minimo tra i valori MinMax di tutti i possibili
-	      successori generabili dallo stato \verb|s|.
+	      successori generabili a partire dallo stato \verb|s|.
 \end{enumerate}
 
 \begin{lstlisting}[style=pseudo-style]
@@ -121,7 +121,7 @@ l'avversario. Ovvero tra quelle che minimizzano maggiormente l'efficacia della m
 
 \textbf{NOTA}: In generale non conviene scegliere la mossa ottima se l'avversario gioca in maniera \emph{sub-ottima}.
 
-\subsubsection{Analisi MinMax}
+\subsection{Analisi MinMax}
 \begin{itemize}
 	\item La complessit\`a in tempo \`e $O(b^m)$.
 	\item La complessit\`a in spazio \`e $O(bm)$.
@@ -150,6 +150,116 @@ diventa
 		return Eval(state);
 \end{lstlisting}
 La funzione \verb|Cutoff| mi dice se ho raggiunto il livello $d$ che interpreto come stato terminale. Se l'ho raggiunto
-allora applica \verb|Eval|.
+allora applica \verb|Eval|. Ovviamente \verb|Cutoff| riconosce anche veri e propri stati terminali come faceva
+\verb|Terminal_Test|.
 
-\subsubsection{Calcolo del valore H-MinMax}
+\subsection{Calcolo del valore H-MinMax}
+Il calcolo del valore H-MinMax non cambia molto rispetto a prima, semplicemente qui facciamo un numero di previsioni in
+avanti limitato e ci affidiamo ad un'euristica per la valutazione dello stato terminale:
+\begin{itemize}
+	\item Se lo stato \`e uno stato terminale oppure ho raggiunto il limite di profondit\`a $d$ ritorno \verb|Eval(s)|.
+	\item Se sto valutando la mossa che deve fare \verb|MAX| ritorno il massimo tra i valori H-MinMax di tutti i possibili
+	      successori generabili a partire dallo stato \verb|s|.
+	\item Se sto valutando la mossa che deve fare \verb|MIN| ritorno il minimo tra i valori H-MinMax di tutti i possibili
+	      successori generabili a partire dallo stato \verb|s|.
+\end{itemize}
+
+\subsection{Funzione di valutazione euristica}
+La funzione \verb|Eval| di valutazione \`e una \textbf{stima dell'utilit\`a attesa} a partire da una certa posizione.
+La qualit\`a di questa funzione \`e determinante e deve:
+\begin{itemize}
+	\item Essere \textbf{consistente} con l'utilit\`a se applicata a stati terminali di gioco.
+	\item Essere \textbf{efficiente} da calcolare.
+	\item Riflettere le probabilit\`a effettive di vittoria.
+	\item Avere un \textbf{valore atteso} che combina probabilit\`a con utilit\`a dello stato terminale; pu\`o essere
+	      appreso con l'esperienza.
+\end{itemize}
+
+\subsubsection{Stati non quiescienti}
+A volte l'esplorazione fino ad un certo livello pu\`o mostrare una situazione molto vantaggiosa ma dopo si finisce per
+trovarsi in una situazione di svantaggio. La soluzione in questi casi \`e applicare la valutazione a
+\textbf{stati quiescienti}, ossia stati in cui la funzione di valutazione non \`e soggetta a mutamenti repentini.
+
+\subsubsection{Effetto orizzonte}
+In alcune occasioni pu\`o succedere che vengano privilegiate mosse diversive che hanno il solo effetto di spingere il
+problema oltre l'orizzonte. Quindi si deve riuscire a capire quando si stanno compiendo mosse inutili che stanno solo
+rimandando il problema.
+
+\section{Potatura Alfa-Beta}
+Non \`e necessario esplorare ogni cammino, la \textbf{potatura Alfa-Beta} dimezza la ricerca mantenendo la valutazione
+MinMax corretta.
+
+Si va avanti in profondit\`a fino al livello desiderato e propagando indietro i valori si
+decide se si pu\`o abbandonare l'esplorazione del sotto-albero.
+\begin{enumerate}
+	\item \verb|MaxValue| e \verb|MinValue| vengono invocate rispettivamente con due valori di riferimento $\alpha$
+	      (inizialmente $-\infty$) e $\beta$ (inizialmente $+\infty$).
+	\item Rappresentano rispettivamente la migliore alternativa per \verb|MAX| e per \verb|MIN| fino a quel momento.
+	\item I tagli avvengono quando, nel propagare all'indietro:
+	      \begin{itemize}
+		      \item $v \geq \beta$ per i nodi \verb|MAX| (taglio $\beta$).
+		      \item $v \leq \alpha$ per i nodi \verb|MIN| (taglio $\alpha$).
+	      \end{itemize}
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+AlphaBeta(state)
+	value = MaxValue(state, -infty, +infty);
+
+	return boh;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+MaxValue(state, alpha, beta)
+	if Terminal_Test(state) then
+		return Utility(state);
+	value = -infty;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		value = Max(value, MinValue(next_state, alpha, beta));
+		if value >= beta then
+			return value;
+		alpha = Max(alpha, value);
+	return value;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+MinValue(state, alpha, beta)
+	if Terminal_Test(state) then
+		return Utility(state);
+	value = +infty;
+	foreach action in Actions(state)
+		next_state = Result(state, action);
+		value = Min(value, MaxValue(next_state, alpha, beta));
+		if value <= alpha then
+			return value;
+		beta = Max(beta, value);
+	return value;
+\end{lstlisting}
+
+\subsection{Ordinamento delle mosse}
+La potatura ottimale si ottiene quando ad ogni livello sono generate prima le mosse migliori per chi gioca:
+\begin{itemize}
+	\item Per i nodi \verb|MAX| sono generate prima le mosse con valore pi\`u alto.
+	\item Per i nodi \verb|MIN| sono generate prima le mosse con valore pi\`u basso (migliori per \verb|MIN|).
+\end{itemize}
+
+\subsection{Analisi Alfa-Beta}
+\begin{itemize}
+	\item La complessit\`a in tempo \`e $O(b^{m/2})$.
+	\item La complessit\`a in spazio rimane $O(bm)$.
+\end{itemize}
+
+\subsection{Miglioramenti}
+Dunque Alfa-Beta pu\`o arrivare a profondit\`a doppia rispetto a MinMax a parit\`a di tempo.
+
+Per avvicinarsi all'ordinamento ottimale possiamo:
+\begin{itemize}
+	\item Usare un \textbf{approfondimento iterativo} cos\`i da scoprire,
+	      ad una certa iterazione, informazioni utili per l'ordinamento delle mosse. Informazioni da usare
+	      in una successiva iterazione.
+	\item Tenere in memoria una \textbf{tabella delle trasposizioni} in cui memorizzare la valutazione di ogni stato.
+	\item \textbf{Potatura in avanti}: si esplorano solo alcune mosse ritenute promettenti e si tagliano le altre.
+	\item \textbf{Database di mosse di apertura e chiusura}: aprire e chiudere il gioco tramite schemi gi\`a conosciuti
+	      e collaudati invece di stare ad esplorare stati, come quelli iniziali, in cui ci sono poche mosse sensate.
+\end{itemize}
