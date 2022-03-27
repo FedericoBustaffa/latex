@@ -20,7 +20,7 @@ Se volessimo formulare il problema nel modo visto fin ora abbiamo:
 In questo caso non avremo un grafo degli stati ma uno stato dei vincoli, in cui i nodi sono le variabili
 e gli archi sono i vincoli.
 
-\subsection{Strategie per problemi CSP}
+\section{Strategie per problemi CSP}
 Le strategie che possiamo adottare ora sono:
 \begin{itemize}
 	\item Utilizzare delle euristiche specifiche per questa classe di problemi.
@@ -29,7 +29,7 @@ Le strategie che possiamo adottare ora sono:
 	\item Fare \textbf{backtracking intelligente}.
 \end{itemize}
 
-\subsection{Ricerca in problemi CSP}
+\section{Ricerca in problemi CSP}
 La ricerca in questo tipo di problemi si basa sull'assegnazione, ad ogni passo, di un valore ad una variabile.
 La massima profondit\`a di ricerca \`e data dal numero $n$ di variabili.
 
@@ -40,7 +40,7 @@ $(n-1)d$ al secondo e cos\`i via. Otteremmo quindi un fattore di diramazione com
 Fortunatamente si pu\`o \textbf{ridurre drasticamente} il fattore di diramazione tenendo di conto che l'ordine con
 cui si assegnano le variabili non conta (il \emph{goal} \`e \textbf{commutativo}).
 
-\subsubsection{Backtracking a profondit\`a limitata}
+\subsection{Backtracking a profondit\`a limitata}
 Questo tipo di ricerca ha due punti cardine:
 \begin{itemize}
 	\item \textbf{Controllo anticipato} della violazione dei vincoli: \`e inutile andare avanti se un vincolo \`e
@@ -48,14 +48,78 @@ Questo tipo di ricerca ha due punti cardine:
 	\item La ricerca \`e \textbf{limitata} naturalmente in profondit\`a dal numero di variabili quindi il metodo
 	      \`e \textbf{completo}.
 \end{itemize}
-L'algoritmo si compone di 9 passi:
+L'algoritmo si compone di 8 passi:
 \begin{enumerate}
 	\item Controllo completezza assegnamento.
+	\item Scelgo una delle variabili non ancora assegnate.
+	\item Prendo un valore del dominio della variabile appena scelta e ne controllo la consistenza.
+	\item Se \`e consistente
+	      \begin{enumerate}
+		      \item Assegno il valore alla variabile e aggiorno lo stato.
+		      \item Aggiorno lo stato
+		      \item Provo a fare inferenze per semplificare il problema.
+	      \end{enumerate}
+	\item Se sono riuscito a fare inferenza aggiorno ulteriormente lo stato.
+	\item Chiamo ricorsivamente \verb|Backtrack| col nuovo assegnamento.
+	\item Se l'algoritmo ha successo ritorno la soluzione. Altrimenti torno al punto 3.
+	\item Se non ho trovato valori consistente da assegnare l'algoritmo fallisce.
 \end{enumerate}
 \begin{lstlisting}[style=pseudo-style]
 Backtrack(assignment, csp)
 	if assignment.isComplete() then
 		return assignment;
-	var = csp.UnassignedVariable();
-	foreach value in 
+	var = csp.unassignedVariable();
+	foreach value in csp.domain(var, assignment)
+		if value.isConsistent(var, assignment) then
+			var = value;
+			assignment.add(var);
+			inf = csp.inference(var);
+			if inf != failure then
+				assignment.addInference(inf);
+				result = Backtrack(assignment, csp);
+				if result != failure then
+					return result;
+	return failure;
 \end{lstlisting}
+
+\subsection{Euristiche per Backtrack}
+L'algoritmo svolge certi passaggi in maniera meccanica, con l'uso di qualche buona euristica possiamo andare a ridurre di molto
+il problema. Le euristiche che proporremo si offrono di migliorare i seguenti punti.
+\begin{itemize}
+	\item La scelta della variabile da assegnare.
+	\item La scelta dei valori del dominio.
+	\item Inferenza: influenza di un assegnamento sulle altre variabili, restrizione dei domini, propagazione dei vincoli.
+	\item Backtrack intelligente: evitare di ripetere i fallimenti.
+\end{itemize}
+
+\subsubsection{Scelta delle variabili}
+\begin{itemize}
+	\item \textbf{MRV} (\emph{Minimum Remaining Values}): si sceglie la variabile che ha meno valori legali residui, ovvero la
+	      variabile \textbf{pi\`u vincolata}. Questa euristica ci fa scoprire prima i fallimenti.
+	\item \textbf{Grado}: si sceglie la variabile coinvolta in pi\`u vincoli con le altre variabili, ovvero la variabile
+	      \textbf{pi\`u vincolante}. In caso di parit\`a di MRV si usa questa euristica.
+\end{itemize}
+
+\subsubsection{Scelta dei valori}
+\begin{itemize}
+	\item Si sceglie il valore \textbf{meno vincolante}, ossia quello che esclude meno valori per le altre variabili direttamente
+	      collegate con la variabile scelta.
+	\item \textbf{Conflitti minimi}: si sceglie il valore che crea meno conflitti.
+\end{itemize}
+\`E sempre meglio valutare prima un assegnamento che ha pi\`u probabilit\`a di successo.
+
+
+\subsubsection{Inferenza e propagazione dei vincoli}
+\begin{itemize}
+	\item \textbf{Verifica in avanti} (\emph{Forward Checking}): una volta assegnato un valore ad una variabile si possono eliminare
+	      i valori incompatibili per le altre variabili direttamente collegate da vincoli.
+	\item \textbf{Consistenza di nodo e arco}: si restringono i valori dei domini delle variabili tenendo conto dei vincoli unari e
+	      binari su tutto il grafo.
+\end{itemize}
+
+\subsubsection{Backtrack intelligente}
+Si considerano alternative solo per le variabili che hanno causato il fallimento (quelle assegnate in precedenza per cui potrebbere andare
+bene anche altri valori), ovvero per il cosiddetto \textbf{insieme dei conflitti}.
+
+\subsubsection{Riparazione euristica}
+Si parte con un assegnamento completo ma inconsitente. Ad ogni passo si modifica l'assegnamento ad una variabile per cui un vincolo \`e violato.
