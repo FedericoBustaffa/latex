@@ -329,3 +329,49 @@ WalkSAT(clauses, p, max_flips)
 \end{itemize}
 
 \subsection{Inferenza come deduzione}
+Un altro modo per stabilire se $KB \models A$ \`e usare un \textbf{sistema di deduzione}.
+Introduciamo la notazione $KB \vdash A$ che significa che $A$ \`e deducibile da KB.
+
+La deduzione avviene semplificando delle \textbf{regole di inferenza}.
+In un sistema di inferenza le regole dovrebbero derivare
+\begin{itemize}
+	\item solo formule che sono conseguenza logica.
+	\item tutte le formule che sono conseguenza logica.
+\end{itemize}
+
+\subsubsection{Correttezza e completezza}
+\begin{itemize}
+	\item \textbf{Correttezza}: Se $KB \vdash A$ allora $KB \models A$. Tutto ci\`o che \`e derivabile \`e conseguenza logica.
+	\item \textbf{Completezza}: Se $KB \models A$ allora $KB \vdash A$. Tutto ci\`o che \`e conseguenza logica \`e ottenibile
+	      tramite il sistema deduttivo.
+\end{itemize}
+
+\subsubsection{Regole di inferenza}
+Le regole di inferenza sono \textbf{schemi deduttivi} del tipo:
+\[ \frac{\alpha \Rightarrow \beta, \quad \alpha}{\beta} \quad \text{Modus Ponens} \]
+dove quello che al di sopra della linea sono premesse o assiomi dimostrati e quello che c'\`e sotto la linea \`e la conseguenza,
+ovvero la \textbf{deduzione}.
+
+\subsubsection{Ricerca}
+In problemi come la dimostrazione di teoremi conviene procedere all'indietro.
+\begin{itemize}
+	\item \textbf{Completezza}: Le regole della deduzione naturale sono un insieme di regole di inferenza completo, se anche l'algoritmo
+	      \`e completo allora non c'\`e problema.
+	\item \textbf{Efficienza}: La complessit\`a \`e alta poich\'e ci troviamo davanti a un problema decidibile ma NP-completo.
+\end{itemize}
+
+\subsubsection{Regola di risoluzione}
+Questa regola presuppone che il problema sia in forma a clausole:
+\[
+	\frac{ \{ p_1, \dots, p_i, \dots, p_m \} \{ q_1, \dots, q_j, \dots, q_n \} }
+	{ \{ p_1, \dots, p_{i-1}, p_{i+1}, \dots, p_{m}, q_1, \dots, q_{j-1}, q_{j+1}, \dots, q_n \} }
+\]
+\`E preferita questa notazione di tipo insiemistico cos\`i da eliminare duplicati.
+
+Un caso particolare \`e quello della \textbf{clausola vuota} o \textbf{contraddizione}.
+\[ \frac{ \{ P \}\{ \lnot P \} }{ \{ \} } \]
+Con questi nuovi strumenti possiamo andare a ragionare come abbiamo fatto fino ad ora.
+\begin{itemize}
+	\item Se trovo una clausola falsa allora l'interpretazione non pu\`o essere un modello dell'insieme delle clausole.
+	\item Se il letterale di una clausola \`e vero allora tutta la clausola \`e vera.
+\end{itemize}
