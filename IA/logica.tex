@@ -1,1 +1,331 @@
 \chapter{Agenti logici}
+Fino ad ora abbiamo trattato
+\begin{itemize}
+	\item Agenti con stato obbiettivo in mondi osservabili con stati atomici e azioni
+	      descrivibili in maniera semplice.
+	\item Problemi con struttura fattorizzata, i cui stati sono definiti come un insieme di caratteristiche
+	      rilevanti.
+\end{itemize}
+Ora l'obbiettivo \`e quello di migliorare la \textbf{capacit\`a di ragionamento} degli agenti dotandoli di
+rappresentazioni di mondi pi\`u \textbf{complessi} e \textbf{astratti}, non descrivibili semplicemente.
+
+D'ora in poi tratteremo gli \textbf{agenti basati su conoscenza}, dotati di una \textbf{Knowledge Base} con
+conoscenza espressa in maniera \textbf{esplicita} e \textbf{dichiarativa}.
+
+I problemi pi\`u comuni dell'IA sono tipicamente basati su conoscenza poich\'e il mondo \`e tipicamente complesso
+e ci serve una rappresentazione \textbf{parziale} e \textbf{incompleta} del mondo utile agli scopi dell'agente.
+
+Per ambienti parzialmente osservabili e complessi ci servono linguaggi di rappresentazione della conoscenza pi\`u
+espressivi della conoscenza \textbf{pi\`u espressivi} e \textbf{capacit\`a inferenziali}.
+
+La conoscenza pu\`o essere codificata a mano ma anche estratta dai testi, appresa dall'\textbf{esperienza} o
+\textbf{estratta} dagli esperti.
+
+La KB racchiude tutta la conoscenza necessaria a decidere l'azione da compiere in forma \textbf{dichiarativa}.
+L'alternativa \`e scrivere un programma che implementa il processo decisionale, una volta per tutte.
+
+\section{Agenti basati su conoscenza}
+Un agente basato su conoscenza mantiene una \textbf{base di conoscenza} (KB), ovvero un insieme di
+\textbf{enunciati} espressi in un \textbf{linguaggio di rappresentazione}.
+
+Interagisce con la KB mediante un'interfaccia funzionale \verb|Tell_Ask|:
+\begin{itemize}
+	\item \verb|Tell|: per aggiungere nuovi enunciati a KB.
+	\item \verb|Ask|: per interrogare la KB.
+	\item \verb|Retract|: per eliminare enunciati.
+\end{itemize}
+Gli enunciati nella KB rappresentano le \textbf{opinioni} o \textbf{credenze} dell'agente.
+
+Le risposte $\alpha$ devono essere tali che $\alpha$ discende necessariamente dalla KB.
+
+Dunque un agente logico, data una KB, contenente rappresentazioni dei fatti che si \textbf{ritengono veri},
+vuole sapere se un certo fatto $\alpha$ \`e vero di conseguenza. Vuole quindi sapere se
+\[ KB \models \alpha \quad \text{(conseguenza logica)} \]
+
+Il processo seguito da un KB agent \`e questo:
+\begin{enumerate}
+	\item L'agente riceve una \textbf{percezione}.
+	\item Costruisce una \textbf{formula logica} che rappresenta la percezione.
+	\item Memorizza la formula nella KB.
+	\item Costruisce una domanda opportuna per l'azione che dovrebbe essere compiuta.
+	\item Chiede alla KB l'azione da compiere.
+	\item Aggiorna di nuovo la KB in base all'azione compiuta.
+	\item Ritorna l'azione.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+KB_Agent(perception)
+	KB = KnowledgeBase();
+	t = 0;
+	KB.Tell(new_statement(perception, t));
+	action = KB.Ask(new_query(t));
+	KB.Tell(new_statement(action, t));
+	t = t + 1;
+	return action;
+\end{lstlisting}
+Chiariamo che una KB \textbf{non \`e una base di dati}. Una base di dati memorizza solo i dati che gli vengono passati. Ci\`o che
+caratterizza una KB \`e la \textbf{capacit\`a inferenziale}, ossia derivare nuovi fatti da quelli memorizzati esplicitamente.
+
+\subsection{Rappresentazione della conoscenza}
+Sfortunatamente, pi\`u il linguaggio \`e espressivo, meno efficiente \`e li meccanismo inferenziale. Dunque se deve trovare il giusto
+compromesso tra:
+\begin{itemize}
+	\item \textbf{Espressivit\`a} del linguaggio di rappresentazione.
+	\item \textbf{Complessit\`a} del meccanismo inferenziale.
+\end{itemize}
+
+\subsubsection{Formalismi per RC}
+Un formalismo per la rappresentazione della conoscenza ha tre componenti:
+\begin{itemize}
+	\item \textbf{Sintassi}: linguaggio composto da un vocabolario e regole per la formazione di frasi.
+	\item \textbf{Semantica}: corrispondenza fra gli enunciati e i fatti del mondo trattato.
+	\item \textbf{Meccanismo inferenziale}: metodo per inferire nuovi dati.
+\end{itemize}
+
+\section{Calcolo proposizionale - PROP}
+\subsection{Sintassi}
+La sintassi per PROP \`e definita come segue:
+\[
+	\begin{array}{rl}
+		operator \rightarrow         & \lnot \mid \wedge \mid \vee \mid \Rightarrow \mid \Leftrightarrow \\
+		formula \rightarrow          & formulaAtomica \mid formulaComplessa                              \\
+		formulaAtomica \rightarrow   & True \mid False \mid simbolo                                      \\
+		simbolo \rightarrow          & P \mid Q \mid R \mid \dots                                        \\
+		formulaComplessa \rightarrow & \lnot formula                                                     \\
+		                             & \mid (formula \wedge formula)                                     \\
+		                             & \mid (formula \vee formula)                                       \\
+		                             & \mid (formula \Rightarrow formula)                                \\
+		                             & \mid (formula \Leftrightarrow formula)
+	\end{array}
+\]
+Definiamo anche una \textbf{precedenza tra gli operatori} per riuscire a omettere in larga parte le parentesi. In ordine di precedenza
+abbiamo:
+\[ \lnot, \wedge, \vee, \Rightarrow, \Leftrightarrow \]
+
+\subsection{Semantica}
+La semantica per PROP definisce se un enunciato \`e vero o falso rispetto a un'\textbf{interpretazione}. Un'interpretazione definisce
+un valore di verit\`a per tutti i simboli proposizionali.
+
+Un \textbf{modello} \`e un'interpretazione che \emph{rende vera} una formula o un insieme di formule.
+
+La semantica nel calcolo proposizionale \`e di questo tipo:
+\begin{itemize}
+	\item $True$ \`e sempre vero, $False$ \`e sempre falso.
+	\item $P \wedge Q$ \`e vero se $P$ e $Q$ sono veri.
+	\item $P \vee Q$ \`e vero se $P$ oppure $Q$ o entrambi sono veri.
+	\item $\lnot P$ \`e vero se $P$ \`e falso.
+	\item $P \Rightarrow Q$ \`e falso solo quando $P$ \`e vero e $Q$ \`e falso.
+	\item $P \Leftrightarrow Q$ \`e vero se sono entrambi veri o entrambi falsi.
+\end{itemize}
+
+\subsection{Inferenza}
+Prima di definire un meccanismo inferenziale per PROP dobbiamo mettere a fuoco ancora qualche concetto.
+
+\subsubsection{Conseguenza logica}
+Una formula $\alpha$ \`e \textbf{conseguenza logica} di un insieme di formule KB se e solo se in ogni modello di KB,
+anche $\alpha$ \`e vera ($KB \models \alpha$). Se indichiamo con $M(KB)$ i modelli dell'insieme di formule in KB e
+con $M(\alpha)$ l'insieme delle interpretazioni che rendono vera $\alpha$:
+\[ KB \models \alpha \quad \Leftrightarrow \quad M(KB) \subseteq M(\alpha) \]
+
+\subsubsection{Equivalenza logica}
+Un'\textbf{equivalenza logica} si verifica quando due o pi\`u formule hanno lo stesso valore di verit\`a ma sono scritte
+in modo diverso:
+\[ A \equiv B \quad \Leftrightarrow \quad A \models B \wedge B \models A \]
+Ne sono esempio le leggi di De Morgan e la commutativit\`a di $\wedge$.
+
+\subsubsection{Validit\`a e soddisfacibilit\`a}
+\begin{itemize}
+	\item Una formula \`e \textbf{valida} se e solo se \`e vera per tutte le interpretazioni (\textbf{tautologia}).
+	\item Una formula \`e \textbf{soddisfacibile} se e solo se esiste almeno un'interpretazione che la rende vera.
+\end{itemize}
+Ne segue che $A$ \`e valida se e solo se $\lnot A$ \`e insoddisfacibile.
+
+\subsubsection{Inferenza per PROP}
+Ora possiamo andare a parlare delle strategie per fare inferenza nel calcolo proposizionale.
+\begin{itemize}
+	\item \textbf{Model Checking}: \`e una forma di inferenza che fa riferimento alla definizione di conseguenza logica
+	      in cui si enumerano i possibili modelli e corrisponde alla tecnica delle tabelle di verit\`a.
+	\item \textbf{Algoritmi per la soddisfacibilit\`a (SAT)}: la conseguenza logica pu\`o essere ricondotta a un problema di
+	      soddisfacibilit\`a. Per farlo sar\`a indispensabile il \textbf{teorema di refutazione}.
+\end{itemize}
+
+\begin{theorem}[Teorema di refutazione]
+	Sia KB una \emph{Knowledge Base} e sia $A$ una formula. $A$ \`e conseguenza logica di KB se e solo se
+	\[ KB_\wedge \wedge \lnot A \]
+	\`e insoddisfacibile.
+\end{theorem}
+
+\subsection{TT-entails}
+L'algoritmo \textbf{TT-entails} procede come segue:
+\begin{enumerate}
+	\item Enumera tutte le possibili interpretazioni di KB (con $k$ simboli avremmo $2^k$ possibili interpretazioni).
+	\item Per ciascuna interpretazione controlla se soddisfa o meno KB. Se non soddisfa KB, si procede, se soddisfa KB
+	      controlla che soddisfi anche $\alpha$.
+	\item Se si trova anche una sola interpretazione che soddisfa KB e non $\alpha$ allora $KB \not\models \alpha$.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+TT_entails(KB, alpha)
+	symbols = symbolsFrom(KB, alpha);
+	return TT_check_all(KB, alpha, symbols, {});
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+TT_check_all(KB, alpha, symbols, model)
+	if symbols.isEmpty() then
+		if truthCheck(KB, model) then
+			return truthCheck(alpha, model);
+		return true;
+	P = symbols.pop();
+	return
+		TT_check_all(KB, alpha, symbols, model.add(P = true))
+		and
+		TT_check_all(KB, alpha, symbols, model.add(P = false));
+\end{lstlisting}
+
+\subsection{Forma a clausole}
+Introduciamo ora una KB in \textbf{forma a clausole}, ovvero un insieme di letterali.
+Qualcosa di questo tipo
+\[ \{ A, B \} \quad \{ \lnot B, C, D \} \quad \{ \lnot A, F \} \]
+La forma a clausole \`e la \textbf{forma normale congiuntiva}: ovvero una congiunzione di disgiunzioni di letterali.
+\[ \{ A, B \} \{ C, \lnot D \} = (A \vee B) \wedge (C \vee \lnot D) \]
+Non \`e restrittiva poich\'e \`e sempre possibile ottenerla con trasformazioni che preservano l'equivalenza logica.
+
+\subsubsection{Trasformazione in forma a clausole}
+Data una proposizione qualsiasi, per ottenere la forma a clausole, i passi sono i seguenti:
+\begin{enumerate}
+	\item Eliminazione $\Leftrightarrow$: \[ (A \Leftrightarrow B) \equiv (A \Rightarrow B) \wedge (B \Rightarrow A) \]
+	\item Eliminazione $\Rightarrow$: \[ (A \Rightarrow B) \equiv (\lnot A \vee B) \]
+	\item Negazioni all'interno: De Morgan
+	      \begin{gather*}
+		      \lnot (A \vee B) \equiv (\lnot A \wedge \lnot B) \\
+		      \lnot (A \wedge B) \equiv (\lnot A \vee \lnot B)
+	      \end{gather*}
+	\item Distribuzione di $\vee$ su $\wedge$: \[ (A \vee (B \wedge C)) \equiv (A \vee B) \wedge (A \vee C) \]
+\end{enumerate}
+
+\subsection{DPLL}
+\`E un algoritmo SAT che compie un'enumerazione in profondit\`a di tutte le possibili interpretazioni alla ricerca
+di un modello.
+Rispetto a TT-entails ha tre punti che lo migliorano di molto:
+\begin{itemize}
+	\item Terminazione anticipata.
+	\item Euristica dei simboli puri.
+	\item Euristica delle clausole unitarie.
+\end{itemize}
+
+\subsubsection{Terminazione anticipata}
+Si pu\`o decidere sulla verit\`a di una clausola anche con interpretazioni parziali:
+\begin{itemize}
+	\item Se c'\`e un letterale vero la clausola sar\`a vera indipendetemente dal valore degli altri letterali.
+	\item Se anche una sola clausola \`e falsa l'interpretazione non pu\`o essere un modello dell'insieme di clausole.
+\end{itemize}
+
+\subsubsection{Euristica dei simboli puri}
+Un \textbf{simbolo puro} \`e un simbolo che appare con lo stesso segno in tutte le clausole.
+\begin{itemize}
+	\item Nel determinare se un simbolo \`e puro o meno si possono trascurare le occorrenze in clausole gi\`a rese vere.
+	\item I simboli puri possono essere assegnati a \verb|True| se il letterale \`e positivo e a \verb|False| se \`e negativo.
+	\item Non si eliminano modelli utili: se le clausole hanno un modello continuano ad averlo dopo questo assegnamento.
+	      L'assegnamento \`e obbligato.
+\end{itemize}
+
+\subsubsection{Euristica delle clausole unitarie}
+Una \textbf{clausola unitaria} \`e una clausola con un solo letterale \textbf{non assegnato}.
+
+In questo caso conviene assegnare prima valori al letterale in clausole unitarie. Assegnamo \verb|True| se il letterale \`e
+positivo, \verb|False| se \`e negativo.
+
+\subsubsection{Algoritmo}
+L'algoritmo segue questi passi:
+\begin{enumerate}
+	\item Costruisce delle clausole a partire dalle formule in input.
+	\item Estrae tutti i simboli dalle clausole.
+	\item Se tutte le clausole sono vere ho trovato un modello: termino con successo.
+	\item Se trovo anche solo una clausola falsa: termino con fallimento.
+	\item Cerco un simbolo puro. Se lo trovo lo tolgo dall'insieme dei simboli, lo metto nel modello e torno al punto 3.
+	\item Cerco una clausola unitaria. Se la trovo tolgo il simbolo nella clausola dall'insieme dei simboli,
+	      lo metto nel modello e torno al punto 3.
+	\item Se non ho trovato n\'e simboli puri n\'e clausole unitarie rimuovo il primo simbolo che c'\`e nell'insieme dei simboli
+	      e lo metto nel modello una volta assegnandogli valore \verb|True| e poi assegnandogli valore \verb|False|.
+	\item Concludo con una doppia chiamata ricorsiva, una per ognuno dei due valori assegnati al simbolo. Dato che non ho avuto modo
+	      di effettuare una terminazione anticipata devo considerare tutte le possibilit\`a.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+DPLL_SAT(prop)
+	clauses = prop.clauses();
+	symbols = prop.symbols();
+	return DPLL(clauses, symbols, {});
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+DPLL(clauses, symbols, model)
+	if model.truthTest(clauses) == false then
+		return false;
+	if model.truthTest(clauses) == true then
+		return true;
+	
+	// truthTest puo' ritornare un terzo valore neutro
+	p = findPureSymbol(symbols, clauses, model);
+	if p != null then 
+		symbols.remove(p);
+		model.add(p);
+		return DPLL(clauses, symbols, model);
+	
+	p = findUnitClause(clauses, model);
+	if p != null then
+		symbols.remove(p);
+		model.add(p);
+		return DPLL(clauses, symbols, model);
+	
+	p = symbols.pop();
+	return
+		DPLL(clauses, symbols, model.add(p = true))
+		or
+		DPLL(clauses, symbols, model.add(p = false));
+\end{lstlisting}
+
+\subsubsection{Miglioramenti}
+Anche se DPLL \`e \textbf{completo} e termina sempre si possono fare dei miglioramenti:
+\begin{itemize}
+	\item Analisi di sotto-problemi indipendenti se le variabili possono essere suddivise in sotto-insiemi disgiunti
+	      (senza simboli in comune).
+	\item Ordinamento di variabili e valori: scegliere prima la variabile che compare in pi\`u clausole.
+	\item Backtracking intelligente.
+\end{itemize}
+
+\subsection{WalkSAT}
+\begin{enumerate}
+	\item Il modello \`e un assegnamento completo scelto casualmente.
+	\item Se il modello soddisfa le clausole allora termino con successo.
+	\item Prendo una clausola qualsiasi non ancora soddisfatta.
+	\item Prendo un simbolo da modificare (\textbf{flip}). La modalit\`a di scelta del simbolo viene scelta con
+	      una probabilit\`a $p$ (di solito $0.5$) tra:
+	      \begin{itemize}
+		      \item A caso.
+		      \item Il simbolo che rende pi\`u clausole soddisfatte.
+	      \end{itemize}
+	\item Ci si arrende dopo un certo numero di flip.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+WalkSAT(clauses, p, max_flips)
+	model = randomAssignment(clauses);
+	for i = 1 to max_flips
+		if model.satisfies(clauses) then
+			return model;
+		clause = clauses.getRandomFalseClause(model);
+		symbol = clause.getSymbol(p);
+		flip(symbol);
+	return failure;
+\end{lstlisting}
+
+\subsubsection{Analisi WalkSAT}
+\begin{itemize}
+	\item \`E incompleto per un numero limitato di flip.
+	\item Va bene per cercare un modello sapendo che esiste.
+	\item Non pu\`o essere usato per verificare l'insoddisfacibilit\`a.
+\end{itemize}
+
+\subsection{Inferenza come deduzione}
