@@ -91,11 +91,11 @@ La sintassi per PROP \`e definita come segue:
 		formula \rightarrow          & formulaAtomica \mid formulaComplessa                              \\
 		formulaAtomica \rightarrow   & True \mid False \mid simbolo                                      \\
 		simbolo \rightarrow          & P \mid Q \mid R \mid \dots                                        \\
-		formulaComplessa \rightarrow & \lnot formula                                                     \\
-		                             & \mid (formula \wedge formula)                                     \\
-		                             & \mid (formula \vee formula)                                       \\
-		                             & \mid (formula \Rightarrow formula)                                \\
-		                             & \mid (formula \Leftrightarrow formula)
+		formulaComplessa \rightarrow & \lnot formula \mid                                                \\
+		                             & (formula \wedge formula) \mid                                     \\
+		                             & (formula \vee formula) \mid                                       \\
+		                             & (formula \Rightarrow formula) \mid                                \\
+		                             & (formula \Leftrightarrow formula)
 	\end{array}
 \]
 Definiamo anche una \textbf{precedenza tra gli operatori} per riuscire a omettere in larga parte le parentesi. In ordine di precedenza
@@ -328,6 +328,19 @@ WalkSAT(clauses, p, max_flips)
 	\item Non pu\`o essere usato per verificare l'insoddisfacibilit\`a.
 \end{itemize}
 
+\subsection{Problemi SAT difficili}
+Se un problema ha molte soluzioni, (problema \textbf{sotto-vincolato}) \`e pi\`u probabile che WalkSAT trovi una
+soluzione in tempi brevi.
+
+In generale \`e molto significativo il rapporto $m / n$ dove $m$ \`e il numero di clausole (vincoli) e $n$ \`e il
+numero di simboli. Pi\`u grande \`e questo rapporto pi\`u vincolato \`e il problema.
+
+La probabilit\`a che un problema sia soddisfacibile \`e inversamente proporzionale a questo rapporto. Pi\`u un
+problema \`e vincolato meno sar\`a la probabilit\`a che questo sia soddisfacibile.
+
+Esiste una fascia intermedia in cui si trovano problemi soddisfacibili ma difficili. In questa fascia WalkSAT \`e molto
+pi\`u efficiente di DPLL a parit\`a di rapporto $m/n$
+
 \subsection{Inferenza come deduzione}
 Un altro modo per stabilire se $KB \models A$ \`e usare un \textbf{sistema di deduzione}.
 Introduciamo la notazione $KB \vdash A$ che significa che $A$ \`e deducibile da KB.
@@ -360,26 +373,344 @@ In problemi come la dimostrazione di teoremi conviene procedere all'indietro.
 	\item \textbf{Efficienza}: La complessit\`a \`e alta poich\'e ci troviamo davanti a un problema decidibile ma NP-completo.
 \end{itemize}
 
-\subsubsection{Regola di risoluzione}
-Questa regola presuppone che il problema sia in forma a clausole:
+\subsection{Regola di risoluzione}
+Questa regola presuppone che il problema sia in forma a clausole ed \`e preferita la notazione di tipo
+insiemistico cos\`i da eliminare duplicati.
 \[
 	\frac{ \{ p_1, \dots, p_i, \dots, p_m \} \{ q_1, \dots, q_j, \dots, q_n \} }
 	{ \{ p_1, \dots, p_{i-1}, p_{i+1}, \dots, p_{m}, q_1, \dots, q_{j-1}, q_{j+1}, \dots, q_n \} }
 \]
-\`E preferita questa notazione di tipo insiemistico cos\`i da eliminare duplicati.
+dove $p_i = \lnot q_j$ o viceversa.
+
 
 Un caso particolare \`e quello della \textbf{clausola vuota} o \textbf{contraddizione}.
 \[ \frac{ \{ P \}\{ \lnot P \} }{ \{ \} } \]
-Con questi nuovi strumenti possiamo andare a ragionare come abbiamo fatto fino ad ora.
-\begin{itemize}
-	\item Se trovo una clausola falsa allora l'interpretazione non pu\`o essere un modello dell'insieme delle clausole.
-	\item Se il letterale di una clausola \`e vero allora tutta la clausola \`e vera.
-\end{itemize}
 
 \subsubsection{Analisi}
-Non \`e un metodo completo. Il fatto che $\alpha$ sia conseguenza logica di KB non implica sempre che
-$\alpha$ sia deducibile da KB.
+Non \`e un metodo completo per dimostrare la soddisfacibilit\`a di KB. Il fatto che $\alpha$ sia conseguenza
+logica di KB non implica sempre che $\alpha$ sia deducibile da KB. Si possono trovare controesempi.
 
 \begin{theorem}[Teorema di risoluzione]
 	KB \`e insoddisfacibile se e solo se \[ KB \vdash_{\text{res}} \{ \} \]
 \end{theorem}
+Dunque se utilizzo la regola per \textbf{dimostrare l'insoddisfacibilit\`a} di KB allora il metodo \`e completo.
+
+Un metodo alternativo consiste nel negare $\alpha$, aggiungerla alla KB e dimostrare che si giunge ad una
+contraddizione.
+\begin{theorem}[Teorema di refutazione]
+	$\alpha$ \`e conseguenza logica di KB se e solo se
+	\[ KB \cup \{ \lnot \alpha \} \]
+	\`e insoddisfacibile.
+\end{theorem}
+
+\section{Logica del primo ordine - FOL}
+Nella logica del primo ordine abbiamo assunzioni logiche pi\`u ricche con le quali rappresentiamo un mondo
+pi\`u complesso tramite delle entit\`a e relazioni fra esse.
+
+Si inizia con una \textbf{concettualizzazione} in cui si decide quali sono le cose di cui si vuole parlare.
+Abbiamo tre categorie principali:
+\begin{itemize}
+	\item \textbf{Oggetti}: sono le entit\`a.
+	\item \textbf{Propriet\`a}: sono le caratteristiche delle entit\`a.
+	\item \textbf{Relazioni fra gli oggetti}: sono relazioni che legano entit\`a diverse.
+\end{itemize}
+
+\subsection{Sintassi}
+La sintassi per la logica del primo ordine \`e definita come segue:
+\[
+	\begin{array}{rl}
+		connettivo \rightarrow     & \wedge \mid \vee \mid \lnot \mid \Rightarrow \mid \Leftrightarrow \mid
+		\Leftarrow                                                                                          \\
+		quantificatore \rightarrow & \forall \mid \exists                                                   \\
+		variabile \rightarrow      & x \mid y \mid \dots \quad \text{lettere minuscole}                     \\
+		costante \rightarrow       & A \mid B \mid \dots \quad \text{lettere maiuscole}                     \\
+		funzione \rightarrow       & + \mid - \mid \dots                                                    \\
+		predicato \rightarrow      & \leq \mid \geq \mid \dots
+	\end{array}
+\]
+Di seguito, in ordine decrescente di precedenza, gli operatori logici:
+\[ = \quad \lnot \quad \wedge \quad \vee \quad \Rightarrow, \Leftrightarrow \quad \forall, \exists \]
+\subsubsection{Sintassi per i termini}
+\[
+	\begin{array}{rl}
+		termine \rightarrow & costante \mid variabile \mid funzione(termine, \dots)
+	\end{array}
+\]
+\subsubsection{Sintassi per le formule}
+\[
+	\begin{array}{rl}
+		formulaAtomica \rightarrow & True \mid False \mid                              \\
+		                           & termine = termine \mid                            \\
+		                           & predicato(termine, \dots)                         \\
+		formula \rightarrow        & formulaAtomica \mid                               \\
+		                           & formula \quad connettivo \quad formula \mid       \\
+		                           & quantificatore \quad variabile \quad formula \mid \\
+		                           & \lnot formula \mid (formula)
+	\end{array}
+\]
+
+Si dice che le variabili che appaiono nella formula associata ad un quantificatore sono nel suo \textbf{ambito}
+
+Una variabile si dice \textbf{legata} se \`e utilizzata nell'ambito dei quantificatori. Si dice \textbf{libera}
+altrimenti.
+
+Le formule si dividono in tre categorie che dipendono dalla propriet\`a delle variabili precedentemente descritta.
+\begin{itemize}
+	\item \textbf{Chiusa}: non contiene occorrenze di variabili libere.
+	\item \textbf{Aperta}: contiene almeno un'occorrenza di variabili libere.
+	\item \textbf{Ground}: non contiene variabili.
+\end{itemize}
+
+\subsection{Semantica}
+Vedremo vari tipi di semantica per FOL.
+
+La \textbf{semantica dichiarativa} consiste nello \textbf{stabilire una corrispondenza} tra
+\begin{itemize}
+	\item i termini del linguaggio e gli oggetti del mondo.
+	\item le formule chiuse e i valori di verit\`a.
+\end{itemize}
+Un'interpretazione stabilisce una corrispondeza precisa tra elementi atomici del linguaggio ed elementi della
+concettualizzazione. Tale interpretazione interpreta:
+\begin{itemize}
+	\item Le costanti come elementi del dominio.
+	\item Le funzioni come funzioni da $n$-uple di $D$ in $D$.
+	\item I predicati come insiemi di $n$-uple.
+\end{itemize}
+
+Nella \textbf{semantica composizionale} il significato di un termine o di una formula composta \`e determinato
+in funzione del significato dei suoi componenti.
+
+Nel caso di $\forall$ la formula \`e vera se \`e vera per ciascuno degli elementi del dominio indicato.
+
+Nel caso invece di $\exists$ la formula \`e vera se esiste almeno un elemento del dominio indicato per cui la
+formula \`e vera.
+
+In rappresentazione della conoscenza viene spesso usata la \textbf{semantica dei database} che \`e pi\`u semplice
+rispetto alla semantica standard della logica. Questa semantica ha le seguenti caratteristiche:
+\begin{itemize}
+	\item Ipotesi dei nomi unici: simboli distinti per oggetti distinti.
+	\item Ipotesi del mondo chiuso: tutto ci\`o di cui non si sa se \`e vero \`e falso.
+	\item Chiusura del dominio: esistono solo gli oggetti di cui si parla.
+\end{itemize}
+
+\subsection{Inferenza}
+Andiamo ora a vedere qualche regola di inferenza per i quantificatori.
+\subsubsection{Istanziazione dell'Universale}
+Detta \textbf{eliminazione del $\forall$} \`e definita come segue:
+\[ \frac{\forall x \quad A[x]}{A[g]} \]
+dove $g$ \`e un termine \emph{ground} e $A[g]$ \`e il risultato della sostituzione di $g$ per $x$ in $A$.
+
+\subsubsection{Istanziazione dell'esistenziale}
+Detta anche \textbf{eliminazione dell'$\exists$} \`e definita come segue:
+\[ \frac{\exists x \quad A[x]}{A[k]} \]
+\begin{itemize}
+	\item Se $\exists$ non compare nell'ambito di $\forall$, $k$ \`e una costante nuova (\textbf{costante di Skolem}).
+	\item Altrimenti va introdotta una funzione (\textbf{funzione di Skolem}) nelle variabili quantificate
+	      universalmente.
+\end{itemize}
+A questo punto potrei effettuare un processo di \textbf{proposizionalizzazione}
+\begin{itemize}
+	\item Creando tante istanze delle formule quantificate universalmente quanti sono gli oggetti menzionati.
+	\item Eliminando gli esistenziali skolemizzando.
+\end{itemize}
+A questo potremmo pensare di trattare la KB come proposizionale e applicare gli algoritmi visti per
+il calcolo proposizionale. Questo \textbf{non \`e possibile} dato che se ci sono funzioni il numero di istanze
+da creare \`e \textbf{infinito}.
+
+Per fortuna possiamo comunque trattare il problema. Per farlo facciamo riferimento al seguente teorema.
+\begin{theorem}[Teorema di Herbrand]
+	Se $KB \models A$ allora c'\`e una dimostrazione che coinvolge solo un sotto-insieme finito della KB
+	proposizionalizzata.
+\end{theorem}
+Possiamo procedere in modo incrementale:
+\begin{enumerate}
+	\item Creare istanze con le costanti.
+	\item Creare poi quelle con un solo livello di annidamento utilizzando le funzioni.
+	\item Poi quelle con due livelli di annidamento e cos\`i via.
+\end{enumerate}
+Se $KB \not\models A$ il processo non termina. Il problema \`e \textbf{semidecidible}.
+
+\subsection{Forma a clausole}
+Abbiamo gi\`a visto una regola di risoluzione per PROP. Per riuscire ad estenderla a FOL dobbiamo riuscire a
+trasformare il problema in forma a clausole.
+
+Per farlo seguiamo le seguenti regole:
+\begin{itemize}
+	\item Costanti, funzioni e predicati sono come definiti, ma escludiamo nel seguito formule atomiche.
+	\item Una clausola \`e un insieme di letterali, che rappresenta la loro disgiunzione.
+	\item Una KB \`e un insieme di clausole.
+\end{itemize}
+
+\subsubsection{Trasformazione in forma a clausole}
+\begin{theorem}
+	Per ogni formula chiusa $\alpha$ del FOL \`e possibile trovare in maniera \textbf{effettiva} un insieme
+	di clausole $FC(\alpha)$ che \`e soddisfacibile se e sole se $\alpha$ (formula di partenza) era soddisfacibile.
+\end{theorem}
+
+Vediamo ora nel dettaglio il processo di trasformazione:
+\begin{enumerate}
+	\item Eliminazione delle implicazioni:
+	      \[
+		      \begin{array}{rcl}
+			      A \Rightarrow B     & \rightarrow & \lnot A \vee B                         \\
+			      A \Leftrightarrow B & \rightarrow & (\lnot \vee B) \wedge (\lnot B \vee A)
+		      \end{array}
+	      \]
+	\item Negazioni all'interno:
+	      \[
+		      \begin{array}{rclr}
+			      \lnot \lnot A      & \rightarrow & A                      &                    \\
+			      \lnot (A \wedge B) & \rightarrow & \lnot A \vee \lnot B   & (\text{De Morgan}) \\
+			      \lnot (A \vee B)   & \rightarrow & \lnot A \wedge \lnot B & (\text{De Morgan}) \\
+			      \lnot \forall x A  & \rightarrow & \exists x \lnot A      &                    \\
+			      \lnot \exists x A  & \rightarrow & \forall x \lnot A      &                    \\
+		      \end{array}
+	      \]
+	\item Standardizzazione delle variabili: si fa in modo che ogni quantificatore usi una variabile diversa.
+	\item Skolemizzazione: eliminazione dei quantificatori esistenziali.
+	\item Eliminazione dei quantificatori universali.
+	      \begin{enumerate}
+		      \item Si portano tutti davanti.
+		            \[
+			            \begin{array}{rcl}
+				            (\forall x A) \vee B   & \rightarrow & \forall x (A \vee B)   \\
+				            (\forall x A) \wedge B & \rightarrow & \forall x (A \wedge B)
+			            \end{array}
+		            \]
+		      \item Si eliminano usando la convenzione delle variabili libere sono quantificate universalmente.
+	      \end{enumerate}
+	\item Forma normale congiuntiva (congiunzione di disgiunzione di letterali):
+	      \[
+		      \begin{array}{rcl}
+			      A \vee (B \wedge C) & \rightarrow & (A \vee B) \wedge (A \vee C)
+		      \end{array}
+	      \]
+	\item Notazione a clausole.
+	\item Separazione delle variabili: clausole diverse, varibili diverse.
+\end{enumerate}
+\textbf{NOTA}: Tutti i passi meno la Skolemizzazione preservano l'equivalenza delle formule. \`E comunque
+preservata la soddisfacibilit\`a.
+
+\subsection{Unificazione}
+Parliamo ora del processo di \textbf{unificazione}: un processo mediante il quale si determina se due espressioni
+possono essere rese \textbf{identiche} mediante una \textbf{sostituzione} di termini a variabili.
+
+Il risultato \`e la \textbf{sostituzione} che rende le due espressioni identiche, detta \textbf{unificatore},
+oppure \textbf{FAIL}, se le espressioni non sono unificabili.
+
+\subsubsection{Sostituzione}
+Una \textbf{sostituzione} \`e un insieme finito di \textbf{associazioni} tra variabili e termini, in cui ogni
+variabile compare una sola volta sulla sinistra.
+
+\textbf{NOTA}: sulla sinistra possono apparire solo variabili, sulla destra pu\`o apparire un qualsiasi
+termine, con la restrizione che non pu\`o essere una variabile che appare gi\`a sulla sinistra.
+
+Sia $\sigma$ una sostituzione e $A$ un'espressione: \verb|Subst(sigma, A)| \`e l'istanza generata dalla
+sostituzione.
+
+In questo processo le variabili vengono sostituite simultaneamente e viene eseguito un solo passo di sostituzione.
+
+\subsubsection{Espressioni unificabili}
+Un espressione \`e \textbf{unificabile} se esiste una sostituzione che le rende \textbf{identiche}.
+
+In generale non esiste un solo unificatore per una certa espressione, vorremmo per\`o considerare
+\textbf{il pi\`u generale} (MGU), ovvero quello che sostituisce solo le variabili necessarie.
+
+\begin{theorem}
+	L'unificatore pi\`u generale \`e \textbf{unico}, a parte i nomi delle variabili (l'ordine non conta).
+\end{theorem}
+
+\subsubsection{Algoritmo di unificazione}
+L'algoritmo di unificazione prende in input due espressioni $x$ e $y$ e restituisce $\theta$ (un MGU), se esiste.
+
+Ci\`o che fa \`e esplorare in parallelo le due espressioni e costruisce l'unificatore strada facendo. Appena
+trova due espressioni non unificabili fallisce.
+\begin{enumerate}
+	\item Se $\theta$ \`e un fallimento ritorno fallimento.
+	\item Se $x = y$ ritorno l'unificatore $\theta$.
+	\item Se $x$ \`e una variabile ritorno il risultato dell'unificazione con $x$ a sinistra.
+	\item Se $y$ \`e una variabile ritorno il risultato dell'unificazione con $y$ a sinistra.
+	\item Se $x$ e $y$ sono entrambe espressioni composte ritorno l'unificazione degli argomenti di $x$ e $y$
+	      usando l'unificazione degli operandi (funzioni o predicati) come unificatore.
+	\item Se $x$ e $y$ sono entrambe liste unifico i primi due elementi di ognuna e uso il risultato come
+	      unificatore per unificare il resto della lista.
+	\item Altrimenti ritorno fallimento.
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+Unify(x, y, theta)
+	if theta == FAIL then
+		return FAIL;
+	else if x == y then
+		return theta;
+	else if x.isVariable() then
+		return UnifyVar(x, y, theta);
+	else if y.isVariable() then
+		return UnifyVar(y, x, theta);
+	else if x.Compound() and y.Compound() then
+		return Unify(x.args, y.args, Unify(x.OP, y.OP, theta));
+	else if x.isList() and y.isList() then
+		x_first = x.pop();
+		y_first = y.pop();
+		return Unify(x, y, Unify(x_first, y_first, theta));
+	
+	return FAIL;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+UnifyVar(var, x, theta)
+	if var.value is in theta then
+		return Unify(var.value, x, theta);
+	else if x.value is in theta then
+		return Unify(var, x.value, theta);
+	else if OccurCheck(var, x) then 
+		return FAIL;
+	
+	return Extend(var, x, theta);
+\end{lstlisting}
+
+\verb|OccurCheck| controlla se \verb|var| occorre all'interno dell'espressione \verb|x|. In tal caso fallisce.
+
+\verb|Extend| non aggiunge semplicemente un nuovo legame ma applica questa sostituzione in $\theta$,
+diversamente la sostituzione \textbf{non sarebbe normalizzato}.
+
+\subsection{Regola di risoluzione}
+Possimo ora definre una regola di risoluzione per FOL come segue.
+
+Date due clausole $\phi$ e $\psi$, con $A$, un letterale in $\phi$ e $\lnot B$ un letterale di segno opposto in
+$\psi$. Se $A$ e $B$ sono unificabili e $\gamma$ \`e il loro MGU. Posso ottenere una nuova clausola
+\[ ((\phi / \{ A \}) \cup (\psi / \{ \lnot B \})) \gamma \]
+detta \textbf{risolvente}
+
+\subsubsection{Problema dei fattori}
+Se un sottoinsieme dei letterali di una clausola pu\`o essere unificato allora la clausola ottenuta dopo tale
+unificazione si dice \textbf{fattore} della clausola originaria.
+
+Il metodo di risoluzione va applicato ai \emph{fattori} delle clausole.
+
+\subsubsection{Analisi}
+La deduzione per risoluzione
+\begin{itemize}
+	\item \textbf{\`e corretta} sotto questa ipotesi:
+	      \[ KB \vdash_{\text{res}} A \Rightarrow KB \models A \]
+	\item \textbf{non \`e completa}: pu\`o succedere che
+	      \[ KB \models A \]
+	      ma
+	      \[ KB \not\vdash_{\text{res}} A \]
+\end{itemize}
+
+\subsubsection{Risoluzione per refutazione}
+Il teorema di refutazione ci suggerisce un metodo alternativo \textbf{completo}
+
+\begin{theorem}[Teorema di refutazione]
+	\[ KB \cup \{ \lnot A \} \]
+	\`e insoddisfacibile se e solo se
+	\[ KB \models A \]
+\end{theorem}
+
+\begin{theorem}
+	$KB$ \`e insoddisfacibile se e solo se $KB \vdash_{\text{res}} \{ \}$.
+\end{theorem}
+
+Abbiamo ora un metodo \textbf{meccanizzabile}, \textbf{corretto} e \textbf{completo}: basta aggiungere il negato
+della formula da dimostrare e provare a generare la clausola vuota ossia una \textbf{contraddizione}.
