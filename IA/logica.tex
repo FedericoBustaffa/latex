@@ -375,3 +375,11 @@ Con questi nuovi strumenti possiamo andare a ragionare come abbiamo fatto fino a
 	\item Se trovo una clausola falsa allora l'interpretazione non pu\`o essere un modello dell'insieme delle clausole.
 	\item Se il letterale di una clausola \`e vero allora tutta la clausola \`e vera.
 \end{itemize}
+
+\subsubsection{Analisi}
+Non \`e un metodo completo. Il fatto che $\alpha$ sia conseguenza logica di KB non implica sempre che
+$\alpha$ sia deducibile da KB.
+
+\begin{theorem}[Teorema di risoluzione]
+	KB \`e insoddisfacibile se e solo se \[ KB \vdash_{\text{res}} \{ \} \]
+\end{theorem}
