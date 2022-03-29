@@ -143,7 +143,7 @@ Ma come scegliere $h$ ?
 	Un'euristica \`e detta \textbf{consistente} se
 	\begin{itemize}
 		\item $h(goal) = 0$
-		\item $\forall n \quad h(n) \leq c(n, a, n') + h'(n)$ dove $c$ \`e il costo
+		\item $\forall n \quad h(n) \leq c(n, a, n') + h(n')$ dove $c$ \`e il costo
 		      dell'azione $a$ per arrivare da $n$ a $n'$ ($n'$ \`e un successore di $n$).
 		\item Segue che $f(n) \leq f(n')$.
 	\end{itemize}

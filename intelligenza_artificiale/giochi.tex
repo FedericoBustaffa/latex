@@ -241,7 +241,7 @@ MinValue(state, alpha, beta)
 		value = Min(value, MaxValue(next_state, alpha, beta));
 		if value <= alpha then
 			return value;
-		beta = Max(beta, value);
+		beta = Min(beta, value);
 	return value;
 \end{lstlisting}
 
