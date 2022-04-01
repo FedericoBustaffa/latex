@@ -74,8 +74,10 @@ I casi particolari di un algoritmo A sono
 \end{theorem}
 
 \section{Algoritmo A*}
-Questo \`e un algoritmo \emph{ideale} che utilizza una funzione $f^*$ (oracolo) di questo
-tipo \[ f^*(n) = g^*(n) + h^*(n) \] dove
+Prima di definire l'algoritmo dobbiamo introdurre una funzione di valutazione ideale 
+(\textbf{oracolo}) definita come segue
+\[ f^*(n) = g^*(n) + h^*(n) \]
+dove
 \begin{itemize}
 	\item $g^*(n)$ \`e il costo del cammino minimo dalla radice a $n$.
 	\item $h^*(n)$ \`e il costo del cammino minimo da $n$ al nodo \emph{goal}.
