@@ -714,3 +714,36 @@ Il teorema di refutazione ci suggerisce un metodo alternativo \textbf{completo}
 
 Abbiamo ora un metodo \textbf{meccanizzabile}, \textbf{corretto} e \textbf{completo}: basta aggiungere il negato
 della formula da dimostrare e provare a generare la clausola vuota ossia una \textbf{contraddizione}.
+
+\section{Sistemi a regole}
+Il metodo di risoluzione visto per FOL \`e un metodo completo, rimane tuttavia computazionalmente molto
+complesso. In questa sezione ci occuperemo di introdurre delle strategie di risoluzione che rendono pi\`u
+efficiente tale metodo senza perdere completezza.
+
+Tali strategie ci autorizzano a giustificare una classe di problemi che fanno uso di una contrazione della
+logica del primo ordine.
+
+\subsection{Strategie di risoluzione}
+Queste strategie servono a restringere lo spazio del problema ad un sotto-insieme di tutte le possibili
+clausole. Ne vedremo di tre tipologie:
+\begin{itemize}
+	\item \textbf{Cancellazione}: eliminazione di clausole superflue.
+	\item \textbf{Restrizione}: ottimizzazione del numero di clausole utilizzate ad ogni passo.
+	\item \textbf{Ordinamento}: risoluzione dei letterali secondo un ordine specifico.
+\end{itemize}
+
+\subsubsection{Strategie di cancellazione}
+Le diverse tipologie di clausola eliminabile per questo tipo di strategia sono:
+\begin{itemize}
+	\item Clausole \textbf{con letterali puri}: elimino le clausole con dei letterali puri ovvero letterali
+	      che compaiono in tutte le clausole con lo stesso segno.
+	\item \textbf{Tautologie}: elimino le clausole contenenti due letterali complementari e di segno opposto.
+	\item Clausole \textbf{sussunte}: elimino clausole \emph{sussunte} dove una clausola $\alpha$
+	      \emph{sussume} una clausola $\beta$ se e solo se esiste una sostituzione $\sigma$ tale che, se
+	      applicata ad $\alpha$ ottengo un sottoinsieme di $\beta$. In questo caso posso quindi eliminare la
+	      clausola $\beta$.
+\end{itemize}
+
+\subsubsection{Strategie di restrizione}
+
+\subsubsection{Strategie di ordinamento}

@@ -52,13 +52,13 @@ dipendono dalla modalit\`a di scelta del successore:
 Se nessuno dei successori \`e migliore l'algoritmo fallisce.
 
 \begin{lstlisting}[style=pseudo-style]
-Hill_climbing(problema)
-	nodo = problema.statoIniziale;
+Hill_climbing(problem)
+	node = problem.start_state;
 	while true
-		successore = nodo.migliorSuccessore()
-		if successore.valore <= nodo.valore then
-			return nodo.valore;
-		nodo = successore;
+		successor = node.bestSuccessor()
+		if successor.value <= node.value then
+			return node.value;
+		node = successor;
 \end{lstlisting}
 
 \subsubsection{Massimi e minimi locali}
