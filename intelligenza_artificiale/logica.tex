@@ -745,6 +745,80 @@ Le diverse tipologie di clausola eliminabile per questo tipo di strategia sono:
 \end{itemize}
 
 \subsubsection{Strategie di restrizione}
+Ad ogni passo si sceglie un sottoinsieme delle possibili clausole:
+\begin{itemize}
+	\item \textbf{Risoluzione unitaria}: unifico due clausole di cui una almeno una \textbf{unitaria}, ovvero,
+	      contenente un solo letterale. Cerco di unificare con clausole che contengono il letterale contenuto
+	      nella clausola unitaria ma che abbia segno opposto.
 
+	      In generale non \`e una strategia completa. \`E tuttavia completa per \textbf{clausole Horn}.
+	      \begin{definition}
+		      Una clausola contenente al pi\`u un letterale positivo \`e chiamata \textbf{clausola Horn}.
+	      \end{definition}
+	\item \textbf{Risoluzione lineare}: unifico l'ultima clausola generata con una delle clausole iniziali oppure
+	      con una \textbf{clausola antenata}, ovvero generata precedentemente.
+
+	      \`E una strategia completa.
+	\item \textbf{Risoluzione guidata dal goal}: per questo tipo di strategia si usa un \textbf{insieme di supporto},
+	      ovvero un sottoinsieme della KB responsabile dell'insoddisfacibilit\`a.
+
+	      Dato che di norma si assume che la KB sia consistente e che l'aggiunta dello stato \emph{goal} negato la
+	      renda inconsistente, tipicamente l'insieme di supporto \`e proprio lo stato \emph{goal} negato.
+
+	      \`E una strategia completa per il teorema di refutazione.
+\end{itemize}
 
 \subsubsection{Strategie di ordinamento}
+In questo caso abbiamo una sola strategia: la \textbf{risoluzione ordinata}. In questo caso, ogni clausola \`e un insieme
+ordinato di letterali e si possono unificare solo i primi letterali delle clausole. L'ordinamento deve essere rispettato
+nel \textbf{risolvente}.
+
+Si tratta di una strategia completa per clausole Horn.
+
+\subsection{Sottoinsieme a regole del FOL}
+I sottoinsiemi a regole non sono altro che KB formati da \textbf{clausole Horn definite}
+
+\begin{definition}
+	Una clausola con \textbf{esattamente} un letterale positivo \`e detta \textbf{clausola Horn definita}.
+\end{definition}
+
+Tali clausole possono essere di due tipi:
+\begin{itemize}
+	\item \textbf{Fatti}: clausole che hanno un solo letterale positivo (in totale).
+	\item \textbf{Regole}: clausole con una serie di letterali negativi e uno positivo.
+\end{itemize}
+Se la KB possiede solo clausole Horn definite abbiamo meccanismi inferenziali molto pi\`u semplici senza rinunciare
+alla completezza.
+
+Si hanno persino metodi di risoluzione in tempo lineare per il caso proposizionale ma \`e restrittivo per il FOL completo.
+
+\subsubsection{Direzione nell'uso delle regole}
+Se utilizzo le regole con concatenazione all'indietro (\textbf{Backward Chaining}) applico un ragionamento guidato
+dall'obiettivo. In questo caso le regole sono applicate al contrario. \`E questo il caso della
+\textbf{programmazione logica} (\textbf{PROLOG}).
+
+Se invece utilizzo una concatenazione (\textbf{Forward Chaining}) applico un ragionamento guidato dai dati. \`E questo il
+caso delle \textbf{basi di dati deduttive} e \textbf{sistemi di produzione}.
+
+\subsection{Programmazione logica}
+I \textbf{programmi logici} sono KB, costituiti di clausole Horn definite, espressi come fatti e regole, con una sintassi
+alternativa. Scrivo la regola con in testa il \emph{conseguente}.
+\[
+	\begin{array}{ll}
+		A.                        & \text{fatto}  \\
+		A :- B_1, B_2, \dots, B_n & \text{regola}
+	\end{array}
+\]
+Un'altra convenzione per la programmazione logica \`e che si scrivono le variabili con lettere maiuscole e le costanti
+con lettere minuscole.
+
+\subsubsection{Rappresentazione del goal}
+Se il goal \`e
+\[ B_1 \wedge B_2 \wedge \dots \wedge B_n \]
+per riscriverlo negato posso scrivere
+\[ \lnot (B_1 \wedge B_2 \wedge \dots \wedge B_n) \vee False \]
+che equivale alla seguente implicazione
+\[ B_1 \wedge B_2 \wedge \dots \wedge B_n \Rightarrow False \]
+che convertito nella sintassi per la programmazione logica diventa
+\[ :- B_1, B_2, \dots, B_n \]
+ovvero si scrive solo l'antecedente ommettendo il conseguente.
