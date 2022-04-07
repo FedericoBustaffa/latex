@@ -853,8 +853,8 @@ Dato un programma logico $P$, l'albero SLD per un goal $G$ \`e definito come seg
 	\item I nodi che sono clausole vuote sono successi.
 	\item I nodi che non hanno successori sono fallimenti.
 \end{itemize}
-La risoluzione SLD \`e completa per clausole Horn definite, non \`e restrittivo andare in ordine nel risolvere i sottogoal
-in and. La sostituzione corrispondente \`e chiamata \textbf{risposta calcolata}.
+La risoluzione SLD \`e completa per clausole Horn definite, non \`e restrittivo andare in ordine nel risolvere i
+sottogoal in and. La sostituzione corrispondente \`e chiamata \textbf{risposta calcolata}.
 
 In PROLOG l'albero di risoluzione viene visitato in profondit\`a con \emph{backtracking} in caso di fallimento e le
 regole vengono applicate nell'ordine in cui sono immesse. Per PROLOG tale strategia non \`e completa e si omette inoltre
@@ -862,11 +862,75 @@ l'\verb|OccurCheck| per motivi di efficienza.
 
 \subsubsection{Liste}
 PROLOG ammette anche liste come strutture dati espressa come segue
-\[ [E \mid L] \]
-Dove $E$ indica la testa della lista e $L$ il resto della lista. \`E anche definita la concatenazione in questo modo:
-\[
-	\begin{array}{ll}
-		\text{concatena}([\;], Y, Y) \\
-		\text{concatena}([A[X], Y, [A[Z]]])
-	\end{array}
-\]
+\begin{center}
+	\texttt{[E|L]}
+\end{center}
+Dove \verb|E| indica la testa della lista e \verb|L| il resto della lista. \`E anche definita la concatenazione in questo
+modo:
+\begin{itemize}
+	\item Se concateno una lista vuota ad un'altra lista ottengo la lista stessa:
+	      \begin{center}
+		      \verb|concatena([], Y, Y)|
+	      \end{center}
+	\item Se concateno due liste non vuote ho una situazione di questo tipo:
+	      \begin{center}
+		      \texttt{concatena([A|X], Y, [A|Z])}
+	      \end{center}
+	      dove \verb|Z| \`e il risultato della concatenazione di \verb|X| e \verb|Y|
+\end{itemize}
+
+\subsection{Sistemi a regole con concatenazione in avanti}
+Anche questi sistemi a regole si basano su una regola di inferenza, il \textbf{Modus Ponens generalizzato}:
+\[ \frac{p_1', p_2', \dots, p_n' \quad (p_1 \wedge p_2 \wedge \dots \wedge p_n \Rightarrow q)}{(q)\theta} \]
+dove $\theta$ \`e l'$MGU(p_i', p_i)$ per ogni $i$.
+
+La regola, se instanziata come segue, \`e corretta:
+\begin{enumerate}
+	\item Si istanziano gli universali.
+	\item Si istanziano le regole.
+	\item Si applica il Modus Ponens classico.
+\end{enumerate}
+\`E una regola pi\`u generale del Modus Ponens ma pi\`u limitata per il conseguente.
+
+\subsection{FOL-FC-Ask}
+Si tratta di un semplice processo inferenziale applica ripetutamente il Modus Ponens generalizzato per ottenere
+nuovi fatti fino a che
+\begin{itemize}
+	\item Si dimostra ci\`o che si desidera dimostrare.
+	\item Nessun nuovo fatto pu\`o essere aggiunto.
+\end{itemize}
+
+\subsubsection{Analisi FOL-FC-Ask}
+\begin{itemize}
+	\item \`E completa per KB con clausole Horn definite.
+	\item \`E completa e convergente per il calcolo proposizionale e per KB di tipo DATALOG (senza funzioni) perch\'e
+	      la chiusura deduttiva \`e un insieme finito.
+	\item \`E completa anche con funzioni ma il processo potrebbe non terminare (semidecidibile).
+	\item \`E corretta perch\'e il Modus Ponens generalizzato \`e corretto.
+	\item \`E sistematica ma non molto efficiente.
+\end{itemize}
+
+\subsubsection{FC efficiente}
+\begin{itemize}
+	\item Un metodo per migliorare il metodo appena visto \`e quello di compiere un ordinamento dei congiunti.
+	      In particolare conviene soddisfare prima i congiunti con meno istanze nella KB e che compaiono in pi\`u regole.
+	      Questo \`e approccio molto simile all'euristica MRV per i problemi CSP.
+	\item \textbf{Rete di discriminazione}: possiamo assumere che regole diverse possano condividere molte delle
+	      precondizioni. Sotto quest'ipotesi possiamo codificare gli antecedenti di tali regole sotto forma di
+	      \emph{rete di discriminazione} cos\`i da permetterci di testare una sola volta le precondizioni comuni a
+	      pi\`u regole.
+	\item \textbf{Approccio incrementale}:
+	      \begin{itemize}
+		      \item Ogni nuovo fatto inferito al tempo $t$ deve essere stato dedotto usando almeno un fatto dedotto al tempo $t-1$.
+		      \item Si possono guardare solo regole che hanno premesse unificabili con fatti aggiunti nell'ultima iterazione.
+		      \item Indicizzazione delle regole sui fatti.
+		      \item Evitare di ricalcolare le unificazioni.
+	      \end{itemize}
+	\item \textbf{Riduzione di deduzioni irrilevanti}:
+	      \begin{enumerate}
+		      \item Si fa una sorta \emph{pre-processing} per individuare le regole che servono procedendo all'indietro
+		            dal goal e marcando le regole utili.
+		      \item Si procede in avanti utilizzando solo le regole marcate.
+	      \end{enumerate}
+\end{itemize}
+
