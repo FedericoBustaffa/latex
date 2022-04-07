@@ -856,6 +856,17 @@ Dato un programma logico $P$, l'albero SLD per un goal $G$ \`e definito come seg
 La risoluzione SLD \`e completa per clausole Horn definite, non \`e restrittivo andare in ordine nel risolvere i sottogoal
 in and. La sostituzione corrispondente \`e chiamata \textbf{risposta calcolata}.
 
-In PROLOG l'albero di risoluzione viene visitato in profondit\`a con \emph{backtracking} in caso di fallimento e le 
-regole vengono applicate nell'ordine in cui sono immesse. Per PROLOG tale strategia non \`e completa e si omette inoltre 
+In PROLOG l'albero di risoluzione viene visitato in profondit\`a con \emph{backtracking} in caso di fallimento e le
+regole vengono applicate nell'ordine in cui sono immesse. Per PROLOG tale strategia non \`e completa e si omette inoltre
 l'\verb|OccurCheck| per motivi di efficienza.
+
+\subsubsection{Liste}
+PROLOG ammette anche liste come strutture dati espressa come segue
+\[ [E \mid L] \]
+Dove $E$ indica la testa della lista e $L$ il resto della lista. \`E anche definita la concatenazione in questo modo:
+\[
+	\begin{array}{ll}
+		\text{concatena}([\;], Y, Y) \\
+		\text{concatena}([A[X], Y, [A[Z]]])
+	\end{array}
+\]
