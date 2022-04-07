@@ -822,3 +822,40 @@ che equivale alla seguente implicazione
 che convertito nella sintassi per la programmazione logica diventa
 \[ :- B_1, B_2, \dots, B_n \]
 ovvero si scrive solo l'antecedente ommettendo il conseguente.
+
+\subsubsection{Interpretazioni per la programmazione logica}
+Nei programmi logici si fa uso di due tipi di interpretazione
+\begin{itemize}
+	\item \textbf{Dichiarativa}: Scrivo il conseguente in testa e dopo il corpo:
+	      \[ A :- B_1, B_2, \dots, B_n \]
+	      Questa sintassi significa che $A$ \`e vero se sono veri tutti i $B_i$ con $1 < i < n$.
+	\item \textbf{Procedurale}: La testa pu\`o essere vista come una chiamata procedurale e il corpo come una
+	      serie di procedure da eseguire in sequenza.
+\end{itemize}
+
+\subsection{Risoluzione SLD}
+La \textbf{risoluzione SLD} (\textbf{Selection Linear Definte-clauses}) \`e un metodo di risoluzione per i programmi
+logici di tipo \textbf{ordinato}, \textbf{lineare} e  basato su un \textbf{insieme di supporto} (lo stato goal).
+
+Questo metodo di risoluzione \`e completo per clausole Horn.
+
+\subsubsection{Alberi di risoluzione SLD}
+Dato un programma logico $P$, l'albero SLD per un goal $G$ \`e definito come segue:
+\begin{itemize}
+	\item Ogni nodo dell'albero corrisponde a un goal (congiuntivo).
+	\item La radice \`e $:- G_1, G_2, \dots, G_k$, il goal.
+	\item Sia $:- G_1, G_2, \dots, G_k$ un nodo dell'albero. Il nodo ha tanti discendenti quanti sono i fatti e le
+	      regole in $P$ la cui testa \`e unificabile con $G_1$.
+
+	      Se $A :- B_1, \dots, B_k$ e $A$ \`e unificabile con $G_1$ e $\gamma = MGU(A, G_1)$ allora un discendente \`e
+	      il goal
+	      \[ :- (B_1, \dots, B_k, G_2, \dots, G_k) \gamma \]
+	\item I nodi che sono clausole vuote sono successi.
+	\item I nodi che non hanno successori sono fallimenti.
+\end{itemize}
+La risoluzione SLD \`e completa per clausole Horn definite, non \`e restrittivo andare in ordine nel risolvere i sottogoal
+in and. La sostituzione corrispondente \`e chiamata \textbf{risposta calcolata}.
+
+In PROLOG l'albero di risoluzione viene visitato in profondit\`a con \emph{backtracking} in caso di fallimento e le 
+regole vengono applicate nell'ordine in cui sono immesse. Per PROLOG tale strategia non \`e completa e si omette inoltre 
+l'\verb|OccurCheck| per motivi di efficienza.
