@@ -58,5 +58,54 @@ per una funzione sconosciuta $f$ (pi\`u precisamente si conoscono solo i punti d
 Abbiamo poi un \textbf{valore target} che \`e dato da un \textbf{supervisore} che a priori decide il valore dei dati
 in input in relazione a $f(x)$.
 
-Ora vogliamo trovare una \emph{buona} approssimazione per $f$. Per farlo usiamo un'\textbf{ipotesi} $h$ che potr\`a essere
-usata per fare predizioni su dati ancora sconosciuti.
+Ora vogliamo trovare una \emph{buona} approssimazione di $f$. Vogliamo cio\`e trovare un'\textbf{ipotesi} $h$ che
+potr\`a essere usata per fare predizioni su dati ancora sconosciuti.
+
+Il valore target pu\`o avere natura
+\begin{itemize}
+	\item \textbf{Categorica}: problema di \textbf{classificazione} in cui $f(x)$ ritorna quella che \`e la classe
+	      (assunta) corretta per $x$. In questo caso abbiamo che $f(x)$ \`e un funzione a valori discreti da 1 a $k$.
+	\item \textbf{Numerica}: problema di \textbf{regressione}. In questo caso invece approssimiamo la funzione con
+	      valori reali continui in $\mathbb{R}$ o $\mathbb{R}^k$.
+\end{itemize}
+
+\section{Apprendimento non supervisionato}
+In questo caso ci vengono dati una serie di dati iniziali in input ma non abbiamo un \textbf{supervisore} che etichetta
+a priori il valore target di questi dati.
+
+In questo caso si cerca di trovare dati simili per riuscire a dare un senso al vettore di input (\textbf{clustering}).
+
+\section{Modelli}
+Un \textbf{modello} vuole catturare o descrivere relazioni tra i dati in base ai compiti dati. Definisce inoltre la classe
+di funzioni che possono essere implementate (\emph{spazio delle ipotesi}).
+
+In totale un modello \`e composto dalle seguenti componenti:
+\begin{itemize}
+	\item \textbf{Esempio di allenamento}: si tratta di una serie di dati in input con relativo valore target di output
+	      che pu\`o anche essere inaccurato o impreciso.
+	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $f$ che stiamo stimando.
+	\item \textbf{Ipotesi}: Una certa funzione $h$ che sar\`a una stima della funzione $f$ basata sui dati raccolti e
+	      sull'obbiettivo dato.
+	\item \textbf{Spazio delle ipotesi}: L'insieme di tutte le possibili ipotesi $h$ che potrebbero in qualche modo essere
+	      derivate dall'algoritmo.
+\end{itemize}
+
+\section{Algoritmi di apprendimento}
+Basandoci sui dati in nostro possesso, sull'obbiettivo che abbiamo definito e sul modello vogliamo fare una
+\textbf{ricerca euristica}, attraverso lo spazio delle ipotesi, della miglior ipotesi possibile.
+
+L'ipotesi $h$ potrebbe non coincidere con l'insieme di tutte le possibili funzioni e la ricerca potrebbe non essere
+esaustiva poich\'e ha bisogno bisogno di fare assunzioni (\textbf{bias induttivi}).
+
+\subsection{Generalizzazione}
+Per costruire un buon algoritmo di apprendimento dobbiamo introdurre il concetto di generalizzazione. Con
+\textbf{apprendimento} intendiamo la ricerca di una \emph{buona} funzione in uno spazio di funzioni, minimizzando una
+funzione di errore.
+
+In questo caso chiamiamo \textbf{buona}, una funzione, che \textbf{generalizza} l'errore, ovvero misura
+quanto accuratamente il modello fa previsioni in base a nuovi dati in ingresso.
+
+La \textbf{fase di apprendimento} si basa sul costruire il modello in base ai dati e ai bias.
+
+La \textbf{fase predittiva} \`e la fase in cui applichiamo il risultato dell'apprendimento ad un nuovo campione di
+dati mai analizzati prima.
