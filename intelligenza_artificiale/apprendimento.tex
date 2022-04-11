@@ -1,0 +1,96 @@
+\chapter{Apprendimento}
+Iniziamo in questo capitolo a parlare di \textbf{apprendimento}, trattandolo come un problema di ricerca in uno
+\textbf{spazio delle ipotesi}.
+
+\section{Problemi di classificazione}
+Nel caso di problemi di classificazione il nostro valore target \`e una variabile di tipo \textbf{categorico}. In questo
+caso l'\textbf{apprendimento} si basa sul riuscire a inferire una funzione \textbf{booleana} da una serie di
+esempi di allenamento.
+
+\begin{definition}
+	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se $h(x) = 1$, cio\`e se \`e vera.
+\end{definition}
+
+\begin{definition}
+	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio se
+	\[ h(x) = c(x) \]
+	ovvero se ritorna gli stessi valori che ritorna anche la funzione target.
+\end{definition}
+
+Nel caso di sole funzioni booleane lo spazio delle ipotesi ha dimensione
+\[ |H| = 2^{2^n} \]
+dove $n$ \`e la dimensione dell'input.
+
+In realt\`a lavoreremo con uno spazio delle funzioni considerevolmente ristretto, rispetto allo spazio di tutte le
+possibili funzioni, questo per ovvie ragioni di efficienza.
+
+Per restringere lo spazio delle funzioni useremo
+\begin{itemize}
+	\item \textbf{Regole congiuntive} per spazi delle ipotesi finiti e discreti.
+	\item \textbf{Funzioni lineari} per spazi delle ipotesi infiniti e continui.
+\end{itemize}
+
+\subsection{Spazio delle ipotesi discreto}
+Vediamo come organizzare efficientemente la ricerca in uno spazio delle ipotesi finito e discreto tramite un algoritmo che
+lavora su un insieme molto ristretto.
+
+Tutto questo sotto due principali condizioni:
+\begin{itemize}
+	\item Si utilizzano \textbf{regole congiuntive}.
+	\item Si assume che non ci sia \emph{rumore} nei dati.
+\end{itemize}
+
+\subsubsection{Regole congiuntive}
+Tramite regole congiuntive prendo funzioni booleane che mettono in \emph{and} tutte le diverse variabili in input in tutti
+i possibili modi, ottenendo cos\`i uno spazio delle ipotesi di dimensione
+\[ |H| = 2^n \]
+Come possiamo vedere abbiamo ridotto notevolmente lo spazio, che prima aveva una dimesione $|H|$ pari a $2^{2^n}$.
+
+Se volessimo aggiungere tutti i possibili input negati (\textbf{not}) avremmo uno spazio delle ipotesi di dimensione
+\[ |H| = 3^n + 1 \]
+
+\subsubsection{Rappresentazione delle ipotesi}
+Un ipotesi $h$ \`e rappresentata come una congiunzione di vincoli sugli attributi. In particolare ogni vincolo pu\`o
+essere un valore:
+\begin{itemize}
+	\item \textbf{Specifico}
+	\item \textbf{Significativo}
+	\item \textbf{Vietato}
+\end{itemize}
+In generale strutturare lo spazio di ricerca (anche se infito) aiuta molto nella ricerca.
+
+\begin{definition}
+	Si dice che una certa ipotesi $h_j$ \`e \textbf{pi\`u generale} di $h_k$ se e solo se per ogni $x \in X$ vale che
+	\[ h_k(x) = 1 \quad \Rightarrow \quad h_j(x) = 1 \]
+	In questo caso si indica con
+	\[ h_j \geq h_k \]
+\end{definition}
+
+Tramite la definizione appena data possiamo stabilire un \textbf{ordinamento parziale} utile per la ricerca.
+Nello specifico vedremo un metodo in cui si analizzer\`a l'ipotesi pi\`u specifica, arrivando poi a quella pi\`u generale.
+
+Si \emph{generalizzano} quindi, le ipotesi pi\`u specifiche in maniera \textbf{conservativa}, ovvero facendo s\`i che, per
+ogni esempio positivo, anche la $h$ sia positiva in modo che sia anche \emph{consistente} con i dati iniziali forniti in
+input (\emph{training set}).
+
+Vogliamo per\`o generalizzare non pi\`u di quanto sia lo stretto necessario.
+
+\subsubsection{Algoritmo Find-S}
+L'algoritmo funziona in questo modo:
+\begin{enumerate}
+	\item Si inizializza \verb|h| con l'ipotesi pi\`u specifica.
+	\item Per ogni istanza positiva \verb|x|:
+	      \begin{itemize}
+		      \item Per ogni attributo in \verb|h|:
+		            \begin{itemize}
+			            \item Se l'attributo \`e soddisfatto da \verb|x| non si fa niente.
+			            \item Altrimenti si rimpiazza l'attributo con il vincolo pi\`u generale che \`e soddisfatto da
+			                  \verb|x|.
+		            \end{itemize}
+	      \end{itemize}
+	\item Si ritorna l'ipotesi \verb|h| trovata (la pi\`u specifica).
+\end{enumerate}
+
+L'algoritmo trova l'ipotesi pi\`u \textbf{specifica} in $H$ che \`e consistente con gli esempi di allenamento
+\textbf{positivi}. L'ipotesi trovata \`e consistente anche con gli esempi negativi a patto che anche $c$ sia
+contenuto in $H$. Questo perch\'e $c \geq h$

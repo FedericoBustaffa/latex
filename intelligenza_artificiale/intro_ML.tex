@@ -53,18 +53,18 @@ reali di uscita.
 
 Ci\`o che conosciamo quando ci approcciamo ad un problema di questo tipo \`e la coppia
 \[ <input, output> = (x, d) \]
-per una funzione sconosciuta $f$ (pi\`u precisamente si conoscono solo i punti dati dalle coppie date).
+per una funzione sconosciuta $c$ (pi\`u precisamente si conoscono solo i punti dati dalle coppie date).
 
 Abbiamo poi un \textbf{valore target} che \`e dato da un \textbf{supervisore} che a priori decide il valore dei dati
-in input in relazione a $f(x)$.
+in input in relazione a $c(x)$.
 
-Ora vogliamo trovare una \emph{buona} approssimazione di $f$. Vogliamo cio\`e trovare un'\textbf{ipotesi} $h$ che
+Ora vogliamo trovare una \emph{buona} approssimazione di $c$. Vogliamo cio\`e trovare un'\textbf{ipotesi} $h$ che
 potr\`a essere usata per fare predizioni su dati ancora sconosciuti.
 
 Il valore target pu\`o avere natura
 \begin{itemize}
-	\item \textbf{Categorica}: problema di \textbf{classificazione} in cui $f(x)$ ritorna quella che \`e la classe
-	      (assunta) corretta per $x$. In questo caso abbiamo che $f(x)$ \`e un funzione a valori discreti da 1 a $k$.
+	\item \textbf{Categorica}: problema di \textbf{classificazione} in cui $c(x)$ ritorna quella che \`e la classe
+	      (assunta) corretta per $x$. In questo caso abbiamo che $c(x)$ \`e un funzione a valori discreti da 1 a $k$.
 	\item \textbf{Numerica}: problema di \textbf{regressione}. In questo caso invece approssimiamo la funzione con
 	      valori reali continui in $\mathbb{R}$ o $\mathbb{R}^k$.
 \end{itemize}
@@ -83,8 +83,8 @@ In totale un modello \`e composto dalle seguenti componenti:
 \begin{itemize}
 	\item \textbf{Esempio di allenamento}: si tratta di una serie di dati in input con relativo valore target di output
 	      che pu\`o anche essere inaccurato o impreciso.
-	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $f$ che stiamo stimando.
-	\item \textbf{Ipotesi}: Una certa funzione $h$ che sar\`a una stima della funzione $f$ basata sui dati raccolti e
+	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $c$ che stiamo stimando.
+	\item \textbf{Ipotesi}: Una certa funzione $h$ che sar\`a una stima della funzione $c$ basata sui dati raccolti e
 	      sull'obbiettivo dato.
 	\item \textbf{Spazio delle ipotesi}: L'insieme di tutte le possibili ipotesi $h$ che potrebbero in qualche modo essere
 	      derivate dall'algoritmo.
