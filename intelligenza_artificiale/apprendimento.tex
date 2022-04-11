@@ -93,10 +93,19 @@ contenuto in $H$. Questo perch\'e $c \geq h$
 	\item Si ritorna l'ipotesi \verb|h| trovata (la pi\`u specifica).
 \end{enumerate}
 
-\subsection{Version spaces}
+\subsection{Spazio delle versioni}
 L'idea \`e quella di generare una \emph{descrizione} dell'insieme di tutte le ipotesi $h$ consistenti con l'insieme di
 allenamento $D$.
 
 \`E possibile farlo senza enumerarle tutte dato che abbiamo una definizione generale per la \emph{consistenza} di
 un'ipotesi (vedere definizione \ref{def: consistente}).
 
+\subsection{Algoritmo di eliminazione con lista}
+Questo algoritmo segue i seguenti passi:
+\begin{enumerate}
+	\item Si crea lo spazio delle versioni, ovvero una lista contenente tutte le possibili ipotesi in $H$.
+	\item Per ogni esempio di allenamento si rimuove dallo spazio delle versioni ogni ipotesi inconsistente con l'esempio
+	      di allenamento.
+	\item Si ritorna la lista di ipotesi nello spazio delle versioni.
+\end{enumerate}
+Questo algoritmo \`e tuttavia irrealistico poich\'e si dovrebbero enumerare tutte le possibili ipotesi in $H$.
