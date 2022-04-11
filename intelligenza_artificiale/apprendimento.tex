@@ -11,7 +11,7 @@ esempi di allenamento.
 	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se $h(x) = 1$, cio\`e se \`e vera.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{def: consistente}
 	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio se
 	\[ h(x) = c(x) \]
 	ovvero se ritorna gli stessi valori che ritorna anche la funzione target.
@@ -75,8 +75,10 @@ input (\emph{training set}).
 
 Vogliamo per\`o generalizzare non pi\`u di quanto sia lo stretto necessario.
 
-\subsubsection{Algoritmo Find-S}
-L'algoritmo funziona in questo modo:
+\subsection{Algoritmo Find-S}
+L'algoritmo trova l'ipotesi pi\`u \textbf{specifica} in $H$ che \`e consistente con gli esempi di allenamento
+\textbf{positivi}. L'ipotesi trovata \`e consistente anche con gli esempi negativi a patto che anche $c$ sia
+contenuto in $H$. Questo perch\'e $c \geq h$
 \begin{enumerate}
 	\item Si inizializza \verb|h| con l'ipotesi pi\`u specifica.
 	\item Per ogni istanza positiva \verb|x|:
@@ -91,6 +93,10 @@ L'algoritmo funziona in questo modo:
 	\item Si ritorna l'ipotesi \verb|h| trovata (la pi\`u specifica).
 \end{enumerate}
 
-L'algoritmo trova l'ipotesi pi\`u \textbf{specifica} in $H$ che \`e consistente con gli esempi di allenamento
-\textbf{positivi}. L'ipotesi trovata \`e consistente anche con gli esempi negativi a patto che anche $c$ sia
-contenuto in $H$. Questo perch\'e $c \geq h$
+\subsection{Version spaces}
+L'idea \`e quella di generare una \emph{descrizione} dell'insieme di tutte le ipotesi $h$ consistenti con l'insieme di
+allenamento $D$.
+
+\`E possibile farlo senza enumerarle tutte dato che abbiamo una definizione generale per la \emph{consistenza} di
+un'ipotesi (vedere definizione \ref{def: consistente}).
+
