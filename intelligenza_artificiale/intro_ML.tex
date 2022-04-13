@@ -48,15 +48,18 @@ fare una \textbf{predizione} pi\`u accurata. Il processo di miglioramento del mo
 che deve svolgere l'agente, dall'\textbf{algoritmo di apprendimento} e da un processo di \textbf{validazione} del modello.
 
 \section{Apprendimento supervisionato}
-In questo caso abbiamo un vettore in input che, attraverso una funzione, viene associato a diverse categorie o valori
-reali di uscita.
+Nell'\textbf{apprendimento supervisionato} abbiamo un vettore di valori in input che, attraverso
+una funzione, viene associato a diverse categorie o valori reali di uscita. Tale funzione
 
-Ci\`o che conosciamo quando ci approcciamo ad un problema di questo tipo \`e la coppia
-\[ <input, output> = (x, d) \]
-per una funzione sconosciuta $c$ (pi\`u precisamente si conoscono solo i punti dati dalle coppie date).
+Ci\`o che conosciamo quando ci approcciamo ad un problema di questo tipo \`e la coppia di input-output
+\[ (x, d) \]
+per una funzione sconosciuta $c$. Ovvero
+\[ c(x) = d \]
 
-Abbiamo poi un \textbf{valore target} che \`e dato da un \textbf{supervisore} che a priori decide il valore dei dati
-in input in relazione a $c(x)$.
+Abbiamo poi un \textbf{supervisore} che prende un insieme di valori iniziali, forniti prima che inizi il processo di
+apprendimento, e decide a priori dei \textbf{valori target} che soddisfino $c$. Chiariamo che il supervisore non usa
+$c$ per assegnare i valori. Anche perch\'e $c$ \`e sconosciuta ed \`e la funzione che dobbiamo riuscire a ricavare tramite
+l'apprendimento.
 
 Ora vogliamo trovare una \emph{buona} approssimazione di $c$. Vogliamo cio\`e trovare un'\textbf{ipotesi} $h$ che
 potr\`a essere usata per fare predizioni su dati ancora sconosciuti.
