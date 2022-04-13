@@ -48,23 +48,22 @@ fare una \textbf{predizione} pi\`u accurata. Il processo di miglioramento del mo
 che deve svolgere l'agente, dall'\textbf{algoritmo di apprendimento} e da un processo di \textbf{validazione} del modello.
 
 \section{Apprendimento supervisionato}
-Nell'\textbf{apprendimento supervisionato} abbiamo un vettore di valori in input che, attraverso
-una funzione, viene associato a diverse categorie o valori reali di uscita. Tale funzione
+Nell'\textbf{apprendimento supervisionato} abbiamo un vettore di valori in input (\textbf{training set}) che, attraverso
+un \textbf{supervisore}, vengono associati a priori a valori o categorie.
 
-Ci\`o che conosciamo quando ci approcciamo ad un problema di questo tipo \`e la coppia di input-output
+Dunque avremo una coppia di input-output del tipo
 \[ (x, d) \]
-per una funzione sconosciuta $c$. Ovvero
+dove $x$ \`e un elemento del training set e $d$ \`e il \textbf{valore target} assegnatogli dal supervisore.
+Il supervisore possiede a priori la conoscenza necessaria per associare ogni $x$ al relativo $d$, esiste tuttavia una
+\textbf{funzione obbiettivo} $c$ che riesce a fare lo stesso
 \[ c(x) = d \]
+e che per\`o ci \`e sconosciuta.
 
-Abbiamo poi un \textbf{supervisore} che prende un insieme di valori iniziali, forniti prima che inizi il processo di
-apprendimento, e decide a priori dei \textbf{valori target} che soddisfino $c$. Chiariamo che il supervisore non usa
-$c$ per assegnare i valori. Anche perch\'e $c$ \`e sconosciuta ed \`e la funzione che dobbiamo riuscire a ricavare tramite
-l'apprendimento.
+L'obbiettivo dell'apprendimento \`e quello di trovare una \emph{buona} approssimazione di $c$, ossia un'\textbf{ipotesi}
+$h$, tale che le relazioni decise a priori dal supervisore continuino ad essere vere e tale che sia anche in grado di
+trovarne di nuove quanto pi\`u simili a quelle che troverebbe la funzione $c$ per nuovi dati in input.
 
-Ora vogliamo trovare una \emph{buona} approssimazione di $c$. Vogliamo cio\`e trovare un'\textbf{ipotesi} $h$ che
-potr\`a essere usata per fare predizioni su dati ancora sconosciuti.
-
-Il valore target pu\`o avere natura
+La tipologia del valore target $d$ pu\`o essere
 \begin{itemize}
 	\item \textbf{Categorica}: problema di \textbf{classificazione} in cui $c(x)$ ritorna quella che \`e la classe
 	      (assunta) corretta per $x$. In questo caso abbiamo che $c(x)$ \`e un funzione a valori discreti da 1 a $k$.
@@ -76,39 +75,46 @@ Il valore target pu\`o avere natura
 In questo caso ci vengono dati una serie di dati iniziali in input ma non abbiamo un \textbf{supervisore} che etichetta
 a priori il valore target di questi dati.
 
-In questo caso si cerca di trovare dati simili per riuscire a dare un senso al vettore di input (\textbf{clustering}).
+In questo caso si cerca di trovare direttamente una relazione tra i dati presenti nel training set. In particolare si
+cercano dati con valori simili tra loro e si prova ad approssimare una funzione che passi il pi\`u vicino possibile ad
+ognuno di essi.
 
-\section{Modelli}
-Un \textbf{modello} vuole catturare o descrivere relazioni tra i dati in base ai compiti dati. Definisce inoltre la classe
-di funzioni che possono essere implementate (\emph{spazio delle ipotesi}).
-
-In totale un modello \`e composto dalle seguenti componenti:
-\begin{itemize}
-	\item \textbf{Esempio di allenamento}: si tratta di una serie di dati in input con relativo valore target di output
-	      che pu\`o anche essere inaccurato o impreciso.
-	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $c$ che stiamo stimando.
-	\item \textbf{Ipotesi}: Una certa funzione $h$ che sar\`a una stima della funzione $c$ basata sui dati raccolti e
-	      sull'obbiettivo dato.
-	\item \textbf{Spazio delle ipotesi}: L'insieme di tutte le possibili ipotesi $h$ che potrebbero in qualche modo essere
-	      derivate dall'algoritmo.
-\end{itemize}
+\subsection{Modelli}
+Un \textbf{modello} vuole descrivere le relazioni tra i dati in base al compito da svolgere. Definisce inoltre la classe
+di funzioni che possono essere implementate chiamato \emph{spazio delle ipotesi}, ovvero un insieme di funzioni
+che pu\`o essere del tipo
+\[ h(x, w) \]
+dove $w$ \`e un parametro che pu\`o indicare l'errore o altri fattori che dipendono dal problema.
 
 \section{Algoritmi di apprendimento}
-Basandoci sui dati in nostro possesso, sull'obbiettivo che abbiamo definito e sul modello vogliamo fare una
-\textbf{ricerca euristica}, attraverso lo spazio delle ipotesi, della miglior ipotesi possibile.
+Ricapitolando, i concetti di base per iniziare a parlare di algoritmi di apprendimento sono:
+\begin{itemize}
+	\item \textbf{Training set}: si tratta di un vettore di dati in input con relativo valore target di output
+	      che pu\`o anche essere inaccurato o impreciso.
+	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $c$ che stiamo stimando.
+	\item \textbf{Ipotesi}: Un'approssimazione della funzione $c$ che descrive le relazioni tra i dati in input.
+	\item \textbf{Spazio delle ipotesi}: L'insieme $H$ di tutte le possibili ipotesi $h$ che potrebbero in qualche modo
+	      essere derivate dall'algoritmo.
+\end{itemize}
 
-L'ipotesi $h$ potrebbe non coincidere con l'insieme di tutte le possibili funzioni e la ricerca potrebbe non essere
-esaustiva poich\'e ha bisogno bisogno di fare assunzioni (\textbf{bias induttivi}).
+Gli \textbf{algoritmi di apprendimento} di fatto vanno a trattare il problema di trovare la miglior $h$ come un problema
+di ricerca (con euristica) nello spazio delle ipotesi. Tipicamente si cerca l'ipotesi che \emph{minimizza} l'errore.
+
+Lo spazio delle ipotesi $H$ potrebbe non coincidere con l'insieme di tutte le possibili funzioni e la ricerca potrebbe
+non essere esaustiva. Dobbiamo riuscire a fare assunzioni in grado di ridurre lo spazio di ricerca. Vedremo pi\`u avanti
+i \textbf{bias induttivi}.
 
 \subsection{Generalizzazione}
-Per costruire un buon algoritmo di apprendimento dobbiamo introdurre il concetto di generalizzazione. Con
-\textbf{apprendimento} intendiamo la ricerca di una \emph{buona} funzione in uno spazio di funzioni, minimizzando una
-funzione di errore.
+Come gi\`a detto in precedenza, l'apprendimento si basa sul trovare una funzione abbastanza \emph{buona} in uno spazio di
+funzioni. Nello specifico si tratta di trovare una funzione che abbia una buona capacit\`a di \textbf{generalizzazione}.
 
-In questo caso chiamiamo \textbf{buona}, una funzione, che \textbf{generalizza} l'errore, ovvero misura
-quanto accuratamente il modello fa previsioni in base a nuovi dati in ingresso.
+L'\textbf{errore di generalizzazione} \`e un valore che misura quanto accuratamente, il modello, stima nuovi valori di
+output per valori di input non presento nel training set. Tenendo di conto dell'errore e/o della perdita di informazione
+durante il processo.
 
-La \textbf{fase di apprendimento} si basa sul costruire il modello in base ai dati e ai bias.
-
-La \textbf{fase predittiva} \`e la fase in cui applichiamo il risultato dell'apprendimento ad un nuovo campione di
-dati mai analizzati prima.
+Per concludere possiamo dividere il processo complessivo in due fasi:
+\begin{itemize}
+	\item \textbf{Fase di apprendimento}: si basa sul costruire il modello in base ai dati e ai bias.
+	\item \textbf{Fase predittiva}: \`e la fase in cui applichiamo il risultato dell'apprendimento ad un nuovo campione di
+	      dati mai analizzati prima.
+\end{itemize}
