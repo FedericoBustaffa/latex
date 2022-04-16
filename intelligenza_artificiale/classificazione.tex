@@ -1,11 +1,14 @@
-\chapter{Apprendimento}
-Iniziamo in questo capitolo a parlare di \textbf{apprendimento}, trattandolo come un problema di ricerca in uno
-\textbf{spazio delle ipotesi}.
-
-\section{Problemi di classificazione}
-Nel caso di problemi di classificazione il nostro valore target \`e una variabile di tipo \textbf{categorico}. In questo
-caso l'\textbf{apprendimento} si basa sul riuscire a inferire una funzione \textbf{booleana} da una serie di
+\chapter{Problemi di classificazione}
+Nel caso dei \textbf{problemi di classificazione} il nostro valore target \`e una variabile di tipo \textbf{categorico}.
+In questo caso l'apprendimento si basa sul riuscire a inferire una funzione \textbf{booleana} da una serie di
 esempi di allenamento.
+
+Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e \textbf{discreto}, inoltre si fanno alcune ipotesi per
+riuscire ad organizzare al meglio la ricerca della funzione desiderata. Nello specifico:
+\begin{itemize}
+	\item Si utilizzano \textbf{regole congiuntive}.
+	\item Si assume che non ci sia \emph{rumore} nei dati.
+\end{itemize}
 
 \begin{definition}
 	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se $h(x) = 1$, cio\`e se \`e vera.
@@ -17,6 +20,7 @@ esempi di allenamento.
 	ovvero se ritorna gli stessi valori che ritorna anche la funzione obbiettivo per i valori del training set.
 \end{definition}
 
+\section{Regole congiuntive}
 Nel caso di sole funzioni booleane lo spazio delle ipotesi ha dimensione
 \[ |H| = 2^{2^n} \]
 dove $n$ \`e la dimensione dell'input. Questo perch\'e abbiamo $2^n$ possibili istanze delle $n$ variabili in input e
@@ -25,54 +29,38 @@ per ognuna di esse possiamo avere in output 2 valori booleani.
 In realt\`a lavoreremo con uno spazio delle funzioni ristretto, rispetto allo spazio di tutte le
 possibili funzioni.
 
-Per restringere lo spazio delle funzioni useremo
-\begin{itemize}
-	\item \textbf{Regole congiuntive} per spazi delle ipotesi finiti e discreti.
-	\item \textbf{Funzioni lineari} per spazi delle ipotesi infiniti e continui.
-\end{itemize}
-
-\subsection{Spazio delle ipotesi discreto}
-Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e \textbf{discreto}, inoltre si fanno alcune ipotesi per
-riuscire ad organizzare al meglio la ricerca della funzione desiderata. Nello specifico:
-\begin{itemize}
-	\item Si utilizzano \textbf{regole congiuntive}.
-	\item Si assume che non ci sia \emph{rumore} nei dati.
-\end{itemize}
-
-\subsubsection{Regole congiuntive}
-Le \textbf{regole congiuntive} mi permettono di prendere solo funzioni booleane che mettono in \emph{and} le
+Le \textbf{regole congiuntive} ci permettono di utilizzare solo funzioni booleane che mettono in \emph{and} le
 variabili, ottenendo cos\`i uno spazio delle ipotesi di dimensione
 \[ |H| = 2^n \]
-Come possiamo vedere abbiamo ridotto notevolmente lo spazio, che prima aveva una dimesione $|H|$ pari a $2^{2^n}$.
+Come possiamo vedere abbiamo ridotto notevolmente lo spazio delle ipotesi.
 
 Se volessimo aggiungere tutti i possibili input negati (\textbf{not}) avremmo uno spazio delle ipotesi di dimensione
 \[ |H| = 3^n + 1 \]
-
-Un ipotesi $h$ \`e rappresentata come una congiunzione di vincoli sugli attributi. In particolare ogni vincolo pu\`o
-essere un valore
-\begin{itemize}
-	\item \textbf{specifico}
-	\item \textbf{significativo}
-	\item \textbf{vietato}
-\end{itemize}
 In generale strutturare lo spazio di ricerca (anche se infito) aiuta molto nella ricerca.
 
+\section{Rappresentazione delle ipotesi}
+Un ipotesi $h$ \`e rappresentata come una congiunzione di vincoli sugli attributi. In particolare ogni vincolo pu\`o
+essere
+\begin{itemize}
+	\item Un \textbf{valore specifico}: si assegna all'attributo un valore vero e proprio tra quelli consentiti.
+	\item Il \textbf{valore insignificante}: indicato con \verb|?|, vuol dire che non ci importa quale valore
+	      scegliamo per quell'attributo.
+	\item Il \textbf{valore vietato}: indicato con $\phi$, significa che nessun valore \`e consentito per quell'attributo.
+\end{itemize}
+
 \begin{definition}
-	Si dice che una certa ipotesi $h_j$ \`e \textbf{pi\`u generale} di $h_k$ se e solo se per ogni $x \in X$, dove $X$
-	\`e l'insieme delle variabili del problema, vale che
+	Si dice che una certa ipotesi $h_j$ \`e \textbf{pi\`u generale} di $h_k$ se e solo se per ogni $x \in X$ vale che
 	\[ h_k(x) = 1 \quad \Rightarrow \quad h_j(x) = 1 \]
 	e si indica con
 	\[ h_j \geq h_k \]
 \end{definition}
 
 Tramite la definizione appena data possiamo stabilire un \textbf{ordinamento parziale} utile per la ricerca.
-Nello specifico vedremo un metodo in cui si analizzer\`a prima l'ipotesi pi\`u specifica, arrivando poi a quella pi\`u
-generale.
+L'idea \`e quella di partire da ipotesi molto specifiche e \emph{generalizzarle} in maniera \textbf{conservativa},
+ovvero facendo s\`i che, per ogni esempio positivo, anche la $h$ sia positiva in modo che sia anche \emph{consistente}
+con il training set.
 
-Si \emph{generalizzano} quindi, le ipotesi pi\`u specifiche in maniera \textbf{conservativa}, ovvero facendo s\`i che, per
-ogni esempio positivo, anche la $h$ sia positiva in modo che sia anche \emph{consistente} con il training set.
-
-\subsection{Algoritmo Find-S}
+\section{Algoritmo Find-S}
 L'algoritmo trova l'ipotesi pi\`u \textbf{specifica} in $H$ e che sia consistente con gli esempi di allenamento
 \textbf{positivi}. L'ipotesi trovata \`e consistente anche con gli esempi negativi a patto che anche $c$ sia
 contenuto in $H$. Questo perch\'e $c \geq h$
@@ -90,7 +78,7 @@ contenuto in $H$. Questo perch\'e $c \geq h$
 	\item Si ritorna l'ipotesi $h$ trovata (la pi\`u specifica).
 \end{enumerate}
 
-\subsection{Version Space}
+\section{Version Space}
 L'idea \`e quella di generare una \emph{descrizione} dell'insieme di tutte le ipotesi $h$ consistenti con il training
 set $D$.
 
@@ -157,7 +145,7 @@ Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello
 		      \item Aggiungo a $G$ tutte le minime specializzazioni $h$ tali che:
 		            \begin{itemize}
 			            \item $h$ sia consistente con $d$.
-			            \item Qualche membro di $S$ sia pi\`u specifico di $h$.
+			            \item almeno un membro di $S$ sia pi\`u specifico di $h$.
 		            \end{itemize}
 		      \item Rimuovo da $G$ ogni ipotesi pi\`u specifica delle ipotesi in $G$.
 	      \end{enumerate}
