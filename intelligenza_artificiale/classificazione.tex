@@ -91,7 +91,7 @@ set $D$.
 	\[ VS_{H, D} = \{ h \in H \mid consistent(h, D) \} \]
 \end{definition}
 
-\subsubsection{Algoritmo di eliminazione con lista}
+\subsection{Algoritmo di eliminazione con lista}
 L'algoritmo descritto di seguito \`e irrealistico poich\'e si dovrebbero enumerare tutte le possibili ipotesi in $H$.
 \begin{enumerate}
 	\item Si crea il version space come una lista contenente tutte le possibili ipotesi in $H$.
@@ -100,7 +100,7 @@ L'algoritmo descritto di seguito \`e irrealistico poich\'e si dovrebbero enumera
 	\item Si ritorna la lista di ipotesi nel version space.
 \end{enumerate}
 
-\subsubsection{Rappresentazione}
+\subsection{Rappresentazione version space}
 Introduciamo ora un po' di notazione per riuscire a rappresentare il version space in maniera pi\`u efficiente.
 
 \begin{definition}
@@ -117,7 +117,7 @@ Introduciamo ora un po' di notazione per riuscire a rappresentare il version spa
 	Ogni ipotesi nel version space sta tra il confine generale e il confine specifico.
 \end{theorem}
 
-\subsubsection{Algoritmo di eliminazione per esempi positivi}
+\subsection{Algoritmo di eliminazione per esempi positivi}
 Sia $G$ il confine generale e $S$ il confine specifico.
 \begin{enumerate}
 	\item Per ogni esempio di allenamento positivo $d = \langle x, c(x) \rangle$.
@@ -134,7 +134,7 @@ Sia $G$ il confine generale e $S$ il confine specifico.
 	      \end{enumerate}
 \end{enumerate}
 
-\subsubsection{Algoritmo di elminazione per esempi negativi}
+\subsection{Algoritmo di elminazione per esempi negativi}
 Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello visto per esempi positivi.
 \begin{enumerate}
 	\item Per ogni esempio di allenamento negativo $d$.
