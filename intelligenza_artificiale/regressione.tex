@@ -12,9 +12,10 @@ la \textbf{regressione lineare univariata}, in cui si considerano modelli compos
 variabile $x$ in input e una sola variabile $y$ in output.
 
 Per questa classe di problemi si assume un modello espresso come
-\[ h(x) = w_1 x + w_0 \]
-dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
+\[ h(x) = w_1 x + w_0 + r \]
+dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi} e $r$ sia il rumore ossia l'errore che
+commettiamo nello stimare la funzione obbiettivo
 
 Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia tracciare una retta che passi il pi\`u vicino
 possibile ad ognuno dei dati presenti nel training set. Nello specifico, vogliamo costruire un algoritmo di apprendimento
-che riesca a stimare $w_1$ e $w_0$.
+che riesca a stimare $w_1$ e $w_0$ \emph{minimizzando} l'errore.
