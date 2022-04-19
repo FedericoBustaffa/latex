@@ -41,7 +41,15 @@ L'idea \`e molto semplice ma anche efficace. Dato che nel training set sono forn
 sono $w_1$ e $w_0$. Per trovarli
 \begin{enumerate}
 	\item Calcoliamo la funzione $loss$ per tutti gli esempi presenti nel training set.
-	\item Calcoliamo la derivata parziale della funzione rispetto a $w_1$ e $w_0$.
-	\item Eguagliamo le derivate a 0.
+	\item Calcoliamo la derivata parziale della funzione rispetto a $w_1$ e $w_0$, ossia calcoliamo il gradiente.
+	\item Eguagliamo il gradiente a 0.
+	      \[
+		      \begin{pmatrix}
+			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 }, &
+			      \displaystyle\frac{ \partial E(w) }{ \partial w_0 }
+		      \end{pmatrix} = 0
+	      \]
 	\item Risolto il sistema ottengo $w_1$ e $w_0$ tali che la distanza tra i dati e la retta sia minima per tutti i dati.
 \end{enumerate}
+A questo punto ho una funzione $h(w)$ con dei $w$ fissati con cui posso provare a calcolare nuovi $y$ relativi a nuovi
+input $x$ non presenti nel training set.
