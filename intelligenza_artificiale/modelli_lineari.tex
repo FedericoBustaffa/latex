@@ -23,17 +23,23 @@ che riesca a stimare la $y$ corrispondente ad altri valori $x$ ancora non osserv
 \emph{minimizzando} l'errore o perdita di precisione.
 
 \subsubsection{Errore}
-Come valore d'errore considereremo il quadrato dell'errore effettivo, poich\'e l'errore effettivo potrebbe avere valori
-negativi e positivi che si compensano una volta sommati, facendoci interpretare male i dati. In questo modo l'errore \`e
-cumulativo.
+Come valore d'errore considereremo il quadrato della differenza tra il valore target del training set e l'output della
+funzione stimata dall'algoritmo che vedremo pi\`u avanti. Di seguito la funzione d'errore:
 \[ loss(h_w) = E(w) = \sum_{p=1}^l (y_p - h_w(x_p))^2 = \sum_{p=1}^l (y_p - (w_1 x_p + w_0))^2 \]
-Quello appena calcolato \`e un valore che indica la differenza tra il valore target presente nel training set e
-il risultato calcolato dall'ipotesi $h$ per certi valori di $w$.
+I motivi dell'elevamento al quadrato sono due. Il primo ha a che fare con la correttezza dell'errore calcolato: noi
+vogliamo valutare l'errore che la nostra funzione sta commettendo e minimizzarlo. I valori della differenza di cui
+abbiamo parlato poco fa potrebbero per\`o avere segno discorde e quindi annullarsi a vicenda o riducendo l'errore una
+volta sommati. L'errore effettivo continuerebbe tuttavia a crescere o, nella migliore delle ipotesi rimarrebbe invariato.
 
-\subsection{Metodo di risoluzione}
-Il nostro obbiettivo come abbiamo gi\`a detto \`e quello di trovare un valore dei coefficienti $w$ che minimizzi la perdita
-di precisione. In altre parole, per ogni elemento del training set che analizziamo, modifichiamo i coefficienti della retta,
-translandola e/o cambiando la sua inclinazione.
+Il secondo motivo \`e relativo alla comodit\`a di calcolo. Elevare al quadrato la differenza significa non avere mai valori
+negativi. Ma perch\'e non utilizziamo il valore assoluto ?
+
+Come vedremo pi\`u avanti, dovremo calcolare delle derivate e la derivata di un polinomio di secondo grado \`e pi\`u
+semplice e pi\`u comoda da calcolare rispetto alla derivata di un valore assoluto.
+
+\subsection{Metodo di risoluzione - LMS}
+La tecnica che vedremo \`e chiamata \emph{Least Mean Square} il cui obbiettivo \`e quello di trovare un valore dei
+coefficienti $w$ che minimizzi l'errore quadratico.
 
 Per fare questo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza: il \textbf{gradiente}.
 
@@ -41,15 +47,43 @@ L'idea \`e molto semplice ma anche efficace. Dato che nel training set sono forn
 sono $w_1$ e $w_0$. Per trovarli
 \begin{enumerate}
 	\item Calcoliamo la funzione $loss$ per tutti gli esempi presenti nel training set.
-	\item Calcoliamo la derivata parziale della funzione rispetto a $w_1$ e $w_0$, ossia calcoliamo il gradiente.
+	\item Calcoliamo la derivata parziale della funzione rispetto a $w_0$ e $w_1$, ossia calcoliamo il gradiente.
 	\item Eguagliamo il gradiente a 0.
 	      \[
 		      \begin{pmatrix}
-			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 }, &
-			      \displaystyle\frac{ \partial E(w) }{ \partial w_0 }
+			      \displaystyle\frac{ \partial E(w) }{ \partial w_0 }, &
+			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 },
 		      \end{pmatrix} = 0
 	      \]
 	\item Risolto il sistema ottengo $w_1$ e $w_0$ tali che la distanza tra i dati e la retta sia minima per tutti i dati.
 \end{enumerate}
-A questo punto ho una funzione $h(w)$ con dei $w$ fissati con cui posso provare a calcolare nuovi $y$ relativi a nuovi
+Ci\`o che abbiamo fatto \`e stato semplicemente trovare il punto stazionario corrispondente al minimo globale della funzione
+$loss$.
+
+Adesso abbiamo una funzione $h_w$ con dei $w$ fissati con cui posso provare a calcolare nuovi $y$ relativi a nuovi
 input $x$ non presenti nel training set.
+
+Se ricordiamo ci\`o che abbiamo visto nel capitolo \ref{chapter: ricerca_locale} quando parlavamo di ricerca locale in spazi
+continui, possiamo riprendere la regola che avevamo definito riadattandola. Se ricordiamo bene, la regola era definita
+in questo modo:
+\[ x_{\text{new}} = x - \eta \nabla f(x) \]
+Adesso dobbiamo semplicemente riadattarla come segue:
+\[ w_{\text{new}} = w - \eta \nabla E(w) \]
+Sapendo che
+\[ -\nabla E(w) = \Delta w \]
+posso riscrivere la funzione in questo modo:
+\[ w_{\text{new}} = w + \eta \Delta w \]
+Ricordiamo che $\eta$ rappresenta la dimensione del passo. Nell'ambito del machine learning rappresenta il cosidetto
+\textbf{learning rate}.
+
+Ora possiamo correggere la nostra stima man mano che assumiamo dati in questo modo:
+\begin{itemize}
+	\item Se $y = h(x)$ l'errore \`e nullo quindi non faccio niente.
+	\item Se $h(x) > y$ posso compiere due operazioni:
+	      \begin{itemize}
+		      \item Traslo la retta in basso decrementando $w_0$: caso $\Delta w_0 < 0$.
+		      \item Se $x > 0$ ruoto la retta decrementando $w_1$: caso $\Delta w_1 < 0$.
+		      \item Altrimenti ruoto la retta incrementando $w_1$: caso $\Delta w_1 > 0$.
+	      \end{itemize}
+	\item Se $h(x) < y$ mi muovo in maniera speculare al punto precedente.
+\end{itemize}
