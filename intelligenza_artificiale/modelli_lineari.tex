@@ -1,43 +1,46 @@
 \chapter{Modelli lineari}
 I modelli lineari sono molto utili per risolvere \textbf{problemi di regressione}, che, come abbiamo gi\`a anticipato
-hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico}.
+hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico reale}.
 
 Il nostro obbiettivo \`e quello di riuscire ad approssimare una funzione a valori reali e continui che potrebbe restituire
 anche dati imprecisi o \textbf{rumorosi}. Un tipico esempio di coppia presente nel training set sar\`a del tipo:
 \[ (x, f(x) + rumore) \]
 
 \section{Regressione lineare univariata}
-Per utilizzare modelli lineari dobbiamo fare riferimento ad un sottoinsieme della classe di problemi descritta sopra, ovvero
+Per capire meglio i modelli lineari facciamo riferimento ad un sottoinsieme della classe di problemi descritta sopra, ovvero
 la \textbf{regressione lineare univariata}, in cui si considerano modelli composti da funzioni lineari, che hanno una sola
 variabile $x$ in input e una sola variabile $y$ in output.
 
 Per questa classe di problemi si assume un modello espresso come
-\[ h(x) = w_1 x + w_0 + r \]
-dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi} e $r$ sia il rumore ossia l'errore che
-commettiamo nello stimare la funzione obbiettivo
+\[ h(x) = w_1 x + w_0 \]
+dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
 
 \subsection{Struttura del problema}
 Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia tracciare una retta che passi il pi\`u vicino
-possibile ad ognuno dei dati presenti nel training set. Nello specifico, vogliamo costruire un algoritmo di apprendimento
+possibile ad ognuno dei punti presenti nel training set. Nello specifico, vogliamo costruire un algoritmo di apprendimento
 che riesca a stimare la $y$ corrispondente ad altri valori $x$ ancora non osservati, trovando $w_1$ e $w_0$ e
 \emph{minimizzando} l'errore o perdita di precisione.
 
-\subsubsection{Errore}
-Come valore d'errore considereremo il quadrato della differenza tra il valore target del training set e l'output della
-funzione stimata dall'algoritmo che vedremo pi\`u avanti. Di seguito la funzione d'errore:
+\subsubsection{Funzione di errore}
+Il valore dell'errore accumulato su dati del training set \`e definito dalla seguente funzione:
 \[ loss(h_w) = E(w) = \sum_{p=1}^l (y_p - h_w(x_p))^2 = \sum_{p=1}^l (y_p - (w_1 x_p + w_0))^2 \]
-I motivi dell'elevamento al quadrato sono due. Il primo ha a che fare con la correttezza dell'errore calcolato: noi
-vogliamo valutare l'errore che la nostra funzione sta commettendo e minimizzarlo. I valori della differenza di cui
-abbiamo parlato poco fa potrebbero per\`o avere segno discorde e quindi annullarsi a vicenda o riducendo l'errore una
-volta sommati. L'errore effettivo continuerebbe tuttavia a crescere o, nella migliore delle ipotesi rimarrebbe invariato.
+dove $l$ \`e il numero di esempi presenti nel training set.
 
-Il secondo motivo \`e relativo alla comodit\`a di calcolo. Elevare al quadrato la differenza significa non avere mai valori
-negativi. Ma perch\'e non utilizziamo il valore assoluto ?
+In pratica non si fa altro che misurare la differenza tra il valore target del training set e il valore che restituisce
+una certa approssimazione $h$.
 
-Come vedremo pi\`u avanti, dovremo calcolare delle derivate e la derivata di un polinomio di secondo grado \`e pi\`u
-semplice e pi\`u comoda da calcolare rispetto alla derivata di un valore assoluto.
+Il valore trovato viene elevato al quadrato per due motivi:
+\begin{enumerate}
+	\item L'idea \`e che la funzione $E$ sommi tutti gli errori sui singoli dati ma il valore potrebbe essere sia positivo
+	      che negativo e questo potrebbe portare ad un'errata diminuzione dell'errore o addirittura ad un annullamento.
+	      Per evitare questo eleviamo l'errore al quadrato in modo da avere sempre un valore positivo.
+	\item Una volta letto il punto precedente ci si potrebbe chidere perch\'e non usare il valore assoluto. Il motivo \`e
+	      che vogliamo trovare il minimo della funzione $E$ e per farlo occorre calcolarne la derivata. La derivata di un
+	      polinomio elevato al quadrato \`e semplicemente pi\`u comoda e pi\`u semplice da calcolare rispetto a quella
+	      di un valore assoluto.
+\end{enumerate}
 
-\subsection{Metodo di risoluzione - LMS}
+\subsection{Metodo di risoluzione analitico - LMS}
 La tecnica che vedremo \`e chiamata \emph{Least Mean Square} il cui obbiettivo \`e quello di trovare un valore dei
 coefficienti $w$ che minimizzi l'errore quadratico.
 
@@ -46,24 +49,28 @@ Per fare questo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza:
 L'idea \`e molto semplice ma anche efficace. Dato che nel training set sono forniti i valori $x$ e $y$, i valori incogniti
 sono $w_1$ e $w_0$. Per trovarli
 \begin{enumerate}
-	\item Calcoliamo la funzione $loss$ per tutti gli esempi presenti nel training set.
+	\item Calcoliamo la funzione $E$ per tutti gli esempi presenti nel training set.
 	\item Calcoliamo la derivata parziale della funzione rispetto a $w_0$ e $w_1$, ossia calcoliamo il gradiente.
 	\item Eguagliamo il gradiente a 0.
 	      \[
 		      \begin{pmatrix}
 			      \displaystyle\frac{ \partial E(w) }{ \partial w_0 }, &
-			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 },
+			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 }
 		      \end{pmatrix} = 0
 	      \]
 	\item Risolto il sistema ottengo $w_1$ e $w_0$ tali che la distanza tra i dati e la retta sia minima per tutti i dati.
 \end{enumerate}
+
 Agendo in maniera analitica abbiamo semplicemente trovato il punto stazionario corrispondente al minimo globale della
-funzione $loss$.
+funzione $E$.
 
 Adesso abbiamo una funzione $h_w$ con dei $w$ fissati con cui posso provare a calcolare nuovi $y$ relativi a nuovi
 input $x$ non presenti nel training set.
 
-\subsubsection{Metodo algoritmico}
+Chiariamo che i nuovi valori $h_w(x)$ calcolati saranno approssimazioni del reale valore relativo a $x$, tranne rari casi
+in cui il reale valore $y$ relativo a $x$ si trovi esattamente sulla retta trovata.
+
+\subsection{Metodo algoritmico}
 Adesso vogliamo per\`o vogliamo agire in maniera algoritmica e cerca la funzione giusta con un metodo simile a quello
 visto nel capitolo \ref{chapter: ricerca_locale} quando parlavamo di ricerca locale in spazi continui.
 
@@ -93,10 +100,10 @@ Ora possiamo correggere la nostra stima man mano che assumiamo dati in questo mo
 
 \subsubsection{Metodo di risoluzione online}
 Prima definito quella che viene chiamata \textbf{politica batch} dell'algoritmo. In sostanza si prendono tutti i membri
-presenti nel training set (\textbf{epoca}), si calcola la funzione $loss$ finch\'e non si esauriscono ed infine si calcola
+presenti nel training set (\textbf{epoca}), si calcola la funzione $E$ finch\'e non si esauriscono ed infine si calcola
 il gradiente per aggiornare i $w$.
 
-Esiste anche un'altro modo di procedere. In pratica, quello che succede \`e che si calcola la funzione $loss$ per un singolo
+Esiste anche un'altro modo di procedere. In pratica, quello che succede \`e che si calcola la funzione $E$ per un singolo
 membro del training set e subito si aggiornano i $w$. Si ripete il procedimento per tutti i membri del training set.
 
 Questo metodo fa subire al gradiente variazioni pi\`u imprevedibili e significative. Potrebbe essere pi\`u veloce ma
