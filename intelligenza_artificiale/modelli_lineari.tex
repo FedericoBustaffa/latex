@@ -76,27 +76,40 @@ visto nel capitolo \ref{chapter: ricerca_locale} quando parlavamo di ricerca loc
 
 Avevamo definito una regola che ci permetteva di muoverci in spazi continui seguendo le indicazioni del gradiente in questo
 modo:
-\[ x_{\text{new}} = x - \eta \nabla f(x) \]
+\[ x_{\text{new}} = x \pm \eta \nabla f(x) \]
 Adesso dobbiamo semplicemente riadattarla come segue:
 \[ w_{\text{new}} = w - \eta \nabla E(w) \]
 Sapendo che
 \[ -\nabla E(w) = \Delta w \]
 posso riscrivere la funzione in questo modo:
 \[ w_{\text{new}} = w + \eta \Delta w \]
-Ricordiamo che $\eta$ rappresenta la dimensione del passo ($0 < \eta < 1$). Nell'ambito del machine learning rappresenta il cosidetto
-\textbf{learning rate}.
+Notiamo che nella ricerca locale usavamo $+\nabla f(x)$ per cercare massimi locali e $-\nabla f(x)$ per cercare
+minimi locali. In questo caso siamo interessati solo ai minimi locali dunque nella formula comparir\`a sempre
+$-\nabla E(w) = +\Delta w$.
 
-Ora possiamo correggere la nostra stima man mano che assumiamo dati in questo modo:
+Ricordiamo inoltre che $\eta$ rappresenta la dimensione del passo ($0 < \eta < 1$), che, in ambito Machine Learning,
+rappresenta il \textbf{learning rate}.
+
+Su questa base possiamo costruire un algoritmo di ricerca nello spazio delle ipotesi che corregge l'errore man mano che
+si elaborano nuovi esempi del training set. Nello specifico le correzioni avvengono in questo modo:
 \begin{itemize}
 	\item Se $y = h(x)$ l'errore \`e nullo quindi non faccio niente.
-	\item Se $h(x) > y$ posso compiere due operazioni:
+	\item Se $h(x) > y$ significa che il valore atteso si trova sopra la nostra retta. Le correzioni che possiamo fare
+	      sono quindi:
 	      \begin{itemize}
-		      \item Traslo la retta in basso decrementando $w_0$: caso $\Delta w_0 < 0$.
-		      \item Se $x > 0$ ruoto la retta decrementando $w_1$: caso $\Delta w_1 < 0$.
-		      \item Altrimenti ruoto la retta incrementando $w_1$: caso $\Delta w_1 > 0$.
+		      \item Trasliamo la retta in basso decrementando $w_0$: caso $\Delta w_0 < 0$.
+		      \item Se $x > 0$ ruotiamo la retta in senso orario decrementando $w_1$: caso $\Delta w_1 < 0$.
+		      \item Altrimenti se $x < 0$ ruotiamo la retta in senso antiorario incrementando $w_1$: caso $\Delta w_1 > 0$.
 	      \end{itemize}
 	\item Se $h(x) < y$ mi muovo in maniera speculare al punto precedente.
 \end{itemize}
+Per velocizzare un po' i calcoli possiamo subito derivare le formule generali in questo modo
+\begin{gather*}
+	\Delta w_0 = -\frac{\partial E(w)}{\partial w_0} = 2 \cdot \sum_{p=1}^l (y_p - h_w(x)) \\
+	\\
+	\Delta w_1 = -\frac{\partial E(w)}{\partial w_1} = 2 \cdot \sum_{p=1}^l (y_p - h_w(x)) \cdot x_p
+\end{gather*}
+
 
 \subsubsection{Metodo di risoluzione online}
 Prima definito quella che viene chiamata \textbf{politica batch} dell'algoritmo. In sostanza si prendono tutti i membri
