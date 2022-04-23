@@ -135,7 +135,7 @@ L'algoritmo pu\`o essere implementato con due politiche differenti:
 	      quindi di un \textbf{learning rate} pi\`u basso rispetto alla politica batch.
 \end{itemize}
 
-\subsection{Input multidimensionale}
+\section{Input multidimensionale}
 Abbiamo visto il caso base con una sola variabile in input ma nella realt\`a i problemi affrontati possono avere in input
 molte variabili. Dobbiamo quindi trovare una regola pi\`u generale che ci aiuti a trattare problemi con pi\`u variabili in
 input.
@@ -150,4 +150,28 @@ Stavolta la funzione da approssimare sar\`a nella forma
 e non rappresenter\`a pi\`u una retta come nella regressione linerare univariata ma rappresenter\`a degli
 \textbf{iperpiani}.
 
-Per rendere pi\`u compatta la notazione indicheremo con $x^T$ l'insieme delle $n$ variabili in input.
+Per rendere pi\`u compatta la notazione useremo $x^T = [1, x_1, \dots, x_n]$ per indicare l'insieme delle $n$ variabili
+in input relative a un generico pattern e $w = [w_0, w_1, \dots, w_n]$ per indicare i pesi. Ora possiamo riscrivere la
+formula in maniera pi\`u compatta in questo modo:
+\[ x^T w = \sum_{i=0}^n w_i x_i \]
+Adesso possiamo facilmente definire la funzione $E$ per input multidimensionali come segue:
+\[ E(w) = \sum_{p=1}^l (y_p - x^T_p w)^2 = \| y - X w \|^2 \]
+Di conseguenza possiamo definire anche $\Delta w$ in questo modo:
+\[
+	\Delta w_i = -\frac{\partial E(w)}{\partial w_i} = 2 \sum_{p=1}^l (y_p - h_w(x_p)) \cdot x_{p, i} =
+	\sum_{p=1}^l (y_p - x^T_p w) \cdot x_{p, i}
+\]
+Una volta definita l'equazione per input multidimensionale possiamo riutilizzare l'algoritmo visto in precedenza per la
+regressione lineare univariata.
+
+Possiamo inoltre costruire un algoritmo che non tiene un learning rate fisso ma lo decrementa col passare del tempo.
+Questo fa s\`i che all'inizio la correzione dell'errore sia pi\`u grossolana evitandoci di procedere troppo lentamente,
+in seguito per\`o, col decrescere dell'errore, anche le correzioni che dovremo fare saranno sempre pi\`u piccole. Un
+learning rate pi\`u basso ci aiuta dunque ad essere pi\`u precisi man mano che ci si avvicina alla soluzione.
+
+\section{Limitazioni}
+Un grosso limite dei modelli lineari \`e il problema dell'\textbf{underfitting}. Questo si traduce in una scarsa
+capacit\`a di approssimazione della funzione obbiettivo. Nel caso della regressione lineare univariata ad esempio posso
+tracciare la miglior retta possibile ma potrei avere comunque un errore molto alto alcuni esempi di training.
+
+Per la trattazione di problemi pi\`u complessi \`e necessario muoverci verso modelli pi\`u complessi, ovvero
