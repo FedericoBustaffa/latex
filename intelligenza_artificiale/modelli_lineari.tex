@@ -81,10 +81,10 @@ Adesso dobbiamo semplicemente riadattarla come segue:
 \[ w_{\text{new}} = w - \eta \nabla E(w) \]
 Sapendo che
 \[ -\nabla E(w) = \Delta w \]
-posso riscrivere la funzione in questo modo:
+possiamo definire adesso la \textbf{regola delta} riscrivendo la funzione in questo modo:
 \[ w_{\text{new}} = w + \eta \Delta w \]
-Notiamo che nella ricerca locale usavamo $+\nabla f(x)$ per cercare massimi locali e $-\nabla f(x)$ per cercare
-minimi locali. In questo caso siamo interessati solo ai minimi locali dunque nella formula comparir\`a sempre
+Notiamo che nella ricerca locale usavamo $+\nabla f(x)$ per cercare massimi locali e $-\nabla f(x)$ per cercare minimi
+locali. In questo caso siamo interessati solo ai minimi locali dunque nella formula comparir\`a sempre
 $-\nabla E(w) = +\Delta w$.
 
 Ricordiamo inoltre che $\eta$ rappresenta la dimensione del passo ($0 < \eta < 1$), che, in ambito Machine Learning,
@@ -110,14 +110,44 @@ Per velocizzare un po' i calcoli possiamo subito derivare le formule generali in
 	\Delta w_1 = -\frac{\partial E(w)}{\partial w_1} = 2 \cdot \sum_{p=1}^l (y_p - h_w(x)) \cdot x_p
 \end{gather*}
 
+\subsubsection{Algoritmo}
+Ora possiamo definire l'algoritmo come segue
+\begin{enumerate}
+	\item Iniziamo con dei valori di $w$ iniziali presi a caso e possibilmente piccoli.
+	\item Fissiamo $\eta$ tra 0 e 1.
+	\item \label{enum: delta w} Calcoliamo $\Delta w$ per ogni $w_i$.
+	\item Calcoliamo $w_\text{new}$ per ogni $w_i$.
+	\item Torniamo al punto \ref{enum: delta w} finch\'e non si ha una convergenza (non si migliora pi\`u) o
+	      $E(w)$ non \`e abbastanza piccolo.
+\end{enumerate}
 
-\subsubsection{Metodo di risoluzione online}
-Prima definito quella che viene chiamata \textbf{politica batch} dell'algoritmo. In sostanza si prendono tutti i membri
-presenti nel training set (\textbf{epoca}), si calcola la funzione $E$ finch\'e non si esauriscono ed infine si calcola
-il gradiente per aggiornare i $w$.
+L'algoritmo pu\`o essere implementato con due politiche differenti:
+\begin{itemize}
+	\item \textbf{Batch}: si calcola il $\Delta w$ su tutto l'insieme dei dati di training (\textbf{epoca}) in un solo
+	      colpo svolgendo interamente la sommatoria. Solo alla fine si andr\`a ad applicare la regola delta per aggiornare
+	      i pesi.
 
-Esiste anche un'altro modo di procedere. In pratica, quello che succede \`e che si calcola la funzione $E$ per un singolo
-membro del training set e subito si aggiornano i $w$. Si ripete il procedimento per tutti i membri del training set.
+	      Questo approccio garantisce maggiore precisione e linearit\`a nel raggiungere la soluzione.
+	\item \textbf{Online}: in questo caso non si svolge la sommatoria ma si calcola il $\Delta w$ per ogni esempio nel
+	      training set e si va subito ad applicare la regola delta aggiornando i pesi ogni volta.
 
-Questo metodo fa subire al gradiente variazioni pi\`u imprevedibili e significative. Potrebbe essere pi\`u veloce ma
-necessita di un $\eta$ pi\`u piccolo.
+	      Questa politica pu\`o rendere l'algoritmo pi\`u veloce ma, generalmente, lo rende anche pi\`u instabile. necessita
+	      quindi di un \textbf{learning rate} pi\`u basso rispetto alla politica batch.
+\end{itemize}
+
+\subsection{Input multidimensionale}
+Abbiamo visto il caso base con una sola variabile in input ma nella realt\`a i problemi affrontati possono avere in input
+molte variabili. Dobbiamo quindi trovare una regola pi\`u generale che ci aiuti a trattare problemi con pi\`u variabili in
+input.
+
+D'ora in avanti considereremo membri del training set (\textbf{pattern}) multidimensionali che hanno per l'appunto pi\`u
+variabili di input e un valore target di output. Indicheremo quindi con $x_{p, i}$ l'$i$-esima variabile del $p$-esimo
+pattern e $X$ sar\`a una matrice $l \times n$ dove $l$ \`e il numero di pattern e $n$ \`e il numero di variabili per ogni
+pattern.
+
+Stavolta la funzione da approssimare sar\`a nella forma
+\[ h(x_1, \dots, x_n) = w_0 + w_1 x_1 + \dots + w_n x_n = w_0 + \sum_{i=1}^n w_i x_i \]
+e non rappresenter\`a pi\`u una retta come nella regressione linerare univariata ma rappresenter\`a degli
+\textbf{iperpiani}.
+
+Per rendere pi\`u compatta la notazione indicheremo con $x^T$ l'insieme delle $n$ variabili in input.
