@@ -1,14 +1,14 @@
 \chapter{Trasformazioni}\label{trasformazioni}
-Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti e vettori
-in vettori. Quando parliamo vogliamo \emph{trasformare} un oggetto intendiamo l'applicazione
-della stessa trasformazione a tutti i punti dell'oggetto.
+Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti e vettori in vettori. Quando parliamo
+di \emph{trasformazione} di un oggetto intendiamo l'applicazione della stessa trasformazione a tutti i punti
+dell'oggetto.
 
-Per semplicit\`a faremo riferimento a punti nel piano bidimensionale
+Per semplicit\`a faremo riferimento a punti nello spazio bidimensionale anche se il discorso \`e analogo per punti
+tridimensionali.
 \[ p = \begin{bmatrix} p_x \\ p_y \end{bmatrix} \]
 
 \section{Traslazione}
-Se vogliamo traslare un punto $p$ abbiamo bisogno di un vettore $v$ che ci indichi di quando
-traslare le sue coordinate.
+La \textbf{traslazione} $T_v$ di un punto $p$ trasla $p$ di un certo vettore $v$.
 \[
 	T_v(p) = p + v =
 	\begin{bmatrix}
@@ -24,8 +24,8 @@ traslare le sue coordinate.
 La traslazione \`e indipendente dalle coordinate del punto.
 
 \section{Scalatura}
-Utile per cambiare la dimensione di un oggetto. Per ottenere questa trasformazione si
-moltiplicano tutti i punti della figura per un fattore di scalatura.
+La \textbf{scalatura} serve a cambiare le dimensioni di un oggetto. Per ottenere questa trasformazione si moltiplicano
+tutti i punti della figura per un \textbf{fattore di scalatura}.
 \[
 	S_{s_x, s_y}(p) =
 	\begin{bmatrix}
@@ -38,9 +38,10 @@ dell'oggetto non cambiano). Altrimenti si dice che la scalatura \`e
 \textbf{non uniforme o anisotropica}.
 
 \section{Rotazione}
-Utile per ruotare di un angolo $\theta$ un punto rispetto all'origine. Per
-effettuare una rotazione abbiamo bisogno di convertire le coordinate cartesiane del
-nostro punto in coordinate polari.
+La rotazione $R_\theta$ serve a ruotare di un angolo $\theta$ un punto $p$ rispetto all'origine.
+
+Per effettuare una rotazione abbiamo bisogno di convertire le coordinate cartesiane del nostro punto in coordinate
+polari.
 \[
 	p = \begin{bmatrix}
 		p_x \\ p_y
@@ -49,7 +50,7 @@ nostro punto in coordinate polari.
 		\rho \cos(\phi) \\
 		\rho \sin(\phi)
 	\end{bmatrix}\]
-Se volessi quindi, ruotare il punto $p$ di un angolo $\theta$ rispetto a dove si trova
+Se volessi quindi ruotare il punto $p$ di un angolo $\theta$ rispetto a dove si trova
 dovrei svolgere un'operazione di questo tipo:
 \[
 	R_\theta(p) =
@@ -58,29 +59,30 @@ dovrei svolgere un'operazione di questo tipo:
 		\rho \sin(\phi + \theta)
 	\end{bmatrix}
 \]
-Per semplificare i calcoli possiamo ricordarci che
+Utilizzando le propriet\`a di seno e coseno posso riscrivere la formula in una forma che pi\`u avanti ci sar\`a utile
+per svolgere i calcoli pi\`u comodamente.
 \begin{gather*}
 	\cos(\phi + \theta) = \cos(\phi) \cos(\theta) - \sin(\phi) \sin(\theta) \\
 	\sin(\phi + \theta) = \sin(\theta) \cos(\phi) + \sin(\phi) \cos(\theta)
 \end{gather*}
 Posso quindi riscrivere la funzione di rotazione come
-\begin{gather*}
+\[
 	R_\theta(p) =
 	\begin{bmatrix}
 		\rho [ \cos(\phi) \cos(\theta) - \sin(\phi) \sin(\theta) ] \\
 		\rho [ \sin(\theta) \cos(\phi) + \sin(\phi) \cos(\theta) ]
-	\end{bmatrix} \\
+	\end{bmatrix}
+\]
+che in forma pi\`u compatta diventa
+\[
 	R_\theta(p) = \begin{bmatrix}
 		p_x \cos(\theta) - p_y \sin(\theta) \\
 		p_x \sin(\theta) + p_y \cos(\theta)
 	\end{bmatrix}
-\end{gather*}
-In questo modo non riesco a modificare il centro di rotazione in nessun modo e nemmeno
-ampliare il raggio della rotazione. Per questo secondo problema si potrebbe optare
-per una traslazione nella direzione del raggio di opportuna intensit\`a.
+\]
 
 \section{Taglio}
-\`E una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
+Il \textbf{taglio} \`e una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
 dell'altro.
 \[
 	Sh_{k, y}(p) =
@@ -89,15 +91,14 @@ dell'altro.
 		p_y
 	\end{bmatrix}
 \]
-Si pu\`o comunque ottenere come combinazione di rotazioni e scalature non uniformi.
+Si pu\`o comunque ottenere come combinazione di rotazioni e scalature non uniformi e non \`e molto usata.
 
 \section{Matrice di trasformazione}
-Per rendere sia la notazione che il codice pi\`u compatti \`e utile introdurre il concetto
-di \textbf{matrice di trasformazione}. Quello che facciamo \`e semplicemente accorpare le
-varie equazioni che definiscono la trasformazione in un'unica matrice.
+Introduciamo ora la cosiddetta \textbf{matrice di trasformazione}. Per ottenerla ci basta accorpare le varie equazioni
+che definiscono la trasformazione in un'unica matrice.
 
-Per esempio consideriamo il generico punto $p$ nello spazio bidimensionale. Una generica
-trasformazione mi far\`a ottenere il punto $p'$ in questo modo:
+Per esempio consideriamo il generico punto $p$ nello spazio bidimensionale. Una generica trasformazione mi far\`a
+ottenere il punto $p'$ in questo modo:
 \begin{gather*}
 	p'_x = a_{xx} p_x + a_{xy} p_y \\
 	p'_y = a_{yx} p_x + a_{yy} p_y
@@ -105,15 +106,16 @@ trasformazione mi far\`a ottenere il punto $p'$ in questo modo:
 Dove i vari $a$ sono i coefficienti che dipendono dal tipo di trasformazione che si
 vuole applicare.
 
-Posso usare la \emph{matrice di trasformazione} per scrivere:
+Posso usare la matrice di trasformazione per scrivere:
 \begin{gather*}
 	p' = \begin{bmatrix}
 		a_{xx} & a_{xy} \\
 		a_{yx} & a_{yy}
 	\end{bmatrix} \cdot p
 \end{gather*}
-Precedentemente abbiamo ottenuto che la rotazione di un punto $p$ nello spazio bidimensionale
-di un angolo $\theta$ \`e espressa tramite la formula
+
+Precedentemente abbiamo espresso la rotazione di un punto $p$ di un angolo $\theta$
+tramite la formula
 \[
 	R_\theta(p) = \begin{bmatrix}
 		p_x \cos(\theta) - p_y \sin(\theta) \\
@@ -184,13 +186,14 @@ matrice di trasformazione finale sar\`a ottenuta dal prodotto delle matrici asso
 Se voglio quindi applicare pi\`u trasformazioni al punto $p$, il punto $p'$ sar\`a ottenuto in
 questo modo
 \[ p' = T \cdot R \cdot S \cdot p \]
-Tuttavia l'ordine con il quale si effettuano le moltiplicazioni \`e da tenere di conto.
-Nella formula vista sopra il punto $p$ viene prima scalato poi ruotato e infine traslato
-(s\`i, le trasformazione vengono applicate in ordine inverso a quello delle moltiplicazioni).
 
-Se avessimo una figura qualsiasi con centro nell'origine e volessimo applicare ad essa una
-traslazione e una rotazione. A seconda dell'ordine con il quale vengono applicate le due
-trasformazioni avremo due effetti molto diversi.
+\subsubsection{Ordine delle trasformazioni}
+L'ordine con il quale si effettuano le moltiplicazioni \`e da tenere di conto. Nella formula vista sopra il punto
+$p$ viene prima scalato poi ruotato e infine traslato. Questo perch\'e le trasformazione vengono applicate in ordine
+inverso a quello delle moltiplicazioni.
+
+Se avessimo una figura qualsiasi con centro nell'origine e volessimo applicare ad essa una traslazione e una rotazione.
+A seconda dell'ordine con il quale vengono applicate le due trasformazioni avremo due effetti molto diversi.
 
 Vediamo un esempio di quanto appena detto usando un quadrato e applicando la
 traslazione definita dal vettore $v = \begin{bsmallmatrix} 5 \\ 0 \end{bsmallmatrix}$ e
@@ -219,7 +222,7 @@ una rotazione di $\theta = 45^\circ$.
 		cycle;
 	\end{tikzpicture}
 \end{center}
-In questo caso abbiamo applicato prima la una rotazione e poi la traslazione.
+In questo caso abbiamo applicato prima una rotazione e poi una traslazione.
 \begin{center}
 	\begin{tikzpicture}[scale=0.5]
 		% assi cartesiani
@@ -244,7 +247,7 @@ In questo caso abbiamo applicato prima la una rotazione e poi la traslazione.
 		cycle;
 	\end{tikzpicture}
 \end{center}
-Qui invece abbiamo applicato prima la traslazione e poi la rotazione.
+Qui invece abbiamo applicato prima una traslazione e poi una rotazione.
 
 \subsubsection{Cambio del centro di rotazione}
 Un caso particolare \`e quello in cui vogliamo far ruotare un oggetto rispetto a un punto
