@@ -97,46 +97,38 @@ Si pu\`o comunque ottenere come combinazione di rotazioni e scalature non unifor
 Introduciamo ora la cosiddetta \textbf{matrice di trasformazione}. Per ottenerla ci basta accorpare le varie equazioni
 che definiscono la trasformazione in un'unica matrice.
 
-Per esempio consideriamo il generico punto $p$ nello spazio bidimensionale. Una generica trasformazione mi far\`a
-ottenere il punto $p'$ in questo modo:
-\begin{gather*}
-	p'_x = a_{xx} p_x + a_{xy} p_y \\
-	p'_y = a_{yx} p_x + a_{yy} p_y
-\end{gather*}
-Dove i vari $a$ sono i coefficienti che dipendono dal tipo di trasformazione che si
-vuole applicare.
-
-Posso usare la matrice di trasformazione per scrivere:
+La matrice di trasformazione ci rende possibile calcolare le coordinate del punto $p$ una volta applicata una generica
+trasformazione. Ci basta moltiplicare il punto alla matrice come segue:
 \begin{gather*}
 	p' = \begin{bmatrix}
 		a_{xx} & a_{xy} \\
 		a_{yx} & a_{yy}
 	\end{bmatrix} \cdot p
 \end{gather*}
+Dove i vari $a_{ij}$ sono i coefficienti relativi ad una certa trasformazione.
 
-Precedentemente abbiamo espresso la rotazione di un punto $p$ di un angolo $\theta$
-tramite la formula
+In precedenza abbiamo espresso la rotazione per un punto $p$ di un angolo $\theta$ tramite la formula
 \[
 	R_\theta(p) = \begin{bmatrix}
 		p_x \cos(\theta) - p_y \sin(\theta) \\
 		p_x \sin(\theta) + p_y \cos(\theta)
 	\end{bmatrix}
 \]
-Da qui ne ricaviamo che la generica \emph{matrice di rotazione} \`e espressa come segue
+Ora possiamo ricavarne la generica \textbf{matrice di rotazione} espressa come segue
 \[
 	R_\theta = \begin{bmatrix}
 		\cos(\theta) & -\sin(\theta) \\
 		\sin(\theta) & \cos(\theta)
 	\end{bmatrix}
 \]
-Ragionamento analogo per la \emph{matrice di scalatura}, espressa in questo modo
+Ragionamento analogo per la \textbf{matrice di scalatura}, espressa in questo modo
 \[
 	S_{s_x, s_y} = \begin{bmatrix}
 		s_x & 0   \\
 		0   & s_y
 	\end{bmatrix}
 \]
-Per quanto riguarda invece la traslazione non \`e cos\`e immediata la conversione dato
+Per quanto riguarda invece la traslazione il procedimento non \`e cos\`i immediato. Dato
 che la traslazione non \`e una combinazione lineare delle coordinate (non dipende da dove \`e
 il punto), dipende solo dal vettore di traslazione.
 
@@ -154,7 +146,7 @@ dovremo considerarli come segue
 		v_x \\ v_y \\ 0
 	\end{bmatrix}
 \]
-Possiamo ora scrivere la nostra \emph{matrice di traslazione} in questo modo
+Possiamo ora scrivere la nostra \textbf{matrice di traslazione} in questo modo
 \[
 	T_v = \begin{bmatrix}
 		1 & 0 & v_x \\
@@ -165,8 +157,8 @@ Possiamo ora scrivere la nostra \emph{matrice di traslazione} in questo modo
 Se vorr\`o applicare la traslazione al punto $p$ dovr\`o moltiplicare tale matrice per il punto
 in formato omogeneo.
 
-In generale, ho una \emph{matrice di trasformazione} che posso usare per tutte le trasformazioni
-scritta in questo modo:
+Per una notazione pi\`u comoda e compatta possiamo accorpare le tre matrici in una sola generica
+\textbf{matrice di trasformazione}:
 \[
 	\begin{bmatrix}
 		a_{xx} & a_{xy} & v_x \\
@@ -176,11 +168,11 @@ scritta in questo modo:
 \]
 
 \subsection{Composizione di trasformazioni}
-Per ottenere effetti diversi e particolari le singole trasformazioni non bastano. Si ricorrer\`a
+Per ottenere effetti diversi e particolari, le singole trasformazioni non bastano. Si ricorrer\`a
 spesso ad una combinazione di esse, per farlo devo moltiplicare tra loro le matrici di
 trasformazione che sto utilizzando.
 
-Se considero ad esempio le tre trasformazioni di base (traslazione, rotazione e scalatura) la
+Se considero ad esempio le tre trasformazioni di base (traslazione, rotazione e scalatura), la
 matrice di trasformazione finale sar\`a ottenuta dal prodotto delle matrici associate.
 \[ M = T \cdot R \cdot S \]
 Se voglio quindi applicare pi\`u trasformazioni al punto $p$, il punto $p'$ sar\`a ottenuto in
@@ -260,16 +252,16 @@ diverso dal centro. Di seguito il procedimento per effettuare questa operazione.
 	\item Riportare la figura nella posizione iniziale.
 \end{enumerate}
 
-Prendiamo ad esempio un punto $c$ che sar\`a il nostro nuovo centro di rotazione, e prendiamo
-un generico angolo $\theta$. Sia $T_c$ la matrice di traslazione che porta $c$ nell'origine,
-$R_\theta$ la matrice di rotazione per l'angolo $\theta$ e sia $T_{-c}$ la matrice di
-traslazione che riporta $c$ nel punto iniziale, allora per effettuare la rotazione rispetto
-a $c$, la matrice di trasformazione che mi serve sar\`a
-\[ R_{\theta, c} = T_c \cdot R_\theta \cdot T_{-c} \]
+Prendiamo ad esempio un punto $p$ che sar\`a il nostro nuovo centro di rotazione, e prendiamo
+un generico angolo $\theta$. Sia $T_p$ la matrice di traslazione che porta $p$ nell'origine,
+$R_\theta$ la matrice di rotazione per l'angolo $\theta$ e sia $T_{-p}$ la matrice di
+traslazione che riporta $p$ nel punto iniziale, allora per effettuare la rotazione rispetto
+a $p$, la matrice di trasformazione che mi serve sar\`a
+\[ R_{\theta, p} = T_p \cdot R_\theta \cdot T_{-p} \]
 In realt\`a \`e molto pi\`u conveniente usare questa matrice
 \[
-	R_{\theta, c} = \begin{bmatrix}
-		R_\theta & (I - R_\theta) c \\
+	R_{\theta, p} = \begin{bmatrix}
+		R_\theta & (I - R_\theta) p \\
 		0        & 1
 	\end{bmatrix}
 \]
@@ -287,8 +279,8 @@ Una trasformazione si dice \textbf{affine} se e solo se:
 	      parallele, dopo la trasformazione si troveranno ancora su rette parallele (anche
 	      diverse da quelle di partenza).
 \end{itemize}
-Traslazione, rotazione e scalatura sono trasformazioni \emph{affini}. Anche una qualsiasi
-composizione di trasformazioni affini \`e a sua volta \emph{affine}.
+Traslazione, rotazione e scalatura sono trasformazioni affini. Anche una qualsiasi
+composizione di trasformazioni affini \`e a sua volta affine.
 
 \subsection{Inverso di trasformazioni affini}
 Prendiamo la matrice di trasformazione
