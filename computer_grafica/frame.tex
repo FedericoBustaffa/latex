@@ -1,4 +1,4 @@
-\section{Sistemi di riferimento}
+\chapter{Frame}
 I \textbf{sistemi di riferimento} o \textbf{frame} sono fondamentali per definire le coordinate
 della geometria che stiamo disegnando. Un sistema di riferimento \`e costituito da un punto,
 l'\textbf{origine}, e da dei vettori (2 in 2D, 3 in 3D), gli \textbf{assi}.
@@ -6,7 +6,7 @@ Un sistema di riferimento \`e a sua volta definito all'interno di un altro siste
 riferimento. Chiameremo \textbf{frame canonico} il sistema di riferimento che
 ha l'origine alle coordinate $(0, 0, 0)$.
 
-\subsection{Subframe}
+\section{Subframe}
 Sia $o$ un punto rispetto al frame canonico e siano $u, v$ due vettori, posso definire il frame
 \[ F = \{ o, u, v \} \]
 Ora possiamo definire le coordinare di punto rispetto al frame $F$:
@@ -88,7 +88,7 @@ Al contrario se ho le coordinate di $p$ rispetto al frame canonico e voglio rica
 corrispondenti coordinate rispetto a $F$ dovr\`o svolgere:
 \[ p_F = F^{-1} p \]
 
-\subsection{Passaggio tra frame non canonici}
+\section{Passaggio tra frame non canonici}
 Se ho due frame $F_1$ e $F_2$, entrambi non canonici, il passaggio di coordinate tra i due frame
 si effettua tenendo di conto che
 \[ p = F_1 p_1 = F_2 p_2 \]
@@ -96,7 +96,7 @@ dove $p$ indica un punto rispetto al frame canonico. Da qui ricaviamo facilmente
 per il passaggio da un frame all'altro, ad esempio da $F_1$ a $F_2$.
 \[ p_2 = F_2^{-1} F_1 p_1 \]
 
-\subsection{Trasformazione di frame}
+\section{Trasformazione di frame}
 In generale posso vedere un qualsiasi frame come il risultato della trasformazione di un altro
 frame.
 
@@ -110,7 +110,7 @@ si trasformer\`a in un altro frame $F_2$, il punto si trasformer\`a con esso ma 
 coordinate del punto rispetto a $F_2$ saranno le stesse del punto rispetto a $F_1$.
 \[ F_2 = A^{-1} F_1 \]
 
-\subsection{Gerarchia dei frame}
+\section{Gerarchia dei frame}
 \`E conveniente pensare ad una gerarchia dei frame in cui definisco una serie di frame
 rispetto ad altri frame, il tutto per riuscire a definire piccole parti della scena
 in maniera pi\`u agevole e precisa, usando le coordinate vicino all'origine degli assi.

@@ -1,11 +1,11 @@
-\section{Trasformazioni tridimensionali}
+\chapter{Trasformazioni tridimensionali}
 Tutto ci\`o che \`e stato detto fin ad ora per lo spazio bidimensionale va esteso al mondo
 tridimensionale. Per farlo ci basta aggiungere una riga e una colonna alla matrice di
 trasformazione.
 
 D'ora in poi avremo a che fare con matrici $4 \times 4$ e vettori a 4 dimensioni.
 
-\subsection{Rotazione in 3D}
+\section{Rotazione}
 Nello spazio tridimensionale \`e necessario determinare intorno a quale dei tre assi ruotare.
 Quel che abbiamo fatto fino ad ora nello spazio bidimensionale era ruotare la nostra
 geometria intorno all'asse $z$.
@@ -41,7 +41,7 @@ D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo
 	      \]
 \end{itemize}
 
-\subsubsection{Rotazione intorno ad un asse generico}
+\subsection{Rotazione intorno ad un asse generico}
 \begin{itemize}
 	\item Il primo procedimento \`e analogo a quello nello spazio bidimensionale.
 	      \begin{enumerate}
@@ -56,6 +56,6 @@ D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo
 	      \[ p' = \cos(\theta) p + (1 - \cos(\theta))(p \cdot r) r + \sin(\theta)(r \times p) \]
 \end{itemize}
 
-\subsubsection{Rotazione con i quaternioni}
+\subsection{Rotazione con i quaternioni}
 Un altro strumento che ci permette ci effettuare rotazioni in 3D \`e un'estensione del numero
 complesso, ossia il \textbf{quaternione}.

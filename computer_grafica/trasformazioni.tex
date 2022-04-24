@@ -1,4 +1,4 @@
-\section{Trasformazioni geometriche}
+\chapter{Trasformazioni}
 Una \textbf{trasformazione geometrica} \`e una funzione che mappa punti in punti e vettori
 in vettori. Quando parliamo vogliamo \emph{trasformare} un oggetto intendiamo l'applicazione
 della stessa trasformazione a tutti i punti dell'oggetto.
@@ -6,7 +6,7 @@ della stessa trasformazione a tutti i punti dell'oggetto.
 Per semplicit\`a faremo riferimento a punti nel piano bidimensionale
 \[ p = \begin{bmatrix} p_x \\ p_y \end{bmatrix} \]
 
-\subsection{Traslazione}
+\section{Traslazione}
 Se vogliamo traslare un punto $p$ abbiamo bisogno di un vettore $v$ che ci indichi di quando
 traslare le sue coordinate.
 \[
@@ -23,7 +23,7 @@ traslare le sue coordinate.
 \]
 La traslazione \`e indipendente dalle coordinate del punto.
 
-\subsection{Scalatura}
+\section{Scalatura}
 Utile per cambiare la dimensione di un oggetto. Per ottenere questa trasformazione si
 moltiplicano tutti i punti della figura per un fattore di scalatura.
 \[
@@ -37,7 +37,7 @@ Se $s_x = s_y$ allora la scalatura \`e \textbf{uniforme o isotropica} (le propor
 dell'oggetto non cambiano). Altrimenti si dice che la scalatura \`e
 \textbf{non uniforme o anisotropica}.
 
-\subsection{Rotazione}
+\section{Rotazione}
 Utile per ruotare di un angolo $\theta$ un punto rispetto all'origine. Per
 effettuare una rotazione abbiamo bisogno di convertire le coordinate cartesiane del
 nostro punto in coordinate polari.
@@ -79,7 +79,7 @@ In questo modo non riesco a modificare il centro di rotazione in nessun modo e n
 ampliare il raggio della rotazione. Per questo secondo problema si potrebbe optare
 per una traslazione nella direzione del raggio di opportuna intensit\`a.
 
-\subsection{Strappo}
+\section{Taglio}
 \`E una traslazione di ognuno dei punti lungo un asse in modo proporzionale al valore
 dell'altro.
 \[
