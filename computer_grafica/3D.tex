@@ -1,16 +1,12 @@
-\chapter{Trasformazioni tridimensionali}\label{3D}
-Tutto ci\`o che \`e stato detto fin ad ora per lo spazio bidimensionale va esteso al mondo
-tridimensionale. Per farlo ci basta aggiungere una riga e una colonna alla matrice di
-trasformazione.
-
-D'ora in poi avremo a che fare con matrici $4 \times 4$ e vettori a 4 dimensioni.
+\chapter{La terza dimensione}\label{3D}
+Tutto ci\`o che \`e stato detto fin ad ora per le trasformazioni nello spazio bidimensionale si pu\`o estendere allo
+spazio tridimensionale. Per farlo ci baster\`a aggiungere una riga e una colonna alla matrice di trasformazione.
 
 \section{Rotazione}
-Nello spazio tridimensionale \`e necessario determinare intorno a quale dei tre assi ruotare.
-Quel che abbiamo fatto fino ad ora nello spazio bidimensionale era ruotare la nostra
-geometria intorno all'asse $z$.
+Nello spazio tridimensionale \`e necessario determinare intorno a quale dei tre assi ruotare. Quel che abbiamo fatto
+fino ad ora nello spazio bidimensionale era ruotare la nostra geometria intorno all'asse $z$.
 
-D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo modo:
+D'ora in poi le matrici di rotazione cambieranno in questo modo:
 \begin{itemize}
 	\item Rotazione intorno all'asse $x$
 	      \[
@@ -40,15 +36,18 @@ D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo
 		      \end{bmatrix}
 	      \]
 \end{itemize}
+In questo caso si fa riferimento ad una generica matrice di trasformazione alla quale viene applicata solo la rotazione.
+Infatti si ha una matrice che comprende anche un ipotetico vettore di traslazione.
 
 \subsection{Rotazione intorno ad un asse generico}
+Per ottenere una rotazione attorno ad un asse generico abbiamo vari metodi a disposizione. Di seguito due dei pi\`u
+elementari:
 \begin{itemize}
 	\item Il primo procedimento \`e analogo a quello nello spazio bidimensionale.
 	      \begin{enumerate}
-		      \item Considero un frame tale per cui l'asse $z$ \`e l'asse attorno al quel
-		            voglio far ruotare la mia figura.
-		      \item Applico una trasformazione che porti tale frame a combaciare col frame
-		            canonico.
+		      \item Considero un frame tale per cui l'asse $z$ \`e l'asse attorno al quel voglio far ruotare la mia
+		            figura.
+		      \item Applico una trasformazione che porti tale frame a combaciare col frame canonico.
 		      \item Effettuo la rotazione intorno all'asse $z$ del frame canonico.
 		      \item Riporto il frame nella sua posizione iniziale.
 	      \end{enumerate}
@@ -56,6 +55,65 @@ D'ora in poi le matrici di trasformazione per la rotazione cambieranno in questo
 	      \[ p' = \cos(\theta) p + (1 - \cos(\theta))(p \cdot r) r + \sin(\theta)(r \times p) \]
 \end{itemize}
 
-\subsection{Rotazione con i quaternioni}
-Un altro strumento che ci permette ci effettuare rotazioni in 3D \`e un'estensione del numero
-complesso, ossia il \textbf{quaternione}.
+\subsection{Quaternioni}
+Un altro strumento che ci permette ci effettuare rotazioni in 3D \`e il \textbf{quaternione}. Il quaternione \`e
+un'estensione del numero complesso che abbiamo in 2D.
+
+Se ci pensiamo, un numero complesso \`e esprimibile in coordinate polari e come abbiamo gi\`a visto le coordinate polari
+identificano un punto sul piano bidimensionale.
+
+Ci\`o che abbiamo visto per le rotazioni in 2D si pu\`o perfettamente ricondurre ad operazioni con numeri complessi.
+
+Per estendere il discorso allo spazio tridimensionale prima dobbiamo chiarire cosa sia un quaternione. Si tratta di un
+numero complesso composto da una parte reale e tre parti immaginarie. La rappresentazione \`e analoga ai normali numeri
+complessi.
+\[ q = w + ix + jy + kz \]
+dove $i, j, k$ sono unit\`a immaginarie come lo era $i$ per i numeri complessi in 2D. Godono dunque della stessa
+propriet\`a:
+\[ i^2 = j^2 = k^2 = -1 \]
+ma vale anche
+\[ i^2 = j^2 = k^2 = ijk \]
+I quaternioni possono anche essere scritti in questo modo:
+\[ q = (w, x, y, z) = (s, v) \]
+dove $s$ \`e un numero reale e $v$ \`e un vettore in $\mathbb{R}^3$.
+
+Le parti immaginarie dei quaternioni inoltre, se moltiplicate fra loro, danno questi risultati:
+\[
+	\begin{array}{lr}
+		ij = k, & ji = -k \\
+		jk = i, & kj = -i \\
+		ki = j, & ik = -j
+	\end{array}
+\]
+\subsubsection{Operazioni con i quaternioni}
+Definiamo ora le principali operazioni applicabili ai quaternioni. Useremo la notazione
+\[ q = (s, v) \]
+per indicare un quaternione.
+\begin{itemize}
+	\item \textbf{Somma}: $q_1 + q_2 = (s_1 + s_2, v_1 + v_2)$
+	\item \textbf{Prodotto}: $q_1 q_2 = (s_1 s_2 - v_1 v_2, s_1 v_2 + s_2 v_1 + v_1 \times v_2)$
+	\item \textbf{Coniugio}: $\overline{q} = (s, -v)$
+	\item \textbf{Norma}: $\| q \| = \sqrt{\overline{q} q} = \sqrt{s^2 + v^2}$
+	\item \textbf{Iverso}: $q^{-1} = \displaystyle\frac{\overline{q}}{|q|^2}$
+\end{itemize}
+
+\subsubsection{Rotazione con i quaternioni}
+Ora abbiamo tutto ci\`o che serve per definire l'operazione di rotazione usando i quaternioni.
+
+Dato un angolo $\theta$ e un vettore $v$, il quaternione
+\[
+	q = \begin{pmatrix} \sin{ \left( \displaystyle\frac{\theta}{2} \right) },
+		 & \cos{ \left( \displaystyle\frac{\theta}{2} \right) } v\end{pmatrix}
+\]
+rappresenta una rotazione intorno al vettore $v$ di un angolo $\theta$.
+
+Ma come si applica questa rotazione ad un punto nello spazio tridimensionale ? Per capirlo dobbiamo usare i cosiddetti
+\textbf{quaternioni puri}. Un quaternione \`e puro se ha la parte reale uguale a 0.
+\[ p = (0, v) \]
+Se ora interpretiamo $p$ come un punto (che \`e l'origine degli assi traslata di $v$) e sia $q$ il quaternione
+\[
+	q = \begin{pmatrix}
+		\cos{\left( \displaystyle\frac{\theta}{2} \right) },
+		 & \sin{ \left( \displaystyle\frac{\theta}{2} \right) v}
+	\end{pmatrix}
+\]
