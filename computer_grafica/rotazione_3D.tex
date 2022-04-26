@@ -1,8 +1,12 @@
-\chapter{La terza dimensione}\label{3D}
+\chapter{Rotazioni in 3D}\label{3D}
 Tutto ci\`o che \`e stato detto fin ad ora per le trasformazioni nello spazio bidimensionale si pu\`o estendere allo
-spazio tridimensionale. Per farlo ci baster\`a aggiungere una riga e una colonna alla matrice di trasformazione.
+spazio tridimensionale. Per farlo ci baster\`a aggiungere una riga e una colonna alla matrice di trasformazione per lo
+spazio bidimensionale.
 
-\section{Rotazione}
+Mentre per traslazione e scalatura le operazioni sono analoghe allo spazio bidimensionale, per la rotazione possiamo
+introdurre qualche strumento in pi\`u.
+
+\section{Rotazione intorno agli assi standard}
 Nello spazio tridimensionale \`e necessario determinare intorno a quale dei tre assi ruotare. Quel che abbiamo fatto
 fino ad ora nello spazio bidimensionale era ruotare la nostra geometria intorno all'asse $z$.
 
@@ -39,7 +43,7 @@ D'ora in poi le matrici di rotazione cambieranno in questo modo:
 In questo caso si fa riferimento ad una generica matrice di trasformazione alla quale viene applicata solo la rotazione.
 Infatti si ha una matrice che comprende anche un ipotetico vettore di traslazione.
 
-\subsection{Rotazione intorno ad un asse generico}
+\section{Rotazione intorno ad un asse generico}
 Per ottenere una rotazione attorno ad un asse generico abbiamo vari metodi a disposizione. Di seguito due dei pi\`u
 elementari:
 \begin{itemize}
@@ -55,7 +59,7 @@ elementari:
 	      \[ p' = \cos(\theta) p + (1 - \cos(\theta))(p \cdot r) r + \sin(\theta)(r \times p) \]
 \end{itemize}
 
-\subsection{Quaternioni}
+\section{Quaternioni}
 Un altro strumento che ci permette ci effettuare rotazioni in 3D \`e il \textbf{quaternione}. Il quaternione \`e
 un'estensione del numero complesso che abbiamo in 2D.
 
@@ -85,7 +89,7 @@ Le parti immaginarie dei quaternioni inoltre, se moltiplicate fra loro, danno qu
 		ki = j, & ik = -j
 	\end{array}
 \]
-\subsubsection{Operazioni con i quaternioni}
+\subsection{Operazioni con i quaternioni}
 Definiamo ora le principali operazioni applicabili ai quaternioni. Useremo la notazione
 \[ q = (s, v) \]
 per indicare un quaternione.
@@ -97,7 +101,7 @@ per indicare un quaternione.
 	\item \textbf{Iverso}: $q^{-1} = \displaystyle\frac{\overline{q}}{|q|^2}$
 \end{itemize}
 
-\subsubsection{Rotazione con i quaternioni}
+\subsection{Rotazione con i quaternioni}
 Ora abbiamo tutto ci\`o che serve per definire l'operazione di rotazione usando i quaternioni.
 
 Dato un angolo $\theta$ e un vettore $v$, il quaternione
@@ -133,7 +137,7 @@ allora
 \]
 dove $p'$ equivale a $p$ ruotato attorno a $v$ di un angolo $\theta$.
 
-\subsubsection{Conversioni}
+\subsection{Conversioni}
 A partire dal quaternione $q = (s, v)$ di rotazione posso anche ricavare l'angolo di rotazione e il raggio in questo modo:
 \begin{gather*}
 	\theta = 2 \arctan 2 (s, \| v \|) \\
@@ -148,7 +152,7 @@ oppure posso scrivere la relativa matrice di rotazione
 	\end{bmatrix}
 \]
 
-\subsubsection{Propriet\`a per la rotazione}
+\subsection{Propriet\`a per la rotazione}
 I quaternioni hanno una propriet\`a molto utile che li rende tra i candidati migliori per effettuare rotazioni complesse.
 
 Il prodotto di due quaternioni unitari \`e a sua volta un quaternione unitario. Dunque possiamo
