@@ -176,3 +176,31 @@ In generale possiamo preferire i quaternioni per effettuare rotazioni perch\'e
 	\item Possono essere convertiti in matrice e angoli di rotazione.
 	\item Sono ottimi per l'interpolazione tra rotazioni.
 \end{itemize}
+
+\section{Interpolare tra pi\`u rotazioni}
+Una rotazione \`e una trasformazione affine ed \`e anche vista come un frame ortonormale centrato nell'origine.
+Interpolare tra pi\`u rotazioni significa interpolare tra pi\`u frame.
+
+L'interpolazione lineare non funziona per le matrici. Questo perch\'e il risultato dell'interpolazione tra due rotazioni
+non \`e una matrice di rotazione. Possiamo normalizzare il risultato ma questo funziona solo per piccole rotazioni.
+
+Esiste tuttavia un metodo per compiere un'interpolazione lineare ma la rotazione non sar\`a costante.
+L'angolo di rotazione si pu\`o ottenere con la seguente formula:
+\[ \theta_t = \theta_0 (1 - t) + \theta_1 t \]
+mentre l'asse di rotazione pu\`o essere ricavato in questo modo:
+\[ r_t = \frac{r_0 (1 - t) + r_1 t}{\| r_0 (1 - t) + r_1 t \|} \]
+Purtroppo utilizzando questo metodo otterremo che la rotazione sar\`a pi\`u lenta vicino ai due limiti e pi\`u veloce
+al centro. A meno che non sia un effetto voluto \`e un qualcosa che vogliamo evitare.
+
+\subsection{Interpolazione Lineare Sferica}
+Questo metodo di interpolazione funziona in tutte le dimensioni e garantisce una rotazione uniforme.
+
+Sia
+\[ R = \{ r_0, r_1, 0 \} \]
+un frame e sia $r(t)$ un vettore espresso tramite coordinate relative a $R$ come
+\[ r(t) = \frac{sin{(t \psi)}}{\sin{(\psi)}} r_0 + \frac{\sin{((1 - t) \psi)}}{\sin{(\psi)}} r_1 \]
+dove
+\[\psi = \arccos{(q_0 q_1)} \]
+
+Con questo metodo posso anche interpolare direttamente tra quaternioni.
+\[ q(t) = \frac{sin{(t \psi)}}{\sin{(\psi)}} q_0 + \frac{\sin{((1 - t) \psi)}}{\sin{(\psi)}} q_1 \]
