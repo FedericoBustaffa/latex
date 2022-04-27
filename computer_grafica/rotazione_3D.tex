@@ -2,6 +2,14 @@
 Tutto ci\`o che \`e stato detto fin ad ora per le trasformazioni nello spazio bidimensionale si pu\`o estendere allo
 spazio tridimensionale. Per farlo ci baster\`a aggiungere una riga e una colonna alla matrice di trasformazione per lo
 spazio bidimensionale.
+\[
+	\begin{bmatrix}
+		x_x & y_x & z_x & v_x \\
+		x_y & y_y & z_y & v_y \\
+		x_z & y_z & z_z & v_z \\
+		0   & 0   & 0   & 1
+	\end{bmatrix}
+\]
 
 Mentre per traslazione e scalatura le operazioni sono analoghe allo spazio bidimensionale, per la rotazione possiamo
 introdurre qualche strumento in pi\`u.
@@ -40,8 +48,6 @@ D'ora in poi le matrici di rotazione cambieranno in questo modo:
 		      \end{bmatrix}
 	      \]
 \end{itemize}
-In questo caso si fa riferimento ad una generica matrice di trasformazione alla quale viene applicata solo la rotazione.
-Infatti si ha una matrice che comprende anche un ipotetico vettore di traslazione.
 
 \section{Rotazione intorno ad un asse generico}
 Per ottenere una rotazione attorno ad un asse generico abbiamo vari metodi a disposizione. Di seguito due dei pi\`u

@@ -5,3 +5,11 @@ trasformazioni direttamente alla geometria disegnata oppure a qualcuno dei nostr
 In questo capitolo tratteremo invece le \textbf{matrici di vista} e le \textbf{matrici di proiezione}. Esse servono ad
 applicare trasformazioni al punto di vista o, in gergo, ad effettuare \textbf{movimenti di camera} e creare effetti di
 prospettiva differenti tra loro.
+
+Prima di addentrarci nell'argomento dobbiamo precisare che quando si parla di movimenti di camera, il sistema di riferimento
+lungo il quale ci muoviamo non \`e quello solito. Mentre per gli assi $x$ e $y$ le cose non cambiano, l'asse $z$ si
+sviluppa in maniera inversa.
+
+Di norma, tanto pi\`u grande \`e il valore $z$ di un oggetto, tanto pi\`u questo oggetto si muover\`a "all'interno dello
+schermo". Ma nel caso volessimo spostare il punto di vista, ad un valore pi\`u grande di $z$, corrisponderebbe un
+allontanamento dalla scena (come se ci stessimo muovendo all'indietro).
