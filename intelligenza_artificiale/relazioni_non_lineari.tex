@@ -14,7 +14,7 @@ notiamo, la variabile in ingresso \`e una sola ma ha grado $n$.
 Questo \`e molto comodo e possiamo usare ancora l'algoritmo LMS per trovare una buona approssimazione della funzione
 dato che il modello rimane lineare.
 
-\section{Espansione lineare di base}
+\section{Espansione lineare della base}
 Quel che vogliamo fare ora \`e trovare modelli lineari ancora pi\`u flessibili e funzionanti per pi\`u variabili in
 ingresso. Ecco che viene introdotta l'\textbf{espansione lineare di base}, la cui formula, ancora pi\`u generale della
 precedente  \`e definita in questo modo:
@@ -29,3 +29,16 @@ utilizzare ancora l'algoritmo LMS per riuscire a trovare una buona approssimazio
 Quello che abbiamo introdotto ora ci consente un maggior grado di libert\`a nell'approssimazione della funzione ma ha
 di contro il fatto che il modello potrebbe diventare \textbf{troppo complesso}. Dove per \emph{complessit\`a} intendiamo
 il grado di libert\`a del modello. Un modello \`e tanto pi\`u espressivo, quanto pi\`u \`e complesso.
+
+\section{Complessit\`a dei modelli}
+Ora che abbiamo piena libert\`a di espressione per definire modelli flessibili a piacere, andiamo in contro a nuovi
+problemi. Uno di questi \`e il problema della scelta per la $\phi$. La scelta di $\phi$ \`e fondamentale per costruire
+un buon modello e in base a questa scelta andiamo incontro ad altri due problemi: l'\textbf{underfitting} e
+l'\textbf{overfitting}.
+
+Il primo esprime la scarsa capacit\`a di approssimazione del modello, il quale ammette molto rumore sui dati di test.
+
+Il secondo, invece, denota una capacit\`a di approssimazione del modello altissima sui dati di test. Talmente alta da
+non ammettere rumore su di essi o quasi. Ma per riuscire ad essere perfetto sui dati di test crea una funzione che
+non riesce ad approssimare in maniera consistente la funzione obbiettivo.
+
