@@ -39,6 +39,36 @@ l'\textbf{overfitting}.
 Il primo esprime la scarsa capacit\`a di approssimazione del modello, il quale ammette molto rumore sui dati di test.
 
 Il secondo, invece, denota una capacit\`a di approssimazione del modello altissima sui dati di test. Talmente alta da
-non ammettere rumore su di essi o quasi. Ma per riuscire ad essere perfetto sui dati di test crea una funzione che
-non riesce ad approssimare in maniera consistente la funzione obbiettivo.
+non ammettere rumore su di essi ($E(w) = 0$ sul training set). Ma per riuscire ad essere perfetto sui dati di test crea
+una funzione che non riesce ad approssimare in maniera consistente la funzione obbiettivo.
 
+\subsection*{Individuare underfitting e overfitting}
+Mentre per l'individuazione di un problema di underfitting baster\`a calcolare $E(w)$ per tutti i dati di training,
+la quale restituir\`a un alto valore di errore, individuare un problema di overfitting sar\`a pi\`u difficile.
+Questo perch\'e l'errore sui dati di training calcolato da $E(w)$ sar\`a nullo.
+
+\section{Regolarizzazione}
+La \textbf{regolarizzazione} \`e un approccio che permette di usare un modello complesso e in seguito
+\emph{regolarizzarlo} per rendere migliore la sua capacit\`a di approssimazione mitigando il pi\`u possibile il
+problema di overfitting.
+
+In generale \`e meglio usare un modello pi\`u flessibile e regolarizzarlo in seguito, piuttosto che usare un modello
+troppo rigido che non pu\`o poi pi\`u essere migliorato.
+
+Nello specifico andremo a parlare di \textbf{regressione Ridge} o \textbf{regolarizzazione di Tikhonov}. In questo caso
+sarebbe pi\`u appropriato chiamare la funzione $E$ di errore $loss$ poich\'e nel problema di overfitting l'errore \`e
+nullo o comunque minimo sui dati di training. Qui ci interessa sapere quanta precisione perdiamo nell'approssimare la
+funzione obbiettivo e dunque la funzione $loss$ sar\`a definita in questo modo:
+\[ E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 + \lambda \| w \|^2 \]
+dove $\lambda$ \`e detto coefficiente di regolarizzazione e dove
+\[ \| w \|^2 = \sum_{i} w_i^2 \]
+L'effetto \`e quello di ridurre i pesi $w$ ottenendo cos\`i una nuova regola delta:
+\[ w_{\text{new}} = w + \eta \Delta w - 2 \lambda w \]
+Va specificato che tanto pi\`u $\lambda$ \`e alto tanto pi\`u il modello si semplifica. Dunque anche la scelta di un
+$\lambda$ corretto determina quanto il modello venga regolarizzato.
+
+Se scelgo un alto $\lambda$ rischio il problema dell'underfitting, se lo scelgo troppo basso rimango nel problema di
+overfitting che stavo cercando di risolvere con la regolarizzazione.
+
+Questo metodo ci permette di regolarizzare anche modelli di complessit\`a non nota. Strumento quindi molto utile dato
+che non \`e sempre possibile sapere quanto il nostro modello sia complesso.
