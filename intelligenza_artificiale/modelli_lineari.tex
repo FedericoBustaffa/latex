@@ -270,5 +270,41 @@ La notazione non cambia, se non per il fatto che gli unici valori target nel tra
 	le zone assunte negative e positive dell'iperpiano.
 \end{definition}
 
-L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che il decision boundary separari al
-meglio gli esempi negativi da quelli positivi.
+La funzione che useremo per i valori di ritorno sar\`a
+\[
+	h(x) = \begin{cases}
+		1 & \text{se } x^T w \geq 0 \\
+		0 & \text{altrimenti}
+	\end{cases}
+\]
+nel caso considerassimo $0$ e $1$ come valori target.
+\[ h(x) = \text{sign}(x^T w) \]
+nel caso considerassimo $-1$ e $1$ come valori target.
+
+I valori che classifichiamo come positivi vengono separati da quelli classificati negativi da un iperpiano.
+
+L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che, il relativo iperpiano generato,
+separari al meglio gli esempi negativi da quelli positivi. Muovendo l'iperpiano si andr\`a a muovere anche il decision
+boundary.
+
+\subsection*{Analogia con regressione lineare univariata}
+Per fissare meglio il concetto, facciamo un'analogia con il problema di regressione lineare univariata. Il training
+set, come anticipato, contiene coppie di questo tipo:
+\[ (x, y) \]
+dove $x$ \`e l'unica variabile in input e $y$ \`e il valore target che assume valore $-1/0$, se negativo oppure $1$ se
+positivo.
+
+Noi vogliamo trovare una retta che divida al meglio i punti positivi da quelli negativi e che dunque riesca a fare una
+buona approssimazione di classificazione.
+
+Non facciamo altro che applicare l'algoritmo LMS.
+
+Per trovare il decision boundary dovr\`o quindi
+\[ f_w(x) = w_1 x + w_0 \]
+ma stavolta la funzione che consideriamo per i valori target sar\`a
+\[ h(x) = \text{sign}(f_w(x)) \]
+Dunque per valori di $f_w(x)$ negativi $h(x)$ ritorner\`a \verb|false|, viceversa per valori positivi, $h(x)$
+ritorner\`a \verb|true|.
+
+Il nostro obbiettivo \`e approssimare $f_w(x)$ per riuscire a fare previsioni sui valori di verit\`a per nuovi dati
+$x$ in input non ancora trattati.
