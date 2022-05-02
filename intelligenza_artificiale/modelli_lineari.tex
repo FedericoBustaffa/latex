@@ -258,3 +258,17 @@ sono molto utili anche per affrontare problemi di classificazione.
 
 Se prima il modelli lineare restituiva un valore numerico reale adesso si limiter\`a restituire solo due valori numerici:
 uno per indicare \verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
+
+Per farlo assumiamo una zona dell'iperpiano $wx$ negativa e una positiva e la usiamo per classificare un punto. Se il
+punto si trova nella zona dell'iperpiano negativa il valore di ritorno sar\`a \verb|false|, se si trova in quella
+positiva sar\`a \verb|true|.
+
+La notazione non cambia, se non per il fatto che gli unici valori target nel training set saranno $-1/0$ e $1$.
+
+\begin{definition}
+	Chiamo \textbf{decision boundary} il luogo geometrico dei punti tali che $x^T w = 0$. Al di fuori di esso ci sono
+	le zone assunte negative e positive dell'iperpiano.
+\end{definition}
+
+L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che il decision boundary separari al
+meglio gli esempi negativi da quelli positivi.
