@@ -176,3 +176,85 @@ tracciare la miglior retta possibile ma potrei avere comunque un errore molto al
 
 Per la trattazione di problemi pi\`u complessi \`e necessario muoverci verso modelli \textbf{non lineari}, che vedremo nel
 prossimo capitolo.
+
+\section{Relazioni non lineari}
+Per approssimare meglio casi di regressione \`e molto conveniente passare a relazioni di tipo \textbf{non lineare}.
+Fino ad ora abbiamo trattato modelli lineari espressi dalla formula
+\[ h_w(x) = \sum_{i = 0}^n w_i x_i \]
+con le variabili e coefficienti di grado 1. Adesso vogliamo passare a modelli pi\`u flessibili con una maggior
+capacit\`a di approssimazione. Per farlo possiamo passare ad un polinomio di questo tipo
+\[ h_w(x) = \sum_{i = 0}^n w_i x^i \]
+Quella appena scritta \`e detta \textbf{regressione polinomiale} ma il modello resta lineare. Questo perch\'e ci\`o che
+rende lineare un modello \`e la linearit\`a nei pesi $w$ e non nelle variabili $x$.
+
+Precisiamo anche che la formula appena scritta vale solo per \textbf{regressioni polinomiali univariate}. Infatti se
+notiamo, la variabile in ingresso \`e una sola ma ha grado $n$.
+
+Questo \`e molto comodo e possiamo usare ancora l'algoritmo LMS per trovare una buona approssimazione della funzione
+dato che il modello rimane lineare.
+
+\section{Espansione lineare della base}
+Quel che vogliamo fare ora \`e trovare modelli lineari ancora pi\`u flessibili e funzionanti per pi\`u variabili in
+ingresso. Ecco che viene introdotta l'\textbf{espansione lineare di base}, la cui formula, ancora pi\`u generale della
+precedente  \`e definita in questo modo:
+\[ h_w(x) = \sum_{k = 0}^K w_k \phi_k(x) \]
+dove $x$ equivale al pattern $x = [x_1, x_2, \dots, x_n]$ e dove $\phi$ \`e una funzione da
+$\mathbb{R}^n$ in $\mathbb{R}$
+
+Il modello appena rappresentato continua ad essere linerare nei coefficienti $w$ e anche in $\phi$ ma non lo \`e pi\`u
+in $x$. Come gi\`a spiegato in precedenza, questo fa s\`i che il modello sia ancora lineare, consentendoci cos\`i di
+utilizzare ancora l'algoritmo LMS per riuscire a trovare una buona approssimazione.
+
+Quello che abbiamo introdotto ora ci consente un maggior grado di libert\`a nell'approssimazione della funzione ma ha
+di contro il fatto che il modello potrebbe diventare \textbf{troppo complesso}. Dove per \emph{complessit\`a} intendiamo
+il grado di libert\`a del modello. Un modello \`e tanto pi\`u espressivo, quanto pi\`u \`e complesso.
+
+\subsection{Complessit\`a dei modelli}
+Ora che abbiamo piena libert\`a di espressione per definire modelli flessibili a piacere, andiamo in contro a nuovi
+problemi. Uno di questi \`e il problema della scelta per la $\phi$. La scelta di $\phi$ \`e fondamentale per costruire
+un buon modello e in base a questa scelta andiamo incontro ad altri due problemi: l'\textbf{underfitting} e
+l'\textbf{overfitting}.
+
+Il primo esprime la scarsa capacit\`a di approssimazione del modello, il quale ammette molto rumore sui dati di test.
+
+Il secondo, invece, denota una capacit\`a di approssimazione del modello altissima sui dati di test. Talmente alta da
+non ammettere rumore su di essi ($E(w) = 0$ sul training set). Ma per riuscire ad essere perfetto sui dati di test crea
+una funzione che non riesce ad approssimare in maniera consistente la funzione obbiettivo.
+
+\subsubsection{Individuare underfitting e overfitting}
+Mentre per l'individuazione di un problema di underfitting baster\`a calcolare $E(w)$ per tutti i dati di training,
+la quale restituir\`a un alto valore di errore, individuare un problema di overfitting sar\`a pi\`u difficile.
+Questo perch\'e l'errore sui dati di training calcolato da $E(w)$ sar\`a nullo.
+
+\section{Regolarizzazione}
+La \textbf{regolarizzazione} \`e un approccio che permette di usare un modello complesso e in seguito
+\emph{regolarizzarlo} per rendere migliore la sua capacit\`a di approssimazione mitigando il pi\`u possibile il
+problema di overfitting.
+
+In generale \`e meglio usare un modello pi\`u flessibile e regolarizzarlo in seguito, piuttosto che usare un modello
+troppo rigido che non pu\`o poi pi\`u essere migliorato.
+
+Nello specifico andremo a parlare di \textbf{regressione Ridge} o \textbf{regolarizzazione di Tikhonov}. In questo caso
+sarebbe pi\`u appropriato chiamare la funzione $E$ di errore $loss$ poich\'e nel problema di overfitting l'errore \`e
+nullo o comunque minimo sui dati di training. Qui ci interessa sapere quanta precisione perdiamo nell'approssimare la
+funzione obbiettivo e dunque la funzione $loss$ sar\`a definita in questo modo:
+\[ E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 + \lambda \| w \|^2 \]
+dove $\lambda$ \`e detto coefficiente di regolarizzazione e dove
+\[ \| w \|^2 = \sum_{i} w_i^2 \]
+L'effetto \`e quello di ridurre i pesi $w$ ottenendo cos\`i una nuova regola delta:
+\[ w_{\text{new}} = w + \eta \Delta w - 2 \lambda w \]
+Va specificato che tanto pi\`u $\lambda$ \`e alto tanto pi\`u il modello si semplifica. Dunque anche la scelta di un
+$\lambda$ corretto determina quanto il modello venga regolarizzato.
+
+Se scelgo un alto $\lambda$ rischio il problema dell'underfitting, se lo scelgo troppo basso rimango nel problema di
+overfitting che stavo cercando di risolvere con la regolarizzazione.
+
+Questo metodo ci permette di regolarizzare anche modelli di complessit\`a non nota. Strumento quindi molto utile dato
+che non \`e sempre possibile sapere quanto il nostro modello sia complesso.
+
+\section{Problemi di classificazione}
+Fino ad ora abbiamo utilizzato modelli lineari solo per trattare problemi di regressione. In realt\`a i modelli lineari
+sono molto utili anche per affrontare problemi di classificazione.
+
+Se prima il modelli lineare restituiva un valore numerico reale adesso si limiter\`a restituire solo due valori numerici:
+uno per indicare \verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
