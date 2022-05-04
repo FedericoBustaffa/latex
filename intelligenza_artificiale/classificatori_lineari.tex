@@ -1,0 +1,57 @@
+\chapter{Classificatori lineari}
+Fino ad ora abbiamo utilizzato modelli lineari solo per trattare problemi di regressione. In realt\`a i modelli lineari
+sono molto utili anche per affrontare problemi di classificazione.
+
+Se prima il modello lineare restituiva un valore numerico reale, adesso si limiter\`a a restituire solo due valori
+numerici: uno per indicare \verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
+
+Per farlo assumiamo una zona dell'iperpiano $wx$ negativa e una positiva e la usiamo per classificare un punto. Se il
+punto si trova nella zona dell'iperpiano negativa il valore di ritorno sar\`a \verb|false|, se si trova in quella
+positiva sar\`a \verb|true|.
+
+La notazione e l'algoritmo (LMS) non cambiano, se non per il fatto che gli unici valori target nel training set saranno
+$-1/0$ e $1$.
+
+\begin{definition}
+	Chiamo \textbf{decision boundary} il luogo geometrico dei punti tali che $x^T w = 0$. Al di fuori di esso ci sono
+	le zone assunte negative e positive dell'iperpiano.
+\end{definition}
+
+La funzione che useremo per i valori di ritorno sar\`a
+\[
+	h(x) = \begin{cases}
+		1 & \text{se } x^T w \geq 0 \\
+		0 & \text{altrimenti}
+	\end{cases}
+\]
+nel caso considerassimo $0$ e $1$ come valori target. Sar\`a invece
+\[ h(x) = \text{sign}(x^T w) \]
+nel caso considerassimo $-1$ e $1$ come valori target.
+
+L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che, il relativo iperpiano generato,
+separari al meglio gli esempi negativi da quelli positivi. Muovendo l'iperpiano si andr\`a a muovere anche il
+decision boundary.
+
+Chiariamo che l'algoritmo non riesce sempre a separare gli esempi positivi da quelli negativi. Cerca tuttavia di
+trovare un buon decision boundary per classificare al meglio i dati in input non ancora esaminati.
+
+\section{Classificatore lineare univariato}
+Il training set, come anticipato, contiene coppie di questo tipo:
+\[ (x, y) \]
+dove $x$ \`e l'unica variabile in input e $y$ \`e il valore target che assume valore $-1/0$, se negativo oppure $1$ se
+positivo.
+
+Noi vogliamo trovare una retta che ci fornisca una buona classificazione degli esempi di training. Per farlo applichiamo
+l'algoritmo LMS come per i problemi di regressione. Precisiamo che la funzione da minimizzare \`e
+\[ E(w) = \sum_{p = 1}^l (y_p - x^T w) \]
+dove $x^T w$ in questo caso \`e una retta. Non possiamo usare la notazione con $h(x)$ come per la regressione perch\'e
+in questo caso
+\[ h(x) = sign(x^T w) \]
+mentre noi, come nel caso della regressione, vogliamo agire sui pesi $w$.
+
+Applichiamo quindi l'algoritmo e troveremo la retta
+\[ x^T w = w_1 x + w_0 \]
+Ora possiamo definire il decision boundary
+\[ x^T w = 0 \]
+il quale ci dice il punto in cui la retta interseca l'asse $x$. Per classificare nuovi dati in input non ci rimane che
+vedere dove la retta \`e positiva e dove \`e negativa.
