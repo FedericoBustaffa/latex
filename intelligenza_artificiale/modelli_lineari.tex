@@ -1,53 +1,61 @@
 \chapter{Modelli lineari}
-I modelli lineari sono molto utili per risolvere \textbf{problemi di regressione}, che, come abbiamo gi\`a anticipato
-hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico reale}.
+Introduciamo ora i \textbf{modelli lineari}, molto utili per risolvere \textbf{problemi di regressione}, che, come
+abbiamo gi\`a anticipato hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico reale}.
 
 Il nostro obbiettivo \`e quello di riuscire ad approssimare una funzione a valori reali e continui che potrebbe restituire
 anche dati imprecisi o \textbf{rumorosi}. Un tipico esempio di coppia presente nel training set sar\`a del tipo:
 \[ (x, f(x) + rumore) \]
 
-\section{Regressione lineare univariata}
-Per capire meglio i modelli lineari facciamo riferimento ad un sottoinsieme della classe di problemi descritta sopra, ovvero
-la \textbf{regressione lineare univariata}, in cui si considerano modelli composti da funzioni lineari, che hanno una sola
-variabile $x$ in input e una sola variabile $y$ in output.
+Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia trovare un'approssimazione di $f(x)$ che passi il
+pi\`u vicino possibile ad ognuno dei punti presenti nel training set.
 
-Per questa classe di problemi si assume un modello espresso come
-\[ h(x) = w_1 x + w_0 \]
-dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
+Nello specifico, vogliamo costruire un algoritmo di apprendimento che riesca a stimare valori di  $y$ corrispondente ad
+altri valori di input $x$ non ancora osservati, \emph{minimizzando} l'errore o perdita di precisione.
 
-\subsection{Struttura del problema}
-Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia tracciare una retta che passi il pi\`u vicino
-possibile ad ognuno dei punti presenti nel training set. Nello specifico, vogliamo costruire un algoritmo di apprendimento
-che riesca a stimare la $y$ corrispondente ad altri valori $x$ ancora non osservati, trovando $w_1$ e $w_0$ e
-\emph{minimizzando} l'errore o perdita di precisione.
-
-\subsubsection{Funzione di errore}
+\section{Funzione di errore}
 Il valore dell'errore accumulato su dati del training set \`e definito dalla seguente funzione:
-\[ loss(h_w) = E(w) = \sum_{p=1}^l (y_p - h_w(x_p))^2 = \sum_{p=1}^l (y_p - (w_1 x_p + w_0))^2 \]
-dove $l$ \`e il numero di esempi presenti nel training set.
+\[ loss(h_w) = E(w) = \sum_{p=1}^l (y_p - h_w(x_p))^2 \]
+dove $l$ \`e il numero di esempi presenti nel training set e dove $w$ \`e il vettore dei coefficienti di $h$.
 
 In pratica non si fa altro che misurare la differenza tra il valore target del training set e il valore che restituisce
 una certa approssimazione $h$.
 
 Il valore trovato viene elevato al quadrato per due motivi:
 \begin{enumerate}
-	\item L'idea \`e che la funzione $E$ sommi tutti gli errori sui singoli dati ma il valore potrebbe essere sia positivo
-	      che negativo e questo potrebbe portare ad un'errata diminuzione dell'errore o addirittura ad un annullamento.
+	\item L'idea \`e che la funzione $E$ sommi tutti gli errori sui singoli dati. Il valore ottenuto potrebbe tuttavia
+	      essere sia positivo che negativo e questo potrebbe portare ad un'errata diminuzione dell'errore o addirittura
+	      ad un annullamento.
+
 	      Per evitare questo eleviamo l'errore al quadrato in modo da avere sempre un valore positivo.
 	\item Una volta letto il punto precedente ci si potrebbe chidere perch\'e non usare il valore assoluto. Il motivo \`e
-	      che vogliamo trovare il minimo della funzione $E$ e per farlo occorre calcolarne la derivata. La derivata di un
-	      polinomio elevato al quadrato \`e semplicemente pi\`u comoda e pi\`u semplice da calcolare rispetto a quella
-	      di un valore assoluto.
+	      che vogliamo trovare il minimo della funzione $E$ e per farlo occorre calcolarne la derivata.
+
+	      La derivata di un  polinomio elevato al quadrato \`e semplicemente pi\`u comoda e pi\`u semplice da calcolare
+	      rispetto a quella di un valore assoluto.
 \end{enumerate}
+
+\section{Regressione lineare univariata}
+Per capire meglio i modelli lineari facciamo riferimento ad una della classe di problemi molto semplice, ovvero
+la \textbf{regressione lineare univariata}, in cui si considerano modelli composti da funzioni lineari, che hanno una
+sola variabile $x$ in input e una sola variabile $y$ in output.
+
+Per questa classe di problemi si assume un modello espresso come
+\[ h(x) = w_1 x + w_0 \]
+dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
+
+L'obbiettivo sar\`a dunque, quello di minimizzare la funzione d'errore che abbiamo visto prima, che in questo caso diventa:
+\[ E(w) = \sum_{p=1}^l (y_p - (w_1 x + w_0))^2 \]
+Quello che facciamo nello
+specifico \`e trovare $w_0$ e $w_1$ tali che la retta $h(x)$ passi il pi\`u vicino possibile a tutti i punti.
 
 \subsection{Metodo di risoluzione analitico - LMS}
 La tecnica che vedremo \`e chiamata \emph{Least Mean Square} il cui obbiettivo \`e quello di trovare un valore dei
-coefficienti $w$ che minimizzi l'errore quadratico.
+coefficienti $w$ che minimizzi l'errore quadratico medio.
 
 Per fare questo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza: il \textbf{gradiente}.
 
 L'idea \`e molto semplice ma anche efficace. Dato che nel training set sono forniti i valori $x$ e $y$, i valori incogniti
-sono $w_1$ e $w_0$. Per trovarli
+sono $w_0$ e $w_1$. Per trovarli
 \begin{enumerate}
 	\item Calcoliamo la funzione $E$ per tutti gli esempi presenti nel training set.
 	\item Calcoliamo la derivata parziale della funzione rispetto a $w_0$ e $w_1$, ossia calcoliamo il gradiente.
@@ -58,7 +66,7 @@ sono $w_1$ e $w_0$. Per trovarli
 			      \displaystyle\frac{ \partial E(w) }{ \partial w_1 }
 		      \end{pmatrix} = 0
 	      \]
-	\item Risolto il sistema ottengo $w_1$ e $w_0$ tali che la distanza tra i dati e la retta sia minima per tutti i dati.
+	\item Risolto il sistema ottengo $w_1$ e $w_0$ tali che la distanza tra i punti e la retta sia minima per tutti i dati.
 \end{enumerate}
 
 Agendo in maniera analitica abbiamo semplicemente trovato il punto stazionario corrispondente al minimo globale della
@@ -70,7 +78,7 @@ input $x$ non presenti nel training set.
 Chiariamo che i nuovi valori $h_w(x)$ calcolati saranno approssimazioni del reale valore relativo a $x$, tranne rari casi
 in cui il reale valore $y$ relativo a $x$ si trovi esattamente sulla retta trovata.
 
-\subsection{Metodo algoritmico}
+\subsection{Metodo algoritmico - LMS}
 Adesso vogliamo per\`o vogliamo agire in maniera algoritmica e cerca la funzione giusta con un metodo simile a quello
 visto nel capitolo \ref{chapter: ricerca_locale} quando parlavamo di ricerca locale in spazi continui.
 
@@ -176,135 +184,3 @@ tracciare la miglior retta possibile ma potrei avere comunque un errore molto al
 
 Per la trattazione di problemi pi\`u complessi \`e necessario muoverci verso modelli \textbf{non lineari}, che vedremo nel
 prossimo capitolo.
-
-\section{Relazioni non lineari}
-Per approssimare meglio casi di regressione \`e molto conveniente passare a relazioni di tipo \textbf{non lineare}.
-Fino ad ora abbiamo trattato modelli lineari espressi dalla formula
-\[ h_w(x) = \sum_{i = 0}^n w_i x_i \]
-con le variabili e coefficienti di grado 1. Adesso vogliamo passare a modelli pi\`u flessibili con una maggior
-capacit\`a di approssimazione. Per farlo possiamo passare ad un polinomio di questo tipo
-\[ h_w(x) = \sum_{i = 0}^n w_i x^i \]
-Quella appena scritta \`e detta \textbf{regressione polinomiale} ma il modello resta lineare. Questo perch\'e ci\`o che
-rende lineare un modello \`e la linearit\`a nei pesi $w$ e non nelle variabili $x$.
-
-Precisiamo anche che la formula appena scritta vale solo per \textbf{regressioni polinomiali univariate}. Infatti se
-notiamo, la variabile in ingresso \`e una sola ma ha grado $n$.
-
-Questo \`e molto comodo e possiamo usare ancora l'algoritmo LMS per trovare una buona approssimazione della funzione
-dato che il modello rimane lineare.
-
-\section{Espansione lineare della base}
-Quel che vogliamo fare ora \`e trovare modelli lineari ancora pi\`u flessibili e funzionanti per pi\`u variabili in
-ingresso. Ecco che viene introdotta l'\textbf{espansione lineare di base}, la cui formula, ancora pi\`u generale della
-precedente  \`e definita in questo modo:
-\[ h_w(x) = \sum_{k = 0}^K w_k \phi_k(x) \]
-dove $x$ equivale al pattern $x = [x_1, x_2, \dots, x_n]$ e dove $\phi$ \`e una funzione da
-$\mathbb{R}^n$ in $\mathbb{R}$
-
-Il modello appena rappresentato continua ad essere linerare nei coefficienti $w$ e anche in $\phi$ ma non lo \`e pi\`u
-in $x$. Come gi\`a spiegato in precedenza, questo fa s\`i che il modello sia ancora lineare, consentendoci cos\`i di
-utilizzare ancora l'algoritmo LMS per riuscire a trovare una buona approssimazione.
-
-Quello che abbiamo introdotto ora ci consente un maggior grado di libert\`a nell'approssimazione della funzione ma ha
-di contro il fatto che il modello potrebbe diventare \textbf{troppo complesso}. Dove per \emph{complessit\`a} intendiamo
-il grado di libert\`a del modello. Un modello \`e tanto pi\`u espressivo, quanto pi\`u \`e complesso.
-
-\subsection{Complessit\`a dei modelli}
-Ora che abbiamo piena libert\`a di espressione per definire modelli flessibili a piacere, andiamo in contro a nuovi
-problemi. Uno di questi \`e il problema della scelta per la $\phi$. La scelta di $\phi$ \`e fondamentale per costruire
-un buon modello e in base a questa scelta andiamo incontro ad altri due problemi: l'\textbf{underfitting} e
-l'\textbf{overfitting}.
-
-Il primo esprime la scarsa capacit\`a di approssimazione del modello, il quale ammette molto rumore sui dati di test.
-
-Il secondo, invece, denota una capacit\`a di approssimazione del modello altissima sui dati di test. Talmente alta da
-non ammettere rumore su di essi ($E(w) = 0$ sul training set). Ma per riuscire ad essere perfetto sui dati di test crea
-una funzione che non riesce ad approssimare in maniera consistente la funzione obbiettivo.
-
-\subsubsection{Individuare underfitting e overfitting}
-Mentre per l'individuazione di un problema di underfitting baster\`a calcolare $E(w)$ per tutti i dati di training,
-la quale restituir\`a un alto valore di errore, individuare un problema di overfitting sar\`a pi\`u difficile.
-Questo perch\'e l'errore sui dati di training calcolato da $E(w)$ sar\`a nullo.
-
-\section{Regolarizzazione}
-La \textbf{regolarizzazione} \`e un approccio che permette di usare un modello complesso e in seguito
-\emph{regolarizzarlo} per rendere migliore la sua capacit\`a di approssimazione mitigando il pi\`u possibile il
-problema di overfitting.
-
-In generale \`e meglio usare un modello pi\`u flessibile e regolarizzarlo in seguito, piuttosto che usare un modello
-troppo rigido che non pu\`o poi pi\`u essere migliorato.
-
-Nello specifico andremo a parlare di \textbf{regressione Ridge} o \textbf{regolarizzazione di Tikhonov}. In questo caso
-sarebbe pi\`u appropriato chiamare la funzione $E$ di errore $loss$ poich\'e nel problema di overfitting l'errore \`e
-nullo o comunque minimo sui dati di training. Qui ci interessa sapere quanta precisione perdiamo nell'approssimare la
-funzione obbiettivo e dunque la funzione $loss$ sar\`a definita in questo modo:
-\[ E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 + \lambda \| w \|^2 \]
-dove $\lambda$ \`e detto coefficiente di regolarizzazione e dove
-\[ \| w \|^2 = \sum_{i} w_i^2 \]
-L'effetto \`e quello di ridurre i pesi $w$ ottenendo cos\`i una nuova regola delta:
-\[ w_{\text{new}} = w + \eta \Delta w - 2 \lambda w \]
-Va specificato che tanto pi\`u $\lambda$ \`e alto tanto pi\`u il modello si semplifica. Dunque anche la scelta di un
-$\lambda$ corretto determina quanto il modello venga regolarizzato.
-
-Se scelgo un alto $\lambda$ rischio il problema dell'underfitting, se lo scelgo troppo basso rimango nel problema di
-overfitting che stavo cercando di risolvere con la regolarizzazione.
-
-Questo metodo ci permette di regolarizzare anche modelli di complessit\`a non nota. Strumento quindi molto utile dato
-che non \`e sempre possibile sapere quanto il nostro modello sia complesso.
-
-\section{Problemi di classificazione}
-Fino ad ora abbiamo utilizzato modelli lineari solo per trattare problemi di regressione. In realt\`a i modelli lineari
-sono molto utili anche per affrontare problemi di classificazione.
-
-Se prima il modelli lineare restituiva un valore numerico reale adesso si limiter\`a restituire solo due valori numerici:
-uno per indicare \verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
-
-Per farlo assumiamo una zona dell'iperpiano $wx$ negativa e una positiva e la usiamo per classificare un punto. Se il
-punto si trova nella zona dell'iperpiano negativa il valore di ritorno sar\`a \verb|false|, se si trova in quella
-positiva sar\`a \verb|true|.
-
-La notazione non cambia, se non per il fatto che gli unici valori target nel training set saranno $-1/0$ e $1$.
-
-\begin{definition}
-	Chiamo \textbf{decision boundary} il luogo geometrico dei punti tali che $x^T w = 0$. Al di fuori di esso ci sono
-	le zone assunte negative e positive dell'iperpiano.
-\end{definition}
-
-La funzione che useremo per i valori di ritorno sar\`a
-\[
-	h(x) = \begin{cases}
-		1 & \text{se } x^T w \geq 0 \\
-		0 & \text{altrimenti}
-	\end{cases}
-\]
-nel caso considerassimo $0$ e $1$ come valori target.
-\[ h(x) = \text{sign}(x^T w) \]
-nel caso considerassimo $-1$ e $1$ come valori target.
-
-I valori che classifichiamo come positivi vengono separati da quelli classificati negativi da un iperpiano.
-
-L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che, il relativo iperpiano generato,
-separari al meglio gli esempi negativi da quelli positivi. Muovendo l'iperpiano si andr\`a a muovere anche il decision
-boundary.
-
-\subsection*{Analogia con regressione lineare univariata}
-Per fissare meglio il concetto, facciamo un'analogia con il problema di regressione lineare univariata. Il training
-set, come anticipato, contiene coppie di questo tipo:
-\[ (x, y) \]
-dove $x$ \`e l'unica variabile in input e $y$ \`e il valore target che assume valore $-1/0$, se negativo oppure $1$ se
-positivo.
-
-Noi vogliamo trovare una retta che divida al meglio i punti positivi da quelli negativi e che dunque riesca a fare una
-buona approssimazione di classificazione.
-
-Non facciamo altro che applicare l'algoritmo LMS.
-
-Per trovare il decision boundary dovr\`o quindi
-\[ f_w(x) = w_1 x + w_0 \]
-ma stavolta la funzione che consideriamo per i valori target sar\`a
-\[ h(x) = \text{sign}(f_w(x)) \]
-Dunque per valori di $f_w(x)$ negativi $h(x)$ ritorner\`a \verb|false|, viceversa per valori positivi, $h(x)$
-ritorner\`a \verb|true|.
-
-Il nostro obbiettivo \`e approssimare $f_w(x)$ per riuscire a fare previsioni sui valori di verit\`a per nuovi dati
-$x$ in input non ancora trattati.
