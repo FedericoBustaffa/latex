@@ -35,6 +35,13 @@ decision boundary.
 Chiariamo che l'algoritmo non riesce sempre a separare gli esempi positivi da quelli negativi. Cerca tuttavia di
 trovare un buon decision boundary per classificare al meglio i dati in input non ancora esaminati.
 
+Tutto ci\`o che abbiamo detto per i problemi di regressione pu\`o essere usato per risolvere problemi di classificazione
+con i modelli lineari. Dunque possiamo trattare il problema come un problema di regressione lineare, polinomiale e cos\`i
+via. Possiamo anche regolarizzarlo per fare un buon fitting dei dati.
+
+Ricordiamoci che per\`o non stiamo minimizzando l'errore di classificazione. Alla fine infatti non \`e detto che i dati
+siano perfettamente separati in negativi e positivi dalla nostra funzione.
+
 \section{Classificatore lineare univariato}
 Il training set, come anticipato, contiene coppie di questo tipo:
 \[ (x, y) \]
@@ -55,3 +62,38 @@ Ora possiamo definire il decision boundary
 \[ x^T w = 0 \]
 il quale ci dice il punto in cui la retta interseca l'asse $x$. Per classificare nuovi dati in input non ci rimane che
 vedere dove la retta \`e positiva e dove \`e negativa.
+
+\section{Regole congiuntive}
+I modelli lineari possono anche essere usati per rappresentare regole congiuntive.
+
+Infatti possiamo mettere in \emph{and} le variabili di nostro interesse come ad esempio in questo caso:
+\[ x_1 \wedge x_2 \]
+Questo si converte in una disequazione del tipo:
+\[ 1 \cdot x_1 + 1 \cdot x_2 > 2 \]
+oppure
+\[ 1 \cdot x_1 + 1 \cdot x_2 \geq 2.5 \]
+
+Tramite questa disequazione divido in due parti l'iperpiano: una positiva (dove la disequazione \`e soddisfatta) e una
+negativa.
+
+Come si pu\`o osservare inserendo valori a caso in $x_1$ e $x_2$, la disequazione sar\`a soddisfatta solo quando la
+catena di \emph{and} sar\`a soddisfatta e viceversa.
+
+Ovviamente il discorso vale anche per input $n$-dimensionali.
+
+\section{Problemi linearmente separabili}
+Se usiamo solo funzioni lineari per classificare i nostri dati andiamo incontro ad un problema. I punti, potrebbero non
+essere linearmente separabili.
+\begin{definition}
+	Due insiemi di punti in uno spazio $n$-dimensionale sono \textbf{linearmente separabili} se esiste un
+	iperpiano $(n-1)$-dimensionale che li separa.
+\end{definition}
+
+Il fatto che il problema sia linearmente separabile non ci d\`a comunque alcuna garanzia che l'algoritmo trovi una
+funzione in grado di separare perfettamente i due insiemi. Questo non vale solo per funzioni lineari, vale per qualsiasi
+tipo di funzione.
+
+Questo perch\'e l'algoritmo LMS minimizza l'errore quadratico medio in base alla posizione dei punti nello spazio e non
+minimizza l'errore di classificazione di questi ultimi.
+
+Dunque, non importa quanto la nostra funzione sia complessa, pu\`o sempre capitare qualche errore di classificazione.
