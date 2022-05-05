@@ -151,7 +151,29 @@ sar\`a appunto la proiezione del punto $p$ sulla finestra.
 Per capire quali siano le coordinate di $p'$ ci conviene vedere l'immagine di lato.
 \begin{center}
 	\begin{tikzpicture}[scale=2.0]
-		\draw[very thick, ->] (0, 0) -- (-1, 0) node[left] {$z$};
-		\draw[thick, dashed] (0, 0) -- (3, 0);
+		\coordinate (C) at (0, 0);
+		\coordinate (p) at (2, 0.8);
+		\coordinate (p1) at (1, 0.4);
+		\coordinate (p_y) at (0, 0.8);
+		\coordinate (p1_y) at (0, 0.4);
+		\coordinate (p_z) at (2, 0);
+		\coordinate (d) at (1, 0);
+
+		% assi
+		\draw[very thick, ->] (C) node[below] {$C$} -- (-1, 0) node[left] {$z$};
+		\draw[thick, dashed] (C) -- (3, 0);
+		\draw[very thick, ->] (C) -- (0, 1) node[above] {$y$};
+
+		% proiezioni
+		\draw[dotted] (p_y) node[left] {$p_y$} -- (p) node[above right] {$p$};
+		\draw[dotted] (p1_y) node[left] {$p'_y$} -- ++ (1, 0) node[above left] {$p'$};
+		\draw[dotted] (C) -- (p);
+		\draw[dotted] (1, -0.4) -- (d) node[below left] {$-d$} node[below right] {$p'_z$} -- ++ (0, 1.3);
+		\draw[dotted] (p) -- (p_z) node[below] {$p_z$};
+
+		\filldraw (p) circle[radius=0.035];
+		\filldraw (p1) circle[radius=0.02];
 	\end{tikzpicture}
 \end{center}
+Se notiamo, i due triangoli $C p' p'_z$ e $C p p_z$, sono simili. Questo significa che hanno gli stessi angoli interni
+e che il rapporto tra i lati \`e lo stesso.
