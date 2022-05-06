@@ -140,7 +140,7 @@ Si avr\`a inoltre un effetto prospettico molto simile a quello a cui siamo abitu
 	\end{tikzpicture}
 \end{center}
 La figura rappresenta una prima parte di come funziona questo tipo di camera. In pratica dobbiamo immaginarci una
-finestra (rappresentata dal quadrato grigio) attraverso la quale vediamo la scena.
+finestra (rappresentata dal quadrato grigio ad una distanza $-d$ da $C$) attraverso la quale vediamo la scena.
 
 L'osservatore si trova nel punto $C$ e tutto ci\`o che si trova tra il punto $C$ e la finestra non viene visto. Tutto
 ci\`o che invece si pu\`o osservare si trova oltre la finestra.
@@ -183,3 +183,82 @@ Possiamo sfruttare questo fatto per trovare le coordinate di $p'$, sapendo quell
 da qui ricaviamo che
 \[ p'_y = -\frac{p_y}{p_z / d} \quad p'_x = -\frac{p_x}{p_z / d} \]
 mentre invece $p'_z$ e $-d$ si equivalgono.
+
+Tutti i punti che si trovano sulla linea che va da $C$ a $p$ e che prosegue oltre $p$ verranno proiettati in $p'$.
+Se esprimiamo $p'$ in coordinate omogenee
+\[
+	\begin{bmatrix}
+		x & y & z & 1
+	\end{bmatrix}
+\]
+Possiamo dire che qualsiasi punto di coordinate
+\[
+	\begin{bmatrix}
+		\lambda x & \lambda y & \lambda z & \lambda
+	\end{bmatrix}
+\]
+con $\lambda \neq 0$ verr\`a proiettato nel punto $p'$ della finestra. Volendo possiamo riscrivere le coordinate di $p'$
+in questo modo
+\[
+	p' = \begin{bmatrix}
+		-\displaystyle\frac{p_x}{p_z / d} &
+		-\displaystyle\frac{p_y}{p_z / d} &
+		-d                                &
+		1
+	\end{bmatrix}
+\]
+Per una ragione che analizzeremo tra poco ci conviene invece scrivere le coordinate del punto in questo modo:
+\[
+	p' = -\frac{p_z}{d}\begin{bmatrix}
+		-\displaystyle\frac{p_x}{p_z / d} \\
+		-\displaystyle\frac{p_y}{p_z / d} \\
+		-d                                \\
+		1
+	\end{bmatrix} =
+	\begin{bmatrix}
+		p_x \\ p_y \\ p_z \\ -p_z / d
+	\end{bmatrix}
+\]
+Se adesso consideriamo un punto nello spazio tridimensionale e lo moltiplichiamo per questa matrice
+\[
+	\begin{bmatrix}
+		1 & 0 & 0            & 0 \\
+		0 & 1 & 0            & 0 \\
+		0 & 0 & 1            & 1 \\
+		0 & 0 & -\frac{1}{d} & 0
+	\end{bmatrix}
+\]
+otteniamo le coordinate del punto $p'$ nella forma descritta poco fa
+\[
+	p' = \begin{bmatrix}
+		1 & 0 & 0            & 0 \\
+		0 & 1 & 0            & 0 \\
+		0 & 0 & 1            & 1 \\
+		0 & 0 & -\frac{1}{d} & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		p_x \\ p_y \\ p_z \\ 1
+	\end{bmatrix} =
+	\begin{bmatrix}
+		p_x \\ p_y \\ p_z \\ -p_z / d
+	\end{bmatrix}
+\]
+che in coordinate omogenee torna ad essere
+\[
+	\begin{bmatrix}
+		p_x \\ p_y \\ p_z \\ -\frac{p_z}{d}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		-\frac{p_x}{p_z / d} \\
+		-\frac{p_y}{p_z / d} \\
+		-d                   \\
+		1
+	\end{bmatrix}
+\]
+Ora possiamo quindi trovare le coordinate del punto $p$ proiettato sulla finestra ad una distanza $-d$, semplicemente
+moltiplicando la matrice per $p$.
+
+Al variare di $d$ varia anche quanto vediamo della scena. Se $d$ \`e piccolo vedremo molto di pi\`u poich\'e saremo
+pi\`u vicini alla finestra, viceversa, per valori grandi di $d$ vedremo di meno.
+
+\subsection{Definire la finestra}
