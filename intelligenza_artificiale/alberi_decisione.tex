@@ -1,1 +1,44 @@
 \chapter{Alberi di decisione}
+Con gli \textbf{alberi di decisione} andiamo a trattare problemi di classificazione ma con modelli pi\`u flessibili
+che ci permettono di fare approssimazioni in una spazio delle ipotesi discreto.
+
+Con questo approccio abbandoniamo anche le regole congiuntive, che, come avevamo visto, rendono il modello abbastanza
+rigido.
+
+Gli alberi di decisione rappresentano una disgiunzione di congiunzioni di vincoli sui valori degli attributi. In
+pratica un albero ha vari \textbf{cammini} o \textbf{path}. Il nodo di un cammino \`e composto da un attributo, al
+quale viene assegnato un certo valore. Ogni cammino termina un valore \verb|true| o \verb|false|.
+
+L'albero \`e una congiunzione di tutte le congiunzioni (o cammini) che portano a un valore \verb|true|.
+
+\section{Algoritmo ID3}
+\`E un algoritmo di tipo \emph{greedy} che fa una ricerca nello spazio delle ipotesi usando l'euristica del
+\textbf{maggior guadagno di informazione} o \textbf{information gain} e procede in questo modo:
+\begin{enumerate}
+	\item Scegliamo l'attributo con il maggior information gain.
+	\item Valutiamo tutti i possibili valori dell'attributo generando, per ognuno di essi, un nodo successore.
+	\item Ripetiamo il procedimento per ogni nodo successore generato finch\'e tutti gli esempi sono classficati
+	      correttamente oppure finch\'e non ci sono pi\`u attributi rimasti.
+\end{enumerate}
+In questo modo abbiamo generato un albero di decisione, il quale conterr\`a vari cammini, ognuno dei quali terminer\`a
+con un valore \verb|true| o \verb|false|.
+
+I cammini potrebbero non essere tutti della stessa lunghezza. Mettiamo caso che per un certo valore di un certo
+attributo, qualsiasi siano i valori degli altri attributi l'esempio \`e sempre positivo. In questo caso l'algoritmo
+classificher\`a ogni esempio contenente quell'attributo con quel certo valore come positivo senza creare ulteriori
+successori.
+
+Di seguito una possibile implementazione di ID3 in pseudo codice:
+\begin{lstlisting}[style=pseudo-style]
+ID3(X, T, Attrs)
+	root = Node();
+	if all X are + then
+		return root with class +;
+	if all X are - then 
+		return root with class -;
+	if Attrs.isEmpty() then
+		return root with class most common value of T in X;
+	else
+		A = Attrs.bestAttribute();
+		foreach
+\end{lstlisting}
