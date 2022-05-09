@@ -55,9 +55,59 @@ Il nostro obbiettivo \`e trovare l'attributo che massimizza l'information gain.
 Andremo quindi a preferire attributi che generano sottoinsiemi a bassa entropia, poich\'e massimizzano l'information
 gain e riescono a partizionare meglio l'insieme di esempi.
 
-\subsection{Dati frammentati}
+\subsection{Gain Ratio}
 L'information gain cos\`i definito ha per\`o un problema, ossia, quello di favorire attributi che hanno molti possibili
-valori. Questo perch\'e un attributo che ha molti possibili valori, i quali compaiono in un solo esempio, generano 
-sottoinsiemi con un solo componente e quindi perfettamente partizionati.
+valori e che compaiono in pochi esempi.
 
-Questo per\`o 
+In questo modo si ottengono sottoinsiemi perfettamente partizionati (o quasi) ma che per\`o non ci forniscono
+un'informazione interessante nel complesso.
+
+Introduciamo quindi un metodo per evitare la formazione di sottoinsiemi \emph{piccoli}, ossia, il \textbf{gain ratio}. Il
+gain ratio si ottiene tramite il calcolo di un altro valore: lo \textbf{split information} definito come segue:
+\[ SplitInformation(S, A) = -\sum_{i=1}^c \frac{|S_i|}{|S|} \log_2 \left(\frac{|S_i|}{|S|}\right) \]
+dove $S_i$ indica il l'insieme ottenuto partizionando sul valore $i$ di $A$ e dove $c$ \`e il numero di possibili valori
+che pu\`o assumere $A$.
+
+Lo split information indica il valore di entropia di $S$ rispetto ai valori di $A$. Pi\`u \emph{uniformemente} i dati sono
+dispersi, pi\`u alto \`e il suo valore.
+
+Ora possiamo definire il gain ratio in questo modo:
+\[ GainRatio(S, A) = \frac{Gain(S, A)}{SplitInformation(S, A)} \]
+ottenendo cos\`i uno strumento che penalizza gli attributi che ottengono un alto gain tramite la frammentazione di tanti
+insieme piccoli.
+
+\subsubsection{Ulteriori aggiustamenti}
+Anche con questo metodo si possono avere dei problemi. Infatti nel caso in cui ci sia un valore di un attributo costante
+per tutti gli esempi,lo split information va a 0 (o comunque tenderebbe a 0), facendo cos\`i salire troppo il gain ratio.
+
+Se il gain ratio sale troppo finiremo per privilegiare un attributo che in realt\`a non ci sta dicendo nulla poich\'e
+\`e uguale per tutti gli esempi.
+
+Per mitigare questo problema si procede in questo modo:
+\begin{enumerate}
+	\item Si calcola il gain per tutti gli attributi.
+	\item Per gli attributi il cui gain supera un certo valore medio, si calcola il relativo gain ratio.
+\end{enumerate}
+
+\subsection{Analisi ID3}
+L'algoritmo ID3 fa un Hill-Climbing in uno spazio delle ipotesi \emph{discreto}, dall'ipotesi pi\`u semplice a quella
+pi\`u complessa. Inoltre, rispetto a Candidate Elimination, abbiamo che
+\begin{itemize}
+	\item Lo spazio delle ipotesi \`e \textbf{completo}.
+	\item La ricerca \textbf{mantiene} una sola ipotesi consistente.
+	\item Non c'\`e backtracking, dunque \textbf{non \`e ottimo}.
+	\item Usa \textbf{tutti} gli esempi disponibili.
+	\item Pu\`o avere \textbf{terminazione anticipata}.
+\end{itemize}
+
+\subsubsection{Bias induttivi}
+Per gli alberi di decisione abbiamo due bias induttivi:
+\begin{enumerate}
+	\item Si preferiscono alberi \textbf{corti}.
+	\item Si preferiscono alberi che mettono attributi con maggior information gain \textbf{vicino alla radice}.
+\end{enumerate}
+In questo caso abbiamo un limite sulla strategia di ricerca e non sullo spazio delle ipotesi. Abbiamo quindi un
+\textbf{bias di ricerca}. I \textbf{bias di linguaggio} sono invece restrizioni sullo spazio di ricerca.
+
+Una combinazione di questi due bias fornisce modelli \textbf{flessibili}, che in generale, sono quelli che pi\`u si
+prestano a fare un buon fitting dei dati.
