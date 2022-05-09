@@ -28,17 +28,36 @@ attributo, qualsiasi siano i valori degli altri attributi l'esempio \`e sempre p
 classificher\`a ogni esempio contenente quell'attributo con quel certo valore come positivo senza creare ulteriori
 successori.
 
-Di seguito una possibile implementazione di ID3 in pseudo codice:
-\begin{lstlisting}[style=pseudo-style]
-ID3(X, T, Attrs)
-	root = Node();
-	if all X are + then
-		return root with class +;
-	if all X are - then 
-		return root with class -;
-	if Attrs.isEmpty() then
-		return root with class most common value of T in X;
-	else
-		A = Attrs.bestAttribute();
-		foreach
-\end{lstlisting}
+\subsection{Entropia}
+La scelta del miglior attributo viene fatta in base al valore di \textbf{entropia}. L'entropia, in questo caso, indica
+l'\emph{impurit\`a} di un insieme di esempi.
+
+Essa dipende dalla distribuzione di una variabile casuale ($p$). In particolare se $S$ \`e il nostro insieme di esempi,
+$p_+$ indica la proporzione di esempi positivi in $S$ mentre $p_-$ indica la proporzione di esempi negativi in $S$.
+
+Il valore di entropia, relativa ad un certo insieme di esempi $S$, \`e dato dalla seguente formula:
+\[ Entropy(S) = -p_+ \log_2{(p_+)} - p_- \log_2{(p_-)} \]
+Ci\`o che vogliamo fare adesso, \`e assegnare un valore ad un attributo e misurare il valore di entropia di $S$
+togliendo da $S$ tutti gli esempi in cui a quel determinato attributo \`e assegnato quel determinato valore. Andremo
+quindi a calcolare
+\[ Entropy(S_{A(v)}) \]
+dove $S_{A(v)}$ indica l'insieme di tutti gli esempi in cui l'attributo $A$ assume come valore $v$.
+
+L'information gain di un certo attributo $A$ non \`e altro che la differenza tra il valore di entropia di $S$ e la
+somma dei valori di entropia di $S_{A(v)}$ per ogni possibile $v$ relativo ad $A$.
+
+In realt\`a la somma \`e pesata sul rapporto tra la cardinalit\`a dell'insieme $S_{A(v)}$ e quella di $S$, infatti
+la formula per ottenere l'information gain relativo all'attributo $A$ \`e definita in questo modo:
+\[ Gain(S, A) = Entropy(S) - \sum_{v \in Values(A)} \frac{|S_{A(v)}|}{|S|} Entropy(S_{A(v)}) \]
+Un sottoinsieme $S_{A(v)}$ ben partizionato, avr\`a una bassa entropia, render\`a quindi pi\`u alto l'information gain.
+Il nostro obbiettivo \`e trovare l'attributo che massimizza l'information gain.
+
+Andremo quindi a preferire attributi che generano sottoinsiemi a bassa entropia, poich\'e massimizzano l'information
+gain e riescono a partizionare meglio l'insieme di esempi.
+
+\subsection{Dati frammentati}
+L'information gain cos\`i definito ha per\`o un problema, ossia, quello di favorire attributi che hanno molti possibili
+valori. Questo perch\'e un attributo che ha molti possibili valori, i quali compaiono in un solo esempio, generano 
+sottoinsiemi con un solo componente e quindi perfettamente partizionati.
+
+Questo per\`o 
