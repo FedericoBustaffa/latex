@@ -43,9 +43,9 @@ Un ipotesi $h$ \`e rappresentata come una congiunzione di vincoli sugli attribut
 essere
 \begin{itemize}
 	\item Un \textbf{valore specifico}: si assegna all'attributo un valore vero e proprio tra quelli consentiti.
-	\item Il \textbf{valore insignificante}: indicato con \verb|?|, vuol dire che non ci importa quale valore
+	\item Un \textbf{valore qualsiasi}: indicato con \verb|?|, vuol dire che non ci importa quale valore
 	      scegliamo per quell'attributo.
-	\item Il \textbf{valore vietato}: indicato con $\phi$, significa che nessun valore \`e consentito per quell'attributo.
+	\item Un \textbf{valore vietato}: indicato con $\phi$, significa che nessun valore \`e consentito per quell'attributo.
 \end{itemize}
 
 \begin{definition}
@@ -117,7 +117,7 @@ Introduciamo ora un po' di notazione per riuscire a rappresentare il version spa
 	Ogni ipotesi nel version space sta tra il confine generale e il confine specifico.
 \end{theorem}
 
-\subsection{Algoritmo di eliminazione per esempi positivi}
+\subsection{Candidate Elimination per esempi positivi}
 Sia $G$ il confine generale e $S$ il confine specifico.
 \begin{enumerate}
 	\item Per ogni esempio di allenamento positivo $d = \langle x, c(x) \rangle$.
@@ -134,7 +134,7 @@ Sia $G$ il confine generale e $S$ il confine specifico.
 	      \end{enumerate}
 \end{enumerate}
 
-\subsection{Algoritmo di elminazione per esempi negativi}
+\subsection{Candidate Elimination per esempi negativi}
 Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello visto per esempi positivi.
 \begin{enumerate}
 	\item Per ogni esempio di allenamento negativo $d$.
@@ -151,7 +151,7 @@ Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello
 	      \end{enumerate}
 \end{enumerate}
 
-\section{Perch\'e bias induttivi}
+\section{Bias induttivi}
 Per ora abbiamo deciso di predere in considerazione solo regole congiuntive. Il nostro spazio delle ipotesi \`e dunque
 incapace di rappresentare semplici disgiunzioni. Nonostante questa grossa limitazione non ci \`e possibile liberarci
 di tali regole.
