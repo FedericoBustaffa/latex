@@ -106,8 +106,56 @@ Per gli alberi di decisione abbiamo due bias induttivi:
 	\item Si preferiscono alberi \textbf{corti}.
 	\item Si preferiscono alberi che mettono attributi con maggior information gain \textbf{vicino alla radice}.
 \end{enumerate}
-In questo caso abbiamo un limite sulla strategia di ricerca e non sullo spazio delle ipotesi. Abbiamo quindi un
-\textbf{bias di ricerca}. I \textbf{bias di linguaggio} sono invece restrizioni sullo spazio di ricerca.
+In questo caso abbiamo un limite sulla strategia di ricerca, ossia un \textbf{bias di ricerca}. Se invece avessimo avuto
+restrizioni sullo spazio delle ipotesi avremmo avuto un \textbf{bias di linguaggio}.
 
-Una combinazione di questi due bias fornisce modelli \textbf{flessibili}, che in generale, sono quelli che pi\`u si
-prestano a fare un buon fitting dei dati.
+In generale, l'uno non esclude l'altro, anzi, una combinazione di questi due bias fornisce modelli \textbf{flessibili},
+che poi sono quelli che pi\`u si prestano a fare un buon fitting dei dati.
+
+\section{Overfitting in alberi di decisione}
+Analogamente al caso dei modelli lineari, costruire un albero di decisione che si adatta troppo agli esempi di training
+pu\`o portare al problema dell'\textbf{overfitting}.
+
+Quando trattiamo l'overfitting dobbiamo considerare due tipi di errore:
+\begin{itemize}
+	\item L'\textbf{errore empirico}, ossia, l'errore sul training set.
+	      \[ error_D(h) \]
+	\item L'\textbf{errore vero}, ossia, l'errore sull'intera distribuzione dei dati. Intendiamo quindi sia l'errore sui
+	      dati di training che quello sui dati non ancora analizzati.
+	      \[ error_X(h) \]
+\end{itemize}
+
+\begin{definition}
+	Un'ipotesi $h$ fa \textbf{overfitting} sui dati di training se esiste un'ipotesi $h'$ tale che
+	\begin{itemize}
+		\item $error_D(h) < error_D(h')$
+		\item $error_X(h') < error_X(h)$
+	\end{itemize}
+	ovvero se $h'$ si comporta meglio sui dati non ancora analizzati e peggio sul training set.
+\end{definition}
+
+\subsection{Validation Set}
+Per mitigare il problema di overfitting negli alberi di decisione si possono adottare due strategie:
+\begin{itemize}
+	\item Si termina prima di raggiungere la perfezione sui dati di training.
+	\item Si ammette overfitting sul training set e poi si fa un'operazione di \textbf{pruning} sull'albero.
+\end{itemize}
+In particolare si fa ricorso ad un nuovo strumento che andremo ad approfondire pi\`u avanti, ossia, il
+\textbf{validation set}.
+
+Quello che andiamo a fare \`e dividere in due parti il training set. Una parte avr\`a ancora la funzione di training,
+l'altra diventer\`a il nostro validation set che ci andr\`a a guidare nella fase di pruning oppure ci forninar\`a
+informazioni utili su quando fermarci (a seconda della strategia scelta).
+
+\subsection{Pruning}
+Andiamo ora a vedere come procedere nell'operazione di \textbf{pruning}.
+\begin{enumerate}
+	\item Ogni nodo \`e candidato per una possibile potatura.
+	\item Fare pruning consiste nel rimuovere un sottoalbero radicato in un certo nodo. Il nodo a quel punto diventa una
+	      foglia e gli viene assegnata la classe pi\`u comune tra gli esempi che gli erano stati assegnati.
+	\item Un nodo \`e rimosso solo se non peggiora sul validation set.
+	\item I nodi sono potati iterativamente: si cerca un nodo la cui rimozione porta ad un miglioramento sul validation
+	      set
+	\item Il pruning termina quando non c'\`e pi\`u alcun nodo, la cui rimozione porta ad un miglioramento sul validation
+	      set
+\end{enumerate}
