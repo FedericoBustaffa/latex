@@ -187,3 +187,48 @@ Questo approccio porta vari vantaggi:
 	      \`e globale e ha effetto su tutte le regole.
 	\item La conversione in regole migliora la leggibilit\`a.
 \end{itemize}
+
+\subsection{Valori continui}
+Con gli alberi di decisione siamo anche in grado di gestire attributi a valori continui. Per farlo abbiamo bisogno di
+un certo valore soglia. A questo punto ci baster\`a assegnare \verb|true| ai valori sotto la soglia e \verb|false| ai
+valori sopra la soglia (o viceversa).
+
+Per trovare la soglia possiamo fare una media di tutti i valori che ho a disposizione nel training set e decidere in
+base al valore dell'information gain.
+
+\subsection{Valori mancanti}
+Nel caso in cui manchi una parte dell'informazione si adotta una strategia detta \textbf{imputation} per \emph{forzare}
+il valore mancante:
+\begin{enumerate}
+	\item Un metodo consiste semplicemente nel metterci il \textbf{pi\`u frequente} nel training set.
+	\item Un altro modo consiste nell'assegnare una \textbf{probabilit\`a} a ciascun valore, basata sulla frequenza con
+	      cui compare, assegnando poi il valore mancante in accordo con questo valore di probabilit\`a.
+\end{enumerate}
+Questi metodi forniscono un modo per classificare dati mancanti in base alla classificazione pi\`u probabile rispetto
+agli altri dati.
+
+\subsection{Classificazione con costo}
+A volte non possiamo basarci solo sull'information gain, a volte \`e necessario tenere di conto che l'attributo che
+porta pi\`u information gain potrebbe avere un costo troppo elevato (costo che dipende dal contesto: tempo, denaro
+ecc.).
+
+Introduciamo quindi due metodi per dare un peso il giusto peso all'information gain in base al costo:
+\begin{itemize}
+	\item \textbf{Tan e Schlimmer}
+	      \[ \frac{Gain^2(S, A)}{Cost(S, A)} \]
+	\item \textbf{Nunez}
+	      \[ \frac{2^{Gain(S, A)} - 1}{(Cost(S, A) + 1)^w} \quad \text{con } w \in [0, 1] \]
+\end{itemize}
+
+\section{Conclusioni}
+Gli alberi di decisione sono un approccio vantaggioso per problemi di classificazione con un numero di classi discreto:
+\begin{itemize}
+	\item Ha uno spazio delle ipotesi espressivo in ambito proposizionale ed ha un approccio basato su regole.
+	\item \`E robusto a dati rumorosi poich\'e riesce a gestire anche dati incompleti.
+	\item \`E di facile comprensione.
+	\item Ha molte estensioni.
+\end{itemize}
+L'algoritmo ID3 compie una ricerca greedy incompleta in uno spazio delle ipotesi completo.
+
+Riesce a mitigare bene il problema dell'overfitting grazie alle regole post pruning e alla generalizzazione di regole
+induttive.
