@@ -159,3 +159,31 @@ Andiamo ora a vedere come procedere nell'operazione di \textbf{pruning}.
 	\item Il pruning termina quando non c'\`e pi\`u alcun nodo, la cui rimozione porta ad un miglioramento sul validation
 	      set
 \end{enumerate}
+
+\subsection{Regole post pruning}
+Si pu\`o anche agire a livello di regole e non su interi sottoalberi adottando \textbf{regole post pruning}, per farlo
+seguiamo questo procedimento:
+\begin{enumerate}
+	\item Si crea l'albero di decisione.
+	\item Si converte l'albero in un insieme di regole equivalente:
+	      \begin{itemize}
+		      \item Ogni cammino corrisponde ad una regola.
+		      \item Ogni nodo lungo un cammino corrisponde ad una pre-condizione.
+		      \item Ogni foglia corrisponde ad una post-condizione.
+	      \end{itemize}
+	\item Si effettua l'operazione di pruning rimuovendo quelle pre-condizioni la cui rimozione migliora l'accuratezza
+	      \begin{itemize}
+		      \item sul validation set.
+		      \item sul training set con una misura pessimistica.
+	      \end{itemize}
+	\item Si ordinano le regole in ordine di accuratezza stimata e si considerano in sequenza quando dobbiamo
+	      classificare nuove istanze.
+\end{enumerate}
+Questo approccio porta vari vantaggi:
+\begin{itemize}
+	\item Ogni cammino produce una regola distinta e la rimozione di una condizione pu\`o essere fatta in maniera
+	      locale rispetto a quella regola.
+	\item Il pruning delle precondizioni \`e specifico per quel determinato cammino, mentre il pruning di un nodo
+	      \`e globale e ha effetto su tutte le regole.
+	\item La conversione in regole migliora la leggibilit\`a.
+\end{itemize}
