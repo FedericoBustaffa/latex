@@ -1,0 +1,40 @@
+\chapter{Validazione}
+Con la \textbf{validazione} vogliamo trattare il problema di capire quando un modello \`e un \textbf{buon} modello e
+anche capire la differenza tra usare algoritmi di Machine Learning e usare \textbf{bene} algoritmi di Machine Learning.
+
+Ricordiamo che fare apprendimento, nello spazio delle generalizzazioni, vuol dire trovare una buona funzione in uno
+spazio delle funzioni, a partire da dati noti per fare predizioni su dati non ancora analizzati. Per "buona" si intende
+una funzione con una basse errore di generalizzazione.
+
+In questo capitolo cerchiamo di rispondere alle domande:
+\begin{itemize}
+	\item Una funzione che generalizza bene su dati di training approssimer\`a bene anche su dati non ancora visti ?
+	\item \`E una funzione valida ?
+\end{itemize}
+
+Nell'ambito della validazione gli obbiettivi principali sono due:
+\begin{itemize}
+	\item \textbf{Selezione del modello}: si cercano di stimare le performance dei modelli per riuscire a scegliere il
+	      migliore.
+	\item \textbf{Stima del modello}: una volta scelto il modello, si cerca di stimare l'errore su dati non ancora
+	      analizzati. Si cerca di calcolare la \textbf{qualit\`a} del modello.
+\end{itemize}
+La regola d'oro \`e avere data set separati per ognuno di questi due obbiettivi. Ognuno fatto su misura per misurare
+ci\`o di cui abbiamo bisogno.
+
+\section{Approcci alla validazione}
+Uno degli approcci standard per la validazione prevede di avere tre data set separati: \textbf{training set},
+\textbf{validation set} e \textbf{test set}.
+\begin{itemize}
+	\item Il training set serve ad allenare il modello per fare un buon fitting dei dati.
+	\item Il validation set viene usato su pi\`u modelli per valutare le performance di ognuno e scegliere il migliore
+	      (selezione del modello).
+	\item Il training set e il validation set a volte sono chiamati con un nome unico: \textbf{development set}. Insieme
+	      servono a costruire ed individuare il modello finale che andremo ad usare.
+	\item Il test set stima l'errore di generalizzazione (per il modello scelto) per dati non ancora analizzati.
+\end{itemize}
+Tra gli errori pi\`u comuni abbiamo
+\begin{itemize}
+	\item Usare un data set per qualcosa di diverso dal proposito per cui \`e stato creato.
+	\item Usare una delle due stime fatte sui modelli come valore di riferimento in un ambito diverso da quello pensato.
+\end{itemize}
