@@ -78,3 +78,32 @@ Il modello scelto sar\`a quello con il minimo errore di generalizzazione.
 
 Per fare una scelta sensata tra i modelli dobbiamo allenarli tutti col solito training set e testarli tutti con il solito
 validation set.
+
+Altra regola importante quando si vanno a costruire i vari data set, \`e quella di non fare assunzioni sul comportamento
+del modello sul test set, basandoci sul risultato ottenuto dal validation set.
+
+\section{K-Fold Cross-Validation}
+Per gestire i casi in cui abbiamo pochi dati disponibili per svolgere le varie operazioni necessarie alla costruzione di
+un buon modello, si fa ricorso ad una tecnica chiamata \textbf{K-Fold Cross-Validation}. Questa tecnica si pu\`o applicare
+sia in fase di selezione del modello che in fase di stima del modello. \`E composta dai seguenti passi:
+\begin{enumerate}
+	\item Dividiamo il data set $D$ in $k$ sottoinsiemi mutualmente esclusivi.
+	\item Disponiamo i $k$ sottoinsiemi su una riga ripetendo il processo per $k$ righe.
+	      \[
+		      \begin{bmatrix}
+			      D_1   & D_2   & \dots & D_k   \\
+			      D_1   & D_2   & \dots & D_k   \\
+			      \dots & \dots & \dots & \dots \\
+			      D_1   & D_2   & \dots & D_k
+		      \end{bmatrix}
+	      \]
+	      Il risultato, come possiamo vedere, \`e una tabella con $k$ righe tutte uguali composte da $k$ sottoinsiemi
+	      di $D$.
+	\item Alleniamo la riga $i$ con tutti i data set diversi da $D_i$ e usiamo $D_i$ come validation set.
+	\item Ripetiamo il procedimento per tutte le righe.
+	\item Facciamo la media delle stime ottenute dai vari validation set (quelli sulla diagonale).
+\end{enumerate}
+Il risultato finale \`e che abbiamo fatto sia training che validation sul 100\% dei dati senza violare la regola che ci
+imponeva di dividere training e validation set. Questo perch\'e, per ogni riga, rifaccio training e validation da zero.
+
+Possiamo applicare lo stesso processo per fare test o possiamo anche combinare training, validation e test set.
