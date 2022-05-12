@@ -19,8 +19,8 @@ Nell'ambito della validazione gli obbiettivi principali sono due:
 	\item \textbf{Stima del modello}: una volta scelto il modello, si cerca di stimare l'errore su dati non ancora
 	      analizzati. Si cerca di calcolare la \textbf{qualit\`a} del modello.
 \end{itemize}
-La regola d'oro \`e avere data set separati per ognuno di questi due obbiettivi. Ognuno fatto su misura per misurare
-ci\`o di cui abbiamo bisogno.
+La regola d'oro \`e avere data set \textbf{separati} per ognuno di questi due obbiettivi. Ognuno fatto su misura per
+misurare ci\`o di cui abbiamo bisogno.
 
 \section{Approcci alla validazione}
 Uno degli approcci standard per la validazione prevede di avere tre data set separati: \textbf{training set},
@@ -29,12 +29,28 @@ Uno degli approcci standard per la validazione prevede di avere tre data set sep
 	\item Il training set serve ad allenare il modello per fare un buon fitting dei dati.
 	\item Il validation set viene usato su pi\`u modelli per valutare le performance di ognuno e scegliere il migliore
 	      (selezione del modello).
-	\item Il training set e il validation set a volte sono chiamati con un nome unico: \textbf{development set}. Insieme
+	\item Il training set e il validation set a volte sono chiamati con un nome unico: \textbf{set di sviluppo}. Insieme
 	      servono a costruire ed individuare il modello finale che andremo ad usare.
 	\item Il test set stima l'errore di generalizzazione (per il modello scelto) per dati non ancora analizzati.
 \end{itemize}
-Tra gli errori pi\`u comuni abbiamo
+
+\subsection{Errori comuni}
+Quando siamo in fase di validazione o test dobbiamo fare attenzione a quale data set stiamo usando e a quale proposito. Tra
+gli errori pi\`u comuni abbiamo:
 \begin{itemize}
-	\item Usare un data set per qualcosa di diverso dal proposito per cui \`e stato creato.
-	\item Usare una delle due stime fatte sui modelli come valore di riferimento in un ambito diverso da quello pensato.
+	\item Usare il validation set per stimare il grado di bont\`a del modello: il validation set dovrebbe essere fatto
+	      su misura per essere applicato a pi\`u modelli e per poter scegliere il migliore.
+	\item Usare il test set per scegliere il modello migliore: il test set dovrebbe solo misurare il grado di bont\`a del
+	      singolo modello e stimare il suo errore su dati non ancora analizzati.
+	\item Fare un modello sulla base del test set \`e un errore: non posso creare un modello su misura per un test set.
+	\item Scartare un modello sulla base di un test andato male e farne uno nuovo per poi testarlo ancora sul solito test
+	      set. Se il test va male e aggiusto il modello che ho o ne creo uno nuovo devo poi testarlo con un nuovo test set.
 \end{itemize}
+In generale, soprattutto quando raccogliere dati \`e difficile, la fase di training e validazione \`e fondamentale ed \`e
+sempre meglio arrivare a testare il modello quando si ha un buon grado di sicurezza sull'accuratezza di quest'ultimo.
+
+\section{Algoritmo per la validazione}
+Definiamo ora un strategia per attuare una buona validazione:
+\begin{enumerate}
+	\item Separare training, validation e test set.
+\end{enumerate}
