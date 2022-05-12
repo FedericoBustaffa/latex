@@ -33,6 +33,10 @@ Uno degli approcci standard per la validazione prevede di avere tre data set sep
 	      servono a costruire ed individuare il modello finale che andremo ad usare.
 	\item Il test set stima l'errore di generalizzazione (per il modello scelto) per dati non ancora analizzati.
 \end{itemize}
+In genere il training set \`e il data set pi\`u corposo, dato che per fare un modello che fa un buon fitting, in generale,
+\`e bene avere tanti esempi.
+
+La dimensione degli altri due data set \`e invece pi\`u contenuta poich\'e servono solo per valutare i nostri modelli.
 
 \subsection{Errori comuni}
 Quando siamo in fase di validazione o test dobbiamo fare attenzione a quale data set stiamo usando e a quale proposito. Tra
@@ -53,4 +57,12 @@ sempre meglio arrivare a testare il modello quando si ha un buon grado di sicure
 Definiamo ora un strategia per attuare una buona validazione:
 \begin{enumerate}
 	\item Separare training, validation e test set.
+	\item Cerchiamo la miglior $h_{w, \lambda}$ dove $\lambda$ \`e un iperparametro che pu\`o essere di qualsiasi tipo.
+	\item Per ogni $\lambda$ andiamo a cercare la \textbf{migliore} $h_{w, \lambda}$ che minimizza l'errore sul training set.
+	      Andiamo quindi a trovare la migliore ipotesi sulla base dell'iperparametro $\lambda$.
+	\item Selezioniamo l'ipotesi $h_{w, \lambda}$ che ha il minimo errore sul validation set.
+	\item Possiamo anche fare un miglior fitting unendo training set e validation set una volta selezionato il modello
+	      (opzionale).
+	\item Stimiamo la bont\`a del modello con il test set.
 \end{enumerate}
+
