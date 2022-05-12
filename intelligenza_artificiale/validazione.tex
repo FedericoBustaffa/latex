@@ -66,3 +66,15 @@ Definiamo ora un strategia per attuare una buona validazione:
 	\item Stimiamo la bont\`a del modello con il test set.
 \end{enumerate}
 
+\subsection{Grid search degli iperparametri}
+Per trovare il miglior iperparametro $\lambda$ si fa una ricerca a griglia in cui semplicemente manteniamo una tabella
+in cui andiamo a mettere vari $\lambda$.
+
+In seguito andiamo a costruire un modello e ne facciamo versioni pi\`u o meno complesse. A questo punto non ci rimane che
+usare il validation set per andare a valutare i vari modelli, con relativi gradi di complessit\`a e salvare i risultati
+nella tabella.
+
+Il modello scelto sar\`a quello con il minimo errore di generalizzazione.
+
+Per fare una scelta sensata tra i modelli dobbiamo allenarli tutti col solito training set e testarli tutti con il solito
+validation set.
