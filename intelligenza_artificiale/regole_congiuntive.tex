@@ -1,17 +1,17 @@
-\chapter{Problemi di classificazione}
-Nel caso dei \textbf{problemi di classificazione} il nostro valore target \`e una variabile di tipo \textbf{categorico}.
-In questo caso l'apprendimento si basa sul riuscire a inferire una funzione \textbf{booleana} da una serie di
-esempi di allenamento.
+\chapter{Regole congiuntive}
+In questo capitolo andiamo a trattare una sottoclasse dei problemi di classificazione, nella quale, abbiamo solo due valori
+target: \verb|true| e \verb|false|. Per affrontarli andremo a ridurre lo spazio delle ipotesi tramite
+\textbf{regole congiuntive}.
 
-Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e \textbf{discreto}, inoltre si fanno alcune ipotesi per
-riuscire ad organizzare al meglio la ricerca della funzione desiderata. Nello specifico:
-\begin{itemize}
-	\item Si utilizzano \textbf{regole congiuntive}.
-	\item Si assume che non ci sia \emph{rumore} nei dati.
-\end{itemize}
+In questo specfico caso, la funzione da inferire, \`e ovviamente una funzione \textbf{logica booleana}.
+
+Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e a valori \textbf{discreti}, e assumiamo che non ci sia rumore
+nei dati di training.
 
 \begin{definition}
-	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se $h(x) = 1$, cio\`e se \`e vera.
+	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se
+	\[ h(x) = 1 \]
+	cio\`e se \`e vera.
 \end{definition}
 
 \begin{definition}\label{def: consistente}

@@ -43,87 +43,108 @@ Chiariamo che non si tratta di una metodologia approssimata, ma di un approccio 
 matematiche in grado di trovare funzioni/metodi di approssimazione a problemi complessi.
 
 \section{Sistemi predittivi}
-In generale si crea un modello che prende dei dati in input e in base a questi dati, esso muta e si evolve per poter
-fare una \textbf{predizione} pi\`u accurata. Il processo di miglioramento del modello \`e guidato dal \textbf{compito}
-che deve svolgere l'agente, dall'\textbf{algoritmo di apprendimento} e da un processo di \textbf{validazione} del modello.
+In generale, si crea un modello che prende dei dati in input e in base ad essi, muta e si evolve per poter riuscire a
+fare una \textbf{predizione} pi\`u accurata su dati non ancora analizzati.
+
+Il processo di miglioramento del modello \`e guidato dal \textbf{compito} che deve svolgere l'agente,
+dall'\textbf{algoritmo di apprendimento} e da un processo di \textbf{validazione} del modello.
 
 \section{Apprendimento supervisionato}
-Nell'\textbf{apprendimento supervisionato} abbiamo un vettore di valori in input (\textbf{training set}) che, attraverso
-un \textbf{supervisore}, vengono associati a priori a valori o categorie.
+Nell'\textbf{apprendimento supervisionato} abbiamo un \textbf{supervisore} che fornisce un vettore di tuple rappresentanti
+l'input del modello, detto \textbf{training set}.
+
+Le tuple si compongono di $l$ variabili di input e del relativo output aggiungendo anche un certo rumore.
 
 Dunque avremo una coppia di input-output del tipo
-\[ l = (x, d) \]
-dove $x$ \`e un elemento del training set e $d$ \`e il \textbf{valore target} assegnatogli dal supervisore.
-Il supervisore possiede a priori la conoscenza necessaria per associare ogni $x$ al relativo $d$, esiste tuttavia una
-\textbf{funzione obbiettivo} $c$ che riesce a fare lo stesso
-\[ c(x) = d \]
-e che per\`o ci \`e sconosciuta.
+\[ d = ([x_1, x_2, \dots, x_l], y + noise) \]
+dove $[x_1, x_2, \dots, x_l]$ \`e il vettore di tutte le variabili in input, $y$ \`e il \textbf{valore target} assegnato a
+priori dal supervisore e $noise$ \`e il rumore ammesso (approfondimento pi\`u avanti).
 
-L'obbiettivo dell'apprendimento \`e quello di trovare una \emph{buona} approssimazione di $c$, ossia un'\textbf{ipotesi}
-$h$, tale che le relazioni decise a priori dal supervisore continuino ad essere vere e tale che sia anche in grado di
-trovarne di nuove quanto pi\`u simili a quelle che troverebbe la funzione $c$ per nuovi dati in input.
+Il supervisore assegna, ad un certo input, il relativo output, tramite una \textbf{funzione obbiettivo} $c$ di questo tipo
+\[ c(x) = y \]
+che per\`o non possiamo conoscere.
 
-La tipologia del valore target $d$ pu\`o essere
+L'obbiettivo dell'apprendimento \`e quello di trovare una \emph{buona} \textbf{approssimazione} di $c$, ossia
+un'\textbf{ipotesi} $h$, tale che le relazioni decise a priori dal supervisore continuino ad essere vere e tale che sia
+anche in grado di trovarne di nuove quanto pi\`u simili a quelle che troverebbe la funzione $c$ per nuovi dati in input.
+
+Ecco che il $noise$ visto prima entra in gioco. Nel Machine Learning, soprattutto per problemi di regressione (vedremo pi\`u
+avanti) \`e molto improbabile che la nostra ipotesi $h$ approssimi perfettamente $c$, anzi, nella maggior parte dei casi
+avremo una situazione di questo tipo
+\[ h([x_1, x_2, \dots, x_l]) \neq c([x_1, x_2, \dots, x_l])\]
+Possiamo per\`o ottenere valori che ci vanno molto vicino. Il $noise$, fornito nel training set, serve a darci un margine
+d'errore per la nostra ipotesi.
+
+Questo non va ad influire in alcun modo i nostri calcoli nella ricerca di $h$ ma ci aiuta a capire se stiamo andando nella
+direzione giusta o meno. Se invece ci basassimo solo sull'uguaglianza stretta ci sembrer\`a di essere sempre fuori strada.
+
+La tipologia del valore target $y$ pu\`o essere
 \begin{itemize}
-	\item \textbf{Categorica}: problema di \textbf{classificazione} in cui $c(x)$ ritorna quella che \`e la classe
-	      (assunta) corretta per $x$. In questo caso abbiamo che $c(x)$ \`e un funzione a valori discreti da 1 a $k$.
-	\item \textbf{Numerica}: problema di \textbf{regressione}. In questo caso invece approssimiamo la funzione con
+	\item \textbf{Categorica}: esistono un numero finito di categorie da assegnare al nostro input. Siamo nell'ambito
+	      dei problemi di \textbf{classificazione} in cui $c(x)$ \emph{classifica} l'input, ritornando un valore contenuto
+	      in un'insieme di $k$ possibili valori discreti.
+	\item \textbf{Numerica}: esistono infinti valori numerici reali calcolati dalla nostra funzione in relazione al nostro
+	      input. Siamo nell'ambito dei problemi di \textbf{regressione}, nei quali cerchiamo di approssimare una funzione a
 	      valori reali continui in $\mathbb{R}$ o $\mathbb{R}^k$.
 \end{itemize}
 
 \section{Apprendimento non supervisionato}
 In questo caso ci vengono dati una serie di dati iniziali in input ma non abbiamo un \textbf{supervisore} che etichetta
-a priori il valore target di questi dati.
+a priori i dati presenti nel training set.
 
-In questo caso si cerca di trovare direttamente una relazione tra i dati presenti nel training set. In particolare si
-cercano dati con valori simili tra loro e si prova ad approssimare una funzione che passi il pi\`u vicino possibile ad
-ognuno di essi.
+Si cerca invece di trovare una relazione direttamente tra i dati presenti nel training set. In particolare si
+cercano dati con valori simili tra loro per riuscire a comporre la nostra ipotesi.
 
-\subsection{Modelli}
+\section{Modelli}
 Un \textbf{modello} vuole descrivere le relazioni tra i dati in base al compito da svolgere. Definisce inoltre la classe
-di funzioni che possono essere implementate chiamato \emph{spazio delle ipotesi}, ovvero un insieme di funzioni
+di funzioni che possono essere implementate chiamato \emph{spazio delle ipotesi}, ovvero, un insieme di funzioni
 che pu\`o essere del tipo
-\[ h(x, w) \]
-dove $w$ \`e un parametro che pu\`o indicare l'errore o altri fattori che dipendono dal problema.
+\[ h_w(x) \]
+dove $w$ \`e un insieme di \textbf{coefficienti} che andremo a modificare nella fase di costruzione del modello.
 
 \section{Algoritmi di apprendimento}
 Ricapitolando, i concetti di base per iniziare a parlare di algoritmi di apprendimento sono:
 \begin{itemize}
-	\item \textbf{Training set}: si tratta di un vettore di dati in input (\textbf{esempi}) con relativo valore target di
-	      output che pu\`o anche essere inaccurato o impreciso.
-	\item \textbf{Funzione obbiettivo}: L'effettiva funzione $c$ che stiamo stimando.
-	\item \textbf{Ipotesi}: Un'approssimazione della funzione $c$ che descrive le relazioni tra i dati in input.
+	\item \textbf{Training set}: si tratta di un vettore di \textbf{esempi} composti da input e relativo valore target di
+	      output che a cui possiamo aggiungere un certo rumore per le ragioni citate precedentemente.
+	\item \textbf{Funzione obbiettivo}: La funzione $c$ che stiamo cercando di approssimare.
+	\item \textbf{Ipotesi}: Un'approssimazione $h$ della funzione $c$.
 	\item \textbf{Spazio delle ipotesi}: L'insieme $H$ di tutte le possibili ipotesi $h$ che potrebbero in qualche modo
 	      essere derivate dall'algoritmo.
 \end{itemize}
 
-Gli \textbf{algoritmi di apprendimento} di fatto vanno a trattare il problema di trovare la miglior $h$ come un problema
-di ricerca (con euristica) nello spazio delle ipotesi. Tipicamente si cerca l'ipotesi che \emph{minimizza} l'errore.
+Gli \textbf{algoritmi di apprendimento}, di fatto, vanno a trattare il problema di trovare la miglior $h$ come un problema
+di ricerca (con euristica) nello spazio delle ipotesi. Tipicamente si cerca l'ipotesi che \emph{minimizza} l'errore
+rispetto al valore target.
 
-Lo spazio delle ipotesi $H$ potrebbe non coincidere con l'insieme di tutte le possibili funzioni e la ricerca potrebbe
-non essere esaustiva. Dobbiamo riuscire a fare assunzioni in grado di ridurre lo spazio di ricerca. Vedremo pi\`u avanti
-i \textbf{bias induttivi}.
+Lo spazio delle ipotesi $H$ potrebbe \textbf{non essere completo} e la ricerca \textbf{potrebbe non essere completa}. Questi
+due punti li andremo ad approfondire pi\`u avanti.
+
+Spesso lo spazio delle ipotesi \`e molto vasto. Dobbiamo quindi riuscire a fare assunzioni in grado di ridurlo senza perdere
+la soluzione ottima. A tal proposito parleremo pi\`u avanti di \textbf{bias induttivi}.
 
 \subsection{Generalizzazione}
-Come gi\`a detto in precedenza, l'apprendimento si basa sul trovare una funzione abbastanza \emph{buona} in uno spazio di
-funzioni. Nello specifico si tratta di trovare una funzione che abbia una buona capacit\`a di \textbf{generalizzazione}.
+Come gi\`a detto in precedenza, fare "apprendimento", significa cercare una funzione abbastanza \emph{buona} in uno spazio
+di funzioni. Nello specifico si tratta di trovare una funzione che abbia una buona capacit\`a di \textbf{generalizzazione}.
 
-L'\textbf{errore di generalizzazione} \`e un valore che misura quanto accuratamente, il modello, stima nuovi valori di
-output per valori di input non presento nel training set. Tenendo di conto dell'errore e/o della perdita di informazione
-durante il processo.
+Avere una buona capacit\`a di generalizzazione significa essere in grado di fornire una buona approssimazione della funzione
+obbiettivo, in modo da avere valori di output quanto pi\`u simili a quelli calcolati da essa.
+
+La capacit\`a di generalizzazione \`e inversamente proporzionale all'\textbf{errore di generalizzazione}, un valore che ci
+dice la differenza tra l'output atteso e l'output calcolato dal nostro modello. Tanto pi\`u grande \`e questa differenza,
+tanto peggiore sar\`a la capacit\`a di approssimazione del modello.
 
 Per concludere possiamo dividere il processo complessivo in due fasi:
 \begin{itemize}
-	\item \textbf{Fase di apprendimento}: si basa sul costruire il modello in base ai dati e ai bias.
-	\item \textbf{Fase predittiva}: \`e la fase in cui applichiamo il risultato dell'apprendimento ad un nuovo campione di
-	      dati mai analizzati prima.
+	\item \textbf{Fase di apprendimento}: si basa sul costruire il modello in base ai dati conosciuti e ai bias.
+	\item \textbf{Fase predittiva}: applichiamo il risultato dell'apprendimento ad un nuovo campione di dati mai analizzati
+	      prima.
 \end{itemize}
 
-\subsection{Riduzione dello spazio di ricerca}
-Vedremo che in generale lo spazio delle ipotesi pu\`o essere molto grande e fare una ricerca esaustiva nello spazio delle
-ipotesi sarebbe troppo dispendioso. Useremo quindi dei metodi per restringere tale spazio ed essere pi\`u efficienti nella
-ricerca.
-\begin{itemize}
-	\item \textbf{Regole congiuntive} per spazi delle ipotesi finiti e discreti.
-	\item \textbf{Funzioni lineari} per spazi delle ipotesi infiniti e continui.
-\end{itemize}
+\subsection{Bias induttivi}
+Come anticipato, lo spazio delle ipotesi pu\`o essere molto grande e fare una ricerca esaustiva su di esso sarebbe troppo
+dispendioso. Faremo quindi delle assunzioni sulla funzione obbiettivo, detti \textbf{bias induttivi}, utili per ridurre lo
+spazio delle ipotesi.
+
+In pratica stiamo assumendo che la nostra funzione obbiettivo, appartenga ad un certo sottoinsieme di tutte le possibili
+ipotesi ammissibili. A questo punto limitiamo la nostra ricerca al sottoinsieme individuato.
