@@ -11,16 +11,13 @@ nei dati di training.
 \begin{definition}
 	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se
 	\[ h(x) = 1 \]
-	cio\`e se \`e vera.
 \end{definition}
 
 \begin{definition}\label{def: consistente}
-	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio $d$ se
-	\[ h(x) = c(x) = d \]
-	ovvero se ritorna gli stessi valori che ritorna anche la funzione obbiettivo per i valori del training set.
+	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio $d$, per un certo input $x$, se
+	\[ h(x) = d \]
 \end{definition}
 
-\section{Regole congiuntive}
 Nel caso di sole funzioni booleane lo spazio delle ipotesi ha dimensione
 \[ |H| = 2^{2^n} \]
 dove $n$ \`e la dimensione dell'input. Questo perch\'e abbiamo $2^n$ possibili istanze delle $n$ variabili in input e
