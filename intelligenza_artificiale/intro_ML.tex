@@ -56,9 +56,9 @@ l'input del modello, detto \textbf{training set}.
 Le tuple si compongono di $l$ variabili di input e del relativo output aggiungendo anche un certo rumore.
 
 Dunque avremo una coppia di input-output del tipo
-\[ d = ([x_1, x_2, \dots, x_l], y + noise) \]
-dove $[x_1, x_2, \dots, x_l]$ \`e il vettore di tutte le variabili in input, $y$ \`e il \textbf{valore target} assegnato a
-priori dal supervisore e $noise$ \`e il rumore ammesso (approfondimento pi\`u avanti).
+\[ d = (x, y + noise) \]
+dove $x = [x_1, x_2, \dots, x_l]$ \`e il vettore di tutte le variabili in input, $y$ \`e il \textbf{valore target}
+assegnato a priori dal supervisore e $noise$ \`e il rumore ammesso (approfondimento pi\`u avanti).
 
 Il supervisore assegna, ad un certo input, il relativo output, tramite una \textbf{funzione obbiettivo} $c$ di questo tipo
 \[ c(x) = y \]
@@ -71,7 +71,7 @@ anche in grado di trovarne di nuove quanto pi\`u simili a quelle che troverebbe 
 Ecco che il $noise$ visto prima entra in gioco. Nel Machine Learning, soprattutto per problemi di regressione (vedremo pi\`u
 avanti) \`e molto improbabile che la nostra ipotesi $h$ approssimi perfettamente $c$, anzi, nella maggior parte dei casi
 avremo una situazione di questo tipo
-\[ h([x_1, x_2, \dots, x_l]) \neq c([x_1, x_2, \dots, x_l])\]
+\[ h(x) \neq c(x)\]
 Possiamo per\`o ottenere valori che ci vanno molto vicino. Il $noise$, fornito nel training set, serve a darci un margine
 d'errore per la nostra ipotesi.
 

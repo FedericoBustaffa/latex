@@ -1,0 +1,23 @@
+\chapter{SLT}
+In questo capitolo andremo a trattare la \textbf{Statiscal Learning Theory} o \textbf{SLT}, la quale si occupa di capire
+sotto quali condizioni matematiche un modello \`e capace di generalizzare bene.
+
+In genere possiamo osservare un comportamento simile per tutti i modelli.
+\begin{itemize}
+	\item Un modello poco complesso ha un alto errore sia in training che sul test, ovvero, siamo in un caso di
+	      \textbf{underfitting}.
+	\item Al contrario un modello molto complesso ha un errore nullo o quasi in fase di training ma pessimi risultati sul
+	      test, siamo quindi in un caso di \textbf{overfitting}.
+\end{itemize}
+Dobbiamo per\`o considerare anche la quantit\`a di dati forniti al modello in fase di training. Un modello complesso
+migliora molto la sua capacit\`a di generalizzazione quando gli si fornisce un alto numero di dati.
+
+Possiamo affermare quindi che la \textbf{capacit\`a di generalizzazione} (misurata con l'errore del modello sul test set)
+di un modello, rispetto all'errore sul training set e alle zone di underfitting o overfitting, pu\`o variare in base alla
+\textbf{complessit\`a} del modello e al \textbf{numero di dati di training}.
+
+\section{Formalizzazioni SLT}
+Introduciamo un po' di notazione in grado di fornirci una terminologia pi\`u formale per valutare i nostri modelli.
+
+Il nostro obbiettivo, come ben sappiamo, \`e quello di approssimare una certa funzione obbiettivo tramite l'allenamento
+su un training set.
