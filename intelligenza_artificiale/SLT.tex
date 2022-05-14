@@ -19,5 +19,69 @@ di un modello, rispetto all'errore sul training set e alle zone di underfitting 
 \section{Formalizzazioni SLT}
 Introduciamo un po' di notazione in grado di fornirci una terminologia pi\`u formale per valutare i nostri modelli.
 
+\subsection{Funzioni di rischio}
 Il nostro obbiettivo, come ben sappiamo, \`e quello di approssimare una certa funzione obbiettivo tramite l'allenamento
-su un training set.
+su un training set, minimizzando una \textbf{funzione di rischio} definita come segue
+\[ R = \int L(y, h(x)) \quad d P(x, y) \]
+dove $P(x, y)$ equivale alla distribuzione di probabilit\`a dei dati nel continuo (anche quelli non ancora visti o che mai
+vedremo).
+
+La ricerca di $h \in H$ consiste, di fatto, nel trovare l'ipotesi che minimizza $R$, il problema \`e che non possiamo
+usare la funzione $R$ per la ricerca, cos\`i come l'abbiamo definita. Questo perch\'e abbiamo a disposizione un numero
+di dati limitato per fare il training.
+
+Andremo infatti a lavorare su una \textbf{funzione di rischio empirico}, definita come segue
+\[ R_{\text{emp}} = \frac{1}{l} \sum_{p=1}^l (y_p - h(x_p))^2 \]
+dove $l$ \`e il numero di esempi di training.
+
+\subsection{SLT: Vapnik e Chervonenkis}
+Ora per\`o vogliamo porci una domanda: si pu\`o usare il rischio empirico per approssimare il rischio reale ? La risposta
+\`e s\`i.
+
+Per farlo abbiamo bisogno di introdurre nuovi parametri, definiti dai due statistici Vapnik e Chervonenkis da cui, tra
+l'altro, prendono il nome, che sono:
+\begin{itemize}
+	\item \textbf{VC-dimension (VC)}: si tratta di un valore che misura la complessit\`a dell'ipotesi e che varia in base a
+	      parametri che dipendono dal tipo di modello.
+	\item \textbf{VC-bound}: \`e una \textbf{limitazione superiore} al rischio reale, in funzione del rischio empirico,
+	      cos\`i definita:
+	      \[ R \leq R_{\text{emp}} + \varepsilon (1 / l, \text{VC}, 1 / \delta) \]
+	      Il VC-bound ci dice che c'\`e un rischio \textbf{garantito} minore o uguale al membro destro della disequazione,
+	      dove la funzione $\varepsilon$ \`e la VC-confidence.
+	\item \textbf{VC-confidence}: \`e una funzione che "\emph{spiega}" la differenza tra $R$ e $R_\text{emp}$.
+	      Senza entrare nei particolari, basti sapere che:
+	      \begin{itemize}
+		      \item $\epsilon$ cresce al crescere di VC e decresce al crescere di $l$ o di $\delta$.
+		      \item Dobbiamo per\`o tenere di conto che $R_\text{emp}$ decresce aumentando la complessit\`a del modello
+		            (VC alto). Quindi se da una parte $\varepsilon$ cresce, dall'altra $R_\text{emp}$ decresce.
+		      \item Il valore $\delta$ indica la \emph{confidence}, ossia la probabilit\`a che il VC-bound valga. Infatti
+		            il VC-bound vale con una probabilit\`a di $1 - \delta$.
+	      \end{itemize}
+\end{itemize}
+
+\subsection{VC-bound}
+Ora possiamo definire, in modo pi\`u formale, il fenomeno di underfitting e overfitting in questo modo:
+\begin{itemize}
+	\item Se ho un maggior numero di dati, allora $\varepsilon$ diminuisce e quindi il VC-bound diventa pi\`u simile a $R$.
+	\item Se ho un modello troppo semplice (VC basso), $\varepsilon$ diminuisce ma $R_\text{emp}$ sale: underfitting.
+	\item Se ho un modello troppo complesso (VC alto), $\varepsilon$ sale mentre $R_\text{emp}$ diminuisce: overfitting.
+\end{itemize}
+Ora abbiamo un modo per quantificare il rischio e per capire se il nostro modello rischia l'underfitting o l'overfitting.
+
+Fissato il numero di dati a nostra disposizione e fissato un $\delta$ arbitrariamente piccolo, ho una formula che al
+variare di VC mi dice se il mio modello \`e troppo semplice, troppo complesso o adeguato al problema che sto trattando.
+
+Il nostro obbiettivo \`e quello di minimizzare il VC-bound: ad un VC-bound minimo equivale il giusto compromesso tra
+complessit\`a del modello e fitting dei dati.
+
+\section{Conclusioni}
+La SLT fornisce un inquadramento pi\`u formale del problema della generalizzazione e dell'underfitting/overfitting,
+fornendo limitazioni superiori analitiche e quantitative al rischio reale di predizione su tutti i possibili dati, ma
+lo fa indipendentemente dall'algoritmo di apprendimento dai dettagli del modello.
+
+Il rischio dell'apprendimento e l'errore di generalizzazione pu\`o essere limitato analiticamente.
+
+L'uso di ML tramite modelli ad alta complessit\`a fornisce risultati illusori (overfitting), \`e infatti fondamentale
+trovare un buon compromesso tra complessit\`a del modello e fitting dei dati.
+
+Altrettanto fondamentale \`e il ruolo della validazione per stime e selezione del modello.
