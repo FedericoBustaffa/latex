@@ -7,15 +7,15 @@ sui dati di training. Nell'SVM non usiamo la SLT per valutarne la bont\`a, bens\
 
 I punti chiave per la costruzione del modello sono 3:
 \begin{itemize}
-	\item \textbf{Hard Margin}: vogliamo creare un modello controllando la sua complessit\`a
-	      ottimizzando il rischio visto nella SLT.
+	\item \textbf{Margine}: vogliamo tenere sotto controllo la complessit\`a del modello andando minimizzare il rischio
+	      strutturale. Vedremo un classificatore che cerca di minimizzare l'errore di classificazione in fase di training.
 	\item \textbf{Kernel}: si vuole fare un uso efficiente della LBE in modo da ottenere un modello flessibile.
-	\item \textbf{Pratica}: si vuole evitare l'overfitting e il problema della dimensionalit\`a dell'input.
+	\item \textbf{Praticit\`a}: si vuole evitare l'overfitting e il problema della dimensionalit\`a dell'input.
 \end{itemize}
 
 \section{Hard Margin}
 Il primo approccio che vedremo sar\`a per il cosiddetto \textbf{classificatore lineare a margine massimo}, per il quale
-facciamo alcune assunzioni che in seguito possiamo abbandonare in modo da trattare problemi pi\`u complessi:
+facciamo alcune assunzioni che in seguito abbandoneremo in modo da trattare problemi pi\`u complessi:
 \begin{itemize}
 	\item Il modello tratta un \textbf{problema di classificazione binario}.
 	\item Il problema \`e \textbf{linearmente separabile}.
@@ -166,3 +166,49 @@ Il kernel, potenzialmente, \`e una \textbf{scorciatoia} per calcolare efficiente
 una dimensionalit\`a molto elevata.
 
 Nella pratica noi usiamo il kernel per calcolare il prodotto scalare direttamente nel feature space.
+
+\subsubsection{Kernel comuni}
+Vediamo alcuni dei kernel pi\`u popolari nel Machine Learning:
+\begin{itemize}
+	\item \textbf{Lineare}: quello pi\`u semplice, nel quale $\phi(x)$ equivale a $x$ stesso.
+	      \[ K(x_i, x_j) = x_i^T x_j \]
+	\item \textbf{Polinomiale}: dove $\phi(x)$ \`e elevato alla $k$
+	      \[ K(x_i, x_j) = (1 + x_i^T x_j)^k \]
+	\item \textbf{RBF}: si tratta di una funzione Gaussiana in cui $\phi(x)$ ammette input $\infty$-dimensionali.
+	      \[ K(x_i, x_j) = e^{-\displaystyle\frac{\| x_i - x_j \|^2}{2 \sigma^2}} \]
+	      dove $\sigma$ \`e un iperparametro. Pu\`o essere molto potente ma prona all'overfitting.
+\end{itemize}
+
+\subsection{Considerazioni}
+Qualche considerazione sull'uso della LBE per SVM:
+\begin{itemize}
+	\item Per costruire una buona SVM dobbiamo trovare il giusto compromesso tra l'iperparametro $C$ e il kernel (con
+	      relativi iperparametri).
+	\item Si deve risolvere il problema di ottimizzazione per trovare gli $\alpha$.
+	\item Il costo computazionale del modello scala	col numero di dati $l$ e non con la dimensionalit\`a $n$ dell'input.
+	\item \`E un modello molto modulabile dato che possiamo usare lo stesso risolutore lineare e cambiare solo il kernel
+	      a seconda delle esigenze.
+\end{itemize}
+
+Il modello finale \`e espresso come segue:
+\[ h(x) = sign \left( \sum_{p \in SV} \alpha_p y_p K(x_p, x) \right) \]
+
+\section{Praticit\`a}
+Dobbiamo fare molta attenzione quando utilizziamo la SVM.
+\begin{itemize}
+	\item Si pu\`o incorrere in overfitting se non si selezionano accuratamente gli iperparametri: $C$, kernel,
+	      iperparametri del kernel e via dicendo.
+	\item Il trattamento implicito di dati con una dimensionalit\`a molto elevata avviene solo nel feature space, non
+	      in input space.
+	\item In fase di validazione dobbiamo usare le stesse tecniche rigorose che abbiamo gi\`a visto.
+\end{itemize}
+
+\section{Conclusioni}
+
+\begin{itemize}
+	\item \`E uno strumento molto potente e popolare: \`e spesso efficiente ma non sempre \`e la scelta migliore.
+	\item Proviene dalla teoria.
+	\item Combina la LBE (tramite il kernel) con il massimo margine per favorire un approccio flessibile e tenere sotto
+	      controllo la complessit\`a.
+	\item \`E un modello modulare grazie all'uso del kernel.
+\end{itemize}
