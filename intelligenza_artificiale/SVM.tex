@@ -1,1 +1,64 @@
 \chapter{SVM}
+La \textbf{Support Vector Machine} o \textbf{SVM} \`e un modello lineare usato principalmente per problemi di
+classificazione. Quello che per\`o vogliamo fare in questo caso \`e creare il modello sulla base della SLT.
+
+Vogliamo quindi creare un modello sulla base della SLT, ottimizzando per esempio il VC-bound piuttosto che l'errore medio
+sui dati di training. Nell'SVM non usiamo la SLT per valutarne la bont\`a, bens\`i, la usiamo per costruirlo.
+
+I punti chiave per la costruzione del modello sono 3:
+\begin{itemize}
+	\item \textbf{Classificatore a margine massimo}: vogliamo creare un modello controllando la sua complessit\`a
+	      ottimizzando il rischio visto nella SLT.
+	\item \textbf{Kernel}: si vuole fare un uso efficiente della LBE in modo da ottenere un modello flessibile.
+	\item \textbf{Pratica}: si vuole evitare l'overfitting e il problema della dimensionalit\`a dell'input.
+\end{itemize}
+
+\section{Classificatore a margine massimo}
+Il primo approccio che vedremo sar\`a per il cosiddetto \textbf{classificatore lineare a margine massimo}, per il quale
+facciamo alcune assunzioni che in seguito possiamo abbandonare in modo da trattare problemi pi\`u complessi:
+\begin{itemize}
+	\item Il modello tratta un \textbf{problema di classificazione binario}.
+	\item Il problema \`e \textbf{linearmente separabile}.
+	\item \textbf{Non c'\`e rumore} sui dati in input.
+\end{itemize}
+Quello che succede nella pratica \`e che, se un problema \`e linearmente separabile, allora il modello trova il
+\textbf{massimo margine}, ossia, l'iperpiano che divide esempi positivi e negativi ponendosi per\`o alla massima distanza
+sia dagli uni che dagli altri.
+
+Gli esempi, positivi o negativi che siano, che si trovano sul margine sono i \textbf{vettori di supporto}. Questi esempi si
+troveranno nella zona di iperpiano tale che
+\[ w^T x + b = 1 \]
+se l'esempio \`e positivo, mentre
+\[ w^T x + b = -1 \]
+se l'esempio \`e negativo. In SVM si usa $b$ ma equivale al $w_0$ dei modelli lineari.
+
+Pi\`u in generale, un esempio $x_p$ \`e un vettore di supporto se:
+\[ | w^T x_p + b | = 1 \]
+Ora possiamo descrivere una relazione che ci dice quando un punto \`e ben classificato o meno. Possiamo infatti dire che
+esempio di training \`e ben classificato se
+\[ (w^T x_i) y_i \geq 1 \]
+Il nostro obbiettivo sar\`a quindi trovare l'iperpiano separatore che classfica correttamente tutti gli esempi di training
+con il massimo margine possibile tra positivi e negativi.
+
+Una volta trovato avremo che tutti gli esempi negativi apparterranno alla zona dell'iperpiano tale che
+\[ w^T x_p + b \leq -1 \]
+mentre tutti i positivi si troveranno nella zona di iperpiano identificata da
+\[ w^T x_p + b \geq 1 \]
+Prima per\`o di definire l'algoritmo possiamo dire che
+\begin{itemize}
+	\item Il margine \`e definito da
+	      \[ \frac{2}{\| w \|} \]
+	      quindi trovare il margine massimo equivale a minimizzare $\| w \|$ o meglio, andremo a minimizzare
+	      \[\frac{\| w \|^2}{2}\]
+	      che, come vedremo, risulta pi\`u comodo da calcolare.
+	\item La VC-dimension dell'SVM \`e \textbf{inversamente proporzionale} alla grandezza del margine.
+\end{itemize}
+Possiamo quindi dire che l'\textbf{iperpiano ottimale} \`e quello che \emph{massimizza il margine}.
+
+Possiamo trattare il problema come un problema di ottimizzazione scrivendolo in \textbf{forma primale} in questo modo:
+\begin{itemize}
+	\item \textbf{Funzione obbiettivo}: \emph{minimizzare}
+	      \[ \frac{\| w \|^2}{2} \]
+	\item \textbf{Vincoli}: i $w$ devono essere tali che
+	      \[ (w^T x_p + b) y_p \geq 1 \quad \text{per } p = 1, \dots, l \]
+\end{itemize}
