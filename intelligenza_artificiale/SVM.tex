@@ -7,13 +7,13 @@ sui dati di training. Nell'SVM non usiamo la SLT per valutarne la bont\`a, bens\
 
 I punti chiave per la costruzione del modello sono 3:
 \begin{itemize}
-	\item \textbf{Classificatore a margine massimo}: vogliamo creare un modello controllando la sua complessit\`a
+	\item \textbf{Hard Margin}: vogliamo creare un modello controllando la sua complessit\`a
 	      ottimizzando il rischio visto nella SLT.
 	\item \textbf{Kernel}: si vuole fare un uso efficiente della LBE in modo da ottenere un modello flessibile.
 	\item \textbf{Pratica}: si vuole evitare l'overfitting e il problema della dimensionalit\`a dell'input.
 \end{itemize}
 
-\section{Classificatore a margine massimo}
+\section{Hard Margin}
 Il primo approccio che vedremo sar\`a per il cosiddetto \textbf{classificatore lineare a margine massimo}, per il quale
 facciamo alcune assunzioni che in seguito possiamo abbandonare in modo da trattare problemi pi\`u complessi:
 \begin{itemize}
@@ -110,3 +110,24 @@ Per trattare questo nuovo tipo di problema introduciamo le cosiddette \textbf{sl
 permettono di ammettere errori di classificazione e/o dati rumorosi.
 
 Per riuscire ad usarle, dobbiamo ridefinire il problema in questo modo:
+\begin{itemize}
+	\item \textbf{Funzione obbiettivo}: \emph{minimizzare}
+	      \[ \frac{\| w \|^2}{2} + C \sum_{p=1}^l \xi_p \]
+	      dove $C > 0$ \`e un iperparametro che controlla il numero di errori ammessi. Un basso valore di $C$ corrisponde
+	      ad un alto grado di ammissibilit\`a degli errori andando per\`o a rischio underfitting.
+
+	      Al contrario un alto valore di $C$ andr\`a a consentire pochi errori in fase di training, andando a generare un
+	      modello molto simile a quello visto in precedenza (Hard Margin) andando incontro al rischio di overfitting.
+	\item \textbf{Vincoli}:
+	      \[ (w x_p + b) y_p \geq 1 - \xi_p \quad \wedge \quad \xi_p \geq 0 \quad \forall p \]
+	      Una variabile slack positiva indica un margine troppo stretto o un errore di classificazione e questo ci permette
+	      di ignorarlo.
+\end{itemize}
+
+\section{Kernel}
+Per trattare problemi non linearmente separabili introduciamo il concetto di \textbf{kernel}, per riuscire a trattare il
+problema dell'uso efficiente della LBE, in modo da ottenere modelli pi\`u flessibili.
+
+Quello che vogliamo fare \`e \textbf{mappare} i punti definiti nel cosiddetto \textbf{spazio di input}, che, per variabili a
+$n$ dimensioni, sar\`a uno spazio $n$-dimensionale, in uno spazio $m$-dimensionale con $m > n$, in cui sono linearmente
+separabili.
