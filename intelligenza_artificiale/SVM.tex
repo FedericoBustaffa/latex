@@ -129,5 +129,40 @@ Per trattare problemi non linearmente separabili introduciamo il concetto di \te
 problema dell'uso efficiente della LBE, in modo da ottenere modelli pi\`u flessibili.
 
 Quello che vogliamo fare \`e \textbf{mappare} i punti definiti nel cosiddetto \textbf{spazio di input}, che, per variabili a
-$n$ dimensioni, sar\`a uno spazio $n$-dimensionale, in uno spazio $m$-dimensionale con $m > n$, in cui sono linearmente
-separabili.
+$n$ dimensioni, sar\`a uno spazio $n$-dimensionale, in uno spazio $m$-dimensionale con $m > n$, chiamato
+\textbf{feature space}, in cui sono linearmente separabili.
+
+Per farlo abbiamo bisogno di una funzione di trasformazione lineare
+\[ \phi : \mathbb{R}^n \rightarrow \mathbb{R}^m \]
+che chiameremo \textbf{kernel}.
+
+Ecco che entra in gioco la LBE. Dobbiamo per\`o tenere di conto che l'uso di LBE molto complesse potrebbe essere
+computazionalmente troppo dispendioso e potrebbe portare a overfitting.
+
+Per mititgare il problema trattiamo sempre la LBE ma nel contesto di un modello \textbf{regolarizzato}, cio\`e, dipendente
+dal margine.
+
+Questo avviene in maniera automatica grazie alla regolarizzazione che l'algoritmo SVM attua naturalmente. La complessit\`a
+del modello \`e quindi mantenuta bassa indipendentemente dalla dimensionalit\`a del feature space.
+
+\subsection{LBE nella SVM}
+Nella SVM non \`e necessario calcolare $w$ e i dati in input sono in forma di prodotto scalare tra coppie di punti.
+
+La nuova formula di classificazione diventa quindi:
+\[ h(x) = sign \left( \sum_{p \in SV} \alpha_p \cdot y_p \cdot \phi^T(x_p) \cdot \phi(x)  \right) \]
+In realt\`a non abbiamo neanche bisogno di calcolare direttamente $\phi$ poich\'e possiamo definire una
+\textbf{funzione kernel}, che comprende questo prodotto scalare. La funzione che quindi ci interessa \`e la seguente:
+\[ h(x) = sign \left( \sum_{p \in SV} \alpha_p \cdot y_p \cdot K(x_p^T, x) \right) \]
+
+\begin{definition}
+	Chiamo \textbf{kernel}, una funzione
+	\[ K : \mathbb{R}^n \times \mathbb{R}^n \rightarrow \mathbb{R} \]
+	tale che, per un certo feature space o Hilbert space $X$ e una funzione
+	\[ \phi : \mathbb{R}^n \rightarrow X \]
+	allora vale
+	\[ K(x_i, x_j) = \phi^T(x_i) \cdot \phi(x_j) \]
+\end{definition}
+Il kernel, potenzialmente, \`e una \textbf{scorciatoia} per calcolare efficientemente il prodotto scalare anche in spazi con
+una dimensionalit\`a molto elevata.
+
+Nella pratica noi usiamo il kernel per calcolare il prodotto scalare direttamente nel feature space.
