@@ -96,3 +96,17 @@ Quindi solo gli $\alpha$ relativi ad un vettore di support sono diversi da zero.
 Sapendo questo, possiamo eliminare i casi in cui $\alpha_p = 0$ e quindi possiamo riscrivere la funzione in questo modo:
 \[ h(x) = sign \left( \sum_{p \in SV} \alpha_p y_p x_p^T x + b \right) \]
 dove $SV$ \`e l'insieme degli indici $p$ tali che $x_p$ \`e un vettore di supporto.
+
+Da notare che il prodotto
+\[ x_p^T x \]
+\`e un prodotto scalare. Fatto da tenere di conto quando andremo a definire cos'\`e il Kernel.
+
+\section{Soft Margin}
+Con il \textbf{soft margin} andiamo ad ammettere qualche errore, ossia qualche esempio all'interno del margine
+(\emph{noise tolerance}). Questo ci permette di definire un margine pi\`u ampio e di conseguenza far calare la complessit\`a
+del modello.
+
+Per trattare questo nuovo tipo di problema introduciamo le cosiddette \textbf{slack variable}, indicate con $\xi$, che ci
+permettono di ammettere errori di classificazione e/o dati rumorosi.
+
+Per riuscire ad usarle, dobbiamo ridefinire il problema in questo modo:
