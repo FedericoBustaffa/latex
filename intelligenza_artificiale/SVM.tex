@@ -62,3 +62,37 @@ Possiamo trattare il problema come un problema di ottimizzazione scrivendolo in 
 	\item \textbf{Vincoli}: i $w$ devono essere tali che
 	      \[ (w^T x_p + b) y_p \geq 1 \quad \text{per } p = 1, \dots, l \]
 \end{itemize}
+Dato che esiste il problema in forma primale possiamo scriverlo anche nella sua \textbf{forma duale}, che non andremo a
+trattare nello specifico ma sar\`a interessante analizzarne alcuni aspetti per capire meglio la soluzione che vedremo
+tra poco.
+
+Il problema in forma duale \`e questo
+\begin{itemize}
+	\item \textbf{Funzione obbiettivo}: \emph{massimizzare}
+	      \[
+		      \sum_{i=1}^l \alpha_i - \sum_{i=1}^l \frac{\alpha_i \alpha_j y_i y_j x_i^T x_j}{2}
+		      \quad
+		      \text{con } j = 1, \dots, l
+	      \]
+	\item \textbf{Vincoli}:
+	      \[
+		      \alpha_i \geq 0 \quad \text{con } i = 1, \dots, l
+		      \quad \wedge \quad
+		      \sum_{i=1}^l \alpha_i y_i = 0
+	      \]
+	      dove gli $\alpha$ sono \textbf{moltiplicatori di Lagrange}.
+\end{itemize}
+Altra considerazione che possiamo fare \`e che il costo computazionale cresce in base al numero di dati in input e non
+alla dimensionalit\`a dell'input.
+
+Se avessimo gi\`a gli $\alpha$ a disposizione possiamo calcolare i $w$ in questo modo:
+\[ w = \sum_{p=1}^l \alpha_p y_p x_p \]
+A questo punto possiamo riscrivere la nostra $h$ come segue:
+\[ h(x) = sign(w^T x + b) = sign \left( \sum_{p=1}^l \alpha_p y_p x_p^T x + b \right) \]
+Possiamo ridurre il calcolo sapendo conoscendo questa relazione
+\[ \alpha_p \neq 0 \Rightarrow x_p \text{ \`e un vettore di supporto} \]
+Quindi solo gli $\alpha$ relativi ad un vettore di support sono diversi da zero.
+
+Sapendo questo, possiamo eliminare i casi in cui $\alpha_p = 0$ e quindi possiamo riscrivere la funzione in questo modo:
+\[ h(x) = sign \left( \sum_{p \in SV} \alpha_p y_p x_p^T x + b \right) \]
+dove $SV$ \`e l'insieme degli indici $p$ tali che $x_p$ \`e un vettore di supporto.
