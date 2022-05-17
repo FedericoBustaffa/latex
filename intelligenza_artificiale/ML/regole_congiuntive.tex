@@ -1,12 +1,12 @@
 \chapter{Regole congiuntive}
-In questo capitolo andiamo a trattare una sottoclasse dei problemi di classificazione, nella quale, abbiamo solo due valori
-target: \verb|true| e \verb|false|. Per affrontarli andremo a ridurre lo spazio delle ipotesi tramite
+In questo capitolo andiamo a trattare una sottoclasse dei problemi di classificazione, nella quale, abbiamo solo due
+valori target: \verb|true| e \verb|false|. Per affrontarli andremo a ridurre lo spazio delle ipotesi tramite
 \textbf{regole congiuntive}.
 
 In questo specfico caso, la funzione da inferire, \`e ovviamente una funzione \textbf{logica booleana}.
 
-Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e a valori \textbf{discreti}, e assumiamo che non ci sia rumore
-nei dati di training.
+Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e a valori \textbf{discreti}, e assumiamo che non ci sia
+rumore nei dati di training.
 
 \begin{definition}
 	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se
@@ -42,7 +42,8 @@ essere
 	\item Un \textbf{valore specifico}: si assegna all'attributo un valore vero e proprio tra quelli consentiti.
 	\item Un \textbf{valore qualsiasi}: indicato con \verb|?|, vuol dire che non ci importa quale valore
 	      scegliamo per quell'attributo.
-	\item Un \textbf{valore vietato}: indicato con $\phi$, significa che nessun valore \`e consentito per quell'attributo.
+	\item Un \textbf{valore vietato}: indicato con $\phi$, significa che nessun valore \`e consentito per
+	      quell'attributo.
 \end{itemize}
 
 \begin{definition}
@@ -68,8 +69,8 @@ contenuto in $H$. Questo perch\'e $c \geq h$
 		      \item Per ogni attributo in $h$:
 		            \begin{itemize}
 			            \item Se l'attributo \`e soddisfatto da $x$ in $h$ non si fa niente.
-			            \item Altrimenti si rimpiazza l'attributo con il vincolo pi\`u generale che \`e soddisfatto da
-			                  $x$.
+			            \item Altrimenti si rimpiazza l'attributo con il vincolo pi\`u generale che \`e soddisfatto
+			                  da $x$.
 		            \end{itemize}
 	      \end{itemize}
 	\item Si ritorna l'ipotesi $h$ trovata (la pi\`u specifica).
@@ -79,8 +80,8 @@ contenuto in $H$. Questo perch\'e $c \geq h$
 L'idea \`e quella di generare una \emph{descrizione} dell'insieme di tutte le ipotesi $h$ consistenti con il training
 set $D$.
 
-\`E possibile farlo senza enumerarle tutte. Per farlo dobbiamo conoscere la definizione di \emph{consistenza} (definizione
-\ref{def: consistente}) per un'ipotesi $h$ rispetto ad un training set $D$.
+\`E possibile farlo senza enumerarle tutte. Per farlo dobbiamo conoscere la definizione di \emph{consistenza}
+(definizione \ref{def: consistente}) per un'ipotesi $h$ rispetto ad un training set $D$.
 
 \begin{definition}
 	Il \textbf{version space} $VS_{H, D}$, rispetto allo spazio delle ipotesi $H$ e al training set $D$, \`e definito
@@ -106,8 +107,8 @@ Introduciamo ora un po' di notazione per riuscire a rappresentare il version spa
 \end{definition}
 
 \begin{definition}
-	Il \textbf{confine specifico}, $S$, del version space $VS_{H, D}$ \`e l'insieme delle ipotesi massimamente specifiche
-	e consistenti in $D$.
+	Il \textbf{confine specifico}, $S$, del version space $VS_{H, D}$ \`e l'insieme delle ipotesi massimamente
+	specifiche e consistenti in $D$.
 \end{definition}
 
 \begin{theorem}
@@ -153,11 +154,11 @@ Per ora abbiamo deciso di predere in considerazione solo regole congiuntive. Il 
 incapace di rappresentare semplici disgiunzioni. Nonostante questa grossa limitazione non ci \`e possibile liberarci
 di tali regole.
 
-L'idea \`e quella di scegliere un $H$ che esprime tutti i possibili concetti tramite congiunzioni, disgiunzioni e negazioni.
-Quindi in $H$ sar\`a contenuta anche la funzione obbiettivo.
+L'idea \`e quella di scegliere un $H$ che esprime tutti i possibili concetti tramite congiunzioni, disgiunzioni e
+negazioni. Quindi in $H$ sar\`a contenuta anche la funzione obbiettivo.
 
-Dato che il nostro obbiettivo \`e generalizzare lanciamo l'algoritmo di eliminazione ma quello che succederebbe \`e che non
-tutti i nuovi esempi verrebbero classficati in maniera ambigua. I soli ad essere classificati in maniera non ambigua
+Dato che il nostro obbiettivo \`e generalizzare lanciamo l'algoritmo di eliminazione ma quello che succederebbe \`e che
+non tutti i nuovi esempi verrebbero classficati in maniera ambigua. I soli ad essere classificati in maniera non ambigua
 sarebbero gli esempi di allenamento iniziali.
 
 \begin{theorem}
@@ -172,10 +173,11 @@ L'apprendimento senza assunzioni a priori non ha basi razionali per classificare
 a priori non sono utilizzate per una questione di efficienza ma per il bisogno di \emph{generalizzare}.
 
 \begin{definition}
-	Sia $L$ un algoritmo di apprendimento, $X$ l'insieme delle istanze, $c$ la funzione obbiettivo, $D_c = \{<x, c(x)>\}$
-	l'insieme di esempi di allenamento e sia $L(x_i, D_c)$ la classificazione assegnata ad un'istanza $x_i$ da $L$ dopo
-	aver lavorato sull'insieme $D_c$. Chiamo \textbf{bias induttivo} di $L$ ogni minimo insieme $B$ di asserzioni tali che,
-	per ogni funzione obbiettivo $c$ e per il corrispondente insieme di esempi di allenamento $D_c$.
+	Sia $L$ un algoritmo di apprendimento, $X$ l'insieme delle istanze, $c$ la funzione obbiettivo,
+	$D_c = \{<x, c(x)>\}$ l'insieme di esempi di allenamento e sia $L(x_i, D_c)$ la classificazione assegnata ad
+	un'istanza $x_i$ da $L$ dopo aver lavorato sull'insieme $D_c$. Chiamo \textbf{bias induttivo} di $L$ ogni minimo
+	insieme $B$ di asserzioni tali che, per ogni funzione obbiettivo $c$ e per il corrispondente insieme di esempi di
+	allenamento $D_c$.
 	\[ (\forall x_i \in X) [B \wedge D_c \wedge x_i] \vdash L(x_i, D_c) \]
 	dove $A \vdash B$ significa che $A$ implica logicamente $B$.
 \end{definition}
