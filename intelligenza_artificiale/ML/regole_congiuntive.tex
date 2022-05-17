@@ -48,7 +48,7 @@ essere
 \end{itemize}
 
 \begin{definition}
-	Si dice che una certa ipotesi $h_j$ \`e \textbf{pi\`u generale} di $h_k$ se e solo se per ogni $x \in X$ vale che
+	Si dice che una certa ipotesi $h_j$ \`e \textbf{pi\`u generale} di $h_k$ se e solo se, per ogni $x \in X$ vale che
 	\[ h_k(x) = 1 \quad \Rightarrow \quad h_j(x) = 1 \]
 	e si indica con
 	\[ h_j \geq h_k \]
@@ -65,7 +65,7 @@ L'algoritmo trova l'ipotesi pi\`u \textbf{specifica} in $H$ e che sia consistent
 contenuto in $H$. Questo perch\'e $c \geq h$
 \begin{enumerate}
 	\item Si inizializza $h$ con l'ipotesi pi\`u specifica.
-	\item Per ogni istanza positiva $x$:
+	\item Per ogni istanza $x$ di un esempio di training positivo:
 	      \begin{itemize}
 		      \item Per ogni attributo in $h$:
 		            \begin{itemize}
@@ -124,7 +124,7 @@ Sia $G$ il confine generale e $S$ il confine specifico.
 	\item Per ogni ipotesi $s$ in $S$ inconsistente con $d$ generalizzo $S$:
 	      \begin{enumerate}
 		      \item Rimuovo $s$ da $S$.
-		      \item Aggiungo a $S$ tutte le minime generalizzazioni $h$ tali che
+		      \item Aggiungo a $S$ tutte le minime generalizzazioni $h$ di $s$, tali che
 		            \begin{itemize}
 			            \item $h$ sia consistente con $d$.
 			            \item almeno un membro di $G$ sia pi\`u generale di $h$.
@@ -141,7 +141,7 @@ Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello
 	\item Per ogni ipotesi $g$ in $G$ inconsistente con $d$ specializzo $G$:
 	      \begin{enumerate}
 		      \item Rimuovo $g$ da $G$.
-		      \item Aggiungo a $G$ tutte le minime specializzazioni $h$ tali che:
+		      \item Aggiungo a $G$ tutte le minime specializzazioni $h$ di $g$, tali che:
 		            \begin{itemize}
 			            \item $h$ sia consistente con $d$.
 			            \item almeno un membro di $S$ sia pi\`u specifico di $h$.
