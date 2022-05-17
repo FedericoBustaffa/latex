@@ -14,8 +14,9 @@ rumore nei dati di training.
 \end{definition}
 
 \begin{definition}\label{def: consistente}
-	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio $d$, per un certo input $x$, se
-	\[ h(x) = d \]
+	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio di training $d_p$, per un certo input $x$, se
+	\[ h(x) = y_p \]
+	dove $y_p$ \`e il valore target dell'esempio $d_p$.
 \end{definition}
 
 Nel caso di sole funzioni booleane lo spazio delle ipotesi ha dimensione
