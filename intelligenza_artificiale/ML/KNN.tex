@@ -1,1 +1,94 @@
-\chapter{KNN}
+\chapter{K-Nears Neighbor}
+Per questo modello si ha un cambio di approccio. Nei modelli visti fino ad ora, i dati di training
+venivano processati per riuscire a calcolare una buona approssimazione della funzione obbiettivo, in seguito si
+usava l'approssimazione trovata per calcolare l'output di nuovi input non visti in fase di training.
+
+Il \textbf{K-Nears Neighbor} o \textbf{K-NN} non processa affatto i dati per fare una stima della funzione obbiettivo,
+semplicemente salva tutti i dati di training. Quando gli verr\`a dato in input un nuovo dato, l'algoritmo calcoler\`a
+il relativo output sulla base dei $k$ (con $k$ scelto a priori) dati \emph{pi\`u vicini}.
+
+Pu\`o essere usato sia per problemi di classificazione che per problemi di regressione.
+
+\section{1-NN}
+Vediamo come primo esempio il caso base in cui consideriamo il dato pi\`u vicino al nuovo input.
+
+In questo caso l'algoritmo \`e definito in questo modo:
+\begin{enumerate}
+	\item Si memorizzano gli $l$ dati di training.
+	\item Si cerca l'esempio di training $x_p$ pi\`u vicino al nuovo input $x$. L'esempio di training che stiamo
+	      cercando \`e quello che minimizza la funzione
+	      \[ d(x_p, x) \]
+	      dove $d$ \`e la \textbf{distanza Euclidea} tra $x_p$ e $x$, espressa come segue:
+	      \[ d(x_p, x) = \sqrt{\sum_{t=1}^n (x_t - x_{p, t})^2} = \| x - x_p \| \]
+	      dove $x_t$ indica la $t$-esima componente di $x$ e $n$ equivale alla dimensionalit\`a dell'input.
+	\item Una volta trovato l'esempio di training $x_p$ pi\`u vicino restituisco il relativo valore target $y_p$ come
+	      output anche per il nuovo input $x$.
+\end{enumerate}
+Questo approccio \`e estremamente flessibile, ha un errore di training nullo anche se non si pu\`o propriamente
+parlare di training dato che ci limitiamo a memorizzare i dati. In sostanza ai dati di training viene assegnato lo
+stesso valore target che aveva nel training set senza che si esegua alcuna operazione di fitting.
+
+Il problema pu\`o sorgere in fase di test. Abbiamo detto essere un approccio molto flessibili e dunque tendente
+all'overfitting.
+
+I decision boundary trovati sonon \textbf{non lineari} e \textbf{irregolari}. Pu\`o esserci eccessivo rumore sui dati
+che non viene gestito.
+
+\section{K-NN}
+Nel caso in cui avessimo $k > 1$ andremo a cercare i $k$ esempi di training pi\`u vicini e ci baseremo sul valore di
+essi per assegnare il valore al nuovo input.
+
+\subsection*{K-NN per regressione}
+Nel caso usassimo il K-NN come regressore, andiamo a fare la media dei $k$ vicini e assegnamo quel valore al nuovo dato
+in input. Possiamo esprimere la media dei $k$ vicini in questo modo:
+\[ avg_k(x) = \frac{1}{k} \sum_{x_i \in N_k(x)} y_i \]
+dove $N_k(x)$ equivale all'insieme dei $k$ esempi di training pi\`u vicini a $x$.
+
+\subsection*{K-NN classificatore}
+Se invece lo stessimo usando come classificatore avremmo due opzioni, l'una equivalente all'altra. Le andiamo comunque
+ad analizzare entrambe.
+
+\subsubsection{Media}
+Si fa la media tra i $k$ valori target dei $k$ esempi di training (come per la regressione), che in questo caso saranno
+solo 0 e 1 oppure -1 e 1 e assegnare il valore di output in base ad una soglia.
+
+Nel caso in cui avessimo 0 e 1 come valori target, nel caso in cui la media sia minore di $0.5$ assegneremo 0 al nuovo
+input, assegneremo 1 altrimenti.
+
+Discorso analogo nel caso in cui i valori target siano -1 e 1, l'unica differenza sta nel fatto che il valore soglia
+passa da $0.5$ a 0.
+
+\subsubsection{Maggioranza}
+Invece di calcolare la media, potremmo semplicemente contare quanti esempi positivi e quanti negativi abbiamo tra i $k$
+pi\`u vicini e assegnare il valore sulla base della maggioranza.
+
+\subsubsection{Classificatori non binari}
+Nel caso avessimo pi\`u classi andremo a prendere la pi\`u frequente tra le $k$ classi dei vicini. Andiamo quindi a
+implementare una sorta di contatore che ci dice quale sia la pi\`u frequente.
+
+\section{Analisi}
+Andando ad aumentare, anche in maniera consistente, il valore di $k$, il modello rimane comunque molto flessibile.
+In questo per\`o caso possiamo avere anche errori sui dati di training e riusciamo a mitigare il problema
+dell'overfitting.
+
+Aumentare $k$ fino ad un numero simile al numero di dati training rende il modello troppo rigido poich\'e va a fare la
+media su tutto il training set (underfitting).
+
+Al contrario un $k=1$ (o comunque molto piccolo), come abbiamo gi\`a potuto vedere, ci porta in una situazione di
+overfitting.
+
+Come sempre dobbiamo trovare il giusto compromesso tra il valore $k$ e il numero di esempi di training.
+
+Tra i vari approcci possiamo definire il K-NN come \textbf{lazy}, \textbf{basato su memoria},
+\textbf{basato sulle istanze} e \textbf{basato sulla distanza}.
+
+\`E un approccio con un alto costo computazionale, il quale cresce al crescere dei dati di training e al crescere
+della dimensionalit\`a dell'input.
+
+Mentre in precedenza allenavamo un modello, che poi era in grado di rispondere in maniera praticamente istantanea
+all'arrivo di nuovi dati in input, ora dobbiamo ogni volta trovare i $k$ vicini e poi calcolare la media dei loro
+valori ogni volta che assumiamo un nuovo dato in input.
+
+\subsection{Bias induttivi}
+In questo caso il fatto di considerare solo elementi simili a quello preso in analisi \`e il nostro bias induttivo di
+linguaggio.
