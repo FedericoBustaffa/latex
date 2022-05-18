@@ -1,0 +1,54 @@
+\chapter{Apprendimento non supervisionato}
+In questo capitolo andremo a trattare l'\textbf{apprendimento non supervisionato}, nel quale, non vengono forniti gli
+esempi di training nella forma che siamo abituati a vedere, ossia
+\[ d = (x, y) \]
+dove $x$ \`e l'input e $y$ \`e il relativo output. Nell'apprendimento non supervisionato abbiamo solo il valore $x$ e
+quel che vogliamo fare \`e cercare dei raggruppamenti di questi dati.
+
+\section{Clustering}
+Una delle operazioni pi\`u comuni in questo tipo di apprendimento \`e quella del \textbf{clustering}, in cui andiamo
+a ripartire i dati in gruppi (o \textbf{cluster}). Un cluster ha la particolarit\`a di avere al suo interno dati
+\emph{simili}, ossia dati vicini fra loro, dove la distanza \`e calcolata tramite la formula della distanza Euclidea,
+vista per il K-NN.
+
+In genere si ha anche l'obbiettivo di trovare i cosiddetti \textbf{centroidi} o \textbf{prototipi}, ossia dei punti
+nell'iperpiano che stanno al centro del cluster, quindi in un \emph{punto medio}, che sia in grado di rappresentare il
+cluster.
+
+Questo ci permette di scoprire strutture naturali e latenti dei dati in maniera automatica e ci permettere di scoprire
+pattern sconociuti.
+
+Un altro motivo \`e il \textbf{preprocessing} per altri metodi di Machine Learning: possiamo andare a ridurre la
+dimensionalit\`a dei dati.
+
+Possiamo anche affermare che pattern appartenenti allo stesso cluster, sono pi\`u simili fra loro che a pattern
+appartenenti ad altri cluster.
+
+\section{Spazio delle ipotesi}
+In questo caso, lo spazio delle ipotesi per problemi di clustering, \`e un insieme di \textbf{vettori quantizzatori}
+che associano un dato $x$ ad un centroide $c(x)$ di un certo cluster. Passiamo quindi da uno spazio \emph{continuo}
+a uno \emph{discreto}.
+
+L'obbiettivo \`e trovare il partizionamento ottimale per distribuzioni di dati sconociute in cluster approssimando
+la computazione ad un centroide.
+
+Una delle funzioni comuni per il calcolo dell'errore \`e questa
+\[ L(h(x_p)) = \| x_p - c(x_p) \|^2 \]
+la quale indica la distanza tra $x_p$ e il suo centroide ed \`e detta \textbf{funzione di errore di distorsione quadratico}.
+Il nostro obbiettivo \`e \emph{minimizzare} questa funzione in modo da spostare il centroide al centro del cluster.
+
+\section{K-means}
+Il \textbf{K-means} \`e un algoritmo molto semplice e sfrutta l'errore quadratico per riuscire a minimizzare la funzione
+vista in precedenza.
+\begin{enumerate}
+	\item Si sceglie il numero $k$ dei centroidi, e si assegna ognuno di essi a $k$ pattern scelti a caso o a $k$ punti
+	      scelti a caso all'interno dell'ipervolume in cui stanno tutti i nostri pattern.
+	\item Si assegna ogni pattern al centroide pi\`u vicino, ossia al centroide $i$ che minimizza
+	      \[ \| x - c_i \|^2 \]
+	      andiamo a creare in questo modo $k$ cluster.
+	\item Si ricalcola la posizione di ogni centroide sulla base del cluster creato. Per farlo facciamo la media del
+	      valore di tutti i pattern $x_j$ appartenenti a $cluster_i$:
+	      \[ c_i = \frac{1}{|cluster_i|} \sum_{j : x_j \in cluster_i} x_j \]
+	\item Una volta spostati i centroidi dobbiamo controllare che ogni pattern sia assegnato correttamente al centroide
+	      pi\`u vicino. Se cos\`i non fosse si torna la punto 2. altrimenti si termina.
+\end{enumerate}
