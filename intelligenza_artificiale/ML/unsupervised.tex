@@ -52,3 +52,29 @@ vista in precedenza.
 	\item Una volta spostati i centroidi dobbiamo controllare che ogni pattern sia assegnato correttamente al centroide
 	      pi\`u vicino. Se cos\`i non fosse si torna la punto 2. altrimenti si termina.
 \end{enumerate}
+
+\subsection*{Limitazioni}
+L'algoritmo \`e semplice ma limitato:
+\begin{itemize}
+	\item Il numero di cluster da trovare \`e fissato a priori.
+	\item La minimizzazione locale dell'errore rende l'algoritmo troppo dipendente dall'inizializzazione.
+	\item Pu\`o funzionare bene per cluster compatti e \emph{ipersferici}.
+	\item Non ha propriet\`a di visualizzazione poich\'e non \`e possibile proiettare il cluster in uno spazio con una
+	      dimensionalit\`a pi\`u bassa.
+\end{itemize}
+
+\section{Valutazione clustering}
+La valutazione di un metodo di clustering pu\`o essere \emph{soggettiva}, ma solo in particolari subdomini ben definiti
+sui quali possiamo fare assunzioni di qualche tipo e aspettarci un certo output.
+
+Un metodo di valutazione pi\`u \emph{oggettivo} pu\`o essere dato dall'errore di quantizzazione, che tuttavia dipende dal
+numero di centroidi e dal loro posizionamento iniziale (due fattori scelti a priori dall'utente).
+
+Per problemi di classificazione si potrebbe valutare il cluster in base al valore di \textbf{purezza}, ossia, si contano
+gli esempi positivi e quelli negativi. Se il numero di positivi \`e nettamente superiore a quello dei negativi o viceversa,
+diremo che il cluster \`e \emph{puro}, al contrario, pi\`u la proporzione tra le due classi si avvicina al 50\% pi\`u
+il cluster sar\`a \emph{impuro}.
+
+Il problema di questo metodo di valutazione sta nel fatto che noi abbiamo raggruppato i pattern in base alla vicinanza
+ai centroidi e non in base al loro valore target. Abbiamo quindi un metodo di valutazione che non centra niente col metodo
+di clustering usato.
