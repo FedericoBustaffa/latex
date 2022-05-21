@@ -3,38 +3,36 @@ In questo capitolo andiamo a trattare una sottoclasse dei problemi di classifica
 valori target: \verb|true| e \verb|false|. Per affrontarli andremo a ridurre lo spazio delle ipotesi tramite
 \textbf{regole congiuntive}.
 
-In questo specfico caso, la funzione da inferire, \`e ovviamente una funzione \textbf{logica booleana}.
-
-Lo spazio nel quale vogliamo fare ricerca \`e \textbf{finito} e a valori \textbf{discreti}, e assumiamo che non ci sia
-rumore nei dati di training.
+In questo specifico caso, la funzione da inferire, \`e di tipo \textbf{logico booleano}, quindi ci stiamo muovendo in uno
+spazio \textbf{finito} e a valori \textbf{discreti}. Assumiamo inoltre che non ci sia rumore nei dati di training.
 
 \begin{definition}
-	Si dice che un'ipotesi \textbf{soddisfa} un certo valore in input $x$ se
+	Si dice che un'ipotesi $h$ \textbf{soddisfa} un certo valore in input $x$ se
 	\[ h(x) = 1 \]
 \end{definition}
 
 \begin{definition}\label{def: consistente}
-	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio di training $d_p$, per un certo input $x$, se
-	\[ h(x) = y_p \]
-	dove $y_p$ \`e il valore target dell'esempio $d_p$.
+	Si dice che un'ipotesi $h$ \`e \textbf{consistente} con un esempio di training $d_p$ se
+	\[ h(x_p) = y_p \]
 \end{definition}
 
+\section{Spazio delle ipotesi}
 Nel caso di sole funzioni booleane lo spazio delle ipotesi ha dimensione
 \[ |H| = 2^{2^n} \]
 dove $n$ \`e la dimensione dell'input. Questo perch\'e abbiamo $2^n$ possibili istanze delle $n$ variabili in input e
 per ognuna di esse possiamo avere in output 2 valori booleani.
 
-In realt\`a lavoreremo con uno spazio delle funzioni ristretto, rispetto allo spazio di tutte le
-possibili funzioni.
-
-Le \textbf{regole congiuntive} ci permettono di utilizzare solo funzioni booleane che mettono in \emph{and} le
-variabili, ottenendo cos\`i uno spazio delle ipotesi di dimensione
+Le \textbf{regole congiuntive} ci permettono di restringere la dimensione $H$ andando a considerare solo funzioni che mettono
+in \emph{and} le variabili, ottenendo cos\`i uno spazio delle ipotesi di dimensione
 \[ |H| = 2^n \]
-Come possiamo vedere abbiamo ridotto notevolmente lo spazio delle ipotesi.
+Adesso infatti si considera solo la dimensione di tutte le possibili istanze delle variabili in input. Prima consideravamo,
+per tutte le possibili istanze di input, anche tutte le possibili funzioni booleane a $n$ variabili in input.
+
+Le regole congiuntive ammettono come unica funzione la \textbf{congiunzione} tutte le variabili in input.
 
 Se volessimo aggiungere tutti i possibili input negati (\textbf{not}) avremmo uno spazio delle ipotesi di dimensione
 \[ |H| = 3^n + 1 \]
-In generale strutturare lo spazio di ricerca (anche se infito) aiuta molto nella ricerca.
+In generale strutturare lo spazio di ricerca (anche se infinito) aiuta molto nella ricerca.
 
 \section{Rappresentazione delle ipotesi}
 Un ipotesi $h$ \`e rappresentata come una congiunzione di vincoli sugli attributi. In particolare ogni vincolo pu\`o
@@ -151,16 +149,10 @@ Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello
 \end{enumerate}
 
 \section{Bias induttivi}
-Per ora abbiamo deciso di predere in considerazione solo regole congiuntive. Il nostro spazio delle ipotesi \`e dunque
-incapace di rappresentare semplici disgiunzioni. Nonostante questa grossa limitazione non ci \`e possibile liberarci
-di tali regole.
+I \textbf{bias induttivi} sono assunzioni che facciamo sulla nostra funzione obbiettivo e sono fondamentali per
+riuscire a \emph{generalizzare} bene.
 
-L'idea \`e quella di scegliere un $H$ che esprime tutti i possibili concetti tramite congiunzioni, disgiunzioni e
-negazioni. Quindi in $H$ sar\`a contenuta anche la funzione obbiettivo.
-
-Dato che il nostro obbiettivo \`e generalizzare lanciamo l'algoritmo di eliminazione ma quello che succederebbe \`e che
-non tutti i nuovi esempi verrebbero classficati in maniera ambigua. I soli ad essere classificati in maniera non ambigua
-sarebbero gli esempi di allenamento iniziali.
+Per ora visto solo le regole congiuntive le quali sono servono a restringere lo spazio delle ipotesi.
 
 \begin{theorem}
 	Un apprendimento che non fa preferenze di alcun tipo non \`e in grado di generalizzare.
