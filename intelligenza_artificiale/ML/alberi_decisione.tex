@@ -6,10 +6,10 @@ Con questo approccio abbandoniamo anche le regole congiuntive, che, come avevamo
 rigido.
 
 Gli alberi di decisione rappresentano una disgiunzione di congiunzioni di vincoli sui valori degli attributi. In
-pratica un albero ha vari \textbf{cammini} o \textbf{path}. Il nodo di un cammino \`e composto da un attributo, al
-quale viene assegnato un certo valore. Ogni cammino termina un valore \verb|true| o \verb|false|.
+pratica un albero ha vari \textbf{cammini} o \textbf{path}, i cui nodi sono composti da un attributo, al
+quale viene assegnato un certo valore. Ogni cammino termina con un valore \verb|true| o \verb|false|.
 
-L'albero \`e una congiunzione di tutte le congiunzioni (o cammini) che portano a un valore \verb|true|.
+L'albero \`e una disgiunzione di tutte le congiunzioni (o cammini) che portano a un valore \verb|true|.
 
 \section{Algoritmo ID3}
 \`E un algoritmo di tipo \emph{greedy} che fa una ricerca nello spazio delle ipotesi usando l'euristica del
