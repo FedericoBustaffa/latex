@@ -148,6 +148,17 @@ Si pu\`o scrivere l'algoritmo per esempi negativi, in maniera speculare a quello
 	      \end{enumerate}
 \end{enumerate}
 
+\subsection{Conclusioni}
+Una volta generalizzato $S$ e specializzato $G$ pi\`u che possiamo in base agli esempi di training otterremo due
+confini per il nostro spazio delle ipotesi. Le ipotesi che si trovano sui due confini e quelle che stanno in mezzo
+sono tutte consistenti con il training set.
+
+Quando riceveremo un nuovo input, questo verr\`a classificato in base alla maggioranza dei risultati delle varie
+ipotesi. In sintesi, se pi\`u ipotesi classificano il dato come positivo l'output finale sar\`a una classificazione
+positiva, viceversa per una maggioranza di classificazioni negative.
+
+In caso di parit\`a l'output restituito sar\`a \textbf{rejection}.
+
 \section{Bias induttivi}
 I \textbf{bias induttivi} sono assunzioni che facciamo sulla nostra funzione obbiettivo e sono fondamentali per
 riuscire a \emph{generalizzare} bene.
