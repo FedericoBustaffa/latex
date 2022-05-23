@@ -2,12 +2,16 @@
 Introduciamo ora i \textbf{modelli lineari}, molto utili per risolvere \textbf{problemi di regressione}, che, come
 abbiamo gi\`a anticipato hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico reale}.
 
-Il nostro obbiettivo \`e quello di riuscire ad approssimare una funzione a valori reali e continui che potrebbe restituire
-anche dati imprecisi o \textbf{rumorosi}. Un tipico esempio di coppia presente nel training set sar\`a del tipo:
-\[ (x, f(x) + rumore) \]
+Per un problema di regressione il nostro obbiettivo \`e quello di riuscire ad approssimare una funzione a valori reali
+e continui che potrebbe comprendere anche dati imprecisi o \textbf{rumorosi}. Un tipico esempio di coppia presente nel
+training set sar\`a del tipo:
+\[ (x, c(x) + noise) \]
+con $noise \geq 0$ che indica l'errore sul dato del training set. Se il rumore \`e nullo, il dato avr\`a un valore
+perfettamente consistente con la funzione che vogliamo approssimare. Pi\`u il rumore \`e alto e pi\`u il dato in questione
+si allontaner\`a da tale funzione.
 
-Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia trovare un'approssimazione di $f(x)$ che passi il
-pi\`u vicino possibile ad ognuno dei punti presenti nel training set.
+Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia trovare un'approssimazione di $c$ che restituisca
+risultati quanto pi\`u simili possibile a quelli che restituirebbe $c$ con lo stesso input.
 
 Nello specifico, vogliamo costruire un algoritmo di apprendimento che riesca a stimare valori di  $y$ corrispondente ad
 altri valori di input $x$ non ancora osservati, \emph{minimizzando} l'errore o perdita di precisione.
@@ -37,25 +41,25 @@ Il valore trovato viene elevato al quadrato per due motivi:
 \section{Regressione lineare univariata}
 Per capire meglio i modelli lineari facciamo riferimento ad una della classe di problemi molto semplice, ovvero
 la \textbf{regressione lineare univariata}, in cui si considerano modelli composti da funzioni lineari, che hanno una
-sola variabile $x$ in input e una sola variabile $y$ in output.
+sola variabile $x$ in input.
 
-Per questa classe di problemi si assume un modello espresso come
-\[ h(x) = w_1 x + w_0 \]
+Per questa classe di problemi si assume un modello espresso tramite l'equazione
+\[ h_w(x) = w_1 x + w_0 \]
 dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
 
-L'obbiettivo sar\`a dunque, quello di minimizzare la funzione d'errore che abbiamo visto prima, che in questo caso diventa:
+L'obbiettivo sar\`a dunque, quello di minimizzare la funzione d'errore $E$ che abbiamo visto prima, che, se andiamo a
+sostituire con la sua forma esplicita diventa:
 \[ E(w) = \sum_{p=1}^l (y_p - (w_1 x + w_0))^2 \]
-Quello che facciamo nello
-specifico \`e trovare $w_0$ e $w_1$ tali che la retta $h(x)$ passi il pi\`u vicino possibile a tutti i punti.
+Dato che il training set ci fornisce una serie di input con relativo output (coppie del tipo $d_p = (x_p, y_p)$), le nostre
+incognite diventano $w_0$ e $w_1$.
 
-\subsection{Metodo di risoluzione analitico - LMS}
-La tecnica che vedremo \`e chiamata \emph{Least Mean Square} il cui obbiettivo \`e quello di trovare un valore dei
-coefficienti $w$ che minimizzi l'errore quadratico medio.
+\subsection{LMS - risoluzione analitica}
+Con la tecnica di minimizzazione dell'errore detta \textbf{Least Mean Square} o \textbf{LMS} andiamo a trovare i
+coefficienti $w$ tali da minimizzare l'errore quadratico medio sul training set.
 
-Per fare questo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza: il \textbf{gradiente}.
+Per farlo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza: il \textbf{gradiente}.
 
-L'idea \`e molto semplice ma anche efficace. Dato che nel training set sono forniti i valori $x$ e $y$, i valori incogniti
-sono $w_0$ e $w_1$. Per trovarli
+L'algoritmo funziona in questo modo:
 \begin{enumerate}
 	\item Calcoliamo la funzione $E$ per tutti gli esempi presenti nel training set.
 	\item Calcoliamo la derivata parziale della funzione rispetto a $w_0$ e $w_1$, ossia calcoliamo il gradiente.
@@ -72,34 +76,37 @@ sono $w_0$ e $w_1$. Per trovarli
 Agendo in maniera analitica abbiamo semplicemente trovato il punto stazionario corrispondente al minimo globale della
 funzione $E$.
 
-Adesso abbiamo una funzione $h_w$ con dei $w$ fissati con cui posso provare a calcolare nuovi $y$ relativi a nuovi
+Adesso abbiamo una funzione $h_w$ con dei $w$ fissati con cui posso calcolare nuovi $y$ relativi a nuovi
 input $x$ non presenti nel training set.
 
-Chiariamo che i nuovi valori $h_w(x)$ calcolati saranno approssimazioni del reale valore relativo a $x$, tranne rari casi
+I nuovi valori $h_w(x)$ calcolati saranno approssimazioni del reale valore relativo a $x$, tranne rari casi
 in cui il reale valore $y$ relativo a $x$ si trovi esattamente sulla retta trovata.
 
-\subsection{Metodo algoritmico - LMS}
-Adesso vogliamo per\`o vogliamo agire in maniera algoritmica e cerca la funzione giusta con un metodo simile a quello
-visto nel capitolo \ref{chapter: ricerca_locale} quando parlavamo di ricerca locale in spazi continui.
+\subsection{LMS - algoritmo}
+Procediamo ora in modo algoritmico, cercando la funzione giusta con un metodo simile a quello visto nel capitolo
+\ref{chapter: ricerca_locale} quando parlavamo di ricerca locale in spazi continui.
 
-Avevamo definito una regola che ci permetteva di muoverci in spazi continui seguendo le indicazioni del gradiente in questo
-modo:
+Avevamo definito una regola che ci permetteva di muoverci in spazi continui seguendo il gradiente.
 \[ x_{\text{new}} = x \pm \eta \nabla f(x) \]
 Adesso dobbiamo semplicemente riadattarla come segue:
 \[ w_{\text{new}} = w - \eta \nabla E(w) \]
 Sapendo che
 \[ -\nabla E(w) = \Delta w \]
-possiamo definire adesso la \textbf{regola delta} riscrivendo la funzione in questo modo:
+definiamo adesso la \textbf{regola delta} come segue:
 \[ w_{\text{new}} = w + \eta \Delta w \]
 Notiamo che nella ricerca locale usavamo $+\nabla f(x)$ per cercare massimi locali e $-\nabla f(x)$ per cercare minimi
 locali. In questo caso siamo interessati solo ai minimi locali dunque nella formula comparir\`a sempre
 $-\nabla E(w) = +\Delta w$.
 
-Ricordiamo inoltre che $\eta$ rappresenta la dimensione del passo ($0 < \eta < 1$), che, in ambito Machine Learning,
+Ricordiamo inoltre che $\eta$ rappresenta la \textbf{dimensione del passo} ($0 < \eta < 1$), che, in questo ambito,
 rappresenta il \textbf{learning rate}.
 
-Su questa base possiamo costruire un algoritmo di ricerca nello spazio delle ipotesi che corregge l'errore man mano che
-si elaborano nuovi esempi del training set. Nello specifico le correzioni avvengono in questo modo:
+Pi\`u $\eta$ \`e alto pi\`u il nostro algoritmo si muover\`a velocemente lungo la funzione rischiando per\`o di perdere
+la soluzione ottima. Al contrario, un $\eta$ troppo basso, non ci far\`a perdere l'ottimo ma potrebbe risultare troppo
+lento.
+
+Su questa base possiamo costruire un algoritmo di ricerca nello spazio delle ipotesi che corregge l'errore, passo dopo passo,
+in questo modo:
 \begin{itemize}
 	\item Se $y = h(x)$ l'errore \`e nullo quindi non faccio niente.
 	\item Se $h(x) > y$ significa che il valore atteso si trova sopra la nostra retta. Le correzioni che possiamo fare
@@ -139,8 +146,8 @@ L'algoritmo pu\`o essere implementato con due politiche differenti:
 	\item \textbf{Online}: in questo caso non si svolge la sommatoria ma si calcola il $\Delta w$ per ogni esempio nel
 	      training set e si va subito ad applicare la regola delta aggiornando i pesi ogni volta.
 
-	      Questa politica pu\`o rendere l'algoritmo pi\`u veloce ma, generalmente, lo rende anche pi\`u instabile. necessita
-	      quindi di un \textbf{learning rate} pi\`u basso rispetto alla politica batch.
+	      Questa politica pu\`o rendere l'algoritmo pi\`u veloce ma, generalmente, lo rende anche pi\`u instabile. Necessita
+	      quindi di un learning rate pi\`u basso rispetto alla politica batch.
 \end{itemize}
 
 \section{Input multidimensionale}
@@ -148,39 +155,43 @@ Abbiamo visto il caso base con una sola variabile in input ma nella realt\`a i p
 molte variabili. Dobbiamo quindi trovare una regola pi\`u generale che ci aiuti a trattare problemi con pi\`u variabili in
 input.
 
-D'ora in avanti considereremo membri del training set (\textbf{pattern}) multidimensionali che hanno per l'appunto pi\`u
+D'ora in avanti considereremo membri del training set o \textbf{pattern} multidimensionali che hanno per l'appunto pi\`u
 variabili di input e un valore target di output. Indicheremo quindi con $x_{p, i}$ l'$i$-esima variabile del $p$-esimo
 pattern e $X$ sar\`a una matrice $l \times n$ dove $l$ \`e il numero di pattern e $n$ \`e il numero di variabili per ogni
 pattern.
 
 Stavolta la funzione da approssimare sar\`a nella forma
-\[ h(x_1, \dots, x_n) = w_0 + w_1 x_1 + \dots + w_n x_n = w_0 + \sum_{i=1}^n w_i x_i \]
-e non rappresenter\`a pi\`u una retta come nella regressione linerare univariata ma rappresenter\`a degli
-\textbf{iperpiani}.
+\[ h_w(x_1, \dots, x_n) = w_0 + w_1 x_1 + \dots + w_n x_n = w_0 + \sum_{i=1}^n w_i x_i \]
+e non rappresenter\`a pi\`u una retta come nella regressione lineare univariata, bens\`i un \textbf{iperpiano}
+$n$-dimensionale.
 
-Per rendere pi\`u compatta la notazione useremo $x^T = [1, x_1, \dots, x_n]$ per indicare l'insieme delle $n$ variabili
-in input relative a un generico pattern e $w = [w_0, w_1, \dots, w_n]$ per indicare i pesi. Ora possiamo riscrivere la
-formula in maniera pi\`u compatta in questo modo:
+Per rendere pi\`u compatta la notazione useremo $x^T = [1, x_1, \dots, x_n]$ per indicare il trasposto del vettore
+contenente le $n$ variabili in input relative a un generico pattern. Indicheremo invece con $w$, il vettore
+$[w_0, w_1, \dots, w_n]$ contenente gli $n$ pesi.
+
+Ora possiamo riscrivere la formula (pi\`u compatta) in questo modo:
 \[ x^T w = \sum_{i=0}^n w_i x_i \]
 Adesso possiamo facilmente definire la funzione $E$ per input multidimensionali come segue:
 \[ E(w) = \sum_{p=1}^l (y_p - x^T_p w)^2 = \| y - X w \|^2 \]
 Di conseguenza possiamo definire anche $\Delta w$ in questo modo:
-\[
-	\Delta w_i = -\frac{\partial E(w)}{\partial w_i} = 2 \sum_{p=1}^l (y_p - h_w(x_p)) \cdot x_{p, i} =
-	\sum_{p=1}^l (y_p - x^T_p w) \cdot x_{p, i}
-\]
-Una volta definita l'equazione per input multidimensionale possiamo riutilizzare l'algoritmo visto in precedenza per la
-regressione lineare univariata.
+\[ \Delta w_i = -\frac{\partial E(w)}{\partial w_i} = 2 \sum_{p=1}^l (y_p - h_w(x_p)) \cdot x_{p, i} \]
+L'algoritmo LMS rimane valido: abbiamo solo espanso la formula per input $n$-dimensionali.
 
-Possiamo inoltre costruire un algoritmo che non tiene un learning rate fisso ma lo decrementa col passare del tempo.
-Questo fa s\`i che all'inizio la correzione dell'errore sia pi\`u grossolana evitandoci di procedere troppo lentamente,
-in seguito per\`o, col decrescere dell'errore, anche le correzioni che dovremo fare saranno sempre pi\`u piccole. Un
-learning rate pi\`u basso ci aiuta dunque ad essere pi\`u precisi man mano che ci si avvicina alla soluzione.
+Possiamo anche costruire un algoritmo che non tiene un learning rate fisso ma lo decrementa col passare del tempo.
+
+Questo fa s\`i che all'inizio la correzione dell'errore sia pi\`u grossolana, evitandoci di procedere troppo lentamente,
+mentre col decrescere dell'errore, le correzioni da fare dovranno essere sempre pi\`u precise. Per questo, un learning
+rate pi\`u basso ci aiuta dunque ad essere pi\`u precisi man mano che ci si avvicina alla soluzione.
+
+\textbf{NOTA}: Man mano che l'algoritmo procede, le correzioni fatte saranno in ogni caso pi\`u piccole di quelle fatte
+all'inizio, questo a prescindere da un $\eta$ fisso o dinamico. Un $\eta$ che per\`o decresce ad ogni passo ci permette di
+avere un algoritmo che si adatta meglio alla situazione in cui si trova in un determinato momento.
 
 \section{Limitazioni}
-Un grosso limite dei modelli lineari \`e il problema dell'\textbf{underfitting}. Questo si traduce in una scarsa
-capacit\`a di approssimazione della funzione obbiettivo. Nel caso della regressione lineare univariata ad esempio posso
-tracciare la miglior retta possibile ma potrei avere comunque un errore molto alto alcuni esempi di training.
+Un grosso limite dei modelli lineari che approssimano solo funzioni lineari \`e il problema dell'\textbf{underfitting}.
+Questo si traduce in una scarsa capacit\`a di approssimazione della funzione obbiettivo. Nel caso della regressione
+lineare univariata ad esempio posso tracciare la miglior retta possibile ma potrei avere comunque un valore di errore
+molto alto su alcuni esempi di training.
 
-Per la trattazione di problemi pi\`u complessi \`e necessario muoverci verso modelli \textbf{non lineari}, che vedremo nel
-prossimo capitolo.
+Per la trattazione di problemi pi\`u complessi sar\`a necessario muoverci verso modelli pi\`u complessi, ossia
+\textbf{non lineari nell'input}.
