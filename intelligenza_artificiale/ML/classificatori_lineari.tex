@@ -1,23 +1,29 @@
 \chapter{Classificatori lineari}
-Fino ad ora abbiamo utilizzato modelli lineari solo per trattare problemi di regressione. In realt\`a i modelli lineari
-sono molto utili anche per affrontare problemi di classificazione.
+Fino ad ora abbiamo utilizzato i modelli lineari solo per trattare problemi di regressione. In realt\`a i modelli
+lineari sono molto utili anche per affrontare problemi di classificazione.
 
-Se prima il modello lineare restituiva un valore numerico reale, adesso si limiter\`a a restituire solo due valori
-numerici: uno per indicare \verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
+Se prima il modello lineare usato per la regressione restituiva un valore numerico reale, adesso si limiter\`a a
+restituire un numero finito di valori discreti (tanti quante sono le possibile classificazioni di un dato).
 
-Per farlo assumiamo una zona dell'iperpiano $wx$ negativa e una positiva e la usiamo per classificare un punto. Se il
-punto si trova nella zona dell'iperpiano negativa il valore di ritorno sar\`a \verb|false|, se si trova in quella
+\section{Classificatore lineare binario}
+Per capire meglio il problema ci limitiamo al caso di un problema di \textbf{classificazione binario}, ossia un con
+due soli valori possibili in output (in genere \verb|true| e \verb|false|).
+
+Dato che il nostro modello si muove comunque nello spazio continuo numerico dobbiamo avere un valore per indicare
+\verb|false| (in genere $0$ o $-1$) e uno per indicare \verb|true| (in genere $1$).
+
+Si procede definendo una zona dell'iperpiano $wx$ come \emph{negativa} e una come \emph{positiva}. Se il dato si
+trova nella zona negativa dell'iperpiano negativa il valore di ritorno sar\`a \verb|false|, se si trova in quella
 positiva sar\`a \verb|true|.
 
-La notazione e l'algoritmo (LMS) non cambiano, se non per il fatto che gli unici valori target nel training set saranno
-$-1/0$ e $1$.
+Per trovare l'approssimazione utilizziamo sempre l'algoritmo (LMS) con la solita notazione. Ci\`o che cambia (ma
+che all'algoritmo non interessa) \`e che ora gli unici valori target nel training set saranno $-1/0$ e $1$.
 
 \begin{definition}
 	Chiamo \textbf{decision boundary} il luogo geometrico dei punti tali che $x^T w = 0$. Al di fuori di esso ci sono
-	le zone assunte negative e positive dell'iperpiano.
+	le zone definite negative e positive dell'iperpiano.
 \end{definition}
-
-La funzione che useremo per i valori di ritorno sar\`a
+La funzione che useremo per la fase di predizione sar\`a quindi
 \[
 	h(x) = \begin{cases}
 		1 & \text{se } x^T w \geq 0 \\
@@ -28,45 +34,41 @@ nel caso considerassimo $0$ e $1$ come valori target. Sar\`a invece
 \[ h(x) = \text{sign}(x^T w) \]
 nel caso considerassimo $-1$ e $1$ come valori target.
 
-L'obbiettivo per questa classe di problemi \`e quello di trovare i $w$ tali che, il relativo iperpiano generato,
-separari al meglio gli esempi negativi da quelli positivi. Muovendo l'iperpiano si andr\`a a muovere anche il
-decision boundary.
+C'\`e da chiarire che l'algoritmo non cerca di minimizzare l'errore di classificazione, esso tratta infatti il problema
+come un problema di regressione e minimizza l'errore in relazione alla posizione dei punti nell'iperspazio.
 
-Chiariamo che l'algoritmo non riesce sempre a separare gli esempi positivi da quelli negativi. Cerca tuttavia di
-trovare un buon decision boundary per classificare al meglio i dati in input non ancora esaminati.
+Precisiamo che la funzione da minimizzare \`e
+\[ E(w) = \sum_{p = 1}^l (y_p - x^T w) \]
+Non possiamo usare la notazione $h(x)$ come per la regressione perch\'e in questo caso andremmo ad usare
+\[ h(x) = sign(x^T w) \]
+mentre noi, come per la regressione, vogliamo agire sui pesi $w$.
 
-Tutto ci\`o che abbiamo detto per i problemi di regressione pu\`o essere usato per risolvere problemi di classificazione
-con i modelli lineari. Dunque possiamo trattare il problema come un problema di regressione lineare, polinomiale e cos\`i
-via. Possiamo anche regolarizzarlo per fare un buon fitting dei dati.
+Per il resto, tutto ci\`o che abbiamo detto per i problemi di regressione pu\`o essere usato per risolvere problemi di
+classificazione con modelli lineari.
 
-Ricordiamoci che per\`o non stiamo minimizzando l'errore di classificazione. Alla fine infatti non \`e detto che i dati
-siano perfettamente separati in negativi e positivi dalla nostra funzione.
+Possiamo quindi trattare il problema come un problema di regressione lineare, polinomiale e cos\`i via, andando anche
+regolarizzarlo se necessario.
 
-\section{Classificatore lineare univariato}
+\subsection{Classificatore lineare univariato}
 Il training set, come anticipato, contiene coppie di questo tipo:
 \[ (x, y) \]
 dove $x$ \`e l'unica variabile in input e $y$ \`e il valore target che assume valore $-1/0$, se negativo oppure $1$ se
 positivo.
 
-Noi vogliamo trovare una retta che ci fornisca una buona classificazione degli esempi di training. Per farlo applichiamo
-l'algoritmo LMS come per i problemi di regressione. Precisiamo che la funzione da minimizzare \`e
-\[ E(w) = \sum_{p = 1}^l (y_p - x^T w) \]
-dove $x^T w$ in questo caso \`e una retta. Non possiamo usare la notazione con $h(x)$ come per la regressione perch\'e
-in questo caso
-\[ h(x) = sign(x^T w) \]
-mentre noi, come nel caso della regressione, vogliamo agire sui pesi $w$.
+Noi vogliamo trovare una retta che ci fornisca una buona classificazione degli esempi di training.
 
 Applichiamo quindi l'algoritmo e troveremo la retta
 \[ x^T w = w_1 x + w_0 \]
 Ora possiamo definire il decision boundary
 \[ x^T w = 0 \]
 il quale ci dice il punto in cui la retta interseca l'asse $x$. Per classificare nuovi dati in input non ci rimane che
-vedere dove la retta \`e positiva e dove \`e negativa.
+vedere dove la retta \`e positiva e dove \`e negativa tramite la funzione
+\[ h(x) = sign(x^T w) \]
 
 \section{Regole congiuntive}
 I modelli lineari possono anche essere usati per rappresentare regole congiuntive.
 
-Infatti possiamo mettere in \emph{and} le variabili di nostro interesse come ad esempio in questo caso:
+Infatti \`e possibile rappresentare un \emph{and} tra variabili booleane in questo modo.
 \[ x_1 \wedge x_2 \]
 Questo si converte in una disequazione del tipo:
 \[ 1 \cdot x_1 + 1 \cdot x_2 > 2 \]
@@ -76,24 +78,22 @@ oppure
 Tramite questa disequazione divido in due parti l'iperpiano: una positiva (dove la disequazione \`e soddisfatta) e una
 negativa.
 
-Come si pu\`o osservare inserendo valori a caso in $x_1$ e $x_2$, la disequazione sar\`a soddisfatta solo quando la
+Come si pu\`o osservare inserendo a caso in 0 o 1 in $x_1$ e $x_2$, la disequazione sar\`a soddisfatta solo quando la
 catena di \emph{and} sar\`a soddisfatta e viceversa.
 
 Ovviamente il discorso vale anche per input $n$-dimensionali.
 
 \section{Problemi linearmente separabili}
-Se usiamo solo funzioni lineari per classificare i nostri dati andiamo incontro ad un problema. I punti, potrebbero non
-essere linearmente separabili.
+Come gi\`a detto, l'algoritmo non minimizza l'errore di classificazione neanche quando \`e possibile dividere in modo
+netto gli esempi negativi da quelli positivi.
 \begin{definition}
 	Due insiemi di punti in uno spazio $n$-dimensionale sono \textbf{linearmente separabili} se esiste un
 	iperpiano $(n-1)$-dimensionale che li separa.
 \end{definition}
 
-Il fatto che il problema sia linearmente separabile non ci d\`a comunque alcuna garanzia che l'algoritmo trovi una
-funzione in grado di separare perfettamente i due insiemi. Questo non vale solo per funzioni lineari, vale per qualsiasi
-tipo di funzione.
+Se usiamo LMS, il fatto che il problema sia linearmente separabile non ci d\`a comunque alcuna garanzia che questo trovi
+una funzione in grado di classificare perfettamente i due insiemi. Questo vale non solo per funzioni lineari ma per
+qualsiasi tipo di funzione.
 
-Questo perch\'e l'algoritmo LMS minimizza l'errore quadratico medio in base alla posizione dei punti nello spazio e non
-minimizza l'errore di classificazione di questi ultimi.
-
-Dunque, non importa quanto la nostra funzione sia complessa, pu\`o sempre capitare qualche errore di classificazione.
+Se questo \`e vero per problemi linearmente separabili lo \`e anche per problemi \textbf{non linearmente separabili}, sui
+quali, LMS produrrebbe comunque errori di classificazione (anche aumentando di molto la complessit\`a del modello).
