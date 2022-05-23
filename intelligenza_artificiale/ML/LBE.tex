@@ -1,0 +1,88 @@
+\chapter{Linear Basis Expansion}
+Per riuscire a fare migliori approssimazioni \`e conveniente passare a funzioni \textbf{non lineari}.
+Fino ad ora abbiamo trattato modelli lineari espressi dalla formula
+\[ h_w(x) = \sum_{i = 0}^n w_i x_i \]
+con variabili e coefficienti di grado 1. Adesso vogliamo passare a modelli pi\`u flessibili e con una maggior
+capacit\`a di generalizzazione. Un modo per farlo \`e passare ad un polinomio di questo tipo
+\[ h_w(x) = \sum_{i = 0}^m w_i x^i \]
+Quello appena descritto \`e regressore \textbf{regressore polinomiale}. Il modello resta tuttavia \textbf{lineare}
+dato che i pesi come possiamo vedere rimangono lineari.
+
+Ci\`o che rende un modello "\emph{lineare}" \`e infatti la linearit\`a nei pesi e non nell'input.
+
+Questo ci permette di utilizzare ancora l'algoritmo LMS come in precedenza.
+
+\section{LBE}
+Quel che vogliamo fare ora \`e aumentare pi\`u possibile il potere espressivo del modello. Ecco che viene introdotta
+l'\textbf{linear basis expansion} o \textbf{LBE}.
+
+In questo modo otteniamo una formula ancora pi\`u generale e che ci permette una flessibilit\`a notevole, che sale tanto
+pi\`u sale la complessit\`a della funzione utilizzata.
+\[ h_w(x) = \sum_{k = 0}^K w_k \phi_k(x) \]
+dove $x$ equivale al pattern $x = [x_1, x_2, \dots, x_n]$ e dove $\phi_k$ \`e una delle $K$ funzioni da $\mathbb{R}^n$
+in $\mathbb{R}$ che prende in input tutto il pattern.
+
+Il modello appena rappresentato continua ad essere lineare nei coefficienti $w$ e anche in $\phi$ ma non lo \`e pi\`u
+in $x$.
+
+Quello che abbiamo introdotto ora ci consente un maggior grado di libert\`a nella capacit\`a di generalizzazione della
+funzione ma ha di contro il fatto che il modello potrebbe diventare \textbf{troppo complesso}. Dove per
+\emph{complessit\`a} intendiamo il grado di libert\`a del modello.
+
+Un modello \`e tanto pi\`u espressivo, quanto pi\`u \`e complesso.
+
+\section{Complessit\`a dei modelli}
+Ora che abbiamo piena libert\`a di espressione per definire modelli flessibili a piacere, andiamo incontro a nuovi
+problemi. Uno di questi \`e il problema della scelta per la $\phi$. La scelta di $\phi$ \`e fondamentale per costruire
+un buon modello e in base a questa scelta andiamo incontro a \textbf{underfitting} o \textbf{overfitting}.
+
+Il primo esprime la scarsa capacit\`a di generalizzazione del modello, il quale tender\`a ad avere un alto errore sui
+dati di training e molto probabilmente anche su dati ancora non visti.
+
+Il secondo, invece, denota una capacit\`a di generalizzazione troppo elevata. Questo si traduce in un errore bassissimo
+e in alcuni casi nullo sul training set ($E(w) = 0$) ma in un probabile errore alto quanto un modello in underfitting
+per dati ancora non visti.
+
+Questo avviene perch\'e un modello molto espressivo cerca di fittare al meglio tutti i dati che gli arrivano ma nel
+farlo perde totalmente di vista la ver\`a funzione obbiettivo da approssimare.
+
+\subsection*{Underfitting e overfitting}
+Mentre per l'individuazione di un problema di underfitting baster\`a calcolare $E(w)$ per tutti i dati di training,
+la quale restituir\`a un alto valore di errore, individuare un problema di overfitting sar\`a pi\`u difficile.
+Questo perch\'e l'errore sui dati di training calcolato da $E(w)$ sar\`a nullo.
+
+\textbf{NOTA}: In generale, dobbiamo stare sempre attenti ad un errore basso in training perch\'e potrebbe corrispondere
+ad una situazione di overfitting.
+
+\section{Regolarizzazione}
+La \textbf{regolarizzazione} \`e un approccio che permette di usare un modello complesso e in seguito
+\emph{regolarizzarlo} per rendere migliore la sua capacit\`a di approssimazione mitigando il pi\`u possibile il
+problema di overfitting.
+
+In generale \`e meglio usare un modello pi\`u flessibile e regolarizzarlo in seguito, piuttosto che usare un modello
+troppo rigido che poi non potr\`a pi\`u essere migliorato.
+
+\subsection{Ridge regression - Tikhonov}
+Parleremo quindi dei cosiddetti problemi di \textbf{Ridge regression} o \textbf{regolarizzazione di Tikhonov}.
+
+Per riuscire a mitigare il problema dell'overfitting, andiamo ad introdurre un'estensione della formula vista in
+precedenza:
+\[ E(w) = \sum_{p = 1}^l (y_p - h_w(x_p))^2 + \lambda \| w \|^2 \]
+dove $\lambda$, detto \textbf{coefficiente di regolarizzazione}, \`e un iperparametro scelto a priori e dove
+\[ \| w \|^2 = \sum_{i} w_i^2 \]
+Come possiamo vedere stiamo sommando un certo fattore all'errore che far\`a s\`i che quest'ultimo salga in maniera
+"artificiale". L'effetto finale \`e quello di ridurre i pesi $w$ andando a penalizzare il la flessibilit\`a del modello.
+
+Possiamo quindi definire una nuova \textbf{regola delta}:
+\[ w_{\text{new}} = w + \eta \Delta w - 2 \lambda w \]
+Tanto pi\`u il valore di $\lambda$ \`e alto, tanto pi\`u il modello si semplifica. Dunque anche la scelta di un
+$\lambda$ corretto determina quanto il modello sar\`a \emph{ben regolarizzato} e anche quanto sia in grado di
+generalizzare bene.
+
+\begin{itemize}
+	\item Con un $\lambda$ troppo alto rischio il problema dell'underfitting: penalizzo troppo il modello.
+	\item Con un $\lambda$ troppo basso rischio di rimanere in overfitting: non penalizzo abbastanza il modello.
+\end{itemize}
+
+Questo metodo ci permette di regolarizzare anche modelli di complessit\`a non nota. Strumento quindi molto utile dato
+che non \`e sempre possibile sapere quanto il nostro modello sia complesso rispetto alla funzione obbiettivo.
