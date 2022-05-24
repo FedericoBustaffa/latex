@@ -32,7 +32,7 @@ successori.
 La scelta del miglior attributo viene fatta in base al valore di \textbf{entropia}. L'entropia, in questo caso, indica
 l'\emph{impurit\`a} di un insieme di esempi.
 
-Essa dipende dalla distribuzione di una variabile casuale ($p$). In particolare se $S$ \`e il nostro insieme di esempi,
+Essa dipende dalla distribuzione di una variabile $p$. In particolare, se $S$ \`e il nostro insieme di esempi,
 $p_+$ indica la proporzione di esempi positivi in $S$ mentre $p_-$ indica la proporzione di esempi negativi in $S$.
 
 Il valore di entropia, relativa ad un certo insieme di esempi $S$, \`e dato dalla seguente formula:
@@ -59,7 +59,7 @@ gain e riescono a partizionare meglio l'insieme di esempi.
 L'information gain cos\`i definito ha per\`o un problema, ossia, quello di favorire attributi che hanno molti possibili
 valori e che compaiono in pochi esempi.
 
-In questo modo si ottengono sottoinsiemi perfettamente partizionati (o quasi) ma che per\`o non ci forniscono
+In questo modo si ottengono sottoinsiemi perfettamente partizionati (o quasi) ma che non ci forniscono
 un'informazione interessante nel complesso.
 
 Introduciamo quindi un metodo per evitare la formazione di sottoinsiemi \emph{piccoli}, ossia, il \textbf{gain ratio}. Il
@@ -68,17 +68,18 @@ gain ratio si ottiene tramite il calcolo di un altro valore: lo \textbf{split in
 dove $S_i$ indica il l'insieme ottenuto partizionando sul valore $i$ di $A$ e dove $c$ \`e il numero di possibili valori
 che pu\`o assumere $A$.
 
-Lo split information indica il valore di entropia di $S$ rispetto ai valori di $A$. Pi\`u \emph{uniformemente} i dati sono
-dispersi, pi\`u alto \`e il suo valore.
+Lo split information indica il valore di entropia di $S$ rispetto ai valori di $A$ e pi\`u \emph{uniformemente} i dati
+sono \emph{frammentati}, pi\`u alto \`e il suo valore.
 
 Ora possiamo definire il gain ratio in questo modo:
 \[ GainRatio(S, A) = \frac{Gain(S, A)}{SplitInformation(S, A)} \]
 ottenendo cos\`i uno strumento che penalizza gli attributi che ottengono un alto gain tramite la frammentazione di tanti
 insieme piccoli.
 
-\subsubsection{Ulteriori aggiustamenti}
-Anche con questo metodo si possono avere dei problemi. Infatti nel caso in cui ci sia un valore di un attributo costante
-per tutti gli esempi,lo split information va a 0 (o comunque tenderebbe a 0), facendo cos\`i salire troppo il gain ratio.
+\subsection*{Ulteriori aggiustamenti}
+Anche con questo metodo si possono avere dei problemi. Infatti nel caso in cui ci sia un attributo con valore costante
+per tutti gli esempi, lo split information andrebbe a 0 (o comunque tenderebbe a 0), facendo cos\`i salire troppo il
+gain ratio.
 
 Se il gain ratio sale troppo finiremo per privilegiare un attributo che in realt\`a non ci sta dicendo nulla poich\'e
 \`e uguale per tutti gli esempi.
@@ -156,12 +157,12 @@ Andiamo ora a vedere come procedere nell'operazione di \textbf{pruning}.
 	\item Un nodo \`e rimosso solo se non peggiora sul validation set.
 	\item I nodi sono potati iterativamente: si cerca un nodo la cui rimozione porta ad un miglioramento sul validation
 	      set
-	\item Il pruning termina quando non c'\`e pi\`u alcun nodo, la cui rimozione porta ad un miglioramento sul validation
+	\item Il pruning termina quando non c'\`e pi\`u alcun nodo la cui rimozione porta ad un miglioramento sul validation
 	      set
 \end{enumerate}
 
 \subsection{Regole post pruning}
-Si pu\`o anche agire a livello di regole e non su interi sottoalberi adottando \textbf{regole post pruning}, per farlo
+Si pu\`o anche agire a livello di regole e non su interi sottoalberi, adottando \textbf{regole post pruning}. Per farlo
 seguiamo questo procedimento:
 \begin{enumerate}
 	\item Si crea l'albero di decisione.
@@ -221,7 +222,8 @@ Introduciamo quindi due metodi per dare un peso il giusto peso all'information g
 \end{itemize}
 
 \section{Conclusioni}
-Gli alberi di decisione sono un approccio vantaggioso per problemi di classificazione con un numero di classi discreto:
+Gli alberi di decisione sono un approccio vantaggioso per problemi di classificazione con un numero di classi finito
+a valori discreti:
 \begin{itemize}
 	\item Ha uno spazio delle ipotesi espressivo in ambito proposizionale ed ha un approccio basato su regole.
 	\item \`E robusto a dati rumorosi poich\'e riesce a gestire anche dati incompleti.
