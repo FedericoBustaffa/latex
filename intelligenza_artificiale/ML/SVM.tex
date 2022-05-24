@@ -1,9 +1,7 @@
 \chapter{Support Vector Machine}
 La \textbf{Support Vector Machine} o \textbf{SVM} \`e un modello lineare usato principalmente per problemi di
-classificazione. Quello che per\`o vogliamo fare in questo caso \`e creare il modello sulla base della SLT.
-
-Vogliamo quindi creare un modello sulla base della SLT, ottimizzando per esempio il VC-bound piuttosto che l'errore medio
-sui dati di training. Nell'SVM non usiamo la SLT per valutarne la bont\`a, bens\`i, la usiamo per costruirlo.
+classificazione. Quello che per\`o vogliamo fare in questo caso \`e creare il modello sulla base della SLT minimizzando
+il VC-bound piuttosto che l'errore medio sui dati di training.
 
 I punti chiave per la costruzione del modello sono 3:
 \begin{itemize}
@@ -25,17 +23,19 @@ Quello che succede nella pratica \`e che, se un problema \`e linearmente separab
 \textbf{massimo margine}, ossia, l'iperpiano che divide esempi positivi e negativi ponendosi per\`o alla massima distanza
 sia dagli uni che dagli altri.
 
-Gli esempi, positivi o negativi che siano, che si trovano sul margine sono i \textbf{vettori di supporto}. Questi esempi si
-troveranno nella zona di iperpiano tale che
+Gli esempi, positivi o negativi che siano, che si trovano sul bordo del margine sono i \textbf{vettori di supporto}. Questi
+esempi si troveranno nella zona di iperpiano tale che
 \[ w^T x + b = 1 \]
 se l'esempio \`e positivo, mentre
 \[ w^T x + b = -1 \]
-se l'esempio \`e negativo. In SVM si usa $b$ ma equivale al $w_0$ dei modelli lineari.
+se l'esempio \`e negativo.
+
+\textbf{NOTA}: In SVM si usa $b$ ma equivale al $w_0$ dei modelli lineari.
 
 Pi\`u in generale, un esempio $x_p$ \`e un vettore di supporto se:
 \[ | w^T x_p + b | = 1 \]
 Ora possiamo descrivere una relazione che ci dice quando un punto \`e ben classificato o meno. Possiamo infatti dire che
-esempio di training \`e ben classificato se
+un esempio di training $d_i$ \`e ben classificato se
 \[ (w^T x_i) y_i \geq 1 \]
 Il nostro obbiettivo sar\`a quindi trovare l'iperpiano separatore che classifica correttamente tutti gli esempi di training
 con il massimo margine possibile tra positivi e negativi.
