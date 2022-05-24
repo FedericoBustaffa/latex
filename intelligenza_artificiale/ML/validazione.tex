@@ -58,8 +58,8 @@ Definiamo ora un strategia per attuare una buona validazione:
 \begin{enumerate}
 	\item Separare training, validation e test set.
 	\item Cerchiamo la miglior $h_{w, \lambda}$ dove $\lambda$ \`e un iperparametro che pu\`o essere di qualsiasi tipo.
-	\item Per ogni $\lambda$ andiamo a cercare la \textbf{migliore} $h_{w, \lambda}$ che minimizza l'errore sul training set.
-	      Andiamo quindi a trovare la migliore ipotesi sulla base dell'iperparametro $\lambda$.
+	\item Per ogni $\lambda$ andiamo a cercare la \textbf{migliore} $h_{w, \lambda}$ che minimizza l'errore sul training
+	      set. Andiamo quindi a trovare la migliore ipotesi sulla base dell'iperparametro $\lambda$.
 	\item Selezioniamo l'ipotesi $h_{w, \lambda}$ che ha il minimo errore sul validation set.
 	\item Possiamo anche fare un miglior fitting unendo training set e validation set una volta selezionato il modello
 	      (opzionale).
@@ -76,8 +76,8 @@ nella tabella.
 
 Il modello scelto sar\`a quello con il minimo errore di generalizzazione.
 
-Per fare una scelta sensata tra i modelli dobbiamo allenarli tutti col solito training set e testarli tutti con il solito
-validation set.
+Per fare una scelta sensata tra i modelli dobbiamo allenarli tutti con il solito training set e testarli tutti con il
+solito validation set.
 
 Altra regola importante quando si vanno a costruire i vari data set, \`e quella di non fare assunzioni sul comportamento
 del modello sul test set, basandoci sul risultato ottenuto dal validation set.
