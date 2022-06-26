@@ -1,5 +1,4 @@
 \chapter{Introduzione}
-
 \section{Crittografia}
 La \textbf{crittografia} si occupa dei metodi di cifratura mentre la \textbf{crittoanalisi} dei metodi di decifrazione
 di un messaggio. Entrambe si possono riunire sotto la branca della \textbf{crittologia}.
@@ -95,13 +94,27 @@ In questi cifrari la \textbf{chiave di cifratura} \`e uguale alla \textbf{chiave
 due comunicanti. Il messaggio \`e diviso in blocchi lunghi come la chiave. La chiave \`e utilizzata per trasformare un
 blocco del messaggio in un blocco del crittogramma.
 
-\subsection{Cifrari a chiave pubblica}
-In questo caso la \textbf{chiave di cifratura} \`e pubblica e anche le \textbf{funzioni di cifratura e decifrazione} lo
-sono. Ci\`o che \`e privato \`e la \textbf{chiave di decifrazione}.
+\subsection{Cifrari a chiave pubblica (asimmetrici)}
+I \textbf{cifrari a chiave pubblica} nascono dall'esigenza di risolvere il problema dello scambio delle chiavi tra i due
+utenti.
+
+In questo caso, mittente e destinatario hanno due chiavi diverse. La chiave di cifratura e le funzioni di cifratura e
+decifrazione sono \textbf{pubbliche} mentre invece la chiave di decifrazione \`e \textbf{privata} e solo il destinatario
+del messaggio ne \`e in possesso.
+
+L'obbiettivo \`e quello di permettere a tutti di inviare messaggi cifrati ad un certo destinatario ma solo lui deve
+essere in grado di decifrarli.
 
 In questo tipo di cifrari, la funzione di cifratura dev'essere di tipo \textbf{one-way trap-door}, ovvero, cifrare
-dev'essere computazionalmente facile e decifrare dev'essere computazionalmente difficile (a meno che non si conosca
-la chiave).
+dev'essere computazionalmente facile (tempo polinomiale) e decifrare dev'essere computazionalmente difficile (tempo
+esponenziale) a meno che non si conosca la chiave.
+
+Tra i vantaggi abbiamo che si elimina la necessit\`a di effettuare uno scambio di chiavi e abbiamo inoltre una riduzione
+sostanziale sul numero di chiavi da generare: se gli utenti di un sistema sono $n$, il numero complessivo di chiavi
+pubbliche e private \`e $2n$ anzich\'e $n (n-1) / 2$.
+
+D'altra parte abbiamo dei cifrari molto lenti, dunque difficilmente utilizzabili in crittografia di massa e sono inoltre
+soggetti ad attacchi di tipo \emph{chosen plain text}.
 
 \section{Attacchi crittografici}
 Il crittoanalista pu\`o avere due tipi di \textbf{comportamento} nella fase di attacco ad un sistema crittografico:
