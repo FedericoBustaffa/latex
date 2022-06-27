@@ -1,0 +1,184 @@
+\chapter{Teoria della calcolabilit\`a}
+La \textbf{calcolabilit\`a} si occupa delle questioni fondamentali circa la potenza e le limitazioni dei sistemi di
+calcolo e cerca di definire le nozioni di \textbf{algoritmo} e di \textbf{problema non decidibile}.
+
+In altre parole si occupa di classificare i problemi in \emph{risolvibili} e \emph{non risolvibili} per via algoritmica.
+
+A differenza invece della \textbf{complessit\`a} che si occupa di definire la nozione di \text{algoritmo efficiente}
+e di \textbf{problema intrattabile}.  In altre parole divide i problemi in \emph{facili} e \emph{difficili}.
+
+\section{Insiemi numerabili}
+\begin{itemize}
+	\item Due insiemi $A$ e $B$ hanno lo stesso numero di elementi se e solo se si pu\`o stabilire una
+	      \textbf{corrispondenza biunivoca} tra i loro elementi.
+	\item Un insieme \`e \textbf{numerabile} se e solo se i suoi elementi possono essere messi in
+	      \textbf{corrispondenza biunivoca con i numeri naturali}.
+\end{itemize}
+
+\subsection{Enumerazione delle sequenze}
+Se si volesse elencare, in un ordine ragionevole, le sequenze di lunghezza finita costruite su un alfabeto finito ci
+scontreremmo con un problema: le sequenze non sono in numero finito, quindi non si potr\`a completare l'elenco.
+
+Lo scopo in questo caso \`e raggiungere qualsiasi sequenza $\sigma$, arbitrariamente scelta, in un numero finito di passi.
+Per fare ci\`o, $\sigma$ deve trovarsi a distanza \emph{finita} dall'inizio dell'elenco.
+
+\subsubsection{Ordinamento canonico}
+Per riuscire ad enumerare queste sequenze dobbiamo ricorrere al cosiddetto \textbf{ordinamento canonico}.
+\begin{enumerate}
+	\item Si ordinano le sequenze in ordine lunghezza crescente.
+	\item A parit\`a di lunghezza si ordinano le sequenze secondo l'ordinamento tra i caratteri dell'alfabeto.
+\end{enumerate}
+
+A questo punto una sequenza $s$ arbitraria si trover\`a tra quelle di $| s |$ caratteri, in una posizione corrispondente
+all'ordine alfabetico relativo all'alfabeto $\Gamma$ che sto utilizzando.
+
+\begin{example}
+	Se prendessi un alfabeto composto solo da lettere
+	\[ \Gamma = \{ a, b, c, \dots, z \} \]
+	e volessi scrivere le sequenze nell'ordine canonico otterrei
+	\begin{gather*}
+		a, \quad b, \quad c, \quad \dots, \quad z, \quad aa, \quad ab, \quad \dots, \quad az, \\
+		ba, \quad \dots, \quad bz, \quad za, \quad \dots, \quad zz, \quad aaa, \quad \dots, \quad zzz, \quad \dots
+	\end{gather*}
+	come possiamo vedere, si pu\`o costruire un numero infinito di sequenze ma tutte di lunghezza finita e, soprattutto,
+	che si possono mettere in corrispondenza biunivoca con l'insieme dei numeri naturali.
+\end{example}
+
+Osserviamo che l'enumerazione delle sequenze \`e possibile perch\'e esse sono di lunghezza finita anche se illimitata.
+Ovvero, scelto un intero $d$, esistono sempre sequenze di lunghezza maggiore di $d$.
+
+Se le sequenze fossero di lunghezza infinita l'insieme non sarebbe numerabile.
+
+\subsection{Problemi computazionali}
+\begin{theorem}
+	L'insieme dei \textbf{problemi computazionali} non \`e numerabile.
+\end{theorem}
+
+Un problema computazionale pu\`o essere visto come una \emph{funzione matematica} che associa ad ogni insieme di dati,
+espressi da $k$ numeri interi, il corrispondente risultato, espresso da $j$ numeri interi.
+\[ f : N^k \rightarrow N^j \]
+L'insieme delle funzioni $f : N^k \rightarrow N^j$ non \`e numerabile.
+
+\subsection{Diagonalizzazione}
+Per dimostrare quanto detto in precedenza, utilizziamo la \textbf{diagonalizzazione}.
+\begin{theorem}
+	L'insieme di funzioni
+	\[ F = \{ f \mid f : N \rightarrow \{0, 1\} \} \]
+	nel quale ogni $f \in F$ pu\`o essere rappresentata da una sequenza infinita del tipo
+	\[
+		\begin{matrix}
+			x    &  & 0 & 1 & 2 & \dots & n & \dots \\
+			f(x) &  & 0 & 1 & 0 & \dots & 0 & \dots
+		\end{matrix}
+	\]
+	o, se possibile, da una regola finita di costruzione
+	\[
+		f(x) = \begin{cases}
+			0 & x \text{ pari}    \\
+			1 & x \text{ dispari}
+		\end{cases}
+	\]
+	\textbf{non \`e numerabile}.
+	\begin{proof}
+		Vogliamo dimostrare il teorema per assurdo, ammettiamo quindi che $F$ sia numerabile.
+
+		Dato che $F$ \`e enumerabile allora posso assegnare ad ogni funzione $f \in F$ un numero progressivo nella
+		numerazione, e costruire una tabella (infinita) di tutte le funzioni.
+		\begin{center}
+			\begin{tabular}{c | c c c c c}
+				$x$      & 0     & 1     & 2     & 3     & \dots \\
+				\hline
+				$f_0(x)$ & 1     & 0     & 1     & 0     & \dots \\
+				$f_1(x)$ & 0     & 0     & 1     & 1     & \dots \\
+				$f_2(x)$ & 1     & 1     & 0     & 1     & \dots \\
+				$f_3(x)$ & 0     & 1     & 1     & 0     & \dots \\
+				\dots    & \dots & \dots & \dots & \dots & \dots
+			\end{tabular}
+		\end{center}
+		Consideriamo adesso la funzione $g \in F$
+		\[
+			g(x) = \begin{cases}
+				0 & f_x (x) = 1 \\
+				1 & f_x (x) = 0
+			\end{cases}
+		\]
+		La funzione $g$, cos\`i definita, \textbf{non} corrisponde a nessuna delle $f_i$ in tabella. Questo perch\'e
+		differisce sicuramente nei valori posti sulla diagonale principale.
+		\begin{center}
+			\begin{tabular}{c | c c c c c}
+				$x$      & 0     & 1     & 2     & 3     & \dots \\
+				\hline
+				$f_0(x)$ & 1     & 0     & 1     & 0     & \dots \\
+				$f_1(x)$ & 0     & 0     & 1     & 1     & \dots \\
+				$f_2(x)$ & 1     & 1     & 0     & 1     & \dots \\
+				$f_3(x)$ & 0     & 1     & 1     & 0     & \dots \\
+				\dots    & \dots & \dots & \dots & \dots & \dots \\
+				\hline
+				$g(x)$   & 0     & 1     & 1     & 1     & \dots
+			\end{tabular}
+		\end{center}
+		Ecco che si giunge ad una contraddizione.
+	\end{proof}
+\end{theorem}
+
+\subsection{Il problema della rappresentazione}
+L'informatica rappresenta tutte le sue entit\`a (quindi anche gli algoritmi) in forma digitale, come
+\textbf{sequenze finite di simboli di alfabeti finiti}.
+
+Lo stesso vale per gli \textbf{algoritmi}, i quali sono composti da una sequenza finita di operazioni, completamente
+e univocamente determinate. Gli algoritmi sono potenzialmente infiniti ma comunque numerabili.
+
+Come gi\`a detto, i problemi computazionali non sono numerabili e dunque abbiamo molti pi\`u problemi che algoritmi.
+Questo implica necessariamente che esistano problemi \textbf{privi} di un algoritmo di calcolo per la loro risoluzione.
+
+\section{Il problema dell'arresto}
+Formulato da Turing, consiste in un algoritmo che indaga le proprit\`a di un altro algoritmo, trattato come dato in
+input.
+
+Nello specifico il problema \`e cos\`i formulato:
+\begin{center}
+	Presi ad arbitrio un algoritmo $A$ e i suoi dati di input $D$, decidere in \textbf{tempo finito} se la computazione
+	di $A$ su $D$ termina o no.
+\end{center}
+
+Sebbene il problema sia lecito, dato che un algoritmo e i relativi dati in ingresso sono codificati con lo stesso
+alfabeto, Turing stesso ha dimostrato che \`e \textbf{impossibile} riuscire a stabilire (in tempo finito) se un
+programma arbitrario si arresta e termina la sua esecuzione.
+
+\begin{theorem}
+	Il problema dell'arresto \`e \textbf{indecidibile}.
+	\begin{proof}
+		Per dimostrarlo proviamo a dobbiamo considerare un generico algoritmo \verb|A| con un generico input \verb|D|.
+		L'algoritmo \verb|ARRESTO| prende in input \verb|A| e \verb|D| e ritorna \verb|true| se \verb|A(D)| termina
+		oppure \verb|false| se non termina.
+
+		Se \verb|A(D)| termina \verb|ARRESTO| ritorna \verb|true| e non ci sono problemi. Se invece non termina
+		\verb|ARRESTO| non \`e in grado di rispondere \verb|false| in tempo finito.
+
+		Questo perch\'e \verb|ARRESTO| non pu\`o non passare dalla simulazione di \verb|A| su \verb|D| e quindi, nel caso
+		\verb|A| non termini, \verb|ARRESTO| non terminerebbe a sua volta.
+
+		Se esistesse l'algoritmo \verb|ARRESTO|, esisterebbe anche il seguente algoritmo
+		\begin{lstlisting}[style=pseudo-style]
+PARADOSSO(A)
+	while (ARRESTO(A, A));
+		\end{lstlisting}
+		\begin{center}
+			\verb|PARADOSSO| termina
+			\[ \Leftrightarrow \]
+			\verb|ARRESTO(A, A) = 0|
+			\[ \Leftrightarrow \]
+			\verb|ARRESTO| non termina.
+		\end{center}
+
+		Ma cosa succede se provassimo a calcolare \verb|PARADOSSO(PARADOSSO)| ?
+		\begin{center}
+			\verb|PARADOSSO(PARADOSSO)| termina
+			\[ \Leftrightarrow \]
+			\verb|ARRESTO(PARADOSSO, PARADOSSO) = 0|
+			\[ \Leftrightarrow \]
+			\verb|PARADOSSO(PARADOSSO)| non termina
+		\end{center}
+		Ma ecco che si giunge ad una contraddizione.
+	\end{proof}
+\end{theorem}
