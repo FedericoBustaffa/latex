@@ -150,9 +150,95 @@ Introduciamo ora una nuova classe di problemi, la classe \textbf{NP}, dove NP st
 \textbf{N}on deterministici.
 
 Per alcuni problemi, per le \textbf{istanze accettabili} (\textbf{positive}) $x$ \`e possibile fornire un
-\textbf{certificato} $y$ che possa convincerci del fatto che l'istanza soddisfa la propriet\`a e dunque \`e un'istanza
-\emph{accettabile}.
+\textbf{certificato polinomiale} $y$ che possa convincerci del fatto che l'istanza soddisfa la propriet\`a e dunque
+\`e un'istanza \emph{accettabile}.
+
+I certificati servono per dare una risposta in tempi pi\`u brevi a certi problemi decisionali. Un certificato \`e di
+fatto una descrizione breve di una soluzione che possiede la propriet\`a cercata.
 
 \begin{example}
-	Prendiamo il problema della Clique per esempio.
+	Prendiamo il problema della Clique per esempio. Una clique, preso un certo grafo non orientato, \`e il sottografo
+	connesso pi\`u grande, rispetto al grafo che sto considerando.
+
+	Esiste solo un algoritmo di costo esponenziale per trovare una clique in un grafo ma non sappiamo se possa essere
+	risolto in tempo polinomiale.
+
+	Vogliamo verificare che all'interno di questo grafo ci sia una clique di $k$ vertici.
+
+	Se siamo in possesso di un certificato polinomiale contenente un'insieme di $k$ vertici che forma una clique, non ci
+	rimane che verificare se quei vertici formano effettivamente una clique (tempo polinomiale).
 \end{example}
+
+Un certificato \`e un \emph{attestato breve di esistenza} di una soluzione con determinate propriet\`a e si definisce solo
+per istanze accettabili. Infatti, in generale, non \`e facile costruire attestati di non esistenza di una certa soluzione.
+
+\subsubsection{Verifica}
+L'\textbf{idea} \`e quella di utilizzare il costo della \textbf{verifica} del certificato per caratterizzare la
+complessit\`a del problema.
+
+Possiamo affermare che un problema $\Pi$ \`e \emph{verificabile in tempo polinomiale} se
+\begin{itemize}
+	\item Ogni istanza accettabile $x$ di $\Pi$ di lunghezza $n$ ammette un certificato $y$ di lunghezza polinomiale
+	      in $n$.
+	\item Esiste un algoritmo di verifica polinomiale in $n$ e applicabile a ogni coppia $\langle x, y \rangle$, che
+	      permette di attestare che $x$ \`e accettabile.
+\end{itemize}
+Un altro modo di definire i problemi della classe NP \`e quello di problemi \emph{verificabili in tempo polinomiale}.
+
+\begin{observation}
+	Un certificato viene trovato in tempo esponenziale e ci serve \textbf{solo} a caratterizzare un certo problema in
+	base al costo della sua verifica.
+\end{observation}
+
+\begin{theorem}
+	La classe P \`e un sottoinsieme di NP. Un problema risolvibile in tempo polinomiale \`e sicuramente verificabile in
+	tempo polinomiale.
+\end{theorem}
+
+\subsubsection{Problemi NP-completi}
+I problemi \textbf{NP-completi} sono i problemi \emph{pi\`u difficili} all'interno della classe NP. Se esistesse un
+algoritmo polinomiale per risolvere uno solo di questi problemi, allora tutti i problemi in NP potrebbero essere risolti
+in tempo polinomiale e dunque giungeremmo alla conclusione che $\text{P} = \text{NP}$.
+
+\begin{theorem}
+	Tutti i problemi NP-completi sono risolvibili in tempo polinomiale oppure nessuno lo \`e.
+\end{theorem}
+
+\subsection{Riduzioni polinomiali}
+Introduciamo ora le \textbf{riduzioni polinomiali}.
+
+\begin{theorem}
+	Siano $\Pi_1$ e $\Pi_2$ due problemi decisionali e siano $I_1$ e $I_2$ gli insiemi delle istanze di input di
+	$\Pi_1$ e $\Pi_2$ allora $\Pi_1$ si \textbf{riduce} in tempo polinomiale a $\Pi_2$
+	\[ \Pi_1 \leq_p \Pi_2 \]
+	se esiste una funzione $f : I_1 \rightarrow I_2$ calcolabile in tempo polinomiale tale che, per ogni istanza $x$ di
+	$\Pi_1$ $x$ \`e un'istanza accettabile di $\Pi_1$ se e solo se $f(x)$ \`e un'istanza accettabile di $\Pi_2$.
+\end{theorem}
+
+In sintesi, se $\Pi_1$ si riduce a $\Pi_2$ vuol dire che in tempo polinomiale posso \emph{tradurre} $\Pi_1$ in $\Pi_2$,
+risolvere $\Pi_2$ e la soluzione trovata sar\`a valida anche per $\Pi_1$.
+
+Supponiamo di avere un algoritmo di costo polinomiale per risolvere $\Pi_2$ e vogliamo usare lo stesso algoritmo per
+risolvere $\Pi_1$.
+\begin{enumerate}
+	\item Prendiamo un'istanza $x$ di $\Pi_1$ e traduciamola in un'istanza accettabile per $\Pi_2$ tramite la funzione
+	      $f$.
+	\item A questo punto facciamo girare l'algoritmo per la risoluzione di $\Pi_2$ sull'istanza $f(x)$.
+	\item La soluzione data dall'algoritmo vale anche per $\Pi_1$.
+\end{enumerate}
+
+\subsubsection{Problemi NP}
+
+\begin{definition}
+	Un problema decisionale $\Pi$ si dice \textbf{NP-arduo} se per ogni $\Pi' \in \text{NP}$ vale che
+	\[ \Pi' \leq_p \Pi \]
+	ovvero se ogni problema in NP \`e riducibile a $\Pi$.
+\end{definition}
+
+\begin{definition}
+	Un problema decisionale $\Pi$ si dice \textbf{NP-completo} se
+	\[ \Pi \in \text{NP} \]
+	e se per ogni $\Pi' \in \text{NP}$ vale che
+	\[ \Pi' \leq_p \Pi \]
+	ovvero se ogni problema in NP \`e riducibile a $\Pi$.
+\end{definition}
