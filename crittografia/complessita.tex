@@ -242,3 +242,45 @@ risolvere $\Pi_1$.
 	\[ \Pi' \leq_p \Pi \]
 	ovvero se ogni problema in NP \`e riducibile a $\Pi$.
 \end{definition}
+
+Dimostrare che un problema \`e in NP pu\`o essere facile: basta esibire un certificato polinomiale. Non \`e altrettanto
+facile dimostrare che un problema \`e NP-arduo o NP-completo: bisognerebbe dimostrare che tutti i problemi in NP si
+riducono polinomialmente a $\Pi$.
+
+In realt\`a la prima dimostrazione di NP-completezza aggira il problema.
+
+\begin{theorem}[Cook]
+	Il problema SAT \`e NP-completo.
+\end{theorem}
+
+Cook ha mostrato che, dati un qualunque problema $\Pi$ in NP ed una qualunque istanza $x$ per $\Pi$, si pu\`o costruire
+un'espressione booleana in forma normale congiuntiva che descrive il calcolo di un algoritmo per risolvere $\Pi$ su $x$.
+L'espressione \`e vera se e solo se l'algoritmo restituisce 1.
+
+\begin{theorem}
+	Un problema decisionale $\Pi$ \`e NP-completo se
+	\[ \Pi \in \text{NP} \quad \wedge \quad \text{SAT} \leq_p \Pi \]
+	o se $\Pi$ \`e riducibile ad qualsiasi altro problema NP-completo.
+\end{theorem}
+
+\subsubsection{Problemi NP equivalenti}
+Il fatto che un problema $\Pi$ si possa ridurre a SAT lo rende NP-completo. Il fatto che $\Pi$ sia NP-completo rende
+possibile ridurre SAT a $\Pi$. Questo rende SAT e $\Pi$ due problemi \textbf{NP-equivalenti}.
+
+\begin{theorem}
+	Tutti i problemi NP-completi sono tra loro NP-equivalenti.
+\end{theorem}
+
+\subsubsection{Classi co-P e co-NP}
+Le ultime due classi di problemi che trattiamo sono le classe co-P e co-NP. Fanno parte di queste due classi i problemi
+\textbf{complementari} ai problemi in P ed NP.
+
+Dal punto di vista della complessit\`a, passare da un problema al suo complementare, cambia molto a seconda se il problema
+sia in P oppure no.
+
+Se ho un problema in P allora anche il suo complementare \`e in P: basta rispondere il contrario del problema di partenza.
+Possiamo quindi affermare che P = co-P.
+
+Discorso diverso per i problemi NP. Se un problema NP \`e tale in presenza di un certificato che lo verifichi in tempo
+polinomiale, la verifica del suo complementare \`e, in generale, difficile e richiede tempo esponenziale. Si congettura
+quindi che $\text{NP} \neq \text{co-NP}$.
