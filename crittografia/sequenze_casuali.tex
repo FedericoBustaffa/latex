@@ -1,0 +1,36 @@
+\chapter{Sequenze casuali}
+Introdurre le sequenze casuali ci permette di alimentare \textbf{algoritmi randomizzati} e sono inoltre molto utili
+per \textbf{generare le chiavi} di cifratura e decifrazione nel modo migliore possibile.
+
+Prendiamo due sequenze di esempio $h_1$ e $h_2$, entrambe lunghe 20 cifre
+\[
+	\begin{matrix}
+		h_1 = 1 & 1 & 1 & 1 & 1 & \dots & 1 & \dots & 1 \\
+		h_2 = 0 & 1 & 1 & 0 & 0 & \dots & 0 & \dots & 0
+	\end{matrix}
+\]
+facciamo finta di aver ottenuto entrambe le sequenze lanciando 20 volte una moneta. La probabilit\`a di ottenere sia
+$h_1$ che $h_2$ con questo metodo \`e di $\frac{1}{2}^{20}$.
+
+Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ed \`e anche da qui che
+nasce il \textbf{significato algoritmico di casualit\`a}.
+
+\begin{definition}[Kolmogorov]
+	Una sequenza \emph{binaria} $h$ \`e \textbf{casuale} se non ammette un algoritmo di generazione $A$ la cui
+	rappresentazione binaria sia pi\`u corta di $h$. Quindi $h$ \`e casuale se
+	\[ |h| \leq |A_h| \]
+\end{definition}
+
+Prendiamo ora come esempio un algoritmo che genera una sequenza di $n$ 1. La sequenza generata sar\`a lunga $n$ cifre
+e la lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
+\[ |A_h| = \text{cost} + \theta(\log n) \]
+dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\theta(\log n)$ bit
+una sequenza di $n$ bit.
+
+Se $h$ ci appare casuale e non presenta evidenti regolarit\`a, l'algoritmo di generazione la contiene al suo interno e
+la restituisce in output. In questo caso abbiamo che
+\[ |A_h| = \text{cost} + \theta(n) \]
+
+\section{Sistemi di calcolo}
+Facciamo ora un ulteriore passo di formalizzazione. Il nostro obbiettivo ora \`e rendere la definizione di casualit\`a
+indipendente dal sistema di calcolo.
