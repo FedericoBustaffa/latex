@@ -12,25 +12,53 @@ Prendiamo due sequenze di esempio $h_1$ e $h_2$, entrambe lunghe 20 cifre
 facciamo finta di aver ottenuto entrambe le sequenze lanciando 20 volte una moneta. La probabilit\`a di ottenere sia
 $h_1$ che $h_2$ con questo metodo \`e di $\frac{1}{2}^{20}$.
 
-Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ed \`e anche da qui che
-nasce il \textbf{significato algoritmico di casualit\`a}.
+Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ma definiamo formalmente
+cosa sia la \emph{casualit\`a} ?
+
+Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico di casualit\`a} per una sequenza binaria.
 
 \begin{definition}[Kolmogorov]
-	Una sequenza \emph{binaria} $h$ \`e \textbf{casuale} se non ammette un algoritmo di generazione $A$ la cui
-	rappresentazione binaria sia pi\`u corta di $h$. Quindi $h$ \`e casuale se
+	Una sequenza \emph{binaria} $h$ \`e \textbf{casuale} se non ammette un algoritmo $A$, in grado di descrivere $h$, la
+	cui rappresentazione binaria sia pi\`u corta di $h$. Quindi $h$ \`e casuale se
 	\[ |h| \leq |A_h| \]
+	ovvero possiamo affermare che una sequenza non \`e casuale se c'\`e un algoritmo \emph{semplice} che la descrive.
 \end{definition}
 
-Prendiamo ora come esempio un algoritmo che genera una sequenza di $n$ 1. La sequenza generata sar\`a lunga $n$ cifre
-e la lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
-\[ |A_h| = \text{cost} + \theta(\log n) \]
-dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\theta(\log n)$ bit
-una sequenza di $n$ bit.
+\begin{example}
+	Prendiamo ora come esempio una sequenza $h$ di $n$ 1. Abbiamo che
+	\[ |h| = n \]
+	e un algoritmo $A_h$ che la descrive
+	\begin{lstlisting}
+	for(int i = 0; i < n; i++)
+		print(1);
+	\end{lstlisting}
+	La lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
+	\[ |A_h| = \text{cost} + \theta(\log n) \]
+	dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\log n$	bit
+	una sequenza di $n$ bit.
+\end{example}
 
-Se $h$ ci appare casuale e non presenta evidenti regolarit\`a, l'algoritmo di generazione la contiene al suo interno e
-la restituisce in output. In questo caso abbiamo che
-\[ |A_h| = \text{cost} + \theta(n) \]
+\begin{example}
+	Considerando invece una sequenza $h$ che ci appare casuale e non presenta evidenti regolarit\`a, l'algoritmo di
+	rappresentazione deve contenerla interamente al suo interno e la restituisce in output.
+	\begin{lstlisting}
+	print(1001011110...1010...);
+	\end{lstlisting}
+	In questo caso la lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
+	\[ |A_h| = \text{cost} + \theta(n) \]
+	dato che non ho un modo compatto per descrivere $h$.
+\end{example}
 
 \section{Sistemi di calcolo}
-Facciamo ora un ulteriore passo di formalizzazione. Il nostro obbiettivo ora \`e rendere la definizione di casualit\`a
-indipendente dal sistema di calcolo.
+Fino ad ora abbiamo parlato di algoritmi di rappresentazione di una sequenza ma non abbiamo parlato di come la sequenza
+\`e stata effettivamente generata.
+
+Per farlo abbiamo bisogno di introdurre i \textbf{sistemi di calcolo}. Quando parliamo di algoritmi si fa sempre
+riferimento a qualche sistema di calcolo.
+
+Vogliamo rendere la definizione di casualit\`a indipendente dal sistema di calcolo adottato. I sistemi di calcolo sono
+infiniti ma certamente \emph{numerabili}.
+
+\begin{definition}[Complessit\`a di Kolmogorov]
+	Sia $h$ una sequenza in un generico sistema di calcolo $s$
+\end{definition}
