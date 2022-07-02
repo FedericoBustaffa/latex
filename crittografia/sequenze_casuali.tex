@@ -76,3 +76,187 @@ Se andiamo a valutare la lunghezza di $q$ in bit otteniamo che
 \[ |q| = |i| + |p| = \theta (\log i) + |p| \]
 dato che per rappresentare $i$ ho bisogno di $\log i$ bit. Notiamo anche che $|i|$ \`e un termine che dipende unicamente
 dal sistema di calcolo e non dalla sequenza $h$.
+
+Proviamo ora a valutare la complessit\`a di Kolmogorov su $S_u$. Possiamo dire certamente che
+\[ K_{S_u}(h) \leq K_{S_i}(h) + c_i \]
+dove $c_i$ \`e una costante che non dipende da $h$.
+
+\begin{definition}
+	La \textbf{complessit\`a} secondo Kolmogorov di una sequenza $h$ \`e
+	\[ K(h) = K_{S_u}(h) \]
+	infatti
+	\[ \forall S_i \quad K_{S_i}(h) \geq K_{S_u}(h) \]
+	a meno di una costante.
+\end{definition}
+
+\begin{definition}[Casualit\`a secondo Kolmogorov]
+	Una sequenza $h$ \`e \textbf{casuale} se
+	\[ K(h) \geq |h| - \lceil \log_2 |h| \rceil \]
+	La ragione per cui si sottrae un fattore logaritmico \`e per rilassare il vincolo di casualit\`a, altrimenti
+	soddisfatto da ben poche sequenze.
+\end{definition}
+
+Notiamo che la casualit\`a \`e una \emph{propriet\`a} della sequenza, e non dipende quindi dal sistema di calcolo
+che l'ha generata.
+
+\section{Esistenza}
+Dimostriamo adesso l'\textbf{esistenza} di sequenze casuali secondo la teoria appena descritta.
+
+\begin{proof}
+	Consideriamo solo sequenze binarie lunghe $n$ bit e indichiamo con $S$ il numero di sequenze binarie lunghe $n$.
+	\[ S = 2^n \]
+	Indichiamo inoltre con $T$ il numero di sequenze binarie lunghe $n$ \textbf{non casuali} secondo la definizione data
+	in precedenza.
+
+	Per dimostrare l'esistenza di sequenze casuali, devo mostrare che $T < S$. Devo quindi dimostrare che l'insieme $S$
+	non \`e composto esclusivamente da sequenze non casuali. Di conseguenza, le sequenze in $S$, che non sono in $T$
+	devono essere necessariamente casuali.
+
+	Iniziamo con il ricordare una caratteristica detta in precedenza sulle sequenze in $T$ e quindi non casuali. I
+	programmi che generano sequenze lunghe $n$ in $T$ hanno lunghezza
+	\[ |p| < n - \lceil \log_2 n \rceil \]
+	perch\'e se la lunghezza \`e almeno $n - \lceil \log_2 n \rceil$ allora la sequenza \`e casuale.
+
+	Indichiamo con $N$ il numero di sequenze binarie $h$ tali che
+	\[ |h| < n - \lceil \log_2 n \rceil \]
+	Tra queste ci saranno anche le sequenze che codificano i programmi che generano le $T$ sequenze non casuali. Possiamo
+	ora definire $N$ come segue
+	\[ N = \sum_{i=0}^{n - \lceil \log_2 n \rceil - 1} 2^i = 2^{n - \lceil \log_2 n \rceil} - 1 \]
+	Se mettiamo a confronto $N$ con $S$ notiamo subito che
+	\[ N < S \]
+	ma abbiamo che in $N$ ci sono tutti i programmi che generano le $T$ sequenze non casuali, quindi
+	\[ T \leq N < S \quad \Rightarrow \quad T < S \]
+\end{proof}
+
+Possiamo fare un'altra considerazione. Se sviluppiamo il seguente limite
+\[ \lim_{n \rightarrow +\infty} \frac{T}{S} \]
+otteniamo
+\[
+	\lim_{n \rightarrow +\infty} \frac{2^{n - \lceil \log n \rceil} - 1}{2^n} =
+	\lim_{n \rightarrow +\infty} \left( \frac{1}{2^{\lceil \log n \rceil}} - \frac{1}{2^n}\right) = 0
+\]
+Questo ci dice che al crescere di $n$ le sequenze non casuali sono molte meno di quelle casuali.
+
+Fatta questa considerazione ci potrebbe venire in mente di prendere una sequenza qualsiasi lunga $n$ e vedere se \`e
+casuale. Purtroppo non esiste un algoritmo che, data una sequenza arbitraria, sia in grado di dirci se questa sia
+casuale o meno secondo Kolmogorov.
+
+\begin{theorem}
+	Il problema di stabilire se una sequenza sia casuale secondo Kolmogorov \`e indecidibile.
+	\begin{proof}
+		Procediamo con una dimostrazione per assurdo. Ipotizziamo che esista un algoritmo
+		\begin{lstlisting}[style=pseudo-style]
+RANDOM(h)
+	return h.isRandom();
+		\end{lstlisting}
+		Costruiamo a questo punto l'algoritmo \verb|PARADOSSO| che enumera tutte le sequenze di lunghezza $h$, chiama
+		\verb|RANDOM| su ognuna di esse	e infine restituisce la prima sequenza casuale $h$ tale che
+		\[ |h| - \lceil \log_2 |h| \rceil > 1 \]
+		\begin{lstlisting}[style=pseudo-style]
+PARADOSSO()
+	for h = 1 to +inf
+		if |h| - ceil(log(|h|)) > |P| and RANDOM(h) then
+			return h;
+		\end{lstlisting}
+		\verb|P| \`e una stringa che rappresenta la codifica in binario di \verb|PARADOSSO| e di \verb|RANDOM|, vale
+		quindi che
+		\begin{center}
+			|\verb|P|| \verb|=| |\verb|PARADOSSO|| \verb|+| |\verb|RANDOM||
+		\end{center}
+		e |\verb|P|| \`e una costante che non dipende da $h$. Questo perch\'e $h$ compare in \verb|PARADOSSO| solo come
+		nome di variabile.
+
+		\begin{enumerate}
+			\item La prima condizione \`e vera quando incontro una sequenza $h$ tale che
+			      \[ |h| - \lceil \log_2 |h| \rceil > |P| \]
+			      ma \verb|P| \`e un programma \textbf{breve} che \emph{genera} $h$, ossia
+			      \[ |P| < |h| - \lceil \log_2 |h| \rceil \]
+			      ma questo equivale a dire che $h$ non \`e casuale secondo Kolmogorov.
+			\item La seconda condizione \`e vera quando \verb|RANDOM| trova una sequenza casuale e, come detto in
+			      precedenza, le sequenze casuali esistono e quindi prima o poi \verb|RANDOM| ne trover\`a una.
+		\end{enumerate}
+		Ecco che qui si ottiene una \textbf{contraddizione} dato che il programma termina su una sequenza che viene
+		riconosciuta allo stesso tempo come casuale e come non casuale.
+	\end{proof}
+\end{theorem}
+
+\section{Sorgente casuale binaria}
+Iniziamo ora a parlare del come queste sequenze casuali vengono generate.
+
+\begin{definition}
+	Una \textbf{sorgente casuale binaria} produce un flusso di bit con due propriet\`a fondamentali:
+	\begin{itemize}
+		\item Lo 0 e l'1 si presentano con uguale probabilit\`a
+		      \[ \begin{matrix} P(0) & = & P(1) & = & \displaystyle\frac{1}{2} \end{matrix} \]
+		      quest'ipotesi, in realt\`a, non \`e cos\`i rigida. Non \`e necessario che le due probabilit\`a siano
+		      uguali, basta che
+		      \[ P(0) > 0 \quad P(1) > 0 \]
+		      ma devono essere \textbf{immutabili} durante il processo. Quello che per\`o si fa per far comparire gli 0
+		      gli 1 con uguale frequenza \`e generare la sequenza con probabilit\`a $P(0)$ e $P(1)$ diverse fra loro.
+		      Per esempio prendiamo questa sequenza la cui sorgente ha $P(1) > P(0)$
+		      \[ \begin{matrix} 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \end{matrix} \]
+		      a questo punto prendiamo in considerazione le coppie di bit generate
+		      \[ \begin{matrix} 00 & 10 & 01 & 11 & 11 \end{matrix} \]
+		      eliminiamo le coppie in cui i bit sono uguali e valutiamo come 0 le coppie 01 e come 1 le coppie 10,
+		      otteniamo cos\`i la sequenza
+		      \[ \begin{matrix} 1 & 0 \end{matrix} \]
+		      Eliminiamo le coppie in cui i bit sono uguali perch\'e le coppie 11 appaiono con maggiore probabilit\`a
+		      e le coppie 00 con minor probabilit\`a. Al contrario le coppie 01 e le coppie 10 sono equiprobabili.
+		\item La generazione di un bit \`e indipendente da quella dei bit precedenti. Quest'ipotesi \`e al contrario
+		      molto pi\`u stringente e non \`e neanche chiaro se sia davvero possibile soddisfarla.
+	\end{itemize}
+\end{definition}
+
+\subsection{Generatori pseudocasuali}
+Dato che riuscire a generare numeri casuali cercando di soddisfare la seconda ipotesi descritta in precedenza \`e molto
+complesso, quello che si fa nella pratica \`e utilizzare \textbf{generatori pseudocasuali}, ossia generatori che generano
+casualit\`a mediante un algoritmico, ricercandola all'interno di processi matematici.
+
+Questi generatori sono definiti pseudocasuali perch\'e in genere sono programmi brevi e che quindi generano sequenze
+non casuali secondo Kolmogorov.
+
+Un altro motivo \`e che il numero di sequenze possibili dipende da un parametro di input ossia il \textbf{seme}. Le
+possibili sequenze generate sono funzione della lunghezza del seme e sono molte meno di quelle generabili in realt\`a.
+
+Il problema di questi generatori \`e che producono un flusso di bit che ad un certo punto si ripete. Questo avviene
+perch\'e, quando, in modo casuale il seme iniziale verr\`a rigenerato, la sequenza ripartir\`a da capo.
+
+La sequenza che viene ripetuta all'interno del flusso \`e detta \textbf{periodo}.
+
+Il seme lo otteniamo con un procedimento casuale (per esempio prendendo lo stato interno dell'orologio del calcolatore)
+e il periodo lo otteniamo in modo deterministico a partire dal seme.
+
+Possiamo pensare infine al generatore pseudocasuale come ad un \emph{amplificatore} di casualit\`a dato che cerca di
+rendere il periodo pi\`u lungo possibile.
+
+Un generatore \`e tanto migliore quanto pi\`u lungo \`e il periodo che riesce a generare.
+
+Precisiamo che, essendo deterministico, il generatore ha bisogno sempre di un seme diverso per generare una sequenza
+diversa. Se forniamo sempre il solito seme otteniamo sempre la solita sequenza.
+
+Supponiamo di partire da un seme $S$ di $s$ bit. Il generatore genera al pi\`u $2^s$ sequenze diverse lunghe quanto il
+periodo del generatore.
+
+\subsubsection{Generatore lineare}
+\`E un generatore molto semplice che sfrutta la funzione
+\[ x_i = (a x_{i - 1} + b) \mod{m} \]
+per la generazione del flusso di bit. I parametri $a$, $b$ ed $m$ sono interi positivi.
+
+Il generatore avr\`a periodo $\leq m$ dato che, lavorando modulo $m$, posso ottenere al massimo $m$ sequenze diverse.
+Nella pratica i parametri $a$ e $b$ si scelgono appositamente per riuscire a far s\`i che il periodo sia esattamente
+uguale ad $m$ e non minore.
+
+Se i parametri sono scelti bene il generatore produce una permutazione degli interi da 0 a $m - 1$. I criteri per fare
+ci\`o sono
+\begin{itemize}
+	\item I parametri $b$ ed $m$ devono essere coprimi
+	      \[ (b, m) = 1 \]
+	\item Il parametro $a - 1$ deve essere divisibile per ogni fattore primo di $m$.
+	\item Se $m$ \`e un multiplo di 4 allora anche $a-1$ deve esserlo
+	      \[ 4 \mid m \quad \Rightarrow \quad 4 \mid a - 1 \]
+\end{itemize}
+Come possiamo vedere questo generatore non possiede la seconda propriet\`a fondamentale dato che un numero generato
+dipende fortemente dal numero generato in precendenza.
+
+Per ora abbiamo usato il generatore per la generazione di numeri interi ma se volessimo generare sequenze binarie
+si fa $x_i / m$ e si prende la \textbf{parit\`a} della prima cifra decimale.
