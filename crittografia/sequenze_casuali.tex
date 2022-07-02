@@ -50,15 +50,29 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 \end{example}
 
 \section{Sistemi di calcolo}
-Fino ad ora abbiamo parlato di algoritmi di rappresentazione di una sequenza ma non abbiamo parlato di come la sequenza
-\`e stata effettivamente generata.
+Iniziamo ora a mettere in relazione le sequenze con i \textbf{sistemi di calcolo} dai quali vengono generate.
 
-Per farlo abbiamo bisogno di introdurre i \textbf{sistemi di calcolo}. Quando parliamo di algoritmi si fa sempre
-riferimento a qualche sistema di calcolo.
-
-Vogliamo rendere la definizione di casualit\`a indipendente dal sistema di calcolo adottato. I sistemi di calcolo sono
-infiniti ma certamente \emph{numerabili}.
+Prima di addentrarci nell'argomento facciamo qualche precisazione. I sistemi di calcolo sono certamente \emph{infiniti}
+ma anche \emph{numerabili} dato che devo poterli descrivere con sequenze finite di caratteri di un alfabeto finito.
 
 \begin{definition}[Complessit\`a di Kolmogorov]
-	Sia $h$ una sequenza in un generico sistema di calcolo $s$
+	Sia $h$ una sequenza, $S_i$ un generico sistema di calcolo e $p$ un programma scritto nel formalismo richiesto dal
+	sistema di calcolo $S_i$. Indico con
+	\[ K_{S_i}(h) = \min\{ |p| \mid S_i(p) = h \} \]
+	la \textbf{complessit\`a di Kolmogorov}, ossia la lunghezza del programma pi\`u breve in grado di generare la
+	sequenza $h$ nel sistema $S_i$.
 \end{definition}
+
+\subsection{Sistema di calcolo universale}
+Ci\`o che vogliamo fare \`e rendere la definizione di casualit\`a indipendente dal sistema di calcolo adottato.
+
+Tra i sistemi di calcolo esiste almeno un sistema di calcolo \textbf{universale} $S_u$ in grado di simulare tutti gli
+altri sistemi di calcolo.
+
+Questo sistema di calcolo prende in input una coppia $q$, formata da un indice $i$ (l'indice del sistema di calcolo da
+andare a simulare) e un programma $p$ da far girare sul sistema di calcolo $S_i$.
+\[ S_u(q) =  S_u (\langle i, p \rangle) = S_i (p) = h \]
+Se andiamo a valutare la lunghezza di $q$ in bit otteniamo che
+\[ |q| = |i| + |p| = \theta (\log i) + |p| \]
+dato che per rappresentare $i$ ho bisogno di $\log i$ bit. Notiamo anche che $|i|$ \`e un termine che dipende unicamente
+dal sistema di calcolo e non dalla sequenza $h$.
