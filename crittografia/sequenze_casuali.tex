@@ -394,7 +394,7 @@ Per rendere la sequenza binaria prendiamo come predicato la parit\`a:
 \end{example}
 
 \subsection{Generatori basati su cifrari simmetrici}
-Ci\`o che serve ad un generatore di questo tipo \`e
+Il funzionamento di generatori di questo tipo si basa sui seguenti parametri:
 \begin{itemize}
 	\item Un cifrario simmetrico (DES, AES, ecc).
 	\item $r$: numero di bit delle parole prodotte.
@@ -402,7 +402,7 @@ Ci\`o che serve ad un generatore di questo tipo \`e
 	\item $m$: numero di parole di $r$ bit.
 	\item $k$: chiave segreta del cifrario.
 \end{itemize}
-Il generatore funziona in questo modo
+Di seguito quello che potrebbe essere un generatore basato su cifrari simmetrici:
 \begin{lstlisting}[style=pseudo-style]
 Generatore(s, m)
 	d = time(); // in r bit 
