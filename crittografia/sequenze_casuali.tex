@@ -328,4 +328,88 @@ Se invece consumo la sequenza al contrario, l'unico modo per il crittoanalista d
 
 \subsubsection{Predicati hard-core delle funzioni one-way}
 Ora vogliamo rendere il generatore appena descritto un generatore \emph{binario} che per\`o conservi le propriet\`a che
-lo rendono crittograficamente sicuro.
+lo rendono crittograficamente sicuro. Per farlo ricorriamo ai predicati hard-core per le funzioni one-way.
+\begin{definition}
+	Chiamo $b(x)$ \textbf{predicato hard-core} di $f$ se
+	\begin{itemize}
+		\item \`e facile da calcolare conoscendo $x$.
+		\item \`e difficile da prevedere con probabilit\`a maggiore di $1/2$ se si conosce $f(x)$.
+	\end{itemize}
+\end{definition}
+
+\begin{example}
+	Prendiamo $f$ definita come segue
+	\[ f(x) = x^2 \mod{m} \]
+	dove $m$ \`e un numero composto e prendiamo $b$ definita come la parit\`a di un numero $x$ in input. Poniamo ora
+	$m = 77$ e $x = 10$ e otteniamo
+	\[ f(10) = 10^2 \mod{77} = 23 \]
+	Arrivati a questo punto, per chi conosce $x$ \`e immediato calcolarne la parit\`a ma per chi non conosce $x$ ed \`e
+	in possesso solo di 23 e di $f$ le cose si complicano notevolmente. Si dovrebbe cercare quel numero $x$, che elevato
+	al quadrato modulo 77, faccia 23 e infine calcolarne la parit\`a. Questo procedimento per\`o non si pu\`o effettuare
+	se non in tempo esponenziale facendo una ricerca esaustiva e provando tutti i possibili valori da 0 a $m-1$.
+\end{example}
+
+\subsubsection{Generatore BBS}
+Ideato da Blum, Blum e Shub nell'1986 funziona in questo modo ed \`e tra i generatori classificati sicuri.
+
+Consideriamo
+\[ n = p \cdot q \]
+con $p$ e $q$ che devono soddisfare alcuni requisiti per garantire la difficolt\`a nella fattorizzazione:
+\begin{itemize}
+	\item Devono essere numeri primi grandi.
+	\item $p \mod{4} = 3$
+	\item $q \mod{4} = 3$
+	\item $2 \lfloor p / 4 \rfloor + 1$ e $2 \lfloor q / 4 \rfloor + 1$ devono essere coprimi.
+\end{itemize}
+A questo punto scelgo un numero $y$ coprimo con $n$ e calcoliamo
+\[ x_0 = y^2 \mod{n} \]
+ottenendo cos\`i il seme $x_0$. Generiamo ora una successione di $m \leq n$ interi calcolando ogni elemento come segue
+\[ x_i = (x_{i-1})^2 \mod{n} \]
+Per rendere la sequenza binaria prendiamo come predicato la parit\`a:
+\[ b_i = 1 \quad \Leftrightarrow \quad x_{m-i} \text{ \`e dispari} \]
+
+\begin{example}
+	Prendiamo $p = 11$ e $q = 19$ e verifichiamo che siano soddisfatte le propriet\`a. La prima propriet\`a per adesso
+	non la consideriamo, dato che non \`e necessaria ai fini del funzionamento del generatore ma solo a fini di sicurezza.
+	\begin{itemize}
+		\item $11 \mod{4} = 3$
+		\item $19 \mod{4} = 3$
+		\item Calcoliamoci i due valori e vediamo se sono coprimi fra loro
+		      \begin{itemize}
+			      \item $2 \lfloor 11 / 4 \rfloor + 1 = 7$
+			      \item $2 \lfloor 19 / 4 \rfloor + 1 = 9$
+		      \end{itemize}
+		      7 e 9 sono coprimi quindi tutte le propriet\`a sono soddisfatte.
+	\end{itemize}
+	Con $p = 11$ e $q = 19$ abbiamo che
+	\[ n = 209 \]
+	Prendiamo ora un $y$ coprimo con $n$, diciamo
+	\[ y = 30 \]
+	e calcoliamo il seme $x_0$ come segue
+	\[ x_0 = 30^2 \mod{209} = 64 \]
+	Da qui possiamo iniziare a generare la nostra sequenza
+	\[ \begin{matrix} x_0 = 64 & x_1 = 125 & x_2 = 159 & x_3 = 201 \end{matrix} \]
+	Usiamo infine la parit\`a per ottenere la sequenza binaria
+	\[ \begin{matrix} 0 & 1 & 1 & 1 \end{matrix} \]
+\end{example}
+
+\subsection{Generatori basati su cifrari simmetrici}
+Ci\`o che serve ad un generatore di questo tipo \`e
+\begin{itemize}
+	\item Un cifrario simmetrico (DES, AES, ecc).
+	\item $r$: numero di bit delle parole prodotte.
+	\item $s$: seme casuale di $r$ bit.
+	\item $m$: numero di parole di $r$ bit.
+	\item $k$: chiave segreta del cifrario.
+\end{itemize}
+Il generatore funziona in questo modo
+\begin{lstlisting}[style=pseudo-style]
+Generatore(s, m)
+	d = time(); // in r bit 
+	y = C(d, k); // C = funzione di cifratura 
+	z = s;
+	for(i = 1; i <= n; i++)
+		x_i = C(y ^ z, k); // ^ = xor bit a bit
+		z = C(y ^ x_i, k);
+		output(x_i); // comunico x_i all'esterno
+\end{lstlisting}
