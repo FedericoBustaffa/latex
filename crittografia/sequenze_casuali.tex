@@ -260,3 +260,72 @@ dipende fortemente dal numero generato in precendenza.
 
 Per ora abbiamo usato il generatore per la generazione di numeri interi ma se volessimo generare sequenze binarie
 si fa $x_i / m$ e si prende la \textbf{parit\`a} della prima cifra decimale.
+
+\subsubsection{Generatore polinomiale}
+Il primo metodo per riuscire a \emph{generalizzare} un po' il generatore lineare \`e aumentare il grado del polinomio.
+Riscriviamo quindi la funzione la funzione precedente ma con un polinomio di grado $t$
+\[ x_i = (a_1 x_{i-1}^t + a_2 x_{i-1}^{t-1} + \dots + a_t x_{i-1} + a_{t+1}) \mod{m} \]
+Per quanto si possa aumentare il grado del polinomio questo generatore non \`e tanto migliore del generatore lineare.
+
+Anche per questo generatore dobbiamo scegliere bene i parametri per rendere il periodo pi\`u lungo possibile, ossia
+uguale a $m$. Una scelta molto comune di tali parametri \`e questa:
+\[
+	\begin{matrix}
+		a & = & 3141592653 \\
+		b & = & 2718281829 \\
+		m & = & 2^{32}
+	\end{matrix}
+\]
+Come possiamo notare $a$ \`e $\pi$ e $b$ \`e $e$ (costante di Nepero).
+
+\subsection{Test statistici}
+Nel caso volessimo costruire il nostro generatore personale, per riuscire a capire quanto sia effettivamente valido o
+ben costruito, dobbiamo sottoporlo ad alcuni \textbf{test statistici}:
+\begin{itemize}
+	\item \textbf{Test di frequenza}: si verifica che i diversi simboli della sequenza appaiano con pari probabilit\`a.
+	\item \textbf{Poker test}: si controlla che le sottosequenze della stessa lunghezza siano equiprobabili.
+	\item \textbf{Test di autocorrelazione}: si verifica che, a distanze fissate, non appaia sempre lo stesso simbolo.
+	\item \textbf{Run test}: si verifica che sottosequenze composte dallo stesso simbolo siano esponenzialmente sempre
+	      meno frequenti in relazione alla loro lunghezza.
+\end{itemize}
+Ovviamente per effettuare un buon test la sequenza deve essere sufficientemente lunga da permettere un'analisi esauriente.
+
+Sia il generatore lineare che quello polinomiale superano questi test ma non vanno comunque bene per la generazione di
+chiavi crittografiche. Anche tenendo nascosti i parametri, esistono algoritmi di costo polinomiale che sono in grado di
+stimare con una probabilit\`a significativamente maggiore di $1/2$, quale sar\`a il prossimo bit generato.
+
+\subsubsection{Test di prossimo bit}
+Per le applicazioni crittografiche si richiede un test in pi\`u, il \textbf{test di prossimo bit}.
+
+Un generatore binario supera il test di prossimo bit se non esiste un algoritmo polinomiale in grado di prevedere il
+prossimo bit generato a partire dalla conoscenza dei bit gi\`a generati con probabilit\`a strettamente maggiore di $1/2$.
+
+Se un generatore super il test di ultimo bit supera anche tutti gli altri test statistici ed \`e detto
+\textbf{crittograficamente sicuro}.
+
+\subsection{Generatori crittograficamente sicuri}
+La costruzione di generatori sicuri si basa sulle cosiddette funzioni \textbf{one-way}, ossia funzioni \emph{facili} da
+calcolare ma \emph{difficili} da invertire.
+\begin{itemize}
+	\item $y = f(x)$ si calcola in tempo polinomiale.
+	\item $x = f^{-1}(y)$ si calcola in tempo esponenziale.
+\end{itemize}
+Per generare la sequenza si parte da un seme $x_0$ (mantenuto segreto) e si calcola in tempo polinomiale la sequenza
+\[
+	\begin{matrix}
+		x_1   & = f(x_0)     &             &                \\
+		x_2   & = f(x_1)     & = f(f(x_0)) & = f^{(2)}(x_0) \\
+		\dots &              & \dots       &                \\
+		x_i   & = f(x_{i-1}) & \dots       & = f^{(i)}(x_0) \\
+		\dots &              & \dots       &
+	\end{matrix}
+\]
+A questo punto per\`o dobbiamo consumarla al contrario. Questo perch\'e si deve sempre assumere che il crittoanalista
+conosca $f$. Conoscendo $f$ e vedendo un generico $x_i$ \`e facile calcolare $f(x_{i+1})$.
+
+Se invece consumo la sequenza al contrario, l'unico modo per il crittoanalista di prevedere il prossimo bit generato
+\`e quello di invertire $f$, ma come abbiamo gi\`a detto, \`e un'operazione che richiede tempo esponenziale.
+
+\subsubsection{Predicati hard-core delle funzioni one-way}
+Ora vogliamo rendere il generatore appena descritto un generatore \emph{binario} che per\`o conservi le propriet\`a che
+lo rendono crittograficamente sicuro.
