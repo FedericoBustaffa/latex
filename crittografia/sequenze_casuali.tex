@@ -28,8 +28,8 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 	Prendiamo ora come esempio una sequenza $h$ di $n$ 1. Abbiamo che
 	\[ |h| = n \]
 	e un algoritmo $A_h$ che la descrive
-	\begin{lstlisting}
-	for(int i = 0; i < n; i++)
+	\begin{lstlisting}[style=pseudo-style]
+	for i = 0 to n-1
 		print(1);
 	\end{lstlisting}
 	La lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
@@ -41,7 +41,7 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 \begin{example}
 	Considerando invece una sequenza $h$ che ci appare casuale e non presenta evidenti regolarit\`a, l'algoritmo di
 	rappresentazione deve contenerla interamente al suo interno e la restituisce in output.
-	\begin{lstlisting}
+	\begin{lstlisting}[style=pseudo-style]
 	print(1001011110...1010...);
 	\end{lstlisting}
 	In questo caso la lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
@@ -408,7 +408,7 @@ Generatore(s, m)
 	d = time(); // in r bit 
 	y = C(d, k); // C = funzione di cifratura 
 	z = s;
-	for(i = 1; i <= n; i++)
+	for i = 1 to n
 		x_i = C(y ^ z, k); // ^ = xor bit a bit
 		z = C(y ^ x_i, k);
 		output(x_i); // comunico x_i all'esterno
