@@ -5,7 +5,7 @@ Iniziamo ora a parlare di \textbf{primalit\`a} e di come costruire algoritmi eff
 Iniziamo con un algoritmo semplice ma che come vedremo risulter\`a molto inefficiente.
 \begin{lstlisting}[style=pseudo-style]
 Primo(n)
-	for(i = 2; i <= sqrt(n); i++)
+	for i = 2 to sqrt(n)
 		if n % i == 0 then
 			return false;
 	
@@ -33,3 +33,93 @@ si pu\`o scrivere come $2^{\log n}$ e questo fa diventare la complessit\`a
 \[ O(2^\frac{\log n}{2} \cdot \log^2 n) \]
 Come possiamo vedere, un algoritmo all'apparenza polinomiale \`e in realt\`a un algoritmo di costo esponenziale nella
 dimensione dell'input. Si tratta di un algoritmo \textbf{pseudopolinomiale}.
+
+\section{Algoritmi randomizzati}
+Gli algoritmi randomizzati sono fondamentali per effettuare test di primalit\`a efficienti dato che un algoritmo
+deterministico e polinomiale nella dimensione dell'input esiste ma \`e comunque molto lento.
+
+Questi algoritmi si dividono in due gruppi principali
+\begin{itemize}
+	\item \textbf{Las Vegas}: generano un risultato \emph{sicuramente corretto} in un tempo \emph{probabilmente breve}.
+	\item \textbf{Monte Carlo}: generano un risultato \emph{probabilmente corretto} in un tempo \emph{sicuramente breve}.
+\end{itemize}
+L'algoritmo che vedremo per il test di primalit\`a \`e della tipologia Monte Carlo ma la probabilit\`a di errore
+dev'essere \textbf{misurabile} e \textbf{arbitrariamente piccola}.
+
+\subsection{Test di Miller-Rabin}
+La prima parte dell'algoritmo \`e composta dei seguenti passi.
+\begin{enumerate}
+	\item Prendiamo $n$ intero e dispari di cui vogliamo testare la primalit\`a.
+	\item Prendiamo $n-1$ (sicuramente pari) e cerchiamo la massima potenza di 2 che lo divide, cos\`i da rappresentare
+	      $n-1$ in questo modo
+	      \[ n-1 = 2^w \cdot z \quad \text{con $z$ dispari} \]
+	      questo \`e sempre possibile perch\'e un numero pari \`e sempre rappresentabile come potenza di 2 che moltiplica
+	      un numero dispari.
+
+	      Per determinare $w$ e $z$ impieghiamo in media $O(\log n)$ passi.
+	\item Scegliamo un intero $y$ compreso tra 2 e $n-1$.
+\end{enumerate}
+Se $n$ \`e primo allora valgono i due predicati
+\begin{itemize}
+	\item $(n, y) = 1$
+	\item $y^z \mod{n} \equiv 1$
+
+	      oppure
+
+	      $\exists i, \quad 0 \leq i \leq w-1 \mid y^{2^i} \cdot z \mod{n} \equiv -1$
+\end{itemize}
+Chiariamo che questi due predicati sono condizioni necessarie alla primalit\`a ma non sufficienti.
+
+\begin{lemma}[Miller-Rabin]
+	Se $n$ \`e un numero composto, il numero di interi $y$ compresi tra 2 ed $n-1$, che soddisfano entrambi i predicati
+	\`e minore di $n / 4$.
+	\[ \# \{ 2 \leq y \leq n-1 \mid P_1(y) = \text{ true} \quad \wedge \quad P_2(y) = \text{ true} \} < \frac{n}{4} \]
+\end{lemma}
+Questo lemma ci dice che la probabilit\`a di scegliere un $y$ che soddisfa entrambi i predicati \`e minore di $1 / 4$.
+Questo \`e banale dato che ho $n - 2$ possibili scelte e $n / 4$ di queste rendono veri entrambi i predicati.
+\[ \frac{n/4}{n-2} < \frac{1}{4} \]
+Quando scelgo un $y$ vado a testare i due predicati: se anche solo uno \`e falso allora possiamo affermare con certezza
+che $y$ \`e composto, se invece sono entrambi soddisfatti \emph{molto probabilmente} \`e primo con probabilit\`a di
+errore al pi\`u del $25\%$.
+
+A questo punto possiamo iterare $k$ volte con $k$ scelte casuali e indipendenti di $y$, la probabilit\`a di errore scende
+a $(1/4)^k$.
+
+Possiamo quindi concludere l'algoritmo in questo modo
+\begin{enumerate}
+	\setcounter{enumi}{3}
+	\item Verifico che i due predicati siano soddisfatti.
+	\item Itero $k$ volte su $k$ scelte diverse e casuali di $y$.
+	      \begin{itemize}
+		      \item Se anche solo una volta un predicato non \`e soddisfatto allora il numero non \`e primo.
+		      \item Altrimenti possiamo affermare che lo sia con probabilit\`a di errore inferiore a $(1/4)^k$
+	      \end{itemize}
+\end{enumerate}
+
+\begin{lstlisting}[style=pseudo-style]
+Verifica(n, y) // true se n e' composto
+	if not P1(n, y) or not P2(n, y) then
+		return false;
+	else
+		return true;
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudo-style]
+TestMR(n, k)
+	for i = 1 to k
+		y = random(2, n - 1);
+		if Verifica(y, n) then 
+			return false;
+
+	return true;
+\end{lstlisting}
+
+\subsubsection{Analisi}
+Possiamo valutare il costo del ciclo come costante ($k$ cicli) mentre \`e fondamentale capire il costo della verifica
+dei predicati.
+\begin{itemize}
+	\item Per la verifica del primo predicato dobbiamo calcolare il massimo comun divisore con l'algoritmo di Euclide.
+	      Un'operazione che richiede costo cubico nel numero di cifre
+	      \[ O(\log^3 n) \]
+	\item La verifica del secondo predicato \`e pi\`u complessa per via degli elevamenti a potenza.
+\end{itemize}
