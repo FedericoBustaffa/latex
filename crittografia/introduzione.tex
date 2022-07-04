@@ -1,5 +1,5 @@
-\chapter{Introduzione}
-\section{Crittografia}
+\chapter{Introduzione}\label{intro}
+\section{Crittografia}\label{crittografia}
 La \textbf{crittografia} si occupa dei metodi di cifratura mentre la \textbf{crittoanalisi} dei metodi di decifrazione
 di un messaggio. Entrambe si possono riunire sotto la branca della \textbf{crittologia}.
 
@@ -16,7 +16,7 @@ Ci\`o che viagger\`a sul canale di trasmissione sar\`a dunque un crittogramma co
 	\item \textbf{facilmente decifrabile} da Bob.
 \end{itemize}
 
-\section{Cifratura}
+\section{Cifratura}\label{cifratura}
 In crittografia si usa una \textbf{funzione di cifratura} $\mathcal{C} : MSG \rightarrow CRITTO$, dove $MSG$ \`e l'insieme
 dei messaggi in chiaro e $CRITTO$ \`e l'insieme dei crittogrammi, di questo tipo
 \[ \mathcal{C}(m) = c \]
@@ -36,7 +36,7 @@ Come gi\`a detto, $\mathcal{C}$ e $\mathcal{D}$ devono essere l'una l'inversa de
 relazione:
 \[ \mathcal{D}(c) = \mathcal{D}(\mathcal{C}(m)) = m \]
 
-\section{Cifrari}
+\section{Cifrari}\label{cifrari}
 \subsection{Cifrario di Cesare}
 Si tratta di un cifrario per uso ristretto la cui idea \`e ottenere un crittogramma sostituendo ogni lettere del messaggio
 con la lettera tre posizioni pi\`u avanti nell'alfabeto. Se si supera la Z, si riparte dalla A.
@@ -116,7 +116,7 @@ pubbliche e private \`e $2n$ anzich\'e $n (n-1) / 2$.
 D'altra parte abbiamo dei cifrari molto lenti, dunque difficilmente utilizzabili in crittografia di massa e sono inoltre
 soggetti ad attacchi di tipo \emph{chosen plain text}.
 
-\section{Attacchi crittografici}
+\section{Attacchi crittografici}\label{attacchi}
 Il crittoanalista pu\`o avere due tipi di \textbf{comportamento} nella fase di attacco ad un sistema crittografico:
 \begin{itemize}
 	\item \textbf{Passivo}: si limita ad ascoltare la comunicazione intercettando i crittogrammi inviati.

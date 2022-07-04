@@ -1,6 +1,7 @@
-\chapter{Primalit\`a}
+\chapter{Numeri primi}\label{primi}
 Iniziamo ora a parlare di \textbf{primalit\`a} e di come costruire algoritmi efficienti per effettuare il
-\textbf{test di primalit\`a}, ossia algoritmi in grado di dirci se un numero \`e primo o no.
+\textbf{test di primalit\`a}, ossia algoritmi in grado di dirci se un numero \`e primo o no e come fare per generare
+numeri primi.
 
 Iniziamo con un algoritmo semplice ma che come vedremo risulter\`a molto inefficiente.
 \begin{lstlisting}[style=pseudo-style]
@@ -34,7 +35,53 @@ si pu\`o scrivere come $2^{\log n}$ e questo fa diventare la complessit\`a
 Come possiamo vedere, un algoritmo all'apparenza polinomiale \`e in realt\`a un algoritmo di costo esponenziale nella
 dimensione dell'input. Si tratta di un algoritmo \textbf{pseudopolinomiale}.
 
-\section{Algoritmi randomizzati}
+\section{Algoritmo di esponenziazione veloce}\label{esponenziazione}
+Introduciamo l'\textbf{algoritmo di esponenziazione veloce} o \textbf{algoritmo delle quadrature successive} che sar\`a
+molto utile per svolgere elevamenti a potenza in modo efficiente. Essere in grado di svolgere elevamenti a potenza
+in modo efficiente \`e necessario per avere algoritmi efficienti per il test di primalit\`a.
+
+Sia $b$ la base e $n$ l'esponente e $m$ un intero qualsiasi, vogliamo calcolare
+\[ x = b^n \mod{m} \]
+con un numero di operazioni dell'ordine di $O(\log_2 n)$.
+\begin{enumerate}
+	\item Si scompone l'esponente $n$ come somma di potenze di 2.
+	      \[ n = \sum_{i=0}^{\lfloor \log_2 n \rfloor} k_i \cdot 2^i \quad \quad k_i \in \{0,1\} \]
+	\item Si calcolano tutte le potenze $b^{2^i} \mod{m}$ calcolando ogni potenza come quadrato delle precedente
+	      \[ b^{2^i} \mod{m} = \left( b^{2^{i-1}} \right)^2 \mod{m} \]
+	      con $1 \leq i \leq \lfloor \log_2 n \rfloor$
+	\item Prendiamo, fra le potenze ricavate al punto 2, quelle che compaiono nella scomposizione fatta al
+	      punto 1 e moltiplichiamole
+	      \[ x = \prod_{i \mid k_i \neq 0} b^{2^i} \mod{m} \]
+\end{enumerate}
+
+Al punto 2 vengono compiute esattamente $\log_2 n$ operazioni per il calcolo delle varie potenze e al punto 3 svolgiamo
+un numero di moltiplicazioni dell'ordine di $O(\log_2 n)$.
+
+Se consideriamo che la moltiplicazione \`e un'operazione di costo polinomiale nel numero delle cifre \`e facile
+stabilire che l'algoritmo sia complessivamente di costo polinomiale.
+
+\begin{example}
+	Vogliamo calcolare
+	\[ 9^{45} \mod{11} \]
+	Scriviamo l'esponente come somma di potenze di 2
+	\[ 9^{32 + 8 + 4 + 1} \mod{11} \]
+	Calcoliamo ora le potenze $9^{2^i}$ fino ad arrivare a $9^{32}$, ognuna calcolata come quadrato della precedente.
+	\[
+		\begin{matrix}
+			9^2 \mod{11} =    &                & 4 \\
+			9^4 \mod{11} =    & 4^2 \mod{11} = & 5 \\
+			9^8 \mod{11} =    & 5^2 \mod{11} = & 3 \\
+			9^{16} \mod{11} = & 3^2 \mod{11} = & 9 \\
+			9^{32} \mod{11} = & 9^2 \mod{11} = & 4
+		\end{matrix}
+	\]
+	Ora non ci rimane che prendere le potenze di cui abbiamo bisogno
+	\[ 9^{45} \mod{11} = (9^{32} \mod{11}) \cdot (9^8 \mod{11}) \cdot (9^4 \mod{11}) \cdot (9^1 \mod{11}) \]
+	che possiamo comodamente riscrivere come
+	\[ 9^{45} \mod{11} = 4 \cdot 3 \cdot 5 \cdot 9 = 1 \]
+\end{example}
+
+\section{Algoritmi randomizzati}\label{algoritmi_random}
 Gli algoritmi randomizzati sono fondamentali per effettuare test di primalit\`a efficienti dato che un algoritmo
 deterministico e polinomiale nella dimensione dell'input esiste ma \`e comunque molto lento.
 
@@ -46,7 +93,26 @@ Questi algoritmi si dividono in due gruppi principali
 L'algoritmo che vedremo per il test di primalit\`a \`e della tipologia Monte Carlo ma la probabilit\`a di errore
 dev'essere \textbf{misurabile} e \textbf{arbitrariamente piccola}.
 
-\subsection{Test di Miller-Rabin}
+\subsection{Classe RP}
+La \textbf{classe RP} comprende tutti quei problemi \emph{verificabili} in tempo polinomiale tramite algoritmi
+randomizzati.
+
+Sia $\Pi$ un problema decisionale, $x$ un istanza di input di $\Pi$ allora $y$ \`e un \textbf{certificato probabilistico}
+di $x$ se
+\begin{itemize}
+	\item \`E di lunghezza al pi\`u polinomiale in $|x|$ (devo leggerlo in tempo polinomiale).
+	\item \`E estratto perfettamente a caso da un insieme associato a $x$.
+\end{itemize}
+Possiamo anche dire che $A$ \`e un \textbf{algoritmo di verifica} che prende in input $x$ e $y$ se, in tempo polinomiale,
+riesce ad attestare che
+\begin{itemize}
+	\item $x$ non possiede la propriet\`a.
+	\item $x$ possiede la propriet\`a con probabilit\`a $> 1/2$.
+\end{itemize}
+Si congettura che
+\[ \text{P} \subset \text{RP} \subset \text{NP} \]
+
+\section{Test di Miller-Rabin}\label{Miller_Rabin}
 La prima parte dell'algoritmo \`e composta dei seguenti passi.
 \begin{enumerate}
 	\item Prendiamo $n$ intero e dispari di cui vogliamo testare la primalit\`a.
@@ -114,7 +180,7 @@ TestMR(n, k)
 	return true;
 \end{lstlisting}
 
-\subsubsection{Analisi}
+\subsection{Verifica dei predicati}
 Possiamo valutare il costo del ciclo come costante ($k$ cicli) mentre \`e fondamentale capire il costo della verifica
 dei predicati.
 \begin{itemize}
@@ -122,4 +188,51 @@ dei predicati.
 	      Un'operazione che richiede costo cubico nel numero di cifre
 	      \[ O(\log^3 n) \]
 	\item La verifica del secondo predicato \`e pi\`u complessa per via degli elevamenti a potenza.
+
+	      Prima di tutto dobbiamo calcolare $y^z$ e per capire quanto sia costosa questa operazione dobbiamo capire quanto
+	      \`e grande $z$. Se andiamo a vedere come si ottiene $z$ possiamo ricavare che $z$ abbia al massimo valore
+	      $\frac{n-1}{2}$ dunque $z$ \`e dell'ordine di $n$.
+
+	      Per fare quindi $y^z$ non posso moltiplicare $y$ per se stesso $\frac{n-1}{2}$ volte perch\'e farei un numero
+	      di operazioni proporzionale al valore $n$ e non possiamo permettercelo in termini computazionali.
+
+	      Il nostro obbiettivo \`e quello di compiere un numero di operazioni che \`e proporzionale al numero delle cifre
+	      ossia $\log_2 n$ e come sappiamo, questo si pu\`o fare con l'\textbf{algoritmo di esponenziazione veloce},
+	      esposto al paragrafo \ref{esponenziazione}.
+
+	      Per la verifica della seconda parte del predicato basta semplicemente elevare al quadrato il risultato ottenuto
+	      per la verifica della prima parte del predicato. Anche questa seconda verifica ha quindi costo polinomiale.
 \end{itemize}
+Come possiamo vedere, la verifica dei predicati, ha complessivamente costo polinomiale.
+
+\section{Generazione di numeri primi}\label{generazione_primi}
+La generazione di numeri primi casuali si effettua semplicemente generando un numero casuale e in seguito si effettua
+il test di primalit\`a di Miller-Rabin. Ripeto la generazione del numero casuale finch\'e non ne trovo uno che posso
+dichiarare primo con un possibilit\`a di errore pi\`u bassa possibile.
+
+\begin{theorem}
+	Il numero di numeri primi minori di un certo $n$ tende a
+	\[ \frac{n}{\ln n} \]
+	per $n$ che tende all'infinito.
+\end{theorem}
+
+Questo teorema ci dice che, per $n$ sufficientemente grande, nel suo intorno (di ampiezza $\ln n$) cade mediamente un
+numero primo.
+
+Mediamente dovremo quindi fare un numero $\ln n$ di tentativi, il che ci va bene dato che \`e polinomiale nel numero
+delle cifre.
+
+\subsection{Algoritmo}
+Costruiamo ora un algoritmo per generare un numero primo di $n$ bit.
+
+\begin{lstlisting}[style=pseudo-style]
+Primo(n)
+	S = randomSeq(n-2); // sequenza casuale di n-2 bit
+	N = 1 + S + 1; // numero dispari con n bit significativi
+	while TestMR(N, k) == 0 
+		N = N + 2;
+
+	return N;
+\end{lstlisting}
+Il costo complessivo \`e $O(n^4)$ dato che facciamo $O(n)$ volte il test di Miller-Rabin, il quale aveva un costo
+complessivamente di $O(n^3)$.

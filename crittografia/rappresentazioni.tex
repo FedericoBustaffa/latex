@@ -1,4 +1,4 @@
-\chapter{Rappresentazione matematica di oggetti}
+\chapter{Rappresentazione matematica di oggetti}\label{rappresentazione}
 In crittografia vogliamo rappresentare ogni oggetto, per farlo gli associamo un \textbf{nome}, ossia una stringa che lo
 identifica in modo \textbf{univoco}. La stringa in questione \`e una sequenza di caratteri \textbf{ordinata}.
 
@@ -8,7 +8,7 @@ rappresentare un oggetto tramite una sequenza di caratteri di questo alfabeto.
 Possiamo osservare che, aumentando la lunghezza dei nomi che assegno ad ogni oggetto, il numero di oggetti che posso
 rappresentare \`e, di fatto, infinito seppur l'alfabeto abbia un numero finito di caratteri.
 
-\section{Alfabeti e sequenze}
+\section{Alfabeti e sequenze}\label{alfabeti}
 Introduciamo ora un po' di notazione per iniziare a rappresentare meglio gli alfabeti e le sequenze.
 
 Posso definire una alfabeto $\Gamma$ di cardinalit\`a $s$ e, nel caso in cui dovessi rappresentare $N$ oggetti, vale che:
@@ -22,7 +22,7 @@ Posso definire una alfabeto $\Gamma$ di cardinalit\`a $s$ e, nel caso in cui dov
 	      un metodo di rappresentazione \`e migliore se uso stringhe "corte" per rappresentare gli oggetti.
 \end{itemize}
 
-\section{Rappresentazione unaria}
+\section{Rappresentazione unaria}\label{rappresentazione_unaria}
 Prendiamo come primo esempio un tipo di rappresentazione \emph{svaforevole}, che in pratica non viene mai utilizzato, che
 \`e quello della \textbf{rappresentazione unaria}. In questo caso abbiamo
 \[ s = 1, \quad \Gamma = \{ 0 \} \]
@@ -32,7 +32,7 @@ oggetti ho che
 e la sequenza pi\`u lunga avr\`a anch'essa lunghezza $N$:
 \[ d(s, N) = N \]
 
-\section{Rappresentazione binaria}
+\section{Rappresentazione binaria}\label{rappresentazione_binaria}
 Vediamo ora come l'aggiunta di un solo carattere ci faccia ottenere un metodo di rappresentazione migliore. In questo caso
 abbiamo
 \[ s = 2, \quad \Gamma = \{ 0, 1 \} \]
@@ -83,7 +83,7 @@ sequenze \emph{al massimo} di $\lceil \log_2 N \rceil$ caratteri.
 	\]
 \end{example}
 
-\section{Rappresentazione generale}
+\section{Rappresentazione generale}\label{rappresentazione_generale}
 In generale, se dispongo di un alfabeto $\Gamma$ di cardinalit\`a $s$, posso costruire $N$ sequenze differenti \emph{tutte}
 lunghe $\lceil \log_s N \rceil$ caratteri.
 
