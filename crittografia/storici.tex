@@ -66,5 +66,27 @@ In generale, comporre pi\`u cifrari \textbf{non} aumenta la sicurezza del sistem
 I \textbf{cifrari a sostituzione} sostituiscono ogni lettera del messaggio in chiaro con una o pi\`u lettere
 dell'alfabeto secondo una regola prefissata.
 
+Questi cifrari si suddividono a loro volta in due sottocategorie
+\begin{itemize}
+	\item Cifrari a \textbf{sostituzione monoalfabetica}: alla stessa lettera del messaggio corrisponde sempre una
+	      stessa lettera nel crittogramma.
+	\item Cifrari a \textbf{sostituzione polialfabetica}: alla stessa lettera del messaggio corrisponde una lettera
+	      scelta in un insieme di lettere possibili, secondo una regola opportuna.
+\end{itemize}
+
+\subsection{Cifrari a sostituzione monoalfabetica}
+Per questo tipo di cifrari si possono usare funzioni di cifratura e decifrazione pi\`u complesse dell'addizione e
+sottrazione in modulo.
+
+Andiamo cos\`i ad ampliare molto lo spazio delle chiavi non ottenendo per\`o grandi  miglioramenti per quanto
+riguarda la sicurezza.
+
+\subsubsection{Cifrario affine}
+Questo cifrario usa una chiave composta da due valori
+\[ k = \langle a, b \rangle \]
+e cifra una lettera $x$ del messaggio in chiaro con la lettera $y$ che occupa la posizione
+\[ pos(y) = (a * pos(x) + b) \mod{26} \]
+nell'alfabeto.
+
 \section{Cifrari a trasposizione}
 I \textbf{cifrari a trasposizione} permutano le lettere del messaggio in chiaro secondo una regola prefissata.
