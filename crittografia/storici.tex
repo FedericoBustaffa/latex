@@ -35,8 +35,6 @@ posizioni.
 
 Ovviamente i due utenti devono possedere la solita chiave per cifrare e decifrare i messaggi.
 
-Con un calcolatore moderno \`e immediato effettuare un attacco a forza bruta: si provano tutte le 25 chiavi.
-
 \subsubsection{Cifratura e decifrazione}
 Sia $x$ una lettera dell'alfabeto, $pos(x)$ la sua posizione nell'alfabeto e $k$ la chiave tale che $1 \leq k \leq 25$.
 
@@ -45,3 +43,5 @@ La funzione di cifratura ritorna la lettera $y$ tale che
 
 La funzione di decifrazione ritorna la lettera $x$ tale che
 \[ pos(x) = (pos(y) - k) \mod{26} \]
+
+Con un calcolatore moderno \`e immediato effettuare un attacco a forza bruta: si provano tutte le 25 chiavi.
