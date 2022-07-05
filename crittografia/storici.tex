@@ -219,8 +219,8 @@ Cambiando molto spesso la chiave, attacchi di tipo statistico, sono praticamente
 Il cifrario funziona cos\`i
 \begin{enumerate}
 	\item Si prende una sequenza corta di caratteri dell'alfabeto, diciamo lunga $n$ caratteri.
-	\item Si prende la posizione che ciascun carattere occupa nell'alfabeto. La posizione di ciascun carattere nell'alfabeto
-	      indica una traslazione che si dovr\`a effettuare in fase di cifratura.
+	\item Si prende la posizione che ciascun carattere occupa nell'alfabeto. La posizione di ciascun carattere
+	      nell'alfabeto indica una traslazione che si dovr\`a effettuare in fase di cifratura.
 	\item Consideriamo il messaggio a gruppi di $n$ caratteri.
 	\item Cifriamo la lettera in posizione $i$ della parte di messaggio in chiaro che sto considerando andando a traslarla
 	      di un valore pari al valore di traslazione corrispondente alla lettera in posizione $i$ nella chiave.
@@ -229,12 +229,51 @@ Il cifrario funziona cos\`i
 In questo modo, alla stessa lettera del messaggio, potrebbe corrispondere una traslazione diversa a seconda del valore di
 traslazione indicato dalla chiave.
 
-La debolezza del cifrario consiste nell'utilizzo di una chiave corta e ripetuta. Se si riesce infatti a stimare correttamente
-la lunghezza della chiave si pu\`o capire si possono decifrare parti di messaggio andando anche a fare analisi sulla frequenza
-dei caratteri nel linguaggio naturale.
+La debolezza del cifrario consiste nell'utilizzo di una chiave corta e ripetuta. Se si riesce infatti a stimare
+correttamente la lunghezza della chiave si pu\`o capire si possono decifrare parti di messaggio andando anche a fare
+analisi sulla frequenza dei caratteri nel linguaggio naturale.
 
 Per ovviare al problema basta usare una chiave casuale e non riutilizzabile lunga quanto il messaggio in chiaro. In questo
 modo il cifrario diventa \textbf{inattacabile} e si ottiene un \textbf{one-time pad}, che andremo a trattare pi\`u avanti.
 
 \section{Cifrari a trasposizione}
-I \textbf{cifrari a trasposizione} permutano le lettere del messaggio in chiaro secondo una regola prefissata.
+I \textbf{cifrari a trasposizione} permutano le lettere del messaggio in chiaro secondo una regola prefissata ed
+eventualmente aggiungono altre lettere che verranno poi ignorate in fase di decifrazione.
+
+\subsection{Cifrario a permutazione semplice}
+In questo cifrario utilizziamo un intero $h$ e una permutazione $\pi$ dei primi $h$ interi come chiave.
+
+Per effettuare la cifratura si opera in questo modo
+\begin{enumerate}
+	\item Si suddivide il messaggio in blocchi di $h$ lettere.
+	\item Si permutano le lettere di ciascun blocco secondo $\pi$, ovvero, si va a vedere il numero in posizione $i$
+	      nella permutazione e si va a spostare il carattere in posizione $\pi[i]$ nel blocco alla posizione $i$.
+\end{enumerate}
+Le chiavi di cifratura sono $h! - 1$ dato che consideriamo tutte possibili permutazioni di $h$ elementi e togliamo quella
+identica.
+
+\subsection{Cifrario a permutazione di colonne}
+In questo cifrario usiamo una chiave composta da due interi $c$ ed $r$ e da una permutazione $\pi$ dei primi $c$ interi.
+
+I valori $c$ ed $r$ denotano il numero di righe e di colonne di una \textbf{tabella} di lavoro $T$.
+
+\begin{enumerate}
+	\item Il messaggio viene decomposto in blocchi di $c \times r$ caratteri.
+	\item Scrivo ogni blocco per righe dall'alto verso il basso dentro $T$.
+	\item Permuto le colonne di $T$ secondo $\pi$ come nel cifrario a permutazione semplice.
+	\item Formo il crittogramma leggendo la tabella permutata per colonne.
+\end{enumerate}
+Il numero delle chiavi \`e teoricamente esponenziale dato che non ci sono limiti sulla scelta di $r$ e $c$.
+
+\subsection{Cifrario a griglia}
+La chiave segreta \`e una griglia quadrata $q \times q$ con $q$ pari.
+\begin{enumerate}
+	\item Si considera un numero
+	      \[ s = q^2 / 4 \]
+	      di celle (un quarto del totale).
+	\item Si scrivono i primi $s$ caratteri del messaggio nelle posizioni corrispondenti alle $s$ celle scelte.
+	\item Si ruota la griglia di 90 gradi e si scrivono altri $s$ caratteri del messaggio.
+	\item Ripeto la rotazione per 3 volte.
+\end{enumerate}
+Le posizioni delle $s$ celle devono essere scelte in modo che non si sovrappongano mai nelle quattro rotazioni. Il numero
+delle chiavi \`e dunque $4^s$ dato che ho 4 possibili scelte per ognuna delle $s$ celle.
