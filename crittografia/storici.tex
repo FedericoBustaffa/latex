@@ -44,4 +44,27 @@ La funzione di cifratura ritorna la lettera $y$ tale che
 La funzione di decifrazione ritorna la lettera $x$ tale che
 \[ pos(x) = (pos(y) - k) \mod{26} \]
 
-Con un calcolatore moderno \`e immediato effettuare un attacco a forza bruta: si provano tutte le 25 chiavi.
+\`E immediato effettuare un attacco a forza bruta per forzarlo: si provano tutte le 25 chiavi.
+
+\subsubsection{Osservazioni}
+Il cifrario gode della propriet\`a \textbf{commutativa}: data una sequenza di chiavi e di operazioni di cifratura e
+decifrazione, l'ordine delle operazioni pu\`o essere permutato arbitrariamente senza modificare il crittogramma finale.
+
+Date due chiavi $k_1$ e $k_2$, e una sequenza $s$ vale
+\[
+	\begin{matrix}
+		C(C(s, k_2), k_1) & = & C(s, k_1 + k_2) \\
+		D(D(s, k_2), k_1) & = & D(s, k_1 + k_2)
+	\end{matrix}
+\]
+Quindi una sequenza di operazioni di cifratura e decifrazione pu\`o essere ridotta ad una sola operazione di cifratura
+o decifrazione.
+
+In generale, comporre pi\`u cifrari \textbf{non} aumenta la sicurezza del sistema.
+
+\section{Cifrari a sostituzione}
+I \textbf{cifrari a sostituzione} sostituiscono ogni lettera del messaggio in chiaro con una o pi\`u lettere
+dell'alfabeto secondo una regola prefissata.
+
+\section{Cifrari a trasposizione}
+I \textbf{cifrari a trasposizione} permutano le lettere del messaggio in chiaro secondo una regola prefissata.
