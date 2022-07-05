@@ -1,0 +1,47 @@
+\chapter{Cifrari storici}
+In questo capitolo andremo a trattare i \textbf{cifrari storici}, chiamati con questo nome perch\'e ad oggi sono stati
+tutti forzati e dunque non sono pi\`u cifrari sicuri.
+
+I primi cifrari nascono in un periodo in cui cifratura e decifrazione si facevano "con carta e penna" o quasi e servivano
+per cifrare frasi di senso compiuto in linguaggio naturale.
+
+Da un certo punto in poi tutti i cifrari hanno cercato di seguire i cosiddetti \textbf{principi di Bacone}
+\begin{itemize}
+	\item Le funzioni $C$ e $D$ devonon essere \textbf{facili da calcolare}.
+	\item \`E \textbf{impossibile} ricavare la $D$ se la $C$ non \`e nota.
+	\item Il crittogramma $c = C(m)$ deve apparire "\textbf{innocente}", deve sembrare cio\`e un testo in chiaro e non
+	      una sequenza di caratteri insensata.
+\end{itemize}
+
+\section{Cifrario di Cesare}
+L'idea di base \`e che il crittogramma $c$ \`e ottenuto dal messaggio in chiaro $m$ sostituendo ogni lettera di $m$ con
+quella tre posizioni pi\`u avanti nell'alfabeto.
+
+\begin{center}
+	A B C D \dots W X Y Z
+	\[ \downarrow \]
+	D E F G \dots Z A B C
+\end{center}
+La decifrazione \`e immediata: basta sostituire ogni lettera del crittogramma con la lettera tre posizioni pi\`u indietro
+nell'alfabeto.
+
+\`E un cifrario molto semplice e non utilizza una chiave di cifratura. Una volta scoperto il metodo di cifratura e
+decifrazione diventa del tutto inutile.
+
+\subsection{Cifrario di Cesare generalizzato}
+Per rendere il cifrario un po' pi\`u robusto basterebbe inserire un chiave $1 \leq k \leq 25$ (26 lascia inalterato il
+messaggio) e invece di traslare sempre di tre posizioni le lettere del messaggio in chiaro, le trasliamo di $k$
+posizioni.
+
+Ovviamente i due utenti devono possedere la solita chiave per cifrare e decifrare i messaggi.
+
+Con un calcolatore moderno \`e immediato effettuare un attacco a forza bruta: si provano tutte le 25 chiavi.
+
+\subsubsection{Cifratura e decifrazione}
+Sia $x$ una lettera dell'alfabeto, $pos(x)$ la sua posizione nell'alfabeto e $k$ la chiave tale che $1 \leq k \leq 25$.
+
+La funzione di cifratura ritorna la lettera $y$ tale che
+\[ pos(y) = (pos(x) + k) \mod{26} \]
+
+La funzione di decifrazione ritorna la lettera $x$ tale che
+\[ pos(x) = (pos(y) - k) \mod{26} \]
