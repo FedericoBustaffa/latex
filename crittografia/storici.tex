@@ -348,3 +348,111 @@ all'altro.
 Andiamo quindi a cercare nel crittogramma coppie di sequenze identiche. Se trovo due sequenze, in posizione $p_1$ e $p_2$,
 con le caratteristiche citate in precedenza, \`e probabile che la distanza $p_2 - p_1$ sia la lunghezza della
 chiave o ad un suo multiplo.
+
+\subsubsection{Cifrari a trasposizione}
+Come detto in precedenza questi cifrari permutano i caratteri del messaggio. Non ha dunque senso condurre un attacco di
+tipo statistico basato sulle frequenze.
+
+Sono tuttavia utili le propriet\`a sintattiche e lessicali del linguaggio, per esempio lo studio dei $q$-grammi.
+
+Se si vuole forzare un cifrario a permutazione semplice e si conosce la lunghezza $h$ della chiave si opera in questo
+modo:
+\begin{enumerate}
+	\item Si divide il crittogramma in blocchi di $h$ caratteri.
+	\item Si cercano gruppi di $q$ lettere che formano i $q$-grammi pi\`u frequenti nel linguaggio.
+	\item Se un blocco della permutazione deriva da un $q$-gramma si scopre parte della permutazione.
+\end{enumerate}
+
+\subsection{Conclusione}
+In crittoanalisi statistica lo studio della frequenza delle varie lettere nel linguaggio \`e quindi molto utile per
+capire il metodo di cifratura utilizzato
+\begin{itemize}
+	\item Nei cifrari a trasposizione l'istogramma delle frequenze coincide approssimativamente con quello proprio del
+	      linguaggio.
+	\item Nei cifrari a sostituzione monoalfabetica l'istogramma relativo al crittogramma e quello delle frequenze delle
+	      varie lettere nel linguaggio naturale si somigliano a meno di una permutazione delle lettere.
+	\item Nei cifrari a sostituzione polialfabetica l'istogramma delle frequenze \`e piatto.
+\end{itemize}
+
+\section{ENIGMA}
+L'ultimo cifrario storico di cui andiamo a parlare \`e la macchina \textbf{ENIGMA}. Di grande rilievo storico \`e questo
+cifrario perch\'e segna un punto di svolta verso sistemi crittografici automatizzati.
+
+Storicamente fu impiegato dai tedeschi nella seconda guerra mondiale per l'invio di informazioni criptate.
+
+Come vedremo si tratta di un'\emph{estensione} del cifrario di Alberti, visto precedentemente.
+
+\subsection{Utilizzo}
+La macchina aveva le sembianze di una macchina da scrivere. Quando si voleva formare il crittogramma si digitava sulla
+tastiera il messaggio in chiaro ma ci\`o che veniva effettivamente era del testo cifrato in un modo che vedremo pi\`u
+avanti.
+
+Al contrario, quando si voleva decifrare un crittogramma, lo si digitava sulla macchina e questa forniva il relativo testo
+in chiaro.
+
+\subsection{Funzionamento}
+Come gi\`a anticipato, quando si premeva un tasto sulla tastiera, il carattere corrispondente non era quello premuto ma
+un altro che variava a seconda di un po' di cose.
+
+Come prima cosa si scambiava lo spinotto che collegava il tasto di una lettera con una lettera diversa.
+
+Per complicare ulteriormente le cose, ENIGMA, era dotata di alcuni \textbf{rotori}, i quali servivano a mappare una
+lettera in un'altra lettera. In genere ogni macchina ENIGMA possedeva tre rotori.
+
+Ogni volta che un rotore effettuava uno scambio, per contatto, andava a attivare la lettera di un altro rotore che a sua
+volta effettuava un ulteriore scambio.
+
+Una volta finiti i rotori si arrivava ad un \textbf{riflettore}, il quale compiva lo stesso scambio effettuato internamente
+dai riflettori e innescava un ulteriore sequenza di scambi ripassando da tutti i rotori in senso inverso.
+
+Detto cos\`i sembrerebbe un cifrario a permutazione semplice ma quello ci\`o che non abbiamo detto \`e che i rotori, ogni
+volta che si batteva una lettera, avanzavano di un passo.
+
+In realt\`a era solo un rotore ad avanzare, almeno finch\'e non aveva compiuto 26 passi. Una volta digitate 26 lettere
+il rotore tornava in posizione iniziale e il rotore successivo iniziava la rotazione.
+
+In questo modo la chiave cambiava ogni qual volta si digitava un carattere.
+
+\subsection{Chiavi}
+Analizziamo quante sono le possibili permutazioni generabili da ENIGMA.
+
+Ogni rotore genera 26 permutazioni con tutte le sue rotazioni giungendo cos\`i ad un totale di $26^3$ permutazioni
+possibili (circa $17.000$).
+
+Un numero troppo basso per la comunicazione di messaggi in ambito militare. Vedremo infatti che la macchina verr\`a
+complicata.
+
+\subsection{Debolezze}
+\begin{itemize}
+	\item Numero di chiavi basso.
+	\item I rotori erano immutabili e uguali su ogni macchina ENIGMA.
+	\item Le $26^3$ permutazioni erano sempre le stesse ed erano applicate sempre nello stesso ordine.
+\end{itemize}
+
+\subsection{Modifiche}
+Una prima modifica per aumentare il numero di possibili permutazioni \`e stata quella di permutare tra loro i rotori. In
+questo modo giungiamo cos\`i ad un numero di possibili permutazioni pari a $3! \cdot 26^3$ (pi\`u di $10^5$).
+
+Un'altra modifica \`e stata l'aggiunta del \textbf{plugboard} tra la tastiera e il primo rotore che consentiva di scambiare
+i caratteri di 6 coppie scelte arbitrariamente.
+
+Ogni cablaggio \`e descritto da una sequenza di 12 caratteri scelti da un insieme totale di 26. Abbiamo quindi un numero
+di possibili combinazioni pari a $\begin{psmallmatrix} 26 \\ 12 \end{psmallmatrix}$ che \`e circa $10^7$.
+
+Ogni gruppo di 12 lettere si pu\`o presentare in $12!$ permutazioni diverse, ma non tutte producono lo stesso effetto.
+Dobbiamo quindi dividere $10^7$ per $12!$ e per $2^6$.
+
+Il numero di chiavi totale \`e quindi dato da
+\[
+	3! \cdot 26^3 \cdot
+	\begin{pmatrix}
+		26 \\ 12
+	\end{pmatrix}
+	\frac{12!}{6! \cdot 2^6}
+\]
+Per un totale $10^{16}$ chiavi.
+
+Durante la seconda guerra mondiale si davano in dotazione 8 rotori da cui sceglierne 3 e il numero di coppie scambiabili
+con il plugboard \`e passato da 6 a 10.
+
+\subsection{Decifrazione}
