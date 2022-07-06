@@ -277,3 +277,74 @@ La chiave segreta \`e una griglia quadrata $q \times q$ con $q$ pari.
 \end{enumerate}
 Le posizioni delle $s$ celle devono essere scelte in modo che non si sovrappongano mai nelle quattro rotazioni. Il numero
 delle chiavi \`e dunque $4^s$ dato che ho 4 possibili scelte per ognuna delle $s$ celle.
+
+\section{Crittoanalisi statistica}
+Come abbiamo solo accennato in qualche occasione, la sicurezza di un cifrario \`e legata alla dimensione dello spazio
+delle chiavi, tuttavia, questa \`e condizione necessaria ma non sufficiente a rendere il cifrario sicuro.
+
+Uno spazio di chiavi molto grande protegge solamente da attacchi di tipo \emph{forza bruta}. Un crittoanalista ha tuttavia
+molti metodi a disposizione per riuscire a forzare un cifrario: le chiavi potrebbero essere generate male, troppo corte,
+prevedibili o riutilizzate oppure si potrebbe conoscere il formato del messaggio.
+
+Un crittoanalista pu\`o aggrapparsi a tutte queste cose per riuscire a forzare il cifrario anche se dal punto di vista
+algoritmico esso non presenta vulnerabilit\`a.
+
+Un altro metodo con il quale si \`e riusciti a forzare molti dei cifrari storici \`e la \textbf{crittoanalisi statistica}.
+
+Quello che si fa non \`e cercare una vulnerabilit\`a nell'algoritmo che ha prodotto il crittogramma ma si va a fare
+analisi statistica sul crittogramma in nostro possesso.
+
+Avendo a disposizione solo il crittogramma possiamo compiere attacchi di tipo \textbf{cipher text} andando per esempio
+a fare \textbf{analisi delle frequenze}.
+
+Si va cio\`e a vedere quali sono le lettere pi\`u frequenti nel crittogramma e le confrontiamo con le lettere pi\`u
+frequenti del linguaggio naturale (ovviamente nella lingua in cui stiamo comunicando).
+
+\subsection{Attacchi}
+Facciamo prima qualche ipotesi affinch\'e abbia senso fare della crittoanalisi statistica.
+\begin{itemize}
+	\item Si deve conoscere il metodo impiegato per la cifratura e decifrazione.
+	\item Si deve conoscere il linguaggio in cui \`e scritto il messaggio.
+	\item Si ammette che il messaggio sia sufficientemente lungo da poter rilevare alcuni dati statistici sui caratteri
+	      che compongono il crittogramma.
+\end{itemize}
+Premettiamo che la frequenza con cui appaiono in media le lettere dell'alfabeto \`e ben studiata in ogni lingua e sono
+anche presenti dati simili per \emph{digrammi}, \emph{trigrammi} ecc.
+
+\subsubsection{Sostituzione monoalfabetica}
+Se il metodo di cifratura \`e di tipo \emph{monoalfabetico} significa che ad una lettera del crittogramma corrisponde
+sempre la stessa lettera del messaggio e viceversa.
+
+Questo significa anche che la frequenza della lettera cifrata nel crittogramma \`e uguale alla frequenza della lettera in
+chiaro nel linguaggio naturale.
+
+Basta dunque prendere un istogramma delle frequenze delle varie lettere e dopo pochi tentativi la procedura converge in
+qualche corrispondenza significativa.
+
+\subsubsection{Sostituzione polialfabetica}
+In questo caso, l'istogramma delle frequenze del crittogramma risulta piatto dato che con questo metodo di sostituzione
+una lettera del crittogramma potrebbe corrispondere a lettere diverse del messaggio.
+
+Il cifrario di Vigen\`ere \`e stato tuttavia forzato sfruttando la debolezza relativa ad avere una chiave corta e ripetuta.
+
+Se la chiave contiene $h$ caratteri, le apparizioni della stessa lettera, distanti un multiplo di $h$ nel messaggio, si
+sovrappongono alla stessa lettera della chiave. Supponiamo quindi di conoscere la lunghezza $h$ della chiave
+\begin{enumerate}
+	\item Si costruisce un sottomessaggio formato dal carattere in posizione $i$ ($i \leq h$) e da tutti i caratteri
+	      in posizione $i + k \cdot h$.
+	\item Ognuno di questi sottomessaggi \`e cifrato in modo monoalfabetico (stesso valore di traslazione).
+	\item Si effettua un'analisi delle frequenze per ciascun sottomessaggio.
+\end{enumerate}
+
+Se per\`o non conosciamo la lunghezza $h$ della chiave dobbiamo andare a sfruttare qualche propriet\`a del linguaggio
+naturale per riuscire a stimarla pi\`u correttamente possibile.
+
+Il messaggio contiene quasi sicuramente gruppi di lettere ripetuti pi\`u volte come ad esempio trigrammi pi\`u frequenti
+nella lingua o parole ricorrenti nel testo.
+
+Pu\`o capitare che questi $q$-grammi vengano cifrati con la stessa porzione di chiave e quindi in modo identico l'uno
+all'altro.
+
+Andiamo quindi a cercare nel crittogramma coppie di sequenze identiche. Se trovo due sequenze, in posizione $p_1$ e $p_2$,
+con le caratteristiche citate in precedenza, \`e probabile che la distanza $p_2 - p_1$ sia la lunghezza della
+chiave o ad un suo multiplo.
