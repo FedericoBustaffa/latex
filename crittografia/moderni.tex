@@ -1,0 +1,89 @@
+\chapter{Cifrari moderni}\label{moderni}
+Passiamo ora ai cosiddetti \textbf{cifrari moderni} i quali si dividono in due grandi gruppi
+\begin{itemize}
+	\item \textbf{Cifrari a sicurezza incondizionata}: sono cifrari per uso ristretto e nascondono l'informazione con
+	      certezza assoluta (anche per macchine quantistiche).
+	\item \textbf{Cifrari a sicurezza computazionale}: sono cifrari adibiti alla crittografia di massa e nascondono
+	      l'informazione solo se il crittoanalista ha accesso a risorse computazionali limitate (su macchine quantistiche
+	      si forzano in tempo polinomiale). Anche nel caso in cui si riuscisse a dimostrare che P = NP ognuno di questi
+	      cifrari crollerebbe e si potrebbe forzare in tempo polinomiale.
+\end{itemize}
+
+\section{Cifrari perfetti}
+Un \textbf{cifrario perfetto} \`e tale se non si riesce ad estrapolare alcuna informazione dall'analisi del crittogramma.
+
+Proviamo a formalizzare matematicamente quanto appena detto. Per farlo dobbiamo considerare
+\begin{itemize}
+	\item \textbf{MSG}: spazio dei messaggi.
+	\item \textbf{CRITTO}: spazio dei crittogrammi.
+	\item \textbf{M}: variabile aleatoria che descrive il comportamento del	mittente e assume i valori in MSG.
+	\item \textbf{C}: variabile aleatoria che descrive la comunicazione sul canale.
+\end{itemize}
+Indichiamo ora con
+\[ P(M = m) \]
+la probabilit\`a che il mittente voglia inviare il messaggio $m \in$ MSG. Indichiamo invece con
+\[ P(M = m \mid C = c) \]
+la probabilit\`a condizionata che il messaggio inviato sia proprio $m$, posto che sul canale stia transitando il
+crittogramma $c \in$ CRITTO. In altre parole quest'ultima espressione indica la probabilit\`a che $c$ sia $m$ cifrato.
+
+\begin{theorem}\label{th: cifrario_perfetto}
+	Un cifrario \`e \textbf{perfetto} se $\forall m \in \text{MSG}$ e $\forall c \in \text{CRITTO}$ vale che
+	\[ P(M = m \mid C = c) = P(M = m) \]
+\end{theorem}
+
+\begin{example}
+	Mettiamoci per un attimo in uno scenario di massimo pessimismo in cui il crittoanalista sa:
+	\begin{itemize}
+		\item La distribuzione di probabilit\`a con cui il mittente invia messaggi.
+		\item Il cifrario utilizzato.
+		\item Lo spazio delle chiavi.
+	\end{itemize}
+	Supponiamo inoltre che di voler inviare un messaggio $m$ con probabilit\`a
+	\[ P(M = m) = p > 0 \quad \quad \text{con } 0 < p < 1 \]
+	e analizziamo due casi estremi e opposti l'uno all'altro. Nel primo caso diciamo che esiste un crittogramma $c$ tale
+	che
+	\[ P(M = m \mid C = c) = 1 \]
+	e nel secondo caso diciamo che esiste un crittogramma $c$ tale che
+	\[ P(M = m \mid C = c) = 0 \]
+	In entrambi i casi, vedere il crittogramma, raffina la conoscenza del crittoanalista. L'unico caso in cui il
+	crittoanalista non ricava nulla dal crittogramma \`e il caso descritto dal teorema \ref{th: cifrario_perfetto}.
+\end{example}
+
+\subsection{Svantaggi}
+L'estrema solidit\`a di un cifrario perfetto ha per\`o un costo in termini di numero di chiavi.
+
+\begin{theorem}[Shannon]
+	In un cifrario perfetto l'insieme delle chiavi deve essere grande almeno quanto l'insieme dei messaggi possibili.
+	Dove per \textbf{messaggio possibile} indichiamo un messaggio $m \in$ MSG tale che
+	\[ P(M = m) > 0 \]
+	Questa \`e condizione necessaria ma non sufficiente affinch\'e il cifrario sia perfetto.
+	\begin{proof}
+		Dimostriamo il teorema per assurdo e andiamo ad indicare con $N_k$ il numero delle chiavi e con $N_m$ il numero
+		dei messaggi possibili.
+
+		Supponiamo per assurdo che
+		\[ N_m > N_k \]
+		e consideriamo ora un crittogramma $c$ che pu\`o transitare sul canale con probabilit\`a
+		\[ P(C = c) > 0 \]
+		Se provassimo a decifrare $c$ con una generica chiave $k_i$ otterremo un messaggio $m_i$. Facciamo per\`o
+		attenzione al fatto che cifrando $c$ con una chiave $k_j$ potremmo ottenere il messaggio $m_i$, ottenibile anche
+		con la chiave $k_i$.
+
+		Indichiamo quindi con $s$ tale che
+		\[ s \leq N_k \]
+		il numero dei messaggi che potrebbero corrispondere al crittogramma $c$. Ma per ipotesi abbiamo che
+		\[ N_k < N_m \]
+		quindi
+		\[ s \leq N_k < N_m \]
+		Ho ottenuto che il numero dei messaggi che possono corrispondere al crittogramma $c$ \`e strettamente minore
+		del numero dei messaggi possibili.
+
+		Questo vuol dire che esiste un messaggio $m'$ appartenente allo spazio dei messaggi possibili che non pu\`o
+		corrispondere a quel crittogramma.
+		\[ P(M = m' \mid C = c) = 0 \]
+		Giungiamo quindi all'assurdo dato che un cifrario \`e perfetto se un crittogramma pu\`o corrispondere ad uno
+		qualsiasi dei messaggi possibili.
+	\end{proof}
+\end{theorem}
+
+\subsection{One-Time Pad}

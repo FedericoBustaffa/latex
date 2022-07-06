@@ -1,4 +1,4 @@
-\chapter{Cifrari storici}
+\chapter{Cifrari storici}\label{storici}
 In questo capitolo andremo a trattare i \textbf{cifrari storici}, chiamati con questo nome perch\'e ad oggi sono stati
 tutti forzati e dunque non sono pi\`u cifrari sicuri.
 
@@ -13,7 +13,7 @@ Da un certo punto in poi tutti i cifrari hanno cercato di seguire i cosiddetti \
 	      una sequenza di caratteri insensata.
 \end{itemize}
 
-\section{Cifrario di Cesare}
+\section{Cifrario di Cesare}\label{cesare}
 L'idea di base \`e che il crittogramma $c$ \`e ottenuto dal messaggio in chiaro $m$ sostituendo ogni lettera di $m$ con
 quella tre posizioni pi\`u avanti nell'alfabeto.
 
@@ -62,7 +62,7 @@ o decifrazione.
 
 In generale, comporre pi\`u cifrari \textbf{non} aumenta la sicurezza del sistema.
 
-\section{Cifrari a sostituzione}
+\section{Cifrari a sostituzione}\label{sostituzione}
 I \textbf{cifrari a sostituzione} sostituiscono ogni lettera del messaggio in chiaro con una o pi\`u lettere
 dell'alfabeto secondo una regola prefissata.
 
@@ -236,7 +236,7 @@ analisi sulla frequenza dei caratteri nel linguaggio naturale.
 Per ovviare al problema basta usare una chiave casuale e non riutilizzabile lunga quanto il messaggio in chiaro. In questo
 modo il cifrario diventa \textbf{inattacabile} e si ottiene un \textbf{one-time pad}, che andremo a trattare pi\`u avanti.
 
-\section{Cifrari a trasposizione}
+\section{Cifrari a trasposizione}\label{trasposizione}
 I \textbf{cifrari a trasposizione} permutano le lettere del messaggio in chiaro secondo una regola prefissata ed
 eventualmente aggiungono altre lettere che verranno poi ignorate in fase di decifrazione.
 
@@ -278,7 +278,7 @@ La chiave segreta \`e una griglia quadrata $q \times q$ con $q$ pari.
 Le posizioni delle $s$ celle devono essere scelte in modo che non si sovrappongano mai nelle quattro rotazioni. Il numero
 delle chiavi \`e dunque $4^s$ dato che ho 4 possibili scelte per ognuna delle $s$ celle.
 
-\section{Crittoanalisi statistica}
+\section{Crittoanalisi statistica}\label{crittoanalisi_statistica}
 Come abbiamo solo accennato in qualche occasione, la sicurezza di un cifrario \`e legata alla dimensione dello spazio
 delle chiavi, tuttavia, questa \`e condizione necessaria ma non sufficiente a rendere il cifrario sicuro.
 
@@ -374,7 +374,7 @@ capire il metodo di cifratura utilizzato
 	\item Nei cifrari a sostituzione polialfabetica l'istogramma delle frequenze \`e piatto.
 \end{itemize}
 
-\section{ENIGMA}
+\section{ENIGMA}\label{ENIGMA}
 L'ultimo cifrario storico di cui andiamo a parlare \`e la macchina \textbf{ENIGMA}. Di grande rilievo storico \`e questo
 cifrario perch\'e segna un punto di svolta verso sistemi crittografici automatizzati.
 
