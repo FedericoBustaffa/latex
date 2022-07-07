@@ -87,3 +87,156 @@ L'estrema solidit\`a di un cifrario perfetto ha per\`o un costo in termini di nu
 \end{theorem}
 
 \subsection{One-Time Pad}
+Come abbiamo in parte anticipato, il cifrario \textbf{One-Time Pad} altro non \`e che un cifrario di Vigen\`ere che
+cifra e decifra sequenze binarie e dove la chiave, al posto di essere corta e ripetuta, \`e lunga quanto il messaggio
+e dunque non \`e mai ripetuta.
+
+La prima parte del nome (One-Time) \`e relativa alla chiave: ogni chiave dev'essere utilizzata una sola volta e poi
+buttata via.
+
+\subsubsection{Funzionamento}
+Consideriamo
+\begin{itemize}
+	\item \textbf{MSG}: lo spazio dei messaggi.
+	\item \textbf{CRITTO}: lo spazio dei crittogrammi.
+	\item \textbf{KEY}: lo spazio delle chiavi.
+\end{itemize}
+Sia il messaggio, che la chiave, che il crittogramma saranno una sequenza di $n$ bit. Il crittogramma si compone facendo
+lo XOR bit a bit di messaggio e chiave
+\[ c = m \oplus k \]
+Lo XOR ritorna 1 se i bit che sto confrontando sono uguali, ritorna 0 altrimenti. Il crittoanalista, vedendo il
+crittogramma, sa che
+\begin{itemize}
+	\item quando vede uno 0 in posizione $i$, allora i bit di messaggio e chiave in posizione $i$ sono uguali ma
+	      non si sa se siano tutti e due 0 o tutti e due 1.
+	\item quando vede un 1 in posizione $i$, allora i bit di messaggio e chiave in posizione $i$ sono diversi ma
+	      non si sa quale sia 1 e quale sia 0.
+\end{itemize}
+Per effettuare la decifrazione basta rifare lo XOR bit a bit di crittogramma e chiave
+\[ c_i \oplus k_i = m_i \]
+si vede facilmente che il procedimento funziona
+\begin{gather*}
+	c_i = m_i \oplus k_i \\
+	\Downarrow \\
+	m_i \oplus k_i \oplus k_i = m_i
+\end{gather*}
+ma $k_i \oplus k_i$ \`e un sequenza di 0 e quindi deduciamo facilmente che
+\[ m_i \oplus 0 = m_i \]
+
+\subsubsection{Debolezza}
+La debolezza si ha dal punto di vista della generazione delle chiavi. Come abbiamo detto, la chiave dev'essere monouso.
+
+Prendiamo come esempio il caso in cui due messaggi, $m_1$ ed $m_2$ siano cifrati, con la stessa chiave $k$, in due
+crittogrammi
+\begin{gather*}
+	c_1 = m_1 \oplus k \\
+	c_2 = m_2 \oplus k
+\end{gather*}
+A questo punto il crittoanalista potrebbe applicare lo XOR bit a bit fra i due crittogrammi per ottenere
+\[ c_1 \oplus c_2 = (m_1 \oplus k) \oplus (m_2 \oplus k) \]
+dato che vale la propriet\`a associativa posso scrivere
+\[ c_1 \oplus c_2 = (m_1 \oplus m_2) \oplus (k \oplus k) \]
+Come prima $k \oplus k$ \`e una sequenza di 0 e quindi otteniamo
+\[ c_1 \oplus c_2 = m_1 \oplus m_2 \]
+Dalla sequenza di bit ottenuta, si pu\`o raffinare la propria conoscenza del messaggio andando a cercare lunghe sequenze
+di 0, le quali indicano che quella parte di messaggio \`e stata inviata due volte.
+
+\subsubsection{Sicurezza}
+Vogliamo ora dimostrare che il cifrario \`e perfetto. Per farlo lavoriamo sotto alcune ipotesi
+\begin{itemize}
+	\item Tutti i messaggi sono lunghi $n$. Se il messaggio \`e pi\`u corto di $n$ faccio un po' di \emph{padding}.
+	      Se invece il messaggio \`e pi\`u lungo di $n$ faccio una cifratura a blocchi.
+	\item Tutte le sequenze di $n$ bit sono messaggi possibili.
+	\item I messaggi privi di significato vengono utilizzati per confondere la crittoanalisi e ognuno di essi ha una
+	      probabilit\`a molto bassa, ma comunque maggiore di 0, di essere inviati.
+	\item La chiave deve essere casuale e unica per ogni messaggio.
+\end{itemize}
+
+\begin{theorem}
+	Sotto le ipotesi appena elencate, One-Time Pad \`e un cifrario perfetto e impiega un numero minimo di chiavi.
+	\begin{proof}
+		Dimostriamo per prima cosa la \textbf{minimalit\`a}, ossia
+		\[ N_n = N_k = 2^n \]
+		ma questo \`e immediato dato che le chiavi sono sequenze di bit lunghe quanto i messaggi.
+	\end{proof}
+
+	\begin{proof}
+		Dimostriamo ora che il cifrario \`e perfetto. Come sappiamo, un cifrario \`e perfetto se per ogni $m \in$ MSG e
+		per ogni $c \in$ CRITTO vale
+		\[ P(M = m \mid C = c) = P(M = m) \]
+		Partiamo dicendo che
+		\[ P(M = m \mid C = c) = \frac{P(M = m \wedge C = c)}{P(C = c)} \]
+		dove il valore al numeratore \`e la probabilit\`a che il messaggio inviato sia $m$ e che sia stato cifrato in $c$.
+
+		Per come \`e fatto lo XOR, fissato $m$, chiavi diverse producono crittogrammi diversi. Esiste dunque
+		un'\textbf{unica} chiave $k$ che cifra $m$ in $c$. Pi\`u formalmente possiamo affermare che la probabilit\`a che
+		il crittogramma sia $c$ \`e uguale alla probabilit\`a di scegliere a caso l'unica chiave $k$ che cifra $m$ in $c$
+		\[ P(C = c) = \frac{1}{2^n} \]
+		Se la probabilit\`a di ottenere il crittogramma $c$ dipende solo dalla chiave, allora i due eventi sono al
+		numeratore indipendenti e possiamo quindi riscrivere la formula iniziale in questo modo
+		\[ P(M = m \mid C = c) = \frac{P(M = m) \cdot P(C = c)}{P(C = c)} \]
+		Semplificando \`e immediato ottenere
+		\[ P(M = m \mid C = c) = P(M = m) \]
+	\end{proof}
+\end{theorem}
+
+\subsubsection{Scambio delle chiavi}
+Un metodo ragionevole per lo scambio di chiavi \`e quello che prevede lo scambio tra i due utenti del generatore casuale
+e del suo assetto iniziale (seme).
+
+In questo modo il procedimento di cifratura e decifrazione funziona in questo modo
+\begin{enumerate}
+	\item I due generatori vengono impostati allo stesso modo con lo stesso seme.
+	\item Si scrive un messaggio $m$ e si genera un chiave $k$ lunga $|m|$ con il generatore.
+	\item Si cifra il messaggio con $k$.
+	\item Si genera la chiave $k$ di $|c|$ bit con il secondo generatore, che ricordiamo essere uguale al primo e
+	      inizializzato con lo stesso seme.
+	\item Si decifra il crittogramma $c$ con la chiave $k$ generata dal secondo generatore.
+\end{enumerate}
+Alla fine di questo processo si ha che i due generatori sono impostati di nuovo alla stessa maniera e si pu\`o quindi
+continuare la comunicazione.
+
+Il generatore deve essere crittograficamente sicuro e il seme deve essere molto lungo in modo da essere al riparo da
+attacchi a forza bruta sul seme.
+
+\subsubsection{Conclusioni}
+In conclusione proviamo a rimuovere l'ipotesi secondo cui ogni messaggio sia possibile, anche quelli non significativi.
+
+Dato che le chiavi devono essere tante quante i messaggi possibili. Se restringessimo l'insieme dei messaggi possibili
+anche lo spazio delle chiavi diventerebbe pi\`u piccolo e con esso anche la lunghezza delle chiavi diminuirebbe.
+
+In lingua inglese i messaggi significativi lunghi $n$ bit sono circa $\alpha^n$ con
+\[ \alpha = 1.1 \]
+Se considerassimo quindi solo l'insieme dei messaggi significativi in inglese, la cardinalit\`a dell'insieme di chiavi
+passerebbe da $2^n$ a $1.1^n$.
+
+Il numero delle chiavi dev'essere almeno quanto il numero dei messaggi
+\[ N_k \geq N_m = \alpha^n < 2^n \]
+e dato che $\alpha^n < 2^n$ posso descrivere le chiavi con $t$ bit con $t$ tale che
+\[ 2^t \geq \alpha^n \]
+quindi
+\[ t \quad \geq \quad n \log_2 \alpha \quad \tilde{=} \quad 0.12 \cdot n \]
+Abbiamo cos\`i ridotto il numero di chiavi possibili a circa un decimo del numero di chiavi che avevamo prima.
+
+Il problema \`e che avendo ridotto cos\`i tanto l'insieme delle chiavi, un attacco di tipo forza bruta torna ad avere
+senso.
+
+Quello che si fa in genere per riuscire a mitigare il problema riuscendo comunque a diminuire un po' il numero di chiavi
+e far s\`i che decifrando un crittogramma con chiavi diverse si riesca a risalire a diversi messaggi significativi.
+
+In altre parole, cifrando messaggi diversi con chiavi diverse si ottiene lo stesso crittogramma.
+
+Per fare questo il numero di coppie $(m, k)$ deve essere molto maggiore del numero di crittogrammi. Supponiamo di usare
+chiavi casuali di $t$ bit. Se il numero di messaggi significativi \`e $\alpha^n$ abbiamo
+\[ \alpha^n \cdot 2^t \]
+possibili coppie $(m, k)$ mentre il numero dei crittogrammi rimane $2^n$. Otteniamo dunque che
+\[ \alpha^n \cdot 2^t >> 2^n \]
+che equivale a
+\[ n \log_2 \alpha + t >> n \]
+sviluppando ancora i calcoli otteniamo che le chiavi devono essere lunghe
+\[ t >> n - n\log_2 \alpha \quad \rightarrow \quad t >> 0.88 \cdot n \]
+affinch\'e si verifichi il fenomeno descritto in precedenza, ossia che a pi\`u coppie messaggio-chiave corrisponda lo
+stesso crittogramma.
+
+La rimozione dell'ipotesi non ci permette quindi di risparmiare sui bit della chiave se si vuole mantenere un buon grado
+di sicurezza. Siamo comunque riusciti a diminuire il numero delle chiavi.
