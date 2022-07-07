@@ -340,3 +340,67 @@ non sono quindi 56 ma 55.
 
 Questo ha anche un'altra applicazione: se provando una chiave, questa non va bene allora posso escludere anche il suo
 complemento.
+
+Un tipo di attacco che si potrebbe decidere di sferrare \`e di tipo \textbf{chosen plain text}.
+\begin{enumerate}
+	\item Si prende un messaggio $m$ e lo si cifra in $c_1$.
+	\item Si cifra in $\overline{m}$ in $c_2$, ossia il complemento di $m$.
+	\item Per ogni chiave $k$ si prova a cifrare $m$ con $k$.
+	      \begin{itemize}
+		      \item Se si ottiene $c_1$ molto probabilmente $k$ \`e la chiave (non sicuramente dato che potrebbero
+		            esserci altre chiavi che mappano $m$ in $c_1$).
+		      \item Se la cifratura ha invece prodotto $\overline{c_2}$ allora \`e probabile che $\overline{k}$ sia
+		            la chiave.
+
+		            Questo perch\'e provando a cifrare il complemento del messaggio col complemento della chiave si
+		            ottiene il complemento del crittogramma. Nel nostro caso
+		            \[ C(\overline{m}, \overline{k}) = \overline{\overline{c_2}} = c_2 \]
+		      \item Altrimenti ne $k$ ne $\overline{k}$ sono le chiavi ma con una sola cifratura vengono scartate
+		            due chiavi.
+	      \end{itemize}
+\end{enumerate}
+
+Un altro attacco di tipo \emph{chosen plain text} si basa sulla \textbf{crittoanalisi differenziale}, la quale necessita
+di almeno $2^{47}$ coppie messaggio-crittogramma per funzionare e sfrutta l'analisi probabilistica per stimare quale
+chiave \`e stata usata andando a cercare variazioni nei vari crittogrammi.
+
+Il costo di questo attacco \`e tuttavia dell'ordine di $O(2^{55})$ operazioni per via delle 16 fasi del cifrario che
+rende l'attacco leggermente pi\`u dispendioso del forza bruta.
+
+L'ultima tecnica di attacco che vediamo \`e basata sulla \textbf{crittoanalisi lineare} ed \`e un attacco di tipo
+\emph{know plain text}.
+
+Per effettuare l'attacco si necessita di $2^{43}$ coppie messaggio-crittogramma e serve a stimare alcuni bit della chiave.
+
+Questa tecnica \`e meno costosa del forza bruta e dunque \`e vulnerabile.
+
+\subsubsection{Alternative}
+Si \`e provato a cambiare sempre le chiavi di fase, arrivando ad avere 768 bit di chiave complessivi. In realt\`a,
+per attacchi basati su crittoanalisi differenziale, i bit di sicurezza sono 61.
+
+Vengono aggiunti solo 6 bit di sicurezza al fronte di una chiave molto pi\`u lunga.
+
+L'approccio che invece \`e stato adottato \`e stata la \textbf{cifratura multipla}, ossia, la composizione del DES con
+se stesso. Scelte due chiavi $k_1$ e $k_2$ qualsiasi, vale che
+\[ C(C(m, k_1), k_2) \neq C(m, k_3) \]
+per qualunque chiave $k_3$ nello spazio delle chiavi. In questo modo otteniamo chiavi di 112 bit ma con 57 bit di
+sicurezza.
+
+Ci\`o che riduce molto i bit di sicurezza sono gli attacchi di tipo \textbf{meet in the middle}. Data una coppia
+messaggio-crittogramma l'attacco funziona in questo modo:
+\begin{enumerate}
+	\item Per ogni $k_1$ si calcola e si salva
+	      \[ C(m, k_1) \]
+	\item Per ogni $k_2$ si calcola
+	      \[ D(c, k_2) \]
+	      e si cerca nella tabella.
+	\item Se troviamo una corrispondenza $k_1$ e $k_2$ probabilmente sono le chiavi.
+\end{enumerate}
+L'attacco si basa sul fatto che se il crittogramma $c$ \`e generato da
+\[ C(C(m, k_1), k_2) \]
+allora vale
+\[ D(c, k_2) = C(m, k_1) \]
+Quello che di fatto andiamo a fare \`e enumerare tutte le chiavi due volte (non tutte le coppie di chiavi) e poi cerchiamo
+una corrispondenza.
+
+Se le chiavi sono $2^{56}$ basta moltiplicare per 2 e otteniamo cos\`i $2^{57}$ operazioni per forzare il cifrario.
