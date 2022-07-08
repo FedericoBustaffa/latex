@@ -69,6 +69,8 @@ Sia $m$ il messaggio da inviare, $c$ il rispettivo crittogramma e $k$ la chiave.
 	\item Parte destra e parte sinistra vengono unite di nuovo.
 	\item Si permutano i bit del blocco ottenuto (blocco PF).
 \end{enumerate}
+
+\subsubsection{S-box}
 La S-box \`e una funzione composta da 8 sotto-funzioni, ciascuna che prende in input 6 bit e ne restituisce 4.
 
 Per farlo si prendono il primo e l'ultimo bit in input e se ne ricava un indice di riga mentre con i rimanenti bit
@@ -89,9 +91,13 @@ Questo ha anche un'altra applicazione: se provando una chiave, questa non va ben
 complemento.
 
 \subsection{Attacchi}\label{attacchi_DES}
+Vediamo ora gli attacchi a cui \`e vulnerabile il DES.
+
+\subsubsection{Attachi distribuiti}
 Uno degli attacchi di cui il DES \`e stato vittima \`e quello di tipo \textbf{distribuito}, ossia, attacchi di tipo
 forza bruta distribuiti su pi\`u macchine i quali sono riusciti a forzare il cifrario in tempi sempre minori.
 
+\subsubsection{Chosen plain text}
 Un tipo di attacco che si potrebbe decidere di sferrare \`e di tipo \textbf{chosen plain text}.
 \begin{enumerate}
 	\item Si prende un messaggio $m$ e lo si cifra in $c_1$.
@@ -111,6 +117,7 @@ Un tipo di attacco che si potrebbe decidere di sferrare \`e di tipo \textbf{chos
 	      \end{itemize}
 \end{enumerate}
 
+\subsubsection{Crittoanalisi differenziale}
 Un altro attacco di tipo \emph{chosen plain text} si basa sulla \textbf{crittoanalisi differenziale}, la quale necessita
 di almeno $2^{47}$ coppie messaggio-crittogramma per funzionare e sfrutta l'analisi probabilistica per stimare quale
 chiave \`e stata usata andando a cercare variazioni nei vari crittogrammi.
@@ -118,6 +125,7 @@ chiave \`e stata usata andando a cercare variazioni nei vari crittogrammi.
 Il costo di questo attacco \`e tuttavia dell'ordine di $O(2^{55})$ operazioni per via delle 16 fasi del cifrario che
 rende l'attacco leggermente pi\`u dispendioso del forza bruta.
 
+\subsubsection{Crittoanalisi lineare}
 L'ultima tecnica di attacco che vediamo \`e basata sulla \textbf{crittoanalisi lineare} ed \`e un attacco di tipo
 \emph{know plain text}.
 
@@ -125,12 +133,16 @@ Per effettuare l'attacco si necessita di $2^{43}$ coppie messaggio-crittogramma 
 
 Questa tecnica \`e meno costosa del forza bruta e dunque \`e vulnerabile.
 
-\subsection{Alternative}\label{alternative_DES}
+\subsection{Miglioramenti}\label{miglioramenti_DES}
+Visti i problemi del DES e le sue, ormai note vulnerabilit\`a, si \`e provato a migliorarlo apportando qualche modifica.
+
+\subsubsection{Chiavi}
 Si \`e provato a cambiare sempre le chiavi di fase, arrivando ad avere 768 bit di chiave complessivi. In realt\`a,
 per attacchi basati su crittoanalisi differenziale, i bit di sicurezza sono 61.
 
 Vengono aggiunti solo 6 bit di sicurezza al fronte di una chiave molto pi\`u lunga.
 
+\subsubsection{Cifratura doppia}
 L'approccio che invece \`e stato adottato \`e stata la \textbf{cifratura multipla}, ossia, la composizione del DES con
 se stesso. Scelte due chiavi $k_1$ e $k_2$ qualsiasi, vale che
 \[ C(C(m, k_1), k_2) \neq C(m, k_3) \]
@@ -156,8 +168,105 @@ una corrispondenza.
 
 Se le chiavi sono $2^{56}$ basta moltiplicare per 2 e otteniamo cos\`i $2^{57}$ operazioni per forzare il cifrario.
 
-\section{AES}\label{AES}
-Si tratta di un cifrario simmetrico che fa uso di chiavi brevi (128 o 256 bit) e ripetute che deveono essere cambiate
-per ogni nuova sessione di comunicazione.
+\subsubsection{Cifratura tripla}
+Per giungere ad una sicurezza significativa si \`e arrivati a comporre il DES con se stesso tre volte. Si parla di 3TDEA
+nel caso si utilizzino tre chiavi
+\[ c = C(D(C(m, k_1), k_2), k_3) \]
+e di 2TDEA nel caso si utilizzino due chiavi
+\[ c = C(D(C(m, k_1), k_2), k_1) \]
+\textbf{NOTA}: usare la funzione di decifrazione tra le due cifratura non aumenta ne diminuisce la sicurezza, \`e solo per
+rendere il sistema retrocompatibile con l'applicazione singola del DES.
 
-Dato che la chiave \`e corta il messaggio \`e diviso in blocchi lunghi quanto la chiave.
+Con questo nuovo metodo andiamo ad ottenere, in entrambi i casi, 112 bit di sicurezza ma, come vedremo fra poco, la
+versione a due chiavi \`e pi\`u conveniente.
+
+Un attacco di tipo \emph{meet in the middle} sul 3TDEA sfrutta la relazione
+\[ C(D(C(m, k_1), k_2), k_3) \]
+la quale pu\`o essere riscritta come
+\[ D(c, k_3) = D(C(m, k_1), k_2) \]
+e se cifriamo con chiave $k_2$ entrambi i membri otteniamo
+\[ C(D(c, k_3), k_2) = C(m, k_2) \]
+Sapendo questo e data una coppia $\langle m, c \rangle$ l'attacco si compone delle seguenti fasi
+\begin{enumerate}
+	\item Si enumerano tutte le $2^{56}$ possibili chiavi $k_1$ e si calcola
+	      \[ C(m, k_1) \]
+	      salvando i risultati in una tabella.
+	\item Si enumerano tutte le $2^{112}$ possibili coppie di chiavi $\langle k_2, k_3 \rangle$ e si calcola
+	      \[ C(D(c, k_3), k_2) \]
+	\item Se si trova una corrispondeza, allora le chiavi $k_1$, $k_2$ e $k_3$, molto probabilmente, sono le chiavi
+	      usate.
+\end{enumerate}
+L'attacco ha quindi un costo complessivo di $O(2^{112})$ operazioni mentre un attacco di tipo forza bruta ne richiede
+$O(2^{168})$.
+
+La versione 2TDEA ha comunque 112 bit di sicurezza ma utilizza solo due chiavi da 56 bit ciascuna e dunque una chiave
+complessiva di 112 bit. In questo caso, tutti i bit sono di sicurezza.
+
+\section{AES}\label{AES}
+Si tratta di un cifrario simmetrico che fa uso di chiavi brevi (128, 192 o 256 bit) e ripetute che deveono essere
+cambiate per ogni nuova sessione di comunicazione.
+
+Il messaggio \`e diviso in blocchi lunghi sempre 128 bit (a prescindere dalla lunghezza della chiave) ma cambia il
+numero di fasi di cui si compone il processo di cifratura: 10 per chiavi da 128 bit, 12 per chiavi da 192 bit e 14
+per chiavi da 256 bit.
+
+\subsection{Gestore delle chiavi}
+Per ora vediamo solamente la versione con 128 bit di chiave, la quale viene caricata per colonne in una matrice $W$ da
+16 byte. Tale matrice viene ampliata aggiungendo ricorsivamente 40 colonne a partire dalle 4 iniziali per generare le 10
+sottochiavi di fase secondo questa regola
+\[
+	W[i] = \begin{cases}
+		W[i - 4] \oplus W[i - 1]    & \text{se $i$ non \`e multiplo di 4} \\
+		W[i - 4] \oplus T(W[i - 1]) & \text{se $i$ \`e un multiplo di 4}
+	\end{cases}
+\]
+dove $T$ \`e una trasformazione non lineare (S-box) che rende il cifrario robusto ad attacchi di
+\emph{crittoanalisi lineare}.
+
+\subsection{Operazioni}
+Dato che ogni blocco \`e di 128 bit, il cifrario lo organizza in una matrice $B$ di dimensione $4 \times 4$ da 16 byte.
+Dopo di che iniziano le varie fasi, le quali si compongono di 4 operazioni principali.
+
+\subsubsection{S-box}
+La \textbf{S-box}, in questo caso, \`e una matrice di $16 \times 16$ byte, che contiene una permutazione di tutti i 256
+interi rappresentabili con 8 bit.
+
+Sia $B$ la matrice che contiene il blocco del messaggio e sia $b_{i, j}$ un byte in posizione $(i, j)$ di tale matrice,
+la S-box mappa $b_{i, j}$ in $a_{i, j}$ secondo la seguente regola
+\[ a_{i, j} = \text{S-box}(b_{i, j}) \]
+Nello specifico la S-box usa i primi 4 bit di $b_{i, j}$ per ricavare un indice $r$ di riga e gli ultimi 4 per ricavare
+un indice $c$ di colonna.
+
+Il valore $a_{i, j}$ restituito, \`e il valore presente nella S-box in posizione $(r, c)$ scritto con 8 bit.
+
+\paragraph{Formulazione matematica}
+Ogni byte $b_{i, j}$ viene prima sostituito con il suo \textbf{inverso moltiplicativo} in GF($2^8$) (GF \`e un campo
+finito in cui si usato per la non linearit\`a) e poi moltiplicato per una matrice di $8 \times 8$ bit sommato con un
+vettore colonna.
+
+\subsubsection{Shift delle righe}
+I byte di ogni riga vengono shiftati ciclicamente verso sinistra di 0, 1, 2, e 3 posizioni, rispettivamente. In questo
+modo i 4 byte di ogni colonna si disperdono su 4 colonne diverse.
+
+\subsubsection{Rimescolamento delle colonne}
+Ogni colonna del blocco, trattata come un vettore di 4 elementi, viene moltiplicata per una matrice $M$ prefissata di
+$4 \times 4$ byte.
+
+La moltiplicazione \`e eseguita $\mod{2^8}$ e la somma $\mod{2}$ (operazioni del campo GF($2^8$)).
+
+Questa operazione fa s\`i che ogni byte della colonna rimescolata dipenda da tutti i byte della colonna di partenza.
+
+\subsubsection{Somma della chiave di fase}
+L'ultima operazione di ogni fase \`e la somma della chiave di fase con lo XOR bit a bit.
+
+Si utilizza la chiave di fase fornita dal gestore delle chiavi e si fa lo XOR bit a bit con il blocco in output
+dall'operazione di rimescolamento delle colonne e ottengo cos\`i un nuovo blocco da dare in input alla fase successiva.
+
+\subsection{Sicurezza}
+Tutti i bit sono di sicurezza e ad oggi nessun attacco \`e stato in grado di compromettere AES anche nella sua versione
+pi\`u semplice con chiave a 128 bit.
+
+Esistono attacchi pi\`u efficienti di un attacco esauriente sulle chiavi per le versioni con 6 fasi, ma nessun attacco
+\`e pi\`u efficiente se le fasi sono almeno 7.
+
+Si conoscono attacchi \textbf{side-channel} che sfruttano debolezze della piattaforma sui cui esso \`e implementato.
