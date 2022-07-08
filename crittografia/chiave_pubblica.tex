@@ -1,1 +1,55 @@
 \chapter{Cifrari a chiave pubblica}
+Nei cifrari simmetrici si ha un grosso problema, ovvero, lo \textbf{scambio della chiave}, che, come sappiamo, deve
+essere la stessa per entrambi gli utenti.
+
+Fino ad ora abbiamo sempre assunto che i due utenti fossero gi\`a in possesso della chiave e abbiamo solo parlato del
+metodo di cifratura e decifrazione. Come abbiamo visto i messaggi scambiati sono cifrati e dunque la comunicazione \`e
+sicura ma come avviene lo scambio della chiave ?
+\begin{itemize}
+	\item Se avvenisse di persona allora tanto vale scambiarsi direttamente il messaggio.
+	\item Se avvenisse in chiaro non ha pi\`u senso cifrare il messaggio dato che chiunque potrebbe intercettare la
+	      chiave e decifrare senza sforzo.
+	\item Se inviassimo la chiave cifrata si innescherebbe lo stesso problema all'infinito: il destinatario avrebbe
+	      bisogno della chiave di cifratura per decifrare e dunque si dovrebbe inviare un'altra chiave e cos\`i via.
+\end{itemize}
+Il problema \`e risolto grazie ai \textbf{cifrari a chiave pubblica}.
+
+\section{Soluzione ingenua}
+Se abbiamo un sistema con $N$ utenti, ogni utente pu\`o memorizzare $N-1$ chiavi diverse e condivise con ciascun altro
+utente.
+
+In questo modo abbiamo un numero quadratico di chiavi nel numero di utenti del sistema.
+
+\section{TTP}
+Una soluzione migliore \`e rappresentata dal \textbf{TTP} o \textbf{trusted 3rd party}, ossia una terza parte
+\emph{fidata}, a cui gli utenti si appoggiano per comunicare.
+
+Ogni utente deve ricordarsi una sola chive mentre TTP gestisce la creazione e lo scambio delle chiavi condivise tra i
+due utenti.
+
+Siano $A$ e $B$ i due utenti che vogliono comunicare, il processo di scambio funziona in questo modo:
+\begin{enumerate}
+	\item $A$ e $B$ possiedono rispettivamente $k_A$ e $k_B$, due chiavi generate da loro stessi.
+	\item $A$ comunica a TTP di voler comunicare con $B$.
+	\item TTP genera casualmente una chiave $k_{AB}$ che potranno usare i due utenti per quella comunicazione.
+	\item TTP cifra genera due crittogrammi $c_A$ e $c_B$ in questo modo
+	      \[
+		      \begin{matrix}
+			      c_A & = & C(k_{AB}, k_A) \\
+			      c_B & = & C(k_{AB}, k_B)
+		      \end{matrix}
+	      \]
+	\item TTP invia $c_A$ e $c_B$ ad $A$.
+	\item $A$ decifra $c_A$ con $k_A$ e invia a $c_B$ a $B$.
+	\item $B$ decifra $c_B$ con $k_B$.
+\end{enumerate}
+Alla fine di questo processo i due utenti sono in possesso di una chiave $k_{AB}$ che potranno usare per quella
+comunicazione in un cifrario simmetrico.
+
+Le problematiche di questo sistema sono due:
+\begin{itemize}
+	\item TTP deve essere sempre online.
+	\item TTP conosce tutte le chiavi.
+\end{itemize}
+
+\subsection{Problematiche}
