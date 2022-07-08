@@ -220,7 +220,7 @@ sottochiavi di fase secondo questa regola
 		W[i - 4] \oplus T(W[i - 1]) & \text{se $i$ \`e un multiplo di 4}
 	\end{cases}
 \]
-dove $T$ \`e una trasformazione non lineare (S-box) che rende il cifrario robusto ad attacchi di
+dove $T$ \`e una trasformazione \emph{non lineare} (S-box) che rende il cifrario robusto ad attacchi basati su
 \emph{crittoanalisi lineare}.
 
 \subsection{Operazioni}
@@ -240,9 +240,12 @@ un indice $c$ di colonna.
 Il valore $a_{i, j}$ restituito, \`e il valore presente nella S-box in posizione $(r, c)$ scritto con 8 bit.
 
 \paragraph{Formulazione matematica}
-Ogni byte $b_{i, j}$ viene prima sostituito con il suo \textbf{inverso moltiplicativo} in GF($2^8$) (GF \`e un campo
-finito in cui si usato per la non linearit\`a) e poi moltiplicato per una matrice di $8 \times 8$ bit sommato con un
-vettore colonna.
+La S-box calcola l'\textbf{inverso moltiplicativo} di ogni byte $b_{i, j}$, considerando il byte come un elemento del
+campo \emph{finito} GF($2^8$). Questa operazione \`e ci\`o che rende la funzione $T$, che abbiamo citato in precedenza,
+\emph{non lineare}.
+
+Ogni byte $b_{i, j}$ viene prima sostituito con il suo inverso moltiplicativo in GF($2^8$) e poi moltiplicato per una
+matrice di $8 \times 8$ bit sommato con un vettore colonna.
 
 \subsubsection{Shift delle righe}
 I byte di ogni riga vengono shiftati ciclicamente verso sinistra di 0, 1, 2, e 3 posizioni, rispettivamente. In questo
@@ -270,3 +273,32 @@ Esistono attacchi pi\`u efficienti di un attacco esauriente sulle chiavi per le 
 \`e pi\`u efficiente se le fasi sono almeno 7.
 
 Si conoscono attacchi \textbf{side-channel} che sfruttano debolezze della piattaforma sui cui esso \`e implementato.
+
+\section{Cifrari a blocchi}
+In un cifrario a blocchi, per trattare messaggi con lunghezza diversa da un multiplo della lunghezza del messaggio si fa
+del \textbf{padding}, ovvero si inseriscono bit casuali per riempire il blocco finale.
+
+Cifrare a blocchi, inoltre, espone la comunicazione ad attacchi dato che
+\begin{itemize}
+	\item blocchi uguali uguali nel messaggio producono blocchi uguali nel crittogramma (se cifrati con la stessa
+	      chiave).
+	\item c'\`e \textbf{poca diffusione} tra un blocco e l'altro.
+	\item c'\`e \textbf{periodicit\`a} nel crittogramma, la quale si rivela utile per la crittoanalisi.
+\end{itemize}
+Per risolvere il problema si vuol far s\`i che a blocchi uguali del messaggio corrispondano blocchi diversi del
+crittogramma. Per riuscire ad ottenere questo risultato, si fa ricorso ad una tecnica chiamata
+\textbf{composizione di	blocchi}, in cui la cifratura di un blocco, deve dipendere dalla cifratura dei precedenti.
+
+\subsection{Cipher Block Chaining - CBC}
+Questa \`e una delle tecniche pi\`u usate di \emph{composizione di blocchi}. La cifratura del blocco $i$ viene fatta
+in questo modo
+\[ c_i = C(m_i \oplus c_{i-1}, k) \]
+dove $c_{i-1}$ \`e il blocco cifrato al passo precedente.
+
+Al primo passo si deve usare una sequenza $c_0$ per effettuare la prima cifratura. Questa sequenza pu\`o essere
+scambiata in chiaro e pu\`o essere una qualsiasi sequenza di 128 bit e deve essere cambiata per ogni blocco che
+viene cifrato.
+
+La decifrazione del blocco $c_i$ avviene in questo modo
+\[ m_i = c_{i-1} \oplus D(c_i, k) \]
+e pu\`o essere fatta in parallelo a differenza della cifratura che deve essere sequenziale.
