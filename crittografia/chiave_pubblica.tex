@@ -74,6 +74,38 @@ decifra il crittogramma con la sua chiave privata.
 In questo sistema l'unica cosa non nota a tutti \`e la chiave privata del destinatario. Le funzioni di cifratura e
 decifrazione e la chiave pubblica sono note a qualsiasi utente.
 
+I cifrari a chiave pubblica hanno due principali vantaggi
+\begin{itemize}
+	\item Se ci sono $n$ utenti nel sistema, il numero complessivo di chiavi pubbliche e private \`e $2n$ anzich\'e
+	      $\frac{n(n-1)}{2}$
+	\item Non \`e richiesto alcuno scambio segreto di chiavi.
+\end{itemize}
+ma possiede anche altri due principali svantaggi
+\begin{itemize}
+	\item Sono molto pi\`u lenti dei cifrari simmetrici.
+	\item Sono esposti ad attacchi di tipo \emph{chosen plain text}.
+\end{itemize}
+
+\subsection{Attacchi chosen plain text}
+Un crittoanalista quando effettua un'attacco di questo tipo
+\begin{enumerate}
+	\item Si procura un po' di messaggi in chiaro.
+	\item Li cifra con la funzione pubblica $C$ e con la chiave pubblica $k_{\text{pub}}$ del destinatario.
+	\item Confronta infine i crittogrammi in suo possesso con i crittogrammi che passano sul canale.
+\end{enumerate}
+Un attacco di questo tipo \`e molto pericoloso nel caso in cui il crittoanalista sospetta che un certo messaggio debba
+transitare sul canale.
+
+Ecco perch\'e questi cifrari non sono usati per comunicare ma solo per scambiarsi la chiave di un cifrario simmetrico
+(AES).
+
+In questo modo risolviamo in un colpo solo tutti i problemi elencati in precedenza:
+\begin{itemize}
+	\item Il processo \`e "lento" solo per lo scambio della chiave (256 bit) ma la comunicazione viene fatta con un
+	      cifrario simmetrico molto veloce.
+	\item L'attacco di tipo \emph{chosen plain text} diventa inutile dato che la chiave \`e una sequenza di bit casuale.
+\end{itemize}
+
 \subsection{Requisiti}
 Perch\'e la cifratura a chiave pubblica devono essere soddisfatti alcuni requisiti.
 \begin{itemize}
@@ -100,3 +132,24 @@ richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricost
 tempo esponenziale se $p$ e $q$ sono primi.
 
 Se si conosce tuttavia uno dei due fattori, risalire all'altro \`e facile (basta fare una divisione).
+
+\subsection{Generazione delle chiavi}
+Per la generazione delle due chiavi, il destinatario deve
+\begin{enumerate}
+	\item Scegliere due numeri primi $p$ e $q$ molto grandi, dove per "molto grandi" intendiamo tali che $p \cdot q$
+	      sia un numero di circa 2000 bit per una protezione fino al 2030 o di circa 3000 bit se vogliamo una protezione
+	      oltre il 2030.
+
+	      Per farlo dobbiamo generare numeri di circa 1500 bit ed effettuare il test di Miller-Rabin per la primalit\`a
+	      finch\'e non otteniamo due numeri primi (tempo polinomiale).
+	\item Calcolare
+	      \[ n = p \cdot q \]
+	      e la relativa funzione di Eulero
+	      \[ \phi(n) = (p - 1)(q - 1) \]
+	      il tutto in tempo polinomiale.
+	\item Scegliere un intero $e$ tale che
+	      \[ e < \phi(n) \quad \wedge \quad (e, \phi(n)) = 1 \]
+	\item Calcolare
+	      \[ d = e^{-1} \mod{\phi(n)} \]
+	      ossia l'inverso di $e$ modulo $\phi(n)$.
+\end{enumerate}
