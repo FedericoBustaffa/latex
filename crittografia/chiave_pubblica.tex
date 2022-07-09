@@ -6,13 +6,13 @@ Fino ad ora abbiamo sempre assunto che i due utenti fossero gi\`a in possesso de
 metodo di cifratura e decifrazione. Come abbiamo visto i messaggi scambiati sono cifrati e dunque la comunicazione \`e
 sicura ma come avviene lo scambio della chiave ?
 \begin{itemize}
-	\item Se avvenisse di persona allora tanto vale scambiarsi direttamente il messaggio.
-	\item Se avvenisse in chiaro non ha pi\`u senso cifrare il messaggio dato che chiunque potrebbe intercettare la
-	      chiave e decifrare senza sforzo.
+	\item Se avviene di persona allora tanto vale scambiarsi direttamente il messaggio.
+	\item Se avviene in chiaro non ha pi\`u senso cifrare il messaggio dato che chiunque potrebbe intercettare la
+	      chiave e decifrarlo senza sforzo.
 	\item Se inviassimo la chiave cifrata si innescherebbe lo stesso problema all'infinito: il destinatario avrebbe
 	      bisogno della chiave di cifratura per decifrare e dunque si dovrebbe inviare un'altra chiave e cos\`i via.
 \end{itemize}
-Il problema \`e risolto grazie ai \textbf{cifrari a chiave pubblica}.
+I \textbf{cifrari a chiave pubblica} risolvono il problema.
 
 \section{Soluzione ingenua}
 Se abbiamo un sistema con $N$ utenti, ogni utente pu\`o memorizzare $N-1$ chiavi diverse e condivise con ciascun altro
@@ -20,11 +20,14 @@ utente.
 
 In questo modo abbiamo un numero quadratico di chiavi nel numero di utenti del sistema.
 
+Quando un utente $i$ vuole comunicare con l'utente $j$ manda un messaggio a $j$ cifrandolo con la chiave $k_j$. L'utente
+$j$ a questo punto decifra il messaggio con la sua chiave $k_j$ e invia un messaggio a $i$ cifrandolo con la chiave $k_i$.
+
 \section{TTP}
 Una soluzione migliore \`e rappresentata dal \textbf{TTP} o \textbf{trusted 3rd party}, ossia una terza parte
 \emph{fidata}, a cui gli utenti si appoggiano per comunicare.
 
-Ogni utente deve ricordarsi una sola chive mentre TTP gestisce la creazione e lo scambio delle chiavi condivise tra i
+Ogni utente deve ricordarsi una sola chiave mentre TTP gestisce la creazione e lo scambio delle chiavi condivise tra i
 due utenti.
 
 Siano $A$ e $B$ i due utenti che vogliono comunicare, il processo di scambio funziona in questo modo:
@@ -51,5 +54,49 @@ Le problematiche di questo sistema sono due:
 	\item TTP deve essere sempre online.
 	\item TTP conosce tutte le chiavi.
 \end{itemize}
+\`E un approccio utilizzabile solo in un sistema ristretto come un'universit\`a o un'azienda.
 
-\subsection{Problematiche}
+\section{Chiave pubblica}
+In questo tipo di cifratura si vuole implementare un meccanismo che permette a chiunque di inviare messaggi cifrati a un
+certo utente ma permettere solo a quell'utente di decifrarli.
+
+Le operazioni di cifratura e decifrazione sono pubbliche e utilizzano due chiavi diverse:
+\begin{itemize}
+	\item \textbf{Chiave pubblica}: \`e nota a tutti.
+	\item \textbf{Chiave private}: nota solo al destinatario.
+\end{itemize}
+Questa coppia di chiavi \`e generata dall'utente in veste di destinatario, il rende nota la sua chiave pubblica e mantiene
+segreta la sua chiave privata.
+
+Se volessimo inviare un messaggio all'utente $i$ si dovrebbe cifrare il messaggio con la sua chiave pubblica. L'utente $i$
+decifra il crittogramma con la sua chiave privata.
+
+In questo sistema l'unica cosa non nota a tutti \`e la chiave privata del destinatario. Le funzioni di cifratura e
+decifrazione e la chiave pubblica sono note a qualsiasi utente.
+
+\subsection{Requisiti}
+Perch\'e la cifratura a chiave pubblica devono essere soddisfatti alcuni requisiti.
+\begin{itemize}
+	\item Il procedimento di cifratura e decifrazione devono essere implementati correttamente. Il destinatario deve essere
+	      in grado di decifrare qualsiasi messaggio con la propria chiave privata.
+	      \[ D(C(m, k_{\text{pub}}), k_{\text{priv}}) = m \]
+	\item Efficienza e sicurezza del sistema:
+	      \begin{itemize}
+		      \item La coppia di chiavi \`e \emph{facile} da generare e deve risultare praticamente impossibile che due
+		            utenti scelgano la stessa chiave.
+		      \item Dati $m$ e $k_{\text{pub}}$ \`e \emph{facile} per il mittente produrre il crittogramma.
+		      \item Dati $c$ e $k_{\text{priv}}$ \`e \emph{facile} per il destinatario produrre il messaggio originale.
+		      \item Pur conoscendo la chiave pubblica e le funzioni di cifratura e decifrazione deve essere
+		            \emph{difficile} per il crittoanalista risalire al messaggio in chiaro.
+	      \end{itemize}
+\end{itemize}
+La soluzione risiede nel trovare una funzione di tipo \textbf{one-way trap-door}, ovvero, una funzione facile da calcolare
+e difficile da invertire a meno che non si conosca la chiave privata.
+
+\section{RSA}
+Questo cifrario usa l'algebra modulare e si basa sulla moltiplicazione di due numeri primi $p$ e $q$ poich\'e calcolare
+\[ n = p \cdot q \]
+richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricostruire $p$ e $q$ a partire da $n$ richiede
+tempo esponenziale se $p$ e $q$ sono primi.
+
+Se si conosce tuttavia uno dei due fattori, risalire all'altro \`e facile (basta fare una divisione).
