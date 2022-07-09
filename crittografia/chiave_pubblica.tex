@@ -20,8 +20,9 @@ utente.
 
 In questo modo abbiamo un numero quadratico di chiavi nel numero di utenti del sistema.
 
-Quando un utente $i$ vuole comunicare con l'utente $j$ manda un messaggio a $j$ cifrandolo con la chiave $k_j$. L'utente
-$j$ a questo punto decifra il messaggio con la sua chiave $k_j$ e invia un messaggio a $i$ cifrandolo con la chiave $k_i$.
+Quando un utente $i$ vuole comunicare con l'utente $j$ manda un messaggio a $j$ cifrandolo con la chiave $k_j$.
+L'utente $j$ a questo punto decifra il messaggio con la sua chiave $k_j$ e invia un messaggio a $i$ cifrandolo con
+la chiave $k_i$.
 
 \section{TTP}
 Una soluzione migliore \`e rappresentata dal \textbf{TTP} o \textbf{trusted 3rd party}, ossia una terza parte
@@ -57,19 +58,19 @@ Le problematiche di questo sistema sono due:
 \`E un approccio utilizzabile solo in un sistema ristretto come un'universit\`a o un'azienda.
 
 \section{Chiave pubblica}
-In questo tipo di cifratura si vuole implementare un meccanismo che permette a chiunque di inviare messaggi cifrati a un
-certo utente ma permettere solo a quell'utente di decifrarli.
+In questo tipo di cifratura si vuole implementare un meccanismo che permette a chiunque di inviare messaggi cifrati a
+un certo utente ma permettere solo a quell'utente di decifrarli.
 
 Le operazioni di cifratura e decifrazione sono pubbliche e utilizzano due chiavi diverse:
 \begin{itemize}
 	\item \textbf{Chiave pubblica}: \`e nota a tutti.
 	\item \textbf{Chiave private}: nota solo al destinatario.
 \end{itemize}
-Questa coppia di chiavi \`e generata dall'utente in veste di destinatario, il rende nota la sua chiave pubblica e mantiene
-segreta la sua chiave privata.
+Questa coppia di chiavi \`e generata dall'utente in veste di destinatario, il rende nota la sua chiave pubblica e
+mantiene segreta la sua chiave privata.
 
-Se volessimo inviare un messaggio all'utente $i$ si dovrebbe cifrare il messaggio con la sua chiave pubblica. L'utente $i$
-decifra il crittogramma con la sua chiave privata.
+Se volessimo inviare un messaggio all'utente $i$ si dovrebbe cifrare il messaggio con la sua chiave pubblica. L'utente
+$i$ decifra il crittogramma con la sua chiave privata.
 
 In questo sistema l'unica cosa non nota a tutti \`e la chiave privata del destinatario. Le funzioni di cifratura e
 decifrazione e la chiave pubblica sono note a qualsiasi utente.
@@ -109,8 +110,8 @@ In questo modo risolviamo in un colpo solo tutti i problemi elencati in preceden
 \subsection{Requisiti}
 Perch\'e la cifratura a chiave pubblica devono essere soddisfatti alcuni requisiti.
 \begin{itemize}
-	\item Il procedimento di cifratura e decifrazione devono essere implementati correttamente. Il destinatario deve essere
-	      in grado di decifrare qualsiasi messaggio con la propria chiave privata.
+	\item Il procedimento di cifratura e decifrazione devono essere implementati correttamente. Il destinatario deve
+	      essere in grado di decifrare qualsiasi messaggio con la propria chiave privata.
 	      \[ D(C(m, k_{\text{pub}}), k_{\text{priv}}) = m \]
 	\item Efficienza e sicurezza del sistema:
 	      \begin{itemize}
@@ -122,14 +123,14 @@ Perch\'e la cifratura a chiave pubblica devono essere soddisfatti alcuni requisi
 		            \emph{difficile} per il crittoanalista risalire al messaggio in chiaro.
 	      \end{itemize}
 \end{itemize}
-La soluzione risiede nel trovare una funzione di tipo \textbf{one-way trap-door}, ovvero, una funzione facile da calcolare
-e difficile da invertire a meno che non si conosca la chiave privata.
+La soluzione risiede nel trovare una funzione di tipo \textbf{one-way trap-door}, ovvero, una funzione facile da
+calcolare e difficile da invertire a meno che non si conosca la chiave privata.
 
 \section{RSA}
 Questo cifrario usa l'algebra modulare e si basa sulla moltiplicazione di due numeri primi $p$ e $q$ poich\'e calcolare
 \[ n = p \cdot q \]
-richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricostruire $p$ e $q$ a partire da $n$ richiede
-tempo esponenziale se $p$ e $q$ sono primi.
+richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricostruire $p$ e $q$ a partire da $n$
+richiede tempo esponenziale se $p$ e $q$ sono primi.
 
 Se si conosce tuttavia uno dei due fattori, risalire all'altro \`e facile (basta fare una divisione).
 
@@ -137,11 +138,11 @@ Se si conosce tuttavia uno dei due fattori, risalire all'altro \`e facile (basta
 Per la generazione delle due chiavi, il destinatario deve
 \begin{enumerate}
 	\item Scegliere due numeri primi $p$ e $q$ molto grandi, dove per "molto grandi" intendiamo tali che $p \cdot q$
-	      sia un numero di circa 2000 bit per una protezione fino al 2030 o di circa 3000 bit se vogliamo una protezione
-	      oltre il 2030.
+	      sia un numero di circa 2000 bit per una protezione fino al 2030 o di circa 3000 bit se vogliamo una
+	      protezione oltre il 2030.
 
-	      Per farlo dobbiamo generare numeri di circa 1500 bit ed effettuare il test di Miller-Rabin per la primalit\`a
-	      finch\'e non otteniamo due numeri primi (tempo polinomiale).
+	      Per farlo dobbiamo generare numeri di circa 1500 bit ed effettuare il test di Miller-Rabin per la
+	      primalit\`a finch\'e non otteniamo due numeri primi (tempo polinomiale).
 	\item Calcolare
 	      \[ n = p \cdot q \]
 	      e la relativa funzione di Eulero
