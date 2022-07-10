@@ -171,7 +171,6 @@ Nella pratica si fissa il valore di $b$ in modo da dare un limite inferiore a $n
 chiavi lunghe
 \[ m < 2^b < n \]
 
-\subsubsection{Procedimento}
 Per la \textbf{cifratura} si utilizza la chiave pubblica ed \`e definita come segue
 \[ c = m^e \mod{n} \]
 Per la \textbf{decifrazione} si utilizza la chiave privata del destinatario ed \`e definita in questo modo
@@ -265,3 +264,64 @@ Dimostriamo che il cifrario \`e corretto.
 \subsection{Sicurezza}
 La \textbf{sicurezza} del cifrario \`e molto legata alla difficolt\`a nel fattorizzare un numero arbitrario molto
 grande.
+
+Riuscire a fattorizzare in tempo polinomiale \`e condizione sufficente per riuscire a forzare l'RSA ma non ci sono
+dimostrazione del fatto che sia anche condizione necessaria.
+
+Dato che il crittogramma $c$ \`e ottenuto tramite
+\[ c = m^e \mod{n} \]
+si potrebbe pensare di calcolare una radice
+\[ m = \sqrt[e]{c} \mod{n} \]
+ma dato che stiamo lavorando nell'algebra modulare e $n$ \`e un numero composto, l'estrazione della radice \`e un
+problema \emph{difficile} almeno quanto la fattorizzazione.
+
+\`E dunque pi\`u conveniente fattorizzare e compiere un attacco all'intero sistema piuttosto che sul singolo
+crittogramma.
+
+Anche calcolare $\phi(n)$ direttamente da $n$ \`e un problema \emph{difficile} quanto la fattorizzazione.
+
+Provare a ricavare $d$ direttamente da $n$ ed $e$ \`e un problema che \emph{sembra} costoso quanto la
+fattorizzazione.
+
+Il problema della fattorizzazione rimane \emph{difficile} ma non pi\`u come un tempo. Ci sono ad oggi algoritmi
+pi\`u raffinati che richiedono un numero di operazioni \textbf{subesponenziale}.
+
+Parliamo dell'algoritmo GNFS, il quale, dato un intero $n$ rappresentato con
+\[ b = \lceil \log_2 n \rceil + 1 \]
+bit, richiede un numero di operazioni dell'ordine di $O(2^{\sqrt{b \log b}})$.
+
+Ad oggi, tramite l'algoritmo GNFS, si riescono a fattorizzare semiprimi di 768 bit.
+
+\subsubsection{Vincoli sui parametri}
+I due parametri $p$ e $q$ devono essere scelti in base ad alcuni propriet\`a, senza le quali si riuscirebbe
+facilmente forzare il cifrario:
+\begin{itemize}
+	\item Devono essere numeri di almeno 1024 bit per resistere agli attacchi a forza bruta.
+	\item Sia $p-1$ che $q-1$ devono contenere un fattore primo molto grande (altrimenti $n$ si fattorizza
+	      velocemente).
+	\item $(p-1, q-1)$ deve essere piccolo. Conviene scegliere $p$ e $q$ tali che $\frac{p-1}{2}$ e $\frac{q-1}{2}$
+	      siano coprimi.
+	\item Non si deve riusare uno dei due primi per altre sessioni di comunicazione.
+	      \[
+		      \begin{matrix}
+			      n_1 = p \cdot q_1 \\
+			      n_2 = p \cdot q_2
+		      \end{matrix}
+		      \quad \Rightarrow \quad
+		      p = (n_1, n_2)
+	      \]
+	\item La differenza tra $p$ e $q$ deve essere grande. Se cos\`i non fosse $p^2$ e $q^2$ sarebbero circa $n$ e
+	      quindi $\sqrt{n}$ sar\`a vicino ai numeri primi.
+
+	      Si effettua quindi un attacco a forza bruta che cerca i fattori vicini a $\sqrt{n}$.
+\end{itemize}
+
+Anche la scelta di $e$ e $d$ deve rispettare alcune propriet\`a. \`E vero che valori di $e$ e $d$ bassi accelerano
+la cifraura e la decifrazione ma ci fa andare incontro ad altri problemi
+\begin{itemize}
+	\item Se $d$ \`e piccolo l'attacco a forza bruta diventa un'opzione valida.
+	\item Se $m$ ed $e$ sono cos\`i piccoli che
+	      \[ m^e < n \]
+	      allora risulta facile trovare la radice $e$-esima di $c$ poich\'e non interviene la riduzione in modulo.
+\end{itemize}
+Ecco perch\'e, per avere garanzie sulla sicurezza, \`e importante scegliere anche $e$ e $d$ opportunamente grandi.
