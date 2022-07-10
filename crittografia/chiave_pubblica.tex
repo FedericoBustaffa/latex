@@ -150,7 +150,118 @@ Per la generazione delle due chiavi, il destinatario deve
 	      il tutto in tempo polinomiale.
 	\item Scegliere un intero $e$ tale che
 	      \[ e < \phi(n) \quad \wedge \quad (e, \phi(n)) = 1 \]
-	\item Calcolare
+	\item Calcolare con l'algoritmo di Euclide esteso
 	      \[ d = e^{-1} \mod{\phi(n)} \]
 	      ossia l'inverso di $e$ modulo $\phi(n)$.
 \end{enumerate}
+
+\subsection{Cifratura e decifrazione}
+Sia $m$ un messaggio scritto come una sequenza binaria e trattato come un intero tale che
+\[ m < n \]
+Il valore decimale di $m$ deve essere strettamente minore di $n$, se cos\`i non fosse dobbiamo dividere $m$ in
+blocchi di $b = \log_2 n$ bit
+
+Questo requisito \`e dovuto al fatto che tutte le operazioni sono fatte $\mod{n}$ e quindi
+\[ m \geq n \]
+implicherebbe
+\[ m = m \mod{n} \]
+Si avrebbe quindi una funzione non iniettiva che mappa messaggi diversi nello stesso crittogramma.
+
+Nella pratica si fissa il valore di $b$ in modo da dare un limite inferiore a $n$, costringendo cos\`i l'utente ad usare
+chiavi lunghe
+\[ m < 2^b < n \]
+
+\subsubsection{Procedimento}
+Per la \textbf{cifratura} si utilizza la chiave pubblica ed \`e definita come segue
+\[ c = m^e \mod{n} \]
+Per la \textbf{decifrazione} si utilizza la chiave privata del destinatario ed \`e definita in questo modo
+\[ m = c^d \mod{n} \]
+Sia cifratura che decifrazione hanno costo polinomiale con l'algoritmo di \emph{esponenziazione veloce}.
+
+\begin{example}
+	Consideriamo due numeri primi $p = 5$ e $q = 11$, otteniamo quindi
+	\[ n = p \cdot q = 55 \]
+	Calcoliamo la funzione di Eulero di $n$
+	\[ \phi(n) = (p - 1) (q - 1) = 40 \]
+	Scegliamo ora un numero minore di $\phi(n)$ e coprimo con esso, per esempio
+	\[ e = 7 \]
+	La coppia $\langle n, e \rangle$ sar\`a la nostra chiave pubblica. Calcoliamo ora la chiave privata $d$ con
+	l'algoritmo di Euclide esteso
+	\[ d = 7^{-1} \mod{40} = 23 \]
+	Adesso non ci rimane che cifrare o decifrare con le funzioni di cifratura e decifrazione descritte sopra
+	\[
+		\begin{matrix}
+			c = m^7 \mod{55} \\
+			m = c^{23} \mod{55}
+		\end{matrix}
+	\]
+\end{example}
+
+\subsection{Correttezza}
+Dimostriamo che il cifrario \`e corretto.
+
+\begin{proof}
+	Per dimostrare la correttezza del cifrario dobbiamo dimostrare che
+	\[ D(C(m, k_\text{pub}), k_\text{priv}) = m \]
+	per farlo dobbiamo dimostrare che
+	\[ {\underbrace{(m^e \mod{n})}_c}^d \mod{n} = m \]
+	che possiamo riscrivere come
+	\[ m^{ed} \mod{n} = m \]
+	Si procede per casi
+	\begin{enumerate}
+		\item Nel primo caso in cui supponiamo $m$ e $n$ coprimi quindi $(m, n) = 1$. Dato che $m$ e $n$ sono coprimi
+		      vale il teorema di Eulero
+		      \[ m^{\phi(n)} \equiv 1 \mod{n} \]
+		      Partendo dalla definizione di inverso facciamo anche un'altra considerazione: dato che $e$ e $d$ sono
+		      l'uno l'inverso dell'altro modulo $\phi(n)$ vale
+		      \[ ed \equiv 1 \mod{\phi(n)} \]
+		      che equivale a dire che
+		      \[ ed = r \cdot \phi(n) + 1 \]
+		      con $r \in \mathbb{N}$. Possiamo quindi scrivere l'ipotesi come
+		      \[ m^{ed} \mod{n} = m^{r \phi(n) + 1} \mod{n} \]
+		      Usando le propriet\`a delle potenze possiamo scrivere
+		      \[ m \cdot (m^{\phi(n)})^r \mod{n} \]
+		      Per il teorema di Eulero questo equivale a
+		      \[ m \cdot 1^r \mod{n} = m \mod{n} = m\]
+		      dato che $m < n$.
+		\item Nel secondo caso $(n, m) \neq 1$. Il massimo comun divisore tra $n$ ed $m$ deve essere o $p$ o $q$ e
+		      vale che
+		      \[ p \mid m \quad \text{oppure} \quad q \mid m \]
+		      ma non entrambi possono essere divisori di $m$ perch\'e altrimenti $m \geq n$. Supponiamo che $p \mid m$
+		      quindi $q \nmid m$, questo ci dice che
+		      \[ m \equiv 0 \mod{p} \quad \Rightarrow \quad m^r \equiv 0 \mod{p} \]
+		      per ogni $r \in \mathbb{N}$. Vale quindi che
+		      \[ m^r - m \equiv 0 \mod{p} \]
+		      Se prendiamo $r = ed$ otteniamo
+		      \[ m^{ed} - m \equiv 0 \mod{p} \]
+
+		      Consideriamo ora $q$, che ricordiamo, non divide $m$ e consideriamo
+		      \[ m^{ed} \mod{q} \]
+		      Questa equazione pu\`o essere riscritta come
+		      \[ m^{k \phi(n) + 1} \mod{q} \]
+		      ma come sappiamo $\phi(n)$ si pu\`o riscrivere come $(p - 1)(q - 1)$
+		      \[ m \cdot m^{k (p - 1)(q - 1)} \mod{q} \]
+		      come prima, per le propriet\`a delle potenze, possiamo scrivere
+		      \[ m \cdot (m^{(q - 1)})^{k (p - 1)} \mod{q} \]
+		      dato che $q$ \`e un numero primo possiamo riscrivere l'equazione in questo modo
+		      \[ m \cdot (m^{\phi(q)})^{k (p - 1)} \mod{q} \]
+		      Usiamo il teorema di Eulero
+		      \[ m \cdot 1^{k (p - 1)} \mod{q} = m \mod{q} \]
+		      quindi
+		      \[ m^{ed} \mod{q} = m \mod{q} \]
+		      dunque vale
+		      \[ m^{ed} - m \equiv 0 \mod{q} \]
+
+		      Possiamo quindi affermare che $m^{ed} - m$ \`e divisibile sia per $p$ che per $q$, quindi vale
+		      \[ m^{ed} - m \equiv 0 \mod{n} \]
+		      riscriviamo l'equazione come
+		      \[ m^{ed} \mod{n} = m \mod{n} \]
+		      ma dato che $m < n$ vale
+		      \[ m \mod{n} = m \]
+		      Questo dimostra la correttezza anche quando messaggio e modulo non sono coprimi.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Sicurezza}
+La \textbf{sicurezza} del cifrario \`e molto legata alla difficolt\`a nel fattorizzare un numero arbitrario molto
+grande.
