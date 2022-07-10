@@ -325,3 +325,112 @@ la cifraura e la decifrazione ma ci fa andare incontro ad altri problemi
 	      allora risulta facile trovare la radice $e$-esima di $c$ poich\'e non interviene la riduzione in modulo.
 \end{itemize}
 Ecco perch\'e, per avere garanzie sulla sicurezza, \`e importante scegliere anche $e$ e $d$ opportunamente grandi.
+
+\subsection{Attacchi}
+Vediamo qualche attacco efficiente nel caso si faccia un uso scorretto dei parametri $e$ ed $n$.
+
+\subsubsection{Scelta di e}
+Il parametro $e$, non solo deve essere sufficientemente grande, ma deve anche possedere alcune propriet\`a
+\begin{itemize}
+	\item Deve essere tale che
+	      \[ e \neq \frac{\phi(n)}{2} + 1 \]
+	\item Scelto $k \in \mathbb{N}$ tale che $k \mid p-1$ e $k \mid q-1$ allora
+	      \[ e \neq \frac{\phi(n)}{k} + 1 \]
+\end{itemize}
+Se questi due vincoli non sono soddisfatti allora vale
+\[ m^e \mod{n} = m \]
+quando $m$ ed $n$ sono coprimi.
+
+Supponiamo ora che ci siano almeno $e$ utenti che hanno scelto lo stesso valore di $e$ e supponiamo che tutti questi
+utenti ricevano lo stesso messaggio $m$. Si va a creare una situazione di questo tipo
+\[
+	\begin{matrix}
+		U_1    & c_1 = m^e \mod{n_1} \\
+		U_2    & c_2 = m^e \mod{n_2} \\
+		\vdots & \vdots              \\
+		U_e    & c_e = m^e \mod{n_e}
+	\end{matrix}
+\]
+Supponiamo ora che, per ogni coppia $i, j$ con $1 \leq i < j \leq e$, valga
+\[ (n_i, n_j) = 1 \]
+Per le propriet\`a del cifrario, deve valere, per ogni $i$ con $1 \leq i \leq e$
+\[ m < n_i \]
+affinch\'e $m$ possa essere cifrato.
+
+In queste condizioni \`e possibile applicare il teorema cinese del resto, il quale ci consente di calcolare in
+tempo polinomiale un valore $m' < n$ tale che
+\[ m' \equiv m^e \mod{n} \]
+dove $n$ \`e il prodotto di tutti gli $n_i$
+\[ n = \prod_{i=1}^e n_i \]
+Una volta in possesso di $m'$ si possono fare i seguenti passaggi
+\begin{enumerate}
+	\item Per le propriet\`a di $m'$ descritte sopra vale che
+	      \[ m' \mod{n} = m^e \mod{n} \]
+	      e, dato che $m' < n$, vale che
+	      \[ m' \mod{n} = m' \]
+	\item Notiamo ora che
+	      \[ m^e = \underbrace{m \cdot m \cdot \text{\dots} \cdot m}_{e \text{ volte}} \]
+	      e che
+	      \[ n_1 \cdot n_2 \cdot \text{\dots} \cdot n_e = n \]
+	      Ma, dato che tutti gli utenti hanno ricevuto lo stesso messaggio e, come abbiamo gi\`a detto, vale
+	      \[ m < n_i \]
+	      per qualsiasi $1 \leq i \leq e$, allora sappiamo vale
+	      \[ m \cdot m \cdot \text{\dots} \cdot m < n_1 \cdot n_2 \cdot \text{\dots} \cdot n_e \]
+	      quindi
+	      \[ m^e < n \quad \Rightarrow \quad m^e \mod{n} = m^e \]
+	\item Si ottiene quindi l'eguaglianza
+	      \[ m' = m^e \]
+	\item Si calcola
+	      \[ m = \sqrt[e]{m'} \]
+\end{enumerate}
+Si risolve il problema facendo un po' di \emph{padding}.
+
+\subsubsection{Attacco del modulo comune}
+Supponiamo ora che due utenti utilizzino lo stesso valore di $n$. Il primo utente ha a disposizione la coppia
+$\langle e_1, n \rangle$ e il secondo utente la coppia $\langle e_2, n \rangle$.
+
+Se $e_1$ ed $e_2$ sono coprimi e ricevono lo stesso messaggio $m$ e dunque vale
+\[
+	\begin{matrix}
+		c_1 = m^{e_1} \mod{n} \\
+		c_2 = m^{e_2} \mod{n}
+	\end{matrix}
+\]
+allora si procede in questo modo
+\begin{enumerate}
+	\item Dato che $e_1$ ed $e_2$ sono coprimi devono esistere $r$ ed $s$ tali che
+	      \[ r e_1 + s e_2 = 1 \]
+	      e si trovano in tempo polinomiale con l'algoritmo di Euclide esteso. Supponiamo $r < 0$ e $s > 0$.
+	\item Dato che $m = m^1$ e 1 pu\`o essere scritto in funzione dei parametri trovati al passo precedente in
+	      questo modo
+	      \[ m = m^{r e_1 + s e_2} \]
+	      e dato che $m < n$ possiamo scrivere
+	      \[ m^{r e_1 + s e_2} \mod{n} \]
+	\item Per le propriet\`a delle potenze vale la seguente catena di uguaglianze
+	      \[
+		      \begin{array}{rcl}
+			      m^{r e_1 + s e_2} \mod{n} & = & (m^{r e_1} \mod{n}) (m^{s e_2} \mod{n}) \mod{n} \\
+			                                & = & (m^{e_1} \mod{n})^r (m^{e_2} \mod{n})^s \mod{n} \\
+			                                & = & c_1^r \cdot c_2^s \mod{n}
+		      \end{array}
+	      \]
+	\item Dato che $s > 0$ allora $c_2$ si calcola con l'algoritmo di esponenziazione veloce in tempo polinomiale.
+	\item Dato che invece $r < 0$ si deve fare qualche passaggio in pi\`u
+	      \begin{itemize}
+		      \item Si scrive $c_1^r \mod{n}$ come
+		            \[ (c_1^{-1})^{-r} \mod{n} \]
+		      \item Adesso abbiamo $-r > 0$.
+		      \item Nel caso in cui $c_1$ sia coprimo con $n$ si calcola il suo inverso moltiplicativo con
+		            l'algoritmo di Euclide e si eleva alla $-r$ con l'algoritmo di esponenziazione veloce.
+		      \item Nel caso in cui $c_1$ non sia coprimo con $n$ allora siamo riusciti a fattorizzare $n$ dato
+		            che quest'ultimo \`e un prodotto di due primi.
+	      \end{itemize}
+\end{enumerate}
+
+\subsubsection{Attacchi a tempo}
+Sono attacchi che cercano di stimare $d$ andando a vedere il tempo di decifrazione che impiega l'algoritmo.
+
+Si basa sulla conoscenza del fatto che quando si esegue l'esponenziazione modulare si esegue una moltiplicazione
+ad ogni iterazione e un'ulteriore moltiplicazione modulare per ciascun bit uguale a 1 in $d$.
+
+Basta inserire ritardi casuali per proteggersi da questo tipo di attacchi.
