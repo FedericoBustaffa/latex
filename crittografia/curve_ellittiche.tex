@@ -1,0 +1,45 @@
+\chapter{Crittografia su curve ellittiche}
+La \textbf{crittografia su curve ellittiche} nasce per alleggerire il carico computazionale che si porta dietro
+la crittografia a chiave pubblica basata sull'algebra modulare.
+
+I problemi su cui si basa la crittografia a chiave pubblica, come la fattorizzazione e il calcolo del logaritmo
+discreto hanno due problemi:
+\begin{itemize}
+	\item Sebbene si risolvano in tempo polinomiale sono comunque \textbf{calcoli molto pesanti}.
+	\item Gli algoritmi odierni per il calcolo di questi due problemi non hanno pi\`u costo esponenziale ma,
+	      come abbiamo gi\`a visto, \textbf{subesponenziale}. Ne \`e una diretta conseguenza l'aumento della
+	      lunghezza delle chiavi.
+\end{itemize}
+Come vedremo, la crittografia su curve ellittiche, propone i cifrari visti in precedenza (protocollo DH e cifrario
+di ElGamal) in un contesto matematico diverso e basati sul calcolo del logaritmo discreto e non pi\`u sulla
+fattorizzazione.
+
+Il risultato \`e stato quello di ottenere un costo del miglior attacco, come vedremo, \textbf{puramente esponenziale}.
+
+\section{Curve ellittiche}
+Prima di vedere i dettagli implementativi definiamo cosa sono le curve ellittiche.
+
+Le curve ellittiche sono curve algebriche descritte da equazioni cubiche (simili a quelle utilizzate nel calcolo
+della lunghezza degli archi delle ellissi).
+\[ E(a, b) = \{ (x, y) \in \mathbb{R}^2 \mid y^2 = x^3 + ax + b \} \]
+qui sono definite sui reali, nella cosiddetta \emph{forma normale di Weierstrass}, ma possiamo scrivere l'equazione
+su un campo $\mathbb{K}$ qualisiasi.
+
+L'insieme appena descritto contiene anche il cosiddetto \textbf{punto all'infinito} $O$ in direzione dell'asse $y$
+(la curva ha un asintoto verticale), il quale rappresenta l'\textbf{elemento neutro per l'addizione}.
+
+La curva si pu\`o presentare in due forme
+\begin{itemize}
+	\item A \textbf{due componenti} nel caso in cui la cubica abbia tre radici reali.
+	\item Ad \textbf{una componente} nel caso in cui la cubica abbia una sola radice reale e due complesse coniugate.
+\end{itemize}
+A prescindere dalla forma, in ogni punto della curva \`e possibile mandare una \textbf{tangente}.
+
+Per le applicazioni crittografiche si assume che il discriminante della cubica sia
+\[ 4 a^3 + 27 b^2 \neq 0 \]
+Questo ci assicura che
+\begin{itemize}
+	\item La cubica non abbia radici multiple.
+	\item La curva sia priva di punti singolari come \emph{cuspidi} o \emph{nodi}, dove non sarebbe definita in modo
+	      univoco la tangente.
+\end{itemize}
