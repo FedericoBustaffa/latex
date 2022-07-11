@@ -554,8 +554,82 @@ Anche in questo caso il modo per proteggersi da questi attacchi \`e quello di pr
 pubblici da un certificato digitale fornito dal NIST.
 
 \section{Cifrario di ElGamal}
-Il \textbf{cifrario di ElGamal} si basa sul problema del calcolo del logaritmo discreto. Al livello di sicurezza
-non offre niente in pi\`u del cifrario RSA dato che la risoluzione di questo problema necessita lo steso numero
-di operazioni della fattorizzazione.
+Il \textbf{cifrario di ElGamal} basa la sua sicurezza sulla difficolt\`a nel calcolare il logaritmo discreto. Al
+livello di sicurezza non offre niente in pi\`u del cifrario RSA dato che la risoluzione di questo problema necessita
+lo steso numero di operazioni della fattorizzazione.
 
 \subsection{Generazione delle chiavi}
+Per creare la coppia di chiavi si segue il seguente procedimento
+\begin{enumerate}
+	\item Si sceglie un numero primo $p$.
+	\item Si sceglie un generatore $g$ 	di $\mathbb{Z}_p^*$.
+	\item Si sceglie un intero casuale $x$ tale che
+	      \[ 2 \leq x \leq p-2 \]
+	\item Si calcola
+	      \[ y = g^x \mod{p} \]
+\end{enumerate}
+Abbiamo cos\`i ottenuto la chiave pubblica
+\[ k_\text{pub} = \langle p, g, y \rangle \]
+e la chiave privata
+\[ k_\text{priv} = x \]
+
+\subsection{Cifratura}
+Prima di vedere come si effettua la cifratura ci sono dei requisti che il messaggio $m$ deve avere:
+\begin{itemize}
+	\item Deve essere codificato come una sequenza binaria, trattata come un intero.
+	\item Deve essere scelto tale che
+	      \[ m < p \]
+	      se cos\`i non fosse si fa una cifratura a blocchi di $\log_2 p$ bit.
+\end{itemize}
+Passiamo ora al metodo di cifratura.
+\begin{itemize}
+	\item Si sceglie un valore casuale $r$ tale che
+	      \[ 2 \leq r \leq p - 2 \]
+	\item Si calcola la coppia di crittogrammi
+	      \[ c = g^r \mod{p} \quad d = y^r \mod{p} \]
+	      dove $y$ \`e la chiave pubblica del destinatario.
+\end{itemize}
+Per la decifrazione si calcola semplicemente
+\[ m = d \cdot c^x \mod{p} \]
+Sviluppiamo i calcoli
+\[
+	\begin{matrix}
+		d \cdot c^{-x} \mod{p} & = & m \cdot y^r \cdot c^{-x} \mod{p}         \\
+		                       & = & m \cdot y^r \cdot (g^r)^{-x} \mod{p}     \\
+		                       & = & m \cdot (g^x)^r \cdot (g^r)^{-x} \mod{p} \\
+		                       & = & m \mod{p}
+	\end{matrix}
+\]
+e, come sappiamo, dato che $m < p$, l'ultima equazione equivale a $m$.
+
+\subsection{Attacchi}
+Per quanto riguarda attacchi di tipo \emph{man in the middle} valgono le considerazione fatte per RSA e protocollo
+DH, basta dunque estrarre i valori da alcuni certificati digitali per ovviare al problema.
+
+Per quanto riguarda attacchi di tipo passivo, il crittoanalista potrebbe provare a trovare $r$, con il quale
+riuscirebbe a decifrare il crittogramma.
+
+\`E quindi molto importante che $r$ sia tenuto segreto e che non venga mai riutilizzato per sessioni diverse.
+
+\subsubsection{Attacco su r}
+Supponiamo che il mittente invii due messaggi $m_1$ ed $m_2$ al destinatario utilizzando lo stesso $r$ per la
+cifratura.
+
+I crittogrammi generati in fase di cifratura sono
+\[
+	\begin{matrix}
+		\langle c = g^r \mod{p}, d_1 = y^r \mod{p} \rangle \\
+		\langle c = g^r \mod{p}, d_2 = y^r \mod{p} \rangle
+	\end{matrix}
+\]
+Supponiamo ora che il crittoanalista venga a conoscenza di $m_1$. Dato che
+\[
+	\begin{matrix}
+		d_1 = m_1 \cdot y^r \mod{p} \\
+		d_2 = m_2 \cdot y^r \mod{p}
+	\end{matrix}
+\]
+allora possiamo dire che
+\[ d_1 m_1^{-1} = y^r \mod{p} \]
+abbiamo quindi ottenuto $y^r$ e quindi possiamo calcolare
+\[ m_2 = d_2 \cdot (-y^r)^{-1} \mod{p} \]
