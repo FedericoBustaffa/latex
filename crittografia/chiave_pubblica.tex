@@ -451,21 +451,111 @@ Alla fine di questo procedimento i due utenti hanno correttamente instaurato un 
 con un leggero ritardo) ma anche il crittoanalista \`e in possesso della chiave simmetrica con la quale pu\`o
 decifrare facilemente ogni messaggio che passa sul canale.
 
+Il modo per proteggersi da questi attacchi \`e quello di prendere i valori dei vari parametri pubblici da un
+certificato digitale fornito dal NIST.
+
 \section{Protocollo DH}
-Il \textbf{protocollo DH}, dai due crittografi che lo hanno implementato (Diffie ed Hellman), risolve il problema
-degli attacchi \emph{man in the middle} ai quali l'RSA \`e vulnerabile, basato sul problema del calcolo del
-logaritmo discreto.
+Il \textbf{protocollo DH}, dai due crittografi che lo hanno implementato (Diffie ed Hellman), si basa sul problema
+del calcolo del logaritmo discreto.
 
 Questo protocollo nasce per dare pari responsabilit\`a sia a mittente che a destinatario nella creazione della
 chiave.
 
 Nella pratica non c'\`e uno scambio di chiave ma uno scambio di informazioni necessarie alla costruzione locale
-della chiave.
+di una chiave simmetrica.
 
-Affinch\'e il procedimento funzioni i due utenti che intendono comunicare devono scegliere
+\subsection{Funzionamento}
+Affinch\'e il procedimento funzioni, i due utenti $i$ e $j$, che intendono comunicare, devono scegliere
 \begin{itemize}
 	\item Un numero primo $p$ molto grande.
 	\item Un generatore $g$ per $\mathbb{Z}_p^*$, dove $\mathbb{Z}_p^*$ \`e un gruppo ciclico.
 \end{itemize}
 Questi due dati sono pubblici.
 
+\subsubsection{Costruzione della chiave}
+Due utenti $i$ e $j$ per instaurare una comunicazione su un canale insicuro devono
+\begin{enumerate}
+	\item Scegliere rispettivamente due interi $a$ e $b$ casuali, tali che
+	      \[ 1 < a, b < p-1 \]
+	\item Calcolare rispettivamente
+	      \[
+		      \begin{matrix}
+			      A = g^a \mod{p} \\
+			      B = g^b \mod{p}
+		      \end{matrix}
+	      \]
+	      con l'algoritmo di esponenziazione veloce.
+	\item Inviare rispettivamente $A$ e $B$ sul canale.
+	\item Calcolare rispettivamente
+	      \[
+		      \begin{matrix}
+			      k & = & B^a \mod{p} & = & g^{ba} \mod{p} \\
+			      k & = & A^b \mod{p} & = & g^{ab} \mod{p}
+		      \end{matrix}
+	      \]
+\end{enumerate}
+Alla fine di questo procedimento, gli utenti sono in possesso di una chiave simmetrica $k$ per la comunicazione.
+
+\subsection{Attacchi}
+Il crittoanalista conosce $p$, $g$, $A$ e $B$ ma non possiede ne $a$ ne $b$ che sono elementi fondamentali per il
+calcolo di $k$ in tempo polinomiale. Senza queste informazioni deve calcolare il logaritmo discreto che, come sappiamo
+ha costo subesponenziale. Il protocollo \`e dunque robusto ad attacchi passivi.
+
+Vediamo per\`o come si comporta con attacchi di tipo attivo come il \emph{man in the middle}.
+
+\subsubsection{Man in the middle}
+Simuliamo il processo di costruzione della chiave visto in precedenza ma stavolta il crittoanalista $s$ interviene
+nella comunicazione.
+\begin{enumerate}
+	\item $i$, $j$ e $s$ scelgono rispettivamente tre interi $a$, $b$ e $c$ casuali, tali che
+	      \[ 1 < a, b, c < p-1 \]
+	\item $i$, $j$ e $s$ calcolano rispettivamente
+	      \[
+		      \begin{matrix}
+			      A = g^a \mod{p} \\
+			      B = g^b \mod{p} \\
+			      C = g^c \mod{p}
+		      \end{matrix}
+	      \]
+	      con l'algoritmo di esponenziazione veloce.
+	\item $i$ e $j$ inviano rispettivamente $A$ e $B$ sul canale.
+	\item $s$ intercetta $A$ e $B$ e li sostituisce con $C$.
+	\item $i$ e $j$ calcolano rispettivamente
+	      \[
+		      \begin{matrix}
+			      k_i & = & C^a \mod{p} & = & g^{ac} \mod{p} \\
+			      k_j & = & C^b \mod{p} & = & g^{bc} \mod{p}
+		      \end{matrix}
+	      \]
+	\item $s$ calcola
+	      \[
+		      \begin{matrix}
+			      k_i & = & A^c \mod{p} & = & g^{ac} \mod{p} \\
+			      k_j & = & B^c \mod{p} & = & g^{bc} \mod{p}
+		      \end{matrix}
+	      \]
+\end{enumerate}
+A questo punto $i$ e $j$ hanno prodotto due chiavi differenti di cui $s$ \`e in possesso. Se uno dei due utenti
+invia un crittogramma all'altro e $s$ non interviene in alcun modo, i due si accorgono immediatamente che c'\`e
+stata una corruzione e ripartono da zero.
+
+Il crittoanalista $s$ potrebbe per\`o continuare ad intercettare i crittogrammi sul canale e agire in questo modo
+\begin{enumerate}
+	\item $i$ invia un messaggio, cifrato con $k_i$.
+	\item $s$ lo intercetta e lo decifra con $k_i$.
+	\item $s$ cifra nuovamente il messaggio con $k_j$ e lo invia a $j$.
+\end{enumerate}
+Ovviamente vale lo stesso se \`e $j$ ad inviare un messaggio.
+
+Il risultato \`e che i due utenti non sperimentano alcuna corruzione dei dati poich\'e sono in grado di decifrare
+i crittogrammi che arrivano.
+
+Anche in questo caso il modo per proteggersi da questi attacchi \`e quello di prendere i valori dei vari parametri
+pubblici da un certificato digitale fornito dal NIST.
+
+\section{Cifrario di ElGamal}
+Il \textbf{cifrario di ElGamal} si basa sul problema del calcolo del logaritmo discreto. Al livello di sicurezza
+non offre niente in pi\`u del cifrario RSA dato che la risoluzione di questo problema necessita lo steso numero
+di operazioni della fattorizzazione.
+
+\subsection{Generazione delle chiavi}
