@@ -434,3 +434,38 @@ Si basa sulla conoscenza del fatto che quando si esegue l'esponenziazione modula
 ad ogni iterazione e un'ulteriore moltiplicazione modulare per ciascun bit uguale a 1 in $d$.
 
 Basta inserire ritardi casuali per proteggersi da questo tipo di attacchi.
+
+\subsubsection{Man in the middle}
+Questo attacco, di tipo \textbf{attivo}, consiste nella corruzione della chiave pubblica.
+\begin{enumerate}
+	\item Il crittoanalista intercetta la comunicazione e sostituisce la chiave pubblica del destinatario con la
+	      sua.
+	\item Il mittente riceve quindi la chiave pubblica del crittoanalista pensando di avere in mano quella del
+	      destinatario.
+	\item Il mittente invia la chiave simmetrica sul canale cifrandola con la chiave pubblica del crittoanalista.
+	\item Il crittoanalista intercetta la chiave simmetrica cifrata con la propria chiave e la decifra.
+	\item Per non interrompere la comunicazione, il crittoanalista cifra la chiave simmetrica del mittente con la
+	      chiave del destinatario e la invia a quest'ultimo.
+\end{enumerate}
+Alla fine di questo procedimento i due utenti hanno correttamente instaurato un protocollo di comunicazione (magari
+con un leggero ritardo) ma anche il crittoanalista \`e in possesso della chiave simmetrica con la quale pu\`o
+decifrare facilemente ogni messaggio che passa sul canale.
+
+\section{Protocollo DH}
+Il \textbf{protocollo DH}, dai due crittografi che lo hanno implementato (Diffie ed Hellman), risolve il problema
+degli attacchi \emph{man in the middle} ai quali l'RSA \`e vulnerabile, basato sul problema del calcolo del
+logaritmo discreto.
+
+Questo protocollo nasce per dare pari responsabilit\`a sia a mittente che a destinatario nella creazione della
+chiave.
+
+Nella pratica non c'\`e uno scambio di chiave ma uno scambio di informazioni necessarie alla costruzione locale
+della chiave.
+
+Affinch\'e il procedimento funzioni i due utenti che intendono comunicare devono scegliere
+\begin{itemize}
+	\item Un numero primo $p$ molto grande.
+	\item Un generatore $g$ per $\mathbb{Z}_p^*$, dove $\mathbb{Z}_p^*$ \`e un gruppo ciclico.
+\end{itemize}
+Questi due dati sono pubblici.
+
