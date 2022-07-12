@@ -33,7 +33,7 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 		print(1);
 	\end{lstlisting}
 	La lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
-	\[ |A_h| = \text{cost} + \theta(\log n) \]
+	\[ |A_h| = \text{cost} + \Theta(\log n) \]
 	dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\log n$	bit
 	una sequenza di $n$ bit.
 \end{example}
@@ -45,7 +45,7 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 	print(1001011110...1010...);
 	\end{lstlisting}
 	In questo caso la lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
-	\[ |A_h| = \text{cost} + \theta(n) \]
+	\[ |A_h| = \text{cost} + \Theta(n) \]
 	dato che non ho un modo compatto per descrivere $h$.
 \end{example}
 
@@ -73,7 +73,7 @@ Questo sistema di calcolo prende in input una coppia $q$, formata da un indice $
 andare a simulare) e un programma $p$ da far girare sul sistema di calcolo $S_i$.
 \[ S_u(q) =  S_u (\langle i, p \rangle) = S_i (p) = h \]
 Se andiamo a valutare la lunghezza di $q$ in bit otteniamo che
-\[ |q| = |i| + |p| = \theta (\log i) + |p| \]
+\[ |q| = |i| + |p| = \Theta (\log i) + |p| \]
 dato che per rappresentare $i$ ho bisogno di $\log i$ bit. Notiamo anche che $|i|$ \`e un termine che dipende unicamente
 dal sistema di calcolo e non dalla sequenza $h$.
 
