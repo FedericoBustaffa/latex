@@ -45,9 +45,6 @@ Questo ci assicura che
 	\item La curva sia priva di punti singolari come \emph{cuspidi} o \emph{nodi}, dove non sarebbe definita in
 	      modo univoco la tangente.
 \end{itemize}
-I punti delle curve ellittiche con discriminante uguale a zero non hanno la struttura algebrica di gruppo abeliano,
-non \`e dunque possibile definire un'operazione interna.
-
 Le curve ellittiche rappresentano anche una \textbf{simmetri orizzontale}, ossia rispetto all'asse delle ascisse.
 Questo ci permette di definire sempre, per ogni punto della curva, il suo \textbf{opposto} sempre sulla curva.
 
@@ -82,3 +79,244 @@ Per sommare un punto $P$ con se stesso
 	\item Si trova il punto $R$ di intersezione.
 	\item Il punto $-R$ equivale al punto $2P$.
 \end{enumerate}
+Dati due punti $P = (x_P, y_P)$ e $Q = (x_Q, y_Q)$, sulla curva $E(a, b)$, si distinguono tre casi:
+\begin{itemize}
+	\item Se $P \neq \pm Q$ allora $S = P + Q$ con
+	      \[ \begin{matrix}
+			      x_S = \lambda^2 - x_P - x_Q \\
+			      y_S = -y_P + \lambda (x_P - x_S)
+		      \end{matrix}
+	      \]
+	      dove
+	      \[ \lambda = \frac{y_Q - y_P}{x_Q - x_P} \]
+	      \`e il coefficiente angolare della retta per $P$ e $Q$.
+	\item Se $P = Q$ allora $S = P + Q = 2P$ con
+	      \[
+		      \begin{matrix}
+			      x_S = \lambda^2 - x_P - x_Q \\
+			      y_S = -y_P + \lambda (x_P - x_S)
+		      \end{matrix}
+	      \]
+	      dove
+	      \[ \lambda = \frac{3_P^2 + a}{2yp} \]
+	      \`e il coefficiente angolare della tangente alla curva in $P$ ($y_P \neq 0$).
+	      Se $y_P = 0$ allora $S = 2P = O$.
+	\item Se $Q = -P$ allora $S = P + Q = P + (-P) = O$.
+\end{itemize}
+I punti delle curve ellittiche con discriminante diverso da zero hanno la struttura algebrica di gruppo abeliano,
+e gode dunque di alcune propriet\`a:
+\begin{itemize}
+	\item \textbf{Chiusura}: $\forall P, Q \in E(a, b)$ vale
+	      \[ P + Q \in E(a, b) \]
+	\item \textbf{Elemento neutro}: $\forall P \in E(a, b)$ vale
+	      \[ P + O = O + P = P \]
+	\item \textbf{Inverso}: $\forall P \in E(a, b)$ esiste un unico $Q = -P \in E(a, b)$ tale che
+	      \[ P + Q = Q + P = O \]
+	\item \textbf{Associativit\`a}: $\forall P, Q, R \in E(a, b)$ vale
+	      \[ P + (Q + R) = (P + Q) + R \]
+	\item \textbf{Commutativit\`a}: $\forall P, Q \in E(a, b)$ vale
+	      \[ P + Q = Q + P \]
+\end{itemize}
+
+\section{Curve ellittiche su campi finiti}
+Ora che abbiamo definito, in generale, cosa sono e come funzionano le curve ellittiche sui reali passiamo a trattare
+le curve ellittiche su campi finiti, che sono quelle che poi servono di pi\`u all'atto pratico.
+
+I campi finiti possono essere di due tipi fondamentalmente: quelli che hanno come cardinalit\`a un numero primo e
+quelli che hanno come cardinalit\`a la potenza di un numero primo.
+
+\subsection{Curve ellittiche prime}
+Le \textbf{curve ellittiche prime} sono curve i cui coefficienti $a, b$ sono presi in $\mathbb{Z}_p$ con $p > 3$
+un numero primo e l'equazione che le descrive \`e
+\[ E_p(a, b) = 	\{ (x, y) \in \mathbb{Z}_p^2 \mid y^2 \mod{p} = (x^3 + ax + b) \mod{p} \} \cup \{ O \} \]
+Una curva ellittica prima contiene un numero \textbf{finito} di punti e non \`e pi\`u rappresentata da una curva
+continua nel piano.
+
+Una curva ellittica prima risulta simmetrica rispetto alla retta
+\[ y = \frac{p}{2} \]
+questo perch\'e si lavora sempre tra 0 e $p - 1$.
+
+L'inverso di un punto $P = (x, y) \in E_p(a, b)$ \`e definito come
+\[ -P = (x, -y) = (x, p - y) \in E_p(a, b) \]
+
+Se il polinomio $x^3 + ax + b \mod{p}$ non ha radici multiple, ovvero se il discriminante della cubica \`e diverso
+da zero, allora i punti della cruva $E_p(a, b)$ formano un \textbf{gruppo abeliano additivo finito}.
+
+\begin{example}
+	Prendiamo la curva $E_5(4, 4)$. Affinch\'e i punti abbiamo la struttura di campo abeliano dobbiamo verificare
+	che il discriminante sia diverso da 0.
+	\[ 4 \cdot 4^3 + 27 \cdot 4^2 \mod{5} \neq 0 \]
+	sviluppando un po' i calcoli si ottiene
+	\[ 3 \mod{5} = 3 \neq 0 \]
+	quindi i punti sulla curva hanno la struttura di campo abeliano. Ora vogliamo trovare quanti punti ha questa
+	curva, per farlo dobbiamo considerare l'equazione
+	\[ y^2 \equiv x^3 + 4x + 4 \mod{5} \]
+	Dato che stiamo lavorando modulo 5, per trovare tutti i punti della curva, possiamo far variare l'ascissa con
+	tutti i valori da 0 a 4 e valutare la cubica.
+
+	In questa fase si deve prestare attenzione al fatto che un punto sull'ascissa non necessariamente identifica
+	un punto sulla cubica. Questo perch\'e, lavorando in modulo $p$, non tutti i numeri modulo $p$ hanno una radice
+	(solo la met\`a).
+
+	Per vederlo facciamo un semplice procedimento
+	\begin{center}
+		\begin{tabular}{ c | c c c c c }
+			$y$           & 0 & 1 & 2 & 3 & 4 \\
+			\hline
+			$y^2 \mod{p}$ & 0 & 1 & 4 & 4 & 1
+		\end{tabular}
+	\end{center}
+	da qui vediamo subito che solo 1 e 4 hanno una radice nel campo.
+
+	Valutiamo ora tutti i punti
+	\begin{center}
+		\begin{tabular}{ c | c | c }
+			$x$ & $y^2$ & $y$                    \\
+			\hline
+			0   & 4     & $\langle 2, 3 \rangle$ \\
+			1   & 4     & $\langle 2, 3 \rangle$ \\
+			2   & 0     & 0                      \\
+			3   & 3     & /                      \\
+			4   & 4     & $\langle 2, 3 \rangle$
+		\end{tabular}
+	\end{center}
+	La curva contiene dunque 7 punti e il punto all'infinito, abbiamo dunque una curva di \textbf{ordine} 8.
+\end{example}
+
+\begin{theorem}[Teorema di Hasse]
+	Se $n$ \`e l'ordine della curva prima $E_p(a, b)$ allora vale che
+	\[ |n - (p + 1)| \leq 2 \sqrt{p} \]
+\end{theorem}
+
+\section{Funzioni one-way trap-door}
+Il metodo di costruzione di funzioni one-way trap-door su curve ellittiche \`e molto simile a quello usato per
+il protocollo DH e per il cifrario di ElGamal su algebra modulare.
+
+Questo perch\'e l'addizione di punti su curve ellittiche si pu\`o mettere in corrispondenza con la moltiplicazione
+di interi modulo $p$.
+
+Si introduce anche la \textbf{moltiplicazione scalare} di punti sulla curva che altro non \`e che una
+generalizzazione dell'addizione nell'algebra modulare. Questa operazione coinvolge un punto $P \in E(a, b)$ e un
+intero $k$ e si pu\`o mettere in corrispondenza con l'elevamento a potenza. Come vedremo $k P$ si calcola
+in tempo polinomiale con $\Theta(\log_2 k)$ addizioni e raddoppi di punti.
+
+\subsection{Algoritmo dei raddoppi ripetuti}
+Questo algoritmo, come vedremo, si pu\`o mettere in corrispondenza con l'algoritmo di esponenziazione veloce usato
+nell'algebra modulare e consiste nel fare $\lfloor \log_2 k \rfloor$ raddoppi e $O(\log_2 k)$ somme di punti.
+
+Sia $P$ un punto in $E_p(a, b)$ e sia $k$ un intero
+\begin{enumerate}
+	\item Si scompone come somma di potenze di 2
+	      \[ k = \sum_{i=0}^{\lfloor \log_2 k \rfloor} k_i 2^i \quad \quad k_i \in \{ 0, 1 \} \]
+	\item Si calcolano $\lfloor \log_2 k \rfloor$ punti, ognuno come raddoppio del precedente.
+	      \[ 2P, \quad 2^2P, \quad 2^3 P, \quad \dots, \quad 2^{\lfloor\log_2 k \rfloor} \]
+	\item Si calcola $Q = kP$ calcolando
+	      \[ \sum_{i \mid k_i = 1} 2^i P \]
+	      in al pi\`u $\log_2 k$ addizioni.
+\end{enumerate}
+Se notiamo, l'algoritmo calcola $kP$ con $\Theta(\log_2 k)$ operazioni.
+
+\begin{example}
+	Supponiamo di voler calcolare $13P$. Non possiamo permetterci di fare 13 somme, scriviamo quindi il 13 come
+	somma di potenze di 2
+	\[ 13P = (8 + 4 + 1) P = 8P + 4P + P \]
+	A questo punto, avendo $P$ possiamo calcolare tanti raddoppi quanti sono necessari
+	\[
+		\begin{matrix}
+			P \rightarrow 2P          \\
+			2P \rightarrow 2(2P) = 4P \\
+			4P \rightarrow 2(4P) = 8P
+		\end{matrix}
+	\]
+	Andiamo ora a prendere solo i termini che ci servono, ossia $P$, $4P$ e $8P$ e li sommiamo.
+
+	Abbiamo cos\`i calcolato $13P$ con 3 raddoppi e 2 somme di punti.
+\end{example}
+
+\subsubsection{Inversione della funzione}
+Invertire questa funzione \`e simile ad invertire il logaritmo discreto. Dati $Q$ e $P$, trovare, se esiste, il
+pi\`u piccolo intero tale che
+\[ Q = kP \]
+\`e un problema \emph{difficile}. Se $k$ soddisfa l'equazione scritta sopra, allora $k$ si chiama il
+\textbf{logaritmo discreto su curve ellittiche}
+\[ k = \log_P Q \]
+Il problema ha costo esponenziale dato che conosciamo solo algoritmi di tipo forza bruta che provano tutti i
+possibili valori di $k$.
+
+Quello che si fa all'atto pratico \`e una serie di somme di $P$ con se stesso finch\'e non troviamo $k$ tale che
+\[ kP = Q \]
+
+A differenza dell'algebra modulare, per cui si conoscono algoritmi di costo subesponenziale per il calcolo del
+logaritmo discreto, per le curve ellittiche, conosciamo solo algoritmi di costo esponenziale.
+
+\section{Protocollo DH su curve ellittiche}
+Il protocollo DH, dato che basa la sua sicurezza sul calcolo del logaritmo discreto, pu\`o essere rivisitato in
+una sua versione su curve ellittiche.
+
+La conversione dall'algebra modulare si ottiene molto semplicemente, sostituendo la moltiplicazione di interi in
+modulo con la somma di punti.
+
+Prima di vedere come funziona il protocollo dobbiamo definire un'altra cosa ossia l'\textbf{ordine di un punto}.
+L'ordine di un punto \`e il pi\`u piccolo intero $n$ tale che il punto per questo intero da come risultato il
+punto all'infinito.
+\[ nP = O \]
+
+Supponiamo che i due utenti $i$ e $j$ vogliano instaurare un protocollo di comunicazione
+\begin{enumerate}
+	\item $i$ e $j$ scelgono una curva ellittica $E_p(a, b)$ e un punto $B \in E_p(a, b)$ speciale, detto
+	      \textbf{punto base}, il quale deve avere ordine $n$ molto grande.
+	\item $i$ e $j$ scelgono rispettivamente $n_i$ e $n_j$ casuali tali che
+	      \[ n_i, n_j < n \]
+	\item $i$ e $j$ calcolano rispettivamente
+	      \[
+		      \begin{matrix}
+			      P_i = n_i B \\
+			      P_j = n_j B
+		      \end{matrix}
+	      \]
+	      con l'algoritmo dei raddoppi ripetuti.
+	\item $i$ e $j$ inviano rispettivamente $P_i$ e $P_j$ sul canale.
+	\item $i$ e $j$ calcolano rispettivamente
+	      \[
+		      \begin{matrix}
+			      k & = & n_i P_j & = & n_i n_j B \\
+			      k & = & n_j P_i & = & n_j n_i B
+		      \end{matrix}
+	      \]
+\end{enumerate}
+
+\subsection{Attacchi}
+Per quanto riguarda gli attacchi passivi, per risalire a $n_i$ e $n_j$ si deve calcolare il logaritmo discreto
+su curve ellittiche, che, come sappiamo, richiede costo esponenziale sapendo solo $E_p(a, b)$, $P_i$, $P_j$ e $B$.
+
+Il protocollo \`e comunque vulnerabile ad attacchi di tipo \emph{man in the middle} a meno che non si usino curve
+estratte da certificati digitali.
+
+\section{Protocollo di ElGamal su curve ellittiche}
+A differenza dei protoccolli visti fino ad ora, su curve ellittiche e non, il \textbf{protocollo di ElGamal su curve
+	ellittiche} \`e usato come un cifrario a chiave pubblica per lo scambio di messaggi e non \`e dunque ristretto
+al solo scambio della chiave.
+
+Cifrare un messaggio, in questo ambito, significa \emph{incapsulare} il messaggio in uno dei punti delle curve
+ellittiche. Il problema \`e che non disponiamo di algoritmi deterministici, che in tempo polinomiale, mappano
+un messaggio su uno dei punti della curva.
+
+Un'idea potrebbe essere quella di porre $x = m$ nella cubica della curva e prendere il relativo punto, calcolato
+tramite l'equazione.
+
+Il problema \`e che per trovare la coordinata $y$ del punto dobbiamo fare la radice del valore calcolato dalla
+cubica, ma, come abbiamo visto, non sempre questo \`e possibile.
+
+\subsection{Algoritmo di Koblitz}
+Sia $m$ il messaggio che vogliamo inviare e sia $p$ il numero primo con cui stiamo lavorando,l'\textbf{algoritmo
+	di Koblitz} funziona in questo modo
+\begin{enumerate}
+	\item Si sceglie un intero $h$ tale che
+	      \[ (m + 1) \cdot h < p \]
+	\item Si pone
+	      \[ x = m \cdot h + i \]
+	      nella cubica, con $0 \leq i < h-1$.
+\end{enumerate}
+In questo caso si fanno $h$ tentativi e la probabilit\`a di fallire \`e di $1/2$ ogni volta che si traduce in una
+probabilit\`a di circa $(1/2)^h$ di fallimento totale. Se $h$ \`e sufficientemente grande, la probabilit\`a di
+fallire \`e molto bassa.
