@@ -31,15 +31,54 @@ L'insieme appena descritto contiene anche il cosiddetto \textbf{punto all'infini
 La curva si pu\`o presentare in due forme
 \begin{itemize}
 	\item A \textbf{due componenti} nel caso in cui la cubica abbia tre radici reali.
-	\item Ad \textbf{una componente} nel caso in cui la cubica abbia una sola radice reale e due complesse coniugate.
+	\item Ad \textbf{una componente} nel caso in cui la cubica abbia una sola radice reale e due complesse
+	      coniugate.
 \end{itemize}
-A prescindere dalla forma, in ogni punto della curva \`e possibile mandare una \textbf{tangente}.
+Se la curva ha una di queste due forme, \`e sempre possibile mandare una \textbf{tangente}. Questo per\`o non \`e
+vero per tutti i tipi di curva.
 
-Per le applicazioni crittografiche si assume che il discriminante della cubica sia
+Per le applicazioni crittografiche si assume infatti che il discriminante della cubica sia
 \[ 4 a^3 + 27 b^2 \neq 0 \]
 Questo ci assicura che
 \begin{itemize}
 	\item La cubica non abbia radici multiple.
-	\item La curva sia priva di punti singolari come \emph{cuspidi} o \emph{nodi}, dove non sarebbe definita in modo
-	      univoco la tangente.
+	\item La curva sia priva di punti singolari come \emph{cuspidi} o \emph{nodi}, dove non sarebbe definita in
+	      modo univoco la tangente.
 \end{itemize}
+I punti delle curve ellittiche con discriminante uguale a zero non hanno la struttura algebrica di gruppo abeliano,
+non \`e dunque possibile definire un'operazione interna.
+
+Le curve ellittiche rappresentano anche una \textbf{simmetri orizzontale}, ossia rispetto all'asse delle ascisse.
+Questo ci permette di definire sempre, per ogni punto della curva, il suo \textbf{opposto} sempre sulla curva.
+
+Preso il punto $p = \langle x, y \rangle$, il suo opposto ha coordinate $-p = \langle x, -y \rangle$.
+
+\subsection{Somma di punti}
+Prima di tutto notiamo che le curve ellittiche possiedono una propriet\`a: ogni retta interseca una curva ellittica
+in al pi\`u tre punti.
+\[
+	\begin{cases}
+		y = mx + q \\
+		y^2 = x^3 + ax + b
+	\end{cases}
+\]
+Sviluppando il sistema si ottiene una cubica in $x$ che ha al massimo tre radici. Le radici in questione possono
+essere o tutte reali o una reale e due complesse coniugate.
+
+Quindi se una retta interseca la curva nei punti $P$ e $Q$, coincidenti se la retta \`e una tangente, allora la
+retta interseca la curva anche in un terzo punti $R$.
+
+Dati tre punti $P, Q, R$ su una curva, se sono anche tutti su una retta, vale
+\[ P + Q + R = O \]
+Da questa regola si ricava la regola per la somma di due punti $P$ e $Q$.
+\begin{enumerate}
+	\item Si scrive l'equazione della retta che passa per $P$ e per $Q$.
+	\item Dato che $P$ e $Q$ sono sulla curva e su una retta, esiste un terzo punto $R$.
+	\item L'opposto di $R$ \`e il punto somma di $P$ e $Q$.
+\end{enumerate}
+Per sommare un punto $P$ con se stesso
+\begin{enumerate}
+	\item Si manda la tangente alla curva nel punto $P$.
+	\item Si trova il punto $R$ di intersezione.
+	\item Il punto $-R$ equivale al punto $2P$.
+\end{enumerate}
