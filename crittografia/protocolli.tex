@@ -1,1 +1,200 @@
 \chapter{Protocolli}
+In questo capitolo andremo a trattare i protocolli di sicurezza tra i quali distingueremo
+\begin{itemize}
+	\item \textbf{Identificazione}: un sistema di elaborazione ha bisogno di accertarsi dell'\textbf{identit\`a}
+	      di un utente che vuole accedere ai suoi servizi.
+	\item \textbf{Autenticazione}: il destinatario di un messaggio deve essere in grado di accertare
+	      l'\textbf{identit\`a del mittente} e l'\textbf{integrit\`a del crittogramma} ricevuto.
+	\item \textbf{Firma digitale}: la firma digitale si pone tre obbiettivi:
+	      \begin{itemize}
+		      \item Il mittente non deve poter \textbf{negare l'invio} di un messaggio.
+		      \item Il destinatario deve essere in grado di \textbf{autenticare} il messaggio.
+		      \item Il destinatario non deve poter sostenere di aver ricevuto un messaggio diverso da quello inviato
+		            dal mittente.
+	      \end{itemize}
+\end{itemize}
+Come si pu\`o notare, ognuna di queste funzionalit\`a, estende l'altra
+\begin{itemize}
+	\item L'autenticazione garantisce l'identificazione.
+	\item La firma digitale garantisce l'autenticazione.
+\end{itemize}
+Ognuna di queste funzionalit\`a ha il compito di proteggere le comunicazioni da attacchi attivi, come per esempio
+gli attacchi \emph{man in the middle}.
+
+\section{Funzioni hash}
+Per l'implementazione di queste funzionalit\`a faremo ricorso alla \textbf{funzioni hash}. Una funzione hash
+\[ f : X \rightarrow Y \]
+\`e una funzione tale che
+\[ n = |X| >> m = |Y| \]
+ossia, \`e tale se, definito il dominio $X$, il codominio $Y$ della funzione \`e molto pi\`u piccolo.
+
+Inoltre, una funzione hash, ha molti elementi del dominio che vengono mappati nella stessa immagine del codominio.
+Questo ci permette di \emph{partizionare} il dominio in sottoinsiemi
+\[ X = X_1 \cup X_2 \cup \dots \cup X_m \]
+tali che ogni elemento del sottoinsieme \`e mappato, dalla funzione hash, nella stessa immagine del codominio
+\[ \forall i, \quad \forall x \in X_i \quad \quad f(x) = y \]
+Una funzione hash \`e buona se la cardinalit\`a di ogni sottoinsieme sia circa la stessa.
+
+\subsection{Funzioni hash one-way}
+Le funzioni hash usate in crittografia devono soddisfare tre requisiti principali
+\begin{itemize}
+	\item Per ogni $x \in X$ deve essere \emph{facile} calcolare
+	      \[ y = f(x) \]
+	\item \textbf{One-way}: per la maggior parte degli $y \in Y$ deve essere \emph{difficile} determinare $x \in X$
+	      tale che
+	      \[ f(x) = y \]
+	\item \textbf{Claw-free}: deve essere \emph{difficile} determinare una coppia $x_1, x_2 \in X$ tali che
+	      \[ f(x_1, x_2) \]
+\end{itemize}
+
+\subsection{Funzione hash SHA-1}
+Una delle funzioni, storicamente usata in crittografia, \`e \textbf{SHA-1}, la quale opera su sequenze lunghe fino
+a $2^{64} - 1$ bit e produce immagini di 160 bit.
+
+In particolare opera su blocchi di 160 bit, contenuti in un buffer di 5 registri da 32 bit ciascuno, in cui sono
+caricati inizialmente dei valori pubblici.
+
+Il messaggio viene concatenato con una sequenza di \emph{padding} che rende la sua lunghezza un multiplo di 512 bit.
+
+Il contenuto dei registri varia nel corso dei cicli successivi in cui questi valori si combinano tra loro e con
+blocchi di 32 bit provenienti dal messaggio.
+
+La funzione sfrutta shift ciclici e una componente non lineare che varia per riuscire ad ottenere il valore hash per
+ciascun messaggio in input.
+
+\section{Identificazione}
+Vediamo ora come viene applicato il protocollo di \textbf{identificazione} sia nel caso in cui ci trovassimo su un
+canale sicuro sia nel caso in cui ci trovassimo su un canale insicuro.
+
+\subsection{Canale sicuro}
+Prendiamo per esempio la situazione in cui un utente voglia accedere ai propri file personali memorizzati su un
+calcolatore ad accesso riservato ai membri della sua organizzazione.
+\begin{enumerate}
+	\item L'utente invia in chiaro nome utente e password.
+	\item Dato che il canale \`e sicuro, un attacco pu\`o essere sferrato solo da un utente locale al sistema o da
+	      un hacker.
+\end{enumerate}
+Il meccanismo di identifiaczione dovrebbe per\`o prevedere una \textbf{cifratura} della password tramite funzioni hash
+one-way anche su canali sicuri.
+
+Dobbiamo distinguere due casi: quando l'utente si registra e quando l'utente effettua tutti gli accessi successivi.
+
+\subsubsection{Registrazione}
+Possiamo associare la fase di registrazione alla fase di cifratura con una funzione hash one-way $h$:
+\begin{enumerate}
+	\item L'utente $u$ si registra fornendo per la prima volta la password $p$.
+	\item Il sistema associa a $p$ due sequenze binarie che memorizza nel file delle password al posto di $p$.
+	      \begin{itemize}
+		      \item Un \textbf{seme} casuale $s$ prodotto da un generatore.
+		      \item Il \textbf{valore hash} della concatenazione tra $p$ ed $s$.
+		            \[ q = h(p s) \]
+	      \end{itemize}
+\end{enumerate}
+Quello che quindi viene salvato dal sistema \`e l'\textbf{immagine hash} della password concatenata ad un seme casuale
+e non la password in chiaro.
+
+\subsubsection{Accesso}
+In fase di accesso il sistema compie i seguenti passaggi
+\begin{enumerate}
+	\item Recupera $s$ dal file delle password.
+	\item Concatena $s$ con la password $p$ fornita da $u$.
+	\item Calcola il valore hash della sequenza $p s$.
+	\item Se $q = h(p s)$ l'identificazione ha successo.
+\end{enumerate}
+Avere accesso al file delle password non fornisce informazioni interessanti perch\'e \`e computazionalmente difficile
+ricavare la password dalla sua immagine hash.
+
+\subsection{Canale insicuro}
+Nel caso di canale insicuro non si pu\`o inviare la password in chiaro e dunque andremo a lavorare con sistemi a
+chiave pubblica per l'invio della password.
+
+In realt\`a un sistema non dovrebbe mai poter maneggiare password in chiaro ma solo una loro immagine hash.
+
+Supponiamo che l'utente $u$ voglia accedere ai servizi forniti da un certo sistema $s$ e per farlo \`e necessario
+che si identifichi.
+
+Supponiamo che il sistema adotti un cifrario a chiave pubblica (per esempio l'RSA) per lo scambio sicuro dei dati
+dell'utente. L'utente dispone quindi di una chiave pubblica $\langle e, n \rangle$ e di una chiave privata $d$.
+
+Quello che avviene all'atto pratico \`e questo:
+\begin{enumerate}
+	\item $s$ genera un numero casuale $r < n$ e lo invia in chiaro a $u$.
+	\item $u$ calcola
+	      \[ f = r^d \mod{n} \]
+	      che rappresenta la \textbf{firma} di $u$ su $s$ e lo invia a $s$.
+	\item $s$ verifica che
+	      \[ f^e \mod{n} = r \]
+	      se l'uguaglianza \`e soddisfatta, l'identificazione ha successo.
+\end{enumerate}
+Come possiamo notare, le operazioni di cifratura e decifrazione sono invertite rispetto all'impiego standard dell'RSA
+ed \`e possibile farlo dato che sono commutative
+\[ (x^e \mod{n})^d \mod{n} = (x^d \mod{n})^e \mod{n} \]
+Chiariamo inoltre che solo $u$ pu\`o produrre $f$ dato che \`e l'unico che possiede il valore $d$.
+
+Se il passo 3 va a buon fine, il sistema ha la garanzia che l'utente che ha richiesto l'identificazione sia
+effettivamente $u$, anche se il canale \`e insicuro.
+
+Il protocollo funziona bene a patto che il sistema sia onesto. Dato che \`e il sistema che fornisce $r$, se $r$ \`e
+effettivamente un valore casuale allora tutto va a buon fine, se invece $r$ \`e un dato con particolari propriet\`a
+utili a ricavare la chiave privata di $u$.
+
+\section{Autenticazione}
+L'autenticazione riguarda il messaggio e si occupa di accertare l'identit\`a del mittente e l'integrit\`a del
+messaggio.
+
+\subsection{Canale insicuro}
+Per questo protocollo, su canale insicuro, useremo un sistema basato su cifrari simmetrici in cui mittente e
+destinatario devono quindi accordarsi su una chiave segreta $k$.
+
+Nella pratica il mittente
+\begin{enumerate}
+	\item Allega al messaggio un \textbf{MAC} (Message Authentication Code) $A(m, k)$, allo scopo di garantire la
+	      provenienza e l'integrit\`a del messaggio.
+	\item A questo punto ha due opzioni
+	      \begin{itemize}
+		      \item Invia la coppia $\langle m, A(m, k) \rangle$ in chiaro.
+		      \item Cifra $m$ e spedisce $\langle C(m, k'), A(m, k) \rangle$ dove $C$ \`e una funzione di cifratura
+		            e $k'$ la chiave pubblica o la chiave simmetrica segreta del cifrario scelto.
+	      \end{itemize}
+\end{enumerate}
+
+Il destinatario invece
+\begin{enumerate}
+	\item Riceve il messaggio (se cifrato lo decifra).
+	\item Dato che conosce $A$ e $k$ calcola a sua volta il MAC.
+	\item Confronta il MAC calcolato con il MAC ricevuto.
+\end{enumerate}
+Se la verifica ha successo il messaggio \`e autenticato altrimenti lo si scarta.
+
+\subsubsection{MAC}
+Il MAC \`e un'immagine breve del messaggio che pu\`o essere generata solo da un mittente conosciuto dal destinatario
+e pu\`o essere calcolato con cifrari asimettrici, simmetrici o funzioni hash one-way.
+
+Quest'ultima opzione implementativa \`e la pi\`u frequente
+\[ A(m, k) = h(m k) \]
+dato che il calcolo di una funzione hash \`e molto veloce per chi sta cifrando ma computazionalmente molto dispendioso
+per un crittoanalista, che, anche disponendo di $h$ e $m$ non \`e comunque in grado di risalire a $k$ in tempo
+polinomiale dato che $k$ viaggia all'interno di un MAC e quindi si dovrebbe invertire la funzione hash (costo
+esponenziale).
+
+Il crittoanalista non pu\`o nemmeno sostituire (facilmente) il messaggio $m$ con un altro messaggio $m'$ perch\'e
+dovrebbe allegare a $m'$ il MAC $A(m', k)$ che pu\`o produrre solo conoscendo $k$.
+
+\section{Firma digitale}
+Questo protocollo cerca di portare tutte le propriet\`a di una \textbf{firma manuale} (con carta e penna) in ambito
+tecnologico. Una firma manuale infatti
+\begin{itemize}
+	\item \`E autentica e non falsificabile.
+	\item Non \`e riutilizzabile.
+	\item Non pu\`o essere ripudiata.
+\end{itemize}
+Anche il documento firmato deve essere \textbf{inalterabile}.
+
+Come vedremo, una \textbf{firma digitale}
+\begin{itemize}
+	\item Non pu\`o consistere nella digitalizzazione di un documento scritto firmato manualmente perch\'e si
+	      potrebbe facilmente contraffare.
+	\item Deve avere una forma che dipenda dal documento su cui viene apposta, per essere inscindibile da
+	      quest'ultimo.
+	\item Pu\`o essere generata sia tramite cifrari simmetrici che asimmetrici.
+\end{itemize}
