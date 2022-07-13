@@ -316,7 +316,126 @@ Sia $m$ il messaggio che vogliamo inviare e sia $p$ il numero primo con cui stia
 	\item Si pone
 	      \[ x = m \cdot h + i \]
 	      nella cubica, con $0 \leq i < h-1$.
+	\item Si fanno $h$ tentativi.
 \end{enumerate}
-In questo caso si fanno $h$ tentativi e la probabilit\`a di fallire \`e di $1/2$ ogni volta che si traduce in una
-probabilit\`a di circa $(1/2)^h$ di fallimento totale. Se $h$ \`e sufficientemente grande, la probabilit\`a di
-fallire \`e molto bassa.
+La probabilit\`a di fallire \`e di circa $1/2$ ogni volta, che si traduce in una probabilit\`a di circa $(1/2)^h$
+di fallimento totale. Se $h$ \`e sufficientemente grande, la probabilit\`a di fallire \`e molto bassa.
+
+\begin{lstlisting}[style=pseudo-style]
+Koblitz(m, h, a, b, p)
+	for i = 0 to h-1
+		x = m * h + i;
+		z = (pow(x, 3) + a * x + b) % p;
+		if z.hasRadix() then 
+			y = sqrt(z);
+			return (x, y);
+
+	return FAIL;
+\end{lstlisting}
+Il destinatario, in fase di decifrazione, ottiene il punto della curva di coordinate $\langle x, y \rangle$. Per
+estrarre il messaggio calcola
+\[
+	m = \left\lfloor \frac{x}{h} \right\rfloor  =
+	\left\lfloor \frac{mh + i}{h} \right\rfloor =
+	\left\lfloor m + \frac{i}{h} \right\rfloor
+	\quad \quad \text{con } \frac{i}{h} < 1
+\]
+Quello che si fa in pratica \`e dividere l'ascissa del punto per $h$.
+
+\subsection{Scambio di messaggi}
+Scelta una curva $E_p(a, b)$, un punto base $B \in E_p(a, b)$ di ordine $n$ elevato, ogni utente costruisce la sua
+coppia $\langle k_\text{pub}, k_\text{priv} \rangle$.
+
+L'utente $u$ forma la coppia di chiavi calcolandole in questo modo:
+\[
+	\begin{matrix}
+		k_\text{pub} = n_u B = P_u \\
+		k_\text{priv} = n_u < n
+	\end{matrix}
+\]
+Se due utenti, $i$ e $j$, volessero comunicare, il procedimento sarebbe il seguente
+\begin{enumerate}
+	\item $i$ incapsula il messaggio $m$ in un punto $M$ della curva con l'algoritmo di Koblitz.
+	\item $i$ sceglie $r < n$ casuale e da usare una volta sola.
+	\item $i$ calcola un punto
+	      \[ V = r \cdot B \]
+	      della curva con l'algoritmo dei raddoppi ripetuti.
+	\item $i$ cifra il messaggio con la chiave pubblica $P_j$ del destinatario calcolando
+	      \[ W = M + r \cdot P_j \]
+	      dove $W$ \`e un punto della curva.
+	\item $i$ invia la coppia di punti $\langle V, W \rangle$ a $j$.
+	\item $j$ riceve $\langle V, W \rangle$.
+	\item $j$ calcola il punto
+	      \[ M = W - n_j \cdot V \]
+	      sulla curva dove risiede il messaggio.
+	\item $j$ calcola
+	      \[ m = \left\lfloor \frac{x}{h} \right\rfloor \]
+\end{enumerate}
+
+\subsubsection{Correttezza}
+Per convincerci che ci\`o che stiamo facendo facciamo qualche passo indietro.
+\begin{itemize}
+	\item Il punto $M$ si trova calcolando
+	      \[ M = W - n_j \cdot V \]
+	\item Il punto $W$ si ottiene calcolando
+	      \[ W = M + r \cdot P_j \]
+	      dove $P_j$ \`e la chiave pubblica di $j$.
+	\item La chiave pubblica $P_j$ si ottiene calcolando
+	      \[ n_j \cdot B \]
+	\item Il punto $V$ si ottiene calcolando
+	      \[ V = r \cdot B \]
+\end{itemize}
+Mettendo tutto insieme si ricava che
+\[ W - n_j \cdot V \quad = \quad M + r (n_j \cdot B) - n_j (r \cdot B) \quad = \quad M \]
+
+\subsection{Attacchi}
+Essendo un sistema a chiave pubblica, \`e vulnerabile ad attacchi di tipo \emph{man in the middle} a meno che non
+si estraggano le chiavi pubbliche da certificati digitali.
+
+Gli attacchi passivi possono essere di due tipi
+\begin{itemize}
+	\item \textbf{Calcolo della chiave privata}: richiede il calcolo del logaritmo discreto su curve ellittiche
+	      (costo esponenziale).
+	\item \textbf{Attacco su r}: nel caso il parametro $r$ venga riusato il crittoanalista pu\`o scoprirlo e
+	      decifrare facilmente il crittogramma.
+\end{itemize}
+
+\subsubsection{Attacco su r}
+Conoscere $r$ ci permette di decifrare il crittogramma in tempo polinomiale perch\'e
+\[ W = M + r \cdot P_j \]
+quindi, se conosciamo $r$, possiamo calcolare
+\[ M = W - r \cdot P_j \]
+Estrarre $r$, calcolandolo con i dati pubblici forniti da mittente e destinatario \`e tuttavia un problema difficile
+quanto il calcolo del logaritmo discreto.
+
+Si dovrebbe sfruttare altre vulnerabilit\`a nel sistema come ad esempio capire quale sia il generatore di numeri
+casuali utilizzato oppure sfruttare il fatto che $r$ possa essere utilizzato pi\`u volte.
+
+\section{Sicurezza delle curve ellittiche}
+La sicurezza della crittografia su curve ellittiche si basa sulla difficolt\`a nel calcolare il logaritmo discreto
+si un punto della curva.
+
+Nonostante non esista una dimostrazione formale di \emph{intrattabilit\`a} questo problema \`e considerato molto
+\emph{difficile}.
+
+In particolare, \`e un problema molto pi\`u difficile della fattorizzazione e del calcolo del logaritmo discreto
+nell'algebra modulare, problemi per i quali esiste un algoritmo (Index Calculus) di costo
+\[ O(2^{\sqrt{b \log b}}) \]
+quindi subesponenziale, dove $b$ sono i bit del modulo su cui stiamo lavorando.
+
+Questo algoritmo sfrutta il fatto che gli interi in modulo hanno la struttura algebrica di \textbf{campo} e su cui
+\`e dunque definita l'operazione di moltiplicazione.
+
+I punti di una curva ellittica hanno invece la struttura algebrica di \textbf{gruppo abeliano}, che ha propriet\`a
+ben pi\`u deboli di un campo e dove non \`e definita la moltiplicazione. Questo non ha dunque permesso di
+rimodellare l'Index Calculus su curve ellittiche.
+
+Esiste un metodo pi\`u efficiente del forza bruta, l'algoritmo di Pollard, di costo
+\[ O(2^{b/2}) \]
+e quindi puramente \textbf{esponenziale}.
+
+La crittografia su curve ellittiche ha quindi il grosso vantaggio di avere una sicurezza di $b/2$ bit dove $b$ \`e
+la lunghezza della chiave.
+
+Se per esempio sull'RSA, per avere 256 bit di sicurezza, necessitavamo di una chiave di pi\`u di 15.000 bit, per le
+curve ellittiche ne basta una lunga 512.
