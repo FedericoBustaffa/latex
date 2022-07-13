@@ -294,5 +294,56 @@ Di solito ogni utente ha due coppie di chiavi diverse, una per la firma e una pe
 per la firma siano per esempio minori di un certo valore $H$ e quelle di cifratura siano invece maggiori. Il valore
 $H$ \`e un valore molto grande su cui i due utenti si devono accordare.
 
-\subsubsection{Attacchi}
+\subsubsection{Attacco}
 Un crittoanalista potrebbe procurarsi la firma di un utente su messaggi apparentemente privi di senso.
+
+Prendiamo uno scenario in cui un crittoanalista $x$ si procura la firma dell'utente da messaggi privi di senso
+per l'utente.
+
+Supponiamo che
+\begin{itemize}
+	\item Il destinatario $v$ di un messaggio invii sempre una risposta $ack$ al mittente $u$ ogni volta che
+	      riceve un messaggio (prima della verifica della firma).
+	\item Il segnale di $ack$ sia il crittogramma della firma di $v$ su $m$.
+\end{itemize}
+In queste condizioni, un attacco attivo, pu\`o avere successo se
+\begin{enumerate}
+	\item $x$ intercetta il crittogramma $c$ firmato inviato da $u$ a $v$, lo rimuove dal canale e lo rispedisce a
+	      $v$, facendogli credere che $c$ sia stato inviato da lui.
+	\item $v$ spedisce automaticamente a $x$ un ack.
+	\item $x$ usa l'ack ricevuto per risalire al messaggio originale applicando le funzioni del cifrario con le
+	      chiavi pubbliche di $u$ e $v$.
+\end{enumerate}
+Per risalire a $m$, il crittoanalista compie dei passaggi algebrici che avranno complessivamente costo polinomiale.
+
+Prima di tutto, il fatto che $u$ abbia inviato il crittogramma $c$ a $v$, significa che
+\begin{gather*}
+	c = C(f, k_{v [\text{pub}]}) \\
+	f = D(m, k_{u [\text{priv}]})
+\end{gather*}
+A questo punto, dopo che $x$ ha intercettato $c$ e l'ha rispedito a $v$, l'utente $v$ decifra $c$ ottenendo
+\[ f = D(c, k_{v [\text{priv}]}) \]
+e verifica la firma con la chiave pubblica di $x$ ottenendo un messaggio
+\[ m' = C(f, k_{x [\text{pub}]}) \]
+Il messaggio $m'$, molto probabilmente, non \`e significativo ma l'ack $c'$ \`e gi\`a stato inviato in automatico
+calcolando
+\begin{gather*}
+	f' = D(m', k_{v [\text{priv}]}) \\
+	c' = C(f', k_{x [\text{pub}]})
+\end{gather*}
+A questo punto $x$ ha tutto ci\`o che serve:
+\begin{enumerate}
+	\item Decifra $c'$ e trova $f'$
+	      \[ f' = D(c', k_{x [\text{priv}]}) = D(C(f', k_{x [\text{pub}]}), k_{x [\text{priv}]}) \]
+	\item Verifica la firma $f'$ e trova $m'$ usando la chiave pubblica di $v$
+	      \[ m' = C(f', k_{v [\text{pub}]}) = C(D(m', k_{v [\text{priv}]}), k_{v [\text{pub}]}) \]
+	\item Da $m'$ ricava la firma $f$
+	      \[ f = D(m', k_{x [\text{priv}]}) = D(C(f, k_{x [\text{pub}]}), k_{x [\text{priv}]}) \]
+	\item Verifica $f$ con la chiave pubblica di $u$ e trova $m$
+	      \[ m = C(f, k_{u [\text{pub}]}) = C(D(m, k_{u [\text{priv}]}), k_{u [\text{pub}]}) \]
+\end{enumerate}
+Come possiamo vedere si usano sempre le funzioni di cifratura e decifrazione che, come sappiamo, hanno sempre costo
+polinomiale e quindi anche l'attacco ha costo complessivamente polinomiale.
+
+Per proteggersi da questo attacco non si devono inviare ack automatici, almeno finch\'e non si \`e concluso la fase
+di verifica e si deve sempre firmare un'immagine hash del messaggio.
