@@ -347,3 +347,86 @@ polinomiale e quindi anche l'attacco ha costo complessivamente polinomiale.
 
 Per proteggersi da questo attacco non si devono inviare ack automatici, almeno finch\'e non si \`e concluso la fase
 di verifica e si deve sempre firmare un'immagine hash del messaggio.
+
+\subsection{Protocollo 3}
+Questo protocollo si propone di risolvere anche i problemi presentati del secondo. In questo caso il messaggio
+$m$ \`e cifrato e firmato con una funzione hash.
+
+Il mittente $u$
+\begin{enumerate}
+	\item Calcola l'hash del messaggio $h(m)$ e genera la firma calcolando
+	      \[ f = D(h(m), k_{u [\text{priv}]}) \]
+	\item Cifra il messaggio calcolando
+	      \[ c = C(m, k_{v [\text{pub}]}) \]
+	\item Invia la tripla $\langle u, c, f \rangle$ a $v$.
+\end{enumerate}
+Il destinatario $v$
+\begin{enumerate}
+	\item Riceve la tripla $\langle u, c, f \rangle$.
+	\item Decifra $c$ calcolando
+	      \[ m = D(c, k_{v [\text{priv}]}) \]
+	\item Calcola $h(m)$.
+	\item Verifica la firma calcolando e verificando che
+	      \[ h(m) = C(f, k_{u [\text{pub}]}) \]
+\end{enumerate}
+Come per tutti i protocolli a chiave pubblica, anche questo \`e vulnerabile ad attacchi di tipo
+\emph{man in the middle}.
+
+\subsection{Certification Authority}
+Un algoritmo \`e tanto robusto quanto la sicurezza delle sue chiavi ma lo scambio o la generazione della chiave \`e
+un passo cruciale.
+
+\`E proprio in questo frangente che i crittoanalisti sfruttano attacchi di tipo \emph{man in the middle} per
+riuscire a forzare facilmente i sistemi crittografici.
+
+Sono dunque nate delle infrastrutture, chiamate \textbf{certification authority}, adibite a garantire la validit\`a
+delle chiavi pubbliche e a regolare il loro uso, gestendone la distribuzione.
+
+Le CA rilasciano un \textbf{certificato digitale} che autentica l'associazione tra un utente e la sua chiave pubblica.
+
+Un certificato digitale consiste della chiave pubblica di una lista di informazioni relative al suo proprietario,
+opportunamente firmate dalla CA. Per falsificare un certificato si deve falsificare la firma delle CA.
+
+Una CA mantiene un archivio di chiavi pubbliche sicuro, accessibile a tutti e protetto da attacchi in scrittura non
+autorizzati.
+
+La chiave pubblica della CA \`e nota a tutti gli utenti che la mantengono protetta sui propri dispositivi e la
+utilizzano per verificare la firma della CA stessa sui certificati.
+
+Le CA hanno in genere una struttura gerarchica ad albero e dunque si avvia una sorta di verifica a catena risalendo
+le varie CA.
+
+\subsubsection{Certificazione}
+Supponiamo che $u$ voglia comunicare con $v$
+\begin{enumerate}
+	\item $u$ richiede la chiave pubblica di $v$ alla CA.
+	\item La CA invia a $u$ il certificato digitale $c_v$ di $v$.
+	\item Dato che $u$ conosce la chiave pubblica della CA, controlla l'autenticit\`a del certificato verificandone il
+	      periodo di validit\`a e la firma della CA.
+	\item $u$ estrae dal certificato la chiave pubblica di $v$ e inizia il protocollo di comunicazione.
+\end{enumerate}
+Gli attacchi \emph{man in the middle} sono sempre possibili ma devono essere effettuati falsificando la certificazione
+ma si assume che la CA sia fidata e il suo archivio di chiavi inattaccabile.
+
+\subsection{Protocollo 4}
+Ultimo protocollo che vediamo consiste nel cifrare, firmare e certificare un messaggio $m$.
+
+Il mittente $u$
+\begin{enumerate}
+	\item Si procura il certificato $\text{cert}_v$ di $v$ e verifica che sia autentico.
+	\item Calcola $h(m)$ e genera la firma calcolando
+	      \[ f = D(h(m), k_{u [\text{priv}]}) \]
+	\item Cifra $m$ calcolando
+	      \[ c = C(m, k_{v [\text{pub}]}) \]
+	\item Invia la tripla $\langle \text{cert}_u, c, f \rangle$ a $v$.
+\end{enumerate}
+Il destinatario $v$
+\begin{enumerate}
+	\item Riceve la tripla $\langle \text{cert}_u, c, f \rangle$ a $v$.
+	\item Verifica l'autenticit\`a di $\text{cert}_u$ con la chiave pubblica della CA che tiene in locale.
+	\item Decifra $c$ con la sua chiave privata calcolando
+	      \[ m = D(c, k_{v [\text{priv}]}) \]
+	\item Verifica che la firma sia autentica controllando che
+	      \[ h(m) = C(f, k_{u [\text{pub}]}) \]
+\end{enumerate}
+L'unico punto debole di questo metodo \`e rappresentato dall'uso di certificati revocati.
