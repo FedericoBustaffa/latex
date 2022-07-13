@@ -198,3 +198,101 @@ Come vedremo, una \textbf{firma digitale}
 	      quest'ultimo.
 	\item Pu\`o essere generata sia tramite cifrari simmetrici che asimmetrici.
 \end{itemize}
+
+\subsection{Protocollo 1: Diffie Hellman}
+In questo protocollo il messaggio $m$ \`e in chiaro e firmato.
+
+Supponiamo che un utente $u$, in possesso di una coppia di chiavi $\langle k_\text{pub}, k_\text{priv} \rangle$ e
+che ha a disposizione una funzione $C$ di cifratura e una funzione $D$ di decifrazione (commutative), voglia firmare
+$m$ e inviarlo a $v$.
+
+Per firmare $m$, l'utente $u$
+\begin{enumerate}
+	\item Genera la firma $f$ per $m$ calcolando
+	      \[ f = D(m, k_\text{priv}) \]
+	\item $u$ invia all'utente $v$ la tripla $\langle u, m, f \rangle$.
+\end{enumerate}
+L'utente $v$
+\begin{enumerate}
+	\item Riceve $\langle u, m, f \rangle$.
+	\item Verifica l'autenticit\`a della firma calcolando e controllando che
+	      \[ m = C(f, k_\text{pub}) \]
+\end{enumerate}
+Se la verifica va a buon fine allora $v$ accetta la firma.
+
+\subsubsection{Limiti}
+Questo protocollo ha il grosso limite di non riuscire a proteggere il messaggio in lettura, infatti anche se
+inviassimo un crittogramma $c$ di $m$, sarebbe il risultato della cifratura di $m$ con la chiave pubblica.
+
+Possiede tuttavia tutti i requisiti di una firma manuale
+\begin{itemize}
+	\item La chiave $k_\text{priv}$ \`e nota solo a $u$ e per ottenerla si fa un numero esponenziale di operazioni.
+	\item Se $m$ venisse alterato dal crittoanalista non ci sarebbe pi\`u consistenza tra $m$ e $f$ e la verifica
+	      fallirebbe.
+	\item Poich\'e solo $u$ pu\`o aver prodotto $f$ non pu\`o ripudiarla.
+	\item Dato che la firma \`e un'immagine di $m$ non \`e riutilizzabile su un altro messaggio $m'$.
+\end{itemize}
+
+\subsection{Protocollo 2}
+Questo protocollo si propone di risolvere il problema del precedente relativo all'impossibilit\`a di proteggere il
+messaggio.
+
+L'utente $u$
+\begin{enumerate}
+	\item Genera la firma $f$ per $m$ calcolando
+	      \[ f = D(m, k_\text{priv}) \]
+	\item Cifra la firma calcolando
+	      \[ c = C(f, k) \]
+	      dove $k$ pu\`o essere la chiave pubblica del destinatario oppure una chiave simmetrica segreta.
+	\item Invia la coppia $\langle u, c \rangle$ a $v$.
+\end{enumerate}
+L'utente $v$
+\begin{enumerate}
+	\item Riceve $\langle u, c \rangle$.
+	\item Ricava $f$ calcolando
+	      \[ f = D(c, k) \]
+	      con $k$ che pu\`o essere la sua chiave privata o una chiave simmetrica.
+	\item Cifra $f$ con la chiave pubblica del mittente ottenendo il messaggio $m$
+	      \[ m = C(f, k_\text{pub}) \]
+\end{enumerate}
+Se il messaggio \`e significativo l'identit\`a di $u$ \`e attestata altrimenti si butta via il messaggio.
+
+\subsubsection{Algoritmo con RSA}
+In questo caso abbiamo due coppie di chiavi
+\begin{gather*}
+	d_u, \quad \langle e_u, n_u \rangle \\
+	d_v, \quad \langle e_v, n_v \rangle
+\end{gather*}
+La coppia del mittente \`e usata per produrre la firma e verificarla mentre la coppia del destinatario per decifrare
+il crittogramma.
+
+Supponiamo che $u$ sia il mittente e $v$ il destinatario, l'utente $u$
+\begin{enumerate}
+	\item Genera la firma del messaggio $m$ calcolando
+	      \[ f = m^{d_u} \mod{n_u} \]
+	\item Cifra $f$ con la chiave pubblica di $v$ calcolando
+	      \[ c = f^{e_v} \mod{n_v} \]
+	\item Invia la coppia $\langle u, c \rangle$ a $v$.
+\end{enumerate}
+L'utente $v$
+\begin{enumerate}
+	\item Riceve la coppia $\langle u, c \rangle$.
+	\item Decifra $c$ calcolando
+	      \[ f = c^{d_v} \mod{n_v} \]
+	\item Decifra $f$ con la chiave pubblica di $u$
+	      \[ m = f^{e_u} \mod{n_u} \]
+\end{enumerate}
+Se $m$ \`e significativo allora l'identit\`a del mittente \`e attestata.
+
+Affinch\'e il procedimento venga effettuato correttamente \`e necessario che
+\[ f < n_v \]
+e perch\'e questo accada c'\`e bisogno che
+\[ n_u \leq n_v \]
+Questo impedisce a $v$ di inviare messaggi firmati e cifrati da $u$.
+
+Di solito ogni utente ha due coppie di chiavi diverse, una per la firma e una per la cifratura, tali che le chiavi
+per la firma siano per esempio minori di un certo valore $H$ e quelle di cifratura siano invece maggiori. Il valore
+$H$ \`e un valore molto grande su cui i due utenti si devono accordare.
+
+\subsubsection{Attacchi}
+Un crittoanalista potrebbe procurarsi la firma di un utente su messaggi apparentemente privi di senso.
