@@ -546,3 +546,111 @@ Il destinatario $v$
 	      \[ h(m) = C(f, k_{u [\text{pub}]}) \]
 \end{enumerate}
 L'unico punto debole di questo metodo \`e rappresentato dall'uso di certificati revocati.
+
+\section{Protocollo SSL}
+\`E un protocollo molto usato nelle comunicazioni sicure e garantisce \textbf{confidenzialit\`a} e
+\textbf{affidabilit\`a} nelle comunicazioni su internet ed \`e progettato per permettere a due computer che non
+conoscono le reciproche funzionalit\`a di comunicare.
+
+Supponiamo che un utente $u$ voglia accedere ad un servizio fornito da un sistema $s$. Il protocollo SSL garantisce
+\begin{itemize}
+	\item \textbf{Confidenzialit\`a}: la trasmissione \`e cifrata mediante un sistema ibrido in cui si usa un
+	      cifrario asimmetrico per costruire le chiavi e uno simmetrico per la comunicazione.
+	\item \textbf{Autenticazione}: il protocollo accerta l'identit\`a dei due utenti tramite un cifrario asimmetrico
+	      o facendo uso di certificati digitali e inserendo un MAC nei messaggi.
+\end{itemize}
+L'SSL sta tra il protocollo di trasporto (TCP/IP) e il protocollo applicativo (HTTP) ed \`e completamente
+indipendente da quest'ultimo.
+
+\subsection{Livelli}
+Il protocollo \`e organizzato su due livelli: \textbf{record} e \textbf{handshake}.
+
+\subsubsection{SSL Record}
+Il livello \emph{record} \`e a livello pi\`u basso ed \`e connesso direttamente al protocollo di trasporto.
+
+Ha come obbiettivo incapsulare i dati spediti dai protocolli dei livelli superiori, assicurando confidenzialit\`a
+e integrit\`a della comunicazione.
+
+Implementa fisicamente il canale su cui viaggiano i messaggi.
+
+\subsubsection{SSL Handshake}
+Il livello \emph{handshake} \`e responsabile dell'instaurazione e del mantenimento dei parametri usati dal livello
+\emph{record} e permette al sistema di
+\begin{itemize}
+	\item Autenticarsi
+	\item Negoziare gli algoritmi di cifratura e firma
+	\item Stabilire le chiavi per i singoli algoritmi crittografici e per il MAC
+\end{itemize}
+In definitiva il livello \emph{handshake} crea un canale \textbf{sicuro}, \textbf{affidabile} e \textbf{autenticato}
+tra utente e sistema, entro il quale il livello \emph{record} fa viaggiare i messaggi.
+
+Affinch\'e avvenga l'\emph{handshake} deve esserci uno scambio preliminare di messaggi indispensabile alla creazione
+di un canale sicuro. Attraverso questi messaggi, client e server si identificano a vicenda e cooperano per la
+costruzione delle chiavi simmetriche usate per le comunicazioni successive.
+
+\subsection{Creazione del canale}
+Vediamo ora tutti i passi che compie il protocollo per la costruzione del canale sicuro.
+
+\begin{enumerate}
+	\item \textbf{Client hello}: $u$ invia a $s$ un messaggio di \emph{client hello} con cui
+	      \begin{itemize}
+		      \item Richiede la creazione di una connessione SSL
+		      \item Specifica le prestazioni di sicurezza che desidera siano garantite durante la comunicazione
+		            (\textbf{cipher suite}).
+		      \item Invia una sequenza di byte casuali.
+	      \end{itemize}
+	\item \textbf{Server hello}: $s$ riceve il messaggio di \emph{client hello} e manda un messaggio di
+	      \emph{server hello} con cui
+	      \begin{itemize}
+		      \item Specifica una \emph{cipher suite} che anch'esso \`e in grado di supportare.
+		      \item Invia una sequenza di byte casuali.
+	      \end{itemize}
+	      Se $u$ non riceve il \emph{server hello} interrompe la comunicazione.
+	\item \textbf{Invio del messaggio}: $s$ si autentica con $u$ inviandogli il proprio certificato digitale e se
+	      i servizi offerti da $s$ devono essere protetti negli accessi, $s$ pu\`o richiedere a $u$ di autenticarsi
+	      inviando il suo certificato digitale.
+	\item \textbf{Server hello done}: $s$ invia il messaggio \emph{server hello done} con cui sancisce la fine degli
+	      accordi sulla \emph{cipher suite} e sui parametri crittografici a essa associati.
+	\item \textbf{Autenticazione del sistema}: per accerta l'autenticit\`a del certificato ricevuto da $s$, $u$ deve
+	      controllare che
+	      \begin{itemize}
+		      \item Il certificato sia ancora valido.
+		      \item La CA che ha firmato il certificato sia tra quelle \emph{fidate}.
+		      \item La firma apposta sul certificato sia autentica.
+	      \end{itemize}
+	\item \textbf{User master secret}: $u$ a questo punto
+	      \begin{itemize}
+		      \item Costruisce un \textbf{pre-master secret} costituito da una nuova sequenza di byte casuali.
+		      \item Lo cifra con il cifrario a chiave pubblica su cui si \`e accordato con $s$.
+		      \item Invia il crittogramma a $s$.
+	      \end{itemize}
+	      Il pre-master secret viene poi usato per calcolare un \textbf{master secret}.
+	\item \textbf{System master secret}: $s$ riceve il crittogramma contenente il \emph{pre-master secret} inviato
+	      da $u$ e calcola il \emph{master secret} compiendo le stesse operazioni compiute da $u$.
+	\item \textbf{Invio del certificato}: questo passo \`e opzionale e si fa solo nel caso in cui $s$ richieda un
+	      certificato al client.
+	\item \textbf{Finished}: \`E il primo messaggio protetto mediante il \emph{master secret} e la \emph{cipher suite}
+	      su cui le due parti si sono accordate.
+
+	      Il messaggio viene prima costruito da $u$ e spedito a $s$ e dopo avviene il contrario ma il messaggio \`e
+	      diverso.
+\end{enumerate}
+Se tutto questo processo \`e andato a buon fine si possono costruire le chiavi crittografiche simmetriche in modo
+sicuro.
+
+\subsection{Sicurezza}
+Nei passi di \emph{hello} i due utenti si inviano due sequenze casuali per la costruzione del \emph{master secret},
+che risulta cos\`i, diverso in ogni sessione di SSL.
+
+Un crittoanalista non pu\`o riutilizzare i messaggi di \emph{handshake} catturati sul canale per sostituirsi a $s$
+in una successiva comunicazione con $u$ perch\'e questi sono riferiti a valori \emph{usa e getta}.
+
+I blocchi vengono cifrati con un MAC (anch'esso cifrato) e quindi un crittoanalista dovrebbe riuscire ad invertire
+una funzione hash.
+
+Un attacco volto a modificare la comunicazione tra i due utenti \`e difficile quanto un attacco volto alla decriptazione
+dei messaggi.
+
+Il sistema \`e autenticato con un certificato ed \`e dunque robusto ad attacchi \emph{man in the middle}.
+
+La sicurezza del protocollo SSL \`e sicuro almeno quanto il pi\`u debole \emph{cipher suite} supportato.
