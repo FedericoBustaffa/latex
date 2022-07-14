@@ -138,6 +138,122 @@ Il protocollo funziona bene a patto che il sistema sia onesto. Dato che \`e il s
 effettivamente un valore casuale allora tutto va a buon fine, se invece $r$ \`e un dato con particolari propriet\`a
 utili a ricavare la chiave privata di $u$.
 
+\subsection{Protocollo a conoscenza zero}
+Questo protocollo permette ad un utente di dimostrare la sua identit\`a o la sua conoscenza di un certo segreto,
+convincendo un altro utente di essere in possesso di una certa capacit\`a, senza rivelare niente oltre alla
+veridicit\`a di questa sua capacit\`a.
+
+In questo nuovo paradigma abbiamo due utenti:
+\begin{itemize}
+	\item \textbf{Prover}: indicato con $P$, ha il compito di dimostrare la sua capacit\`a o conoscenza.
+	\item \textbf{Verifier}: indicato con $V$, ha il compito di verificare la veridicit\`a di ci\`o che afferma $P$.
+\end{itemize}
+Supponiamo quindi che $P$ voglia dimostrare a $V$ di possedere una certa capacit\`a, un protocollo \`e il seguente
+\begin{enumerate}
+	\item $V$ mette alla prova $P$ chiedendogli di dimostrare la sua capacit\`a su un problema che lui gli pone.
+	\item $P$ risponde.
+	\item Se la risposta \`e corretta, $V$ genera un valore casuale e modifica il problema in base al valore generato.
+	\item $V$ chiede a $P$ di risolvere il problema modificato.
+	\item Se $P$ risponde bene, allora $V$ continua a modificare il problema e a chiedere a $P$ di risolverlo, fino ad
+	      essere sicuro che $P$ possegga effettivamente la capacit\`a da lui dichiarata.
+	\item Se $P$ sbaglia anche solo una risposta, allora $V$ pu\`o immediatamente dedurre che $P$ dica il falso.
+\end{enumerate}
+Se le sfide proposte da $V$ sono $k$, la probabilit\`a che $P$ stia dicendo il falso, \`e
+\[ \left( \frac{1}{2} \right)^k \]
+Possiamo quindi concludere che, pi\`u $k$ \`e alto, meno sono le probabilit\`a che $P$ stia dicendo il falso.
+
+\subsubsection{Propriet\`a fondamentali}
+Di seguito le propriet\`a fondamentali del protocollo:
+\begin{itemize}
+	\item \textbf{Completezza}: se $P$ \`e onesto, $V$ accetta sempre la dimostrazione.
+	\item \textbf{Correttezza}: se $P$ \`e disonesto, la probabilit\`a che $P$ riesca ad ingannare $V$ \`e al pi\`u
+	      $(1/2)^k$ con $k$ scelto da $V$.
+	\item \textbf{Conoscenza zero}: se $P$ \`e onesto, un verificatore (anche disonesto), non pu\`o acquisire nessuna
+	      informazione se non la veridicit\`a dell'affermazione.
+\end{itemize}
+
+\subsection{Protocollo di Fiat-Shamir}
+Questa non \`e altro che un'applicazione del protocollo a conoscenza zero con chiavi pubbliche e private.
+
+Il \emph{prover} \`e impersonato dall'utente che vuole dimostrare di essere il legittimo proprietario di una chiave
+privata associata ad una certa chiave pubblica senza usarla su dati scelti dall'utente \emph{verifier}.
+
+Il protocollo si basa sulla difficolt\`a del calcolo di una radice in modulo un numero composto.
+
+L'utente $P$, in fase di preparazione
+\begin{enumerate}
+	\item Sceglie due numeri primi $p$ e $q$ molto grandi.
+	\item Calcola $n = pq$.
+	\item Sceglie una sorta di chiave privata $s < n$.
+	\item Calcola
+	      \[ t = s^2 \mod{n} \]
+	\item Rende nota la coppia $\langle t, n \rangle$ e mantiene privata la tripla $\langle p, q, s \rangle$.
+\end{enumerate}
+A questo punto $P$ vuole dimostrare a $V$ di conoscere una radice di $t$, ovvero $s$ senza per\`o inviargliela.
+
+Per $k$ volte, con $k$ scelto da $V$, si ripetono i seguenti passi
+\begin{enumerate}
+	\item $V$ chiede a $P$ di iniziare una iterazione.
+	\item $P$ genera un numero casuale $r < n$, calcola
+	      \[ u = r^2 \mod{n} \]
+	      e lo invia a $V$.
+	\item $V$ genera un bit casuale $e$ e lo invia a $P$.
+	\item $P$ calcola
+	      \[ z = r \cdot s^e \mod{n} \]
+	      e lo invia a $V$.
+	      \begin{itemize}
+		      \item Se $e = 0$ allora $z = r \mod{n}$.
+		      \item Se $e = 1$ allora $z = r \cdot s \mod{n}$
+	      \end{itemize}
+	\item $V$ calcola
+	      \[ x = z^2 \mod{n} \]
+	      e controlla se
+	      \[ x = u \cdot t^e \mod{n} \]
+	      Se l'uguaglianza \`e vera si torna al passo 1, altrimenti $P$ non \`e identificato.
+\end{enumerate}
+
+\subsubsection{Completezza}
+In questo caso, se $P$ \`e davvero in possesso di una radice di $t$, il verificatore lo identifica.
+\begin{itemize}
+	\item Se $e = 0$ allora
+	      \[ x \quad = \quad u \cdot t^e \mod{n} \quad = \quad u \mod{n} \]
+	\item Se $e = 1$ allora
+	      \[ x \quad = \quad z^2 \mod{n} \quad = \quad (r \cdot s^e)^2 \mod{n} \quad = \quad u \cdot t \mod{n} \]
+\end{itemize}
+Quindi $P$ supera tutte le iterazioni se conosce $s$.
+
+\subsubsection{Correttezza}
+Supponiamo che $P$ sia disonesto e che quindi non conosca $s$. Per ingannare $V$ deve riuscire a prevedere il bit
+casuale generato da $V$ ad ogni iterazione.
+
+Distinguiamo due casi:
+\begin{itemize}
+	\item Se $P$ prevede di ricevere $e = 0$ non modifica il protocollo e se la previsione \`e corretta supera il
+	      test.
+	\item Se $P$ prevede di ricevere $e = 1$
+	      \begin{enumerate}
+		      \item Al passo 2 del protocollo e invia
+		            \[ r^2 \cdot t^{-1} \mod{n} \]
+		      \item Al passo 4 del protocollo invia
+		            \[ z = r \mod{n} \]
+	      \end{enumerate}
+	      Se al passo 5 la previsione \`e corretta, $P$ supera il test perch\'e $V$ controlla se
+	      \[ x = z^2 = u \cdot t^e \]
+	      e se $e = 1$ allora
+	      \[ u \cdot t^e = u \cdot t \]
+	      Dato che $z = r$ e che
+	      \[ u = r^2 \cdot t^{-1} \]
+	      otteniamo
+	      \[ r^2 = r^2 \cdot t^{-1} \cdot t \]
+	      e quindi
+	      \[ r^2 = r^2 \]
+\end{itemize}
+Come possiamo vedere, il metodo funziona a patto che la previsione sul bit sia corretta e la previsione deve essere
+fatta prima di ricevere $e$.
+
+La probabilit\`a di prevedere il bit ad ogni passo \`e quindi di un $1/2$. Per $k$ passi abbiamo quindi una
+probabilit\`a di $(1/2)^k$ di prevedere tutti i bit.
+
 \section{Autenticazione}
 L'autenticazione riguarda il messaggio e si occupa di accertare l'identit\`a del mittente e l'integrit\`a del
 messaggio.
