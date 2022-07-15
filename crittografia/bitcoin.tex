@@ -1,0 +1,80 @@
+\chapter{Bitcoin}
+Prima di parlare di bitcoin dobbiamo chiarire cosa sia una valuta digitale e una criptovaluta:
+\begin{itemize}
+	\item \textbf{Valuta digitale} \`e un valuta che esiste soltanto in forma digitale e che dunque, \`e
+	      utilizzabile soltanto dal computer.
+	\item \textbf{Criptovaluta} \`e una valuta digitale resa sicura grazie a tecniche di crittografia che rendono
+	      quasi impossibile spendere due volte la stessa moneta.
+\end{itemize}
+\textbf{Bitcoin} \`e il primo esempio di criptovaluta.
+
+\section{Introduzione}
+Per capire il funzionamento di Bitcoin dobbiamo capire due concetti fondamentali
+\begin{itemize}
+	\item \textbf{Transazione}: passaggio di denaro fra due utenti.
+	\item \textbf{Registro}: documento per il monitoraggio delle transazioni.
+\end{itemize}
+Bitcoin \`e una rete \emph{Peer-to-Peer} di nodi che eseguono il software \emph{Bitcoin core} con il quale comunicano
+tra di loro e decidono come gestire le transazioni tra le monete. Ogni nodo memorizza il libro contabile di tutti i
+membri della rete.
+
+Il libro contabile dev'essere quindi aggiornato per tutti gli utenti ogni volta, per farlo
+\begin{enumerate}
+	\item Si sceglie un nodo \emph{leader} tramite consenso. I nodi competono tra di loro cercando di risolvere un
+	      problema complesso.
+	\item Il leader propone una nuova pagina del libro contabile sulla base delle varie richieste di transazione dei
+	      vari utenti.
+	\item Tutti i computer ricevono la pagina e, tramite la loro copia del registro, controllano che le transazioni
+	      inserite siano corrette. Se lo sono accettano la pagina altrimenti la rifiutano e si cerca un altro leader.
+	\item Tutti i computer aggiornano il loro registro e il leader viene ricompensato con un premio in Bitcoin.
+\end{enumerate}
+
+\section{Blockchain}
+Ogni pagina del registro \`e collegata alla precedente come in una lista linkata. Ogni pagina, detta \textbf{blocco},
+ha un \textbf{header}, in cui sono presenti informazioni necessarie al mantenimento della struttura dati, e un
+\textbf{body}, dove sono memorizzate le transazioni.
+
+Questa struttura dati \`e detta \textbf{blockchain}.
+
+\subsection{Blocco}
+Come abbiamo gi\`a detto, un blocco si divide in due parti pprincipali, l'\emph{header} e il \emph{body}.
+
+\subsubsection{Header}
+Nell'\emph{header} sono presenti quattro parametri principali
+\begin{itemize}
+	\item \textbf{Timestamp}: chi crea la pagina mette un \emph{timestamp} nell'\emph{header} relativo al momento
+	      della creazione di essa.
+	\item \textbf{Nonce}: \`e il frutto della competizione di cui abbiamo parlato prima.
+
+	      In pratica si fa una sorta di forza bruta cercando un valore \emph{nonce} tale che il valore della funzione
+	      hash SHA256 calcolata sull'\emph{header} dell'ultima pagina della \emph{blockchain} e il \emph{nonce} sia
+	      minore di un certo valore.
+
+	      Trovare un \emph{nonce} di questo tipo equivale a vincere la competizione.
+	\item \textbf{Merkle Root}: \`e la radice di un albero di Merkle costruito calcolando l'hash delle transazioni.
+	      e serve a controllare che una certa transazione, all'interno della pagina, sia integra.
+	\item \textbf{Hash previous block}: \`e il \emph{nonce} della pagina precedente.
+\end{itemize}
+
+\subsubsection{Body}
+Nel \emph{body} di un blocco sono salvate tutte le \textbf{transazioni} effettuate fino a quel momento.
+
+Una transazione
+\`e un invio di Bitcoin da un utente $A$ ad un utente $B$
+\[ Tx(A, B, BTC) \]
+In ambito Bitcoin sono pi\`u complicate e fanno uso di firme digitali che hanno la propriet\`a di
+\begin{itemize}
+	\item \textbf{Autenticazione}: ogni volta che si effettua una transazione si deve essere in possesso di una coppia
+	      di chiavi, privata e pubblica, che servono a produrre una firma digitale.
+	\item \textbf{Integrit\`a}: una transazione non deve essere modificata da qualche attacco attivo o da problemi di
+	      rete.
+	\item \textbf{Non ripudio}: non si pu\`o negare di aver effettuato una transazione.
+\end{itemize}
+Supponiamo di avere due utenti $A$ e $B$ i quali possiedono rispettivamente le chiavi private $sk_A$ e $sk_B$ e le
+chiavi pubbliche $pk_A$ e $pk_B$ e siano $Addr_A$ e $Addr_B$ rispettivamente i loro indirizzi, una transazione da $A$
+a $B$ avviene in questo modo:
+\begin{enumerate}
+	\item $A$ firma la transazione con la sua chiave privata.
+	\item $A$ invia il crittogramma a $B$.
+	\item $B$ verifica che il messaggio sia inviato da $A$ tramite la chiave $pk_A$.
+\end{enumerate}
