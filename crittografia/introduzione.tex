@@ -4,99 +4,93 @@ La \textbf{crittografia} si occupa dei metodi di cifratura mentre la \textbf{cri
 di un messaggio. Entrambe si possono riunire sotto la branca della \textbf{crittologia}.
 
 Un tipico scenario, usato per capire meglio le varie tecniche crittografiche, \`e quello che vede due personaggi (Alice
-e Bob) impegnati nello scambio di messaggi su di un canale di trasmissione \emph{insicuro}. \`E quindi possibile
-intercettare i messaggi che transitano su di esso.
+e Bob) impegnati nello scambio di messaggi su di un canale di trasmissione \emph{insicuro}, ossia un canale da cui \`e
+possibile intercettare i messaggi che vi transitano.
 
 Per proteggere la comunicazione, Alice e Bob, devono adottare un \textbf{metodo di cifratura} che impedisca, ad un terzo
 personaggio (Eve), in veste di crittoanalista, di leggere i messaggi che si inviano.
 
-Ci\`o che viagger\`a sul canale di trasmissione sar\`a dunque un crittogramma con le seguenti caratteristiche:
+Ci\`o che viaggia sul canale di trasmissione \`e dunque un \textbf{crittogramma}, il quale deve essere
 \begin{itemize}
-	\item \textbf{incomprensibile} al crittoanalista.
-	\item \textbf{facilmente decifrabile} da Bob.
+	\item \textbf{Incomprensibile} al crittoanalista.
+	\item \textbf{Facilmente decifrabile} da Bob.
 \end{itemize}
 
 \section{Cifratura}\label{cifratura}
-In crittografia si usa una \textbf{funzione di cifratura} $\mathcal{C} : MSG \rightarrow CRITTO$, dove $MSG$ \`e l'insieme
-dei messaggi in chiaro e $CRITTO$ \`e l'insieme dei crittogrammi, di questo tipo
-\[ \mathcal{C}(m) = c \]
-che cifra un certo \textbf{messaggio} $m$ in un \textbf{crittogramma} $c$. Deve esserci anche una
-\textbf{funzione di decifrazione} $\mathcal{D} : CRITTO \rightarrow MSG$, \textbf{inversa} di $\mathcal{C}$, di questo
-tipo:
-\[ \mathcal{D}(c) = m \]
-che trasforma un crittogramma $c$ in un messaggio in chiaro $m$.
+In crittografia si usa una \textbf{funzione di cifratura}
+\[ C : \text{MSG} \rightarrow \text{CRITTO} \]
+dove MSG \`e l'insieme dei messaggi $m$ in chiaro e CRITTO \`e l'insieme dei crittogrammi $c$ ottenuti calcolando
+\[ c = C(m) \]
+Per decifrare i crittogrammi su usa una \textbf{funzione di decifrazione}
+\[ D : \text{CRITTO} \rightarrow \text{MSG} \]
+e \textbf{inversa} di $C$, la quale ricava il messaggio $m$ dal crittogramma $c$ calcolando
+\[ m = D(c) \]
+La funzione $C$ deve essere \textbf{iniettiva} poich\'e deve esserci una corrispondenza biunivoca tra un messaggio e
+il relativo crittogramma. Se ad un crittogramma corrispondessero pi\`u messaggi in chiaro, anche il destinatario del
+messaggio non sarebbe in grado di capire quale sia il messaggio inviato dal mittente.
 
-La funzione $\mathcal{C}$ \textbf{deve} essere \textbf{iniettiva} poich\'e deve esserci una corrispondenza biunivoca
-tra un messaggio e il relativo crittogramma.
+Come gi\`a detto, $C$ e $D$ devono essere l'una l'inversa dell'altra, vale quindi la seguente relazione:
+\[ D(c) = D(C(m)) = m \]
 
-Se ad un crittogramma corrispondessero pi\`u messaggi in chiaro, anche il destinatario del messaggio non \`e in grado
-di capire quale sia il messaggio inviato dal mittente.
+\section{Chiavi}\label{chiavi}
+In alcuni cifrari, la segretezza dipende dalla conoscenza del metodo di cifratura. Una volta scoperto, il cifrario
+diventa inutilizzabile poich\'e chiunque pu\`o decifrare.
 
-Come gi\`a detto, $\mathcal{C}$ e $\mathcal{D}$ devono essere l'una l'inversa dell'altra, vale quindi la seguente
-relazione:
-\[ \mathcal{D}(c) = \mathcal{D}(\mathcal{C}(m)) = m \]
-
-\section{Cifrari}\label{cifrari}
-\subsection{Cifrario di Cesare}
-Si tratta di un cifrario per uso ristretto la cui idea \`e ottenere un crittogramma sostituendo ogni lettere del messaggio
-con la lettera tre posizioni pi\`u avanti nell'alfabeto. Se si supera la Z, si riparte dalla A.
-
-La segretezza dipendeva dalla conoscenza del metodo. Una volta scoperto il metodo di cifratura il cifrario diventa
-inutile.
-
-\subsection{Chiavi}
 Se un cifrario \`e utilizzato da molti utenti, la \textbf{parte segreta} del metodo non pu\`o essere la funzione di
-cifratura e/o quella di decifrazione, poich\'e sarebbe troppo difficile mantenerla segreta.
+cifratura e/o quella di decifrazione perch\'e sarebbe troppo difficile mantenerla segreta.
 
 Si deve quindi introdurre un nuovo elemento, ossia la \textbf{chiave}, nota solo agli utenti che stanno comunicando e
-tramite la quale possono cifrare e decifrare il messaggio.
+tramite la quale cifrano e decifrano il messaggio.
 
-Il numero delle chiavi dev'essere di ordine abbastanza grande da rendere impossibile o molto dispendioso il metodo di
-provarle tutte (\textbf{forza bruta}). La chiave deve essere scelta in modo \textbf{casuale}.
+Per garantire la sicurezza, il numero delle chiavi deve essere di ordine abbastanza grande da rendere impossibile o
+molto dispendioso il metodo di provarle tutte (\textbf{forza bruta}) e inoltre la chiave deve essere scelta in modo
+\textbf{casuale}.
 
 Le funzioni di cifratura e decifrazione diventano quindi di questo tipo:
-\[ \mathcal{C}(m, k) = c \quad \mathcal{D}(c, k) = m \]
-dove $k$ \`e la chiave, inserita come parametro per entrambi i metodi.
+\[ c = C(m, k) \quad m = D(c, k) \]
+dove $k$ \`e la chiave.
 
-Ricapitolando, il crittoanalista, anche conoscendo $\mathcal{C}$, $\mathcal{D}$ e $c$, non deve essere in grado di
-risalire a $m$ senza conoscere $k$.
+Ricapitolando, il crittoanalista, anche conoscendo $C$, $D$ e $c$, non deve essere in grado di risalire a $m$ se non
+conosce $k$.
+
+\section{Cifrari}\label{cifrari}
+Vediamo ora quali sono le principali categorie di cifrario. Approfondiremo in seguito ognuno di questi aspetti,
+per il momento solo accennati.
 
 \subsection{Cifrari per uso ristretto e per uso generale}
 \begin{itemize}
 	\item I \textbf{cifrari per uso ristretto} hanno la caratteristica di tenere la funzione di cifratura e
-	      decifrazione, segrete in ogni loro aspetto.
+	      decifrazione segrete in ogni loro aspetto.
 	\item I \textbf{cifrari per uso generale}, al contrario, rendono pubbliche le funzioni di cifratura e decifrazione.
-	      Tengono tuttavia una chiave segreta che sar\`a diversa per ogni coppia di utenti e inserita come parametro
-	      nelle funzioni di cifratura e decifrazione.
-
-	      Se non si conosce la chiave non si deve poter risalire al messaggio in chiaro neppure conoscendo le due
-	      funzioni.
+	      Tengono tuttavia una chiave segreta che sar\`a diversa per ogni coppia di utenti.
 \end{itemize}
 
 \subsection{Cifrari perfetti}
-Un \textbf{cifrario perfetto} deve possedere le seguenti caratteristiche:
+Un \textbf{cifrario perfetto} \`e tale se
 \begin{itemize}
-	\item La chiave deve essere segreta, lunga quanto il messaggio e nuova per ogni messaggio.
+	\item La chiave \`e lunga quanto il messaggio e diversa per ogni messaggio.
 	\item Il messaggio in chiaro e il crittogramma risultano del tutto scorrelati tra loro.
 	\item Nessuna informazione sul testo in chiaro pu\`o filtrare dal crittogramma.
 	\item La conoscenza del crittoanalista non cambia dopo aver osservato un crittogramma.
 \end{itemize}
-I cifrari perfetti sono tuttavia computazionalmente molto costosi e sono quindi inutilizzabili per la crittografia di
-massa.
+I cifrari perfetti sono tuttavia molto costosi al livello computazionale e quindi non vengono usati per la crittografia
+di massa.
 
 \subsection{Cifrari sicuri}
 Ad oggi i cifrari usati non sono perfetti ma sono dichiarati \textbf{sicuri} perch\'e rimasti inviolati e perch\'e la
-loro violazione si basa su problemi matematici molto complessi. Se si riuscisse a trovare delle soluzioni efficienti
+loro violazione si basa su problemi matematici molto complessi. Se si riuscissero a trovare delle soluzioni efficienti
 per tali problemi (tempo polinomiale) la sicurezza di tali cifrari crollerebbe.
 
 \subsection{Cifrari simmetrici}
 In questi cifrari la \textbf{chiave di cifratura} \`e uguale alla \textbf{chiave di decifrazione} ed \`e nota solo ai
-due comunicanti. Il messaggio \`e diviso in blocchi lunghi come la chiave. La chiave \`e utilizzata per trasformare un
-blocco del messaggio in un blocco del crittogramma.
+due utenti.
 
-\subsection{Cifrari a chiave pubblica (asimmetrici)}
-I \textbf{cifrari a chiave pubblica} nascono dall'esigenza di risolvere il problema dello scambio delle chiavi tra i due
-utenti.
+Il messaggio \`e diviso in \textbf{blocchi} lunghi come la chiave, la quale \`e utilizzata per trasformare un blocco
+del messaggio in un blocco del crittogramma.
+
+\subsection{Cifrari a chiave pubblica}
+I \textbf{cifrari a chiave pubblica} o \textbf{asimmetrici} nascono dall'esigenza di risolvere il problema dello scambio
+delle chiavi tra i due utenti su un canale insicuro.
 
 In questo caso, mittente e destinatario hanno due chiavi diverse. La chiave di cifratura e le funzioni di cifratura e
 decifrazione sono \textbf{pubbliche} mentre invece la chiave di decifrazione \`e \textbf{privata} e solo il destinatario
@@ -105,30 +99,32 @@ del messaggio ne \`e in possesso.
 L'obbiettivo \`e quello di permettere a tutti di inviare messaggi cifrati ad un certo destinatario ma solo lui deve
 essere in grado di decifrarli.
 
-In questo tipo di cifrari, la funzione di cifratura dev'essere di tipo \textbf{one-way trap-door}, ovvero, cifrare
-dev'essere computazionalmente facile (tempo polinomiale) e decifrare dev'essere computazionalmente difficile (tempo
-esponenziale) a meno che non si conosca la chiave.
+In questo tipo di cifrari, la funzione di cifratura dev'essere di tipo \textbf{one-way trap-door}, ovvero, facile da
+calcolare (tempo polinomiale) ma difficile da invertire (tempo esponenziale) a meno che non si conosca la chiave.
 
-Tra i vantaggi abbiamo che si elimina la necessit\`a di effettuare uno scambio di chiavi e abbiamo inoltre una riduzione
+\subsubsection{Vantaggi}
+Si elimina cos\`i la necessit\`a di effettuare uno scambio di chiavi fisico e abbiamo inoltre una riduzione
 sostanziale sul numero di chiavi da generare: se gli utenti di un sistema sono $n$, il numero complessivo di chiavi
-pubbliche e private \`e $2n$ anzich\'e $n (n-1) / 2$.
+pubbliche e private \`e $2n$ anzich\'e $n (n-1) / 2$ come nel caso di un cifrario simmetrico.
 
+\subsubsection{Svantaggi}
 D'altra parte abbiamo dei cifrari molto lenti, dunque difficilmente utilizzabili in crittografia di massa e sono inoltre
 soggetti ad attacchi di tipo \emph{chosen plain text}.
 
-\section{Attacchi crittografici}\label{attacchi}
-Il crittoanalista pu\`o avere due tipi di \textbf{comportamento} nella fase di attacco ad un sistema crittografico:
+Ecco perch\'e questi cifrari sono utilizzati solo per scambiarsi una chiave simmetrica di un cifrario simmetrico, il
+quale \`e molto pi\`u performante.
+
+\section{Crittoanalisi}\label{attacchi}
+Il crittoanalista pu\`o avere due tipi di comportamento nella fase di attacco ad un sistema crittografico:
 \begin{itemize}
 	\item \textbf{Passivo}: si limita ad ascoltare la comunicazione intercettando i crittogrammi inviati.
-	\item \textbf{Arrivo}: modifica il contenuto dei messaggi che i due utenti si inviano, oppure si spaccia per uno di
-	      dei due per riuscire a trarre informazioni utili alla decifrazione del messaggio.
+	\item \textbf{Arrivo}: modifica il contenuto dei messaggi spacciandosi per uno dei due utenti.
 \end{itemize}
-
-L'obbiettivo di un attacco \`e ovviamente quello di forzare il sistema. Il metodo e il livello di pericolosit\`a
+L'obbiettivo di un attacco \`e ovviamente quello di forzare il sistema e il metodo e il livello di pericolosit\`a
 dipendono dalle informazioni in possesso del crittoanalista.
 
 \subsection{Attacchi passivi}
-Negli attacchi passivi il crittoanalista si limita dunque a intercettare i messaggi per provare a estrapolarne
+Negli attacchi passivi il crittoanalista si limita dunque ad intercettare i messaggi per provare a estrapolarne
 informazioni. Tra gli attacchi passivi pi\`u comuni abbiamo:
 \begin{itemize}
 	\item \textbf{Cipher Text}: Il crittoanalista rileva solo crittogrammi sul canale e cerca di estrapolarne informazioni.
@@ -137,18 +133,19 @@ informazioni. Tra gli attacchi passivi pi\`u comuni abbiamo:
 	      ai messaggi in chiaro da lui scelti.
 	\item \textbf{Chosen Cipher Text}: Il crittoanalista si procura delle coppie ($m$, $c$) relative a crittogrammi
 	      da lui scelti.
-	\item \textbf{Brute force}: Il crittoanalista prova tutte le chiavi.
+	\item \textbf{Forza bruta}: Il crittoanalista prova tutte le chiavi.
 \end{itemize}
 
 \subsubsection{Attacchi chosen plain-text}
 Dato che la funzione di cifratura e anche la sua chiave sono pubbliche, il crittoanalista pu\`o cifrare un numero a
-piacimento di messaggi, confrontarli con i messaggi crittografati che sta provando a decifrare e, nel caso in cui
-trovi una corrispondenza tra qualcuno dei suoi crittogrammi e qualcuno da decifrare significa che ha trovato il
-messaggio in questione.
+piacere di messaggi, confrontarli con i crittogrammi che sta provando a decifrare.
+
+Nel caso in cui trovi una corrispondenza tra qualcuno dei suoi crittogrammi e qualcuno da decifrare significa che ha
+trovato il messaggio in questione.
 
 \subsection{Attacchi attivi}
-Come anticipato in un attacco di tipo attivo, il crittoanalista si intromette tra le comunicazioni che arrivano tra
-Alice e Bob e cerca di disturbare la comunicazione in vari modi.
+In un attacco di tipo attivo, il crittoanalista si intromette tra le comunicazioni che arrivano tra i due utenti e
+cerca di disturbare la comunicazione in vari modi.
 
 \subsubsection{Man in the middle}
 Uno degli attacchi di tipo attivo pi\`u comune \`e il \textbf{man in the middle}. In questo tipo di attacco il

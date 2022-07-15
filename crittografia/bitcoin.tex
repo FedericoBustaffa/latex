@@ -1,45 +1,49 @@
 \chapter{Bitcoin}
-Prima di parlare di bitcoin dobbiamo chiarire cosa sia una valuta digitale e una criptovaluta:
-\begin{itemize}
-	\item \textbf{Valuta digitale} \`e un valuta che esiste soltanto in forma digitale e che dunque, \`e
-	      utilizzabile soltanto dal computer.
-	\item \textbf{Criptovaluta} \`e una valuta digitale resa sicura grazie a tecniche di crittografia che rendono
-	      quasi impossibile spendere due volte la stessa moneta.
-\end{itemize}
-\textbf{Bitcoin} \`e il primo esempio di criptovaluta.
+Le normali valute come euro, dollari e cos\`i via sono gestite da una banca centrale, come la BCE per l'euro, la quale
+gestisce il conio e altri parametri andando a regolare l'inflazione ecc.
+
+Senza entrare nei dettagli finanziari, possiamo dunque dire che le valute comuni sono in mano a sistemi
+\textbf{centralizzati}, i quali gestiscono tutto ci\`o che abbiamo detto prima.
+
+Il sistema dei \textbf{bitcoin} nasce dall'esigenza di creare un sistema di valute digitali \textbf{decentralizzato},
+ossia un sistema che \`e gestito solo dai suoi utenti.
 
 \section{Introduzione}
-Per capire il funzionamento di Bitcoin dobbiamo capire due concetti fondamentali
+Prima di addentrarci nell'argomento chiariamo cosa sia una valuta digitale e una criptovaluta:
+\begin{itemize}
+	\item \textbf{Valuta digitale}: valuta che esiste soltanto in forma digitale e che dunque, \`e utilizzabile
+	      soltanto da un calcolatore.
+	\item \textbf{Criptovaluta}: valuta digitale resa sicura grazie a tecniche di crittografia che rendono quasi
+	      impossibile spendere due volte la stessa moneta.
+\end{itemize}
+Per capire il funzionamento di bitcoin dobbiamo prima introdurre due concetti: la transazione e il registro.
 \begin{itemize}
 	\item \textbf{Transazione}: passaggio di denaro fra due utenti.
-	\item \textbf{Registro}: documento per il monitoraggio delle transazioni.
+	\item \textbf{Registro}: anche detto \textbf{libro contabile}, \`e un documento per il monitoraggio delle
+	      transazioni.
 \end{itemize}
-Bitcoin \`e una rete \emph{Peer-to-Peer} di nodi che eseguono il software \emph{Bitcoin core} con il quale comunicano
-tra di loro e decidono come gestire le transazioni tra le monete. Ogni nodo memorizza il libro contabile di tutti i
-membri della rete.
+Il bitcoin \`e una rete \emph{Peer-to-Peer} di nodi su cui gira il software \emph{bitcoin core}, con il quale
+riescono a comunicare tra di loro e decidono come gestire le transazioni tra le monete.
 
-Il libro contabile dev'essere quindi aggiornato per tutti gli utenti ogni volta, per farlo
+Ogni nodo memorizza il registro di tutti i membri della rete. Quest'ultimo dev'essere quindi aggiornato periodicamente
+in modo che sia uguale per tutti gli utenti. Affinch\'e questo avvenga il procedimento \`e il seguente
 \begin{enumerate}
-	\item Si sceglie un nodo \emph{leader} tramite consenso. I nodi competono tra di loro cercando di risolvere un
+	\item Si sceglie un nodo \textbf{leader} tramite consenso: i nodi competono tra di loro cercando di risolvere un
 	      problema complesso.
-	\item Il leader propone una nuova pagina del libro contabile sulla base delle varie richieste di transazione dei
-	      vari utenti.
+	\item Il \emph{leader} propone una nuova pagina del libro contabile sulla base delle varie richieste di transazione
+	      tra gli utenti.
 	\item Tutti i computer ricevono la pagina e, tramite la loro copia del registro, controllano che le transazioni
-	      inserite siano corrette. Se lo sono accettano la pagina altrimenti la rifiutano e si cerca un altro leader.
-	\item Tutti i computer aggiornano il loro registro e il leader viene ricompensato con un premio in Bitcoin.
+	      inserite siano corrette. Se lo sono accettano la pagina, altrimenti la rifiutano e si cerca un altro
+	      \emph{leader}.
+	\item Tutti i computer aggiornano il loro registro e il \emph{leader} viene ricompensato con un premio in bitcoin.
 \end{enumerate}
 
 \section{Blockchain}
-Ogni pagina del registro \`e collegata alla precedente come in una lista linkata. Ogni pagina, detta \textbf{blocco},
-ha un \textbf{header}, in cui sono presenti informazioni necessarie al mantenimento della struttura dati, e un
-\textbf{body}, dove sono memorizzate le transazioni.
+Ogni pagina del registro \`e collegata alla precedente come in una lista linkata. Ogni pagina, detta \textbf{blocco}
+(da qui il nome \textbf{blockchain}), ha un \textbf{header}, in cui sono presenti informazioni necessarie al
+mantenimento della struttura dati, e un \textbf{body}, dove sono memorizzate le transazioni.
 
-Questa struttura dati \`e detta \textbf{blockchain}.
-
-\subsection{Blocco}
-Come abbiamo gi\`a detto, un blocco si divide in due parti pprincipali, l'\emph{header} e il \emph{body}.
-
-\subsubsection{Header}
+\subsection{Header}
 Nell'\emph{header} sono presenti quattro parametri principali
 \begin{itemize}
 	\item \textbf{Timestamp}: chi crea la pagina mette un \emph{timestamp} nell'\emph{header} relativo al momento
@@ -60,9 +64,9 @@ Nell'\emph{header} sono presenti quattro parametri principali
 Nel \emph{body} di un blocco sono salvate tutte le \textbf{transazioni} effettuate fino a quel momento.
 
 Una transazione
-\`e un invio di Bitcoin da un utente $A$ ad un utente $B$
+\`e un invio di bitcoin da un utente $A$ ad un utente $B$
 \[ Tx(A, B, BTC) \]
-In ambito Bitcoin sono pi\`u complicate e fanno uso di firme digitali che hanno la propriet\`a di
+In ambito bitcoin sono pi\`u complicate e fanno uso di firme digitali che hanno la propriet\`a di
 \begin{itemize}
 	\item \textbf{Autenticazione}: ogni volta che si effettua una transazione si deve essere in possesso di una coppia
 	      di chiavi, privata e pubblica, che servono a produrre una firma digitale.
@@ -88,13 +92,18 @@ sia correttamente effettuata e la firma.
 Una transazione relativa ad un certo utente \`e strutturata come un blocco in cui sono presenti tre parametri
 fondamentali:
 \begin{itemize}
-	\item \textbf{Input}: somma dei Bitcoin ricevuti.
-	\item \textbf{Output}: somma dei Bitcoin inviati.
-	\item \textbf{UTXO}: sta per \emph{Unspent Transaction Output} e sono i Bitcoin non spesi che vengono comunque
+	\item \textbf{Input}: somma dei bitcoin ricevuti.
+	\item \textbf{Output}: somma dei bitcoin inviati.
+	\item \textbf{UTXO}: sta per \emph{Unspent Transaction Output} e sono i bitcoin non spesi che vengono comunque
 	      mandati in output verso se stessi cos\`i da recuperarli.
 \end{itemize}
 Il risultato \`e la differenza tra input e output.
 
-In definitiva, nessuno possiede dei Bitcoin ma si possiede una chiave privata che consente di spendere Bitcoin inviati
-ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i Bitcoin
+In definitiva, nessuno possiede dei bitcoin ma si possiede una chiave privata che consente di spendere bitcoin inviati
+ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i bitcoin
 legati ad essa.
+
+\section{Conclusioni}
+\subsection{Come ottenere bitcoin}
+\subsection{Come utilizzare bitcoin}
+\subsection{Valore del bitcoin}
