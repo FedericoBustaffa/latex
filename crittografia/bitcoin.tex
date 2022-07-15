@@ -56,7 +56,7 @@ Nell'\emph{header} sono presenti quattro parametri principali
 	\item \textbf{Hash previous block}: \`e il \emph{nonce} della pagina precedente.
 \end{itemize}
 
-\subsubsection{Body}
+\subsection{Transazioni}
 Nel \emph{body} di un blocco sono salvate tutte le \textbf{transazioni} effettuate fino a quel momento.
 
 Una transazione
@@ -78,3 +78,23 @@ a $B$ avviene in questo modo:
 	\item $A$ invia il crittogramma a $B$.
 	\item $B$ verifica che il messaggio sia inviato da $A$ tramite la chiave $pk_A$.
 \end{enumerate}
+Le transazioni vengono effettuate tramite programmi non Turing completi e la loro verifica coinvolge una terza parte
+fidata che fa da \emph{garante}.
+
+La transazione non avviene direttamente da $A$ a $B$ ma si invia il messaggio relativo alla transazione ad un
+\textbf{indirizzo multisignature} che coinvolge questa terza parte fidata, la quale controlla che la transazione
+sia correttamente effettuata e la firma.
+
+Una transazione relativa ad un certo utente \`e strutturata come un blocco in cui sono presenti tre parametri
+fondamentali:
+\begin{itemize}
+	\item \textbf{Input}: somma dei Bitcoin ricevuti.
+	\item \textbf{Output}: somma dei Bitcoin inviati.
+	\item \textbf{UTXO}: sta per \emph{Unspent Transaction Output} e sono i Bitcoin non spesi che vengono comunque
+	      mandati in output verso se stessi cos\`i da recuperarli.
+\end{itemize}
+Il risultato \`e la differenza tra input e output.
+
+In definitiva, nessuno possiede dei Bitcoin ma si possiede una chiave privata che consente di spendere Bitcoin inviati
+ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i Bitcoin
+legati ad essa.
