@@ -2,59 +2,63 @@
 La \textbf{complessit\`a} \`e quella branca dell'informatica teorica che classifica i problemi in base alla
 difficolt\`a che si ha nel risolverli, ossia al numero di operazioni necessarie per risolverli.
 
-Nel capitolo precedente abbiamo trattato problemi decidibili e non, ossia problemi per i quali esiste un algoritmo
-di risoluzione o meno. In questo capitolo restringiamo il campo solo ai problemi decidibili ma li dividiamo in due
-sottocategorie: \textbf{trattabili} e \textbf{intrattabili}.
+Nel capitolo \ref{calcolabilita} abbiamo trattato i problemi decidibili e non. In questo capitolo restringiamo il
+campo solo ai problemi decidibili ma li dividiamo in due sottocategorie: \textbf{trattabili} e \textbf{intrattabili}.
 
 Si tratta in entrambi i casi di problemi risolvibili, ma nel caso degli intrattabili, il costo computazionale \`e
-talmente alto (generalmente esponenziale o pi\`u) da renderli molto simili ai problemi indecidibili. Questo perch\'e
-la risouzione richiede decine se non centinaia o migliaia (in base alla dimensione dell'input) di anni di calcolo.
+talmente alto (generalmente esponenziale o pi\`u) da renderli molto simili ai problemi indecidibili, dato che
+la risoluzione richiederebbe decine se non centinaia o migliaia (in base alla dimensione dell'input) di anni di
+calcolo.
 
-Al contrario i problemi trattabili sono quelli che hanno algoritmi di costo polinomiale e dunque sono risolvibili in
-tempi ragionevoli.
+Al contrario, i problemi trattabili, hanno algoritmi di costo polinomiale e dunque sono risolvibili in tempi brevi.
 
-Ci sono infine problemi il cui stato non \`e noto: abbiamo solo algoritmi di costo esponenziale per la risoluzione ma
-non abbiamo dimostrazione del fatto che siano intrattabili.
+Ci sono infine problemi il cui stato non \`e noto: abbiamo solo algoritmi di costo esponenziale per la loro
+risoluzione ma non abbiamo dimostrazione del fatto che siano intrattabili.
 
 \section{Algoritmi polinomiali ed esponenziali}\label{alg_poly_exp}
 Studiamo ora la dimensione dei dati trattabili in funzione dell'incremento della velocit\`a dei calcolatori.
 
 \begin{example}
-	Siano $C_1$ e $C_2$ due calcolatori con $C_2$ che \`e $k$ volte pi\`u veloce di $C_1$ e testiamo quanti dati
+	Siano $C_1$ e $C_2$ due calcolatori, con $C_2$ che \`e $k$ volte pi\`u veloce di $C_1$ e testiamo quanti dati
 	riescono a processare i due calcolatori in un tempo $t$.
 
-	Il calcolatore $C_1$ tratta $n_1$ dati nel tempo $t$ mentre $C_2$ tratta $n_2$ dati sempre in tempo $t$.
+	Il calcolatore $C_1$ processa $n_1$ dati nel tempo $t$ mentre $C_2$ processa $n_2$ dati sempre in tempo $t$.
+	Possiamo osservare che, usare $C_2$, \`e come usare $C_1$ per un tempo $kt$.
 
-	Osserviamo che usare $C_2$ \`e come usare $C_1$ per un tempo $k \cdot t$.
-
-	Se l'algoritmo che stiamo usando \`e \textbf{polinomiale} e risolve il problema in un tempo $c \cdot n^s$, dove
+	Se l'algoritmo che stiamo usando \`e \textbf{polinomiale} e risolve il problema in un tempo $cn^s$, dove
 	$c$ e $s$ sono costanti, abbiamo che
-	\begin{itemize}
-		\item $C_1 : \quad c \cdot n_1^s = t \quad \rightarrow \quad n_1 = (t / c)^{1/s}$
-		\item $C_2 : \quad c \cdot n_2^s = k \cdot t \quad \rightarrow \quad n_2 = k^{1/s}(t / c)^{1/s}$
-	\end{itemize}
-	Da qui otteniamo che
+	\[	\begin{array}{llcl}
+			C_1 : & c n_1^s = t  & \rightarrow &
+			n_1 = \left( \displaystyle\frac{t}{c} \right)^{1/s} \\
+
+			C_2 : & c n_2^s = kt & \rightarrow &
+			n_2 = k^{1/s}\left( \displaystyle\frac{t}{c} \right)^{1/s}
+		\end{array}
+	\]
+	Otteniamo quindi
 	\[ n_2 = k^{1/s} \cdot n_1 \]
-	dunque abbiamo un miglioramento di un \textbf{fattore moltiplicativo} $k^{1/s}$, che sar\`a tanto pi\`u grande
-	quanto pi\`u piccolo sar\`a il grado ($s$) del polinomio.
+	abbiamo dunque un miglioramento di un \textbf{fattore moltiplicativo} $k^{1/s}$ tanto pi\`u grande quanto pi\`u
+	piccolo \`e il grado ($s$) del polinomio.
 
 	Se invece facciamo girare sugli stessi calcolatori un algoritmo di costo esponenziale, che risolve il problema in
-	un tempo $c 2^n$ con $c$ costante, otteniamo
-	\begin{itemize}
-		\item $C_1 : \quad c 2^{n_1} = t \quad \rightarrow \quad 2^{n_1} = t / c$
-		\item $C_2 : \quad c 2^{n_2} = k \cdot t \quad \rightarrow \quad 2^{n_2} = k \cdot t/c$
-	\end{itemize}
-	Da qui si ricava che
+	un tempo $c \cdot 2^n$ con $c$ costante, otteniamo
+	\[
+		\begin{array}{llcl}
+			C_1 : & c \cdot 2^{n_1} = t   & \rightarrow & 2^{n_1} = \displaystyle\frac{t}{c}         \\
+			C_2 : & c \cdot 2^{n_2} = k t & \rightarrow & 2^{n_2} = k \cdot \displaystyle\frac{t}{c}
+		\end{array}
+	\]
+	Otteniamo quindi
 	\[ 2^{n_2} = k \cdot 2^{n_1} \]
-	quindi
+	da cui ricaviamo
 	\[ n_2 = n_1 + \log_2 k \]
-	In questo caso il miglioramento \`e solo di un \textbf{fattore additivo} $\log_2 k$. Il che significa che per quanto
-	io aumenti la velocit\`a di elaborazione $k$ della macchina $C_2$ rispetto a $C_1$, riuscirei a trattare solo
-	$\log_2 k$ dati in pi\`u.
+	In questo caso il miglioramento \`e solo di un \textbf{fattore additivo} $\log_2 k$. Questo significa che per
+	quanto si incrementi la velocit\`a di elaborazione $k$ della macchina $C_2$ rispetto a $C_1$, i dati elaborati in
+	pi\`u sarebbero solo $\log_2 k$.
 \end{example}
 
 \section{Problemi}\label{problemi}
-Trattiamo ora le varie \textbf{classi di complessit\`a} e come si definiscono. Indicheremo con $\Pi$ un generico
+Trattiamo ora le varie \textbf{classi di complessit\`a} e come si definiscono. Indichiamo con $\Pi$ un generico
 \textbf{problema}, con $I$ l'insieme delle \textbf{istanze} in ingresso e con $S$ l'insieme delle \textbf{soluzioni}.
 
 \subsection{Tipologie di problemi}
