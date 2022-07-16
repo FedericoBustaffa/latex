@@ -3,17 +3,17 @@ In questo capitolo non andremo a parlare di macchine quantistiche ma andremo a v
 \textbf{meccanica quantistica} sulla crittografia.
 
 Esistono infatti dei protocolli crittografici che sfruttano alcuni dei suoi principi per lo scambio delle chiavi in
-contesti in cui \`e richiesta estrema sicurezza e in cui si affianca un One-Time Pad come cifrario simmetrico per
+contesti in cui \`e richiesta estrema sicurezza e ai quali si affianca un One-Time Pad come cifrario simmetrico per
 le comunicazioni.
 
-\section{Principi di meccanica quantistica}
+\section{Meccanica quantistica}
 Introduciamo alcuni principi di meccanica quantistica necessari a comprendere il protocollo
 \begin{itemize}
 	\item \textbf{Sovrapposizione}: propriet\`a di un sistema quantistico di trovarsi in diversi stati
 	      contemporaneamente.
 	\item \textbf{Decoerenza}: la misurazione di un sistema quantistico disturba il sistema. Il sistema disturbato
 	      perde la sovrapposizione degli stati e collassa in uno stato singolo.
-	\item \textbf{No-Cloning}: impossibilit\`a di copiare uno stato quantistico non noto.
+	\item \textbf{No Cloning}: impossibilit\`a di copiare uno stato quantistico non noto.
 	\item \textbf{Entanglement}: possibilit\`a che due o pi\`u elementi si trovino in uno stato quantistico correlato
 	      in modo che, anche se portati a grande distanza, mantengono la correlazione.
 \end{itemize}
@@ -28,6 +28,8 @@ facendo riferimento ad una \textbf{base}, anch'essa di due tipi:
 	      $v$ oppure \textbf{orizzontale} (a $0^\circ$), indicato con $h$.
 	\item \textbf{Diagonale}: si indica con $\times$ e pu\`o valere $+45^\circ$ o $-45^\circ$.
 \end{itemize}
+
+\subsubsection{Misurazione}
 Non \`e possibile distinguere, con una misura, uno dei quattro casi: si deve scegliere una delle due basi e, dopo la
 misura, \`e possibile distinguere uno dei due casi relativi alla base scelta.
 
@@ -37,37 +39,87 @@ riferimento, misura il valore di polarizzazione relativo alla base.
 Tuttavia, la misurazione \`e corretta solo nel caso in cui il fotone sia preparato con la stessa base del PBS. Nel caso
 in cui la base non sia quella corretta si hanno pari probabilit\`a di misurare uno dei due valori.
 
+Il PBS ha due uscite, A ed R, che stanno rispettivamente per \emph{assorbimento} e \emph{riflessione}, e un asse di
+polarizzazione S. Anche il fotone ha un suo asse di polarizzazione F e indichiamo con $\theta$ l'angolo che questo
+forma con S.
+
+In fase di misurazione si hanno due possibili scenari:
+\begin{itemize}
+	\item Il fotone esce dall'uscita A con probabilit\`a $\cos^2 \theta$ e assume polarizzazione S.
+	\item Il fotone esce dall'uscita R con probabilit\`a $\sin^2 \theta$ e assume polarizzazione perpendicolare a S
+	      ($\text{S}^\perp$).
+\end{itemize}
+Procediamo per casi supponendo di usare un PBS impostato su base ortogonale e quindi con S = 0:
+\begin{itemize}
+	\item Se $\theta = 0$ (F = S), allora il fotone esce da A con probabilit\`a 1 con polarizzazione S = F.
+	\item Se $\theta = 90^\circ$, allora il fotone esce da R con probabilit\`a 1 con polarizzazione
+	      $\text{S}^\perp = \text{F}$.
+	\item Se $\theta = \pm 45^\circ$, allora il fotone esce con pari probabilit\`a da A o da R con polarizzazione
+	      a $0^\circ$ o $90^\circ$.
+\end{itemize}
+Dunque la lettura ha distrutto lo stato quantistico precedente, il quale non \`e pi\`u recuperabile.
+
+Per fare riferimento ai principi elencati all'inizio, possiamo dire che si \`e perso lo stato di \emph{sovrapposizione}
+e si \`e dunque verificata una situazione di \emph{decoerenza}.
+
+Dato che il protocollo prevede l'invio di fotoni polarizzati tra i due utenti, l'azione di crittoanalista che tenta di
+intercettare la comunicazione lascia tracce, proprio perch\'e rompe lo stato di \emph{sovrapposizione}.
+
 \section{BB84}
-Ideato da Bennet e Brassard, \`e un protocollo per lo scambio di chiavi che fa uso di \textbf{fotoni polarizzati}.
+Ideato da Bennet e Brassard, \`e un protocollo per lo scambio di chiavi che fa uso di fotoni polarizzati.
 
-Supponiamo che un utente $A$ voglia comunicare con l'utente $B$ tramite il protocollo BB84. In una fase preliminare si
-associa, per ognuna delle due basi, il bit 0 ad un valore della vase e il bit 1 all'altro. Per esempio
-\[
-	\begin{array}{lrr}
-		\text{Ortogonale:} & 90^\circ  \rightarrow 0 & 0^\circ   \rightarrow 1 \\
-		\text{Diagonale:}  & +45^\circ \rightarrow 0 & -45^\circ \rightarrow 1
-	\end{array}
-\]
-Le varie associazioni vengono fatte a piacere ma devono essere uguali per entrambi gli utenti. A questo punto $A$
+Supponiamo che un utente $A$ voglia comunicare con l'utente $B$ tramite il protocollo BB84. Una prima fase viene
+effettuata sul \textbf{canale quantistico}, al quale \`e associato un valore QBER (Quantum Bit Error Rate), che indica
+la percentuale di errori dovuti al rumore.
 \begin{enumerate}
-	\item Sceglie casualmente una delle due basi e uno dei due valori di polarizzazione ad essa associati.
-	\item Invia a $B$ un fotone sul canale quantistico, con il valore di polarizzazione scelto al punto 1.
+	\item L'utente $A$ genera un sequenza iniziale di $n$ bit $S_A$, da cui sar\`a estratta la chiave (rappresentata
+	      con un codice a correzione di errori).
+	\item Per $n$ volte
+	      \begin{enumerate}[label=(\Roman*)]
+		      \item $A$ sceglie una base a caso, codifica $S_A[i]$ e invia il fotone a $B$.
+		      \item $B$ sceglie una base a caso, interpreta il fotone ricevuto e costruisce $S_B[i]$.
+	      \end{enumerate}
 \end{enumerate}
-Per inviare il fotone, $A$, usa un dispositivo (\textbf{One Photon Gun}) che spara un fotone, preparato sempre con il
-solito valore di polarizzazione, al quale si impone il valore scelto dall'utente con un altro dispositivo.
+Queste due sequenze coincidono con certezza dove le basi scelte coincidono. Al contrario, dove le basi non coincidono
+i bit avranno pari probabilit\`a di coincidere o di non coincidere.
 
-L'utente $B$ dispone di due \emph{PBS} per la misurazione della polarizzazione: uno per la base ortogonale e uno per
-la base diagonale.
-
-Una volta che $A$ ha inviato il fotone, l'utente $B$
+A questo punto i due utenti passano ad una comunicazione sul canale standard e si accordano su una funzione hash $h$
+crittografica.
 \begin{enumerate}
-	\item Riceve il fotone ma non sa n\'e la base scelta da $A$ n\'e il valore di polarizzazione.
-	\item Genera a caso un bit, il quale indica quale dei due strumenti usare per la misurazione.
-	\item A seconda del valore del bit generato al passo precedente, $B$ utilizza uno dei due strumenti e misura la
-	      polarizzazione del fotone. Si vengono a creare due possibili circostanze:
-	      \begin{itemize}
-		      \item Se la base del fotone corrisponde alla base scelta da $B$, la misura della polarizzazione avviene
-		            correttamente.
-		      \item Altrimenti si hanno pari probabilit\`a di misurare uno dei due valori dell'altra base.
-	      \end{itemize}
+	\item $B$ comunica ad $A$ le basi scelte per ogni bit.
+	\item $A$ risponde a $B$ comunicando le basi comuni.
+	\item $A$ e $B$ estraggono due sottosequenze $S_A'$ e $S_B'$ di $S_A$ ed $S_B$, corrispondenti alle basi comuni.
+	\item $A$ e $B$ estraggono due sottosequenze di $S_A''$ ed $S_B''$ da $S_A'$ ed $S_B'$ in posizioni concordate per
+	      accertarsi se c'\`e stato l'intervento di un crittoanalista.
+	\item $A$ e $B$ si scambiano $S_A''$ e $S_B''$ e se la percentuale di bit diversi \`e maggiore di QBER allora
+	      possiamo dedurre che ci sia stato l'intervento di un crittoanalista e dunque si ripete tutto il procedimento
+	      da capo.
+	\item $A$ e $B$ calcolano rispettivamente $S_A' \backslash S_A''$ e $S_B' \backslash S_B''$, le decifrano con un
+	      codice di correzione degli errori e ottengono una sequenza comune $S_C$.
+	\item $A$ e $B$ calcolano $h(S_C)$ e la usano come chiave.
 \end{enumerate}
+
+\subsection{Sicurezza}
+Il crittoanalista vuole scoprire i bit della chiave e per farlo deve misurare la polarizzazione dei fotoni in transito
+sul canale. Dato che nessuno apparte $A$ sa quale sia la base usata, il crittoanalista
+\begin{enumerate}
+	\item Intercetta il fotone.
+	\item Lo misura con una base scelta a caso.
+	\item Lo invia a $B$.
+	\item Costruisce la sua sequenza $S$ (non necessariamente per ogni fotone inviato).
+\end{enumerate}
+Cos\`i facendo, nel caso in cui il crittoanalista abbia usato la stessa base di $A$, il fotone non viene perturbato
+nel suo stato di polarizzazione, ma nel caso in cui la base sia diversa, il fotone cambia la sua polarizzazione.
+
+Se fosse possibile copiare lo stato quantistico di un fotone sarebbe possibile, per il crittoanalista, copiare il
+lo stato del fotone prima di misurarlo, inviare la copia a $B$ e poi misurare il fotone originale. Come detto
+all'inizio del capitolo, il principio di \emph{no cloning} non permette che ci\`o avvenga.
+
+Il crittoanalista, per provare a confondere le perturbazioni dovute alle misure che fa sui fotoni, potrebbe decidere
+di intercettarne solo alcuni e nel caso riuscisse passare inosservato, conoscerebbe alcuni bit della chiave.
+
+Questo \`e potenzialmente molto pericoloso dato che, per ogni bit conosciuto, lo spazio delle chiavi si dimezza e quindi
+un attacco a \emph{forza bruta} molto meno costoso.
+
+Ecco perch\'e $A$ e $B$ usano l'immagine hash di $S_C$: usando l'immagine hash, la sequenza cambia radicalmente e i bit
+intercettati diventano dunque inutili per il crittoanalista.

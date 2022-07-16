@@ -3,24 +3,23 @@ La \textbf{calcolabilit\`a} si occupa delle questioni fondamentali circa la pote
 calcolo e cerca di definire le nozioni di \textbf{algoritmo} e di \textbf{problema non decidibile}.
 
 In altre parole si occupa di classificare i problemi in \emph{risolvibili} e \emph{non risolvibili} per via algoritmica.
+In altre parole divide i problemi in \emph{facili} e \emph{difficili}.
 
-A differenza invece della \textbf{complessit\`a} che si occupa di definire la nozione di \text{algoritmo efficiente}
-e di \textbf{problema intrattabile}.  In altre parole divide i problemi in \emph{facili} e \emph{difficili}.
 
 \section{Insiemi numerabili}\label{insiemi_numerabili}
 \begin{itemize}
-	\item Due insiemi $A$ e $B$ hanno lo stesso numero di elementi se e solo se si pu\`o stabilire una
+	\item Due insiemi $A$ e $B$ hanno lo stesso numero di elementi se e solo se \`e possibile stabilire una
 	      \textbf{corrispondenza biunivoca} tra i loro elementi.
 	\item Un insieme \`e \textbf{numerabile} se e solo se i suoi elementi possono essere messi in
 	      \textbf{corrispondenza biunivoca con i numeri naturali}.
 \end{itemize}
 
 \subsection{Enumerazione delle sequenze}
-Se si volesse elencare, in un ordine ragionevole, le sequenze di lunghezza finita costruite su un alfabeto finito ci
-scontreremmo con un problema: le sequenze non sono in numero finito, quindi non si potr\`a completare l'elenco.
+Se volessimo elencare, in un ordine ragionevole, le sequenze di lunghezza finita costruite su un alfabeto finito ci
+scontreremmo con un problema: le sequenze non sono in numero finito e quindi non \`e possibile completare l'elenco.
 
-Lo scopo in questo caso \`e raggiungere qualsiasi sequenza $\sigma$, arbitrariamente scelta, in un numero finito di passi.
-Per fare ci\`o, $\sigma$ deve trovarsi a distanza \emph{finita} dall'inizio dell'elenco.
+Lo scopo, in questo caso, \`e raggiungere qualsiasi sequenza $\sigma$, arbitrariamente scelta, in un numero finito di
+passi. Per fare ci\`o, $\sigma$ deve trovarsi a distanza \emph{finita} dall'inizio dell'elenco.
 
 \subsubsection{Ordinamento canonico}
 Per riuscire ad enumerare queste sequenze dobbiamo ricorrere al cosiddetto \textbf{ordinamento canonico}.
@@ -30,7 +29,7 @@ Per riuscire ad enumerare queste sequenze dobbiamo ricorrere al cosiddetto \text
 \end{enumerate}
 
 A questo punto una sequenza $s$ arbitraria si trover\`a tra quelle di $| s |$ caratteri, in una posizione corrispondente
-all'ordine alfabetico relativo all'alfabeto $\Gamma$ che sto utilizzando.
+all'ordine alfabetico relativo all'alfabeto $\Gamma$ che stiamo utilizzando.
 
 \begin{example}
 	Se prendessi un alfabeto composto solo da lettere
@@ -137,7 +136,7 @@ input.
 
 Nello specifico il problema \`e cos\`i formulato:
 \begin{center}
-	Presi ad arbitrio un algoritmo $A$ e i suoi dati di input $D$, decidere in \textbf{tempo finito} se la computazione
+	Presi arbitrariamente un algoritmo $A$ e i suoi dati di input $D$, decidere in \textbf{tempo finito} se la computazione
 	di $A$ su $D$ termina o no.
 \end{center}
 

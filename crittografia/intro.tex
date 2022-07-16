@@ -1,22 +1,21 @@
 \chapter{Introduzione}\label{intro}
-\section{Crittografia}\label{crittografia}
 La \textbf{crittografia} si occupa dei metodi di cifratura mentre la \textbf{crittoanalisi} dei metodi di decifrazione
 di un messaggio. Entrambe si possono riunire sotto la branca della \textbf{crittologia}.
 
-Un tipico scenario, usato per capire meglio le varie tecniche crittografiche, \`e quello che vede due personaggi (Alice
-e Bob) impegnati nello scambio di messaggi su di un canale di trasmissione \emph{insicuro}, ossia un canale da cui \`e
-possibile intercettare i messaggi che vi transitano.
+Un tipico scenario \`e quello in cui due utenti sono impegnati nello scambio di messaggi su di un canale di trasmissione
+\emph{insicuro}, ossia un canale da cui \`e possibile intercettare i messaggi che vi transitano.
 
-Per proteggere la comunicazione, Alice e Bob, devono adottare un \textbf{metodo di cifratura} che impedisca, ad un terzo
-personaggio (Eve), in veste di crittoanalista, di leggere i messaggi che si inviano.
+Per proteggere la comunicazione, i due utenti, devono adottare un \textbf{metodo di cifratura} che impedisca ad un
+crittoanalista di leggere i messaggi che si scambiano.
 
-Ci\`o che viaggia sul canale di trasmissione \`e dunque un \textbf{crittogramma}, il quale deve essere
+Ci\`o che viaggia sul canale di trasmissione non \`e quindi il messaggio in chiaro ma bens\`i un \textbf{crittogramma},
+il quale deve possedere due propriet\`a fondamentali:
 \begin{itemize}
-	\item \textbf{Incomprensibile} al crittoanalista.
-	\item \textbf{Facilmente decifrabile} da Bob.
+	\item Deve essere \textbf{incomprensibile} al crittoanalista.
+	\item Deve essere \textbf{facilmente decifrabile} dal destinatario.
 \end{itemize}
 
-\section{Cifratura}\label{cifratura}
+\section{Cifratura e decifrazione}\label{cifratura}
 In crittografia si usa una \textbf{funzione di cifratura}
 \[ C : \text{MSG} \rightarrow \text{CRITTO} \]
 dove MSG \`e l'insieme dei messaggi $m$ in chiaro e CRITTO \`e l'insieme dei crittogrammi $c$ ottenuti calcolando
@@ -114,7 +113,7 @@ soggetti ad attacchi di tipo \emph{chosen plain text}.
 Ecco perch\'e questi cifrari sono utilizzati solo per scambiarsi una chiave simmetrica di un cifrario simmetrico, il
 quale \`e molto pi\`u performante.
 
-\section{Crittoanalisi}\label{attacchi}
+\section{Crittoanalisi}\label{crittoanalisi}
 Il crittoanalista pu\`o avere due tipi di comportamento nella fase di attacco ad un sistema crittografico:
 \begin{itemize}
 	\item \textbf{Passivo}: si limita ad ascoltare la comunicazione intercettando i crittogrammi inviati.

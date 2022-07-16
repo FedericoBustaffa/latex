@@ -8,6 +8,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{enumitem}
 
 \usepackage{../packages/codestyle}
 \usepackage{../packages/mathenv}
@@ -20,19 +21,46 @@
 \maketitle
 \tableofcontents
 
-\include{introduzione}
+% INTRODUZIONE
+\include{intro}
+
+% RAPPRESENTAZIONE OGGETTI
 \include{rappresentazioni}
+
+% CALCOLABILITA'
 \include{calcolabilita}
+
+% COMPLESSITA'
 \include{complessita}
-\include{sequenze_casuali}
+
+% SEQUENZE CASUALI
+\include{random}
+
+% NUMERI PRIMI
 \include{primi}
+
+% CIFRARI STORICI
 \include{storici}
+
+% CIFRARI PERFETTI
 \include{perfetti}
+
+% CIFRARI SIMMETRICI PER CRITTOGRAFIA DI MASSA
 \include{massa}
+
+% CIFRARI A CHIAVE PUBBLICA
 \include{chiave_pubblica}
+
+% CIFRARI SU CURVE ELLITTICHE
 \include{curve_ellittiche}
+
+% PROTOCOLLI DI SICUREZZA
 \include{protocolli}
+
+% BITCOIN
 \include{bitcoin}
+
+% CRITTOGRAFIA QUANTISTICA
 \include{quantum}
 
 \end{document}
