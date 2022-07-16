@@ -1,1 +1,73 @@
 \chapter{Crittografia quantistica}
+In questo capitolo non andremo a parlare di macchine quantistiche ma andremo a vedere gli effetti della
+\textbf{meccanica quantistica} sulla crittografia.
+
+Esistono infatti dei protocolli crittografici che sfruttano alcuni dei suoi principi per lo scambio delle chiavi in
+contesti in cui \`e richiesta estrema sicurezza e in cui si affianca un One-Time Pad come cifrario simmetrico per
+le comunicazioni.
+
+\section{Principi di meccanica quantistica}
+Introduciamo alcuni principi di meccanica quantistica necessari a comprendere il protocollo
+\begin{itemize}
+	\item \textbf{Sovrapposizione}: propriet\`a di un sistema quantistico di trovarsi in diversi stati
+	      contemporaneamente.
+	\item \textbf{Decoerenza}: la misurazione di un sistema quantistico disturba il sistema. Il sistema disturbato
+	      perde la sovrapposizione degli stati e collassa in uno stato singolo.
+	\item \textbf{No-Cloning}: impossibilit\`a di copiare uno stato quantistico non noto.
+	\item \textbf{Entanglement}: possibilit\`a che due o pi\`u elementi si trovino in uno stato quantistico correlato
+	      in modo che, anche se portati a grande distanza, mantengono la correlazione.
+\end{itemize}
+
+\subsection{Fotoni polarizzati}
+Per comprendere al meglio il protocollo che vedremo in seguito dobbiamo anche parlare di \textbf{fotoni polarizzati}.
+
+Un fotone ha una propriet\`a, detta \textbf{polarizzazione}, che pu\`o assumere due valori e che pu\`o essere misurata
+facendo riferimento ad una \textbf{base}, anch'essa di due tipi:
+\begin{itemize}
+	\item \textbf{Ortogonale}: si indica con $+$ e pu\`o assumere valore \textbf{verticale} (a $90^\circ$), indicato con
+	      $v$ oppure \textbf{orizzontale} (a $0^\circ$), indicato con $h$.
+	\item \textbf{Diagonale}: si indica con $\times$ e pu\`o valere $+45^\circ$ o $-45^\circ$.
+\end{itemize}
+Non \`e possibile distinguere, con una misura, uno dei quattro casi: si deve scegliere una delle due basi e, dopo la
+misura, \`e possibile distinguere uno dei due casi relativi alla base scelta.
+
+Per la misurazione viene usato uno strumento (\textbf{Polarizing Beam Splitter}) il quale, una volta scelta la base di
+riferimento, misura il valore di polarizzazione relativo alla base.
+
+Tuttavia, la misurazione \`e corretta solo nel caso in cui il fotone sia preparato con la stessa base del PBS. Nel caso
+in cui la base non sia quella corretta si hanno pari probabilit\`a di misurare uno dei due valori.
+
+\section{BB84}
+Ideato da Bennet e Brassard, \`e un protocollo per lo scambio di chiavi che fa uso di \textbf{fotoni polarizzati}.
+
+Supponiamo che un utente $A$ voglia comunicare con l'utente $B$ tramite il protocollo BB84. In una fase preliminare si
+associa, per ognuna delle due basi, il bit 0 ad un valore della vase e il bit 1 all'altro. Per esempio
+\[
+	\begin{array}{lrr}
+		\text{Ortogonale:} & 90^\circ  \rightarrow 0 & 0^\circ   \rightarrow 1 \\
+		\text{Diagonale:}  & +45^\circ \rightarrow 0 & -45^\circ \rightarrow 1
+	\end{array}
+\]
+Le varie associazioni vengono fatte a piacere ma devono essere uguali per entrambi gli utenti. A questo punto $A$
+\begin{enumerate}
+	\item Sceglie casualmente una delle due basi e uno dei due valori di polarizzazione ad essa associati.
+	\item Invia a $B$ un fotone sul canale quantistico, con il valore di polarizzazione scelto al punto 1.
+\end{enumerate}
+Per inviare il fotone, $A$, usa un dispositivo (\textbf{One Photon Gun}) che spara un fotone, preparato sempre con il
+solito valore di polarizzazione, al quale si impone il valore scelto dall'utente con un altro dispositivo.
+
+L'utente $B$ dispone di due \emph{PBS} per la misurazione della polarizzazione: uno per la base ortogonale e uno per
+la base diagonale.
+
+Una volta che $A$ ha inviato il fotone, l'utente $B$
+\begin{enumerate}
+	\item Riceve il fotone ma non sa n\'e la base scelta da $A$ n\'e il valore di polarizzazione.
+	\item Genera a caso un bit, il quale indica quale dei due strumenti usare per la misurazione.
+	\item A seconda del valore del bit generato al passo precedente, $B$ utilizza uno dei due strumenti e misura la
+	      polarizzazione del fotone. Si vengono a creare due possibili circostanze:
+	      \begin{itemize}
+		      \item Se la base del fotone corrisponde alla base scelta da $B$, la misura della polarizzazione avviene
+		            correttamente.
+		      \item Altrimenti si hanno pari probabilit\`a di misurare uno dei due valori dell'altra base.
+	      \end{itemize}
+\end{enumerate}
