@@ -58,25 +58,25 @@ Studiamo ora la dimensione dei dati trattabili in funzione dell'incremento della
 \end{example}
 
 \section{Problemi}\label{problemi}
-Trattiamo ora le varie \textbf{classi di complessit\`a} e come si definiscono. Indichiamo con $\Pi$ un generico
-\textbf{problema}, con $I$ l'insieme delle \textbf{istanze} in ingresso e con $S$ l'insieme delle \textbf{soluzioni}.
+Trattiamo ora le varie \textbf{classi di complessit\`a} e come si definiscono. Indichiamo con $\Pi$, un generico
+\textbf{problema}, con $I$, l'insieme delle \textbf{istanze} in ingresso e con $S$ l'insieme delle \textbf{soluzioni}.
 
 \subsection{Tipologie di problemi}
 Abbiamo tre \textbf{classi} principali di problemi: di \textbf{ricerca}, di \textbf{ottimizzazione} e
 \textbf{decisionali}.
 
 \subsubsection{Problemi di ricerca}
-Sono problemi in cui, data un'istanza $x$ in input, richiedono di restituire una soluzione $s$.
+Sono problemi in cui, data un'istanza $x$ in input, si richiede di restituire una soluzione $s$, presa da un insieme
+$S$ di possibili soluzioni.
 
-Un esempio di problema di ottimizzazione \`e quello di calcolare un cammino che unisce due nodi di un grafo. In questo
-caso $S$ sar\`a uguale a tutti i possibili cammini che vanno dal nodo di partenza a quello di arrivo.
+Un esempio di problema di ricerca \`e quello in cui si deve calcolare un cammino che unisce due nodi di un grafo. In
+questo caso $S$ sar\`a uguale a tutti i possibili cammini che vanno dal nodo di partenza a quello di arrivo.
 
 Le \textbf{istanze positive} saranno le coppie di nodi per le quali esiste almeno un cammino che li unisce, viceversa
-le \textbf{istanze negative} saranno le coppie di nodi per le quali non esiste nemmeno un cammino che li unisce e dunque
-non \`e possibile dare una risposta.
+le \textbf{istanze negative} saranno le coppie di nodi per le quali non esiste nemmeno un cammino che li unisce.
 
 \subsubsection{Problemi di ottimizzazione}
-Nei problemi di ottimizzazione si da un'istanza $x$ in input e si vuole trovare la \textbf{migliore soluzione} $s$ tra
+Nei problemi di ottimizzazione, data un'istanza $x$ in input, si vuole trovare la \textbf{migliore soluzione} $s$ tra
 tutte le soluzioni possibili.
 
 In questo caso $S$ sar\`a l'insieme di tutte le soluzioni ottime al problema (diverse fra loro ma con stesso valore).
@@ -91,34 +91,39 @@ mentre le \textbf{istanze negative} sono
 \[ x \in I \mid \Pi(x) = 0 \]
 Tipicamente sono problemi che indagano delle propriet\`a.
 
-In complessit\`a si prende in considerazione solo quest'ultima classe di problemi per due motivi principalmente
+In complessit\`a si prende in considerazione solo quest'ultima classe di problemi per due motivi principalmente:
 \begin{itemize}
 	\item Tutto il tempo di calcolo \`e speso per trovare la soluzione e non per scriverla (la risposta \`e solo 0 o 1).
-	\item La complessit\`a di un problema riformulato in forma decisionale non cambia rispetto alla sua forma non
+	\item La complessit\`a di un problema, riformulato in forma decisionale, non cambia rispetto alla sua forma non
 	      decisionale.
 \end{itemize}
-In realt\`a tanti problemi interessanti sono problemi di ottimizzazione. Per trattarli dobbiamo quindi riformularli in
-forma decisionale. Per farlo basta verificare l'esistenza di una soluzione (al problema di ottimizzazione) che soddisfa
-una certa propriet\`a.
+In realt\`a tanti problemi interessanti sono problemi di ottimizzazione e per trattarli dobbiamo riformularli in
+forma decisionale. Per farlo, basta verificare l'esistenza di una soluzione (al problema di ottimizzazione) che
+soddisfa una certa propriet\`a.
 
-Questo ci dice che il problema di ottimizzazione \`e almeno tanto difficile quanto il corrispondete problema decisionale.
+Questo ci dice che il problema di ottimizzazione \`e almeno tanto difficile quanto il corrispondente problema
+decisionale.
 
-Caratterizzare il problema decisionale ci da un \textbf{limite inferiore} alla complessit\`a del primo.
+Caratterizzare il problema decisionale ci da un \textbf{limite inferiore} alla complessit\`a del relativo problema di
+ottimizzazione.
 
 \section{Classi di complessit\`a}\label{classi}
+Un problema, in base alle risorse spese per la sua risoluzione, viene classificato in diverse
+\textbf{classi di complessit\`a}.
 
 \begin{theorem}
 	Dato un problema decisionale $\Pi$ ed un algoritmo $A$, diciamo che $A$ \textbf{risolve} $\Pi$ se, data un'istanza di
-	input $x$ vale
-	\[ A(x) = 1 \Leftrightarrow \Pi(x) = 1 \]
+	input $x$, vale
+	\[ A(x) = 1 \quad \Leftrightarrow \quad \Pi(x) = 1 \]
 \end{theorem}
 
 \begin{theorem}
-	Dato un problema decisionale $\Pi$ ed un algoritmo $A$, diciamo che $A$ risolve $\Pi$ in tempo $t(n)$ e spazio
-	$s(n)$ se il tempo di esecuzione e l'occupazione di memoria di $A$ sono rispettivamente $t(n)$ e $s(n)$.
+	Dato un problema decisionale $\Pi$, un algoritmo $A$ e la dimensione $n$ dell'input, diciamo che $A$ risolve $\Pi$
+	in tempo $t(n)$ e spazio $s(n)$ se il tempo di esecuzione e l'occupazione di memoria di $A$ sono rispettivamente
+	$t(n)$ e $s(n)$.
 \end{theorem}
 
-Data una funzione qualsiasi $f(n)$ possiamo ora definire diverse classi di complessit\`a:
+Data una funzione $f$ qualsiasi e la dimensione $n$ dell'input, possiamo definire due classi di complessit\`a:
 \begin{itemize}
 	\item \textbf{Time}: l'insieme dei problemi decisionali che possono essere risolti in tempo $O(f(n))$.
 	\item \textbf{Space}: l'insieme dei problemi decisionali che possono essere risolti in spazio $O(f(n))$.
@@ -145,7 +150,7 @@ Si congettura che
 questo perch\'e un algoritmo di costo polinomiale pu\`o avere accesso al pi\`u ad un numero polinomiale di locazioni di
 memoria diverse (in ordine di grandezza).
 
-Si congettura invece che
+Si congettura anche che
 \[ \text{P-Space} \subseteq \text{Exp Time} \]
 questo perch\'e non \`e detto che un algoritmo di costo esponenziale richieda un numero esponenziale di celle di memoria.
 
@@ -153,7 +158,7 @@ questo perch\'e non \`e detto che un algoritmo di costo esponenziale richieda un
 Introduciamo ora una nuova classe di problemi, la classe \textbf{NP}, dove NP sta per \textbf{P}olinomiale su modelli
 \textbf{N}on deterministici.
 
-Per alcuni problemi, per le \textbf{istanze accettabili} (\textbf{positive}) $x$ \`e possibile fornire un
+Per le \textbf{istanze accettabili} (\textbf{positive}) $x$ di alcuni problemi, \`e possibile fornire un
 \textbf{certificato polinomiale} $y$ che possa convincerci del fatto che l'istanza soddisfa la propriet\`a e dunque
 \`e un'istanza \emph{accettabile}.
 
@@ -161,7 +166,7 @@ I certificati servono per dare una risposta in tempi pi\`u brevi a certi problem
 fatto una descrizione breve di una soluzione che possiede la propriet\`a cercata.
 
 \begin{example}
-	Prendiamo il problema della Clique per esempio. Una clique, preso un certo grafo non orientato, \`e il sottografo
+	Prendiamo il problema della Clique per esempio. Una clique, dato un grafo non orientato, \`e il sottografo
 	connesso pi\`u grande, rispetto al grafo che sto considerando.
 
 	Esiste solo un algoritmo di costo esponenziale per trovare una clique in un grafo ma non sappiamo se possa essere
@@ -169,8 +174,8 @@ fatto una descrizione breve di una soluzione che possiede la propriet\`a cercata
 
 	Vogliamo verificare che all'interno di questo grafo ci sia una clique di $k$ vertici.
 
-	Se siamo in possesso di un certificato polinomiale contenente un'insieme di $k$ vertici che forma una clique, non ci
-	rimane che verificare se quei vertici formano effettivamente una clique (tempo polinomiale).
+	Se abbiamo un certificato polinomiale contenente un'insieme di $k$ vertici che formano una clique, non ci rimane
+	che verificare se quei vertici formano effettivamente una clique (tempo polinomiale).
 \end{example}
 
 Un certificato \`e un \emph{attestato breve di esistenza} di una soluzione con determinate propriet\`a e si definisce solo
@@ -180,11 +185,11 @@ per istanze accettabili. Infatti, in generale, non \`e facile costruire attestat
 L'\textbf{idea} \`e quella di utilizzare il costo della \textbf{verifica} del certificato per caratterizzare la
 complessit\`a del problema.
 
-Possiamo affermare che un problema $\Pi$ \`e \emph{verificabile in tempo polinomiale} se
+Un problema $\Pi$ \`e \emph{verificabile in tempo polinomiale} se
 \begin{itemize}
-	\item Ogni istanza accettabile $x$ di $\Pi$ di lunghezza $n$ ammette un certificato $y$ di lunghezza polinomiale
-	      in $n$.
-	\item Esiste un algoritmo di verifica polinomiale in $n$ e applicabile a ogni coppia $\langle x, y \rangle$, che
+	\item Ogni istanza $x$ accettabile di $\Pi$ di dimensione $n$, ammette un certificato $y$ di dimensione
+	      polinomiale in $n$.
+	\item Esiste un algoritmo di verifica polinomiale in $n$, applicabile a ogni coppia $\langle x, y \rangle$, che
 	      permette di attestare che $x$ \`e accettabile.
 \end{itemize}
 Un altro modo di definire i problemi della classe NP \`e quello di problemi \emph{verificabili in tempo polinomiale}.
@@ -204,23 +209,28 @@ I problemi \textbf{NP-completi} sono i problemi \emph{pi\`u difficili} all'inter
 algoritmo polinomiale per risolvere uno solo di questi problemi, allora tutti i problemi in NP potrebbero essere risolti
 in tempo polinomiale e dunque giungeremmo alla conclusione che $\text{P} = \text{NP}$.
 
-\begin{theorem}
+\begin{theorem}\label{th: NP-completi_poly}
 	Tutti i problemi NP-completi sono risolvibili in tempo polinomiale oppure nessuno lo \`e.
 \end{theorem}
 
 \subsection{Riduzioni polinomiali}
-Introduciamo ora le \textbf{riduzioni polinomiali}.
+Introduciamo ora le \textbf{riduzioni polinomiali}, necessarie per comprendere meglio il teorema
+\ref{th: NP-completi_poly}.
 
 \begin{theorem}
 	Siano $\Pi_1$ e $\Pi_2$ due problemi decisionali e siano $I_1$ e $I_2$ gli insiemi delle istanze di input di
-	$\Pi_1$ e $\Pi_2$ allora $\Pi_1$ si \textbf{riduce} in tempo polinomiale a $\Pi_2$
+	$\Pi_1$ e $\Pi_2$, allora $\Pi_1$ si \textbf{riduce} in tempo polinomiale a $\Pi_2$
 	\[ \Pi_1 \leq_p \Pi_2 \]
-	se esiste una funzione $f : I_1 \rightarrow I_2$ calcolabile in tempo polinomiale tale che, per ogni istanza $x$ di
-	$\Pi_1$ $x$ \`e un'istanza accettabile di $\Pi_1$ se e solo se $f(x)$ \`e un'istanza accettabile di $\Pi_2$.
+	se esiste una funzione $f : I_1 \rightarrow I_2$, calcolabile in tempo polinomiale, tale che, per ogni istanza $x$
+	di $\Pi_1$, $x$ \`e un'istanza accettabile di $\Pi_1$ se e solo se $f(x)$ \`e un'istanza accettabile di $\Pi_2$.
 \end{theorem}
 
-In sintesi, se $\Pi_1$ si riduce a $\Pi_2$ vuol dire che in tempo polinomiale posso \emph{tradurre} $\Pi_1$ in $\Pi_2$,
-risolvere $\Pi_2$ e la soluzione trovata sar\`a valida anche per $\Pi_1$.
+In sintesi, se $\Pi_1$ si riduce a $\Pi_2$, significa che in tempo polinomiale posso
+\begin{enumerate}
+	\item \emph{Tradurre} $\Pi_1$ in $\Pi_2$.
+	\item Risolvere $\Pi_2$.
+	\item La soluzione trovata \`e valida anche per $\Pi_1$.
+\end{enumerate}
 
 Supponiamo di avere un algoritmo di costo polinomiale per risolvere $\Pi_2$ e vogliamo usare lo stesso algoritmo per
 risolvere $\Pi_1$.
@@ -234,17 +244,15 @@ risolvere $\Pi_1$.
 \subsubsection{Problemi NP}
 
 \begin{definition}
-	Un problema decisionale $\Pi$ si dice \textbf{NP-arduo} se per ogni $\Pi' \in \text{NP}$ vale che
-	\[ \Pi' \leq_p \Pi \]
-	ovvero se ogni problema in NP \`e riducibile a $\Pi$.
+	Un problema decisionale $\Pi$ si dice \textbf{NP-arduo} se
+	\[	\forall \; \Pi' \in \text{NP}, \quad \Pi' \leq_p \Pi \]
+	Ovvero se ogni problema in NP \`e riducibile a $\Pi$.
 \end{definition}
 
 \begin{definition}
 	Un problema decisionale $\Pi$ si dice \textbf{NP-completo} se
-	\[ \Pi \in \text{NP} \]
-	e se per ogni $\Pi' \in \text{NP}$ vale che
-	\[ \Pi' \leq_p \Pi \]
-	ovvero se ogni problema in NP \`e riducibile a $\Pi$.
+	\[ \Pi \in \text{NP} \quad \wedge \quad \forall \; \Pi' \in \text{NP}, \quad \Pi' \leq_p \Pi \]
+	Ovvero se ogni problema in NP \`e riducibile a $\Pi$, anch'esso in NP.
 \end{definition}
 
 Dimostrare che un problema \`e in NP pu\`o essere facile: basta esibire un certificato polinomiale. Non \`e altrettanto
@@ -257,9 +265,9 @@ In realt\`a la prima dimostrazione di NP-completezza aggira il problema.
 	Il problema SAT \`e NP-completo.
 \end{theorem}
 
-Cook ha mostrato che, dati un qualunque problema $\Pi$ in NP ed una qualunque istanza $x$ per $\Pi$, si pu\`o costruire
-un'espressione booleana in forma normale congiuntiva che descrive il calcolo di un algoritmo per risolvere $\Pi$ su $x$.
-L'espressione \`e vera se e solo se l'algoritmo restituisce 1.
+Cook ha mostrato che, dato un qualunque problema $\Pi \in \text{P}$ ed una qualunque istanza $x$ per $\Pi$, si pu\`o
+costruire un'espressione booleana in forma normale congiuntiva, che descrive il calcolo di un algoritmo per risolvere
+$\Pi$ su $x$. L'espressione \`e vera se e solo se l'algoritmo restituisce 1.
 
 \begin{theorem}
 	Un problema decisionale $\Pi$ \`e NP-completo se
@@ -286,5 +294,5 @@ Se ho un problema in P allora anche il suo complementare \`e in P: basta rispond
 Possiamo quindi affermare che P = co-P.
 
 Discorso diverso per i problemi NP. Se un problema NP \`e tale in presenza di un certificato che lo verifichi in tempo
-polinomiale, la verifica del suo complementare \`e, in generale, difficile e richiede tempo esponenziale. Si congettura
-quindi che NP $\neq$ co-NP.
+polinomiale, la verifica del suo complementare \`e, in generale, \emph{difficile} e richiede tempo esponenziale. Si
+congettura quindi che NP $\neq$ co-NP.
