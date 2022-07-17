@@ -26,12 +26,12 @@ Un'analisi poco attenta potrebbe indurci a pensare che il costo di questo algori
 facciamo al pi\`u $\sqrt{n}$ iterazioni. Questo \`e in parte vero ma dobbiamo considerare la dimensione dell'istanza
 di input, la sua rappresentazione e il costo della divisione.
 
-L'istanza di input, ossia $n$, richiede $\Theta(\log_2 n)$ bit per essere rappresentata mentre la divisione \`e, in
+L'istanza di input, ossia $n$, richiede $\Theta(\log n)$ bit per essere rappresentata mentre la divisione \`e, in
 generale, un'operazione quadratica nel numero di cifre. Tutto questo fa salire la complessit\`a a
 \[ O(\sqrt{n} \cdot \log^2 n) \]
-Come abbiamo detto per\`o, $n$ necessita di $\Theta(\log_2 n)$ bit per essere rappresentato, dunque $n$
-si pu\`o scrivere come $2^{\log_2 n}$ e questo fa diventare la complessit\`a
-\[ O(2^\frac{\log_2 n}{2} \cdot \log^2_2 n) \]
+Come abbiamo detto per\`o, $n$ necessita di $\Theta(\log n)$ bit per essere rappresentato, dunque $n$
+si pu\`o scrivere come $2^{\log n}$ e questo fa diventare la complessit\`a
+\[ O(2^\frac{\log n}{2} \cdot \log^2_2 n) \]
 Come possiamo vedere, un algoritmo all'apparenza polinomiale \`e in realt\`a un algoritmo di costo esponenziale nella
 dimensione dell'input. Si tratta quindi di un algoritmo \textbf{pseudopolinomiale}.
 
@@ -42,21 +42,21 @@ svolgere elevamenti a potenza in modo efficiente. Essere in grado di svolgere el
 
 Sia $b$ la base e $n$ l'esponente e $m$ un intero qualsiasi, vogliamo calcolare
 \[ x = b^n \mod{m} \]
-con un numero di operazioni dell'ordine di $O(\log_2 n)$.
+con un numero di operazioni dell'ordine di $O(\log n)$.
 \begin{enumerate}
 	\item Si scompone l'esponente $n$ come somma di potenze di 2:
-	      \[ n = \sum_{i=0}^{\lfloor \log_2 n \rfloor} k_i \cdot 2^i \quad \quad k_i \in \{0,1\} \]
+	      \[ n = \sum_{i=0}^{\lfloor \log n \rfloor} k_i \cdot 2^i \quad \quad k_i \in \{0,1\} \]
 	\item Si calcolano tutte le potenze $b^{2^i} \mod{m}$, calcolando ogni potenza come quadrato della precedente:
 	      \[ b^{2^i} \mod{m} = \left( b^{2^{i-1}} \right)^2 \mod{m} \]
-	      con $1 \leq i \leq \lfloor \log_2 n \rfloor$
+	      con $1 \leq i \leq \lfloor \log n \rfloor$
 	\item Prendiamo, fra le potenze ricavate al punto 2, quelle che compaiono nella scomposizione fatta al
 	      punto 1 e moltiplichiamole:
 	      \[ x = \prod_{i \mid k_i \neq 0} b^{2^i} \mod{m} \]
 \end{enumerate}
 
 \subsection{Analisi}
-Al punto 2 vengono compiute esattamente $\log_2 n$ operazioni per il calcolo delle varie potenze e al punto 3 svolgiamo
-un numero di moltiplicazioni dell'ordine di $O(\log_2 n)$.
+Al punto 2 vengono compiute esattamente $\log n$ operazioni per il calcolo delle varie potenze e al punto 3 svolgiamo
+un numero di moltiplicazioni dell'ordine di $O(\log n)$.
 
 Se consideriamo che la moltiplicazione \`e un'operazione di costo polinomiale nel numero delle cifre, \`e immediato
 stabilire che l'algoritmo sia complessivamente di costo polinomiale.
@@ -83,10 +83,9 @@ stabilire che l'algoritmo sia complessivamente di costo polinomiale.
 \end{example}
 
 \section{Algoritmi randomizzati}\label{algoritmi_random}
-Gli algoritmi randomizzati sono fondamentali per effettuare test di primalit\`a efficienti dato che un algoritmo
-deterministico e polinomiale nella dimensione dell'input esiste ma \`e comunque molto lento.
-
-Questi algoritmi si dividono in due gruppi principali
+Gli \textbf{algoritmi randomizzati} sono fondamentali per effettuare test di primalit\`a efficienti dato che un
+algoritmo deterministico e polinomiale nella dimensione dell'input esiste ma \`e comunque molto lento. Questi algoritmi
+si dividono in due gruppi principali:
 \begin{itemize}
 	\item \textbf{Las Vegas}: generano un risultato \emph{sicuramente corretto} in un tempo \emph{probabilmente breve}.
 	\item \textbf{Monte Carlo}: generano un risultato \emph{probabilmente corretto} in un tempo \emph{sicuramente breve}.
@@ -101,7 +100,7 @@ randomizzati.
 Sia $\Pi$ un problema decisionale, $x$ un istanza di input di $\Pi$ allora $y$ \`e un \textbf{certificato probabilistico}
 di $x$ se
 \begin{itemize}
-	\item \`E di lunghezza al pi\`u polinomiale in $|x|$ (devo leggerlo in tempo polinomiale).
+	\item \`E di lunghezza al pi\`u polinomiale in $|x|$ (deve essere letto in tempo polinomiale).
 	\item \`E estratto perfettamente a caso da un insieme associato a $x$.
 \end{itemize}
 Possiamo anche dire che $A$ \`e un \textbf{algoritmo di verifica} che prende in input $x$ e $y$ se, in tempo polinomiale,
@@ -113,15 +112,15 @@ riesce ad attestare che
 Si congettura che
 \[ \text{P} \subset \text{RP} \subset \text{NP} \]
 
-\section{Test di Miller-Rabin}\label{Miller_Rabin}
+\subsection{Test di Miller-Rabin}\label{Miller_Rabin}
 La prima parte dell'algoritmo \`e composta dei seguenti passi.
 \begin{enumerate}
-	\item Prendiamo $n$ intero e dispari di cui vogliamo testare la primalit\`a.
+	\item Prendiamo un intero dispari $n$ di cui vogliamo testare la primalit\`a.
 	\item Prendiamo $n-1$ (sicuramente pari) e cerchiamo la massima potenza di 2 che lo divide, cos\`i da rappresentare
 	      $n-1$ in questo modo
 	      \[ n-1 = 2^w \cdot z \quad \text{con $z$ dispari} \]
-	      questo \`e sempre possibile perch\'e un numero pari \`e sempre rappresentabile come potenza di 2 che moltiplica
-	      un numero dispari.
+	      questo \`e sempre possibile perch\'e un numero pari \`e sempre rappresentabile come potenza di 2 che
+	      moltiplica un numero dispari.
 
 	      Per determinare $w$ e $z$ impieghiamo in media $O(\log n)$ passi.
 	\item Scegliamo un intero $y$ compreso tra 2 e $n-1$.
@@ -143,11 +142,11 @@ Chiariamo che questi due predicati sono condizioni necessarie alla primalit\`a m
 	\[ \# \{ 2 \leq y \leq n-1 \mid P_1(y) = \text{ true} \quad \wedge \quad P_2(y) = \text{ true} \} < \frac{n}{4} \]
 \end{lemma}
 Questo lemma ci dice che la probabilit\`a di scegliere un $y$ che soddisfa entrambi i predicati \`e minore di $1 / 4$.
-Questo \`e banale dato che ho $n - 2$ possibili scelte e $n / 4$ di queste rendono veri entrambi i predicati.
+Questo \`e banale, dato che abbiamo $n - 2$ possibili scelte e $n / 4$ di queste rendono veri entrambi i predicati.
 \[ \frac{n/4}{n-2} < \frac{1}{4} \]
-Quando scelgo un $y$ vado a testare i due predicati: se anche solo uno \`e falso allora possiamo affermare con certezza
-che $y$ \`e composto, se invece sono entrambi soddisfatti \emph{molto probabilmente} \`e primo con probabilit\`a di
-errore al pi\`u del $25\%$.
+Quando scegliamo un $y$ andiamo a testare i due predicati: se anche solo uno \`e falso allora possiamo affermare con
+certezza che $y$ \`e composto, se invece sono entrambi soddisfatti \emph{molto probabilmente} \`e primo con
+probabilit\`a di errore al pi\`u del $25\%$.
 
 A questo punto possiamo iterare $k$ volte con $k$ scelte casuali e indipendenti di $y$, la probabilit\`a di errore scende
 a $(1/4)^k$.
@@ -155,8 +154,8 @@ a $(1/4)^k$.
 Possiamo quindi concludere l'algoritmo in questo modo
 \begin{enumerate}
 	\setcounter{enumi}{3}
-	\item Verifico che i due predicati siano soddisfatti.
-	\item Itero $k$ volte su $k$ scelte diverse e casuali di $y$.
+	\item Verifichiamo che i due predicati siano soddisfatti.
+	\item Iteriamo $k$ volte su $k$ scelte diverse e casuali di $y$.
 	      \begin{itemize}
 		      \item Se anche solo una volta un predicato non \`e soddisfatto allora il numero non \`e primo.
 		      \item Altrimenti possiamo affermare che lo sia con probabilit\`a di errore inferiore a $(1/4)^k$
@@ -181,7 +180,7 @@ TestMR(n, k)
 	return true;
 \end{lstlisting}
 
-\subsection{Verifica dei predicati}
+\subsubsection{Verifica dei predicati}
 Possiamo valutare il costo del ciclo come costante ($k$ cicli) mentre \`e fondamentale capire il costo della verifica
 dei predicati.
 \begin{itemize}
@@ -190,16 +189,13 @@ dei predicati.
 	      \[ O(\log^3 n) \]
 	\item La verifica del secondo predicato \`e pi\`u complessa per via degli elevamenti a potenza.
 
-	      Prima di tutto dobbiamo calcolare $y^z$ e per capire quanto sia costosa questa operazione dobbiamo capire quanto
-	      \`e grande $z$. Se andiamo a vedere come si ottiene $z$ possiamo ricavare che $z$ abbia al massimo valore
-	      $\frac{n-1}{2}$ dunque $z$ \`e dell'ordine di $n$.
+	      Prima di tutto dobbiamo calcolare $y^z$ e per capire quanto sia costosa questa operazione dobbiamo capire
+	      quanto \`e grande $z$. Se andiamo a vedere come si ottiene $z$ possiamo ricavare che $z$ valga al massimo
+	      $\frac{n-1}{2}$, dunque $z$ \`e dell'ordine di $n$.
 
-	      Per fare quindi $y^z$ non posso moltiplicare $y$ per se stesso $\frac{n-1}{2}$ volte perch\'e farei un numero
-	      di operazioni proporzionale al valore $n$ e non possiamo permettercelo in termini computazionali.
-
-	      Il nostro obbiettivo \`e quello di compiere un numero di operazioni che \`e proporzionale al numero delle cifre
-	      ossia $\log_2 n$ e come sappiamo, questo si pu\`o fare con l'\textbf{algoritmo di esponenziazione veloce},
-	      esposto al paragrafo \ref{esponenziazione}.
+	      Il nostro obbiettivo \`e quello di compiere un numero di operazioni che \`e proporzionale al numero delle
+	      cifre, ossia $\log n$ e, come sappiamo, questo si pu\`o fare con l'\textbf{algoritmo di esponenziazione
+		      veloce}, esposto al paragrafo \ref{esponenziazione}.
 
 	      Per la verifica della seconda parte del predicato basta semplicemente elevare al quadrato il risultato ottenuto
 	      per la verifica della prima parte del predicato. Anche questa seconda verifica ha quindi costo polinomiale.
