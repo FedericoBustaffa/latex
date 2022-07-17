@@ -12,8 +12,8 @@ Prendiamo due sequenze di esempio $h_1$ e $h_2$, entrambe lunghe 20 cifre
 facciamo finta di aver ottenuto entrambe le sequenze lanciando 20 volte una moneta. La probabilit\`a di ottenere sia
 $h_1$ che $h_2$ con questo metodo \`e di $\frac{1}{2}^{20}$.
 
-Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ma definiamo formalmente
-cosa sia la \emph{casualit\`a} ?
+Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ma proviamo a definire
+formalmente la \textbf{casualit\`a}.
 
 Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico di casualit\`a} per una sequenza binaria.
 
@@ -21,7 +21,7 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 	Una sequenza \emph{binaria} $h$ \`e \textbf{casuale} se non ammette un algoritmo $A$, in grado di descrivere $h$, la
 	cui rappresentazione binaria sia pi\`u corta di $h$. Quindi $h$ \`e casuale se
 	\[ |h| \leq |A_h| \]
-	ovvero possiamo affermare che una sequenza non \`e casuale se c'\`e un algoritmo \emph{semplice} che la descrive.
+	Possiamo dunque affermare che una sequenza non \`e casuale se c'\`e un algoritmo \emph{semplice} che la descrive.
 \end{definition}
 
 \begin{example}
@@ -33,8 +33,8 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 		print(1);
 	\end{lstlisting}
 	La lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
-	\[ |A_h| = \text{cost} + \Theta(\log n) \]
-	dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\log n$	bit
+	\[ |A_h| = \text{cost} + \Theta(\log_2 n) \]
+	dato che per rappresentare $n$ in binario ho bisogno di $\log_2 n$ bit. Abbiamo quindi descritto con $\log_2 n$	bit
 	una sequenza di $n$ bit.
 \end{example}
 
@@ -70,12 +70,12 @@ Tra i sistemi di calcolo esiste almeno un sistema di calcolo \textbf{universale}
 altri sistemi di calcolo.
 
 Questo sistema di calcolo prende in input una coppia $q$, formata da un indice $i$ (l'indice del sistema di calcolo da
-andare a simulare) e un programma $p$ da far girare sul sistema di calcolo $S_i$.
+simulare) e un programma $p$, da far girare sul sistema di calcolo $S_i$.
 \[ S_u(q) =  S_u (\langle i, p \rangle) = S_i (p) = h \]
 Se andiamo a valutare la lunghezza di $q$ in bit otteniamo che
-\[ |q| = |i| + |p| = \Theta (\log i) + |p| \]
-dato che per rappresentare $i$ ho bisogno di $\log i$ bit. Notiamo anche che $|i|$ \`e un termine che dipende unicamente
-dal sistema di calcolo e non dalla sequenza $h$.
+\[ |q| = |i| + |p| = \Theta (\log_2 i) + |p| \]
+dato che per rappresentare $i$ ho bisogno di $\log_2 i$ bit. Notiamo anche che $|i|$ dipende unicamente dal sistema di
+calcolo e non dalla sequenza $h$.
 
 Proviamo ora a valutare la complessit\`a di Kolmogorov su $S_u$. Possiamo dire certamente che
 \[ K_{S_u}(h) \leq K_{S_i}(h) + c_i \]
@@ -108,9 +108,10 @@ Dimostriamo adesso l'\textbf{esistenza} di sequenze casuali secondo la teoria ap
 	Indichiamo inoltre con $T$ il numero di sequenze binarie lunghe $n$ \textbf{non casuali} secondo la definizione data
 	in precedenza.
 
-	Per dimostrare l'esistenza di sequenze casuali, devo mostrare che $T < S$. Devo quindi dimostrare che l'insieme $S$
-	non \`e composto esclusivamente da sequenze non casuali. Di conseguenza, le sequenze in $S$, che non sono in $T$
-	devono essere necessariamente casuali.
+	Per dimostrare l'esistenza di sequenze casuali, dobbiamo dimostrare che
+	\[ T < S\]
+	ovvero che l'insieme $S$ non \`e composto esclusivamente da sequenze non casuali. Di conseguenza, le sequenze in
+	$S$, che non sono in $T$ devono essere necessariamente casuali.
 
 	Iniziamo con il ricordare una caratteristica detta in precedenza sulle sequenze in $T$ e quindi non casuali. I
 	programmi che generano sequenze lunghe $n$ in $T$ hanno lunghezza
@@ -128,7 +129,7 @@ Dimostriamo adesso l'\textbf{esistenza} di sequenze casuali secondo la teoria ap
 	\[ T \leq N < S \quad \Rightarrow \quad T < S \]
 \end{proof}
 
-Possiamo fare un'altra considerazione. Se sviluppiamo il seguente limite
+Possiamo fare un'altra considerazione: se sviluppiamo il seguente limite
 \[ \lim_{n \rightarrow +\infty} \frac{T}{S} \]
 otteniamo
 \[
@@ -144,7 +145,8 @@ casuale o meno secondo Kolmogorov.
 \begin{theorem}
 	Il problema di stabilire se una sequenza sia casuale secondo Kolmogorov \`e indecidibile.
 	\begin{proof}
-		Procediamo con una dimostrazione per assurdo. Ipotizziamo che esista un algoritmo
+		Procediamo con una dimostrazione per assurdo. Ipotizziamo che esista un algoritmo \verb|RANDOM| in grado di
+		dire se $h$ sia casuale o meno.
 		\begin{lstlisting}[style=pseudo-style]
 RANDOM(h)
 	return h.isRandom();
@@ -168,15 +170,15 @@ PARADOSSO()
 
 		\begin{enumerate}
 			\item La prima condizione \`e vera quando incontro una sequenza $h$ tale che
-			      \[ |h| - \lceil \log_2 |h| \rceil > |P| \]
-			      ma \verb|P| \`e un programma \textbf{breve} che \emph{genera} $h$, ossia
+			      \[ |h| - \lceil \log_2 |h| \rceil > |\text{P}| \]
+			      ma \verb|P| \`e un programma \textbf{breve} che \emph{genera} $h$, quindi
 			      \[ |P| < |h| - \lceil \log_2 |h| \rceil \]
 			      ma questo equivale a dire che $h$ non \`e casuale secondo Kolmogorov.
 			\item La seconda condizione \`e vera quando \verb|RANDOM| trova una sequenza casuale e, come detto in
 			      precedenza, le sequenze casuali esistono e quindi prima o poi \verb|RANDOM| ne trover\`a una.
 		\end{enumerate}
-		Ecco che qui si ottiene una \textbf{contraddizione} dato che il programma termina su una sequenza che viene
-		riconosciuta allo stesso tempo come casuale e come non casuale.
+		Ecco che qui si ottiene una contraddizione dato che il programma termina su una sequenza che viene riconosciuta
+		allo stesso tempo come casuale e come non casuale.
 	\end{proof}
 \end{theorem}
 
