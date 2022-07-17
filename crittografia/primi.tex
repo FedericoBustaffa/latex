@@ -19,45 +19,46 @@ Come possiamo facilmente constatare, l'algoritmo
 
 	      Ci si ferma a $\sqrt{n}$ dato che un numero, se composto, possiede sicuramente un divisore minore della sua
 	      radice.
-	\item Se ne trova uno che divide $n$ allora ritorna \verb|false|.
+	\item Se trova un numero che divide $n$ allora ritorna \verb|false|.
 	\item Se non ne trova nessuno ritorna \verb|true|.
 \end{enumerate}
-Un'analisi poco attenta potrebbe indurci a pensare che il costo di questo algoritmo sia $O(\sqrt{n})$ dato che faccio al
-pi\`u $\sqrt{n}$ iterazioni. Questo \`e in parte vero ma dobbiamo considerare la dimensione dell'istanza di input, la
-sua rappresentazione e il costo della divisione.
+Un'analisi poco attenta potrebbe indurci a pensare che il costo di questo algoritmo sia $O(\sqrt{n})$, dato che
+facciamo al pi\`u $\sqrt{n}$ iterazioni. Questo \`e in parte vero ma dobbiamo considerare la dimensione dell'istanza
+di input, la sua rappresentazione e il costo della divisione.
 
 L'istanza di input, ossia $n$, richiede $\Theta(\log_2 n)$ bit per essere rappresentata mentre la divisione \`e, in
 generale, un'operazione quadratica nel numero di cifre. Tutto questo fa salire la complessit\`a a
 \[ O(\sqrt{n} \cdot \log^2 n) \]
-Ma non \`e finita qui: come abbiamo detto, $n$, necessita di $\Theta(\log_2 n)$ bit per essere rappresentato, dunque $n$
-si pu\`o scrivere come $2^{\log n}$ e questo fa diventare la complessit\`a
-\[ O(2^\frac{\log n}{2} \cdot \log^2 n) \]
+Come abbiamo detto per\`o, $n$ necessita di $\Theta(\log_2 n)$ bit per essere rappresentato, dunque $n$
+si pu\`o scrivere come $2^{\log_2 n}$ e questo fa diventare la complessit\`a
+\[ O(2^\frac{\log_2 n}{2} \cdot \log^2_2 n) \]
 Come possiamo vedere, un algoritmo all'apparenza polinomiale \`e in realt\`a un algoritmo di costo esponenziale nella
-dimensione dell'input. Si tratta di un algoritmo \textbf{pseudopolinomiale}.
+dimensione dell'input. Si tratta quindi di un algoritmo \textbf{pseudopolinomiale}.
 
 \section{Algoritmo di esponenziazione veloce}\label{esponenziazione}
-Introduciamo l'\textbf{algoritmo di esponenziazione veloce} o \textbf{algoritmo delle quadrature successive} che sar\`a
-molto utile per svolgere elevamenti a potenza in modo efficiente. Essere in grado di svolgere elevamenti a potenza
-in modo efficiente \`e necessario per avere algoritmi efficienti per il test di primalit\`a.
+L'\textbf{algoritmo di esponenziazione veloce} o \textbf{algoritmo delle quadrature successive} \`e molto utile per
+svolgere elevamenti a potenza in modo efficiente. Essere in grado di svolgere elevamenti a potenza in modo efficiente
+\`e necessario per avere algoritmi efficienti per il test di primalit\`a.
 
 Sia $b$ la base e $n$ l'esponente e $m$ un intero qualsiasi, vogliamo calcolare
 \[ x = b^n \mod{m} \]
 con un numero di operazioni dell'ordine di $O(\log_2 n)$.
 \begin{enumerate}
-	\item Si scompone l'esponente $n$ come somma di potenze di 2.
+	\item Si scompone l'esponente $n$ come somma di potenze di 2:
 	      \[ n = \sum_{i=0}^{\lfloor \log_2 n \rfloor} k_i \cdot 2^i \quad \quad k_i \in \{0,1\} \]
-	\item Si calcolano tutte le potenze $b^{2^i} \mod{m}$ calcolando ogni potenza come quadrato delle precedente
+	\item Si calcolano tutte le potenze $b^{2^i} \mod{m}$, calcolando ogni potenza come quadrato della precedente:
 	      \[ b^{2^i} \mod{m} = \left( b^{2^{i-1}} \right)^2 \mod{m} \]
 	      con $1 \leq i \leq \lfloor \log_2 n \rfloor$
 	\item Prendiamo, fra le potenze ricavate al punto 2, quelle che compaiono nella scomposizione fatta al
-	      punto 1 e moltiplichiamole
+	      punto 1 e moltiplichiamole:
 	      \[ x = \prod_{i \mid k_i \neq 0} b^{2^i} \mod{m} \]
 \end{enumerate}
 
+\subsection{Analisi}
 Al punto 2 vengono compiute esattamente $\log_2 n$ operazioni per il calcolo delle varie potenze e al punto 3 svolgiamo
 un numero di moltiplicazioni dell'ordine di $O(\log_2 n)$.
 
-Se consideriamo che la moltiplicazione \`e un'operazione di costo polinomiale nel numero delle cifre \`e facile
+Se consideriamo che la moltiplicazione \`e un'operazione di costo polinomiale nel numero delle cifre, \`e immediato
 stabilire che l'algoritmo sia complessivamente di costo polinomiale.
 
 \begin{example}
