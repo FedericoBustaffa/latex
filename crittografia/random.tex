@@ -183,7 +183,7 @@ PARADOSSO()
 \end{theorem}
 
 \section{Sorgente casuale binaria}\label{sorgente_binaria}
-Iniziamo ora a parlare del come queste sequenze casuali vengono generate.
+Iniziamo ora a parlare di come queste sequenze casuali vengono generate.
 
 \begin{definition}
 	Una \textbf{sorgente casuale binaria} produce un flusso di bit con due propriet\`a fondamentali:
@@ -192,8 +192,8 @@ Iniziamo ora a parlare del come queste sequenze casuali vengono generate.
 		      \[ \begin{matrix} P(0) & = & P(1) & = & \displaystyle\frac{1}{2} \end{matrix} \]
 		      quest'ipotesi, in realt\`a, non \`e cos\`i rigida. Non \`e necessario che le due probabilit\`a siano
 		      uguali, basta che
-		      \[ P(0) > 0 \quad P(1) > 0 \]
-		      ma devono essere \textbf{immutabili} durante il processo. Quello che per\`o si fa per far comparire gli 0
+		      \[ P(0) > 0 \quad \wedge \quad P(1) > 0 \]
+		      ma devono essere \textbf{immutabili} durante il processo. Quello che si fa per far comparire gli 0
 		      gli 1 con uguale frequenza \`e generare la sequenza con probabilit\`a $P(0)$ e $P(1)$ diverse fra loro.
 		      Per esempio prendiamo questa sequenza la cui sorgente ha $P(1) > P(0)$
 		      \[ \begin{matrix} 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \end{matrix} \]
@@ -204,52 +204,52 @@ Iniziamo ora a parlare del come queste sequenze casuali vengono generate.
 		      \[ \begin{matrix} 1 & 0 \end{matrix} \]
 		      Eliminiamo le coppie in cui i bit sono uguali perch\'e le coppie 11 appaiono con maggiore probabilit\`a
 		      e le coppie 00 con minor probabilit\`a. Al contrario le coppie 01 e le coppie 10 sono equiprobabili.
-		\item La generazione di un bit \`e indipendente da quella dei bit precedenti. Quest'ipotesi \`e al contrario
-		      molto pi\`u stringente e non \`e neanche chiaro se sia davvero possibile soddisfarla.
+		\item La generazione di un bit \`e indipendente da quella dei bit precedenti. Questa ipotesi \`e molto pi\`u
+		      stringente della precedente e non \`e chiaro se sia davvero possibile soddisfarla.
 	\end{itemize}
 \end{definition}
 
 \subsection{Generatori pseudocasuali}
-Dato che riuscire a generare numeri casuali cercando di soddisfare la seconda ipotesi descritta in precedenza \`e molto
-complesso, quello che si fa nella pratica \`e utilizzare \textbf{generatori pseudocasuali}, ossia generatori che generano
-casualit\`a mediante un algoritmico, ricercandola all'interno di processi matematici.
+Dato che riuscire a generare numeri casuali cercando di soddisfare la seconda ipotesi descritta al paragrafo
+\ref{sorgente_binaria} \`e molto complesso, quello che si fa nella pratica \`e utilizzare
+\textbf{generatori pseudocasuali}, ossia generatori che generano casualit\`a mediante un algoritmo, ricercandola
+all'interno di processi matematici.
 
-Questi generatori sono definiti pseudocasuali perch\'e in genere sono programmi brevi e che quindi generano sequenze
-non casuali secondo Kolmogorov.
+Questi generatori sono definiti \emph{pseudocasuali} perch\'e, in genere, sono programmi brevi e che quindi generano
+sequenze non casuali secondo Kolmogorov.
 
-Un altro motivo \`e che il numero di sequenze possibili dipende da un parametro di input ossia il \textbf{seme}. Le
+Un altro motivo \`e che il numero di sequenze possibili, dipende da un parametro di input ossia il \textbf{seme}. Le
 possibili sequenze generate sono funzione della lunghezza del seme e sono molte meno di quelle generabili in realt\`a.
 
 Il problema di questi generatori \`e che producono un flusso di bit che ad un certo punto si ripete. Questo avviene
-perch\'e, quando, in modo casuale il seme iniziale verr\`a rigenerato, la sequenza ripartir\`a da capo.
-
-La sequenza che viene ripetuta all'interno del flusso \`e detta \textbf{periodo}.
+perch\'e, quando, in modo casuale, il seme iniziale viene rigenerato, la sequenza riparte da capo. La sequenza che
+viene ripetuta all'interno del flusso \`e detta \textbf{periodo}.
 
 Il seme lo otteniamo con un procedimento casuale (per esempio prendendo lo stato interno dell'orologio del calcolatore)
 e il periodo lo otteniamo in modo deterministico a partire dal seme.
 
-Possiamo pensare infine al generatore pseudocasuale come ad un \emph{amplificatore} di casualit\`a dato che cerca di
+Possiamo pensare infine al generatore pseudocasuale come ad un \emph{amplificatore} di casualit\`a, dato che cerca di
 rendere il periodo pi\`u lungo possibile.
 
 Un generatore \`e tanto migliore quanto pi\`u lungo \`e il periodo che riesce a generare.
 
-Precisiamo che, essendo deterministico, il generatore ha bisogno sempre di un seme diverso per generare una sequenza
+Precisiamo che, essendo deterministico, il generatore ha sempre bisogno di un seme diverso per generare una sequenza
 diversa. Se forniamo sempre il solito seme otteniamo sempre la solita sequenza.
 
 Supponiamo di partire da un seme $S$ di $s$ bit. Il generatore genera al pi\`u $2^s$ sequenze diverse lunghe quanto il
 periodo del generatore.
 
 \subsubsection{Generatore lineare}
-\`E un generatore molto semplice che sfrutta la funzione
-\[ x_i = (a x_{i - 1} + b) \mod{m} \]
-per la generazione del flusso di bit. I parametri $a$, $b$ ed $m$ sono interi positivi.
+\`E un generatore molto semplice che sfrutta, per la generazione del flusso di bit, la funzione
+\[ x_i = (a \cdot x_{i - 1} + b) \mod{m} \]
+dove i parametri $a$, $b$ ed $m$ sono interi positivi.
 
-Il generatore avr\`a periodo $\leq m$ dato che, lavorando modulo $m$, posso ottenere al massimo $m$ sequenze diverse.
-Nella pratica i parametri $a$ e $b$ si scelgono appositamente per riuscire a far s\`i che il periodo sia esattamente
-uguale ad $m$ e non minore.
+Questo generatore ha periodo minore di $m$, dato che, lavorando modulo $m$, possiamo ottenere al massimo $m$ sequenze
+diverse. Nella pratica, i parametri $a$ e $b$, si scelgono appositamente per riuscire a far s\`i che il periodo sia
+esattamente uguale ad $m$ e non minore.
 
-Se i parametri sono scelti bene il generatore produce una permutazione degli interi da 0 a $m - 1$. I criteri per fare
-ci\`o sono
+Se i parametri sono scelti bene il generatore produce una permutazione degli interi da 0 a $m - 1$. Affinch\'e questo
+avvenga, $a$, $b$ ed $m$, devono soddisfare alcune propriet\`a:
 \begin{itemize}
 	\item I parametri $b$ ed $m$ devono essere coprimi
 	      \[ (b, m) = 1 \]
@@ -257,28 +257,29 @@ ci\`o sono
 	\item Se $m$ \`e un multiplo di 4 allora anche $a-1$ deve esserlo
 	      \[ 4 \mid m \quad \Rightarrow \quad 4 \mid a - 1 \]
 \end{itemize}
-Come possiamo vedere questo generatore non possiede la seconda propriet\`a fondamentale dato che un numero generato
-dipende fortemente dal numero generato in precendenza.
+Come possiamo vedere questo generatore non possiede la seconda propriet\`a fondamentale, dato che, la generazione di un
+numero \`e fortemente influenzata dalla generazione del precendente.
 
 Per ora abbiamo usato il generatore per la generazione di numeri interi ma se volessimo generare sequenze binarie
-si fa $x_i / m$ e si prende la \textbf{parit\`a} della prima cifra decimale.
+basta calcolare
+\[ x_i / m \]
+e prendere la \textbf{parit\`a} della prima cifra decimale.
 
 \subsubsection{Generatore polinomiale}
-Il primo metodo per riuscire a \emph{generalizzare} un po' il generatore lineare \`e aumentare il grado del polinomio.
-Riscriviamo quindi la funzione la funzione precedente ma con un polinomio di grado $t$
+Il primo metodo per riuscire a \emph{generalizzare} un po' il generatore lineare, \`e aumentare il grado del polinomio.
+Riscriviamo quindi la funzione precedente ma con un polinomio di grado $t$
 \[ x_i = (a_1 x_{i-1}^t + a_2 x_{i-1}^{t-1} + \dots + a_t x_{i-1} + a_{t+1}) \mod{m} \]
-Per quanto si possa aumentare il grado del polinomio questo generatore non \`e tanto migliore del generatore lineare.
+Per quanto si possa aumentare il grado del polinomio, questo generatore non \`e tanto migliore del generatore lineare.
 
-Anche per questo generatore dobbiamo scegliere bene i parametri per rendere il periodo pi\`u lungo possibile, ossia
-uguale a $m$. Una scelta molto comune di tali parametri \`e questa:
+Anche per questo generatore dobbiamo scegliere bene i parametri per rendere il periodo pi\`u lungo possibile (sempre
+uguale a $m$). Una scelta di parametri molto comune \`e questa:
 \[
 	\begin{matrix}
-		a & = & 3141592653 \\
-		b & = & 2718281829 \\
+		a & = & \pi    \\
+		b & = & e      \\
 		m & = & 2^{32}
 	\end{matrix}
 \]
-Come possiamo notare $a$ \`e $\pi$ e $b$ \`e $e$ (costante di Nepero).
 
 \subsection{Test statistici}
 Nel caso volessimo costruire il nostro generatore personale, per riuscire a capire quanto sia effettivamente valido o
@@ -287,14 +288,15 @@ ben costruito, dobbiamo sottoporlo ad alcuni \textbf{test statistici}:
 	\item \textbf{Test di frequenza}: si verifica che i diversi simboli della sequenza appaiano con pari probabilit\`a.
 	\item \textbf{Poker test}: si controlla che le sottosequenze della stessa lunghezza siano equiprobabili.
 	\item \textbf{Test di autocorrelazione}: si verifica che, a distanze fissate, non appaia sempre lo stesso simbolo.
-	\item \textbf{Run test}: si verifica che sottosequenze composte dallo stesso simbolo siano esponenzialmente sempre
-	      meno frequenti in relazione alla loro lunghezza.
+	\item \textbf{Run test}: la frequenza di sottosequenze composte interamente dallo stesso simbolo cali in modo
+	      esponenziale, relativamente alla loro lunghezza.
 \end{itemize}
-Ovviamente per effettuare un buon test la sequenza deve essere sufficientemente lunga da permettere un'analisi esauriente.
+Ovviamente, per effettuare un buon test, la sequenza deve essere sufficientemente lunga da permettere un'analisi
+esauriente.
 
 Sia il generatore lineare che quello polinomiale superano questi test ma non vanno comunque bene per la generazione di
 chiavi crittografiche. Anche tenendo nascosti i parametri, esistono algoritmi di costo polinomiale che sono in grado di
-stimare con una probabilit\`a significativamente maggiore di $1/2$, quale sar\`a il prossimo bit generato.
+stimare, con una probabilit\`a significativamente maggiore di $1/2$, quale sar\`a il prossimo bit generato.
 
 \subsubsection{Test di prossimo bit}
 Per le applicazioni crittografiche si richiede un test in pi\`u, il \textbf{test di prossimo bit}.
@@ -302,7 +304,7 @@ Per le applicazioni crittografiche si richiede un test in pi\`u, il \textbf{test
 Un generatore binario supera il test di prossimo bit se non esiste un algoritmo polinomiale in grado di prevedere il
 prossimo bit generato a partire dalla conoscenza dei bit gi\`a generati con probabilit\`a strettamente maggiore di $1/2$.
 
-Se un generatore super il test di ultimo bit supera anche tutti gli altri test statistici ed \`e detto
+Se un generatore supera questo test, supera anche tutti gli altri test statistici ed \`e detto
 \textbf{crittograficamente sicuro}.
 
 \subsection{Generatori crittograficamente sicuri}
@@ -322,15 +324,15 @@ Per generare la sequenza si parte da un seme $x_0$ (mantenuto segreto) e si calc
 		\dots &              & \dots       &
 	\end{matrix}
 \]
-A questo punto per\`o dobbiamo consumarla al contrario. Questo perch\'e si deve sempre assumere che il crittoanalista
-conosca $f$. Conoscendo $f$ e vedendo un generico $x_i$ \`e facile calcolare $f(x_{i+1})$.
+Affich\'e la sequenza non venga scoperta deve essere consumata al contrario. Questo perch\'e si deve sempre assumere
+che il crittoanalista conosca $f$. Conoscendo $f$ e vedendo un generico $x_i$ \`e facile calcolare $f(x_{i+1})$.
 
-Se invece consumo la sequenza al contrario, l'unico modo per il crittoanalista di prevedere il prossimo bit generato
+Se invece consumiamo la sequenza al contrario, l'unico modo per il crittoanalista di prevedere il prossimo bit generato
 \`e quello di invertire $f$, ma come abbiamo gi\`a detto, \`e un'operazione che richiede tempo esponenziale.
 
 \subsubsection{Predicati hard-core delle funzioni one-way}
-Ora vogliamo rendere il generatore appena descritto un generatore \emph{binario} che per\`o conservi le propriet\`a che
-lo rendono crittograficamente sicuro. Per farlo ricorriamo ai predicati hard-core per le funzioni one-way.
+Per rendere il generatore appena descritto, un generatore \emph{binario}, che per\`o conservi le propriet\`a che lo
+rendono crittograficamente sicuro, si fa ricorso ai \textbf{predicati hard-core} per le funzioni one-way.
 \begin{definition}
 	Chiamo $b(x)$ \textbf{predicato hard-core} di $f$ se
 	\begin{itemize}
@@ -342,19 +344,18 @@ lo rendono crittograficamente sicuro. Per farlo ricorriamo ai predicati hard-cor
 \begin{example}
 	Prendiamo $f$ definita come segue
 	\[ f(x) = x^2 \mod{m} \]
-	dove $m$ \`e un numero composto e prendiamo $b$ definita come la parit\`a di un numero $x$ in input. Poniamo ora
-	$m = 77$ e $x = 10$ e otteniamo
+	dove $m$ \`e un numero composto e prendiamo $b$, definito come la parit\`a di un numero $x$ in input. Poniamo
+	$m = 77$ e $x = 10$, otteniamo
 	\[ f(10) = 10^2 \mod{77} = 23 \]
-	Arrivati a questo punto, per chi conosce $x$ \`e immediato calcolarne la parit\`a ma per chi non conosce $x$ ed \`e
-	in possesso solo di 23 e di $f$ le cose si complicano notevolmente. Si dovrebbe cercare quel numero $x$, che elevato
-	al quadrato modulo 77, faccia 23 e infine calcolarne la parit\`a. Questo procedimento per\`o non si pu\`o effettuare
-	se non in tempo esponenziale facendo una ricerca esaustiva e provando tutti i possibili valori da 0 a $m-1$.
+	Arrivati a questo punto, se si conosce $x$ \`e immediato calcolarne la parit\`a ma per chi non lo conosce ed \`e
+	in possesso solo di 23 e di $f$, le cose si complicano notevolmente. Si dovrebbe cercare quel numero $x$, che,
+	elevato al quadrato modulo 77, faccia 23 e infine calcolarne la parit\`a. Questo procedimento per\`o non si pu\`o
+	effettuare se non in tempo esponenziale, facendo una ricerca esaustiva e provando tutti i possibili valori da 0 a
+	$m-1$.
 \end{example}
 
 \subsubsection{Generatore BBS}
-Ideato da Blum, Blum e Shub nell'1986 funziona in questo modo ed \`e tra i generatori classificati sicuri.
-
-Consideriamo
+Ideato da Blum, Blum e Shub nell'1986 funziona in questo modo ed \`e tra i generatori classificati sicuri. Consideriamo
 \[ n = p \cdot q \]
 con $p$ e $q$ che devono soddisfare alcuni requisiti per garantire la difficolt\`a nella fattorizzazione:
 \begin{itemize}
@@ -363,24 +364,25 @@ con $p$ e $q$ che devono soddisfare alcuni requisiti per garantire la difficolt\
 	\item $q \mod{4} = 3$
 	\item $2 \lfloor p / 4 \rfloor + 1$ e $2 \lfloor q / 4 \rfloor + 1$ devono essere coprimi.
 \end{itemize}
-A questo punto scelgo un numero $y$ coprimo con $n$ e calcoliamo
+A questo punto scegliamo un numero $y$, coprimo con $n$ e calcoliamo
 \[ x_0 = y^2 \mod{n} \]
-ottenendo cos\`i il seme $x_0$. Generiamo ora una successione di $m \leq n$ interi calcolando ogni elemento come segue
+ottenendo cos\`i il seme $x_0$. Generiamo ora una successione di $m \leq n$ interi, calcolando ogni elemento come segue
 \[ x_i = (x_{i-1})^2 \mod{n} \]
 Per rendere la sequenza binaria prendiamo come predicato la parit\`a:
 \[ b_i = 1 \quad \Leftrightarrow \quad x_{m-i} \text{ \`e dispari} \]
 
 \begin{example}
-	Prendiamo $p = 11$ e $q = 19$ e verifichiamo che siano soddisfatte le propriet\`a. La prima propriet\`a per adesso
-	non la consideriamo, dato che non \`e necessaria ai fini del funzionamento del generatore ma solo a fini di sicurezza.
+	Prendiamo $p = 11$ e $q = 19$ e verifichiamo che siano soddisfatte le propriet\`a. La prima propriet\`a, per questo
+	esempio non la consideriamo, dato che non \`e necessaria ai fini del funzionamento del generatore ma solo a fini di
+	sicurezza crittografica.
 	\begin{itemize}
 		\item $11 \mod{4} = 3$
 		\item $19 \mod{4} = 3$
 		\item Calcoliamoci i due valori e vediamo se sono coprimi fra loro
-		      \begin{itemize}
-			      \item $2 \lfloor 11 / 4 \rfloor + 1 = 7$
-			      \item $2 \lfloor 19 / 4 \rfloor + 1 = 9$
-		      \end{itemize}
+		      \begin{gather*}
+			      2 \lfloor 11 / 4 \rfloor + 1 = 7 \\
+			      2 \lfloor 19 / 4 \rfloor + 1 = 9
+		      \end{gather*}
 		      7 e 9 sono coprimi quindi tutte le propriet\`a sono soddisfatte.
 	\end{itemize}
 	Con $p = 11$ e $q = 19$ abbiamo che
