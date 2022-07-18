@@ -194,8 +194,8 @@ dei predicati.
 	      $\frac{n-1}{2}$, dunque $z$ \`e dell'ordine di $n$.
 
 	      Il nostro obbiettivo \`e quello di compiere un numero di operazioni che \`e proporzionale al numero delle
-	      cifre, ossia $\log n$ e, come sappiamo, questo si pu\`o fare con l'\textbf{algoritmo di esponenziazione
-		      veloce}, esposto al paragrafo \ref{esponenziazione}.
+	      cifre, ossia $\log n$ e, come sappiamo, questo si pu\`o fare con l'algoritmo di esponenziazione veloce,
+	      esposto al paragrafo \ref{esponenziazione}.
 
 	      Per la verifica della seconda parte del predicato basta semplicemente elevare al quadrato il risultato ottenuto
 	      per la verifica della prima parte del predicato. Anche questa seconda verifica ha quindi costo polinomiale.
@@ -204,8 +204,8 @@ Come possiamo vedere, la verifica dei predicati, ha complessivamente costo polin
 
 \section{Generazione di numeri primi}\label{generazione_primi}
 La generazione di numeri primi casuali si effettua semplicemente generando un numero casuale e in seguito si effettua
-il test di primalit\`a di Miller-Rabin. Ripeto la generazione del numero casuale finch\'e non ne trovo uno che posso
-dichiarare primo con un possibilit\`a di errore pi\`u bassa possibile.
+il test di primalit\`a di Miller-Rabin. Ripetiamo la generazione del numero casuale finch\'e non ne troviamo uno che
+possiamo dichiarare primo con un possibilit\`a di errore pi\`u bassa possibile.
 
 \begin{theorem}
 	Il numero di numeri primi minori di un certo $n$ tende a
@@ -216,7 +216,7 @@ dichiarare primo con un possibilit\`a di errore pi\`u bassa possibile.
 Questo teorema ci dice che, per $n$ sufficientemente grande, nel suo intorno (di ampiezza $\ln n$) cade mediamente un
 numero primo.
 
-Mediamente dovremo quindi fare un numero $\ln n$ di tentativi, il che ci va bene dato che \`e polinomiale nel numero
+Mediamente dovremo quindi fare un numero $\ln n$ di tentativi e questo va bene dato che \`e polinomiale nel numero
 delle cifre.
 
 \subsection{Algoritmo}

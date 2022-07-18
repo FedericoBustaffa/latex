@@ -159,7 +159,7 @@ Per la generazione delle due chiavi, il destinatario deve
 Sia $m$ un messaggio scritto come una sequenza binaria e trattato come un intero tale che
 \[ m < n \]
 Il valore decimale di $m$ deve essere strettamente minore di $n$, se cos\`i non fosse dobbiamo dividere $m$ in
-blocchi di $b = \log_2 n$ bit
+blocchi di $b = \log n$ bit
 
 Questo requisito \`e dovuto al fatto che tutte le operazioni sono fatte $\mod{n}$ e quindi
 \[ m \geq n \]
@@ -287,7 +287,7 @@ Il problema della fattorizzazione rimane \emph{difficile} ma non pi\`u come un t
 pi\`u raffinati che richiedono un numero di operazioni \textbf{subesponenziale}.
 
 Parliamo dell'algoritmo GNFS, il quale, dato un intero $n$ rappresentato con
-\[ b = \lceil \log_2 n \rceil + 1 \]
+\[ b = \lceil \log n \rceil + 1 \]
 bit, richiede un numero di operazioni dell'ordine di $O(2^{\sqrt{b \log b}})$.
 
 Ad oggi, tramite l'algoritmo GNFS, si riescono a fattorizzare semiprimi di 768 bit.
@@ -579,7 +579,7 @@ Prima di vedere come si effettua la cifratura ci sono dei requisti che il messag
 	\item Deve essere codificato come una sequenza binaria, trattata come un intero.
 	\item Deve essere scelto tale che
 	      \[ m < p \]
-	      se cos\`i non fosse si fa una cifratura a blocchi di $\log_2 p$ bit.
+	      se cos\`i non fosse si fa una cifratura a blocchi di $\log p$ bit.
 \end{itemize}
 Passiamo ora al metodo di cifratura.
 \begin{itemize}

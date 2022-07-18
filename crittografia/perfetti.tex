@@ -8,7 +8,7 @@ Proviamo a formalizzare matematicamente quanto appena detto. Per farlo dobbiamo 
 \begin{itemize}
 	\item \textbf{MSG}: spazio dei messaggi.
 	\item \textbf{CRITTO}: spazio dei crittogrammi.
-	\item \textbf{M}: variabile aleatoria che descrive il comportamento del	mittente e assume i valori in MSG.
+	\item \textbf{M}: variabile aleatoria che descrive il comportamento del	mittente.
 	\item \textbf{C}: variabile aleatoria che descrive la comunicazione sul canale.
 \end{itemize}
 Indichiamo ora con
@@ -16,30 +16,29 @@ Indichiamo ora con
 la probabilit\`a che il mittente voglia inviare il messaggio $m \in$ MSG. Indichiamo invece con
 \[ P(M = m \mid C = c) \]
 la probabilit\`a condizionata che il messaggio inviato sia proprio $m$, posto che sul canale stia transitando il
-crittogramma $c \in$ CRITTO. In altre parole quest'ultima espressione indica la probabilit\`a che $c$ sia $m$ cifrato.
+crittogramma $c \in$ CRITTO. In altre parole, quest'ultima espressione, indica la probabilit\`a che $c$ sia $m$ cifrato.
 
 \begin{theorem}\label{th: cifrario_perfetto}
 	Un cifrario \`e \textbf{perfetto} se $\forall m \in \text{MSG}$ e $\forall c \in \text{CRITTO}$ vale che
 	\[ P(M = m \mid C = c) = P(M = m) \]
 \end{theorem}
 
-\begin{example}
-	Mettiamoci per un attimo in uno scenario di massimo pessimismo in cui il crittoanalista sa:
-	\begin{itemize}
-		\item La distribuzione di probabilit\`a con cui il mittente invia messaggi.
-		\item Il cifrario utilizzato.
-		\item Lo spazio delle chiavi.
-	\end{itemize}
-	Supponiamo inoltre che di voler inviare un messaggio $m$ con probabilit\`a
-	\[ P(M = m) = p > 0 \quad \quad \text{con } 0 < p < 1 \]
-	e analizziamo due casi estremi e opposti l'uno all'altro. Nel primo caso diciamo che esiste un crittogramma $c$ tale
-	che
-	\[ P(M = m \mid C = c) = 1 \]
-	e nel secondo caso diciamo che esiste un crittogramma $c$ tale che
-	\[ P(M = m \mid C = c) = 0 \]
-	In entrambi i casi, vedere il crittogramma, raffina la conoscenza del crittoanalista. L'unico caso in cui il
-	crittoanalista non ricava nulla dal crittogramma \`e il caso descritto dal teorema \ref{th: cifrario_perfetto}.
-\end{example}
+Mettiamoci per un attimo in uno scenario di massimo pessimismo in cui il crittoanalista sa:
+\begin{itemize}
+	\item La distribuzione di probabilit\`a con cui il mittente invia messaggi.
+	\item Il cifrario utilizzato.
+	\item Lo spazio delle chiavi.
+\end{itemize}
+Supponiamo inoltre che di voler inviare un messaggio $m$ con probabilit\`a
+\[ P(M = m) = p > 0 \quad \quad \text{con } 0 < p < 1 \]
+e analizziamo i due casi, estremi e opposti l'uno all'altro. Nel primo caso, diciamo che esiste un crittogramma $c$
+tale che
+\[ P(M = m \mid C = c) = 1 \]
+e nel secondo caso diciamo che esiste un crittogramma $c$ tale che
+\[ P(M = m \mid C = c) = 0 \]
+In entrambi i casi, vedere il crittogramma, raffina la conoscenza del crittoanalista. L'unico caso in cui il
+crittoanalista non ricava nulla dal crittogramma \`e il caso descritto dal teorema \ref{th: cifrario_perfetto}.
+
 
 \section{Svantaggi}\label{svantaggi_perfetti}
 L'estrema solidit\`a di un cifrario perfetto ha per\`o un costo in termini di numero di chiavi.
@@ -51,26 +50,23 @@ L'estrema solidit\`a di un cifrario perfetto ha per\`o un costo in termini di nu
 	Questa \`e condizione necessaria ma non sufficiente affinch\'e il cifrario sia perfetto.
 	\begin{proof}
 		Dimostriamo il teorema per assurdo e andiamo ad indicare con $N_k$ il numero delle chiavi e con $N_m$ il numero
-		dei messaggi possibili.
-
-		Supponiamo per assurdo che
+		dei messaggi possibili. Supponiamo per assurdo che
 		\[ N_m > N_k \]
 		e consideriamo ora un crittogramma $c$ che pu\`o transitare sul canale con probabilit\`a
 		\[ P(C = c) > 0 \]
-		Se provassimo a decifrare $c$ con una generica chiave $k_i$ otterremo un messaggio $m_i$. Facciamo per\`o
-		attenzione al fatto che cifrando $c$ con una chiave $k_j$ potremmo ottenere il messaggio $m_i$, ottenibile anche
-		con la chiave $k_i$.
+		Se provassimo a decifrare $c$ con una generica chiave $k_i$, otterremo un messaggio $m_i$. Facciamo per\`o
+		attenzione al fatto che, cifrando $c$ con una chiave $k_j$, potremmo ottenere il messaggio $m_i$, ottenibile
+		anche con la chiave $k_i$. Indichiamo quindi con $s \leq N_k$ il numero dei messaggi che potrebbero corrispondere ù
+		al crittogramma $c$. Ma per ipotesi
+		\begin{gather*}
+			N_k < N_m \\
+			\Downarrow \\
+			s \leq N_k < N_m
+		\end{gather*}
+		Dunque il numero dei messaggi che possono corrispondere al crittogramma $c$ \`e strettamente minore	del numero
+		dei messaggi possibili.
 
-		Indichiamo quindi con $s$ tale che
-		\[ s \leq N_k \]
-		il numero dei messaggi che potrebbero corrispondere al crittogramma $c$. Ma per ipotesi abbiamo che
-		\[ N_k < N_m \]
-		quindi
-		\[ s \leq N_k < N_m \]
-		Ho ottenuto che il numero dei messaggi che possono corrispondere al crittogramma $c$ \`e strettamente minore
-		del numero dei messaggi possibili.
-
-		Questo vuol dire che esiste un messaggio $m'$ appartenente allo spazio dei messaggi possibili che non pu\`o
+		Questo significa che esiste un messaggio $m'$, appartenente allo spazio dei messaggi possibili, che non pu\`o
 		corrispondere a quel crittogramma.
 		\[ P(M = m' \mid C = c) = 0 \]
 		Giungiamo quindi all'assurdo dato che un cifrario \`e perfetto se un crittogramma pu\`o corrispondere ad uno
@@ -80,8 +76,7 @@ L'estrema solidit\`a di un cifrario perfetto ha per\`o un costo in termini di nu
 
 \section{One-Time Pad}\label{one_time_pad}
 Come abbiamo in parte anticipato, il cifrario \textbf{One-Time Pad} altro non \`e che un cifrario di Vigen\`ere che
-cifra e decifra sequenze binarie e dove la chiave, al posto di essere corta e ripetuta, \`e lunga quanto il messaggio
-e dunque non \`e mai ripetuta.
+cifra e decifra sequenze binarie e dove la chiave, invece di essere corta e ripetuta, \`e lunga quanto il messaggio.
 
 La prima parte del nome (One-Time) \`e relativa alla chiave: ogni chiave dev'essere utilizzata una sola volta e poi
 buttata via.
@@ -93,16 +88,15 @@ Consideriamo
 	\item \textbf{CRITTO}: lo spazio dei crittogrammi.
 	\item \textbf{KEY}: lo spazio delle chiavi.
 \end{itemize}
-Sia il messaggio, che la chiave, che il crittogramma saranno una sequenza di $n$ bit. Il crittogramma si compone facendo
-lo XOR bit a bit di messaggio e chiave
+Messaggio, chiave e crittogramma sono una sequenza di $n$ bit. Il crittogramma si compone facendo lo XOR bit a bit di
+messaggio e chiave
 \[ c = m \oplus k \]
-Lo XOR ritorna 1 se i bit che sto confrontando sono uguali, ritorna 0 altrimenti. Il crittoanalista, vedendo il
-crittogramma, sa che
+Lo XOR ritorna 1 se i bit che stiamo confrontando sono uguali, ritorna 0 altrimenti dunque il crittoanalista
 \begin{itemize}
-	\item quando vede uno 0 in posizione $i$, allora i bit di messaggio e chiave in posizione $i$ sono uguali ma
-	      non si sa se siano tutti e due 0 o tutti e due 1.
-	\item quando vede un 1 in posizione $i$, allora i bit di messaggio e chiave in posizione $i$ sono diversi ma
-	      non si sa quale sia 1 e quale sia 0.
+	\item quando vede uno 0 in posizione $i$, allora sa che i bit di messaggio e chiave in posizione $i$ sono uguali
+	      ma non sa se siano 0 o 1.
+	\item quando vede un 1 in posizione $i$, allora sa che i bit di messaggio e chiave in posizione $i$ sono diversi
+	      ma non sa quale sia 1 e quale sia 0.
 \end{itemize}
 Per effettuare la decifrazione basta rifare lo XOR bit a bit di crittogramma e chiave
 \[ c_i \oplus k_i = m_i \]
@@ -112,7 +106,7 @@ si vede facilmente che il procedimento funziona
 	\Downarrow \\
 	m_i \oplus k_i \oplus k_i = m_i
 \end{gather*}
-ma $k_i \oplus k_i$ \`e un sequenza di 0 e quindi deduciamo facilmente che
+ma $k_i \oplus k_i$ \`e un sequenza di 0 e quindi
 \[ m_i \oplus 0 = m_i \]
 
 \subsection{Debolezza}\label{debolezza_otp}
@@ -126,21 +120,22 @@ crittogrammi
 \end{gather*}
 A questo punto il crittoanalista potrebbe applicare lo XOR bit a bit fra i due crittogrammi per ottenere
 \[ c_1 \oplus c_2 = (m_1 \oplus k) \oplus (m_2 \oplus k) \]
-dato che vale la propriet\`a associativa posso scrivere
+dato che vale la propriet\`a associativa pu\`o scrivere
 \[ c_1 \oplus c_2 = (m_1 \oplus m_2) \oplus (k \oplus k) \]
 Come prima $k \oplus k$ \`e una sequenza di 0 e quindi otteniamo
 \[ c_1 \oplus c_2 = m_1 \oplus m_2 \]
 Dalla sequenza di bit ottenuta, si pu\`o raffinare la propria conoscenza del messaggio andando a cercare lunghe sequenze
-di 0, le quali indicano che quella parte di messaggio \`e stata inviata due volte.
+di 0, le quali, indicano che quella parte di messaggio \`e stata inviata due volte.
 
 \subsection{Sicurezza}\label{sicurezza_otp}
 Vogliamo ora dimostrare che il cifrario \`e perfetto. Per farlo lavoriamo sotto alcune ipotesi
 \begin{itemize}
-	\item Tutti i messaggi sono lunghi $n$. Se il messaggio \`e pi\`u corto di $n$ faccio un po' di \emph{padding}.
+	\item Tutti i messaggi sono lunghi $n$. Se il messaggio \`e pi\`u corto di $n$ si fa del \emph{padding} (si
+	      aggiungono caratteri casuali in fondo).
 	      Se invece il messaggio \`e pi\`u lungo di $n$ faccio una cifratura a blocchi.
 	\item Tutte le sequenze di $n$ bit sono messaggi possibili.
 	\item I messaggi privi di significato vengono utilizzati per confondere la crittoanalisi e ognuno di essi ha una
-	      probabilit\`a molto bassa, ma comunque maggiore di 0, di essere inviati.
+	      probabilit\`a molto bassa, ma comunque maggiore di 0, di essere inviato.
 	\item La chiave deve essere casuale e unica per ogni messaggio.
 \end{itemize}
 
@@ -153,19 +148,21 @@ Vogliamo ora dimostrare che il cifrario \`e perfetto. Per farlo lavoriamo sotto 
 	\end{proof}
 
 	\begin{proof}
-		Dimostriamo ora che il cifrario \`e perfetto. Come sappiamo, un cifrario \`e perfetto se per ogni $m \in$ MSG e
-		per ogni $c \in$ CRITTO vale
+		Dimostriamo ora che il cifrario \`e perfetto. Come sappiamo, un cifrario \`e perfetto se, per ogni $m \in$ MSG
+		e per ogni $c \in$ CRITTO, vale
 		\[ P(M = m \mid C = c) = P(M = m) \]
 		Partiamo dicendo che
 		\[ P(M = m \mid C = c) = \frac{P(M = m \wedge C = c)}{P(C = c)} \]
-		dove il valore al numeratore \`e la probabilit\`a che il messaggio inviato sia $m$ e che sia stato cifrato in $c$.
+		dove il valore al numeratore \`e la probabilit\`a che il messaggio inviato sia $m$ e che sia stato cifrato in
+		$c$.
 
 		Per come \`e fatto lo XOR, fissato $m$, chiavi diverse producono crittogrammi diversi. Esiste dunque
-		un'\textbf{unica} chiave $k$ che cifra $m$ in $c$. Pi\`u formalmente possiamo affermare che la probabilit\`a che
-		il crittogramma sia $c$ \`e uguale alla probabilit\`a di scegliere a caso l'unica chiave $k$ che cifra $m$ in $c$
+		un'\textbf{unica} chiave $k$ che cifra $m$ in $c$. Pi\`u formalmente, possiamo affermare che la probabilit\`a
+		che il crittogramma sia $c$ \`e uguale alla probabilit\`a di scegliere a caso l'unica chiave $k$ che cifra $m$
+		in $c$
 		\[ P(C = c) = \frac{1}{2^n} \]
-		Se la probabilit\`a di ottenere il crittogramma $c$ dipende solo dalla chiave, allora i due eventi sono al
-		numeratore indipendenti e possiamo quindi riscrivere la formula iniziale in questo modo
+		Se la probabilit\`a di ottenere il crittogramma $c$ dipende solo dalla chiave, allora i due eventi al
+		numeratore sono indipendenti e possiamo riscrivere la formula iniziale in questo modo:
 		\[ P(M = m \mid C = c) = \frac{P(M = m) \cdot P(C = c)}{P(C = c)} \]
 		Semplificando \`e immediato ottenere
 		\[ P(M = m \mid C = c) = P(M = m) \]
@@ -175,8 +172,6 @@ Vogliamo ora dimostrare che il cifrario \`e perfetto. Per farlo lavoriamo sotto 
 \subsection{Scambio delle chiavi}\label{chiavi_otp}
 Un metodo ragionevole per lo scambio di chiavi \`e quello che prevede lo scambio tra i due utenti del generatore casuale
 e del suo assetto iniziale (seme).
-
-In questo modo il procedimento di cifratura e decifrazione funziona in questo modo
 \begin{enumerate}
 	\item I due generatori vengono impostati allo stesso modo con lo stesso seme.
 	\item Si scrive un messaggio $m$ e si genera un chiave $k$ lunga $|m|$ con il generatore.
@@ -192,43 +187,47 @@ Il generatore deve essere crittograficamente sicuro e il seme deve essere molto 
 attacchi a forza bruta sul seme.
 
 \subsection{Conclusioni}\label{conclusioni_otp}
-In conclusione proviamo a rimuovere l'ipotesi secondo cui ogni messaggio sia possibile, anche quelli non significativi.
+Proviamo a rimuovere l'ipotesi secondo cui ogni messaggio sia possibile, anche quelli non significativi.
 
-Dato che le chiavi devono essere tante quante i messaggi possibili. Se restringessimo l'insieme dei messaggi possibili
-anche lo spazio delle chiavi diventerebbe pi\`u piccolo e con esso anche la lunghezza delle chiavi diminuirebbe.
+Dato che le chiavi devono essere tante quante i messaggi possibili, se restringiamo questo insieme anche lo spazio
+delle chiavi diventerebbe pi\`u piccolo e con esso anche la lunghezza delle chiavi diminuirebbe.
 
 In lingua inglese i messaggi significativi lunghi $n$ bit sono circa $\alpha^n$ con
 \[ \alpha = 1.1 \]
-Se considerassimo quindi solo l'insieme dei messaggi significativi in inglese, la cardinalit\`a dell'insieme di chiavi
-passerebbe da $2^n$ a $1.1^n$.
+Se consideriamo quindi solo l'insieme dei messaggi significativi in inglese, la cardinalit\`a dell'insieme di chiavi
+passa da $2^n$ a $1.1^n$.
 
-Il numero delle chiavi dev'essere almeno quanto il numero dei messaggi
+Come gi\`a detto, il numero delle chiavi dev'essere almeno quanto il numero dei messaggi possibili, quindi
 \[ N_k \geq N_m = \alpha^n < 2^n \]
-e dato che $\alpha^n < 2^n$ posso descrivere le chiavi con $t$ bit con $t$ tale che
-\[ 2^t \geq \alpha^n \]
-quindi
-\[ t \quad \geq \quad n \log_2 \alpha \quad \tilde{=} \quad 0.12 \cdot n \]
+e dato che $\alpha^n < 2^n$ \`e possibile descrivere le chiavi con $t$ bit, con $t$ tale che
+\begin{gather*}
+	2^t \geq \alpha^n \\
+	\Downarrow \\
+	t \geq n \log \alpha \quad \approx \quad 0.12 \cdot n
+\end{gather*}
 Abbiamo cos\`i ridotto il numero di chiavi possibili a circa un decimo del numero di chiavi che avevamo prima.
 
 Il problema \`e che avendo ridotto cos\`i tanto l'insieme delle chiavi, un attacco di tipo forza bruta torna ad avere
 senso.
 
-Quello che si fa in genere per riuscire a mitigare il problema riuscendo comunque a diminuire un po' il numero di chiavi
-e far s\`i che decifrando un crittogramma con chiavi diverse si riesca a risalire a diversi messaggi significativi.
+Quello che si fa in genere, per riuscire a mitigare il problema riuscendo comunque a diminuire un po' il numero di
+chiavi e far s\`i che decifrando un crittogramma con chiavi diverse si riesca a risalire a diversi messaggi
+significativi.
 
 In altre parole, cifrando messaggi diversi con chiavi diverse si ottiene lo stesso crittogramma.
 
-Per fare questo il numero di coppie $(m, k)$ deve essere molto maggiore del numero di crittogrammi. Supponiamo di usare
-chiavi casuali di $t$ bit. Se il numero di messaggi significativi \`e $\alpha^n$ abbiamo
+Per fare questo il numero di coppie $\langle m, k \rangle$ deve essere molto maggiore del numero di crittogrammi.
+Supponiamo di usare chiavi casuali di $t$ bit. Se il numero di messaggi significativi \`e $\alpha^n$ abbiamo
 \[ \alpha^n \cdot 2^t \]
-possibili coppie $(m, k)$ mentre il numero dei crittogrammi rimane $2^n$. Otteniamo dunque che
-\[ \alpha^n \cdot 2^t >> 2^n \]
-che equivale a
-\[ n \log_2 \alpha + t >> n \]
-sviluppando ancora i calcoli otteniamo che le chiavi devono essere lunghe
-\[ t >> n - n\log_2 \alpha \quad \rightarrow \quad t >> 0.88 \cdot n \]
-affinch\'e si verifichi il fenomeno descritto in precedenza, ossia che a pi\`u coppie messaggio-chiave corrisponda lo
-stesso crittogramma.
+possibili coppie $\langle m, k \rangle$, mentre il numero dei crittogrammi rimane $2^n$. Otteniamo dunque che
+\begin{gather*}
+	\alpha^n \cdot 2^t >> 2^n \\
+	\Downarrow \\
+	n \log \alpha + t >> n
+\end{gather*}
+Sviluppando ancora i calcoli otteniamo che le chiavi devono essere lunghe
+\[ t >> n - n \log \alpha \quad \rightarrow \quad t >> 0.88 \cdot n \]
+affinch\'e si verifichi il fenomeno descritto in precedenza.
 
 La rimozione dell'ipotesi non ci permette quindi di risparmiare sui bit della chiave se si vuole mantenere un buon grado
 di sicurezza. Siamo comunque riusciti a diminuire il numero delle chiavi.

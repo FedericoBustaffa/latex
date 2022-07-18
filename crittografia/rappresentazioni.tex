@@ -45,22 +45,22 @@ Questo alfabeto ha due caratteristiche fondamentali:
 \end{itemize}
 Nel caso in cui volessimo rappresentare $N$ oggetti dobbiamo tenere di conto che
 \[ 2^{k + 1} - 2 \geq N \]
-con $k \geq \log_2 (N + 2) - 1$. Possiamo quindi affermare che $d_{\min}(2, N)$ \`e il minimo intero $k$ che soddisfa
+con $k \geq \log (N + 2) - 1$. Possiamo quindi affermare che $d_{\min}(2, N)$ \`e il minimo intero $k$ che soddisfa
 la relazione
 \begin{gather*}
-	d_{\min}(2, N) = \lceil \log_2 (N + 2) - 1 \rceil \\
+	d_{\min}(2, N) = \lceil \log (N + 2) - 1 \rceil \\
 	\Downarrow \\
-	\lceil \log_2 N \rceil - 1 \leq d_{\min}(2, N) \leq \lceil \log_2 N \rceil
+	\lceil \log N \rceil - 1 \leq d_{\min}(2, N) \leq \lceil \log N \rceil
 \end{gather*}
-Il numero $\lceil \log_2 N \rceil$ sono i caratteri binari sufficienti per costruire $N$ sequenze differenti. In
-sostanza possiamo costruire $N$ sequenze differenti, tutte di $\lceil \log_2 N \rceil$ caratteri.
+Il numero $\lceil \log N \rceil$ sono i caratteri binari sufficienti per costruire $N$ sequenze differenti. In
+sostanza possiamo costruire $N$ sequenze differenti, tutte di $\lceil \log N \rceil$ caratteri.
 
-Per comodit\`a, \`e preferibile costruire $N$ sequenze, \emph{tutte} di $\lceil \log_2 N \rceil$ caratteri e non $N$
-sequenze \emph{al massimo} di $\lceil \log_2 N \rceil$ caratteri.
+Per comodit\`a, \`e preferibile costruire $N$ sequenze, \emph{tutte} di $\lceil \log N \rceil$ caratteri e non $N$
+sequenze \emph{al massimo} di $\lceil \log N \rceil$ caratteri.
 
 \begin{example}
 	Se volessimo rappresentare 7 oggetti con un alfabeto binario
-	\[ N = 7, \quad \lceil \log_2 7 \rceil = 3 \]
+	\[ N = 7, \quad \lceil \log 7 \rceil = 3 \]
 	potremmo rappresentare i 7 oggetti come segue
 	\[
 		0 \quad
@@ -97,6 +97,6 @@ La notazione posizionale per rappresentare numeri interi \`e una rappresentazion
 base $s \geq 2$ scelta.
 
 Un numero $N$ \`e rappresentato con un numero $d$ di cifre tale che
-\[ \lceil \log_2 N \rceil \leq d \leq \lceil \log_2 N \rceil + 1 \]
+\[ \lceil \log N \rceil \leq d \leq \lceil \log N \rceil + 1 \]
 C'\`e quindi una \textbf{riduzione logaritmica} tra il valore $N$ di un numero e la lunghezza $d$ della sua
 rappresentazione.

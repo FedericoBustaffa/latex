@@ -198,23 +198,23 @@ di interi modulo $p$.
 Si introduce anche la \textbf{moltiplicazione scalare} di punti sulla curva che altro non \`e che una
 generalizzazione dell'addizione nell'algebra modulare. Questa operazione coinvolge un punto $P \in E(a, b)$ e un
 intero $k$ e si pu\`o mettere in corrispondenza con l'elevamento a potenza. Come vedremo $k P$ si calcola
-in tempo polinomiale con $\Theta(\log_2 k)$ addizioni e raddoppi di punti.
+in tempo polinomiale con $\Theta(\log k)$ addizioni e raddoppi di punti.
 
 \subsection{Algoritmo dei raddoppi ripetuti}
 Questo algoritmo, come vedremo, si pu\`o mettere in corrispondenza con l'algoritmo di esponenziazione veloce usato
-nell'algebra modulare e consiste nel fare $\lfloor \log_2 k \rfloor$ raddoppi e $O(\log_2 k)$ somme di punti.
+nell'algebra modulare e consiste nel fare $\lfloor \log k \rfloor$ raddoppi e $O(\log k)$ somme di punti.
 
 Sia $P$ un punto in $E_p(a, b)$ e sia $k$ un intero
 \begin{enumerate}
 	\item Si scompone come somma di potenze di 2
-	      \[ k = \sum_{i=0}^{\lfloor \log_2 k \rfloor} k_i 2^i \quad \quad k_i \in \{ 0, 1 \} \]
-	\item Si calcolano $\lfloor \log_2 k \rfloor$ punti, ognuno come raddoppio del precedente.
-	      \[ 2P, \quad 2^2P, \quad 2^3 P, \quad \dots, \quad 2^{\lfloor\log_2 k \rfloor} \]
+	      \[ k = \sum_{i=0}^{\lfloor \log k \rfloor} k_i 2^i \quad \quad k_i \in \{ 0, 1 \} \]
+	\item Si calcolano $\lfloor \log k \rfloor$ punti, ognuno come raddoppio del precedente.
+	      \[ 2P, \quad 2^2P, \quad 2^3 P, \quad \dots, \quad 2^{\lfloor\log k \rfloor} \]
 	\item Si calcola $Q = kP$ calcolando
 	      \[ \sum_{i \mid k_i = 1} 2^i P \]
-	      in al pi\`u $\log_2 k$ addizioni.
+	      in al pi\`u $\log k$ addizioni.
 \end{enumerate}
-Se notiamo, l'algoritmo calcola $kP$ con $\Theta(\log_2 k)$ operazioni.
+Se notiamo, l'algoritmo calcola $kP$ con $\Theta(\log k)$ operazioni.
 
 \begin{example}
 	Supponiamo di voler calcolare $13P$. Non possiamo permetterci di fare 13 somme, scriviamo quindi il 13 come

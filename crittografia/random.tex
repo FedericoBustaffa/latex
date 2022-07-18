@@ -33,8 +33,8 @@ Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico d
 		print(1);
 	\end{lstlisting}
 	La lunghezza della rappresentazione in binario di $A_h$ avr\`a lunghezza
-	\[ |A_h| = \text{cost} + \Theta(\log_2 n) \]
-	dato che per rappresentare $n$ in binario ho bisogno di $\log_2 n$ bit. Abbiamo quindi descritto con $\log_2 n$	bit
+	\[ |A_h| = \text{cost} + \Theta(\log n) \]
+	dato che per rappresentare $n$ in binario ho bisogno di $\log n$ bit. Abbiamo quindi descritto con $\log n$	bit
 	una sequenza di $n$ bit.
 \end{example}
 
@@ -73,8 +73,8 @@ Questo sistema di calcolo prende in input una coppia $q$, formata da un indice $
 simulare) e un programma $p$, da far girare sul sistema di calcolo $S_i$.
 \[ S_u(q) =  S_u (\langle i, p \rangle) = S_i (p) = h \]
 Se andiamo a valutare la lunghezza di $q$ in bit otteniamo che
-\[ |q| = |i| + |p| = \Theta (\log_2 i) + |p| \]
-dato che per rappresentare $i$ ho bisogno di $\log_2 i$ bit. Notiamo anche che $|i|$ dipende unicamente dal sistema di
+\[ |q| = |i| + |p| = \Theta (\log i) + |p| \]
+dato che per rappresentare $i$ ho bisogno di $\log i$ bit. Notiamo anche che $|i|$ dipende unicamente dal sistema di
 calcolo e non dalla sequenza $h$.
 
 Proviamo ora a valutare la complessit\`a di Kolmogorov su $S_u$. Possiamo dire certamente che
@@ -91,7 +91,7 @@ dove $c_i$ \`e una costante che non dipende da $h$.
 
 \begin{definition}[Casualit\`a secondo Kolmogorov]
 	Una sequenza $h$ \`e \textbf{casuale} se
-	\[ K(h) \geq |h| - \lceil \log_2 |h| \rceil \]
+	\[ K(h) \geq |h| - \lceil \log |h| \rceil \]
 	La ragione per cui si sottrae un fattore logaritmico \`e per rilassare il vincolo di casualit\`a, altrimenti
 	soddisfatto da ben poche sequenze.
 \end{definition}
@@ -115,14 +115,14 @@ Dimostriamo adesso l'\textbf{esistenza} di sequenze casuali secondo la teoria ap
 
 	Iniziamo con il ricordare una caratteristica detta in precedenza sulle sequenze in $T$ e quindi non casuali. I
 	programmi che generano sequenze lunghe $n$ in $T$ hanno lunghezza
-	\[ |p| < n - \lceil \log_2 n \rceil \]
-	perch\'e se la lunghezza \`e almeno $n - \lceil \log_2 n \rceil$ allora la sequenza \`e casuale.
+	\[ |p| < n - \lceil \log n \rceil \]
+	perch\'e se la lunghezza \`e almeno $n - \lceil \log n \rceil$ allora la sequenza \`e casuale.
 
 	Indichiamo con $N$ il numero di sequenze binarie $h$ tali che
-	\[ |h| < n - \lceil \log_2 n \rceil \]
+	\[ |h| < n - \lceil \log n \rceil \]
 	Tra queste ci saranno anche le sequenze che codificano i programmi che generano le $T$ sequenze non casuali. Possiamo
 	ora definire $N$ come segue
-	\[ N = \sum_{i=0}^{n - \lceil \log_2 n \rceil - 1} 2^i = 2^{n - \lceil \log_2 n \rceil} - 1 \]
+	\[ N = \sum_{i=0}^{n - \lceil \log n \rceil - 1} 2^i = 2^{n - \lceil \log n \rceil} - 1 \]
 	Se mettiamo a confronto $N$ con $S$ notiamo subito che
 	\[ N < S \]
 	ma abbiamo che in $N$ ci sono tutti i programmi che generano le $T$ sequenze non casuali, quindi
@@ -153,7 +153,7 @@ RANDOM(h)
 		\end{lstlisting}
 		Costruiamo a questo punto l'algoritmo \verb|PARADOSSO| che enumera tutte le sequenze di lunghezza $h$, chiama
 		\verb|RANDOM| su ognuna di esse	e infine restituisce la prima sequenza casuale $h$ tale che
-		\[ |h| - \lceil \log_2 |h| \rceil > 1 \]
+		\[ |h| - \lceil \log |h| \rceil > 1 \]
 		\begin{lstlisting}[style=pseudo-style]
 PARADOSSO()
 	for h = 1 to +inf
@@ -170,9 +170,9 @@ PARADOSSO()
 
 		\begin{enumerate}
 			\item La prima condizione \`e vera quando incontro una sequenza $h$ tale che
-			      \[ |h| - \lceil \log_2 |h| \rceil > |\text{P}| \]
+			      \[ |h| - \lceil \log |h| \rceil > |\text{P}| \]
 			      ma \verb|P| \`e un programma \textbf{breve} che \emph{genera} $h$, quindi
-			      \[ |P| < |h| - \lceil \log_2 |h| \rceil \]
+			      \[ |P| < |h| - \lceil \log |h| \rceil \]
 			      ma questo equivale a dire che $h$ non \`e casuale secondo Kolmogorov.
 			\item La seconda condizione \`e vera quando \verb|RANDOM| trova una sequenza casuale e, come detto in
 			      precedenza, le sequenze casuali esistono e quindi prima o poi \verb|RANDOM| ne trover\`a una.
