@@ -1,20 +1,19 @@
 \chapter{Cifrari simmetrici per crittografia di massa}\label{critto_sim_massa}
-Questi cifrari rientrano nel secondo gruppo di cifrari moderni, non hanno quindi un tipo di sicurezza incondizionata ma
-di tipo computazionale.
-
-Nascondono quindi l'informazione a patto che il crittoanalista abbia risorese computazionali limitate e che P $\neq$ NP.
+Questi cifrari basano la loro sicurezza sulla difficolt\`a nel risolvere problemi complessi. Si dice quindi che hanno
+una sicurezza di tipo computazionale e nascondono l'informazione a patto che il crittoanalista abbia risorese
+computazionali limitate e sotto l'ipotesi che P $\neq$ NP.
 
 La loro sicurezza si basa sui due \textbf{principi di Shannon}, i quali, rendono questi cifrari robusti alla
-crittoanalisi statistica. I due principi in questione sono
+crittoanalisi statistica:
 \begin{itemize}
-	\item \textbf{Diffusione}: Il testo in chiaro si deve distribuire su tutto il crittogramma. Ogni carattere del
-	      crittogramma deve cio\`e dipendere da tutti i caratteri del blocco del messaggio.
+	\item \textbf{Diffusione}: Il testo in chiaro si deve distribuire su tutto il crittogramma.
 
-	      Si ottiene cos\`i un istogramma delle frequenze piatto.
+	      Ogni carattere del crittogramma deve cio\`e dipendere da tutti i caratteri del blocco del messaggio ottenendo
+	      cos\`i un istogramma delle frequenze piatto.
 	\item \textbf{Confusione}: Messaggio e crittogramma sono combinati fra loro in modo molto complesso per non
 	      permettere al crittoanalista di separare le due sequenze tramite l'analisi statistica del crittogramma.
 
-	      Per far s\`i che questo avvenga devono essere vere due condizioni
+	      Per far s\`i che questo avvenga devono essere vere due condizioni:
 	      \begin{itemize}
 		      \item La chiave deve essere ben distribuita sul testo cifrato.
 		      \item Ogni bit del crittogramma deve dipendere da tutti i bit della chiave.
