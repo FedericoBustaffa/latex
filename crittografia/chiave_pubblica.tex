@@ -214,11 +214,11 @@ Dimostriamo che il cifrario \`e corretto.
 		      che equivale a dire che
 		      \[ ed = r \cdot \phi(n) + 1 \]
 		      con $r \in \mathbb{N}$. Possiamo quindi scrivere l'ipotesi come
-		      \[ m^{ed} \mod{n} \quad = \quad m^{r \phi(n) + 1} \mod{n} \]
+		      \[ m^{ed} \mod{n} = m^{r \phi(n) + 1} \mod{n} \]
 		      Per le propriet\`a delle potenze possiamo scrivere
 		      \[ m \cdot (m^{\phi(n)})^r \mod{n} \]
 		      Per il teorema di Eulero questo equivale a
-		      \[ m \cdot 1^r \mod{n} \quad = \quad m \mod{n} \quad = \quad m\]
+		      \[ m \cdot 1^r \mod{n} = m \mod{n} = m\]
 		      dato che $m < n$.
 		\item Nel secondo caso $(n, m) \neq 1$. Il massimo comun divisore tra $n$ ed $m$ deve essere o $p$ o $q$ e
 		      vale che
@@ -254,10 +254,10 @@ Dimostriamo che il cifrario \`e corretto.
 		      \begin{gather*}
 			      m^{ed} - m \equiv 0 \mod{n} \\
 			      \Downarrow \\
-			      m^{ed} \mod{n} \quad = \quad m \mod{n}
+			      m^{ed} \mod{n} = m \mod{n}
 		      \end{gather*}
 		      ma dato che $m < n$ otteniamo
-		      \[ m \mod{n} \quad = \quad m \]
+		      \[ m \mod{n} = m \]
 		      Questo dimostra la correttezza anche quando messaggio e modulo non sono coprimi.
 	\end{enumerate}
 \end{proof}
@@ -386,7 +386,7 @@ Si risolve il problema facendo un po' di \emph{padding}.
 Supponiamo ora che due utenti utilizzino lo stesso valore di $n$. Il primo utente ha a disposizione la coppia
 $\langle e_1, n \rangle$ e il secondo utente la coppia $\langle e_2, n \rangle$.
 
-Se $e_1$ ed $e_2$ sono coprimi e ricevono lo stesso messaggio $m$ e dunque vale
+Se $e_1$ ed $e_2$ sono coprimi e i due utenti ricevono lo stesso messaggio $m$, vale
 \[
 	\begin{matrix}
 		c_1 = m^{e_1} \mod{n} \\
@@ -427,8 +427,8 @@ allora si procede in questo modo
 \subsubsection{Attacchi a tempo}
 Sono attacchi che cercano di stimare $d$ andando a vedere il tempo di decifrazione che impiega l'algoritmo.
 
-Si basa sulla conoscenza del fatto che quando si esegue l'esponenziazione modulare si esegue una moltiplicazione
-ad ogni iterazione e un'ulteriore moltiplicazione modulare per ciascun bit uguale a 1 in $d$.
+Si basa sul fatto che quando si esegue l'esponenziazione modulare si esegue una moltiplicazione ad ogni iterazione
+e un'ulteriore moltiplicazione modulare per ciascun bit uguale a 1 in $d$.
 
 Basta inserire ritardi casuali per proteggersi da questo tipo di attacchi.
 
@@ -449,7 +449,7 @@ con un leggero ritardo) ma anche il crittoanalista \`e in possesso della chiave 
 decifrare facilemente ogni messaggio che passa sul canale.
 
 Il modo per proteggersi da questi attacchi \`e quello di prendere i valori dei vari parametri pubblici da un
-certificato digitale fornito dal NIST.
+certificato digitale.
 
 \section{Protocollo DH}
 Il \textbf{protocollo DH}, dai due crittografi che lo hanno implementato (Diffie ed Hellman), si basa sul problema
@@ -462,93 +462,80 @@ Nella pratica non c'\`e uno scambio di chiave ma uno scambio di informazioni nec
 di una chiave simmetrica.
 
 \subsection{Funzionamento}
-Affinch\'e il procedimento funzioni, i due utenti $i$ e $j$, che intendono comunicare, devono scegliere
+Affinch\'e il procedimento funzioni, i due utenti $A$ e $B$, che intendono comunicare, devono scegliere
 \begin{itemize}
 	\item Un numero primo $p$ molto grande.
 	\item Un generatore $g$ per $\mathbb{Z}_p^*$, dove $\mathbb{Z}_p^*$ \`e un gruppo ciclico.
 \end{itemize}
 Questi due dati sono pubblici.
 
-\subsubsection{Costruzione della chiave}
-Due utenti $i$ e $j$ per instaurare una comunicazione su un canale insicuro devono
+I due utenti, per instaurare una comunicazione su un canale insicuro, devono
 \begin{enumerate}
 	\item Scegliere rispettivamente due interi $a$ e $b$ casuali, tali che
 	      \[ 1 < a, b < p-1 \]
 	\item Calcolare rispettivamente
-	      \[
-		      \begin{matrix}
-			      A = g^a \mod{p} \\
-			      B = g^b \mod{p}
-		      \end{matrix}
-	      \]
+	      \begin{gather*}
+		      c_A = g^a \mod{p} \\
+		      c_B = g^b \mod{p}
+	      \end{gather*}
 	      con l'algoritmo di esponenziazione veloce.
-	\item Inviare rispettivamente $A$ e $B$ sul canale.
+	\item Inviare rispettivamente $c_A$ e $c_B$ sul canale.
 	\item Calcolare rispettivamente
-	      \[
-		      \begin{matrix}
-			      k & = & B^a \mod{p} & = & g^{ba} \mod{p} \\
-			      k & = & A^b \mod{p} & = & g^{ab} \mod{p}
-		      \end{matrix}
-	      \]
+	      \begin{gather*}
+		      k = c_B^a \mod{p} = g^{ba} \mod{p} \\
+		      k = c_A^b \mod{p} = g^{ab} \mod{p}
+	      \end{gather*}
 \end{enumerate}
 Alla fine di questo procedimento, gli utenti sono in possesso di una chiave simmetrica $k$ per la comunicazione.
 
 \subsection{Attacchi}
-Il crittoanalista conosce $p$, $g$, $A$ e $B$ ma non possiede ne $a$ ne $b$ che sono elementi fondamentali per il
-calcolo di $k$ in tempo polinomiale. Senza queste informazioni deve calcolare il logaritmo discreto che, come sappiamo
-ha costo subesponenziale. Il protocollo \`e dunque robusto ad attacchi passivi.
-
-Vediamo per\`o come si comporta con attacchi di tipo attivo come il \emph{man in the middle}.
+Il crittoanalista conosce $p$, $g$, $c_A$ e $c_B$ ma non possiede ne $a$ ne $b$, fondamentali per il calcolo di $k$
+in tempo polinomiale. Senza queste informazioni deve calcolare il logaritmo discreto che, come sappiamo, ha costo
+subesponenziale. Il protocollo \`e dunque robusto ad attacchi passivi.
 
 \subsubsection{Man in the middle}
-Simuliamo il processo di costruzione della chiave visto in precedenza ma stavolta il crittoanalista $s$ interviene
+Simuliamo il processo di costruzione della chiave visto in precedenza ma stavolta, il crittoanalista $C$ interviene
 nella comunicazione.
 \begin{enumerate}
-	\item $i$, $j$ e $s$ scelgono rispettivamente tre interi $a$, $b$ e $c$ casuali, tali che
+	\item $A$, $B$ e $C$ scelgono rispettivamente tre interi $a$, $b$ e $c$ casuali, tali che
 	      \[ 1 < a, b, c < p-1 \]
-	\item $i$, $j$ e $s$ calcolano rispettivamente
-	      \[
-		      \begin{matrix}
-			      A = g^a \mod{p} \\
-			      B = g^b \mod{p} \\
-			      C = g^c \mod{p}
-		      \end{matrix}
-	      \]
+	\item $A$, $B$ e $C$ calcolano rispettivamente
+	      \begin{gather*}
+		      c_A = g^a \mod{p} \\
+		      c_B = g^b \mod{p} \\
+		      c_C = g^c \mod{p}
+	      \end{gather*}
 	      con l'algoritmo di esponenziazione veloce.
-	\item $i$ e $j$ inviano rispettivamente $A$ e $B$ sul canale.
-	\item $s$ intercetta $A$ e $B$ e li sostituisce con $C$.
-	\item $i$ e $j$ calcolano rispettivamente
-	      \[
-		      \begin{matrix}
-			      k_i & = & C^a \mod{p} & = & g^{ac} \mod{p} \\
-			      k_j & = & C^b \mod{p} & = & g^{bc} \mod{p}
-		      \end{matrix}
-	      \]
-	\item $s$ calcola
-	      \[
-		      \begin{matrix}
-			      k_i & = & A^c \mod{p} & = & g^{ac} \mod{p} \\
-			      k_j & = & B^c \mod{p} & = & g^{bc} \mod{p}
-		      \end{matrix}
-	      \]
+	\item $A$ e $B$ inviano rispettivamente $c_A$ e $c_B$ sul canale.
+	\item $C$ intercetta $c_A$ e $c_B$ e li sostituisce con $c_C$.
+	\item $A$ e $B$ calcolano rispettivamente
+	      \begin{gather*}
+		      k_A = c_C^a \mod{p} = g^{ac} \mod{p} \\
+		      k_B = c_C^b \mod{p} = g^{bc} \mod{p}
+	      \end{gather*}
+	\item $C$ calcola
+	      \begin{gather*}
+		      k_A = c_A^c \mod{p} = g^{ac} \mod{p} \\
+		      k_B = c_B^c \mod{p} = g^{bc} \mod{p}
+	      \end{gather*}
 \end{enumerate}
-A questo punto $i$ e $j$ hanno prodotto due chiavi differenti di cui $s$ \`e in possesso. Se uno dei due utenti
-invia un crittogramma all'altro e $s$ non interviene in alcun modo, i due si accorgono immediatamente che c'\`e
+A questo punto $A$ e $B$ hanno prodotto due chiavi differenti delle quali $C$ \`e in possesso. Se uno dei due utenti
+invia un crittogramma all'altro e $C$ non interviene in alcun modo, i due si accorgono immediatamente che c'\`e
 stata una corruzione e ripartono da zero.
 
-Il crittoanalista $s$ potrebbe per\`o continuare ad intercettare i crittogrammi sul canale e agire in questo modo
+Il crittoanalista $C$ potrebbe per\`o continuare ad intercettare i crittogrammi sul canale e agire in questo modo
 \begin{enumerate}
-	\item $i$ invia un messaggio, cifrato con $k_i$.
-	\item $s$ lo intercetta e lo decifra con $k_i$.
-	\item $s$ cifra nuovamente il messaggio con $k_j$ e lo invia a $j$.
+	\item $A$ invia un messaggio, cifrato con $k_A$.
+	\item $C$ lo intercetta e lo decifra con $k_A$.
+	\item $C$ cifra nuovamente il messaggio con $k_B$ e lo invia a $B$.
 \end{enumerate}
-Ovviamente vale lo stesso se \`e $j$ ad inviare un messaggio.
+Ovviamente vale lo stesso se \`e $B$ ad inviare un messaggio.
 
 Il risultato \`e che i due utenti non sperimentano alcuna corruzione dei dati poich\'e sono in grado di decifrare
 i crittogrammi che arrivano.
 
 Anche in questo caso il modo per proteggersi da questi attacchi \`e quello di prendere i valori dei vari parametri
-pubblici da un certificato digitale fornito dal NIST.
+pubblici da un certificato digitale.
 
 \section{Cifrario di ElGamal}
 Il \textbf{cifrario di ElGamal} basa la sua sicurezza sulla difficolt\`a nel calcolare il logaritmo discreto. Al
