@@ -1,10 +1,9 @@
 \chapter{Cifrari a chiave pubblica}
-Nei cifrari simmetrici si ha un grosso problema, ovvero, lo \textbf{scambio della chiave}, che, come sappiamo, deve
+Nei cifrari simmetrici si ha un grosso problema, ovvero lo \textbf{scambio della chiave} che come sappiamo, deve
 essere la stessa per entrambi gli utenti.
 
 Fino ad ora abbiamo sempre assunto che i due utenti fossero gi\`a in possesso della chiave e abbiamo solo parlato del
-metodo di cifratura e decifrazione. Come abbiamo visto i messaggi scambiati sono cifrati e dunque la comunicazione \`e
-sicura ma come avviene lo scambio della chiave ?
+metodo di cifratura e decifrazione ma come avviene lo scambio della chiave ?
 \begin{itemize}
 	\item Se avviene di persona allora tanto vale scambiarsi direttamente il messaggio.
 	\item Se avviene in chiaro non ha pi\`u senso cifrare il messaggio dato che chiunque potrebbe intercettare la
@@ -20,9 +19,9 @@ utente.
 
 In questo modo abbiamo un numero quadratico di chiavi nel numero di utenti del sistema.
 
-Quando un utente $i$ vuole comunicare con l'utente $j$ manda un messaggio a $j$ cifrandolo con la chiave $k_j$.
-L'utente $j$ a questo punto decifra il messaggio con la sua chiave $k_j$ e invia un messaggio a $i$ cifrandolo con
-la chiave $k_i$.
+Quando un utente $A$ vuole comunicare con l'utente $B$ manda un messaggio a $B$ cifrandolo con la chiave $k_B$.
+L'utente $B$ a questo punto decifra il messaggio con la sua chiave $k_B$ e invia un messaggio ad $A$, cifrandolo con
+la chiave $k_A$.
 
 \section{TTP}
 Una soluzione migliore \`e rappresentata dal \textbf{TTP} o \textbf{trusted 3rd party}, ossia una terza parte
@@ -33,10 +32,10 @@ due utenti.
 
 Siano $A$ e $B$ i due utenti che vogliono comunicare, il processo di scambio funziona in questo modo:
 \begin{enumerate}
-	\item $A$ e $B$ possiedono rispettivamente $k_A$ e $k_B$, due chiavi generate da loro stessi.
+	\item $A$ e $B$ possiedono rispettivamente due chiavi $k_A$ e $k_B$.
 	\item $A$ comunica a TTP di voler comunicare con $B$.
 	\item TTP genera casualmente una chiave $k_{AB}$ che potranno usare i due utenti per quella comunicazione.
-	\item TTP cifra genera due crittogrammi $c_A$ e $c_B$ in questo modo
+	\item TTP genera due crittogrammi $c_A$ e $c_B$ in questo modo
 	      \[
 		      \begin{matrix}
 			      c_A & = & C(k_{AB}, k_A) \\
@@ -44,12 +43,13 @@ Siano $A$ e $B$ i due utenti che vogliono comunicare, il processo di scambio fun
 		      \end{matrix}
 	      \]
 	\item TTP invia $c_A$ e $c_B$ ad $A$.
-	\item $A$ decifra $c_A$ con $k_A$ e invia a $c_B$ a $B$.
+	\item $A$ decifra $c_A$ con $k_A$ e invia $c_B$ a $B$.
 	\item $B$ decifra $c_B$ con $k_B$.
 \end{enumerate}
 Alla fine di questo processo i due utenti sono in possesso di una chiave $k_{AB}$ che potranno usare per quella
 comunicazione in un cifrario simmetrico.
 
+\subsection{Svantaggi}
 Le problematiche di questo sistema sono due:
 \begin{itemize}
 	\item TTP deve essere sempre online.
@@ -66,7 +66,7 @@ Le operazioni di cifratura e decifrazione sono pubbliche e utilizzano due chiavi
 	\item \textbf{Chiave pubblica}: \`e nota a tutti.
 	\item \textbf{Chiave private}: nota solo al destinatario.
 \end{itemize}
-Questa coppia di chiavi \`e generata dall'utente in veste di destinatario, il rende nota la sua chiave pubblica e
+Questa coppia di chiavi \`e generata dall'utente in veste di destinatario, il quale rende nota la sua chiave pubblica e
 mantiene segreta la sua chiave privata.
 
 Se volessimo inviare un messaggio all'utente $i$ si dovrebbe cifrare il messaggio con la sua chiave pubblica. L'utente
@@ -75,13 +75,14 @@ $i$ decifra il crittogramma con la sua chiave privata.
 In questo sistema l'unica cosa non nota a tutti \`e la chiave privata del destinatario. Le funzioni di cifratura e
 decifrazione e la chiave pubblica sono note a qualsiasi utente.
 
-I cifrari a chiave pubblica hanno due principali vantaggi
+\subsection{Pro e contro}
+I cifrari a chiave pubblica hanno due principali vantaggi:
 \begin{itemize}
 	\item Se ci sono $n$ utenti nel sistema, il numero complessivo di chiavi pubbliche e private \`e $2n$ anzich\'e
-	      $\frac{n(n-1)}{2}$
+	      $\frac{n(n-1)}{2}$.
 	\item Non \`e richiesto alcuno scambio segreto di chiavi.
 \end{itemize}
-ma possiede anche altri due principali svantaggi
+Possiedono tuttavia anche due principali svantaggi:
 \begin{itemize}
 	\item Sono molto pi\`u lenti dei cifrari simmetrici.
 	\item Sono esposti ad attacchi di tipo \emph{chosen plain text}.
@@ -94,32 +95,33 @@ Un crittoanalista quando effettua un'attacco di questo tipo
 	\item Li cifra con la funzione pubblica $C$ e con la chiave pubblica $k_{\text{pub}}$ del destinatario.
 	\item Confronta infine i crittogrammi in suo possesso con i crittogrammi che passano sul canale.
 \end{enumerate}
-Un attacco di questo tipo \`e molto pericoloso nel caso in cui il crittoanalista sospetta che un certo messaggio debba
+Un attacco di questo tipo \`e molto pericoloso nel caso in cui il crittoanalista sospetti che un certo messaggio debba
 transitare sul canale.
 
 Ecco perch\'e questi cifrari non sono usati per comunicare ma solo per scambiarsi la chiave di un cifrario simmetrico
-(AES).
+(AES per esempio).
 
 In questo modo risolviamo in un colpo solo tutti i problemi elencati in precedenza:
 \begin{itemize}
 	\item Il processo \`e "lento" solo per lo scambio della chiave (256 bit) ma la comunicazione viene fatta con un
 	      cifrario simmetrico molto veloce.
-	\item L'attacco di tipo \emph{chosen plain text} diventa inutile dato che la chiave \`e una sequenza di bit casuale.
+	\item L'attacco di tipo \emph{chosen plain text} diventa inattuabile dato che la chiave \`e una sequenza di bit
+	      casuale e dunque impossibile da prevedere.
 \end{itemize}
 
 \subsection{Requisiti}
-Perch\'e la cifratura a chiave pubblica devono essere soddisfatti alcuni requisiti.
+Perch\'e la cifratura a chiave pubblica sia effettuata correttamente devono essere soddisfatti alcuni requisiti:
 \begin{itemize}
-	\item Il procedimento di cifratura e decifrazione devono essere implementati correttamente. Il destinatario deve
-	      essere in grado di decifrare qualsiasi messaggio con la propria chiave privata.
-	      \[ D(C(m, k_{\text{pub}}), k_{\text{priv}}) = m \]
+	\item Il destinatario deve essere in grado di decifrare qualsiasi messaggio con la propria chiave privata anche se
+	      questo \`e stato cifrato con la chiave pubblica:
+	      \[ m = D(C(m, k_{\text{pub}}), k_{\text{priv}}) \]
 	\item Efficienza e sicurezza del sistema:
 	      \begin{itemize}
 		      \item La coppia di chiavi \`e \emph{facile} da generare e deve risultare praticamente impossibile che due
 		            utenti scelgano la stessa chiave.
 		      \item Dati $m$ e $k_{\text{pub}}$ \`e \emph{facile} per il mittente produrre il crittogramma.
-		      \item Dati $c$ e $k_{\text{priv}}$ \`e \emph{facile} per il destinatario produrre il messaggio originale.
-		      \item Pur conoscendo la chiave pubblica e le funzioni di cifratura e decifrazione deve essere
+		      \item Dati $c$ e $k_{\text{priv}}$ \`e \emph{facile} per il destinatario produrre il messaggio.
+		      \item Pur conoscendo la chiave pubblica e le funzioni di cifratura e decifrazione, deve essere
 		            \emph{difficile} per il crittoanalista risalire al messaggio in chiaro.
 	      \end{itemize}
 \end{itemize}
@@ -127,9 +129,10 @@ La soluzione risiede nel trovare una funzione di tipo \textbf{one-way trap-door}
 calcolare e difficile da invertire a meno che non si conosca la chiave privata.
 
 \section{RSA}
-Questo cifrario usa l'algebra modulare e si basa sulla moltiplicazione di due numeri primi $p$ e $q$ poich\'e calcolare
+Questo cifrario usa l'algebra modulare e si basa sulla moltiplicazione di due numeri primi $p$ e $q$ poich\'e,
+calcolare
 \[ n = p \cdot q \]
-richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricostruire $p$ e $q$ a partire da $n$
+richiede tempo quadratico nella lunghezza della loro rappresentazione ma, ricostruire $p$ e $q$ a partire da $n$,
 richiede tempo esponenziale se $p$ e $q$ sono primi.
 
 Se si conosce tuttavia uno dei due fattori, risalire all'altro \`e facile (basta fare una divisione).
@@ -142,12 +145,11 @@ Per la generazione delle due chiavi, il destinatario deve
 	      protezione oltre il 2030.
 
 	      Per farlo dobbiamo generare numeri di circa 1500 bit ed effettuare il test di Miller-Rabin per la
-	      primalit\`a finch\'e non otteniamo due numeri primi (tempo polinomiale).
+	      primalit\`a finch\'e non otteniamo due numeri primi.
 	\item Calcolare
 	      \[ n = p \cdot q \]
 	      e la relativa funzione di Eulero
 	      \[ \phi(n) = (p - 1)(q - 1) \]
-	      il tutto in tempo polinomiale.
 	\item Scegliere un intero $e$ tale che
 	      \[ e < \phi(n) \quad \wedge \quad (e, \phi(n)) = 1 \]
 	\item Calcolare con l'algoritmo di Euclide esteso
@@ -156,21 +158,17 @@ Per la generazione delle due chiavi, il destinatario deve
 \end{enumerate}
 
 \subsection{Cifratura e decifrazione}
-Sia $m$ un messaggio scritto come una sequenza binaria e trattato come un intero tale che
-\[ m < n \]
-Il valore decimale di $m$ deve essere strettamente minore di $n$, se cos\`i non fosse dobbiamo dividere $m$ in
-blocchi di $b = \log n$ bit
+Sia $m < n$ un messaggio scritto come una sequenza binaria e trattato come un intero. Il valore decimale di $m$ deve
+essere strettamente minore di $n$, se cos\`i non fosse dobbiamo dividere $m$ in blocchi di $b = \log n$ bit
 
-Questo requisito \`e dovuto al fatto che tutte le operazioni sono fatte $\mod{n}$ e quindi
-\[ m \geq n \]
-implicherebbe
-\[ m = m \mod{n} \]
+Questo requisito \`e dovuto al fatto che tutte le operazioni sono fatte modulo $n$ e quindi $m \geq n$ implicherebbe
+che
+\[ m \neq m \mod{n} \]
 Si avrebbe quindi una funzione non iniettiva che mappa messaggi diversi nello stesso crittogramma.
 
 Nella pratica si fissa il valore di $b$ in modo da dare un limite inferiore a $n$, costringendo cos\`i l'utente ad usare
 chiavi lunghe
 \[ m < 2^b < n \]
-
 Per la \textbf{cifratura} si utilizza la chiave pubblica ed \`e definita come segue
 \[ c = m^e \mod{n} \]
 Per la \textbf{decifrazione} si utilizza la chiave privata del destinatario ed \`e definita in questo modo
@@ -179,10 +177,10 @@ Sia cifratura che decifrazione hanno costo polinomiale con l'algoritmo di \emph{
 
 \begin{example}
 	Consideriamo due numeri primi $p = 5$ e $q = 11$, otteniamo quindi
-	\[ n = p \cdot q = 55 \]
-	Calcoliamo la funzione di Eulero di $n$
+	\[ n = 55 \]
+	Calcoliamo la funzione di Eulero su $n$
 	\[ \phi(n) = (p - 1) (q - 1) = 40 \]
-	Scegliamo ora un numero minore di $\phi(n)$ e coprimo con esso, per esempio
+	Scegliamo ora un numero minore di 40 e coprimo con esso, per esempio
 	\[ e = 7 \]
 	La coppia $\langle n, e \rangle$ sar\`a la nostra chiave pubblica. Calcoliamo ora la chiave privata $d$ con
 	l'algoritmo di Euclide esteso
@@ -201,15 +199,14 @@ Dimostriamo che il cifrario \`e corretto.
 
 \begin{proof}
 	Per dimostrare la correttezza del cifrario dobbiamo dimostrare che
-	\[ D(C(m, k_\text{pub}), k_\text{priv}) = m \]
+	\[ m = D(C(m, k_\text{pub}), k_\text{priv}) \]
 	per farlo dobbiamo dimostrare che
-	\[ {\underbrace{(m^e \mod{n})}_c}^d \mod{n} = m \]
+	\[ m = {\underbrace{(m^e \mod{n})}_c}^d \mod{n} \]
 	che possiamo riscrivere come
-	\[ m^{ed} \mod{n} = m \]
-	Si procede per casi
+	\[ m = m^{ed} \mod{n} \]
+	Si procede per casi:
 	\begin{enumerate}
-		\item Nel primo caso in cui supponiamo $m$ e $n$ coprimi quindi $(m, n) = 1$. Dato che $m$ e $n$ sono coprimi
-		      vale il teorema di Eulero
+		\item Nel primo caso supponiamo $m$ e $n$ coprimi. Dato che $m$ e $n$ sono coprimi vale il teorema di Eulero:
 		      \[ m^{\phi(n)} \equiv 1 \mod{n} \]
 		      Partendo dalla definizione di inverso facciamo anche un'altra considerazione: dato che $e$ e $d$ sono
 		      l'uno l'inverso dell'altro modulo $\phi(n)$ vale
@@ -217,21 +214,21 @@ Dimostriamo che il cifrario \`e corretto.
 		      che equivale a dire che
 		      \[ ed = r \cdot \phi(n) + 1 \]
 		      con $r \in \mathbb{N}$. Possiamo quindi scrivere l'ipotesi come
-		      \[ m^{ed} \mod{n} = m^{r \phi(n) + 1} \mod{n} \]
-		      Usando le propriet\`a delle potenze possiamo scrivere
+		      \[ m^{ed} \mod{n} \quad = \quad m^{r \phi(n) + 1} \mod{n} \]
+		      Per le propriet\`a delle potenze possiamo scrivere
 		      \[ m \cdot (m^{\phi(n)})^r \mod{n} \]
 		      Per il teorema di Eulero questo equivale a
-		      \[ m \cdot 1^r \mod{n} = m \mod{n} = m\]
+		      \[ m \cdot 1^r \mod{n} \quad = \quad m \mod{n} \quad = \quad m\]
 		      dato che $m < n$.
 		\item Nel secondo caso $(n, m) \neq 1$. Il massimo comun divisore tra $n$ ed $m$ deve essere o $p$ o $q$ e
 		      vale che
 		      \[ p \mid m \quad \text{oppure} \quad q \mid m \]
-		      ma non entrambi possono essere divisori di $m$ perch\'e altrimenti $m \geq n$. Supponiamo che $p \mid m$
-		      quindi $q \nmid m$, questo ci dice che
+		      ma non entrambi possono essere divisori di $m$ perch\'e altrimenti $m$ sarebbe maggiore o uguale a $n$.
+		      Supponiamo che $p \mid m$ quindi $q \nmid m$, questo ci dice che
 		      \[ m \equiv 0 \mod{p} \quad \Rightarrow \quad m^r \equiv 0 \mod{p} \]
 		      per ogni $r \in \mathbb{N}$. Vale quindi che
 		      \[ m^r - m \equiv 0 \mod{p} \]
-		      Se prendiamo $r = ed$ otteniamo
+		      Se prendiamo $r = ed$, otteniamo
 		      \[ m^{ed} - m \equiv 0 \mod{p} \]
 
 		      Consideriamo ora $q$, che ricordiamo, non divide $m$ e consideriamo
@@ -242,21 +239,25 @@ Dimostriamo che il cifrario \`e corretto.
 		      \[ m \cdot m^{k (p - 1)(q - 1)} \mod{q} \]
 		      come prima, per le propriet\`a delle potenze, possiamo scrivere
 		      \[ m \cdot (m^{(q - 1)})^{k (p - 1)} \mod{q} \]
-		      dato che $q$ \`e un numero primo possiamo riscrivere l'equazione in questo modo
+		      Dato che $q$ \`e un numero primo possiamo riscrivere l'equazione in questo modo
 		      \[ m \cdot (m^{\phi(q)})^{k (p - 1)} \mod{q} \]
-		      Usiamo il teorema di Eulero
-		      \[ m \cdot 1^{k (p - 1)} \mod{q} = m \mod{q} \]
-		      quindi
-		      \[ m^{ed} \mod{q} = m \mod{q} \]
-		      dunque vale
-		      \[ m^{ed} - m \equiv 0 \mod{q} \]
+		      Usiamo il teorema di Eulero:
+		      \begin{gather*}
+			      m \cdot 1^{k (p - 1)} \mod{q} = m \mod{q} \\
+			      \Downarrow \\
+			      m^{ed} \mod{q} = m \mod{q} \\
+			      \Downarrow \\
+			      m^{ed} - m \equiv 0 \mod{q}
+		      \end{gather*}
 
-		      Possiamo quindi affermare che $m^{ed} - m$ \`e divisibile sia per $p$ che per $q$, quindi vale
-		      \[ m^{ed} - m \equiv 0 \mod{n} \]
-		      riscriviamo l'equazione come
-		      \[ m^{ed} \mod{n} = m \mod{n} \]
-		      ma dato che $m < n$ vale
-		      \[ m \mod{n} = m \]
+		      Possiamo quindi affermare che $m^{ed} - m$ \`e divisibile sia per $p$ che per $q$, quindi vale che
+		      \begin{gather*}
+			      m^{ed} - m \equiv 0 \mod{n} \\
+			      \Downarrow \\
+			      m^{ed} \mod{n} \quad = \quad m \mod{n}
+		      \end{gather*}
+		      ma dato che $m < n$ otteniamo
+		      \[ m \mod{n} \quad = \quad m \]
 		      Questo dimostra la correttezza anche quando messaggio e modulo non sono coprimi.
 	\end{enumerate}
 \end{proof}
@@ -284,23 +285,20 @@ Provare a ricavare $d$ direttamente da $n$ ed $e$ \`e un problema che \emph{semb
 fattorizzazione.
 
 Il problema della fattorizzazione rimane \emph{difficile} ma non pi\`u come un tempo. Ci sono ad oggi algoritmi
-pi\`u raffinati che richiedono un numero di operazioni \textbf{subesponenziale}.
-
-Parliamo dell'algoritmo GNFS, il quale, dato un intero $n$ rappresentato con
+pi\`u raffinati che richiedono un numero di operazioni \textbf{subesponenziale}. Parliamo dell'algoritmo GNFS, il
+quale, dato un intero $n$ rappresentato con
 \[ b = \lceil \log n \rceil + 1 \]
-bit, richiede un numero di operazioni dell'ordine di $O(2^{\sqrt{b \log b}})$.
-
-Ad oggi, tramite l'algoritmo GNFS, si riescono a fattorizzare semiprimi di 768 bit.
+bit, richiede un numero di operazioni dell'ordine di $O(2^{\sqrt{b \log b}})$ per fattorizzarlo.
 
 \subsubsection{Vincoli sui parametri}
-I due parametri $p$ e $q$ devono essere scelti in base ad alcuni propriet\`a, senza le quali si riuscirebbe
+I due parametri $p$ e $q$ devono essere scelti in base ad alcune propriet\`a, senza le quali si riuscirebbe
 facilmente forzare il cifrario:
 \begin{itemize}
 	\item Devono essere numeri di almeno 1024 bit per resistere agli attacchi a forza bruta.
 	\item Sia $p-1$ che $q-1$ devono contenere un fattore primo molto grande (altrimenti $n$ si fattorizza
 	      velocemente).
-	\item $(p-1, q-1)$ deve essere piccolo. Conviene scegliere $p$ e $q$ tali che $\frac{p-1}{2}$ e $\frac{q-1}{2}$
-	      siano coprimi.
+	\item Il massimo comun divisore tra $p-1$ e $q-1$ deve essere piccolo. Conviene scegliere $p$ e $q$ tali che
+	      \[ \left( \frac{p-1}{2}, \frac{q-1}{2} \right) \]
 	\item Non si deve riusare uno dei due primi per altre sessioni di comunicazione.
 	      \[
 		      \begin{matrix}
@@ -315,7 +313,6 @@ facilmente forzare il cifrario:
 
 	      Si effettua quindi un attacco a forza bruta che cerca i fattori vicini a $\sqrt{n}$.
 \end{itemize}
-
 Anche la scelta di $e$ e $d$ deve rispettare alcune propriet\`a. \`E vero che valori di $e$ e $d$ bassi accelerano
 la cifraura e la decifrazione ma ci fa andare incontro ad altri problemi
 \begin{itemize}
