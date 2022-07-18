@@ -538,9 +538,9 @@ Anche in questo caso il modo per proteggersi da questi attacchi \`e quello di pr
 pubblici da un certificato digitale.
 
 \section{Cifrario di ElGamal}
-Il \textbf{cifrario di ElGamal} basa la sua sicurezza sulla difficolt\`a nel calcolare il logaritmo discreto. Al
-livello di sicurezza non offre niente in pi\`u del cifrario RSA dato che la risoluzione di questo problema necessita
-lo steso numero di operazioni della fattorizzazione.
+Anche \textbf{cifrario di ElGamal}, come il protocollo DH, basa la sua sicurezza sulla difficolt\`a nel calcolare il
+logaritmo discreto. Al livello di sicurezza non offre niente in pi\`u del protcollo DH o dell'RSA dato che la
+risoluzione di questo problema necessita lo steso numero di operazioni della fattorizzazione.
 
 \subsection{Generazione delle chiavi}
 Per creare la coppia di chiavi si segue il seguente procedimento
@@ -570,10 +570,13 @@ Passiamo ora al metodo di cifratura.
 	\item Si sceglie un valore casuale $r$ tale che
 	      \[ 2 \leq r \leq p - 2 \]
 	\item Si calcola la coppia di crittogrammi
-	      \[ c = g^r \mod{p} \quad d = y^r \mod{p} \]
+	      \begin{gather*}
+		      c = g^r \mod{p} \\
+		      d = y^r \mod{p}
+	      \end{gather*}
 	      dove $y$ \`e la chiave pubblica del destinatario.
 \end{itemize}
-Per la decifrazione si calcola semplicemente
+Per la decifrazione si calcola
 \[ m = d \cdot c^x \mod{p} \]
 Sviluppiamo i calcoli
 \[
@@ -597,13 +600,11 @@ riuscirebbe a decifrare il crittogramma.
 
 \subsubsection{Attacco su r}
 Supponiamo che il mittente invii due messaggi $m_1$ ed $m_2$ al destinatario utilizzando lo stesso $r$ per la
-cifratura.
-
-I crittogrammi generati in fase di cifratura sono
+cifratura. I crittogrammi generati sono
 \[
 	\begin{matrix}
-		\langle c = g^r \mod{p}, d_1 = y^r \mod{p} \rangle \\
-		\langle c = g^r \mod{p}, d_2 = y^r \mod{p} \rangle
+		\langle c = g^r \mod{p}, \quad d_1 = y^r \mod{p} \rangle \\
+		\langle c = g^r \mod{p}, \quad d_2 = y^r \mod{p} \rangle
 	\end{matrix}
 \]
 Supponiamo ora che il crittoanalista venga a conoscenza di $m_1$. Dato che
@@ -615,5 +616,5 @@ Supponiamo ora che il crittoanalista venga a conoscenza di $m_1$. Dato che
 \]
 allora possiamo dire che
 \[ d_1 m_1^{-1} = y^r \mod{p} \]
-abbiamo quindi ottenuto $y^r$ e quindi possiamo calcolare
+abbiamo quindi ottenuto $y^r$ e possiamo calcolare
 \[ m_2 = d_2 \cdot (-y^r)^{-1} \mod{p} \]
