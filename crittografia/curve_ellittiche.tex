@@ -11,16 +11,14 @@ discreto hanno due problemi:
 	      lunghezza delle chiavi.
 \end{itemize}
 Come vedremo, la crittografia su curve ellittiche, propone i cifrari visti in precedenza (protocollo DH e cifrario
-di ElGamal) in un contesto matematico diverso e basati sul calcolo del logaritmo discreto e non pi\`u sulla
+di ElGamal) in un contesto matematico diverso basati sul calcolo del logaritmo discreto e non pi\`u sulla
 fattorizzazione.
 
 Il risultato \`e stato quello di ottenere un costo del miglior attacco, come vedremo, \textbf{puramente esponenziale}.
 
 \section{Curve ellittiche}
-Prima di vedere i dettagli implementativi definiamo cosa sono le curve ellittiche.
-
 Le curve ellittiche sono curve algebriche descritte da equazioni cubiche (simili a quelle utilizzate nel calcolo
-della lunghezza degli archi delle ellissi).
+della lunghezza degli archi delle ellissi):
 \[ E(a, b) = \{ (x, y) \in \mathbb{R}^2 \mid y^2 = x^3 + ax + b \} \]
 qui sono definite sui reali, nella cosiddetta \emph{forma normale di Weierstrass}, ma possiamo scrivere l'equazione
 su un campo $\mathbb{K}$ qualisiasi.
@@ -45,8 +43,8 @@ Questo ci assicura che
 	\item La curva sia priva di punti singolari come \emph{cuspidi} o \emph{nodi}, dove non sarebbe definita in
 	      modo univoco la tangente.
 \end{itemize}
-Le curve ellittiche rappresentano anche una \textbf{simmetri orizzontale}, ossia rispetto all'asse delle ascisse.
-Questo ci permette di definire sempre, per ogni punto della curva, il suo \textbf{opposto} sempre sulla curva.
+Le curve ellittiche rappresentano anche una \textbf{simmetria orizzontale}, ossia rispetto all'asse delle ascisse.
+Questo ci permette di definire sempre, per ogni punto della curva, il suo \textbf{opposto} ancora sulla curva.
 
 Preso il punto $p = \langle x, y \rangle$, il suo opposto ha coordinate $-p = \langle x, -y \rangle$.
 
@@ -62,15 +60,16 @@ in al pi\`u tre punti.
 Sviluppando il sistema si ottiene una cubica in $x$ che ha al massimo tre radici. Le radici in questione possono
 essere o tutte reali o una reale e due complesse coniugate.
 
-Quindi se una retta interseca la curva nei punti $P$ e $Q$, coincidenti se la retta \`e una tangente, allora la
-retta interseca la curva anche in un terzo punti $R$.
+Quindi se una retta interseca la curva nei punti $P$ e $Q$ (coincidenti se la retta \`e una tangente), allora la
+retta interseca la curva anche in un terzo punto $R$.
 
-Dati tre punti $P, Q, R$ su una curva, se sono anche tutti su una retta, vale
+Dati tre punti $P$, $Q$ ed $R$ su una curva, se sono anche tutti su una retta, vale
 \[ P + Q + R = O \]
 Da questa regola si ricava la regola per la somma di due punti $P$ e $Q$.
 \begin{enumerate}
-	\item Si scrive l'equazione della retta che passa per $P$ e per $Q$.
-	\item Dato che $P$ e $Q$ sono sulla curva e su una retta, esiste un terzo punto $R$.
+	\item Si scrive l'equazione della retta che passa per $P$ e $Q$.
+	\item Dato che $P$ e $Q$ sono sulla curva e su una retta, esiste un terzo punto $R$ identificato dall'intersezione
+	      della curva con la retta.
 	\item L'opposto di $R$ \`e il punto somma di $P$ e $Q$.
 \end{enumerate}
 Per sommare un punto $P$ con se stesso
@@ -126,7 +125,7 @@ I campi finiti possono essere di due tipi fondamentalmente: quelli che hanno com
 quelli che hanno come cardinalit\`a la potenza di un numero primo.
 
 \subsection{Curve ellittiche prime}
-Le \textbf{curve ellittiche prime} sono curve i cui coefficienti $a, b$ sono presi in $\mathbb{Z}_p$ con $p > 3$
+Le \textbf{curve ellittiche prime} sono curve i cui coefficienti $a$ e $b$ sono presi in $\mathbb{Z}_p$ con $p > 3$
 un numero primo e l'equazione che le descrive \`e
 \[ E_p(a, b) = 	\{ (x, y) \in \mathbb{Z}_p^2 \mid y^2 \mod{p} = (x^3 + ax + b) \mod{p} \} \cup \{ O \} \]
 Una curva ellittica prima contiene un numero \textbf{finito} di punti e non \`e pi\`u rappresentata da una curva
@@ -140,11 +139,11 @@ L'inverso di un punto $P = (x, y) \in E_p(a, b)$ \`e definito come
 \[ -P = (x, -y) = (x, p - y) \in E_p(a, b) \]
 
 Se il polinomio $x^3 + ax + b \mod{p}$ non ha radici multiple, ovvero se il discriminante della cubica \`e diverso
-da zero, allora i punti della cruva $E_p(a, b)$ formano un \textbf{gruppo abeliano additivo finito}.
+da zero, allora i punti della curva $E_p(a, b)$ formano un \textbf{gruppo abeliano additivo finito}.
 
 \begin{example}
 	Prendiamo la curva $E_5(4, 4)$. Affinch\'e i punti abbiamo la struttura di campo abeliano dobbiamo verificare
-	che il discriminante sia diverso da 0.
+	che il discriminante sia diverso da zero.
 	\[ 4 \cdot 4^3 + 27 \cdot 4^2 \mod{5} \neq 0 \]
 	sviluppando un po' i calcoli si ottiene
 	\[ 3 \mod{5} = 3 \neq 0 \]
@@ -155,8 +154,7 @@ da zero, allora i punti della cruva $E_p(a, b)$ formano un \textbf{gruppo abelia
 	tutti i valori da 0 a 4 e valutare la cubica.
 
 	In questa fase si deve prestare attenzione al fatto che un punto sull'ascissa non necessariamente identifica
-	un punto sulla cubica. Questo perch\'e, lavorando in modulo $p$, non tutti i numeri modulo $p$ hanno una radice
-	(solo la met\`a).
+	un punto sulla cubica. Questo perch\'e non tutti i numeri modulo $p$ hanno una radice (solo la met\`a).
 
 	Per vederlo facciamo un semplice procedimento
 	\begin{center}
@@ -195,7 +193,7 @@ il protocollo DH e per il cifrario di ElGamal su algebra modulare.
 Questo perch\'e l'addizione di punti su curve ellittiche si pu\`o mettere in corrispondenza con la moltiplicazione
 di interi modulo $p$.
 
-Si introduce anche la \textbf{moltiplicazione scalare} di punti sulla curva che altro non \`e che una
+Si introduce quindi la \textbf{moltiplicazione scalare} di punti sulla curva che altro non \`e che una
 generalizzazione dell'addizione nell'algebra modulare. Questa operazione coinvolge un punto $P \in E(a, b)$ e un
 intero $k$ e si pu\`o mettere in corrispondenza con l'elevamento a potenza. Come vedremo $k P$ si calcola
 in tempo polinomiale con $\Theta(\log k)$ addizioni e raddoppi di punti.
@@ -261,7 +259,7 @@ L'ordine di un punto \`e il pi\`u piccolo intero $n$ tale che il punto per quest
 punto all'infinito.
 \[ nP = O \]
 
-Supponiamo che i due utenti $i$ e $j$ vogliano instaurare un protocollo di comunicazione
+Supponiamo che i due utenti $i$ e $j$ vogliano instaurare un protocollo di comunicazione.
 \begin{enumerate}
 	\item $i$ e $j$ scelgono una curva ellittica $E_p(a, b)$ e un punto $B \in E_p(a, b)$ speciale, detto
 	      \textbf{punto base}, il quale deve avere ordine $n$ molto grande.
