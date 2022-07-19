@@ -91,11 +91,11 @@ Consideriamo
 Messaggio, chiave e crittogramma sono una sequenza di $n$ bit. Il crittogramma si compone facendo lo XOR bit a bit di
 messaggio e chiave
 \[ c = m \oplus k \]
-Lo XOR ritorna 1 se i bit che stiamo confrontando sono uguali, ritorna 0 altrimenti dunque il crittoanalista
+Lo XOR ritorna 0 se i bit che stiamo confrontando sono uguali, ritorna 1 altrimenti, dunque il crittoanalista
 \begin{itemize}
-	\item quando vede uno 0 in posizione $i$, allora sa che i bit di messaggio e chiave in posizione $i$ sono uguali
+	\item quando vede uno 0 in posizione $i$, sa che i bit di messaggio e chiave in posizione $i$ sono uguali
 	      ma non sa se siano 0 o 1.
-	\item quando vede un 1 in posizione $i$, allora sa che i bit di messaggio e chiave in posizione $i$ sono diversi
+	\item quando vede un 1 in posizione $i$, sa che i bit di messaggio e chiave in posizione $i$ sono diversi
 	      ma non sa quale sia 1 e quale sia 0.
 \end{itemize}
 Per effettuare la decifrazione basta rifare lo XOR bit a bit di crittogramma e chiave
