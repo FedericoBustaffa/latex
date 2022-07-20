@@ -13,7 +13,7 @@ In questo capitolo andremo a trattare i protocolli di sicurezza tra i quali dist
 		            dal mittente.
 	      \end{itemize}
 \end{itemize}
-Come si pu\`o notare, ognuna di queste funzionalit\`a, estende l'altra
+Come si pu\`o notare, ognuna di queste funzionalit\`a estende l'altra
 \begin{itemize}
 	\item L'autenticazione garantisce l'identificazione.
 	\item La firma digitale garantisce l'autenticazione.
@@ -22,7 +22,7 @@ Ognuna di queste funzionalit\`a ha il compito di proteggere le comunicazioni da 
 gli attacchi \emph{man in the middle}.
 
 \section{Funzioni hash}
-Per l'implementazione di queste funzionalit\`a faremo ricorso alla \textbf{funzioni hash}. Una funzione hash
+Per l'implementazione di queste funzionalit\`a faremo ricorso alle \textbf{funzioni hash}. Una funzione hash
 \[ f : X \rightarrow Y \]
 \`e una funzione tale che
 \[ n = |X| >> m = |Y| \]
@@ -33,7 +33,7 @@ Questo ci permette di \emph{partizionare} il dominio in sottoinsiemi
 \[ X = X_1 \cup X_2 \cup \dots \cup X_m \]
 tali che ogni elemento del sottoinsieme \`e mappato, dalla funzione hash, nella stessa immagine del codominio
 \[ \forall i, \quad \forall x \in X_i \quad \quad f(x) = y \]
-Una funzione hash \`e buona se la cardinalit\`a di ogni sottoinsieme sia circa la stessa.
+Una funzione hash \`e buona se la cardinalit\`a di ogni sottoinsieme \`e circa la stessa.
 
 \subsection{Funzioni hash one-way}
 Le funzioni hash usate in crittografia devono soddisfare tre requisiti principali
@@ -148,7 +148,8 @@ In questo nuovo paradigma abbiamo due utenti:
 	\item \textbf{Prover}: indicato con $P$, ha il compito di dimostrare la sua capacit\`a o conoscenza.
 	\item \textbf{Verifier}: indicato con $V$, ha il compito di verificare la veridicit\`a di ci\`o che afferma $P$.
 \end{itemize}
-Supponiamo quindi che $P$ voglia dimostrare a $V$ di possedere una certa capacit\`a, un protocollo \`e il seguente
+
+Supponiamo quindi che $P$ voglia dimostrare a $V$ di possedere una certa capacit\`a:
 \begin{enumerate}
 	\item $V$ mette alla prova $P$ chiedendogli di dimostrare la sua capacit\`a su un problema che lui gli pone.
 	\item $P$ risponde.
@@ -183,13 +184,13 @@ Il protocollo si basa sulla difficolt\`a del calcolo di una radice in modulo un 
 L'utente $P$, in fase di preparazione
 \begin{enumerate}
 	\item Sceglie due numeri primi $p$ e $q$ molto grandi.
-	\item Calcola $n = pq$.
+	\item Calcola $n = p \cdot q$.
 	\item Sceglie una sorta di chiave privata $s < n$.
 	\item Calcola
 	      \[ t = s^2 \mod{n} \]
 	\item Rende nota la coppia $\langle t, n \rangle$ e mantiene privata la tripla $\langle p, q, s \rangle$.
 \end{enumerate}
-A questo punto $P$ vuole dimostrare a $V$ di conoscere una radice di $t$, ovvero $s$ senza per\`o inviargliela.
+A questo punto $P$ vuole dimostrare a $V$ di conoscere una radice di $t$, ovvero $s$, senza per\`o inviargliela.
 
 Per $k$ volte, con $k$ scelto da $V$, si ripetono i seguenti passi
 \begin{enumerate}
@@ -290,7 +291,7 @@ Quest'ultima opzione implementativa \`e la pi\`u frequente
 \[ A(m, k) = h(m k) \]
 dato che il calcolo di una funzione hash \`e molto veloce per chi sta cifrando ma computazionalmente molto dispendioso
 per un crittoanalista, che, anche disponendo di $h$ e $m$ non \`e comunque in grado di risalire a $k$ in tempo
-polinomiale dato che $k$ viaggia all'interno di un MAC e quindi si dovrebbe invertire la funzione hash (costo
+polinomiale, dato che $k$ viaggia all'interno di un MAC e quindi si dovrebbe invertire la funzione hash (costo
 esponenziale).
 
 Il crittoanalista non pu\`o nemmeno sostituire (facilmente) il messaggio $m$ con un altro messaggio $m'$ perch\'e

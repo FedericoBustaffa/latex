@@ -251,13 +251,16 @@ logaritmo discreto, per le curve ellittiche, conosciamo solo algoritmi di costo 
 Il protocollo DH, dato che basa la sua sicurezza sul calcolo del logaritmo discreto, pu\`o essere rivisitato in
 una sua versione su curve ellittiche.
 
-La conversione dall'algebra modulare si ottiene molto semplicemente, sostituendo la moltiplicazione di interi in
-modulo con la somma di punti.
+La conversione dall'algebra modulare si ottiene sostituendo la moltiplicazione di interi in modulo con la somma di
+punti.
 
-Prima di vedere come funziona il protocollo dobbiamo definire un'altra cosa ossia l'\textbf{ordine di un punto}.
-L'ordine di un punto \`e il pi\`u piccolo intero $n$ tale che il punto per questo intero da come risultato il
-punto all'infinito.
-\[ nP = O \]
+Prima di vedere come funziona il protocollo dobbiamo definire un'altra cosa, ossia l'\textbf{ordine di un punto}.
+
+\begin{definition}
+	L'\textbf{ordine di un punto} \`e il pi\`u piccolo intero $n$ tale che il punto per questo intero da come risultato
+	il punto all'infinito.
+	\[ nP = O \]
+\end{definition}
 
 Supponiamo che i due utenti $i$ e $j$ vogliano instaurare un protocollo di comunicazione.
 \begin{enumerate}
@@ -285,7 +288,7 @@ Supponiamo che i due utenti $i$ e $j$ vogliano instaurare un protocollo di comun
 
 \subsection{Attacchi}
 Per quanto riguarda gli attacchi passivi, per risalire a $n_i$ e $n_j$ si deve calcolare il logaritmo discreto
-su curve ellittiche, che, come sappiamo, richiede costo esponenziale sapendo solo $E_p(a, b)$, $P_i$, $P_j$ e $B$.
+su curve ellittiche, che come sappiamo, richiede costo esponenziale sapendo solo $E_p(a, b)$, $P_i$, $P_j$ e $B$.
 
 Il protocollo \`e comunque vulnerabile ad attacchi di tipo \emph{man in the middle} a meno che non si usino curve
 estratte da certificati digitali.
@@ -296,17 +299,17 @@ A differenza dei protoccolli visti fino ad ora, su curve ellittiche e non, il \t
 al solo scambio della chiave.
 
 Cifrare un messaggio, in questo ambito, significa \emph{incapsulare} il messaggio in uno dei punti delle curve
-ellittiche. Il problema \`e che non disponiamo di algoritmi deterministici, che in tempo polinomiale, mappano
+ellittiche. Il problema \`e che non disponiamo di algoritmi deterministici, che, in tempo polinomiale, mappano
 un messaggio su uno dei punti della curva.
 
 Un'idea potrebbe essere quella di porre $x = m$ nella cubica della curva e prendere il relativo punto, calcolato
 tramite l'equazione.
 
 Il problema \`e che per trovare la coordinata $y$ del punto dobbiamo fare la radice del valore calcolato dalla
-cubica, ma, come abbiamo visto, non sempre questo \`e possibile.
+cubica ma, come abbiamo visto, non sempre questo \`e possibile.
 
 \subsection{Algoritmo di Koblitz}
-Sia $m$ il messaggio che vogliamo inviare e sia $p$ il numero primo con cui stiamo lavorando,l'\textbf{algoritmo
+Sia $m$ il messaggio che vogliamo inviare e sia $p$ il numero primo con cui stiamo lavorando, l'\textbf{algoritmo
 	di Koblitz} funziona in questo modo
 \begin{enumerate}
 	\item Si sceglie un intero $h$ tale che
@@ -351,7 +354,7 @@ L'utente $u$ forma la coppia di chiavi calcolandole in questo modo:
 		k_\text{priv} = n_u < n
 	\end{matrix}
 \]
-Se due utenti, $i$ e $j$, volessero comunicare, il procedimento sarebbe il seguente
+Se due utenti $i$ e $j$ volessero comunicare, il procedimento sarebbe il seguente:
 \begin{enumerate}
 	\item $i$ incapsula il messaggio $m$ in un punto $M$ della curva con l'algoritmo di Koblitz.
 	\item $i$ sceglie $r < n$ casuale e da usare una volta sola.
@@ -371,7 +374,7 @@ Se due utenti, $i$ e $j$, volessero comunicare, il procedimento sarebbe il segue
 \end{enumerate}
 
 \subsubsection{Correttezza}
-Per convincerci che ci\`o che stiamo facendo facciamo qualche passo indietro.
+Per convincerci di ci\`o che stiamo facendo, facciamo qualche passo indietro.
 \begin{itemize}
 	\item Il punto $M$ si trova calcolando
 	      \[ M = W - n_j \cdot V \]
@@ -406,15 +409,15 @@ quindi, se conosciamo $r$, possiamo calcolare
 Estrarre $r$, calcolandolo con i dati pubblici forniti da mittente e destinatario \`e tuttavia un problema difficile
 quanto il calcolo del logaritmo discreto.
 
-Si dovrebbe sfruttare altre vulnerabilit\`a nel sistema come ad esempio capire quale sia il generatore di numeri
+Si dovrebbero sfruttare altre vulnerabilit\`a nel sistema come ad esempio capire quale sia il generatore di numeri
 casuali utilizzato oppure sfruttare il fatto che $r$ possa essere utilizzato pi\`u volte.
 
 \section{Sicurezza delle curve ellittiche}
 La sicurezza della crittografia su curve ellittiche si basa sulla difficolt\`a nel calcolare il logaritmo discreto
-si un punto della curva.
+di un punto della curva.
 
-Nonostante non esista una dimostrazione formale di \emph{intrattabilit\`a} questo problema \`e considerato molto
-\emph{difficile}.
+Nonostante non esista una dimostrazione formale di \emph{intrattabilit\`a}, questo problema \`e comunque considerato
+molto \emph{difficile}.
 
 In particolare, \`e un problema molto pi\`u difficile della fattorizzazione e del calcolo del logaritmo discreto
 nell'algebra modulare, problemi per i quali esiste un algoritmo (Index Calculus) di costo
