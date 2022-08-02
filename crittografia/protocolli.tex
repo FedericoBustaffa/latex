@@ -127,16 +127,16 @@ Quello che avviene all'atto pratico \`e questo:
 	      se l'uguaglianza \`e soddisfatta, l'identificazione ha successo.
 \end{enumerate}
 Come possiamo notare, le operazioni di cifratura e decifrazione sono invertite rispetto all'impiego standard dell'RSA
-ed \`e possibile farlo dato che sono commutative
+ma come sappiamo sono commutative:
 \[ (x^e \mod{n})^d \mod{n} = (x^d \mod{n})^e \mod{n} \]
 Chiariamo inoltre che solo $u$ pu\`o produrre $f$ dato che \`e l'unico che possiede il valore $d$.
 
 Se il passo 3 va a buon fine, il sistema ha la garanzia che l'utente che ha richiesto l'identificazione sia
 effettivamente $u$, anche se il canale \`e insicuro.
 
-Il protocollo funziona bene a patto che il sistema sia onesto. Dato che \`e il sistema che fornisce $r$, se $r$ \`e
-effettivamente un valore casuale allora tutto va a buon fine, se invece $r$ \`e un dato con particolari propriet\`a
-utili a ricavare la chiave privata di $u$.
+Il protocollo funziona bene a patto che il sistema sia onesto. Dato che \`e il sistema a fornire $r$, se questo \`e
+effettivamente un valore casuale allora tutto va a buon fine, se invece \`e un valore con propriet\`a utili a ricavare
+la chiave privata di $u$ si rischia una corruzione della firma.
 
 \subsection{Protocollo a conoscenza zero}
 Questo protocollo permette ad un utente di dimostrare la sua identit\`a o la sua conoscenza di un certo segreto,
