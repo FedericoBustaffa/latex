@@ -9,7 +9,7 @@ Il sistema dei \textbf{bitcoin} nasce dall'esigenza di creare un sistema di valu
 ossia un sistema che \`e gestito solo dai suoi utenti.
 
 \section{Introduzione}
-Prima di addentrarci nell'argomento chiariamo cosa sia una valuta digitale e una criptovaluta:
+Prima di addentrarci nell'argomento chiariamo cosa sia una \emph{valuta digitale} e una \emph{criptovaluta}:
 \begin{itemize}
 	\item \textbf{Valuta digitale}: valuta che esiste soltanto in forma digitale e che dunque, \`e utilizzabile
 	      soltanto da un calcolatore.
@@ -22,20 +22,21 @@ Per capire il funzionamento di bitcoin dobbiamo prima introdurre due concetti: l
 	\item \textbf{Registro}: anche detto \textbf{libro contabile}, \`e un documento per il monitoraggio delle
 	      transazioni.
 \end{itemize}
-Il bitcoin \`e una rete \emph{Peer-to-Peer} di nodi su cui gira il software \emph{bitcoin core}, con il quale
-riescono a comunicare tra di loro e decidono come gestire le transazioni tra le monete.
+Bitcoin \`e una rete \emph{Peer-to-Peer} di nodi su cui gira il software \emph{bitcoin core}, tramite il quale
+i vari nodi riescono a comunicare tra di loro e a decidere come gestire le transazioni tra le monete.
 
 Ogni nodo memorizza il registro di tutti i membri della rete. Quest'ultimo dev'essere quindi aggiornato periodicamente
 in modo che sia uguale per tutti gli utenti. Affinch\'e questo avvenga il procedimento \`e il seguente
 \begin{enumerate}
 	\item Si sceglie un nodo \textbf{leader} tramite consenso: i nodi competono tra di loro cercando di risolvere un
-	      problema complesso.
+	      problema complesso. In media viene scelto un nuovo \emph{leader} ogni 15 minuti.
 	\item Il \emph{leader} propone una nuova pagina del libro contabile sulla base delle varie richieste di transazione
-	      tra gli utenti.
+	      che gli utenti hanno fatto durante il periodo di selezione del \emph{leader}.
 	\item Tutti i computer ricevono la pagina e, tramite la loro copia del registro, controllano che le transazioni
 	      inserite siano corrette. Se lo sono accettano la pagina, altrimenti la rifiutano e si cerca un altro
 	      \emph{leader}.
-	\item Tutti i computer aggiornano il loro registro e il \emph{leader} viene ricompensato con un premio in bitcoin.
+	\item Se la pagina viene accettata tutti i computer aggiornano il loro registro e il \emph{leader} viene ricompensato
+	      con un premio in bitcoin.
 \end{enumerate}
 
 \section{Blockchain}
@@ -47,17 +48,13 @@ mantenimento della struttura dati, e un \textbf{body}, dove sono memorizzate le 
 Nell'\emph{header} sono presenti quattro parametri principali
 \begin{itemize}
 	\item \textbf{Timestamp}: chi crea la pagina mette un \emph{timestamp} nell'\emph{header} relativo al momento
-	      della creazione di essa.
-	\item \textbf{Nonce}: \`e il frutto della competizione di cui abbiamo parlato prima.
-
-	      In pratica si fa una sorta di forza bruta cercando un valore \emph{nonce} tale che il valore della funzione
-	      hash SHA256 calcolata sull'\emph{header} dell'ultima pagina della \emph{blockchain} e il \emph{nonce} sia
-	      minore di un certo valore.
-
-	      Trovare un \emph{nonce} di questo tipo equivale a vincere la competizione.
-	\item \textbf{Merkle Root}: \`e la radice di un albero di Merkle costruito calcolando l'hash delle transazioni.
+	      della sua creazione.
+	\item \textbf{Nonce}: \`e il frutto della competizione di cui abbiamo parlato prima, ossia il valore ricavato
+	      dalla risoluzione del problema posto. Come vedremo pi\`u avanti si tratta del risultato dell'operazione
+	      detta \textbf{mining}.
+	\item \textbf{Merkle Root}: \`e la radice di un albero di Merkle costruito calcolando l'hash delle transazioni
 	      e serve a controllare che una certa transazione, all'interno della pagina, sia integra.
-	\item \textbf{Hash previous block}: \`e il \emph{nonce} della pagina precedente.
+	\item \textbf{Hash previous block}: \`e il valore \emph{nonce} della pagina precedente.
 \end{itemize}
 
 \subsection{Transazioni}
@@ -101,6 +98,8 @@ Il risultato \`e la differenza tra input e output.
 In definitiva, nessuno possiede dei bitcoin ma si possiede una chiave privata che consente di spendere bitcoin inviati
 ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i bitcoin
 legati ad essa.
+
+\section{Mining}
 
 \section{Conclusioni}
 \subsection{Come ottenere bitcoin}

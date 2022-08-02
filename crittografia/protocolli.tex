@@ -269,8 +269,8 @@ Nella pratica il mittente
 	      provenienza e l'integrit\`a del messaggio.
 	\item A questo punto ha due opzioni
 	      \begin{itemize}
-		      \item Invia la coppia $\langle m, A(m, k) \rangle$ in chiaro.
-		      \item Cifra $m$ e spedisce $\langle C(m, k'), A(m, k) \rangle$ dove $C$ \`e una funzione di cifratura
+		      \item Invia la coppia $\langle m,\; A(m, k) \rangle$ in chiaro.
+		      \item Cifra $m$ e spedisce $\langle C(m, k'),\; A(m, k) \rangle$ dove $C$ \`e una funzione di cifratura
 		            e $k'$ la chiave pubblica o la chiave simmetrica segreta del cifrario scelto.
 	      \end{itemize}
 \end{enumerate}
@@ -291,8 +291,9 @@ Quest'ultima opzione implementativa \`e la pi\`u frequente
 \[ A(m, k) = h(m k) \]
 dato che il calcolo di una funzione hash \`e molto veloce per chi sta cifrando ma computazionalmente molto dispendioso
 per un crittoanalista, che, anche disponendo di $h$ e $m$ non \`e comunque in grado di risalire a $k$ in tempo
-polinomiale, dato che $k$ viaggia all'interno di un MAC e quindi si dovrebbe invertire la funzione hash (costo
-esponenziale).
+polinomiale.
+
+Dato che $k$ viaggia all'interno di un MAC si dovrebbe invertire la funzione hash (costo esponenziale).
 
 Il crittoanalista non pu\`o nemmeno sostituire (facilmente) il messaggio $m$ con un altro messaggio $m'$ perch\'e
 dovrebbe allegare a $m'$ il MAC $A(m', k)$ che pu\`o produrre solo conoscendo $k$.
@@ -351,8 +352,8 @@ Possiede tuttavia tutti i requisiti di una firma manuale
 \end{itemize}
 
 \subsection{Protocollo 2}
-Questo protocollo si propone di risolvere il problema del precedente relativo all'impossibilit\`a di proteggere il
-messaggio.
+Questo protocollo si propone di risolvere il problema del protocollo precedente, relativo all'impossibilit\`a di
+proteggere il messaggio.
 
 L'utente $u$
 \begin{enumerate}
@@ -425,7 +426,7 @@ Supponiamo che
 \end{itemize}
 In queste condizioni, un attacco attivo, pu\`o avere successo se
 \begin{enumerate}
-	\item $x$ intercetta il crittogramma $c$ firmato inviato da $u$ a $v$, lo rimuove dal canale e lo rispedisce a
+	\item $x$ intercetta il crittogramma $c$ firmato e inviato da $u$ a $v$, lo rimuove dal canale e lo rispedisce a
 	      $v$, facendogli credere che $c$ sia stato inviato da lui.
 	\item $v$ spedisce automaticamente a $x$ un ack.
 	\item $x$ usa l'ack ricevuto per risalire al messaggio originale applicando le funzioni del cifrario con le
@@ -466,8 +467,8 @@ Per proteggersi da questo attacco non si devono inviare ack automatici, almeno f
 di verifica e si deve sempre firmare un'immagine hash del messaggio.
 
 \subsection{Protocollo 3}
-Questo protocollo si propone di risolvere anche i problemi presentati del secondo. In questo caso il messaggio
-$m$ \`e cifrato e firmato con una funzione hash.
+Questo protocollo si propone di risolvere anche i problemi presentati del secondo protocollo. In questo caso il
+messaggio $m$ \`e cifrato e firmato con una funzione hash.
 
 Il mittente $u$
 \begin{enumerate}
@@ -510,8 +511,8 @@ autorizzati.
 La chiave pubblica della CA \`e nota a tutti gli utenti che la mantengono protetta sui propri dispositivi e la
 utilizzano per verificare la firma della CA stessa sui certificati.
 
-Le CA hanno in genere una struttura gerarchica ad albero e dunque si avvia una sorta di verifica a catena risalendo
-le varie CA.
+Le CA hanno in genere una struttura gerarchica ad albero, dunque quando si vuole verificare la forma di una CA si avvia
+una sorta di verifica a catena risalendo la gerarchia delle varie CA coinvolte.
 
 \subsubsection{Certificazione}
 Supponiamo che $u$ voglia comunicare con $v$
@@ -526,7 +527,7 @@ Gli attacchi \emph{man in the middle} sono sempre possibili ma devono essere eff
 ma si assume che la CA sia fidata e il suo archivio di chiavi inattaccabile.
 
 \subsection{Protocollo 4}
-Ultimo protocollo che vediamo consiste nel cifrare, firmare e certificare un messaggio $m$.
+L'ultimo protocollo che vediamo consiste nel cifrare, firmare e certificare un messaggio $m$.
 
 Il mittente $u$
 \begin{enumerate}
@@ -549,7 +550,7 @@ Il destinatario $v$
 L'unico punto debole di questo metodo \`e rappresentato dall'uso di certificati revocati.
 
 \section{SSL}
-Il \textbf{protocollo SSL} \`e molto usato per costruire comunicazioni sicure e garantisce \textbf{confidenzialit\`a}
+Il \textbf{protocollo SSL} \`e molto usato per costruire comunicazioni sicure, garantisce \textbf{confidenzialit\`a}
 e \textbf{affidabilit\`a} ed \`e progettato per permettere a due computer che non conoscono le reciproche
 funzionalit\`a di comunicare.
 
@@ -569,8 +570,8 @@ Il protocollo \`e organizzato su due livelli: \textbf{record} e \textbf{handshak
 \subsubsection{SSL Record}
 Il livello \emph{record} \`e a livello pi\`u basso ed \`e connesso direttamente al protocollo di trasporto.
 
-Ha come obbiettivo incapsulare i dati spediti dai protocolli dei livelli superiori, assicurando confidenzialit\`a
-e integrit\`a della comunicazione.
+Ha come obbiettivo l'incapsulamento dei dati spediti dai protocolli dei livelli superiori, assicurando
+confidenzialit\`a e integrit\`a della comunicazione.
 
 Implementa fisicamente il canale su cui viaggiano i messaggi.
 
@@ -607,12 +608,12 @@ Vediamo ora tutti i passi che compie il protocollo per la costruzione del canale
 		      \item Invia una sequenza di byte casuali.
 	      \end{itemize}
 	      Se $u$ non riceve il \emph{server hello} interrompe la comunicazione.
-	\item \textbf{Invio del messaggio}: $s$ si autentica con $u$ inviandogli il proprio certificato digitale e se
+	\item \textbf{Invio del messaggio}: $s$ si autentica con $u$ inviandogli il proprio certificato digitale e, se
 	      i servizi offerti da $s$ devono essere protetti negli accessi, $s$ pu\`o richiedere a $u$ di autenticarsi
 	      inviando il suo certificato digitale.
 	\item \textbf{Server hello done}: $s$ invia il messaggio \emph{server hello done} con cui sancisce la fine degli
 	      accordi sulla \emph{cipher suite} e sui parametri crittografici a essa associati.
-	\item \textbf{Autenticazione del sistema}: per accerta l'autenticit\`a del certificato ricevuto da $s$, $u$ deve
+	\item \textbf{Autenticazione del sistema}: per accertare l'autenticit\`a del certificato ricevuto da $s$, $u$ deve
 	      controllare che
 	      \begin{itemize}
 		      \item Il certificato sia ancora valido.
@@ -646,7 +647,7 @@ che risulta cos\`i, diverso in ogni sessione di SSL.
 Un crittoanalista non pu\`o riutilizzare i messaggi di \emph{handshake} catturati sul canale per sostituirsi a $s$
 in una successiva comunicazione con $u$ perch\'e questi sono riferiti a valori \emph{usa e getta}.
 
-I blocchi vengono cifrati con un MAC (anch'esso cifrato) e quindi un crittoanalista dovrebbe riuscire ad invertire
+I blocchi vengono cifrati con un MAC (anch'esso cifrato) e quindi un crittoanalista non dovrebbe riuscire ad invertire
 una funzione hash.
 
 Un attacco volto a modificare la comunicazione tra i due utenti \`e difficile quanto un attacco volto alla decriptazione
@@ -654,4 +655,4 @@ dei messaggi.
 
 Il sistema \`e autenticato con un certificato ed \`e dunque robusto ad attacchi \emph{man in the middle}.
 
-La sicurezza del protocollo SSL \`e sicuro almeno quanto il pi\`u debole \emph{cipher suite} supportato.
+La sicurezza del protocollo SSL \`e alta tanto quanto la pi\`u debole \emph{cipher suite} supportata.
