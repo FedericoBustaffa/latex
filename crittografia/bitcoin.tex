@@ -100,6 +100,29 @@ ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave pri
 legati ad essa.
 
 \section{Mining}
+Come gi\`a anticipato, all'interno dell'\emph{header} di un blocco della \emph{blockchain}, \`e presente un valore
+\emph{nonce}. Tale valore \`e il frutto della competizione a cui gli utenti partecipano per diventare \emph{leader}.
+
+La competizione (detta \textbf{mining}) consiste nel trovare il valore \emph{nonce}, tale che la funzione hash
+crittografica SHA256 applicata sull'header del blocco e sul \emph{nonce} sia inferiore di un certo valore detto
+\textbf{difficulty target}.
+\begin{center}
+	\verb|SHA256(header, nonce) < difficulty_target|
+\end{center}
+Pi\`u il \emph{difficulty target} \`e piccolo, pi\`u \`e difficile trovare un \emph{nonce} che soddisfi la disequazione.
+
+Il primo utente che trova un \emph{nonce} valido lo mostra agli altri utenti che ne verificano la correttezza. Se
+il valore \`e corretto allora l'utente diventa il nuovo \emph{leader} e propone una nuova pagina del registro contabile.
+
+\section{Merkle Root}
+Un altro valore presente nell'\emph{header} di un blocco \`e la \textbf{Merkle root}, ossia la radice di un
+\emph{albero di Merkle} calcolato sulle transazioni di un blocco.
+\begin{enumerate}
+	\item Si calcola l'hash delle singole transazioni.
+	\item I valori hash calcolati vengono concatenati a due a due.
+	\item Si calcola l'hash di tutte le concatenazioni.
+	\item Si continua finch\'e non rimane un solo valore, ossia la \emph{Merkle root}.
+\end{enumerate}
 
 \section{Conclusioni}
 \subsection{Come ottenere bitcoin}
