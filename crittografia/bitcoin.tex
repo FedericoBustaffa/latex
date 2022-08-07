@@ -44,7 +44,6 @@ Ogni pagina del registro \`e collegata alla precedente come in una lista linkata
 (da qui il nome \textbf{blockchain}), ha un \textbf{header}, in cui sono presenti informazioni necessarie al
 mantenimento della struttura dati, e un \textbf{body}, dove sono memorizzate le transazioni.
 
-\subsection{Header}
 Nell'\emph{header} sono presenti quattro parametri principali
 \begin{itemize}
 	\item \textbf{Timestamp}: chi crea la pagina mette un \emph{timestamp} nell'\emph{header} relativo al momento
@@ -54,15 +53,73 @@ Nell'\emph{header} sono presenti quattro parametri principali
 	      detta \textbf{mining}.
 	\item \textbf{Merkle Root}: \`e la radice di un albero di Merkle costruito calcolando l'hash delle transazioni
 	      e serve a controllare che una certa transazione, all'interno della pagina, sia integra.
-	\item \textbf{Hash previous block}: \`e il valore \emph{nonce} della pagina precedente.
+	\item \textbf{Hash Previous Block}: \`e il valore \emph{hash} dell'\emph{header} del blocco precedente.
 \end{itemize}
 
-\subsection{Transazioni}
-Nel \emph{body} di un blocco sono salvate tutte le \textbf{transazioni} effettuate fino a quel momento.
+\subsection{Timestamp}
+Il \textbf{timestamp} \`e molto importante per riuscire a dare un ordine temporale alle varie pagine il che aiuta nella
+verifica della correttezza delle stesse.
 
-Una transazione \`e un invio di bitcoin da un utente $A$ ad un utente $B$
-\[ Tx(A, B, BTC) \]
-In ambito bitcoin sono pi\`u complicate e fanno uso di firme digitali che hanno la propriet\`a di
+\subsection{Nonce}
+Come gi\`a anticipato, all'interno dell'\emph{header} di un blocco della \emph{blockchain}, \`e presente un valore
+\textbf{nonce}. Tale valore \`e il frutto della competizione a cui gli utenti partecipano per diventare \emph{leader}.
+
+La competizione consiste nel trovare il valore \emph{nonce}, tale che la funzione hash crittografica SHA256 applicata
+sull'header del blocco e sul \emph{nonce} sia inferiore di un certo valore detto \textbf{difficulty target}.
+\begin{center}
+	\verb|SHA256(header, nonce) < difficulty_target|
+\end{center}
+Pi\`u il \emph{difficulty target} \`e piccolo, pi\`u \`e difficile trovare un \emph{nonce} che soddisfi la disequazione.
+
+Quello che si fa in pratica \`e un forza bruta sui valori del \emph{nonce} fich\'e non si trova quello giusto. Ecco
+perch\'e questo procedimento, in gergo, si chiama \textbf{mining}.
+
+Il primo utente che trova un \emph{nonce} valido lo mostra agli altri utenti che ne verificano la correttezza. Se
+il valore \`e corretto allora l'utente diventa il nuovo \emph{leader} e propone una nuova pagina del registro contabile.
+
+\subsection{Merkle Root}
+Un altro valore presente nell'\emph{header} di un blocco \`e la \textbf{Merkle root}, ossia la radice di un
+\textbf{albero di Merkle} calcolato sulle transazioni di un blocco:
+\begin{enumerate}
+	\item Si calcola l'hash delle singole transazioni.
+	\item I valori hash calcolati vengono concatenati a due a due.
+	\item Si calcola l'hash di tutte le concatenazioni.
+	\item Si continua finch\'e non rimane un solo valore, ossia la \emph{Merkle root}.
+\end{enumerate}
+Il risultato \`e un albero binario bilanciato che ha come foglie il valore hash delle transazioni e dove il nodo padre
+di un generico nodo \`e il valore hash della concatenazione dei due nodi figli. La radice dell'albero \`e ovviamente la
+\emph{Merkle root}.
+
+La \emph{Merkle root} serve a controllare l'integrit\`a di una transazione: all'utente viene fornita la
+\emph{Merkle root} e vengono forniti i valori hash necessari a calcolarla. Se l'utente, calcolando la \emph{Merkle root}
+ottiene la \emph{Merkle root} fornita dal software allora sa che la transazione \`e corretta.
+
+Quando il \emph{leader} deve creare il blocco con le nuove transazioni calcola il nuovo \emph{albero di Merkle} e quindi
+la nuova \emph{Merkle root} che va ad inserire nell'\emph{header} del blocco.
+
+Gli altri utenti ricalcolano a loro volta l'albero e controllano che la radice sia corretta.
+
+\subsection{Hash Previous Block}
+Questo valore serve a rendere la \emph{blockchain} immutabile. Se provassimo a modificare una o pi\`u transazioni di
+un blocco della \emph{blockchain}, la \emph{Merkle root} nell'\emph{header} del blocco non sarebbe pi\`u consistente
+con quest'ultimo.
+
+Ricalcoliamo allora l'albero e di conseguenza la nuova radice. A questo punto per\`o \`e praticamente certo che il
+valore del \emph{nonce} violi la disequazione e dobbiamo quindi ricalcolarlo.
+
+Supponiamo di riuscire a calcolare un nuovo \emph{nonce}: il valore hash dell'\emph{header} della pagina corrente
+(presente nel campo \emph{hash previous block} dell'\emph{header} della pagina successiva) non sar\`a pi\`u consistente
+con la pagina corrente.
+
+Si innesca cos\`i un processo di modifiche a catena fino ad arrivare alla pagina pi\`u recente nella blockchain. Anche
+riuscendo a modificare tutti i blocchi necessari e a diventare \emph{leader} nell'ultima competizione, una volta
+proposta la nuova pagina, questa verrebbe respinta dagli altri utenti in quanto non sarebbe consistente col registro
+in loro possesso.
+
+\section{Transazioni}
+Nel \emph{body} di un blocco sono salvate tutte le \textbf{transazioni} effettuate fino a quel momento. Una transazione
+\`e un invio di bitcoin da un utente $A$ ad un utente $B$ ma in ambito bitcoin sono pi\`u complicate e fanno uso di
+firme digitali che hanno la propriet\`a di
 \begin{itemize}
 	\item \textbf{Autenticazione}: ogni volta che si effettua una transazione si deve essere in possesso di una coppia
 	      di chiavi, privata e pubblica, che servono a produrre una firma digitale.
@@ -70,13 +127,13 @@ In ambito bitcoin sono pi\`u complicate e fanno uso di firme digitali che hanno 
 	      rete.
 	\item \textbf{Non ripudio}: non si pu\`o negare di aver effettuato una transazione.
 \end{itemize}
-Supponiamo di avere due utenti $A$ e $B$ i quali possiedono rispettivamente le chiavi private $sk_A$ e $sk_B$ e le
-chiavi pubbliche $pk_A$ e $pk_B$ e siano $Addr_A$ e $Addr_B$ rispettivamente i loro indirizzi, una transazione da $A$
-a $B$ avviene in questo modo:
+Supponiamo di avere due utenti $A$ e $B$ i quali possiedono rispettivamente le chiavi private $k_{A\text{ [priv]}}$ e
+$k_{B\text{ [priv]}}$ e le chiavi pubbliche $k_{A\text{ [pub]}}$ e $k_{B\text{ [pub]}}$ e siano $\text{Addr}_A$ e
+$\text{Addr}_B$ rispettivamente i loro indirizzi, una transazione da $A$ a $B$ avviene in questo modo:
 \begin{enumerate}
 	\item $A$ firma la transazione con la sua chiave privata.
 	\item $A$ invia il crittogramma a $B$.
-	\item $B$ verifica che il messaggio sia inviato da $A$ tramite la chiave $pk_A$.
+	\item $B$ verifica che il messaggio sia inviato da $A$ tramite la chiave $k_{A\text{ [pub]}}$.
 \end{enumerate}
 Le transazioni vengono effettuate tramite programmi non Turing completi e la loro verifica coinvolge una terza parte
 fidata che fa da \emph{garante}.
@@ -90,41 +147,11 @@ fondamentali:
 \begin{itemize}
 	\item \textbf{Input}: somma dei bitcoin ricevuti.
 	\item \textbf{Output}: somma dei bitcoin inviati.
-	\item \textbf{UTXO}: sta per \emph{Unspent Transaction Output} e sono i bitcoin non spesi che vengono comunque
-	      mandati in output verso se stessi cos\`i da recuperarli.
+	\item \textbf{Unspent Transaction Output}: bitcoin non spesi che vengono comunque mandati in output verso se stessi
+	      cos\`i da recuperarli.
 \end{itemize}
 Il risultato \`e la differenza tra input e output.
 
 In definitiva, nessuno possiede dei bitcoin ma si possiede una chiave privata che consente di spendere bitcoin inviati
-ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i bitcoin
-legati ad essa.
-
-\section{Mining}
-Come gi\`a anticipato, all'interno dell'\emph{header} di un blocco della \emph{blockchain}, \`e presente un valore
-\emph{nonce}. Tale valore \`e il frutto della competizione a cui gli utenti partecipano per diventare \emph{leader}.
-
-La competizione (detta \textbf{mining}) consiste nel trovare il valore \emph{nonce}, tale che la funzione hash
-crittografica SHA256 applicata sull'header del blocco e sul \emph{nonce} sia inferiore di un certo valore detto
-\textbf{difficulty target}.
-\begin{center}
-	\verb|SHA256(header, nonce) < difficulty_target|
-\end{center}
-Pi\`u il \emph{difficulty target} \`e piccolo, pi\`u \`e difficile trovare un \emph{nonce} che soddisfi la disequazione.
-
-Il primo utente che trova un \emph{nonce} valido lo mostra agli altri utenti che ne verificano la correttezza. Se
-il valore \`e corretto allora l'utente diventa il nuovo \emph{leader} e propone una nuova pagina del registro contabile.
-
-\section{Merkle Root}
-Un altro valore presente nell'\emph{header} di un blocco \`e la \textbf{Merkle root}, ossia la radice di un
-\emph{albero di Merkle} calcolato sulle transazioni di un blocco.
-\begin{enumerate}
-	\item Si calcola l'hash delle singole transazioni.
-	\item I valori hash calcolati vengono concatenati a due a due.
-	\item Si calcola l'hash di tutte le concatenazioni.
-	\item Si continua finch\'e non rimane un solo valore, ossia la \emph{Merkle root}.
-\end{enumerate}
-
-\section{Conclusioni}
-\subsection{Come ottenere bitcoin}
-\subsection{Come utilizzare bitcoin}
-\subsection{Valore del bitcoin}
+ad un certo indirizzo relativo ad una chiave pubblica. Se si perde la chiave privata si perdono tutti i bitcoin legati
+ad essa.
