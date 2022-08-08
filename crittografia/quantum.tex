@@ -7,10 +7,9 @@ contesti in cui \`e richiesta estrema sicurezza e ai quali si affianca un One-Ti
 le comunicazioni.
 
 \section{Meccanica quantistica}
-Introduciamo alcuni principi di meccanica quantistica necessari a comprendere il protocollo
+Introduciamo alcuni principi di meccanica quantistica necessari a comprendere il protocollo:
 \begin{itemize}
-	\item \textbf{Sovrapposizione}: propriet\`a di un sistema quantistico di trovarsi in diversi stati
-	      contemporaneamente.
+	\item \textbf{Sovrapposizione}: un sistema quantistico pu\`o trovarsi in diversi stati contemporaneamente.
 	\item \textbf{Decoerenza}: la misurazione di un sistema quantistico disturba il sistema. Il sistema disturbato
 	      perde la sovrapposizione degli stati e collassa in uno stato singolo.
 	\item \textbf{No Cloning}: impossibilit\`a di copiare uno stato quantistico non noto.
@@ -101,12 +100,12 @@ crittografica $h$.
 
 \subsection{Sicurezza}
 Il crittoanalista vuole scoprire i bit della chiave e per farlo deve misurare la polarizzazione dei fotoni in transito
-sul canale. Dato che nessuno apparte $A$ sa quale sia la base usata, il crittoanalista
+sul canale. Dato che nessuno, apparte $A$, sa quale sia la base usata, il crittoanalista
 \begin{enumerate}
 	\item Intercetta il fotone.
 	\item Lo misura con una base scelta a caso.
 	\item Lo invia a $B$.
-	\item Costruisce la sua sequenza $S$ (non necessariamente per ogni fotone inviato).
+	\item Costruisce la sua sequenza $S$.
 \end{enumerate}
 Cos\`i facendo, nel caso in cui il crittoanalista abbia usato la stessa base di $A$, il fotone non viene perturbato
 nel suo stato di polarizzazione, ma nel caso in cui la base sia diversa, il fotone cambia la sua polarizzazione.
@@ -116,10 +115,10 @@ lo stato del fotone prima di misurarlo, inviare la copia a $B$ e poi misurare il
 all'inizio del capitolo, il principio di \emph{no cloning} non permette che ci\`o avvenga.
 
 Il crittoanalista, per provare a confondere le perturbazioni dovute alle misure che fa sui fotoni, potrebbe decidere
-di intercettarne solo alcuni e nel caso riuscisse passare inosservato, conoscerebbe alcuni bit della chiave.
+di intercettarne solo alcuni e nel caso riuscisse passare inosservato, riuscirebbe a conoscere alcuni bit della chiave.
 
-Questo \`e potenzialmente molto pericoloso dato che, per ogni bit conosciuto, lo spazio delle chiavi si dimezza e quindi
-un attacco a \emph{forza bruta} molto meno costoso.
+Questo \`e potenzialmente molto pericoloso, dato che per ogni bit conosciuto, lo spazio delle chiavi si dimezza e quindi
+un attacco a \emph{forza bruta} diventa molto meno costoso.
 
 Ecco perch\'e $A$ e $B$ usano l'immagine hash di $S_C$: usando l'immagine hash, la sequenza cambia radicalmente e i bit
 intercettati diventano dunque inutili per il crittoanalista.
