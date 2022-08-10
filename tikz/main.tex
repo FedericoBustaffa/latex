@@ -1,0 +1,75 @@
+\documentclass[10pt, a4paper]{article}
+
+\pdfpagewidth\paperwidth
+\pdfpageheight\paperheight
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+
+% maths
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+
+% tikz
+\usepackage{tikz}
+\usepackage{scalerel}
+\usepackage{pict2e}
+\usepackage{tkz-euclide}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns, arrows}
+\usetikzlibrary{shadows}
+\usetikzlibrary{external}
+
+% pgfplots
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{statistics, fillbetween}
+
+\title{Tikz}
+\author{Federico Bustaffa}
+\date{10/08/2022}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+	\begin{tikzpicture}
+		\draw[lightgray] (-4.9,-2.9) grid (4.9, 2.9);
+
+		\draw[{Circle[scale=2]}-{Stealth}] (-2, -2) -- (2, 2) node[rotate=45, midway, above] {testo a caso};
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}
+		\draw[lightgray] (-4.9,-1.9) grid (4.9, 1.9);
+
+		\draw[ultra thick, blue] (-3, 0) circle[radius=1];
+		\fill[red] (0, 0) circle[radius=1];
+		\filldraw[ultra thick, green, fill=green!30] (3, 0) circle[radius=1];
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}
+		\draw[lightgray] (-4.9,-1.9) grid (4.9, 1.9);
+
+		\coordinate (A) at (2, -1);
+		\filldraw[ultra thick, orange, fill=orange!30] (A) node[black, right]{A} arc(0 : 90 : 2);
+		\filldraw[ultra thick, orange, fill=orange!30] (2, -1) -- (0, -1) -- (0, 1);
+	\end{tikzpicture}
+\end{center}
+
+\begin{center}
+	\begin{tikzpicture}
+
+	\end{tikzpicture}
+\end{center}
+
+\end{document}
