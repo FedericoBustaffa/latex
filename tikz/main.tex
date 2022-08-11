@@ -94,7 +94,7 @@
 			every axis x label/.style={at{(current axis.right of origin)}, anchor=north west},
 			every axis y label/.style={at{(current axis.above origin)}, anchor=south east},
 			grid=both,
-			ticklabel style={font=\tiny, fill=white}
+			font=\tiny
 		}
 }
 
@@ -102,20 +102,16 @@
 	\begin{tikzpicture}
 		\begin{axis}[
 				standard,
-				xtick={1, 2, 3},
-				xticklabels={1, 2, 3},
-				ytick={1, 2, 3},
-				yticklabels={1, 2, 3},
+				xtick={-2, -1, 1, 2},
+				xticklabels={-2, -1, 1, 2},
+				ytick={-2, -1, 1, 2},
+				yticklabels={-2, -1, 1, 2},
 				samples=1000,
-				xmin=-0.25, xmax=3, ymin=-0.25, ymax=3
+				xmin=-2, xmax=2, ymin=-2, ymax=2
 			]
 			\node[anchor=center, label=south west: $O$] at (axis cs: 0, 0){};
 
-			\addplot[name path=F, domain={0:3}, thick, blue, ->]{log2(x) + 1};
-
-			\path[name path=xAxis] (axis cs: 0.5, -1) -- (axis cs: 3, -1);
-
-			\addplot[fill=blue, fill opacity=0.2] fill between [of=F and xAxis, soft clip={domain=0:3}];
+			\addplot[name path=F, domain={-3:3}, thick, blue]{x^3 + x^2 - x - 0.5};
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
