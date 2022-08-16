@@ -135,7 +135,10 @@
 			]
 			\node[anchor=center, label=south west: $O$] at (axis cs: 0, 0){};
 
-			\addplot[name path=F, domain={-3:3}, thick, blue]{x^3 + x^2 - x - 0.5};
+			\addplot[name path=F, domain={-3:3}, thick, blue] {x^3 + x^2 - x - 0.5};
+
+			\path[name path=xAxis] (axis cs:-1.45, 0) -- (axis cs:0.85, 0);
+			\addplot[fill=blue, fill opacity=0.2] fill between [of=F and xAxis, soft clip={domain=-1.45:0.85}];
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
