@@ -107,9 +107,9 @@ con quest'ultimo.
 Ricalcoliamo allora l'albero e di conseguenza la nuova radice. A questo punto per\`o \`e praticamente certo che il
 valore del \emph{nonce} violi la disequazione e dobbiamo quindi ricalcolarlo.
 
-Supponiamo di riuscire a calcolare un nuovo \emph{nonce}: il valore hash dell'\emph{header} della pagina corrente
-(presente nel campo \emph{hash previous block} dell'\emph{header} della pagina successiva) non sar\`a pi\`u consistente
-con la pagina corrente.
+Supponiamo di riuscire a calcolare un nuovo \emph{nonce} in tempo ragionevole: il valore hash dell'\emph{header} della
+pagina corrente (presente nel campo \emph{hash previous block} dell'\emph{header} della pagina successiva) non sar\`a
+pi\`u consistente con la pagina corrente.
 
 Si innesca cos\`i un processo di modifiche a catena fino ad arrivare alla pagina pi\`u recente nella blockchain. Anche
 riuscendo a modificare tutti i blocchi necessari e a diventare \emph{leader} nell'ultima competizione, una volta
