@@ -1,5 +1,209 @@
+\chapter{Applicazioni lineari e matrici invertibili}
+\section{Endomorfismi lineari invertibili}
 
-\subsection{Cambiamento di base negli endomorfismi lineari}
+\begin{defn}
+	Consideriamo uno spazio vettoriale $V$ di dimensione $n$ sul campo $\mathbb{K}$ e
+	una applicazione lineare $L : V \to V$. Una tale applicazione lineare si dice
+	\textbf{endomorfismo lineare di $V$}. Indicheremo con $End(V)$ l'insieme di tutti gli
+	endomorifsimi lineari di $V$.
+\end{defn}
+
+\begin{proposition}
+	Un endomorfismo $L$ di $V$ \`e invertibile se e solo se ha rango $n$. La
+	funzione inversa $L^{-1} : V \to V$ \`e anch'essa un'applicazione lineare.
+\end{proposition}
+
+\begin{observation}
+	Dati due spazi $V$ e $W$ entrambi di dimensione $n$ e una applicazione lineare
+	$L : V \to W$, l'applicazione lineare $L$ \`e invertibile se e solo se ha rango
+	$n$; l'applicazione inversa $L^{-1}$ \`e anch'essa lineare.
+	Abbiamo invece gi\`a osservato che se $V$ e $W$ hanno dimensioni diverse,
+	rispettivamente $m$ e $n$, nessuna applicazione lineare $L$ da $V$ a $W$ pu\`o
+	essere invertibile. Infatti, avendo in mente la relazione che lega la dimensione
+	del nucleo di $L$, dell'immagine di $L$ e di $V$
+	($dim(Imm(L)) + dim(Ker(L)) = dim(V)$), si ha che:
+	\begin{itemize}
+		\item se $m > n$ allora la dimensione di $Imm(L)$ \`e al massimo $n$.
+		      Quindi la dimensione di $Ker(L)$ \`e almeno $m - n$, ovvero
+		      maggiore di 0, e $L$ non \`e iniettiva.
+		\item se $m < n$ allora la dimensione di $Imm(L)$ \`e al massimo $m$.
+		      Quindi la dimensione di $Imm(L)$ \`e minore della dimensione di
+		      $W$, e $L$ non \`e surgettiva.
+	\end{itemize}
+\end{observation}
+
+Se fissiamo una base di $V$, ad ogni endomorfismo $L \in End(V)$ viene associata
+una matrice $[L] \in Mat_{n \times n}(\mathbb{K})$. Se $L$ \`e invertibile,
+consideriamo l'inversa $L^{-1}$ e la matrice ad essa associata $[L^{-1}]$.
+Visto che $L \circ L^{-1} = L^{-1} \circ L = I$, vale
+\begin{equation*}
+	[L^{-1}][L] = [L][L^{-1}] = [I] = I
+\end{equation*}
+
+Dunque la matrice $[L]$ \`e invertibile e ha per inversa $[L^{-1}]$.
+Possiamo affermare anche il viceversa: se la matrice $[L]$ associata ad un
+endomorfismo lineare \`e invertibile allora anche $L$ \`e invertibile e la sua
+inversa \`e l'applicazione associata alla matrice $[L^{-1}]$.
+
+\begin{corollary}
+	Una matrice $A \in Mat_{n \times n}(\mathbb{K})$ \`e invertibile se e solo se
+	il suo rango \`e $n$.
+\end{corollary}
+
+\section{Metodo per trovare l'inversa di una matrice}
+Come abbiamo visto nel paragrafo precedente, il problema di trovare un'inversa
+di $L \in End(V)$ si pu\`o tradurre nel problema di trovare l'inversa in
+$Mat_{n \times n}(\mathbb{K})$ di una matrice data. In questo paragrafo descriviamo
+un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K})$.
+
+\begin{defn}
+	Una matrice in forma a scalini per righe (o per colonne) ridotta, si dice
+	\textbf{normalizzata} se ha tutti i pivot uguali a 1.
+\end{defn}
+
+\begin{observation}
+	Una matrice pu\`o essere portata in forma a scalini per righe (o colonne)
+	ridotta e normalizzata, attraverso un numero finito di operazioni elementari.
+\end{observation}
+
+\begin{example}
+	Consideriamo la matrice
+	\[
+		A = \begin{pmatrix}
+			3 & 2 & 1 \\
+			0 & 1 & 1 \\
+			1 & 1 & 0
+		\end{pmatrix}
+	\]
+	che ha rango 3, dunque \`e invertibile, e calcoliamo la
+	sua inversa. Per prima cosa formiamo la matrice
+	\begin{equation*}
+		(A I) = \begin{pmatrix}
+			3 & 2 & 1 & 1 & 0 & 0 \\
+			0 & 1 & 1 & 0 & 1 & 0 \\
+			1 & 1 & 0 & 0 & 0 & 1
+		\end{pmatrix}
+	\end{equation*}
+	Ora con delle operazioni elementari di riga portiamola in forma a scalini
+	per righe ridotta, per esempio nel seguente modo: si sottrae alla prima riga
+	la terza moltiplicata per 3
+	\begin{equation*}
+		\begin{pmatrix}
+			3 & 2 & 1 & 1 & 0 & 0 \\
+			0 & 1 & 1 & 0 & 1 & 0 \\
+			1 & 1 & 0 & 0 & 0 & 1
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			0 & -1 & 1 & 1 & 0 & -3 \\
+			0 & 1  & 1 & 0 & 1 & 0  \\
+			1 & 1  & 0 & 0 & 0 & 1
+		\end{pmatrix}
+	\end{equation*}
+	poi si somma alla prima riga la seconda
+	\begin{equation*}
+		\begin{pmatrix}
+			0 & -1 & 1 & 1 & 0 & -3 \\
+			0 & 1  & 1 & 0 & 1 & 0  \\
+			1 & 1  & 0 & 0 & 0 & 1
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			0 & 0 & 2 & 1 & 1 & -3 \\
+			0 & 1 & 1 & 0 & 1 & 0  \\
+			1 & 1 & 0 & 0 & 0 & 1
+		\end{pmatrix}
+	\end{equation*}
+	a questo punto si permutano le righe e si ottiene
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 1 & 0 & 0 & 0 & 1  \\
+			0 & 1 & 1 & 0 & 1 & 0  \\
+			0 & 0 & 2 & 1 & 1 & -3
+		\end{pmatrix}
+	\end{equation*}
+	Per ottenere la forma a scalini ridotta, moltiplichiamo l'ultima riga per
+	$\frac{1}{2}$
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 1 & 0 & 0           & 0           & 1            \\
+			0 & 1 & 1 & 0           & 1           & 0            \\
+			0 & 0 & 1 & \frac{1}{2} & \frac{1}{2} & -\frac{3}{2}
+		\end{pmatrix}
+	\end{equation*}
+	sottraiamo alla seconda riga la terza riga
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 1 & 0 & 0           & 0           & 1            \\
+			0 & 1 & 0 & \frac{1}{2} & \frac{1}{2} & \frac{3}{2}  \\
+			0 & 0 & 1 & \frac{1}{2} & \frac{1}{2} & -\frac{3}{2}
+		\end{pmatrix}
+	\end{equation*}
+	infine sottriamo alla prima riga la seconda:
+	\begin{equation*}
+		\begin{pmatrix}
+			1 & 0 & 0 & \frac{1}{2}  & -\frac{1}{2} & -\frac{1}{2} \\
+			0 & 1 & 0 & -\frac{1}{2} & \frac{1}{2}  & \frac{3}{2}  \\
+			0 & 0 & 1 & \frac{1}{2}  & \frac{1}{2}  & -\frac{3}{2}
+		\end{pmatrix}
+	\end{equation*}
+	La matrice
+	\begin{equation*}
+		B = \begin{pmatrix}
+			\frac{1}{2}  & -\frac{1}{2} & -\frac{1}{2} \\
+			-\frac{1}{2} & \frac{1}{2}  & \frac{3}{2}  \\
+			\frac{1}{2}  & \frac{1}{2}  & -\frac{3}{2}
+		\end{pmatrix}
+	\end{equation*}
+	\`e l'inversa di $A$.
+\end{example}
+
+\textbf{Perch\`e il metodo funziona ?}
+
+Consideriamo una matrice $A \in Mat_{n \times n}(\mathbb{K})$ e cerchiamo la sua
+inversa; supponiamo che $A$ abbia rango $n$.
+
+Per prima cosa creiamo una matrice $n \times 2n$ ponendo accanto le colonne di $A$
+e quelle di $I$. Indicheremo tale matrice con $(A I)$.
+
+Adesso possiamo agire con operazioni elementari di riga in modo da ridurre la
+matrice in forma a scalini per righe ridotta. Poich\`e $A$ ha rango $n$, anche
+$(A I)$ ha rango $n$. Un modo per rendersene conto \`e il seguente: il rango di
+$(A I)$ \`e minore o uguale a $n$ visto che ha $n$ righe ed \`e maggiore o uguale
+a $n$ visto che individuiamo facilmente $n$ colonne linearmente indipendenti.
+
+Allora quando la matrice $(A I)$ viene ridotta in forma a scalini per righe ridotta,
+deve avere esattamente $n$ scalini, dunque deve avere la forma $(I B)$.
+Affermiamo che la matrice $B$ che si ricava dalla matrice precedente \`e proprio
+l'inversa di $A$ che cercavamo.
+
+Infatti agire con operazioni di riga equivale a moltiplicare a sinistra la matrice
+$(A I)$ per una matrice invertibile $U$ di formato $n \times n$, dunque:
+\begin{equation*}
+	U (A I) = (I B)
+\end{equation*}
+Per come \`e definito il prodotto righe per colonne,
+\begin{equation*}
+	U (A I) = (U A U I)
+\end{equation*}
+Dalle uguaglianze precedenti ricaviamo
+\begin{equation*}
+	(U A U I) = (I B)
+\end{equation*}
+ossia le relazioni $U A = I$ e $U I = B$ che ci dicono che $U$ \`e l'inversa di
+$A$ e che $U = B$ come avevamo annunciato.
+
+\begin{observation}
+	La relazione $U A = I$, ossia $BA = I$, ci dice solo che $B$ \`e l'inversa
+	sinistra di $A$. In generale sappiamo che il prodotto tra matrici non \`e
+	commutativo. Dunque, il fatto che $A$ sia invertibile, ci dice che esiste una
+	matrice $B$ tale che $BA = I$, e che esiste una matrice $C$ tale che $AC = I$.
+	Ma possiamo mostrare facilmente che $B$ coincide con l'inversa destra $C$ di
+	$A$. Come detto $C$ deve soddisfare per definizione la condizione $AC = I$.
+	Se moltiplichiamo per $C$ entrambi i membri della relazione $BA = I$ (a destra)
+	\[ BAC = IC \] Usando la propriet\`a associativa del prodotto in
+	$Mat_{n \times n}(\mathbb{K})$ otteniamo \[B = C\] visto che $AC = I$.
+\end{observation}
+
+\section{Cambiamento di base negli endomorfismi lineari}
 Sia $V$ uno spazio vettoriale di dimensione $n$ sul campo $\mathbb{K}$
 e sia $L \in End(V)$. Supponiamo di avere due basi di $V$, una data dai vettori
 $v_1, v_2, \dots, v_n$ e l'altra dai vettori $e_1, e_2, \dots, e_n$. Quello che

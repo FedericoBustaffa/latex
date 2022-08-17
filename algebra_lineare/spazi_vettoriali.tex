@@ -1,0 +1,886 @@
+\chapter{Spazi Vettoriali}
+\section{Definizione di spazio vettoriale}
+Per fornire la definizione di spazio vettoriale si ha
+bisogno di un insieme non vuoto $V$ e di un campo
+$\mathbb{K}$, dove sia possibile definire le operazioni
+di \textbf{somma vettoriale} e
+\textbf{prodotto per scalare}.
+
+\begin{defn}
+	Uno \textbf{spazio vettoriale su un campo} $\mathbb{K}$
+	\`e un insieme $V$ su cui sono definite la somma fra due
+	elementi di $V$ (il cui risultato \`e ancora un elemento
+	di V, si dice quindi che $V$ \`e chiuso per la somma),
+	e il prodotto di un elemento di $\mathbb{K}$ per un
+	elemento di $V$ (il cui risultato \`e sempre un elemento
+	di $V$, si dice quindi che V \`e chiuso per il prodotto con
+	elementi di $\mathbb{K}$) che verificano le seguenti
+	\textbf{propriet\`a}:
+
+	\begin{enumerate}
+		\item
+		      $\forall u, v, w \in V$ vale
+		      \[ (u + v) + w = u + (v + w) \]
+		      (propriet\`a associativa dell'addizione)
+		\item
+		      $\forall v, w \in V$ vale
+		      \[ v + w = w + v \] (propriet\`a commutativa della
+		      somma)
+		\item
+		      $\exists O \in V$ tale che $\forall v \in V$
+		      vale \[ v + O = v \] (elemento neutro somma)
+		\item
+		      $\forall v \in V$, $\exists w \in V$
+		      tale che \[v + w = O\] (opposto per la somma)
+		\item
+		      $\forall \lambda, \mu \in \mathbb{K}$ e $\forall v, w \in V$ vale
+		      \[ \lambda(v + w) = \lambda v + \lambda w \]
+		      e anche
+		      \[ (\lambda + \mu)v = \lambda v + \mu v \]
+		      (propriet\`a distributiva prodotto per scalare)
+		\item
+		      $\forall \lambda, \mu \in \mathbb{K}$ e $\forall v \in V$
+		      vale \[ (\lambda \mu)v = \lambda(\mu v) \]
+		      (propriet\`a associativa prodotto per scalare)
+		\item
+		      $\forall v \in V$ vale \[ 1v = v \]
+		      (invariante moltiplicativo)
+	\end{enumerate}
+\end{defn}
+
+\begin{observation}
+	L'elemento neutro della somma $O$ e lo $0$, elemento neutro di $\mathbb{K}$
+	sono due cose ben distinte, il primo è un vettore, il secondo è uno scalare.
+\end{observation}
+
+\begin{example}
+	Ogni campo $\mathbb{K}$ \`e uno spazio vettoriale su $\mathbb{K}$
+	stesso con le operazioni di somma vettoriale e prodotto per scalare
+	che sono definite identiche alle operazioni di somma e prodotto sul
+	campo. In particolare $\mathbb{R}$ \`e uno spazio vettoriale
+	su $\mathbb{R}$, cos\`i come $\mathbb{Q}$ \`e uno spazio vettoriale
+	su $\mathbb{Q}$.
+\end{example}
+
+\begin{example}
+	$\mathbb{R}^2 = \{(a, b) \mid a,b \in \mathbb{R}\}$ \`e uno spazio
+	vettoriale su $\mathbb{R}$ con le operazioni di somma vettoriale
+	e prodotto scalare definite come segue:
+	\begin{gather*}
+		(a,b) + (c,d) = (a + c, b + d) \\
+		\lambda (a, b) = (\lambda a, \lambda b)
+	\end{gather*}
+\end{example}
+
+\begin{example}
+	Anche l'insieme dei polinomi $\mathbb{K}[x]$, con la somma tra
+	polinomi e il prodotto tra polinomi e costanti di $\mathbb{K}$
+	definiti come segue:
+	\begin{itemize}
+		\item
+		      Il polinomio somma di $p(x)$ e $q(x)$ \`e quello il cui
+		      coefficiente di grado $n$ \`e la somma dei coefficienti di grado
+		      $n$ dei polinomi $p(x)$ e $q(x)$.
+		\item
+		      Il polinomio prodotto di $k \in \mathbb{K}$ e $p(x)$ \`e il
+		      polinomio che ha come coefficiente di grado $n$ $k$ volte il
+		      coefficiente di grado $n$ di $p(x)$.
+	\end{itemize}
+	\`e uno spazio vettoriale su $\mathbb{K}$.
+\end{example}
+
+\section{Sottospazi vettoriali}
+
+\begin{defn}
+	Un \textbf{sottospazio vettoriale} $W$ di $V$ \`e un sottoinsieme di $V$
+	che (rispetto alle operazioni $+$ e $\cdot$ che rendono $V$
+	uno spazio vettoriale su $\mathbb{K}$) \`e uno spazio
+	vettoriale su $\mathbb{K}$.
+\end{defn}
+
+\begin{example}
+	Dato uno spazio vettoriale $V$ su un campo $\mathbb{K}$, $V$ e l'insieme
+	${O}$ sono sempre sottospazi di $V$.
+\end{example}
+
+\begin{defn}
+	Chiamiamo \textbf{sottospazio proprio} di $V$ un qualsiasi sottospazio
+	vettoriale di $V$ che sia diverso da $V$ e dal sottospazio ${O}$.
+\end{defn}
+
+\begin{proposition}
+	Dato uno spazio vettoriale $V$ su $\mathbb{K}$ e $W \subseteq V$, $W$ \`e
+	sottospazio vettoriale di $V$ (rispetto alle operazioni $+$ e $\cdot$ che
+	rendono $V$ uno spazio vettoriale su $\mathbb{K}$) se e solo se:
+	\begin{enumerate}
+		\item Il vettore $O$ appartiene a $W$
+		\item $\forall u, v \in W$ vale $u + v \in W$
+		\item $\forall k \in \mathbb{K} \and \forall u \in W$ vale $ku \in W$
+	\end{enumerate}
+\end{proposition}
+
+\begin{example}
+	Consideriamo lo spazio vettoriale $\mathbb{R}^2$ su $\mathbb{R}$
+	e proviamo vedere se l'insieme
+	$X = \{\forall x,y \in \mathbb{R} \mid x^2 + y^2 = 1\}$
+	\`e un sottospazio vettoriale di $\mathbb{R}^2$.
+	L'insieme in questione \`e l'insieme di punti di una circonferenza.
+	Subito notiamo che il vettore $(0, 0)$ non appartiene all'insieme
+	dunque possiamo subito concludere che $X$ non \`e un sottospazio di
+	$\mathbb{R}^2$.
+\end{example}
+
+\begin{observation}
+	Tutte le rette passanti per l'origine sono gli unici sottospazi
+	vettoriali di $\mathbb{R}^2$. Tutti gli altri sottoinsiemi
+	non sono chiusi per somma e prodotto.
+\end{observation}
+
+\begin{example}
+	Consideriamo il sottoinsieme $L$ di $\mathbb{K}[x]$ che contiene tutti
+	e soli i polinomi che hanno radice $1$, ovvero:
+	\begin{equation*}
+		L = \{p(x) \in \mathbb{K}[x] \mid p(1) = 0\}
+	\end{equation*}
+	Verifichiamo che $L$ \`e sottospazio vettoriale di $\mathbb{K}[x]$.
+	\begin{itemize}
+		\item
+		      Il polinomio $0$, che \`e il vettore $O$ di $\mathbb{K}[x]$,
+		      appartiene a $L$, infatti ha $1$ come radice (addirittura ogni
+		      elemento di $\mathbb{K}$ \`e una radice di $0$).
+		\item
+		      Se $p(x), q(x) \in L$ allora $(p + q)(x)$ appartiene a $L$,
+		      infatti:
+		      \begin{equation*}
+			      (p + q)(1) = p(1) + q(1) = 0 + 0 = 0
+		      \end{equation*}
+		\item
+		      Se $p(x) \in L$ e $k \in \mathbb{K}$ allora $k \cdot p(x) \in L$,
+		      infatti:
+		      \begin{equation*}
+			      (k \cdot p)(1) = k \cdot p(1) = k \cdot 0 = 0
+		      \end{equation*}
+	\end{itemize}
+\end{example}
+
+\section{Intersezione e somma di sottospazi vettoriali}
+Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$,
+la somma \`e il pi\`u piccolo sottospazio vettoriale di $V$
+che contenga sia $U$ che $W$ mentre l'intersezione \`e il pi\`u
+grande sottospazio vettoriale di $V$ contenuto sia in $U$ che in $W$.
+
+\begin{proposition}
+	Sia $V$ uno spazio vettoriale su un campo $\mathbb{K}$, $U$ e $W$ due
+	sottospazi di $V$, allora $U \cap W$ \`e un sottospazio vettoriale di $V$.
+	\begin{proof}
+		Ci interessa verificare che $U \cap W$ verifichi le propriet\`a della
+		definizione:
+		\begin{enumerate}
+			\item $O \in U \cap W$, infatti essendo $U$ e $W$ due sottospazi,
+			      certamente $O \in U$ e $O \in W$.
+			\item Siano $v_1, v_2 \in U \cap W$ allora:
+			      \begin{equation*}
+				      \begin{cases}
+					      v_1 + v_2 \in U \\
+					      v_1 + v_2 \in W
+				      \end{cases}
+				      \Rightarrow{v_1 + v_2 \in U \cap W}
+			      \end{equation*}
+			\item Sia $v \in U \cap W$ allora $\forall \lambda \in
+				      \mathbb{K}$ si ha:
+			      \begin{equation*}
+				      \begin{cases}
+					      \lambda v \in U \\
+					      \lambda v \in W
+				      \end{cases}
+				      \Rightarrow{\lambda v \in U \cap W}
+			      \end{equation*}
+		\end{enumerate}
+	\end{proof}
+\end{proposition}
+
+Per cercare il pi\`u piccolo sottospazio contenente sia $U$ che $W$
+verrebbe da pensare all'unione insiemistica, tuttavia, in generale non
+\`e vero che $U \cup W$ \`e un sottospazio vettoriale di $V$.
+
+Dunque il pi\`u piccolo sottospazio vettoriale di $V$ che contiene sia
+$U$ che $W$ deve necessariamente (per essere chiuso per la somma)
+contenere tutti gli elementi della forma $u + v$ dove $u \in U$ e
+$w \in W$.
+
+\begin{example}
+	Provare che se $V = \mathbb{R}^2$ e $U$ e $W$ sono due rette distinte
+	passanti per $O$, allora $U \cup W$ non \`e un sottospazio di $V$.
+
+	Basta mostrare che, presi $u \in U$ e $w \in W$, entrambi diversi
+	dall'origine, $v + w$ non appartiene all'unione $U \cup W$.
+\end{example}
+
+\begin{defn}
+	Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$
+	su $\mathbb{K}$, chiamo \textbf{somma} di $U$ e $W$ l'insieme
+	\begin{equation*}
+		U + W = \{u + w \mid u \in U, w \in W\}
+	\end{equation*}
+\end{defn}
+
+\begin{proposition}
+
+	Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$
+	su $\mathbb{K}$, $U + W$ \`e un sottospazio vettoriale di $V$ (ed
+	\`e il pi\`u piccolo contenente $U$ e $W$).
+	\begin{proof}
+		$O \in U + W$, infatti appartiene sia ad $U$ che a $W$.
+
+		Ora dati $a \in \mathbb{K}$ e $x, y \in U + W$, per definizione di
+		$U + W$ esistono $u_1, u_2 \in U$ e $w_1, w_2 \in W$ tali che:
+		$x = u_1 + w_1$ e $y = u_2 + w_2$. Dunque
+		\begin{equation*}
+			x + y = (u_1 + w_1) + (u_2 + w_2) = (u_1 + u_2) + (w_1 + w_2) \in U + W
+		\end{equation*}
+		\begin{equation*}
+			ax = a(u_1 + w_1) = au_1 + aw_1 \in U + W
+		\end{equation*}
+	\end{proof}
+\end{proposition}
+
+\section{Base di uno spazio vettoriale}
+Sia $V$ uno spazio vettoriale su $\mathbb{K}$.
+Per definizione di $V$, se $v_1, v_2, ..., v_n$ sono $n$ vettori
+di $V$, allora per qualsiasi scelta di $n$ elementi
+$k_1, k_2, ..., k_n$ di $\mathbb{K}$ il vettore:
+\begin{equation*}
+	v = k_1 v_1 + ... + k_n v_n = \sum_{i=1}^n k_i v_i
+\end{equation*}
+appartiene a $V$, in quanto $V$ \`e chiuso per somma vettoriale
+e prodotto per scalare.
+
+\begin{defn}
+	Dato un insieme di vettori $\{v_1, v_2, ..., v_n\}$ di $V$,
+	spazio vettoriale sul campo $\mathbb{K}$, il vettore:
+	\begin{equation*}
+		v = k_1 \cdot v_1 + ... + k_n \cdot v_n
+	\end{equation*}
+	con $\{k_1, k_2, ..., k_n\}$ scalari di $\mathbb{K}$,
+	si dice una \textbf{combinazione lineare} dei vettori
+	$\{v_1, v_2, ..., v_n\}$. I $k_i$ sono detti \textbf{coefficienti}
+	della combinazione lineare.
+\end{defn}
+
+\begin{example}
+	Consideriamo lo spazio vettoriale $\mathbb{R}^3$ su $\mathbb{R}$ e i seguenti
+	due vettori:
+	\begin{equation*}
+		v_1 = \begin{pmatrix}
+			3 \\ -1 \\ 3
+		\end{pmatrix}
+		\quad
+		v_2 = \begin{pmatrix}
+			1 \\ 0 \\ 2
+		\end{pmatrix}
+	\end{equation*}
+	Allora il vettore $v_3$ seguente:
+	\begin{equation*}
+		v_3 = \begin{pmatrix}
+			5 \\ -1 \\ 7
+		\end{pmatrix}
+		= 1 \cdot \begin{pmatrix}
+			3 \\ -1 \\ 3
+		\end{pmatrix}
+		+ 2 \cdot \begin{pmatrix}
+			1 \\ 0 \\ 2
+		\end{pmatrix}
+	\end{equation*}
+	\`E una combinazione lineare dell'insieme dei vettori $\{v_1, v_2\}$ di
+	coefficienti 1 e 2.
+\end{example}
+
+\begin{defn}
+	Dati $\{v_1, v_2, ..., v_t\}$ vettori di $V$ su $\mathbb{K}$,
+	si definisce \textbf{span} dei vettori $v_1, v_2, ..., v_t$
+	(e si indica con $Span(v_1, v_2, ..., v_t)$) l'insieme di tutte
+	le possibili combinazioni lineari dell'insieme di vettori
+	$\{v_1, v_2, ..., v_t\}$.
+\end{defn}
+
+\begin{defn}
+	Un insieme di vettori $\{v_1, v_2, ..., v_t\}$ di $V$ per cui
+	$V = Span(v_1, v_2, ..., v_t)$, ovvero $\forall v \in V$, esistono
+	degli scalari $a_1, a_2, ..., a_t$ tali che
+	\begin{equation*}
+		a_1 v_1 + a_2 v_2 + ... + a_t v_t = v
+	\end{equation*}
+	si dice un \textbf{insieme di generatori} di $V$. In tal caso si dice
+	anche che i vettori $v_1, v_2, ..., v_t$ \textbf{generano} $V$.
+\end{defn}
+
+L'esistenza di un sistema finito di generatori per uno spazio vettoriale
+$V$ su un campo $\mathbb{K}$ \`e un fatto molto importante, dato che
+si riduce la descrizione di uno spazio vettoriale con cardinalit\`a
+infinita, ad una lista di numero finito di vettori di $V$.
+
+
+Dato un sistema di generatori $\{v_1, ..., v_t\}$ di $V$ sappiamo dunque
+che ogni $v \in V$ si pu\`o scrivere, con opportuni coefficienti
+$\{k_1, ..., k_t\}$, come:
+\begin{equation*}
+	v = \sum_{i=1}^t k_i v_i
+\end{equation*}
+In generale, tale scrittura non \`e unica, ovvero non ci permette di
+identificare univocamente ogni vettore di $v \in V$.
+
+\begin{example}
+	Si verifica che i vettori
+	\begin{equation*}
+		\begin{pmatrix}
+			1 \\ 2 \\ 3
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			2 \\ 2 \\ 4
+		\end{pmatrix}
+	\end{equation*}
+
+	generano $\mathbb{R}^3$. Si possono facilmente trovare due distinte
+	combinazioni lineari di tali vettori che esprimono il vettore
+	\begin{equation*}
+		\begin{pmatrix}
+			2 \\ 2 \\ 5
+		\end{pmatrix}
+	\end{equation*}
+
+	Per esempio:
+	\begin{equation*}
+		\begin{pmatrix}
+			1 \\ 2 \\ 3
+		\end{pmatrix} +
+		\begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 2 \\ 5
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 2 \\ 4
+		\end{pmatrix} +
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix}
+	\end{equation*}
+\end{example}
+
+\begin{defn}
+	Si dice che un insieme finito di vettori $\{v_1, v_2, ..., v_r\}$ \`e
+	un \textbf{insieme di vettori linearmente indipendenti} se l'unico
+	modo di scrivere il vettore $O$ come combinazione lineare di questi
+	vettori \`e con tutti i coefficienti nulli, ossia se
+	\begin{equation*}
+		a_1 v_1 + a_2 v_2 + ... + a_r v_r = O \quad \Leftrightarrow \quad
+		a_1 = a_2 = ... = a_r = 0
+	\end{equation*}
+	Si pu\`o dire anche che i vettori sono \textbf{linearmente indipendenti}.
+	Se invece i vettori $v_1, v_2, ..., v_r$ non sono linearmente indipendenti
+	si dice che sono \textbf{linearmente dipendenti}.
+\end{defn}
+
+\begin{proposition}
+	Un insieme $A = \{v_1, ..., v_n\}$ di vettori di uno spazio
+	vettoriale $V$ su $\mathbb{K}$ \`e un insieme di vettori linearmente
+	indipendenti se e solo se nessun $v_i$, appartenente ad $A$, si pu\`o
+	scrivere come combinazione lineare dell'insieme
+	$B = A \backslash \{v_i\}$ (ovvero $v_i$ non appartiene a $Span(B)$).
+\end{proposition}
+
+\begin{defn}
+	Sia $V$ uno spazio vettoriale su $\mathbb{K}$, un insieme di vettori
+	$\{v_1, v_2, ..., v_n\} \in V$, che generano lo spazio $V$ e che sono
+	linearmente indipendenti, si dice una \textbf{base} (finita) di $V$.
+\end{defn}
+
+\begin{observation}
+	Nella definizione \`e specificato \emph{finita}. Non sempre uno
+	spazio vettoriale ammette un numero finito di generatori, e di
+	conseguenza nemmeno una base finita.
+\end{observation}
+
+Fissata la defizione di base siamo interessati a capire:
+\begin{enumerate}
+	\item
+	      Se la scelta di una base garantisce l'unicit\`a di scrittura di un vettore
+	      in termini di combinazione lineare degli elementi della base.
+	\item
+	      Quando uno spazio vettoriale ammette una base finita, ed in
+	      particolare se il fatto che uno spazio vettoriale $V$ abbia un
+	      insieme finito di generatori, garantisca che $V$ abbia una
+	      base finita o meno.
+\end{enumerate}
+
+\begin{proposition}
+	Ogni vettore $v \in V$ si scrive \emph{in modo unico} come
+	combinazione lineare degli elementi della base.
+\end{proposition}
+
+\begin{theorem}
+	Sia $V$ uno spazio vettoriale su $\mathbb{K}$ diverso da $\{O\}$
+	e generato dall'insieme finito di vettori \emph{non nulli}
+	$\{w_1, w_2, ..., w_s\}$. Allora \`e possibile estrarre da
+	$\{w_1, w_2, ..., w_s\}$ un sottoinsieme
+	$\{w_{i_1}, w_{i_2}, ..., w_{i_n}\}$ (con $n \leq s$) che \`e
+	una base di $V$.
+\end{theorem}
+
+\begin{defn}
+	Sia $V$  uno spazio vettoriale con basi di cardinalit\`a $n$.
+	Tale cardinalit\`a $n$ \`e detta \textbf{dimensione} di $V$.
+\end{defn}
+
+\section{Applicazioni Lineari}
+Le applicazioni lineari non sono altro che funzioni che mandano
+sottospazi in sottospazi
+
+\begin{example}
+	Consideriamo la funzione $\textit{f} : \mathbb{R}^2 \to \mathbb{R}^2$
+	definita da
+	\begin{equation*}
+		\textit{f}\left(
+		\begin{pmatrix}
+				x \\ y
+			\end{pmatrix}
+		\right) =
+		\begin{pmatrix}
+			x \\ x^2
+		\end{pmatrix}
+	\end{equation*}
+
+	La funzione $f$ manda i punti
+	$\begin{psmallmatrix}
+			x \\ x
+		\end{psmallmatrix}$,
+	con la prima e seconda coordinata uguali, ovvero i punti della retta
+	di equazione $x = y$, nella parabola di equazione $y = x^2$.
+	Ma, come sappiamo, la retta $y = x$, passando dall'origine, \`e un
+	sottospazio di $\mathbb{R}^2$, mentre la parabola non lo \`e.
+	Si devono dunque considerare applicazioni con propriet\`a particolari.
+\end{example}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali di dimensione finita sul campo
+	$\mathbb{K}$. Un'applicazione $L$ da $V$ in $W$ \`e detta
+	\textbf{lineare} se soddisfa le seguenti propriet\`a:
+	\begin{itemize}
+		\item $\forall v_1, v_2 \in V$ vale \[ L(v_1 + v_2) = L(v_1) + L(v_2) \]
+		\item
+		      $\forall \lambda \in \mathbb{K}$ e $\forall v \in V$
+		      vale \[ L(\lambda v) = \lambda L(v) \]
+	\end{itemize}
+\end{defn}
+
+\begin{observation}
+	Soddisfare le due propriet\`a, da parte di un'applicazione lineare $L$,
+	\`e equivalente a soddisfare la seguente propriet\`a:
+
+	$\forall v_1, v_2 \in V$ e $\forall \lambda, \mu \in \mathbb{K}$ vale
+	\begin{equation*}
+		L(\lambda v_1 + \mu v_2) = \lambda L(v_1) + \mu L(v_2)
+	\end{equation*}
+\end{observation}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
+	lineare da $V$ in $W$. Chiamo \textbf{immagine} di $L$, e la indico con
+	$Imm(L)$, il seguente sottoinsieme di $W$:
+	\begin{equation*}
+		Imm(L) = \{w \in W \mid \forall v \in V, \quad L(v) = w\}
+	\end{equation*}
+\end{defn}
+
+\begin{proposition}
+	\`E dimostrabile che \[ Imm(L) = Span(L(e_1), \dots, L(e_n)) \]
+	dove $\{e_1, \dots, e_n\}$ \`e una base di $V$.
+\end{proposition}
+
+\begin{defn}
+	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
+	lineare da $V$ in $W$. Chiamo \textbf{nucleo} di $L$, e lo indico con
+	$Ker(L)$, il seguente sottoinsieme di $V$:
+	\begin{equation*}
+		Ker(L) = \{v \in V \mid L(v) = O\}
+	\end{equation*}
+\end{defn}
+
+Di seguito qualche propriet\`a utile:
+\begin{enumerate}
+	\item $Ker(L)$ \`e un sottospazio vettoriale di $V$.
+	\item $Imm(L)$ \`e un sottospazio vettoriale di $W$.
+	\item $L$ \`e iniettiva se e solo se $Ker(L) = \{O\}$.
+\end{enumerate}
+
+\section{Matrici e vettori}
+
+\begin{defn}
+	Dati due interi positivi $m, n$, una \textbf{matrice} $m \times n$
+	a coefficienti in $\mathbb{K}$ \`e una griglia composta da $m$ righe
+	e $n$ colonne in cui in ogni posizione c'\`e un elemento di
+	$\mathbb{K}$:
+	\begin{equation*}
+		A = \begin{pmatrix}
+			a_{11} & a_{12} & \dots & a_{1n} \\
+			a_{21} & a_{22} & \dots & \dots  \\
+			\dots  & \dots  & \dots & \dots  \\
+			a_{m1} & \dots  & \dots & a_{mn}
+		\end{pmatrix}
+	\end{equation*}
+	Per indicare l'elemento che si trova nella riga $i$-esima
+	dall'alto e	nella colonna $j$-esima da sinistra viene indicato
+	con $a_{ij}$. Spesso per indicare la matrice $A$ useremo la notazione
+	$A = (a_{ij})$ e per ricordare le dimensioni della matrice scriveremo:
+	\begin{equation*}
+		A = (a_{ij})_{\substack{
+					i = 1, 2, \dots, m \\
+					j = 1, 2, \dots, n
+				}}
+	\end{equation*}
+\end{defn}
+
+\begin{defn}
+	Dati due interi positivi m, n, chiamiamo
+	$Mat_{m \times n} (\mathbb{K})$, l'insieme di tutte le matrici
+	$m \times n$ a coefficienti in $\mathbb{K}$.
+\end{defn}
+
+\begin{defn}
+	Sull'insieme $Mat_{m \times n} (\mathbb{K})$ possiamo definire la
+	\textbf{somma} e il \textbf{prodotto per scalare}. Date due matrici
+	$A, B \in Mat_{m \times n} (\mathbb{K})$ e dato uno scalare
+	$k \in \mathbb{K}$, definiamo:
+	\begin{itemize}
+		\item
+		      La \textbf{matrice somma} $A + B = C$, il cui generico coefficiente nella
+		      $i$-esima riga e $j$-esima colonna si ottiene sommando i
+		      coefficienti nella stessa posizione indicata da $(i, j)$ di $A$ e
+		      di $B$. Ovvero per ogni $i \leq m$ e per ogni $j \leq n$
+		      ho che $c_{ij} = a_{ij} + b_{ij}$.
+		\item
+		      La \textbf{matrice prodotto per scalare} $k \cdot A = D$, il cui
+		      generico coefficiente nella $i$-esima riga e $j$-esima
+		      colonna si ottiene moltiplicando lo scalare $k$ per il
+		      coefficiente di $A$ in posizione $(i, j)$. Ovvero per ogni
+		      $i \leq m$ e per ogni $j \leq n$ ho che
+		      $d_{ij} = k \cdot a_{ij}$.
+	\end{itemize}
+\end{defn}
+
+Esiste un'altra operazione, si tratta del
+\emph{prodotto righe per colonne}. Per definire tale prodotto \`e
+importante l'ordine in cui si considerano le due matrici (quindi non vale la
+proprit\`a commutativa). Inoltre tale operazione \`e definita solo quando il
+numero di colonne di $A$ \`e uguale al numero di righe di $B$.
+
+\begin{defn}
+	Data una matrice $A = (a_{ij}) \in Mat_{m \times n} (\mathbb{K})$ e una
+	matrice $B = (b_{st}) \in Mat_{n \times k} (\mathbb{K})$, il
+	\textbf{prodotto riga per colonna} $AB$, \`e la matrice
+	$C = (c_{rh}) \in Mat_{m \times k} (\mathbb{K})$, i cui coefficienti,
+	per ogni $r, h$, sono definiti come segue:
+	\begin{equation*}
+		c_{rh} = a_{r1} b_{1h} + a_{r2} b_{2h} + \cdots + a_{rn} b_{nh}
+	\end{equation*}
+\end{defn}
+
+\begin{example}
+	Consideriamo la matrice $A \in Mat_{2 \times 3}(\mathbb{K})$:
+	\begin{equation*}
+		A = \begin{pmatrix}
+			1 & 2 & 4 \\
+			0 & 6 & 3
+		\end{pmatrix}
+	\end{equation*}
+	e la matrice $B \in Mat_{3 \times 3}(\mathbb{K})$:
+	\begin{equation*}
+		B = \begin{pmatrix}
+			2 & 2 & 2  \\
+			5 & 6 & -8 \\
+			0 & 1 & 0
+		\end{pmatrix}
+	\end{equation*}
+	La definizione ci dice che possiamo definire $C = AB$ e che $C$ \`e la matrice di
+	$Mat_{2 \times 3}(\mathbb{K})$ i cui coefficienti sono ottenuti come segue:
+	\begin{gather*}
+		c_{11} = 1 \cdot 2 + 2 \cdot 5 + 4 \cdot 0 = 12 \\
+		c_{12} = 1 \cdot 2 + 2 \cdot 6 + 4 \cdot 1 = 18 \\
+		c_{13} = 1 \cdot 2 + 2 \cdot (-8) + 4 \cdot 0 = -14 \\
+		c_{21} = 0 \cdot 2 + 6 \cdot 5 + 3 \cdot 0 = 30 \\
+		c_{22} = 0 \cdot 2 + 6 \cdot 6 + 3 \cdot 1 = 39 \\
+		c_{23} = 0 \cdot 2 + 6 \cdot (-8) + 3 \cdot 0 = -48
+	\end{gather*}
+	E dunque si ha:
+	\begin{equation*}
+		AB = C = \begin{pmatrix}
+			12 & 18 & -14 \\
+			30 & 39 & -48
+		\end{pmatrix}
+	\end{equation*}
+\end{example}
+
+\begin{defn}
+	Data un'applicazione lineare $L$ da uno spazio vettoriale $V$ di
+	dimensione $n$ ad uno spazio vettoriale $W$ di dimensione $m$, si dice
+	\textbf{matrice associata} all'applicazione lineare $L$ nelle basi
+	$\{e_1, e_2, \dots, e_n\}$ di $V$ e
+	$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ di $W$, la seguente
+	matrice di $m$ righe ed $n$ colonne:
+	\begin{equation*}
+		[L]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				\epsilon_1, \epsilon_2, \dots, \epsilon_m
+			}} = \begin{pmatrix}
+			a_{11} & a_{12} & \dots & a_{1n} \\
+			a_{21} & a_{22} & \dots & \dots  \\
+			\dots  & \dots  & \dots & \dots  \\
+			a_{m1} & \dots  & \dots & a_{mn}
+		\end{pmatrix}
+	\end{equation*}
+	dove $\{e_1, e_2, \dots, e_n\}$ \`e la base di partenza e
+	$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ \`e la base di arrivo.
+\end{defn}
+
+Sar\`a tutto pi\`u chiaro con un esempio che vedremo tra poco. In ogni caso, per
+alleggerire la notazione, si possono omettere le basi, tuttavia si deve ricordare che
+la matrice $[L]$ associata all'applicazione lineare $L$, non dipende solo da $L$ stessa,
+ma anche dalle basi scelte per $V$ e $W$.
+
+\begin{example}
+	Consideriamo gli spazi vettoriali $\mathbb{R}^4$ con la sua base
+	\begin{equation*}
+		v_1 = \begin{pmatrix}
+			1 \\ 1 \\ 0 \\ 0
+		\end{pmatrix} \quad
+		v_2 = \begin{pmatrix}
+			0 \\ 1 \\ 1 \\ 0
+		\end{pmatrix} \quad
+		v_3 = \begin{pmatrix}
+			0 \\ 0 \\ 1 \\ 1
+		\end{pmatrix} \quad
+		v_4 = \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 1
+		\end{pmatrix}
+	\end{equation*}
+	e $\mathbb{R}^3$ con la sua base
+	\begin{equation*}
+		w_1 = \begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		w_2 = \begin{pmatrix}
+			1 \\ 1 \\ 1
+		\end{pmatrix} \quad
+		w_3 = \begin{pmatrix}
+			0 \\ 0 \\ 2
+		\end{pmatrix}
+	\end{equation*}
+	Quel che vogliamo fare \`e scrivere la matrice associata all'applicazione lineare
+	\begin{equation*}
+		L \begin{pmatrix}
+			x \\ y \\ z \\ w
+		\end{pmatrix} = \begin{pmatrix}
+			x + y + z \\
+			y - z     \\
+			x + w
+		\end{pmatrix}
+	\end{equation*}
+	Procediamo calcolando l'immagine di ognuna delle componenti della base di
+	$\mathbb{R}^4$
+	\begin{gather*}
+		L \begin{pmatrix}
+			1 \\ 1 \\ 0 \\ 0
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 1 \\ 1
+		\end{pmatrix} \quad
+		L \begin{pmatrix}
+			0 \\ 1 \\ 1 \\ 0
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 0 \\ 0
+		\end{pmatrix} \\
+		L \begin{pmatrix}
+			0 \\ 0 \\ 1 \\ 1
+		\end{pmatrix} =
+		\begin{pmatrix}
+			1 \\ -1 \\ 1
+		\end{pmatrix} \quad
+		L \begin{pmatrix}
+			0 \\ 0 \\ 0 \\ 1
+		\end{pmatrix} =
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix}
+	\end{gather*}
+	Ora dobbiamo esprimere i risultati trovati come combinazioni lineari della base di
+	$\mathbb{R}^3$.
+	\begin{gather*}
+		\begin{pmatrix}
+			2 \\ 1 \\ 1
+		\end{pmatrix} =
+		a \begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		b \begin{pmatrix}
+			1 \\ 1 \\ 1
+		\end{pmatrix} +
+		c \begin{pmatrix}
+			0 \\ 0 \\ 2
+		\end{pmatrix}\\
+		\\
+		\begin{pmatrix}
+			2 \\ 0 \\ 0
+		\end{pmatrix} =
+		a \begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		b \begin{pmatrix}
+			1 \\ 1 \\ 1
+		\end{pmatrix} +
+		c \begin{pmatrix}
+			0 \\ 0 \\ 2
+		\end{pmatrix}\\
+		\\
+		\begin{pmatrix}
+			1 \\ -1 \\ 1
+		\end{pmatrix} =
+		a \begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		b \begin{pmatrix}
+			1 \\ 1 \\ 1
+		\end{pmatrix} +
+		c \begin{pmatrix}
+			0 \\ 0 \\ 2
+		\end{pmatrix}\\
+		\\
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix} =
+		a \begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		b \begin{pmatrix}
+			1 \\ 1 \\ 1
+		\end{pmatrix} +
+		c \begin{pmatrix}
+			0 \\ 0 \\ 2
+		\end{pmatrix}
+	\end{gather*}
+	Ottengo dunque quattro sistemi.
+	\begin{gather*}
+		\begin{cases}
+			a + b      & = 2 \\
+			b          & = 1 \\
+			a + b + 2c & = 1
+		\end{cases}
+		\quad
+		\begin{cases}
+			a + b      & = 2 \\
+			b          & = 0 \\
+			a + b + 2c & = 0
+		\end{cases} \\
+		\\
+		\begin{cases}
+			a + b      & = 1  \\
+			b          & = -1 \\
+			a + b + 2c & = 1
+		\end{cases}
+		\quad
+		\begin{cases}
+			a + b      & = 0 \\
+			b          & = 0 \\
+			a + b + 2c & = 2
+		\end{cases}
+	\end{gather*}
+	Se li risolvo ottengo
+	\begin{gather*}
+		\begin{cases}
+			a & = 1  \\
+			b & = 1  \\
+			c & = -1
+		\end{cases}
+		\quad
+		\begin{cases}
+			a & = 2  \\
+			b & = 0  \\
+			c & = -1
+		\end{cases} \\
+		\\
+		\begin{cases}
+			a & = 2  \\
+			b & = -1 \\
+			c & = 0
+		\end{cases}
+		\quad
+		\begin{cases}
+			a & = 0 \\
+			b & = 0 \\
+			c & = 1
+		\end{cases}
+	\end{gather*}
+	Ora non devo fare altro che prendere i vettori
+	\begin{equation*}
+		\begin{pmatrix}
+			1 \\ 1 \\ -1
+		\end{pmatrix}
+		\quad
+		\begin{pmatrix}
+			2 \\ 0 \\ -1
+		\end{pmatrix}
+		\quad
+		\begin{pmatrix}
+			2 \\ -1 \\ 0
+		\end{pmatrix}
+		\quad
+		\begin{pmatrix}
+			0 \\ 0 \\ -1
+		\end{pmatrix}
+	\end{equation*}
+	e formare la matrice associata all'applicazione lineare $L$.
+	\begin{equation*}
+		[L]_{\substack{v_1, v_2, v_3, v_4 \\
+				w_1, w_2, w_3}} =
+		\begin{pmatrix}
+			1  & 2  & 2  & 0  \\
+			1  & 0  & -1 & 0  \\
+			-1 & -1 & 0  & -1
+		\end{pmatrix}
+	\end{equation*}
+\end{example}
+
+\begin{observation}
+	Dati due spazi vettoriali $V$ e $W$, esiste una sola applicazione
+	lineare da $V$ a $W$ la cui matrice associata \`e indipendente dalle
+	basi scelte. Questa \`e l'\emph{applicazione nulla}
+	$\mathcal{O} : V \rightarrow W$ che manda ogni $v \in V$ in $O \in W$.
+	Qualunque siano le basi scelte, la matrice associata avr\`a tutti
+	i coefficienti uguali a $0$.
+\end{observation}
+
+\begin{observation}
+	Consideriamo l'applicazione \emph{identit\`a} $I : V \rightarrow V$,
+	che lascia fisso ogni elemento di $v: I(v) = v \forall v \in V$, e
+	fissiamo la base $\mathcal{B}$ di $V$. Si verifica che la matrice
+	$[I] = (a_{ij})$, associata ad $I$ rispetto a $\mathcal{B}$, sia in
+	arrivo che in partenza, \`e la matrice quadrata di formato $n \times n$
+	che ha tutti i coefficienti uguali a $0$ eccetto quelli sulla
+	diagonale, che sono invece uguali a $1$.
+
+	Tale matrice \`e l'elemento neutro rispetto alla moltiplicazione riga
+	per colonna in $Mat_{n \times n}(\mathbb{K})$.
+
+	In seguito useremo solo il simbolo $I$ per indicare sia la matrice identit\`a
+	che	l'applicazione lineare $I$.
+\end{observation}

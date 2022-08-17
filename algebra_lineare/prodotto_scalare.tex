@@ -1,5 +1,103 @@
+\chapter{Prodotti scalari e spazi euclidei}
+\section{Prodotto scalare}
 
-\subsection{Ortogonalit\`a}
+\begin{defn}
+	Sia $V$ uno spazio vettoriale sul campo $\mathbb{K}$, dove
+	$\mathbb{K} = \mathbb{R}^n$ o $\mathbb{K} = \mathbb{C}^n$. Il
+	\textbf{prodotto scalare} \`e una funzione che ad ogni coppia di vettori $u, v$
+	appartenenti a $V$ associa lo scalare $\langle u, v \rangle \in \mathbb{K}$
+	calcolato come segue:
+	\[
+		\langle u, v \rangle = u_1 v_1 + u_2 v_2 + ... + u_n v_n
+	\]
+	dove gli $u_i$ e $v_i$ sono le $i$-esime coordinate di $u$ e $v$.
+
+	Il prodotto scalare gode inoltre delle seguenti propriet\`a:
+	\begin{enumerate}
+		\item $\langle au_1 + bu_2, v \rangle =
+			      a \langle u_1, v \rangle + b \langle u_2, v \rangle$, per ogni
+		      $u_1, u_2, v \in V$ e per ogni $a, b \in \mathbb{K}$.
+		\item $\langle u, v \rangle = \overline{\langle v, u \rangle}$ per ogni
+		      $u, v \in V$ (dove $\overline{\langle v, u \rangle}$ indica il numero
+		      complesso coniugato di $\langle u, v \rangle$).
+		\item per ogni $u \in V$ vale $\langle u, u \rangle \geq 0$ e
+		      $\langle u, u \rangle = 0$ se e solo se $u = O$.
+	\end{enumerate}
+	Uno spazio vettoriale reale $V$ munito di un prodotto scalare si dice
+	\textbf{spazio euclideo}.
+\end{defn}
+
+\begin{observation}
+	Osserviamo che, per la seconda propriet\`a, il prodotto scalare
+	$\langle u, u \rangle$ \`e sempre un numero reale, dunque ha senso la disuguaglianza
+	che compare nella terza propriet\`a.
+\end{observation}
+
+\begin{defn}
+	Per ogni vettore $u \in V$, scriveremo
+	\begin{equation*}
+		\| u \| = \sqrt{\langle u, u \rangle}
+	\end{equation*}
+	e diremo che $\| u \|$ \`e la \textbf{norma} di $u$.
+\end{defn}
+
+\begin{observation}
+	Dalle propriet\`a (1) e (2) segue che
+	\begin{equation*}
+		\langle u, av_1 + bv_2 \rangle =
+		\overline{a} \langle u, v_1 \rangle + \overline{b} \langle u, v_2 \rangle
+	\end{equation*}
+	Se il campo $\mathbb{K}$ \`e $\mathbb{R}$ tutti i simboli di coniugazione
+	complessa possono essere ignorati.
+\end{observation}
+
+\begin{observation}
+	Il prodotto scalare standard estende a tutti gli spazi $\mathbb{R}^n$ un concetto
+	che in $\mathbb{R}^2$ e in $\mathbb{R}^3$ ci \`e gi\`a familiare. Si pu\`o
+	facilmente verificare che in questi casi per esempio $\| u \|$ coincide con
+	ci\`o che \`e chiamata lunghezza del vettore $u$ e che $\| u - v \|$ coincide
+	con la distanza tra i vettori $u$ e $v$. Inoltre $\langle u, v \rangle = 0$ se
+	e solo se $u$ e $v$ sono ortogonali fra loro. Potete anche gi\`a osservare in
+	$\mathbb{R}^2$ che vale la seguente relazione:
+	\begin{equation*}
+		\langle u, v \rangle = \| u \| \| v \| \cos \theta
+	\end{equation*}
+	dove $\theta$ \`e l'angolo compreso fra i vettori $u$ e $v$.
+\end{observation}
+
+\begin{example}
+	In $\mathbb{C}^n$, dati i vettori
+	\begin{equation*}
+		u = \begin{pmatrix}
+			a_1 \\ \dots \\ a_n
+		\end{pmatrix}, \quad
+		v = \begin{pmatrix}
+			b_1 \\ \dots \\ b_n
+		\end{pmatrix}
+	\end{equation*}
+	scritti rispetto alla base standard, abbiamo il prodotto scalare
+	\begin{equation*}
+		\langle u, v \rangle = a_1 \overline{b_1} + \cdots + a_n \overline{b_n}
+	\end{equation*}
+\end{example}
+
+\begin{example}
+	In $\mathbb{R}^3$, dati i vettori
+	\[
+		u = \begin{pmatrix}
+			2 \\ 1 \\ 1
+		\end{pmatrix}, \quad
+		v = \begin{pmatrix}
+			-1 \\ 0 \\ 3
+		\end{pmatrix}
+	\]
+	Abbiamo che il prodotto scalare $\langle u, v \rangle$ \`e dato da
+	\[
+		\langle u, v \rangle = 2 \cdot (-1) + 1 \cdot 0 + 1 \cdot 3 = 1
+	\]
+\end{example}
+
+\section{Ortogonalit\`a}
 Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Estendiamo il
 concetto di perpendicolarit\`a che ci \`e noto in $\mathbb{R}^2$ e
 $\mathbb{R}^3$ dando la seguente definizione:
@@ -190,3 +288,83 @@ scalare ha una base ortonormale.
 	Trovare una base ortonormale di $\mathbb{R}^3$ il cui primo vettore sia
 	\[ \left( \frac{1}{2}, \quad \frac{2}{3}, \quad \frac{2}{3} \right) \]
 \end{example}
+
+\section{La disuguaglianza di Cauchy-Schwarz}
+Dato un prodotto scalare $\langle , \rangle$ su $V$, abbiamo il seguente
+teorema:
+
+\begin{theorem}[Disuguaglianza di Cauchy-Schwarz]
+	Per ogni coppia di vettori $u, v \in V$ vale
+	\begin{equation*}
+		|\langle u, v \rangle| \leq \| u \| \| v \|
+	\end{equation*}
+\end{theorem}
+
+\begin{example}
+	Nel caso in cui $V$ sia $\mathbb{R}^n$ col prodotto scalare standard, la
+	disuguaglianza di Cauchy-Schwarz si traduce cos\`i. Dati
+	\begin{equation*}
+		u = \begin{pmatrix}
+			a_1 \\ \dots \\ a_n
+		\end{pmatrix},
+		v = \begin{pmatrix}
+			b_1, \dots, b_n
+		\end{pmatrix}
+	\end{equation*}
+	vale
+	\begin{equation*}
+		|a_1 b_1 + \cdots + a_n b_n| \leq
+		(a_1^2 + \cdots + a_n^2)(b_1^2 + \cdots + b_n^2)
+	\end{equation*}
+	che pu\`o essere pensata anche, svincolandosi dai vettori e dagli spazi
+	vettoriali, come una disuguaglianza che riguarda due qualsiasi $n$-uple
+	$a_1, \dots, a_n$ e $b_1, \dots, b_n$ di numeri reali.
+\end{example}
+
+\begin{example}
+	Nel caso in cui $V$ sia lo spazio delle funzioni continue reali definite
+	sull'intervallo $[0, 1]$ la disuguaglianza di Cauchy-Schwarz si traduce
+	nella seguente importante disuguaglianza fra integrali:
+	\begin{equation*}
+		\left( \int_0^1 f(t)g(t)dt \right)^2 \leq
+		\int_0^1 f(t)^2 dt \int_0^1 g(t)^2 dt
+	\end{equation*}
+\end{example}
+
+\section{Sottospazi ortogonali}
+Sia $V$, uno spazio vettoriale munito di prodotto scalare.
+
+\begin{proposition}
+	Sia $U$ un sottospazio vettoriale di $V$. Allora esiste una base
+	ortonormale di $U$ che \`e un sottoinsieme di una base ortonormale di $V$.
+\end{proposition}
+
+\begin{theorem}
+	Sia $U$ un sottospazio vettoriale di $V$. Allora $V$ si decompone come
+	somma diretta di $U$ e di $U^\perp$:
+	\begin{equation*}
+		V = U \oplus U^\perp
+	\end{equation*}
+	In particolare vale che $dim(U^\perp) = dim(V) - dim(U)$.
+\end{theorem}
+
+\begin{observation}
+	Consideriamo $V = \mathbb{R}^n$ munito del prodotto scalare standard. Dato
+	un sottospazio $W$, con base $w_1, \dots, w_r$, se pensiamo a come si
+	scrive il prodotto scalare ci rendiamo conto che i vettori $W^\perp$ sono
+	esattamente le soluzioni del sistema
+	\begin{equation*}
+		\begin{pmatrix}
+			a_1   & \dots & a_n   \\
+			b_1   & \dots & b_n   \\
+			\dots & \dots & \dots \\
+			\dots & \dots & \dots
+		\end{pmatrix}
+		\begin{pmatrix}
+			x_1 \\ x_2 \\ \dots \\ \dots \\ x_n
+		\end{pmatrix} =
+		\begin{pmatrix}
+			0 \\ 0 \\ \dots \\ \dots \\ 0
+		\end{pmatrix}
+	\end{equation*}
+\end{observation}
