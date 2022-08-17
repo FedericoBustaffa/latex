@@ -1,7 +1,7 @@
 \chapter{Introduzione}
 \section{Insiemi}
 Iniziamo col definire gli i seguenti insiemi
-\begin{equation*}
+\[
 	\begin{array}{lll}
 		\mathbb{N} & = \{ 0, 1, 2, \dots \}
 		           & \text{insieme dei naturali}                                     \\
@@ -14,59 +14,42 @@ Iniziamo col definire gli i seguenti insiemi
 		\mathbb{C} & = \{ a + ib \mid a, b \in \mathbb{R}, i = \sqrt{-1}, i^2 = -1\}
 		           & \text{insieme dei complessi}
 	\end{array}
-\end{equation*}
-
-Le operazioni di addizione e moltiplicazione sono permesse ma possono essere definite
-in maniera diversa a seconda dell'insieme su cui si sta lavorando.
+\]
+Le operazioni di addizione e moltiplicazione sono permesse ma possono essere definite in maniera diversa a seconda
+dell'insieme su cui si sta lavorando.
 
 \section{Propriet\`a}
 \begin{itemize}
-	\item Transitiva per il $<$
-	      \begin{equation*}
-		      x < y \wedge y < z \Rightarrow x < z
-	      \end{equation*}
+	\item \textbf{Transitivit\`a} per il $<$
+	      \[ x < y \wedge y < z \Rightarrow x < z \]
 
-	\item Totalit\`a per il $<$
-	      \begin{equation*}
-		      x < y \vee x = y \vee y < x
-	      \end{equation*}
+	\item \textbf{Totalit\`a} per il $<$
+	      \[ x < y \vee x = y \vee y < x \]
 
-	\item Transitiva per $\leq$
-	      \begin{equation*}
-		      x \leq y \wedge y \leq z \Rightarrow x \leq z
-	      \end{equation*}
+	\item \textbf{Transitivit\`a} per $\leq$
+	      \[ x \leq y \wedge y \leq z \Rightarrow x \leq z \]
 
-	\item Totalit\`a per il $\leq$
-	      \begin{equation*}
-		      x \leq y \vee y \leq x
-	      \end{equation*}
+	\item \textbf{Totalit\`a} per il $\leq$
+	      \[ x \leq y \vee y \leq x \]
 \end{itemize}
 Ovviamente queste propriet\`a sono analoghe per il $>$ e per il $\geq$.
 
 \begin{observation}
-	\begin{equation*}
+	\[
 		\begin{array}{lll}
 			x < y    & \Leftrightarrow & x \leq y \wedge x \neq y \\
 			x \leq y & \Leftrightarrow & x < y \vee x = y
 		\end{array}
-	\end{equation*}
+	\]
 \end{observation}
 
-Tutte queste propriet\`a valgono per tutti gli insiemi definiti prima tranne che per
-$\mathbb{C}$. In $\mathbb{N}$ vale un'altra proprit\`a, ovvero quella del
-\emph{minimo}, definita in questo modo: Ogni insieme non vuoto di numeri naturali
-ha un minimo.
+\textbf{NOTA:} Tutte queste propriet\`a valgono per tutti gli insiemi definiti prima tranne che per $\mathbb{C}$. Mentre
+in $\mathbb{N}$ vale un'altra proprit\`a, ovvero quella del \emph{minimo}, definita in questo modo: Ogni insieme non
+vuoto di numeri naturali ha un minimo.
 
 \begin{example}
-	\begin{equation*}
-		A = \{x \in \mathbb{N} \mid \text{$x$ \`e primo}\}
-	\end{equation*}
-	In questo caso il $\min{A} = 2$.
-
+	\[ A = \{x \in \mathbb{N} \mid \text{$x$ \`e primo}\} \]
+	In questo caso il $\min({A}) = 2$. Pi\`u in generale $n = \min({A})$ dove $A$ \`e un insieme non nullo di naturali
+	se e solo se
+	\[ n \in A \quad \wedge \quad \forall x \in A \quad n \leq x \]
 \end{example}
-Pi\`u in generale $n = \min{A}$ dove ha \`e un insieme non nullo di naturali
-se e solo se
-\begin{itemize}
-	\item $n \in A$
-	\item $\forall x \in A \; n \leq x$
-\end{itemize}

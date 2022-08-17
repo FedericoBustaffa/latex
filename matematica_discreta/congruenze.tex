@@ -87,13 +87,13 @@ Di seguito alcuni lemmi che ci saranno utili pi\`u tardi.
 
 \section{Congruenze}
 Introduciamo adesso le congruenze
-\begin{defn}
+\begin{definition}
 	Siano $a, b, c \in \mathbb{Z}$ con $c > 0$
 	\begin{equation*}
 		a \equiv b \mod{c}
 	\end{equation*}
 	si dice che $a$ \`e \textbf{congruo} $b$ modulo $c$ se $c \mid a - b$
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Consideriamo le seguenti congruenze
@@ -150,12 +150,12 @@ Quindi $a - b$ \`e un multiplo di $c$, ovvero
 
 \section{Relazioni e classi di equivalenza}
 
-\begin{defn}
+\begin{definition}
 	Preso un insieme $A$ non vuoto, una \textbf{relazione di equivalenza} (indicata con $\sim$) in $A$,
 	\`e ci\`o che mette in relazione elementi dell'insieme $A$ che condividono la stessa propriet\`a.
 	Due elementi in $A$ che condividono la stessa propriet\`a descritta dalla relazione sono detti
 	\textbf{equivalenti}.
-\end{defn}
+\end{definition}
 
 La formula
 \begin{equation*}
@@ -164,11 +164,11 @@ La formula
 ci dice che $a$ e $b$ hanno lo stesso resto nella divisione per $m$ e sono dunque
 equivalenti ($a \sim b$) per questa specifica relazione.
 
-\begin{defn}
+\begin{definition}
 	Preso un insieme $A$ e un suo elemento qualsiasi $a$. La \textbf{classe di equivalenza} associata
 	ad $a$ \`e un sottoinsieme di $A$ (generalmente indicato con $[a]$) di cui fanno parte tutti gli
 	elementi di $A$ equivalenti ad $a$ secondo la relazione $\sim$.
-\end{defn}
+\end{definition}
 
 Nel caso delle congruenze l'insieme $[a]_m$ \`e formato da tutti i numeri congrui ad $a$ modulo $m$.
 \begin{equation*}
@@ -176,14 +176,14 @@ Nel caso delle congruenze l'insieme $[a]_m$ \`e formato da tutti i numeri congru
 \end{equation*}
 e in questo caso $[a]_m$ \`e chiamata \textbf{classe resto} di $a \mod{m}$.
 
-\begin{defn}
+\begin{definition}
 	Dato $m \in \mathbb{Z}$ definisco l'\textbf{anello} degli interi modulo $m$ come segue
 	\begin{equation*}
 		\mathbb{Z}_m = \{ [0]_m, [1]_m, \dots, [m - 1]_m \}
 	\end{equation*}
 	In sintesi $m$ possiede $m$ classi resto poich\'e la divisione per $m$ pu\`o portare ad $m$ diversi
 	possibili resti (da 0 a $m - 1$).
-\end{defn}
+\end{definition}
 
 \section{Propriet\`a}
 La congruenza, essendo una relazione di equivalenza, gode di alcune propriet\`a fondamentali.
@@ -373,7 +373,7 @@ sono le ultime cifre di $a$ e di $b$.
 \section{Inversi}
 Gli inversi sono fondamentali per la risoluzione di equazioni con congruenze. Di seguito
 vediamo cosa sono e come trovarli.
-\begin{defn}
+\begin{definition}
 	Dato $a \in \mathbb{Z}$ si diche che $a$ \`e \textbf{invertibile} modulo $m$ se esiste
 	$x \in \mathbb{Z}$ tale che
 	\begin{equation*}
@@ -381,7 +381,7 @@ vediamo cosa sono e come trovarli.
 	\end{equation*}
 	Un tale $x$ si chiama \textbf{inverso} di $a$ modulo $m$. Chiariamo che $x$ \`e compreso
 	tra 0 e $m - 1$ ed \`e unico.
-\end{defn}
+\end{definition}
 
 Per trovare l'inverso di $a \mod{m}$ posso provare a tentativi oppure posso risolvere la
 diofantea associata nella forma
@@ -1341,13 +1341,13 @@ Per la definizione del triangolo di tartaglia possiamo scrivere che
 	\`e la soluzione cercata.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Sia $n \in \mathbb{Z}$, la funzione $\phi$ \`e detta \textbf{funzione di Eulero} e
 	$\phi (m)$ equivale al numero di elementi invertibili modulo $m$. E come sappiamo un intero
 	$a$ \`e invertibile modulo $m$ se e solo se $(a, m) = 1$ ovvero se \`e coprimo con $m$.
 	Possiamo dunque affermare in alternativa che $\phi (m)$ equivale al numero di elementi
 	compresi fra 1 e $m$ coprimi con $m$.
-\end{defn}
+\end{definition}
 
 \begin{theorem}[Teorema di Eulero]
 	Siano $a, m \in \mathbb{Z}$. Se $a$ \`e invertibile modulo $m$ allora

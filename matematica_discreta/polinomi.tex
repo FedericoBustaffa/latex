@@ -1,11 +1,11 @@
 \chapter{Fattorizzazione di polinomi}
 \section{Strutture algebriche}
-\begin{defn}
+\begin{definition}
 	Chiamo \textbf{struttura algebrica}, un insieme su cui sono definite delle operazioni
 	fra i suoi elementi. Tali operazioni possono essere unarie, binarie, ternarie ecc.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Sia $S$ l'insieme considerato le \textbf{operazioni} $*$ sono funzioni che associano ad
 	uno o pi\`u elementi dell'insieme $S$ un elemento dell'insieme $S$. Possono essere di
 	vario tipo:
@@ -16,9 +16,9 @@
 			\dots
 		\end{array}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Chiamo \textbf{gruppo} una struttura algebrica caratterizzata da un insieme $G$ e da
 	un'operazione binaria $*$ che gode delle seguenti propriet\`a:
 	\begin{itemize}
@@ -32,7 +32,7 @@
 		a * b = b * a
 	\end{equation*}
 	allora si tratta di \textbf{gruppo abeliano}.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	L'insieme dei numeri reali $\mathbb{R}$ con l'operazione di somma \`e un gruppo abeliano.
@@ -40,13 +40,13 @@
 	dato che la terza propriet\`a non \`e soddisfatta per tutti i valori in $\mathbb{R}$.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Chiamo $H$ un \textbf{sottogruppo} di $G$ se $H$ \`e esso stesso un gruppo rispetto
 	all'operazione $*$. In tal caso si user\`a la notazione:
 	\begin{equation*}
 		H < G
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 \begin{theorem}
 	Siano $G$ un gruppo, allora $H \subset G$ \`e un sottogruppo di $G$ se e solo se:
@@ -57,16 +57,16 @@
 	\end{itemize}
 \end{theorem}
 
-\begin{defn}
+\begin{definition}
 	Sia $S$ un sottoinsieme chiamo \textbf{sottogruppo generato} da $S$ il pi\`u piccolo
 	sottogruppo contenente $S$ e lo indico con $<S>$. Quando un gruppo \`e generato da un
 	unico elemento si dir\`a che il gruppo \`e \textbf{ciclico}.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Chiamo \textbf{anello} una struttura algebrica formata da un insieme $A$ dotato di due
 	operazioni (somma e prodotto).
-\end{defn}
+\end{definition}
 
 \begin{theorem}
 	Dato un gruppo $A$ munito di somma e prodotto \`e un anello se e solo se:
@@ -106,20 +106,20 @@
 	\end{equation*}
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Chiamo \textbf{campo} un corpo commutativo.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Tutti gli insiemi $\mathbb{R}, \mathbb{Q}, \mathbb{C}$ sono campi.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Diremo che $B \subset A$ \`e un \textbf{sottoanello} di $A$ se $B$ \`e esso stesso un
 	anello rispetto alle operazioni ereditate da $A$.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Sia $x \in A$. Se esiste $y \in A$, $y \neq 0$ tale che
 	\begin{equation*}
 		x \cdot y = 0
@@ -131,12 +131,12 @@
 		y \cdot x = 0
 	\end{equation*}
 	allora chiamo $x$ \textbf{divisore di zero destro}.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Un anello commutativo con unit\`a privo di divisori di zero si dice
 	\textbf{dominio	di integrit\`a}.
-\end{defn}
+\end{definition}
 
 \begin{proposition}
 	Ogni campo \`e un dominio di integrit\`a.
@@ -148,7 +148,7 @@
 
 \section{Polinomi}
 
-\begin{defn}
+\begin{definition}
 	Chiamo
 	\begin{equation*}
 		p(x) = a_0 + a_1x + a_2x^2 + \cdots + a_n x^n \text{ con $a_n \neq 0$}
@@ -156,16 +156,16 @@
 	\textbf{polinomio di grado n} con $a_0, a_1, \dots, a_n \in \mathbb{R}$
 	(oppure $\mathbb{C}$, $\mathbb{Z}/_m$, $\mathbb{Q}$, ecc.). Inoltre $p(x) \in \mathbb{R}[x]$
 	(oppure $\mathbb{C}[x]$, $\mathbb{Z}/_m [x]$, $\mathbb{Q}[x]$ ecc.).
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Sia $p(x)$ un generico polinomio di grado $n$, definisco \textbf{radice} del polinomio
 	il numero $r$ tale che
 	\begin{equation*}
 		a_0 + a_1 r + a_2 r^2 + \cdots + a_n r^n = 0
 	\end{equation*}
 	In sintesi se $p(r) = 0$ allora $r$ \`e una radice del polinomio.
-\end{defn}
+\end{definition}
 
 \begin{observation}[Polinomi di primo grado]
 	Possiamo dimostrare che i polinomi di primo grado con coefficienti sul campo $\mathbb{K}$
@@ -238,16 +238,16 @@ Si procede come per le divisioni euclidee tra numeri interi ma l'obbiettivo ad o
 	\end{equation*}
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Chiamo $p(x)$ \textbf{polinomio monico} se $a_n = 1$ ovvero se il coefficiente del monomio
 	di grado massimo \`e proprio 1.
-\end{defn}
+\end{definition}
 
 \section{Teorema di Ruffini}
-\begin{defn}
+\begin{definition}
 	Dico che $p(x) \mid g(x)$ (divide) se $p(x), g(x) \in \mathbb{K}[x]$ sono tali che
 	la divisione $g(x) / p(x)$ da resto zero.
-\end{defn}
+\end{definition}
 
 \begin{theorem}[Teorema di Ruffini]
 	Se $p(x) \in \mathbb{K}[x]$ e $a \in \mathbb{K}$ allora
@@ -272,11 +272,11 @@ Si procede come per le divisioni euclidee tra numeri interi ma l'obbiettivo ad o
 \section{Polinomi irriducibili}
 Il concetto \`e simile ai numeri primi in $\mathbb{Z}$.
 
-\begin{defn}
+\begin{definition}
 	Chiamo $p(x) \in \mathbb{K}[x]$ \textbf{polinomio irriducibile} se non si fattorizza nella forma
 	\[ p(x) = a(x)b(x) \]
 	con $\deg(a(x)),\; \deg(b(x)) < \deg(p(x))$
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Siano $a(x), b(x) \in \mathbb{K}[x]$ allora

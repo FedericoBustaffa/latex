@@ -1,62 +1,53 @@
 \chapter{Induzione}
-\section{Definizioni ricorsive}
-L'idea alla base di una definizione ricorsiva \`e quella di ricondursi ai casi
-precedenti per definire una funzione o una successione.
+Per capire meglio l'idea alla base dell'\textbf{induzione} \`e necessario capire meglio cosa sia una
+\textbf{definizione ricorsiva}. L'idea \`e quella di ricondursi ai casi precedenti per definire una funzione o una
+successione.
 
 \begin{example}
 	Prendiamo ad esempio la funzione fattoriale
-	\begin{equation*}
+	\[
 		\begin{cases}
 			0!       & = 1          \\
 			(n + 1)! & = n! (n + 1)
 		\end{cases}
-	\end{equation*}
+	\]
 	Dunque $4! = 1 \cdot 2 \cdot 3 \cdot 4$.
 \end{example}
 
 \begin{example}
 	Prendiamo anche in esempio la successione di Fibonacci. Essa \`e definita come
 	segue
-	\begin{equation*}
+	\[
 		\begin{cases}
 			F(0)     & = 0               \\
 			F(1)     & = 1               \\
 			F(n + 2) & = F(n + 1) + F(n)
 		\end{cases}
-	\end{equation*}
+	\]
 \end{example}
 
 \section{Dimostrazioni per induzione}
-L'idea sta nel dimostrare che se una certa propriet\`a \`e vera per un certo $n$,
-fissato come valore iniziale, allora lo \`e anche per $n + 1$.
+Con le \textbf{dimostrazioni per induzione} l'obbiettivo \`e quello dimostrare che, se una certa propriet\`a \`e vera
+per un certo $n$, fissato come valore iniziale, allora lo \`e anche per $n + 1$.
 
-Come prima cosa c'\`e la verifica del \textbf{caso iniziale}. Dobbiamo quindi trovare
-(per tentativi) un certo $n$ che soddisfi la propriet\`a.
+Come prima cosa c'\`e la verifica del \textbf{caso iniziale}. Dobbiamo quindi trovare (per tentativi) un certo $n$ che
+soddisfi la propriet\`a.
 
-Una volta trovato si procede
-col \textbf{passo induttivo}. Il passo induttivo consiste nel dimostrare che data
-ad esempio una certa formula $f(n)$,
-\begin{equation*}
-	f(n + 1) = f(n) + (n + 1)
-\end{equation*}
+Una volta trovato si procede col \textbf{passo induttivo}. Data una certa formula $f(n)$ rappresentante la propriet\`a,
+che vogliamo dimostrare essere vera, il passo induttivo consiste nel dimostrare che
+\[ f(n + 1) = f(n) + (n + 1) \]
 Chiariamo meglio il concetto con qualche esempio.
 
 \begin{example}
 	Prendiamo ad esempio la seguente propriet\`a della somma di numeri naturali.
-	\begin{equation*}
-		1 + 2 + \cdots + n = \frac{n (n + 1)}{2}
-	\end{equation*}
+	\[ 1 + 2 + \cdots + n = \frac{n (n + 1)}{2}	\]
 
 	\begin{enumerate}
-		\item \emph{Caso iniziale}: Si vede facilmente che la propriet\`a \`e
-		      valida per $n = 1$.
-		\item \emph{Passo induttivo}: Per prima cosa scrivo la propriet\`a in termini
-		      di $n + 1$ e ottengo
-		      \begin{equation*}
-			      1 + 2 + \cdots + n + (n + 1) = \frac{(n + 1)(n + 2)}{2}
-		      \end{equation*}
-		      Notiamo che al primo membro abbiamo $1 + 2 + \cdots + n$ e sappiamo
-		      a caso equivale. Sostituiamo e sviluppiamo l'espressione.
+		\item \emph{Caso iniziale}: Si vede facilmente che la propriet\`a \`e valida per $n = 1$.
+		\item \emph{Passo induttivo}: Per prima cosa scrivo la propriet\`a in termini di $n + 1$ e ottengo
+		      \[ 1 + 2 + \cdots + n + (n + 1) = \frac{(n + 1)(n + 2)}{2} \]
+		      Notiamo che al primo membro abbiamo $1 + 2 + \cdots + n$ e sappiamo a caso equivale. Sostituiamo e
+		      sviluppiamo l'espressione.
 		      \begin{align*}
 			      1 + 2 + \cdots + n + (n + 1)  & = \\
 			      \frac{n (n + 1)}{2} + (n + 1) & = \\
@@ -67,50 +58,36 @@ Chiariamo meglio il concetto con qualche esempio.
 	\end{enumerate}
 \end{example}
 
-Proviamo adesso a dimostrare la stessa propriet\`a ma senza induzione.
 
 \begin{example}
-	Abbiamo sempre la solita formula
-	\begin{equation*}
-		1 + 2 + \cdots + n = \frac{n(n + 1)}{2}
-	\end{equation*}
+	Proviamo adesso a dimostrare la stessa propriet\`a ma senza induzione. Abbiamo sempre la solita formula
+	\[ 1 + 2 + \cdots + n = \frac{n(n + 1)}{2} \]
 	Proviamo a ragionare in questo modo
-	\begin{equation*}
-		1 + 2 + \cdots + n + n + (n - 1) + \cdots + 1
-	\end{equation*}
-	equivale a sommare $n$ volte $n + 1$ quindi l'espressione equivale a $n(n + 1)$. Notiamo
-	per\`o che l'espressione equivale anche a raddoppiare $1 + 2 + \cdots + n$. Dividendo
-	per $2$ otteniamo quindi la formula desiderata, ovvero
-	\begin{equation*}
-		\frac{n(n + 1)}{2}
-	\end{equation*}
+	\[ 1 + 2 + \cdots + n + n + (n - 1) + \cdots + 1 \]
+	equivale a sommare $n$ volte $n + 1$ quindi l'espressione equivale a $n(n + 1)$. Notiamo per\`o che l'espressione
+	equivale anche a raddoppiare $1 + 2 + \cdots + n$. Dividendo per $2$ otteniamo quindi la formula desiderata, ovvero
+	\[ \frac{n(n + 1)}{2} \]
 \end{example}
 
 \section{Sommatorie}
-Iniziamo a parlare di sommatorie e delle loro propriet\`a. Consideriamo per la generica
-successione
-\begin{equation*}
-	a_0, a_1, \dots, a_n
-\end{equation*}
+Iniziamo a parlare di sommatorie e delle loro propriet\`a. Consideriamo per la generica successione
+\[ a_0, a_1, \dots, a_n \]
 Abbiamo che
-\begin{align*}
-	\sum_{i = 1}^{10} a_i    & = a_1 + a_2 + \cdots a_{10}                     \\
-	\sum_{i = 5}^7 a_i       & = a_5 + a_6 + a_7                               \\
-	\sum_{i = 0}^k a_i       & = a_0 + a_1 + \cdots + a_k                      \\
-	\sum_{i = 0}^{k + 1} a_i & = \left( \sum_{i = 0}^k a_i \right) + a_{k + 1}
-\end{align*}
+\[
+	\begin{array}{rcl}
+		\displaystyle\sum_{i = 1}^{10} a_i    & = & a_1 + a_2 + \cdots a_{10}                     \\
+		\displaystyle\sum_{i = 5}^7 a_i       & = & a_5 + a_6 + a_7                               \\
+		\displaystyle\sum_{i = 0}^k a_i       & = & a_0 + a_1 + \cdots + a_k                      \\
+		\displaystyle\sum_{i = 0}^{k + 1} a_i & = & \left( \sum_{i = 0}^k a_i \right) + a_{k + 1}
+	\end{array}
+\]
 
-Facciamo ora qualche esempio
 \begin{example}
 	Prendiamo la seguente somma come esempio
-	\begin{equation*}
-		1 + 3 + 5 + \cdots + (2n + 1) = \sum_{i = 0}^n (2i + 1)
-	\end{equation*}
-	Si tratta della somma dei primi $n + 1$ numeri dispari.
-	Se volessi la somma dei primi $n$ numeri dispari la sommatoria sarebbe di questo tipo
-	\begin{equation*}
-		\sum_{i = 1}^n (2i - 1) = n^2
-	\end{equation*}
+	\[ 1 + 3 + 5 + \cdots + (2n + 1) = \sum_{i = 0}^n (2i + 1) \]
+	Si tratta della somma dei primi $n + 1$ numeri dispari. Se volessi la somma dei primi $n$ numeri dispari la
+	sommatoria sarebbe di questo tipo
+	\[ \sum_{i = 1}^n (2i - 1) = n^2 \]
 	E questo lo si pu\`o dimostrare anche graficamente.
 \end{example}
 
@@ -130,113 +107,104 @@ Con queste propriet\`a possiamo ora dimostrare la formula di prima in questo mod
 \end{align*}
 
 \section{Induzione forte}
-In questo caso ho pi\`u casi iniziali che do per veri e il passo induttivo diventa di questo
-tipo
-\begin{equation*}
-	p(1) \wedge p(2) \wedge \cdots \wedge p(n) \Rightarrow p(n + 1)
-\end{equation*}
-
-Fissiamo meglio le idee con un esempio.
+In questo caso ho pi\`u casi iniziali che do per veri e il passo induttivo diventa di questo tipo
+\[ p(1) \wedge p(2) \wedge \cdots \wedge p(n) \Rightarrow p(n + 1) \]
 
 \begin{example}
-	Un numero $p$ \`e \emph{primo} se \`e divisibile solo per $1$ e per se stesso.
-	Proviamo ora a dimostrare con l'induzione forte che ogni $n \in \mathbb{N}$, con $n > 1$
-	\`e un prodotto di numeri primi.
+	Un numero $p$ \`e \emph{primo} se \`e divisibile solo per $1$ e per se stesso. Proviamo ora a dimostrare con
+	l'induzione forte che ogni $n \in \mathbb{N}$, con $n > 1$ \`e un prodotto di numeri primi.
 	\begin{enumerate}
 		\item Nel caso in cui $n$ sia primo ho finito.
-		\item Nel caso in cui $n$ non sia primo \`e divisibile per qualche $k \neq 1 \neq n$.
-		      quindi
-		      \begin{equation*}
-			      \begin{array}{lcr}
-				      n = qk & k, q > 1 & 1 < k, q < n
-			      \end{array}
-		      \end{equation*}
-		      Per ipotesi induttiva forte $k$ e $q$ si scompongono in prodotto di fattori primi
-		      quindi anche $n$.
+		\item Nel caso in cui $n$ non sia primo \`e divisibile per qualche $k \neq 1 \neq n$, quindi
+		      \[ n = q \cdot k \]
+		      con $1 < k, q < n$.
+
+		      Per ipotesi induttiva forte $k$ e $q$ si scompongono in prodotto di fattori primi e di conseguenza anche
+		      $n$.
 	\end{enumerate}
 \end{example}
 
 \begin{example}[Disuguaglianza di Bernoulli]
 	Partiamo con lo scrivere la disuguaglianza
-	\begin{equation*}
+	\[
 		(1 + x)^n \geq 1 + nx
-	\end{equation*}
+	\]
 	Posso verificare per induzione su $n$.
 	\begin{enumerate}
 		\item \emph{Caso iniziale}: $n = 0$ verifica la disuguaglianza, infatti
-		      \begin{equation*}
+		      \[
 			      \begin{array}{rcl}
 				      (1 + x)^0 & \geq & 1 + 0x \\
 				      1         & \geq & 1
 			      \end{array}
-		      \end{equation*}
+		      \]
 		\item \emph{Passo induttivo}: Scriviamo la formula per $n + 1$ e procediamo con qualche
 		      passaggio aritmetico
-		      \begin{equation*}
+		      \[
 			      \begin{array}{ll}
 				      (1 + x)^{n + 1}        & \geq 1 + (n + 1)x \\
 				      (1 + x)^n (1 + x)      & \geq 1 + nx + x   \\
 				      (1 + x)^n + x(1 + x)^n & \geq 1 + nx + x
 			      \end{array}
-		      \end{equation*}
+		      \]
 		      Arrivati a questo punto notiamo che parte della disuguaglianza \`e vera per ipotesi
 		      quindi ci rimane da verificare che
-		      \begin{equation*}
+		      \[
 			      x(1 + x)^n \geq x
-		      \end{equation*}
+		      \]
 		      La dimostrazione \`e molto semplice infatti
-		      \begin{equation*}
+		      \[
 			      \begin{array}{ll}
 				      x(1 + x)^n & \geq x \\
 				      (1 + x)^n  & \geq 1
 			      \end{array}
-		      \end{equation*}
+		      \]
 		      Ma sappiamo che $(1 + x)^n \geq 1 + nx$ quindi la disuguaglianza \`e sempre vera.
 	\end{enumerate}
 \end{example}
 
 \section{Progressioni aritmetiche e geometriche}
-\begin{defn}
+\begin{definition}
 	Una \textbf{progressione aritmetica} \`e una successione di numeri in cui, ad ogni passo,
 	$a_{n + 1}$ si ottiene sommando ad $a_n$ una quantit\`a finita $b$.
 	Per fissare meglio le idee consideriamo la generica successione
-	\begin{equation*}
+	\[
 		a_0, a_1, a_2, a_3, \dots
-	\end{equation*}
+	\]
 	Ho che
-	\begin{equation*}
+	\[
 		\begin{array}{ll}
 			a_1 & = a_0 + b  \\
 			a_2 & = a_0 + 2b \\
 			a_3 & = a_0 + 3b \\
 			\dots
 		\end{array}
-	\end{equation*}
-\end{defn}
+	\]
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Una \textbf{progressione geometrica} \`e una di numeri in cui, ad ogni passo, $a_{n + 1}$
 	si ottiene moltiplicando ad $a_n$ una quantit\`a finita $b$.
 	Anche in questo caso consideriamo la successione generica di prima e otteniamo che
-	\begin{equation*}
+	\[
 		\begin{array}{lll}
 			a_1 & = a_0 \cdot b   &               \\
 			a_2 & = a_0 \cdot b^2 & = a_1 \cdot b \\
 			\dots
 		\end{array}
-	\end{equation*}
-\end{defn}
+	\]
+\end{definition}
 
 Studiamo ora le sommatorie di progressioni aritmetiche e geometriche con qualche esempio
 \begin{example}
 	Consideriamo la progressione
-	\begin{equation*}
+	\[
 		a_0, a_1, a_2, \dots
-	\end{equation*}
+	\]
 	e vogliamo calcolare
-	\begin{equation*}
+	\[
 		\sum_{i = 0}^n a_i
-	\end{equation*}
+	\]
 	Poniamo ad esempio $a_0 = 3$ e $a_{n + 1} = a_n + 5$ e poniamo $n = 100$.
 	\begin{gather*}
 		\sum_{i = 0}^{100} a_i                        = \\
@@ -246,18 +214,18 @@ Studiamo ora le sommatorie di progressioni aritmetiche e geometriche con qualche
 		3 \cdot 101 + 5 \left( \frac{100 \cdot 101}{2} \right)
 	\end{gather*}
 	Ne concludiamo che
-	\begin{equation*}
+	\[
 		\sum_{i = 0}^n (3 + 5i) = 3(n + 1) + 5 \cdot \frac{n(n + 1)}{2}
-	\end{equation*}
+	\]
 \end{example}
 
 Vediamo ora un esempio per le progressioni geometriche
 \begin{example}
 	In questo caso consideriamo $a_0 = 1$ e moltiplichiamo ogni volta per $x$. Otteniamo quindi
 	la progressione
-	\begin{equation*}
+	\[
 		1, x, x^2, x^3, \dots
-	\end{equation*}
+	\]
 	Mettendola in una sommatoria otteniamo
 	\begin{gather*}
 		\sum_{i = 0}^5 a_i = \\
@@ -267,9 +235,9 @@ Vediamo ora un esempio per le progressioni geometriche
 	\end{gather*}
 	Si pu\`o dimostrare facilemente moltiplicando la successione per $x - 1$.
 	Quindi possiamo affermare che
-	\begin{equation*}
+	\[
 		\sum_{i = 0}^n x^i = \frac{x^{n + 1} - 1}{x - 1}
-	\end{equation*}
+	\]
 \end{example}
 
 Elenchiamo di seguito qualche regola per le disuguaglianze
