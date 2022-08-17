@@ -74,7 +74,7 @@ I casi particolari di un algoritmo A sono
 \end{theorem}
 
 \section{Algoritmo A*}
-Prima di definire l'algoritmo dobbiamo introdurre una funzione di valutazione ideale 
+Prima di definire l'algoritmo dobbiamo introdurre una funzione di valutazione ideale
 (\textbf{oracolo}) definita come segue
 \[ f^*(n) = g^*(n) + h^*(n) \]
 dove
@@ -277,8 +277,8 @@ per ottenere informazioni utili alla costruzione dell'euristica.
 \subsubsection{Combinazione di euristiche}
 Si possono combinare pi\`u euristiche come combinazione lineare
 \[ h(n) = c_1 x_1(n) + \dots + c_k x_k(n) \]
-In questo caso il peso dei coefficienti pu\`o essere regolato sempre con l'\emph{esperienza}.
-Vale che $h(goal) = 0$ ma ammissibilit\`a e consistenza non sono automatiche.
+Il peso dei coefficienti pu\`o essere regolato sempre con l'\emph{esperienza}. Vale che $h(goal) = 0$
+ma ammissibilit\`a e consistenza non sono automatiche.
 
 \section{Algoritmi euristici ottimizzati in spazio}
 \subsection{Beam Search}
