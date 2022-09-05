@@ -90,7 +90,7 @@ in un alfabeto di $m$ caratteri.
 
 La funzione di decifrazione invece, mappa la lettera cifrata $y$ nella lettera $x$ del messaggio in chiaro che ha
 posizione
-\[ pos(x) = a^{-1} \cdot pos(y) - b \mod{m} \]
+\[ pos(x) = a^{-1} \cdot (pos(y) - b) \mod{m} \]
 nell'alfabeto. Per calcolare $pos(x)$ si deve quindi trovare l'\textbf{inverso} moltiplicativo di $a$, ossia, quel
 numero $z = a^{-1}$ tale che
 \[ z \cdot a \equiv 1 \mod{m} \]
