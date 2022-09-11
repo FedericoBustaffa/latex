@@ -1,19 +1,21 @@
 \chapter{Sequenze casuali}\label{casualita}
-Introdurre le sequenze casuali ci permette di alimentare \textbf{algoritmi randomizzati} e sono inoltre molto utili
-per \textbf{generare le chiavi} di cifratura e decifrazione nel modo migliore possibile.
+Introdurre le \textbf{sequenze casuali} ci permette di alimentare gli \textbf{algoritmi randomizzati} e sono inoltre
+molto utili per \textbf{generare le chiavi} di cifratura e decifrazione nel modo migliore possibile.
 
-Prendiamo due sequenze di esempio $h_1$ e $h_2$, entrambe lunghe 20 cifre
-\[
-	\begin{matrix}
-		h_1 = 1 & 1 & 1 & 1 & 1 & \dots & 1 & \dots & 1 \\
-		h_2 = 0 & 1 & 1 & 0 & 0 & \dots & 0 & \dots & 0
-	\end{matrix}
-\]
-facciamo finta di aver ottenuto entrambe le sequenze lanciando 20 volte una moneta. La probabilit\`a di ottenere sia
-$h_1$ che $h_2$ con questo metodo \`e di $\frac{1}{2}^{20}$.
+\begin{example}
+	Prendiamo due sequenze $h_1$ e $h_2$, entrambe lunghe 20 cifre
+	\[
+		\begin{matrix}
+			h_1 = 1 & 1 & 1 & 1 & 1 & \dots & 1 & \dots & 1 \\
+			h_2 = 0 & 1 & 1 & 0 & 0 & \dots & 0 & \dots & 0
+		\end{matrix}
+	\]
+	facciamo finta di aver ottenuto entrambe le sequenze lanciando 20 volte una moneta. La probabilit\`a di ottenere sia
+	$h_1$ che $h_2$ con questo metodo \`e di $\frac{1}{2}^{20}$.
 
-Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ma proviamo a definire
-formalmente la \textbf{casualit\`a}.
+	Se dovessimo indicare quale delle due \`e quella \emph{casuale} sarebbe naturale indicare $h_2$. Ma proviamo a definire
+	formalmente la \textbf{casualit\`a}.
+\end{example}
 
 Il matematico russo Kolmogorov ha descritto il \textbf{significato algoritmico di casualit\`a} per una sequenza binaria.
 
@@ -222,7 +224,7 @@ Un altro motivo \`e che il numero di sequenze possibili, dipende da un parametro
 possibili sequenze generate sono funzione della lunghezza del seme e sono molte meno di quelle generabili in realt\`a.
 
 Il problema di questi generatori \`e che producono un flusso di bit che ad un certo punto si ripete. Questo avviene
-perch\'e, quando, in modo casuale, il seme iniziale viene rigenerato, la sequenza riparte da capo. La sequenza che
+perch\'e, quando in modo casuale, il seme iniziale viene rigenerato, la sequenza riparte da capo. La sequenza che
 viene ripetuta all'interno del flusso \`e detta \textbf{periodo}.
 
 Il seme lo otteniamo con un procedimento casuale (per esempio prendendo lo stato interno dell'orologio del calcolatore)
@@ -257,8 +259,8 @@ avvenga, $a$, $b$ ed $m$, devono soddisfare alcune propriet\`a:
 	\item Se $m$ \`e un multiplo di 4 allora anche $a-1$ deve esserlo
 	      \[ 4 \mid m \quad \Rightarrow \quad 4 \mid a - 1 \]
 \end{itemize}
-Come possiamo vedere questo generatore non possiede la seconda propriet\`a fondamentale, dato che, la generazione di un
-numero \`e fortemente influenzata dalla generazione del precendente.
+Come possiamo vedere questo generatore non possiede la seconda propriet\`a fondamentale, dato che la generazione di un
+numero \`e fortemente influenzata dalla generazione del precedente.
 
 Per ora abbiamo usato il generatore per la generazione di numeri interi ma se volessimo generare sequenze binarie
 basta calcolare
@@ -271,8 +273,8 @@ Riscriviamo quindi la funzione precedente ma con un polinomio di grado $t$
 \[ x_i = (a_1 x_{i-1}^t + a_2 x_{i-1}^{t-1} + \dots + a_t x_{i-1} + a_{t+1}) \mod{m} \]
 Per quanto si possa aumentare il grado del polinomio, questo generatore non \`e tanto migliore del generatore lineare.
 
-Anche per questo generatore dobbiamo scegliere bene i parametri per rendere il periodo pi\`u lungo possibile (sempre
-uguale a $m$). Una scelta di parametri molto comune \`e questa:
+Anche per questo dobbiamo scegliere bene i parametri per rendere il periodo pi\`u lungo possibile (sempre uguale a $m$).
+Una scelta di parametri molto comune \`e questa:
 \[
 	\begin{matrix}
 		a & = & \pi    \\
@@ -282,8 +284,8 @@ uguale a $m$). Una scelta di parametri molto comune \`e questa:
 \]
 
 \subsection{Test statistici}
-Nel caso volessimo costruire il nostro generatore personale, per riuscire a capire quanto sia effettivamente valido o
-ben costruito, dobbiamo sottoporlo ad alcuni \textbf{test statistici}:
+Nel caso in cui volessimo costruire il nostro generatore personale, per riuscire a capire quanto sia effettivamente
+valido o ben costruito, dobbiamo sottoporlo ad alcuni \textbf{test statistici}:
 \begin{itemize}
 	\item \textbf{Test di frequenza}: si verifica che i diversi simboli della sequenza appaiano con pari probabilit\`a.
 	\item \textbf{Poker test}: si controlla che le sottosequenze della stessa lunghezza siano equiprobabili.
