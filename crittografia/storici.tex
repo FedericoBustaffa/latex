@@ -39,10 +39,10 @@ Ovviamente i due utenti devono possedere la solita chiave per cifrare e decifrar
 Sia $x$ una lettera dell'alfabeto, $pos(x)$ la sua posizione nell'alfabeto e $k$ la chiave tale che $1 \leq k \leq 25$.
 
 La funzione di cifratura ritorna la lettera $y$ tale che
-\[ pos(y) = (pos(x) + k) \mod{26} \]
+\[ pos(y) = pos(x) + k \mod{26} \]
 
 La funzione di decifrazione ritorna la lettera $x$ tale che
-\[ pos(x) = (pos(y) - k) \mod{26} \]
+\[ pos(x) = pos(y) - k \mod{26} \]
 
 \`E immediato effettuare un attacco a forza bruta per forzarlo: si provano tutte le 25 chiavi.
 
@@ -94,21 +94,21 @@ posizione
 nell'alfabeto. Per calcolare $pos(x)$ si deve quindi trovare l'\textbf{inverso} moltiplicativo di $a$, ossia, quel
 numero $z = a^{-1}$ tale che
 \[ z \cdot a \equiv 1 \mod{m} \]
-Se vi ricordate qualcosa del corso di matematica discreta noterete che sorgono due problemi.
+Se vi ricordate qualcosa del corso di matematica discreta noterete che sorgono due problemi:
 \begin{itemize}
 	\item Il primo \`e che, se $a$ \`e nullo, allora la lettera $x$, in fase di cifratura, viene sempre mappata nella
-	      lettera di posizione $b$.
+	      lettera di posizione $b$, dunque 
+		  \[ a \neq 0 \]
 	\item Il secondo problema \`e dovuto al fatto che, in fase di decifrazione, dobbiamo usare l'inverso modulare di $a$
 	      ma, l'esistenza di quest'ultimo, non \`e sempre e comunque garantita.
 
 	      Affinch\'e $a$ abbia un inverso modulare, deve essere coprimo col numero $m$ di simboli dell'alfabeto.
+		  \[ (a, m) = 1 \] 
+		  Se $a$ non \`e coprimo con $m$ la funzione di cifratura non \`e pi\`u iniettiva e la decifrazione 
+		  diventa impossibile.
 \end{itemize}
-Il parametro $a$ deve quindi soddisfare queste due propriet\`a affinch\'e il cifrario sia utilizzabile
-\[ a \neq 0 \quad \wedge \quad (a, m) = 1 \]
-Se $a$ non \`e coprimo con $m$ la funzione di cifratura non \`e pi\`u iniettiva e la decifrazione diventa impossibile.
-
 Il numero di possibili valori di $a$, ossia il numero di valori coprimi con $m$, \`e equivalente al valore della
-\textbf{funzione di Eulero} $\phi$ calcolata su $m$. Di seguito qualche propriet\`a comoda per il calcolo di $\phi$:
+\textbf{funzione di Eulero} calcolata su $m$. Di seguito qualche propriet\`a comoda per il calcolo di $\phi$:
 \begin{itemize}
 	\item Se $m$ \`e primo allora
 	      \[ \phi(m) = m - 1 \]
