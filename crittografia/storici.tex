@@ -72,15 +72,15 @@ Quindi, una sequenza di operazioni di cifratura e decifrazione, pu\`o essere rid
 o decifrazione. In generale, comporre pi\`u cifrari \textbf{non} aumenta la sicurezza del sistema.
 
 \section{Cifrari a sostituzione}\label{sostituzione}
-I \textbf{cifrari a sostituzione} sostituiscono ogni lettera del messaggio in chiaro con una o pi\`u lettere
+I \textbf{cifrari a sostituzione} sostituiscono ogni carattere del messaggio in chiaro con uno o pi\`u caratteri
 dell'alfabeto secondo una regola prefissata.
 
-Questi cifrari si suddividono a loro volta in due sottocategorie
+Questi cifrari si suddividono a loro volta in due sottocategorie:
 \begin{itemize}
-	\item Cifrari a \textbf{sostituzione monoalfabetica}: alla stessa lettera del messaggio corrisponde sempre la
-	      stessa lettera nel crittogramma.
-	\item Cifrari a \textbf{sostituzione polialfabetica}: alla stessa lettera del messaggio corrisponde una lettera
-	      scelta in un insieme di lettere possibili, secondo una regola opportuna.
+	\item Cifrari a \textbf{sostituzione monoalfabetica}: allo stesso carattere del messaggio corrisponde sempre lo
+	      stesso carattere nel crittogramma.
+	\item Cifrari a \textbf{sostituzione polialfabetica}: allo stesso carattere del messaggio corrisponde una carattere
+	      scelto in un insieme di caratteri possibili, secondo una regola opportuna.
 \end{itemize}
 
 \subsection{Cifrari a sostituzione monoalfabetica}
@@ -93,25 +93,25 @@ riguarda la sicurezza.
 \subsubsection{Cifrario affine}
 Questo cifrario usa una chiave composta da due valori:
 \[ k = \langle a, b \rangle \]
-e cifra una lettera $x$ del messaggio in chiaro con la lettera $y$ che occupa la posizione
+e cifra un carattere $x$ del messaggio in chiaro con il carattere $y$ che occupa la posizione
 \[ pos(y) = a \cdot pos(x) + b \mod{m} \]
 in un alfabeto di $m$ caratteri.
 
-La funzione di decifrazione invece, mappa la lettera cifrata $y$ nella lettera $x$ del messaggio in chiaro che ha
+La funzione di decifrazione invece, mappa il carattere cifrato $y$ nel carattere $x$ del messaggio in chiaro che ha
 posizione
 \[ pos(x) = a^{-1} \cdot (pos(y) - b) \mod{m} \]
-nell'alfabeto. Per calcolare $pos(x)$ si deve quindi trovare l'\textbf{inverso} moltiplicativo di $a$, ossia, quel
+nell'alfabeto. Per calcolare $pos(x)$ si deve quindi trovare l'\textbf{inverso moltiplicativo} di $a$, ossia, quel
 numero $z = a^{-1}$ tale che
 \[ z \cdot a \equiv 1 \mod{m} \]
-Se vi ricordate qualcosa del corso di matematica discreta noterete che sorgono due problemi:
+Ecco che sorgono due problemi:
 \begin{itemize}
-	\item Il primo \`e che, se $a$ \`e nullo, allora la lettera $x$, in fase di cifratura, viene sempre mappata nella
-	      lettera di posizione $b$, dunque
+	\item Se $a$ \`e nullo il carattere $x$, in fase di cifratura, viene sempre mappato nel carattere di posizione $b$,
+	      dunque
 	      \[ a \neq 0 \]
-	\item Il secondo problema \`e dovuto al fatto che, in fase di decifrazione, dobbiamo usare l'inverso modulare di $a$
-	      ma, l'esistenza di quest'ultimo, non \`e sempre e comunque garantita.
+	\item In fase di decifrazione, dobbiamo usare l'inverso moltiplicativo di $a$ ma l'esistenza di quest'ultimo, non
+	      \`e sempre e comunque garantita.
 
-	      Affinch\'e $a$ abbia un inverso modulare, deve essere coprimo col numero $m$ di simboli dell'alfabeto.
+	      Affinch\'e $a$ abbia un inverso moltiplicativo, deve essere coprimo col numero $m$ di caratteri dell'alfabeto.
 	      \[ (a, m) = 1 \]
 	      Se $a$ non \`e coprimo con $m$ la funzione di cifratura non \`e pi\`u iniettiva e la decifrazione
 	      diventa impossibile.
