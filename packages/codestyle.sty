@@ -104,7 +104,28 @@
 	morestring=[b]`
 }
 
+% Java
+\lstdefinelanguage{java}{
+	morekeywords={
+		byte, short, int, long, char, boolean, float, double,
+		for, while, do, 
+		if, else, switch, case, default, continue, break,
+		void, return,
+		new, this, super, instanceof,
+		public, private, protected, implements, extends,
+		final, static, abstract, synchronized, transient, volatile, native,
+		package, import, class, interface, enum,
+		throw, throws, try, catch, finally, assert
+	},
+	morecomment=[s]{/*}{*/},
+	morecomment=[l]//,
+	morestring=[b]",
+	morestring=[b]',
+	morestring=[b]`
+}
+
 \lstnewenvironment{pseudo}{\lstset{language=pseudo, style=pseudo-style}}{}
 \lstnewenvironment{python}{\lstset{language=python}}{}
 \lstnewenvironment{html}{\lstset{language=html5}}{}
 \lstnewenvironment{javascript}{\lstset{language=javascript}}{}
+\lstnewenvironment{java}{\lstset{language=java}}{}
