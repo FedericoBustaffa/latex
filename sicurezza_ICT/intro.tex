@@ -1,0 +1,56 @@
+\chapter{Introduzione}
+L'obbiettivo del corso è quello di progettare sistemi robusti che non crollino al primo attacco o davanti al
+primo utente ingenuo che ne fa uso.
+
+Gran parte degli oggetti di uso quotidiano sono stati resi "intelligenti" dall'aggiunta di una componente
+informatica al loro interno. Tali oggetti, anche se dall'esterno possono sembrare estremamente limitati, sono
+sistemi completi e flessibili in grado di eseguire qualsiasi software.
+
+L'aggiornamento online del software all'interno di tali sistemi è un mezzo per mantenere l'oggetto all'avanguardia
+ma implica che esso possa essere manipolato da remoto per eseguire qualsiasi software e dunque per modificare
+il comportamento dell'oggetto a proprio piacimento.
+
+\section{Proprietà di sicurezza}
+Un sistema informatico è, ad ogni livello di implementazione, formato da un insieme di moduli connessi, ognuno dei
+quali offre un certo numero di operazioni.
+
+Queste operazioni permettono di leggere e manipolare informazioni, che hanno poi un impatto sul mondo esterno.
+
+In ogni sistema informatico ci sono regole (\textbf{politica di sicurezza}) che definiscono chi può invocare una
+certa operazione e quindi ha il diritto di leggere o manipolare informazioni. Tali regole vengono implementate da
+un sottoinsieme dei moduli del sistema informatico.
+
+In questo contesto le tre principali proprietà che ci interessano sono:
+\begin{itemize}
+	\item \emph{Confidenzialità}: solo chi ha il diritto di leggere una certa informazione può farlo.
+	\item \emph{Integrità}: solo chi ha il diritto di aggiornare una certa informazione può farlo.
+	\item \emph{Disponibilitò}: chi ha un diritto e vuole esercitarlo riesce a farlo in un tempo finito.
+\end{itemize}
+Da queste tre proprietà fondamentali possiamo derivarne altre secondarie:
+\begin{itemize}
+	\item \emph{Tracciabilità}: individuare chi ha invocato un'operazione.
+	\item \emph{Accountability}: addebitare l'uso delle risorse.
+	\item \emph{Auditability}: verificare l'efficacia dei meccanismi di \emph{enforcement} di una politica (come
+	      viene realizzata).
+	\item \emph{Forensics}: provare che certe azioni hanno avuto luogo.
+	\item \emph{Privacy/GDPR}: individuare chi, come e se un utente può usare informazioni personali.
+\end{itemize}
+
+\section{Politica di sicurezza}
+Una \textbf{politica di sicurezza} è un insieme di regole definite dal proprietario del sistema o del processo
+aziendale per decidere gli utenti che possono invocare un'operazione e quando possono farlo.
+
+Esistono diverse categorie di politiche descrivibili come il risultato di due scelte indipendenti:
+\begin{itemize}
+	\item La prima scelta è relativa al come si descrive la politica:
+	      \begin{itemize}
+		      \item \textbf{Default allow}: operazioni vietate.
+		      \item \textbf{Default deny}: operazioni permesse.
+	      \end{itemize}
+	\item La seconda scelta definisce vincoli sul proprietario del sistema:
+	      \begin{itemize}
+		      \item \textbf{Discretionary Access Control}: decide il proprietario.
+		      \item \textbf{Mandatory Access Control}: esistono vincoli globali a tutto il sistema che nemmeno il
+		            proprietario può violare.
+	      \end{itemize}
+\end{itemize}
