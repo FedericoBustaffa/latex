@@ -36,7 +36,7 @@ Da queste tre proprietà fondamentali possiamo derivarne altre secondarie:
 	\item \textbf{Privacy/GDPR}: individuare chi, come e se un utente può usare informazioni personali.
 \end{itemize}
 
-\section{Politica di sicurezza}
+\section{Politiche di sicurezza}
 Una \textbf{politica di sicurezza} è un insieme di regole definite dal proprietario del sistema o del processo
 aziendale per decidere gli utenti che possono invocare un'operazione e quando possono farlo.
 
@@ -57,4 +57,40 @@ Esistono diverse categorie di politiche descrivibili come il risultato di due sc
 
 \subsection{Soggetti e oggetti}
 Relativamente alla seconda caratteristica che una politica deve avere, si cerca di modellare le risorse condivise
-come \textbf{oggetti} e gli utenti come \textbf{soggetti}
+come \textbf{oggetti} e gli utenti come \textbf{soggetti}.
+
+I soggetti invocano le operazioni definite dagli oggetti, se un oggetto invoca le operazioni definite da altri
+oggetti allora diventa esso stesso un soggetto. In sintesi
+\begin{itemize}
+	\item \textbf{Soggetto}: in genere è un utente, un processo, un thread, un'istruzione.
+	\item \textbf{Oggetto}: in genere si tratta di tipi di dati astratti, procedure, parametri, risorse logiche o
+	      fisiche.
+\end{itemize}
+
+\subsection{Discretionary Access Control - DAC}
+In questo modello per ogni oggetto esiste un \textbf{proprietario} (del sistema o del processo), il quale decide i
+diritti dei vari soggetti mentre lui non ha vincoli di alcun tipo. Questo modello è tipico del mondo industriale.
+
+\subsection{Mandatory Access Control - MAC}
+Questo modello prevede la divisione di soggetti (utenti) e oggetti (risorse) in \textbf{classi}. Le classi sono
+ordinate parzialmente in \textbf{livelli} (1, 2, 3 e così via).
+
+Il livello di un soggetto esprime il grado di libertà che vogliamo lasciare a tale soggetto. Tanto più alto è il
+livello di un soggetto tanto maggiore sarà il livello degli oggetti con cui esso può interagire.
+
+Il livello di un oggetto esprime invece il grado di importanza di tale oggetto. Tanto più alto è il livello di un
+oggetto tanto maggiore dev'essere è il livello del soggetto perché esso possa interagire con tale oggetto.
+
+\subsection{Chinese Wall}
+Gli oggetti del sistema sono partizionati in sottoinsiemi. L'utente che ha operato su un oggetto di un insieme non
+può operare su oggetti di un altro insieme.
+
+Questa politica permette di gestire conflitti di interesse e dipende dal tempo, è cioè una politica \textbf{dinamica}
+compatibile con la politica MAC perché aggiunge vincoli.
+
+\subsection{Watermark}
+Questa politica non prevede che un soggetto abbia un livello fissato ma che varia in base alle operazione che esso
+compie sui vari oggetti e dal livello degli oggetti stessi.
+
+Se un soggetto legge un oggetto di livello più alto del suo, quest'ultimo aumenterà, se invece legge un oggetto di
+livello più basso il livello del soggetto rimarrà invariato.
