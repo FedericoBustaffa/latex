@@ -81,16 +81,45 @@ livello di un soggetto tanto maggiore sarà il livello degli oggetti con cui ess
 Il livello di un oggetto esprime invece il grado di importanza di tale oggetto. Tanto più alto è il livello di un
 oggetto tanto maggiore dev'essere è il livello del soggetto perché esso possa interagire con tale oggetto.
 
-\subsection{Chinese Wall}
+\subsubsection{Information Flow I}
+In questo tipo di politica un utente può
+\begin{itemize}
+	\item Leggere tutti i file che hanno classe minore o uguale alla sua.
+	\item Modificare i record dei file che hanno classe uguale alla sua.
+	\item Appendere un record ad un file che ha classe maggiore della sua.
+\end{itemize}
+Per compiere queste operazioni è necessario il permesso dell'\emph{owner} che può solo restringere ulteriormente ciò
+che un utente può fare. Si tratta di una politica MAC di tipo \textbf{no write down} e privilegia la confidenzialità.
+
+\subsubsection{Information Flow II}
+In questo tipo di politica un utente può
+\begin{itemize}
+	\item Scrivere tutti i file di una classe minore o uguale alla sua.
+	\item Leggere tutti i file di una classe maggiore o uguale.
+\end{itemize}
+Questo implica che un utente poco affidabile, ossia di basso livello, non può andare a modificare dati critici. Si
+tratta di una politica MAC di tipo \textbf{no write up} e privilegia l'integrità.
+
+\subsubsection{Chinese Wall}
 Gli oggetti del sistema sono partizionati in sottoinsiemi. L'utente che ha operato su un oggetto di un insieme non
 può operare su oggetti di un altro insieme.
 
-Questa politica permette di gestire conflitti di interesse e dipende dal tempo, è cioè una politica \textbf{dinamica}
-compatibile con la politica MAC perché aggiunge vincoli.
+Questa politica \textbf{dinamica} permette di gestire conflitti di interesse ed è compatibile con la politica MAC
+poiché aggiunge vincoli.
 
-\subsection{Watermark}
-Questa politica non prevede che un soggetto abbia un livello fissato ma che varia in base alle operazione che esso
-compie sui vari oggetti e dal livello degli oggetti stessi.
+\subsubsection{Watermark}
+Questa politica non prevede che un soggetto abbia un livello fissato ma che varia in base alle operazioni che esso
+compie sui vari oggetti e dal livello di questi ultimi.
 
-Se un soggetto legge un oggetto di livello più alto del suo, quest'ultimo aumenterà, se invece legge un oggetto di
-livello più basso il livello del soggetto rimarrà invariato.
+Il livello di un soggetto aumenta dopo che questo legge un oggetto di livello più alto del suo, rimane invece invariato
+se il soggetto legge un oggetto di livello più basso.
+
+\section{Matrice di controllo degli accessi}
+Si tratta di una matrice con un comportamento molto dinamico che ha tante righe quanti sono i soggetti e tante colonne
+quanti sono gli oggetti.
+
+Nella posizione identificata dal soggetto $i$ e dall'oggetto $j$ si trovano i diritti che quel soggetto ha su
+quell'oggetto. In generale è bene ai fini di sicurezza che la matrice contenga pochi diritti e che dunque appaia
+sostanzialmente vuota.
+
+Una rappresentazione concreta di tale matrice è necessaria ma non sufficiente per il rispetto della politica.
