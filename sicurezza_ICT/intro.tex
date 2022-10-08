@@ -118,8 +118,64 @@ se il soggetto legge un oggetto di livello più basso.
 Si tratta di una matrice con un comportamento molto dinamico che ha tante righe quanti sono i soggetti e tante colonne
 quanti sono gli oggetti.
 
-Nella posizione identificata dal soggetto $i$ e dall'oggetto $j$ si trovano i diritti che quel soggetto ha su
-quell'oggetto. In generale è bene ai fini di sicurezza che la matrice contenga pochi diritti e che dunque appaia
+Nella posizione identificata dal soggetto $i$ e dall'oggetto $j$ si trovano i \textbf{diritti} che quel soggetto ha
+su quell'oggetto. In generale è bene ai fini di sicurezza che la matrice contenga pochi diritti e che dunque appaia
 sostanzialmente vuota.
 
 Una rappresentazione concreta di tale matrice è necessaria ma non sufficiente per il rispetto della politica.
+
+\subsection{Linux}
+Nei sistemi operativi Linux vi è una rappresentazione concreta di tale matrice nel file system. Per ogni file, Linux
+fornisce una sequenza di bit (bitmask) che indica i diritti che l'utente ha su tali file (lettura, scrittura,
+esecuzione e così via).
+
+\section{Trusted Computing Base - TCB}
+Una caratteristica dei sistemi informatici è quella di avere al loro interno componenti informatici per implementare
+e gestire la loro politica di sicurezza interna.
+
+Se uno di questi componenti ha un errore o c'è un errore nei componenti che esso utilizza, allora l'implementazione
+della politica non è corretta e quasi sicuramente un soggetto potrebbe invocare operazioni per le quali non ha i
+diritti necessari.
+
+\subsection{Dimensioni del TCB}
+Per quanto riguarda le dimensioni del TCB possiamo dire che, tanto minore è il numero delle sue componenti, tanto
+maggiore è la sicurezza del sistema.
+
+Un TCB con dimensioni contenute permette anche una dimostrazione matematica relativamente semplice della sua
+correttezza.
+
+La dimensione del TCB è anche un criterio che permette di confrontare strategie alternative nella realizzazione della
+politica di sicurezza.
+
+\section{Vulnerabilità}
+Quando si parla di \textbf{vulnerabilità} si vuole indicare un \emph{difetto}
+\begin{itemize}
+	\item Hardware
+	\item Software
+	\item Nell'utente
+	\item Nelle regole della politica
+\end{itemize}
+che permette di violare la politica di sicurezza del sistema permettendo ad un soggetto di compiere un'operazione per
+la quale non ha diritti.
+
+L'obbiettivo della sicurezza informatica è quello di costruire sistemi che funzionano anche con delle vulnerabilità
+e non quello di costruire sistemi senza vulnerabilità. In genere le varie vulnerabilità dei vari componenti vengono
+\emph{compensate} in qualche modo da altri componenti.
+
+La vulnerabilità più frequente, spesso non è nel codice, ma nel fatto che chi implementa il sistema dia per scontato
+che l'utente non faccia errori nell'interfacciarsi con esso.
+
+\subsection{Intrusioni}
+Un'\textbf{intrusione} è una sequenza di \textbf{azioni} e \textbf{attacchi} per riuscire a controllare gli oggetti
+del sistema.
+
+Non tutte le azioni che l'attaccante fa sono \emph{illegali}, alcune di esse possono essere perfettamente lecite ma
+sfruttate poi per violare il sistema.
+
+In un'intrusione si sfrutta una o più vulnerabilità, usando anche programmi automatizzati (\textbf{exploit}) per ognuna
+di esse, per riuscire a sostituirsi all'\emph{owner} del sistema e dunque avere la possibilità di
+\begin{itemize}
+	\item Raccogliere informazioni
+	\item Modificare informazioni
+	\item Impedire ad altri di accedere alle informazioni
+\end{itemize}
