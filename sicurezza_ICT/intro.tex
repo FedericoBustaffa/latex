@@ -179,3 +179,50 @@ di esse, per riuscire a sostituirsi all'\emph{owner} del sistema e dunque avere 
 	\item Modificare informazioni
 	\item Impedire ad altri di accedere alle informazioni
 \end{itemize}
+
+\subsubsection{Fasi di un'intrusione}
+Vediamo nello specifico cosa fa un hacker quando tenta un'intrusione:
+\begin{enumerate}
+	\item Raccoglie di informazioni iniziali sul sistema.
+	\item Individuazione delle vulnerabilità del sistema per compiere un accesso iniziale.
+	\item Ripetizione di una sequenza di operazioni finché non ha successo:
+	      \begin{itemize}
+		      \item Raccolta di informazioni sul sistema.
+		      \item Scoperta di vulnerabilità.
+		      \item Costruzione di exploit.
+		      \item Attacco: si eseguono gli exploit ed eventuali azioni manuali.
+	      \end{itemize}
+	\item Installazione di strumenti per il controllo.
+	\item Cancellazione delle tracce dell'attacco.
+	\item Accesso, modifica ecc. ad un \emph{sottoinsieme} delle informazioni del sistema o si compiono altri
+	      tipi attacchi:
+	      \begin{itemize}
+		      \item Furto di informazioni.
+		      \item Cifratura di dati per chiedere riscatto.
+	      \end{itemize}
+\end{enumerate}
+Un'intrusione può essere vista come un'\textbf{escalation} nell'acquisizione di diritti e nella raccolta di
+informazioni tramite vari attacchi ripetuti.
+
+Un attaccante in genere cerca di acquisire delle informazioni che gli permettano di avere nuovi diritti. Una volta
+ottenuti i diritti è in grado di acquisire nuove informazioni e così via finché non raggiunge il proprio obbiettivo.
+
+\subsection{Approcci alla sicurezza}
+Le intrusioni sono dunque possibili grazie alle vulnerabilità e questo ci porta a definire due approcci alla sicurezza:
+\begin{itemize}
+	\item \textbf{Sicurezza incondizionale}: si assume che qualsiasi sia la vulnerabilità nel sistema, esista qualcuno
+	      interessato ad usarla ed è quindi necessario eliminarle tutte.
+	\item \textbf{Sicurezza condizionale}: in questo tipo di approccio si fa un'analisi in cui si cerca di capire quali
+	      siano le reali minacce per il sistema e si eliminano solo le vulnerabilità che tali minacce potrebbero usare
+	      per attaccare il sistema.
+\end{itemize}
+
+\subsubsection{Analisi del rischio}
+Il primo approccio comporta costi molto elevati e spesso inaccettabili, inoltre richiede una quantità di lavoro enorme
+e spesso inutile.
+
+Con il secondo approccio invece si cerca di capire quali componenti del sistema si possono difendere e soprattutto
+quali componenti \emph{conviene} difendere.
+
+Per capirlo è necessaria un'\textbf{analisi del rischio} con la quale si cerca di individuare la tipologia di attacco
+più probabile in relazione al sistema che stiamo cercando di proteggere.
