@@ -1,4 +1,4 @@
-\chapter{Analisi e gestione del rischio}
+\chapter{Analisi e attacchi}
 L'approccio incondizionale comporta costi molto elevati e spesso inaccettabili, inoltre richiede una quantità di lavoro
 enorme e spesso inutile.
 
@@ -40,5 +40,115 @@ Parliamo invece di \textbf{security} quando ci riferiamo alla capacità del sist
 uno scopo malizioso per raggiungere un obbiettivo.
 
 \subsection{Analisi delle vulnerabilità}
-In questo caso cerchiamo di individuare quali sono le vulnerabilità che permettono ad un attaccante di ottenere, in un 
-certo numero di passi, accesso alle risorse di suo interesse.
+In questo caso cerchiamo di individuare quali sono le vulnerabilità che permettono ad un attaccante di ottenere, con
+un numero finito di passi, l'accesso a risorse di suo interesse.
+
+Ogni vulnerabilità abilita delle azioni dell'attaccante e per scoprirle possiamo usare metodi di ricerca automatici o
+manuali condotti in ambiente locale o remoto.
+
+Un attacco sfrutta le vulnerabilità ma non sempre va a buon fine, ha infatti una certa \textbf{probabilità di successo}
+che aumenta o diminuisce in base al tipo di vulnerabilità che ha il sistema.
+
+Per evitare che un attacco vada a buon fine è fondamentale che chi costruisce il sistema scopra le vulnerabilità più
+critiche prima dell'attaccante.
+
+\subsection{Analisi degli attacchi}
+Un attacco ha vari \textbf{attributi} con i quali viene valutato:
+\begin{itemize}
+	\item Diritti richiesti / Diritti ottenuti
+	\item Probabilità di successo
+	\item Competenze / Abilità richieste
+	\item Rumore generato
+	\item Automatizzato / Automatizzabile
+	\item Locale / Remoto
+\end{itemize}
+In generale un attacco ha delle precondizioni, ovvero dei requisiti per poter essere effettuato e delle postcondizioni,
+ossia i diritti che si intende ottenere con tale attacco.
+
+Un attacco che va a buon fine con requisiti minimi e tramite il quale si ottengono molti diritti è ciò che vogliamo
+evitare.
+
+L'obbiettivo è quello di rendere ogni attacco il più dispendioso possibile e anche nel caso in cui vada a buon fine i
+diritti acquisiti devono essere minimi.
+
+Alcuni approcci associano una valutazione di pericolosità ad un attacco ma in questo modo non abbiamo un indice
+veritiero di quanto sia pericoloso un attacco. Ogni attacco va valutato in tutte le sue fasi e il sistema sul quale
+viene effettuato è un parametro fondamentale che non può essere trascurato. Un attacco molto efficace su un certo tipo
+di sistema potrebbe fallire subito su altri sistemi ad esempio.
+
+\section{Attacchi}
+Esistono varie tipologie di attacco e, come vedremo, varie tipologie di programmi per compierli, ognuno specializzato
+in un particolare tipo di attacco.
+
+\subsection{Attacco automatizzabile}
+Gli attacchi automatizzabili, ovvero quelli per cui non sono necessarie azioni umane per i quali è sufficiente eseguire
+un programma, sono molto più pericolosi di quelli non automatizzabili.
+
+Si parla di intrusione automatizzabile se tutte le azioni che la compongono sono automatizzabili.
+
+Gli attacchi automatizzabili costituiscono la proprietà caratterizzante della sicurezza informatica e possiedono due
+vantaggi importanti per l'attaccante:
+\begin{itemize}
+	\item Tempo di esecuzione ridotto rispetto ad un attacco manuale
+	\item Scarse competenze richieste dall'attaccante
+\end{itemize}
+
+\subsection{Attacco locale / remoto}
+Un attacco che ha come bersaglio un certo sottosistema e che può essere eseguito
+\begin{itemize}
+	\item A patto che si disponga di un account sul sottosistema è detto \textbf{locale}.
+	\item Senza disporre di un account sul sottosistema è detto \textbf{remoto}.
+\end{itemize}
+In generale un attacco automatizzabile eseguito da remoto è più pericoloso perché può essere eseguito da chiunque e
+da un qualsiasi dispositivo connesso in rete.
+
+\subsection{Malware}
+Un \textbf{malware} è un software atto a provocare danni ad un dispositivo e a corrompere i dati al suo interno. I
+tipici esempi di malware sono
+\begin{itemize}
+	\item Spyware
+	\item Worm
+	\item Trojan Horse
+	\item Virus
+	\item Miners
+	\item Ransomware
+\end{itemize}
+
+\subsubsection{Spyware}
+Uno \textbf{spyware} è un modulo hardware o software che raccoglie informazioni sull'attività di utente senza il suo
+consenso.
+
+In seguito trasmette queste informazioni tramite internet all'attaccante in modo che questo possa farne u utilizzo
+illecito.
+
+\subsubsection{Trojan Horse e Backdoors}
+Questi due tipi di malware si introducono nel sistema sfruttando il fatto di sembrare innocui per poi compiere azioni
+dannose come: furto di informazioni, criptazione dei dati (\textbf{ransomeware}) e installazione di strumenti in grado
+di facilitare futuri attacchi da remoto.
+
+\subsubsection{Worm}
+Si tratta di un modulo composto da due parti:
+\begin{itemize}
+	\item \textbf{Attack vector}: codice che permette di attaccare nodi con cui interagisce il nodo su cui è in
+	      esecuzione il worm.
+	\item \textbf{Payload}: codice eseguito su tutti i nodi attaccati.
+\end{itemize}
+Lo scopo di un worm è dunque quello di usare un nodo attaccato per attaccarne altri e potersi così "\emph{riprodurre}".
+
+\subsubsection{Virus}
+Un \textbf{virus} può essere visto come un worm passivo, dato che non è in grado di diffondersi autonomamente, ma
+richiede un meccanismo di trasporto per passare da un nodo all'altro come posta elettronica e chiavette USB.
+
+\subsection{Intrusione mirata / non mirata}
+In un'intrusione \textbf{mirata}, un attaccante stabilisce un obbiettivo e lo persegue fino a raggiungerlo cercando
+di non essere scoperto e cercando di cambiare il suo comportamento in base all'obbiettivo.
+
+Un'intrusione \textbf{non mirata} è realizzata mediante l'esecuzione di worm sulla rete a partire da un nodo iniziale.
+In questo caso non è interesse dell'attaccante sapere dove va a finire il worm.
+
+Un'intrusione può essere una fusione delle due tipologie descritte poco fa:
+\begin{itemize}
+	\item Un worm può attaccare tutti i sistemi che incontra fino a quando non raggiunge un obbiettivo descritto nel
+	      suo payload.
+	\item Si fa un'intrusione mirata per controllare il punto di lancio di un worm.
+\end{itemize}
