@@ -1,0 +1,36 @@
+\chapter{Vulnerabilità e attacchi}
+Iniziamo in questo capitolo a parlare più nello specifico di \textbf{vulnerabilità} e \textbf{attacchi}.
+
+\section{Buffer overflow}
+Uno degli esempi più comuni è il \textbf{buffer overflow}, dove il \textbf{buffer} è una qualunque zona di memoria
+in cui è possibile memorizzare informazioni e l'\textbf{overflow} è un'operazione che consiste nell'andare a scrivere,
+in quella zona di memoria, più informazioni di quante essa ne possa contenere.
+
+Se il software è privo di controlli è possibile trasmettere del codice eseguibile (\textbf{code injection}) ed
+eseguirlo. Questo tipo di attacco è molto complesso ma \emph{automatizzabile} e può garantire il pieno controllo del
+sistema.
+
+Il meccanismo di base dell'attacco si basa sulla copia di una stringa in una struttura dati: una volta capito quali
+caratteristiche deve avere la stringa l'attacco è molto semplice e dato che è automatizzabile potrebbe essere condotto
+da chiunque.
+
+\subsection{Memoria di un processo}
+Per capire il buffer overflow è fondamentale capire la struttura della memoria di un processo, la quale è organizzata
+in tre segmenti: \emph{text}, \emph{data} e \emph{stack}.
+\begin{itemize}
+	\item Il \textbf{text segment} ha dimensione fissa, memorizza il codice del programma ed è in sola lettura. Ogni
+	      tentativo di scrittura provoca un \emph{segmentation fault}.
+	\item Il \textbf{data segment} memorizza variabili statiche e dinamiche.
+	\item Lo \textbf{stack segment} memorizza i dati per gestire \emph{call} e \emph{return} di funzioni.
+\end{itemize}
+
+\subsection{Stack overflow}
+Un tipico esempio è quello di attacco \textbf{stack overflow}, con il quale si sfruttano linguaggi di basso livello
+come il C per poter scrivere codice in memoria.
+
+Ciò che vogliamo sfruttare, in questo caso, è il fatto che quando vogliamo copiare una stringa di una certa dimensione
+in un buffer di dimensione più piccola, si verificherà un \emph{segmentation fault} e lo stack del processo viene
+riscritto con la parte di stringa che non è entrata nel buffer all'indirizzo di ritorno del processo stesso.
+
+Se nella stringa inseriamo del codice e stimiamo correttamente la grandezza del buffer, tramite questa tecnica, è
+possibile scrivere in memoria un programma ed eseguirlo.

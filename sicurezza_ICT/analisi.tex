@@ -164,7 +164,7 @@ Un'intrusione può essere una fusione delle due tipologie descritte poco fa:
 	\item Si fa un'intrusione mirata per controllare il punto di lancio di un worm.
 \end{itemize}
 
-\section{Ingegneria sociale}
+\subsection{Ingegneria sociale}
 L'\textbf{ingegneria sociale}, nell'ambito della sicurezza informatica, studia come influenzare il comportamento
 individuale di un utente per carpire informazioni utili.
 
@@ -176,7 +176,7 @@ elettronica) ad un utente promettendogli regali o vantaggi di qualche tipo, per 
 del software dannoso.
 
 \section{Contromisure}
-Tra le contromisure che abbiamo a disposizione abbiamo
+Tra le contromisure a nostra disposizione abbiamo
 \begin{itemize}
 	\item La modifica di componenti del sistema. Questa fase può avere un costo contenuto nel caso venga svolta in
 	      fase di progettazione ma tende ad avere costi molto elevati se eseguita in seguito.
@@ -189,9 +189,9 @@ Tra le contromisure che abbiamo a disposizione abbiamo
 	      \end{itemize}
 	\item Coordinamento dei vari strumenti facendoli cooperare in modo
 	      \begin{itemize}
-		      \item Statico: cambiando il sistema in modo permanente per eliminare vulnerabilità
-		      \item Dinamico: cambiando il sistema durante un'intrusione per fermare gli attacchi. Questo tipo di
-		            contromisura richiede componenti di monitoraggio del sistema.
+		      \item \textbf{Statico}: cambiando il sistema in modo permanente per eliminare vulnerabilità
+		      \item \textbf{Dinamico}: cambiando il sistema durante un'intrusione per fermare gli attacchi. Questo tipo
+		            di contromisura richiede componenti di monitoraggio del sistema.
 	      \end{itemize}
 \end{itemize}
 
@@ -199,3 +199,19 @@ Tra le contromisure che abbiamo a disposizione abbiamo
 Quando si costruisce un sistema si deve fare una valutazione del \textbf{rischio}. In particolare si deve fare un
 confronto tra rischio e costo delle contromisure. Il danno medio che può provocare un'intrusione limita il costo che
 devono avere le contromisure.
+
+Il rischio dipende da due fattori:
+\begin{itemize}
+	\item Danno di un'intrusione che ha successo
+	\item Probabilità che un'intrusione avvenga e abbia successo
+\end{itemize}
+Se il rischio è molto più basso del costo delle contromisure lo si può accettare e il sistema non viene modificato.
+
+Se il rischio è troppo alto lo si riduce
+\begin{itemize}
+	\item Trasferendolo ad un costo fisso
+	\item Modificando il sistema adottando contromisure che eliminano una o più vulnerabilità diminuendo o annullando
+	      la probabilità di successo di alcuni attacchi e quindi dell'intrusione
+	\item Riducendo il danno provocato da un'intrusione
+	\item Abbandonando il sistema
+\end{itemize}
