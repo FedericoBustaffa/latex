@@ -76,6 +76,17 @@ veritiero di quanto sia pericoloso un attacco. Ogni attacco va valutato in tutte
 viene effettuato è un parametro fondamentale che non può essere trascurato. Un attacco molto efficace su un certo tipo
 di sistema potrebbe fallire subito su altri sistemi ad esempio.
 
+\subsection{Analisi degli impatti}
+Calcola il danno che un attaccante può causare se un'intrusione ha successo. Il danno complessivo è dato dalla somma
+di un insieme di costi
+\begin{itemize}
+	\item Ripristino di uno stato corretto
+	\item Ricostruzione di informazioni perse
+	\item Perdita di produzione
+	\item Informare i possessori dei dati (privacy)
+	\item Danno di immagine
+\end{itemize}
+
 \section{Attacchi}
 Esistono varie tipologie di attacco e, come vedremo, varie tipologie di programmi per compierli, ognuno specializzato
 in un particolare tipo di attacco.
@@ -153,3 +164,38 @@ Un'intrusione può essere una fusione delle due tipologie descritte poco fa:
 	\item Si fa un'intrusione mirata per controllare il punto di lancio di un worm.
 \end{itemize}
 
+\section{Ingegneria sociale}
+L'\textbf{ingegneria sociale}, nell'ambito della sicurezza informatica, studia come influenzare il comportamento
+individuale di un utente per carpire informazioni utili.
+
+Si cerca cioè di capire quali siano i possibili comportamenti sbagliati che potrebbe avere un utente per individuare
+difetti nel sistema.
+
+Un esempio classico è quello del \textbf{phishing}, in cui si fa cliccare un link (tipicamente inviato tramite posta
+elettronica) ad un utente promettendogli regali o vantaggi di qualche tipo, per poi installare sulla sua macchina
+del software dannoso.
+
+\section{Contromisure}
+Tra le contromisure che abbiamo a disposizione abbiamo
+\begin{itemize}
+	\item La modifica di componenti del sistema. Questa fase può avere un costo contenuto nel caso venga svolta in
+	      fase di progettazione ma tende ad avere costi molto elevati se eseguita in seguito.
+	\item Aggiunta di componenti progettati per
+	      \begin{itemize}
+		      \item Eliminare le vulnerabilità
+		      \item Filtrare le connessioni
+		      \item Individuare malware
+		      \item Scoprire intrusioni e fermare attacchi
+	      \end{itemize}
+	\item Coordinamento dei vari strumenti facendoli cooperare in modo
+	      \begin{itemize}
+		      \item Statico: cambiando il sistema in modo permanente per eliminare vulnerabilità
+		      \item Dinamico: cambiando il sistema durante un'intrusione per fermare gli attacchi. Questo tipo di
+		            contromisura richiede componenti di monitoraggio del sistema.
+	      \end{itemize}
+\end{itemize}
+
+\section{Rischio}
+Quando si costruisce un sistema si deve fare una valutazione del \textbf{rischio}. In particolare si deve fare un
+confronto tra rischio e costo delle contromisure. Il danno medio che può provocare un'intrusione limita il costo che
+devono avere le contromisure.
