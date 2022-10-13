@@ -41,6 +41,21 @@ in stato \emph{root} e, nel caso l'attacco riuscisse, si ottiene una shell con p
 Se sappiamo come scrivere la stringa in modo da cancellare l'indirizzo di ritorno e sostituirlo con un puntatore al
 codice iniettato si ottiene un attacco automatizzabile molto semplice da eseguire.
 
+\subsection{Contromisure}
+Per ovviare al problema degli attacchi buffer overflow ci sono varie contromisure:
+\begin{itemize}
+	\item \textbf{Meccanismo di tipi forte} con conseguente aumento di overhead nell'esecuzione del software.
+	\item \textbf{ASLR}: generazione casuale degli indirizzi dei vari segmenti così da impedire all'attaccante di
+	      conoscere staticamente i vari indirizzi.
+	\item \textbf{Canary}: inserzione di un valore casuale prima dell'indirizzo di ritorno. Tale valore viene generato
+	      ad ogni invocazione di funzione e prima che la funzione ritorni si verifica che tale valore non sia stato
+	      cambiato.
+	\item \textbf{Stack non eseguibile}: si costruisce uno stack che contiene solo variabili e non codice.
+	\item \textbf{Shadow stack}: si crea una copia dello stack dove verranno inseriti solo gli indirizzi di ritorno
+	      e non le variabili o le istruzioni e prima di ritornare si confrontano i valori dello stack copia con quello
+	      originale e nel caso in cui non coincidano potrebbe essere segno di un attacco di tipo buffer overflow.
+\end{itemize}
+
 \subsubsection{Vulnerabilità}
 Le vulnerabilità di un software in C che permettono questo attacco sono:
 \begin{itemize}
@@ -79,3 +94,61 @@ L'effetto di questo attacco si può amplificare aumentando il numero di nodi che
 \emph{zombie}).
 
 Difendersi da questo attacco è molto difficile dato che \verb|B| non ha modo di capire che l'attacco è in preparazione.
+
+\subsection{Contromisure}
+Per quanto riguarda questi attacchi l'unica soluzione possibile è l'autenticazione del mittente che instaura la
+connessione e invia il pacchetto tramite IPv6.
+
+\section{Classificazione delle vulnerabilità}
+In generale non esiste un metodo unico per classificare una vulnerabilità. Esistono diverse tassonomie, ognuna delle
+quali in grado di classificarle in modo più o meno accurato in relazione al problema che si vuole risolvere.
+
+Un possibile metodo di classificazione di una vulnerabilità funziona in base al \emph{dove} questa si trova. Nello
+specifico si parla di vulnerabilità
+\begin{itemize}
+	\item \textbf{Procedurale} quando le azioni eseguite non sono ben definite.
+	\item \textbf{Organizzative} quando le azioni sono ben definite ma gli utenti le eseguono male.
+	\item \textbf{Strumentali} (sistema operativo, compilatori, supporti a tempo di esecuzione e così via) quando le
+	      azioni sono ben definite ed eseguite ma con cattivi strumenti.
+\end{itemize}
+
+Un'altra possibile classificazione, spesso non rigorosa ed ambigua, è quella relativa agli strumenti che divide le
+vulnerabilità come segue:
+\begin{itemize}
+	\item Di \textbf{specifica}: uno strumento è più generale di quanto richiesto.
+	\item \textbf{Implementative}: errore nel codice di uno strumento.
+	\item \textbf{Strutturali}: uno o più strumenti vengono integrati in unico sistema causando comportamenti anomali.
+\end{itemize}
+
+\section{Ciclo di vita delle vulnerabilità}
+Il ciclo di vita di una vulnerabilità segue queste fasi:
+\begin{enumerate}
+	\item Nasce quando qualcuno commette un errore.
+	\item Diventa nota quando qualcuno la scopre.
+	\item Diventa pubblica quando la sua presenza viene rivelata.
+	\item Inizio di due attività parallele:
+	      \begin{itemize}
+		      \item Ricerca di un modo per eliminarla.
+		      \item Ricerca di un exploit per sfruttarla.
+	      \end{itemize}
+	\item In base a chi arriva prima potrebbe diventare una vulnerabilità sfruttata.
+	\item Quando è disponibile un modo per eliminarla deve essere applicato.
+\end{enumerate}
+
+\subsection{Patch}
+Le \textbf{patch} del software, ovvero l'eliminazione di una o più vulnerabilità, solitamente sono file eseguibili e
+non codice sorgente, la cui esecuzione apporta modifiche o sostituisce i file binari già presenti.
+
+Le patch possono essere anche essere rilasciate sotto forma di file di testo contenenti le differenze tra le varie
+versioni, sarà poi compito del gestore di versioni (CVS) generare la vera e propria patch in locale. Si tratta di una
+soluzione solitamente usata da sistemi open source in cui è l'utente a dover compilare i nuovi sorgenti.
+
+Una nuova patch potrebbe però introdurre problematiche che richiedono una \textbf{regressione} della versione software.
+
+Occorre quindi un \textbf{test di regressione} in grado di verificare il corretto funzionamento dopo
+\begin{itemize}
+	\item L'implementazione di una nuova funzionalità
+	\item La correzione di eventuali bug
+\end{itemize}
+Per garantire la qualità del software è essenziale verificare che il codice aggiunto non pregiudichi le funzionalità
+esistenti.
