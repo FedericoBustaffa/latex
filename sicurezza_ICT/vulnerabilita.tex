@@ -10,9 +10,8 @@ Se il software è privo di controlli è possibile trasmettere del codice eseguib
 eseguirlo. Questo tipo di attacco è molto complesso ma \emph{automatizzabile} e può garantire il pieno controllo del
 sistema.
 
-Il meccanismo di base dell'attacco si basa sulla copia di una stringa in una struttura dati: una volta capito quali
-caratteristiche deve avere la stringa l'attacco è molto semplice e dato che è automatizzabile potrebbe essere condotto
-da chiunque.
+L'attacco si basa sull'operazione di copia di una stringa in una struttura dati: una volta capito quale caratteristiche
+deve avere la stringa l'attacco è molto semplice e dato che è automatizzabile potrebbe essere condotto da chiunque.
 
 \subsection{Memoria di un processo}
 Per capire il buffer overflow è fondamentale capire la struttura della memoria di un processo, la quale è organizzata
@@ -25,12 +24,58 @@ in tre segmenti: \emph{text}, \emph{data} e \emph{stack}.
 \end{itemize}
 
 \subsection{Stack overflow}
-Un tipico esempio è quello di attacco \textbf{stack overflow}, con il quale si sfruttano linguaggi di basso livello
-come il C per poter scrivere codice in memoria.
+Un tipico esempio di buffer overflow è quello dello \textbf{stack overflow}, con il quale si sfruttano linguaggi di
+basso livello come il C per poter scrivere codice in memoria da locale.
 
-Ciò che vogliamo sfruttare, in questo caso, è il fatto che quando vogliamo copiare una stringa di una certa dimensione
-in un buffer di dimensione più piccola, si verificherà un \emph{segmentation fault} e lo stack del processo viene
-riscritto con la parte di stringa che non è entrata nel buffer all'indirizzo di ritorno del processo stesso.
+Questo tipo di attacco sfrutta il fatto che scrivere una stringa di una certa dimensione in un buffer di dimensione
+inferiore, provoca un \emph{segmentation fault}. Il risultato finale è aver sovrascritto, con la parte di stringa che
+non è entrata nel buffer, lo stack del processo all'indirizzo di ritorno del processo stesso.
 
-Se nella stringa inseriamo del codice e stimiamo correttamente la grandezza del buffer, tramite questa tecnica, è
-possibile scrivere in memoria un programma ed eseguirlo.
+Di norma, se l'indirizzo di ritorno del processo è valido, non viene sollevata alcuna eccezione e l'esecuzione continua
+eseguendo l'istruzione a quell'indirizzo. L'attacco sfrutta l'assenza di controlli per sostituire l'indirizzo di ritorno
+con un puntatore al codice iniettato.
+
+In genere si prova ad attaccare procedure al livello di kernel del sistema operativo dato che queste sono eseguite
+in stato \emph{root} e, nel caso l'attacco riuscisse, si ottiene una shell con privilegi di amministratore.
+
+Se sappiamo come scrivere la stringa in modo da cancellare l'indirizzo di ritorno e sostituirlo con un puntatore al
+codice iniettato si ottiene un attacco automatizzabile molto semplice da eseguire.
+
+\subsubsection{Vulnerabilità}
+Le vulnerabilità di un software in C che permettono questo attacco sono:
+\begin{itemize}
+	\item Il mancato controllo sulla dimensioni delle variabili
+	\item Cattivo sistema di tipi
+	\item Non c'è controllo su operazioni di memoria errate
+	\item Errata dimensione dello stack
+\end{itemize}
+
+\section{Vulnerabilità strutturali TCP/IP}
+Quando è nato lo stack TCP/IP, uno degli obbiettivi era costruire una rete che sopravvivesse ad attacchi fisici
+distruttivi per i componenti.
+
+Esistono dei metodi per capire se un nodo in rete è ancora attivo e raggiungibile ma non è possibile capire l'origine
+delle comunicazioni.
+
+Per controllare se un nodo \verb|B| è attivo, un nodo \verb|A| potrebbe inviare un messaggio di \verb|ECHO|, a cui
+\verb|B| risponde con lo stesso messaggio.
+
+Per verificare con un solo messaggio se più nodi sono attivi è possibile specificare un indirizzo parziale per
+\verb|ECHO| in modo da realizzare una comunicazione di tipo uno a molti.
+
+Con il protocollo IPv4 non esiste un controllo sui campi di un pacchetto dunque un utente potrebbe spacciarsi per un
+altro senza problemi.
+
+\subsection{Distributed denial of service}
+Supponiamo di avere una rete \verb|R| di 1000 nodi, con un indirizzo parziale \verb|X| comune a tutti i nodi in
+\verb|R|. A questo punto un attaccante \verb|A| potrebbe condurre un attacco di questo tipo:
+\begin{enumerate}
+	\item \verb|A| manda un messaggio di \verb|ECHO| all'indirizzo parziale \verb|X| dicendo di essere \verb|B|.
+	\item Tutti i nodi di \verb|R| rispondono a \verb|B| con il messaggio di \verb|ECHO|.
+	\item \verb|B| per un certo periodo di tempo non riesce a comunicare perché le sue linee di comunicazione sono
+	      intasate.
+\end{enumerate}
+L'effetto di questo attacco si può amplificare aumentando il numero di nodi che hanno il ruolo di \verb|A| (nodi
+\emph{zombie}).
+
+Difendersi da questo attacco è molto difficile dato che \verb|B| non ha modo di capire che l'attacco è in preparazione.
