@@ -152,3 +152,67 @@ Occorre quindi un \textbf{test di regressione} in grado di verificare il corrett
 \end{itemize}
 Per garantire la qualità del software è essenziale verificare che il codice aggiunto non pregiudichi le funzionalità
 esistenti.
+
+\section{Ricerca delle vulnerabilità}
+Per effettuare una ricerca delle vulnerabilità occorre distinguerle in tre categorie:
+\begin{itemize}
+	\item \textbf{Note}: pubbliche in moduli noti (molto comuni).
+	\item \textbf{Non pubbliche}: scoperte ma non pubblicate.
+	\item \textbf{Zero day}: scoperte e non pubblicate per essere utilizzate nelle intrusioni (molto rare).
+\end{itemize}
+
+Ogni sistema può essere descritto come una composizione di moduli standard e specializzati. I moduli standard sono
+affetti da vulnerabilità note mentre quelle di moduli specializzati non lo sono. Una strategia efficace di ricerca
+delle vulnerabilità opera in quest'ordine:
+\begin{enumerate}
+	\item Ricerca di vulnerabilità in moduli standard.
+	\item Ricerca di vulnerabilità in moduli specializzati.
+	\item Ricerca di vulnerabilità strutturali nate dalla composizione delle due tipologie di modulo.
+\end{enumerate}
+
+\subsection{Inventario}
+Un passo fondamentale per trovare le vulnerabilità di un sistema è conoscere i moduli standard che utilizza, a tal
+fine occorre un \textbf{inventario} dei moduli. Costruire l'inventario non è banale e spesso rappresenta il problema
+di sicurezza più complesso ed è anche per questo che esistono strumenti informatici con l'unico fine di costruire
+inventari.
+
+Una volta costruito l'inventario è necessario produrre del softare cosiddetto \textbf{bill of materials}, il quale
+richiede inventario e provenienza dei vari moduli.
+
+\subsection{Vulnerability scanner}
+Il \textbf{vulnerability scanner} è uno strumento che permette di costruire un inventario e conoscere le vulnerabilità
+note dei moduli dei vari nodi.
+
+Lo strumento opera su un certo sottoinsieme di nodi e fornisce i moduli di ogni nodo che interagiscono con gli altri
+moduli e le vulnerabilità di questi moduli. In particolare, sfrutta il fatto che ogni modulo opera su una particolare
+porta del nodo e invia pacchetti sulla porta e dall'analisi delle risposte deduce quale modulo sta operando. Una volta
+riconosciuto il modulo ricerca le sue vulnerabilità note in appositi database.
+
+\subsubsection{Fingerprinting attivo}
+Questo tipo di \emph{vulnerability scanner} opera inviando, sulle porte note (es. 80), dei pacchetti che violano lo
+standard del protocollo.
+
+Tutte le implementazioni del servizio rispondono allo stesso modo a pacchetti che rispettano il protocollo, rispondono
+in modo diverso a pacchetti lo violano.
+
+Conoscendo le risposte a richieste non standard si possono identificare i moduli che implementano un servizio su una
+porta nota.
+
+\subsubsection{Fingerprinting passivo}
+In questo caso si opera senza interferire con il sistema da analizzare raccogliendo ed analizzando pacchetti in rete
+in maniera trasparente.
+
+In base ad alcune caratteristiche dei pacchetti si riesce a dedurre i moduli che li hanno prodotti.
+
+Rinunciare all'approccio attivo rende il procedimento molto meno invasivo ma i pacchetti da analizzare sono molti di
+più, si ha quindi un aumento del tempo di scanning.
+
+\subsubsection{Possibili errori}
+Un \emph{vulnerability scanner} potrebbe riconoscere il modulo che implementa un certo servizio e accedere ad un
+database con le relative vulnerabilità che potrebbero essere state patchate. In questo caso si ha un \textbf{falso
+	positivo}.
+
+Si possono avere anche casi di \textbf{falso negativo} quando una vulnerabilità non viene segnalata dato che non
+appartiene al database usato ma è comunque presente nel sistema.
+
+\subsection{Confusion Matrix}
