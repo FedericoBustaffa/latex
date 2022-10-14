@@ -216,3 +216,24 @@ Si possono avere anche casi di \textbf{falso negativo} quando una vulnerabilità
 appartiene al database usato ma è comunque presente nel sistema.
 
 \subsection{Confusion Matrix}
+La \textbf{confusion matrix} è uno strumento nato in medicina per analizzare fenomeni complessi, i quali non possono
+essere risolti utilizzando un metodo booleano.
+
+In medicina quando si vuole sapere se un paziente ha una certa malattia si effettuano dei test, i quali vengono
+condotti in base ai sintomi. Il risultato del test può essere positivo o negativo in entrambi i casi si deve sempre
+considerare la possibilità di errore del test (falso positivo/negativo).
+
+\begin{center}
+	\begin{tabular}{ c | c | c | }
+		  & \multicolumn{2}{ c }{ Sintomo }                  \\
+		  & \multicolumn{1}{c}{F}           & T              \\
+		\hline
+		F & vero negativo                   & falso positivo \\
+		\hline
+		T & falso negativo                  & vero positivo  \\
+		\hline
+	\end{tabular}
+\end{center}
+
+In ambito informatico si compie un procedimento analogo per riuscire a capire quali moduli producono un certo servizio
+in base alla risposta che il nodo su cui facciamo il test ci fornisce.
