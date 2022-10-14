@@ -215,25 +215,73 @@ database con le relative vulnerabilità che potrebbero essere state patchate. In
 Si possono avere anche casi di \textbf{falso negativo} quando una vulnerabilità non viene segnalata dato che non
 appartiene al database usato ma è comunque presente nel sistema.
 
-\subsection{Confusion Matrix}
-La \textbf{confusion matrix} è uno strumento nato in medicina per analizzare fenomeni complessi, i quali non possono
-essere risolti utilizzando un metodo booleano.
+\subsection{Matrice di confusione}
+La \textbf{matrice di confusione} è uno strumento nato in medicina per analizzare fenomeni complessi, i quali non
+possono essere risolti utilizzando un metodo booleano.
 
 In medicina quando si vuole sapere se un paziente ha una certa malattia si effettuano dei test, i quali vengono
 condotti in base ai sintomi. Il risultato del test può essere positivo o negativo in entrambi i casi si deve sempre
 considerare la possibilità di errore del test (falso positivo/negativo).
-
 \begin{center}
-	\begin{tabular}{ c | c | c | }
-		  & \multicolumn{2}{ c }{ Sintomo }                  \\
-		  & \multicolumn{1}{c}{F}           & T              \\
+	\begin{tabular}{ c c | c c }
+		                                      &   & \multicolumn{2}{ c }{ Caratteristica }                  \\
+		                                      &   & F                                      & T              \\
 		\hline
-		F & vero negativo                   & falso positivo \\
-		\hline
-		T & falso negativo                  & vero positivo  \\
-		\hline
+		\multirow{2}{2.5 cm}{ Vulnerabilità } & F & vero negativo                          & falso positivo \\
+		                                      & T & falso negativo                         & vero postivo
 	\end{tabular}
 \end{center}
-
 In ambito informatico si compie un procedimento analogo per riuscire a capire quali moduli producono un certo servizio
 in base alla risposta che il nodo su cui facciamo il test ci fornisce.
+
+\section{Sistema di misurazione delle vulnerabilità}
+Si tratta di uno strumento per \emph{misurare} la pericolosità delle vulnerabilità assegnando loro un punteggio da 0 a
+10: più alto è il punteggio e più pericolosa è quella vulnerabilità.
+
+Come già detto, valutare una vulnerabilità indipendentemente dal sistema non ha alcun senso poiché potrebbe essere
+critica per alcuni sistemi ma assolutamente innocua per altri.
+
+Il punteggio viene assegnato in base a tre parametri:
+\begin{itemize}
+	\item \textbf{Base}: caratteristica intrinseca e fondamentale indipendente dal tempo e dall'ambiente.
+	\item \textbf{Temporale}: caratteristica che cambia nel tempo ma è indipendente dall'ambiente.
+	\item \textbf{Ambientale}: caratteristica specifica e solo per un particolare ambiente.
+\end{itemize}
+
+\subsection{Vettore di accesso}
+Il \textbf{vettore di accesso} indica il metodo di accesso necessario per sfruttare la vulnerabilità. Può essere
+\begin{itemize}
+	\item \textbf{Fisico}: è necessario avere accesso all'hardware su cui è implementato il sistema.
+	\item \textbf{Locale}: è necessario avere accesso ad un account del sistema.
+	\item \textbf{Adicaente}: è necessario avere accesso ad una sottorete.
+	\item \textbf{Network}: è possibile arrivare al sistema da un qualsiasi nodo della rete.
+\end{itemize}
+Quando il vettore di accesso è fisico la sicurezza è massima mentre un vettore di accesso di tipo network crea più
+problemi.
+
+\subsection{Complessità dell'attacco}
+Indica quanto è \emph{difficile} effettuare l'attacco: più l'attacco è complesso più il nostro sistema è sicuro, al
+contrario, un attacco semplice da eseguire è sintomo di un sistema vulnerabile.
+
+\subsection{Privilegi richiesti e interazione utente}
+Indica quali diritti sono necessari per eseguire l'attacco
+\begin{itemize}
+	\item \textbf{Nessuno}: l'attacco si può eseguire senza alcun diritto sul sistema.
+	\item \textbf{Basso}: in genere si parla di avere accesso a privilegi base che un qualsiasi utente del sistema
+	      possiede.
+	\item \textbf{Alto}: quando è necessario avere diritti su componenti critiche del sistema, ad esempio essere
+	      amministratore.
+\end{itemize}
+e se è necessaria l'interazione dell'utente come nel caso del \emph{phishing}.
+
+\subsection{Livello dell'exploit}
+Questa parametro indica se esiste del codice per sfruttare una vulnerabilità e se questo è affidabile o meno.
+
+\section{Numero di vulnerabilità}
+Il numero di vulnerabilità \emph{note} di un software non è indice della qualità di quest'ultimo. In generale possiamo
+dire che tale numero è direttamente proporzionale al numero \emph{totale} di vulnerabilità del sistema e al numero di
+utenti che ricercano vulnerabilità in quel sistema.
+
+Il numero di ricercatori è proporzionale al valore di una certa vulnerabilità in quanto una vulnerabilità di un
+prodotto poco usato non interessa a nessuno. Il fatto che ci siano tanti ricercartori è sintomo di popolarità di un
+determinato software.
