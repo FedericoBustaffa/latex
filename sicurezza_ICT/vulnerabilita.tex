@@ -285,3 +285,60 @@ utenti che ricercano vulnerabilità in quel sistema.
 Il numero di ricercatori è proporzionale al valore di una certa vulnerabilità in quanto una vulnerabilità di un
 prodotto poco usato non interessa a nessuno. Il fatto che ci siano tanti ricercartori è sintomo di popolarità di un
 determinato software.
+
+\subsection{Scoperta di vulnerabilità}
+Spesso, per scoprire una vulnerabilità, è necessario uno strumento di \emph{reverse engineering} per passare da
+eseguibile ad un versione di controllo.
+
+Una volta effettuata la conversione si può procedere con un'analisi manuale o tramite strumenti automatizzati di
+\begin{itemize}
+	\item \textbf{Analisi statica} (\textbf{SAST}): sono strumenti che dipendono dal linguaggio di programmazione
+	      utilizzato e dal contesto in cui si trova il sistema.
+	\item \textbf{Analisi dinamica} (\textbf{Fuzzing}): basato sulla generazione e trasmissione di valori errati come
+	      input del programma.
+\end{itemize}
+
+\subsubsection{SAST}
+Tra i punti di forza del SAST abbiamo
+\begin{itemize}
+	\item La scalabilità poiché permette di analizzare grandi quantità di codice a basso costo.
+	\item L'identificazione di un sottoinsieme di classi di vulnerabilità quali buffer e stack overflow o SQL
+	      injection.
+	\item I risultati aiutano gli sviluppatori ad individuare le istruzioni coinvolte.
+\end{itemize}
+Le debolezze di questo sistema sono invece
+\begin{itemize}
+	\item La difficoltà nell'implementazione di analisi per la ricerca di alcune vulnerabilità come
+	      \begin{itemize}
+		      \item Problemi di autenticazione
+		      \item Gestione errata dei diritti
+		      \item Uso non sicuro della crittografia
+	      \end{itemize}
+	\item Potenza limitata in quanto possono individuare basse percentuali di vulnerabilità.
+	\item Elevato numero di false positive.
+	\item Incapace di identificare problemi di sicurezza dovuti alla configurazione che non possono essere scoperti
+	      dal codice.
+	\item Spesso non analizzano librerie.
+\end{itemize}
+
+\subsubsection{Fuzzing}
+L'idea di base del fuzzing è inviare al software degli input errati o malformati cercando di causare il blocco
+dell'applicazione o un suo malfunzionamento, evidenziando così una vulnerabilità non ancora nota.
+
+Per riuscire a fare del fuzzing in maniera efficiente è necessario automatizzare il processo vista la grande quantità
+di dati da fornire in input.
+
+In generale possiamo dire che gli strumenti di fuzzing sono il risultato di tre moduli:
+\begin{itemize}
+	\item Il \textbf{generatore} di input malformati.
+	\item Il \textbf{distributore dei dati} verso il modulo target.
+	\item Un \textbf{componente di monitoraggio} per gestire eventuali errori e scoprire il percorso del dato in input
+	      nel modulo.
+\end{itemize}
+Abbiamo tre tipologie principali di fuzzing:
+\begin{itemize}
+	\item \textbf{Application}: testa funzioni come pulsanti e campi di immissione dei programmi grafici o le opzioni
+	      dei programmi della riga di comando.
+	\item \textbf{Protocol}: verifica il comportamento del programma in caso di invio di dati di formato errato.
+	\item \textbf{File format}: genera file errati o di formato non atteso e li manda in input al software.
+\end{itemize}
