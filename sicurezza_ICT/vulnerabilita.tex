@@ -322,13 +322,15 @@ Le debolezze di questo sistema sono invece
 \end{itemize}
 
 \subsubsection{Fuzzing}
-L'idea di base del fuzzing è inviare al software degli input errati o malformati cercando di causare il blocco
+L'idea di base del \textbf{fuzzing} è inviare al software degli input errati o malformati cercando di causare il blocco
 dell'applicazione o un suo malfunzionamento, evidenziando così una vulnerabilità non ancora nota.
 
 Per riuscire a fare del fuzzing in maniera efficiente è necessario automatizzare il processo vista la grande quantità
 di dati da fornire in input.
 
-In generale possiamo dire che gli strumenti di fuzzing sono il risultato di tre moduli:
+\section{Fuzzing}
+Entriamo ora nello specifico di questa tecnica largamente utilizzata per la ricerca di vulnerabilità all'interno di un
+sistema. In generale possiamo dire che gli strumenti di fuzzing sono il risultato di tre moduli:
 \begin{itemize}
 	\item Il \textbf{generatore} di input malformati.
 	\item Il \textbf{distributore dei dati} verso il modulo target.
@@ -341,4 +343,81 @@ Abbiamo tre tipologie principali di fuzzing:
 	      dei programmi della riga di comando.
 	\item \textbf{Protocol}: verifica il comportamento del programma in caso di invio di dati di formato errato.
 	\item \textbf{File format}: genera file errati o di formato non atteso e li manda in input al software.
+\end{itemize}
+
+\subsection{Scanning}
+Torniamo indietro alla fase di scanning, eseguita sia dall'attaccante che dal difensore. Ovviamente il difensore è
+interessato a sapere se qualcuno sta cercando vulnerabilità nel suo sistema, ecco perché ogni scanner permette di
+decidere la frequenza con cui si inviano i messaggi ad un certo nodo ed il numero di nodi analizzati in parallelo.
+
+La probabilità di un attaccante di essere scoperto è tanto minore quanto minore è la frequenza di messaggi inviati e
+il numero di nodi analizzati.
+
+\subsubsection{Client scanning}
+Ci sono anche casi di \textbf{client scanning} in cui è un server che esegue uno scanning su un client che prova a
+connettersi per capire come esso sia configurato, quali sono eventuali vulnerabilità ecc.
+
+Questa pratica è considerata molto ambigua in quanto, a volte, permette di entrare in possesso di informazioni
+personali dell'utente andando a comportare importanti problemi di privacy.
+
+\subsection{Classi di fuzzer}
+Un \textbf{fuzzer} può essere classificato in diversi modi:
+\begin{itemize}
+	\item Gli input possono essere generati da zero o modificando quelli esistenti:
+	      \begin{itemize}
+		      \item \textbf{Generation based}
+		      \item \textbf{Mutation based}
+	      \end{itemize}
+	\item Può conoscere la struttura dell'input in modo da modificare punti specifici o violando in uno o più punti
+	      la struttura:
+	      \begin{itemize}
+		      \item \textbf{Grammar based}
+		      \item \textbf{Not grammar based}
+	      \end{itemize}
+	\item Può conoscere a diversi livelli la struttura del programma ed utilizzarla per garantire di aver testato tutti
+	      i cammini:
+	      \begin{itemize}
+		      \item \textbf{White box}
+		      \item \textbf{Black box}
+		      \item \textbf{Gray box}
+	      \end{itemize}
+	\item Si può applicare al codice o ad un parser:
+	      \begin{itemize}
+		      \item \textbf{Text fuzzing}
+	      \end{itemize}
+\end{itemize}
+
+\subsection{Tainting analysis}
+La \textbf{tainting analysis} è un'analisi statica preliminare che va ad associare ad un certo input le istruzioni che
+andranno a lavorare su quello specifico input.
+
+Questa pratica permette scoprire quali istruzioni ricevono un input e quindi di calcolare l'insieme di variabili di
+un possibile buffer overflow. In genere restituisce un insieme più grande di quello effettivo (falsi positivi).
+
+\subsection{Regole euristiche}
+Per effettuare un buon fuzzing si dovrebbe sempre tenere a mente queste regole:
+\begin{itemize}
+	\item La conoscenza del formato dell'input è molto utile.
+	\item Fuzzer generazionali sono migliori di fuzzer casuali.
+	\item Usare diversi tipi di fuzzer permette di trovare diversi tipi di vulnerabilità.
+	\item Più è ampio il tempo di esecuzione di un fuzzer maggiore è la probabilità di trovare vulnerabilità.
+	\item Il processo deve essere guidato.
+	\item Capire quando il fuzzer non riesce a sollecitare istruzioni non ancora utilizzate.
+\end{itemize}
+
+\section{Vulnerabilità strutturali}
+Per scoprire questo tipo di vulnerabilità non esistono strumenti in grado di considerare un insieme di moduli
+cooperanti. Esistono fuzzer in grado di monitorare moduli esterni ma non in grado di operare su più moduli
+contemporaneamente. In generale, le cause di tali vulnerabilità possono essere molteplici:
+\begin{itemize}
+	\item \textbf{Input non controllati}: il fallimento nel ricevente di un valore indica la mancanza di controlli su
+	      valori ricevuti ma anche la mancanza di controlli dalla parte di chi invia il valore.
+	\item \textbf{Mancata autenticazione}: il sistema non compie un'autenticazione dei canali in ingresso, ossia non
+	      si preoccupa di chi può inviare messaggi su un certo canale o porta.
+	\item \textbf{Delega dei controlli}: in alcuni casi si delegano i controlli ad un altro modulo permettendo così
+	      l'invio di dati manipolati nel momento in cui manca un sistema di autenticazione.
+	\item \textbf{Mancata valutazione dei messaggi}: non si controlla se i messaggi sono: ripetuti, mancanti o inviati
+	      in ordine diverso da quello atteso.
+	\item \textbf{Scambio di informazioni non protette}: uno scambio non protetto può permettere accesso ad informazioni
+	      interne ad un modulo e ad una catena di attacchi che sfruttano l'informazione acquisita.
 \end{itemize}
