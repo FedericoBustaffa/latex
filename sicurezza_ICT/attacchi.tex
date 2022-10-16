@@ -1,0 +1,66 @@
+\chapter{Attacchi informatici}
+Prima di tutto chiariamo che un'intrusione è un insieme di azioni che si svolgono con fini differenti a seconda dei
+casi, tra cui:
+\begin{itemize}
+	\item Raccolta di informazioni
+	\item Persistenza
+	\item Acquisizione di diritti
+\end{itemize}
+Un attacco consiste nel portare a compimento una delle azioni appena elencate. Possiamo quindi affermare che un
+attacco è una delle parti di cui si compone un'intrusione. Il difensore deve sempre proteggersi dalle intrusioni e
+non dai singoli attacchi.
+
+\section{Classificazione degli attacchi}
+Ogni attacco elementare è caratterizzato da
+\begin{itemize}
+	\item Diritti necessari
+	\item Diritti acquisiti
+	\item Probabilità di successo
+	\item Rumore generato
+\end{itemize}
+Come già anticipato ogni attacco ha una precondizione (diritti necessari) e una post condizione (diritti acquisiti).
+
+Altre proprietà descrivono in dettaglio le azioni per eseguire un'attacco permettendoci di generare una tassonomia
+per individuare attacchi simili.
+
+\section{Esempi di attacchi}
+Vediamo ora alcuni esempi concreti di attacco informatico
+
+\subsection{Replay attack}
+Supponiamo che un client richieda un servizio ad un server tramite un messaggio su di un canale sicuro. L'attaccante
+\begin{enumerate}
+	\item \emph{Sniffa} il messaggio e lo salva.
+	\item Prima che il canale venga distrutto invia più volte il messaggio al server.
+\end{enumerate}
+Se tutto va a buon fine il servizio richiesto viene fornito più volte. Viene spesso effettuato in ambiti che
+coinvolgono transazioni di denaro, come la richiesta di bonifici ad una banca.
+
+Per difendersi è fondamentale riconoscere il mittente del messaggio e avere un sistema che controlli se un messaggio è
+già stato inviato.
+
+\subsection{Man in the middle}
+Tipico attacco alla crittografia in cui l'attaccante si frappone tra due utenti che vogliono comunicare.
+
+All'atto pratico quello che succede è che quando utente \verb|A| vuole comunicare con un utente \verb|B|, un attaccante
+\verb|C| si frappone fra loro intercettando le comunicazioni e fingendosi \verb|A| agli occhi di \verb|B| e \verb|B|
+agli occhi di \verb|A|.
+
+In questo modo \verb|C| non viene scoperto dai due utenti ed entra in possesso di tutti i messaggi scambiati fra i due
+utenti.
+
+\subsection{XSS}
+Questo attacco è effettuabile quando un sito web permette ad utenti di memorizzare informazioni scaricabili in seguito
+da altri utenti.
+
+L'attaccante potrebbe quindi caricare del codice che attacca gli altri utenti e nel caso in cui il sito sia molto
+popolare e non faccia alcun controllo sui dati caricati, un gran numero di utenti potrebbe essere soggetto ad attacchi.
+
+\subsection{SQL injection}
+Questo tipo di attacco è utilizzato per condurre attacchi a database in possesso di informazioni sensibili come ad
+esempio delle password.
+
+L'attaccante invia al database del codice che poi esegue delle \emph{query}. Per esempio quando viene chiesto ad un
+utente di autenticarsi si invia del codice al posto dei dati di autenticazione che, se non sottoposto ad opportuni
+controlli, potrebbe fornire dati personali all'attaccante o danneggiare il database.
+
+Per difendersi da questi attacchi esistono funzioni built-in del linguaggio che permettono di ovviare al problema.
