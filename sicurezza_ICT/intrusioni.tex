@@ -1,4 +1,4 @@
-\chapter{Analisi delle intrusioni}
+\chapter{Intrusioni}
 Un punto fondamentale per la sicurezza è conoscere quali sono le possibili intrusioni che un attaccante potrebbe fare
 nel nostro sistema.
 
@@ -7,3 +7,78 @@ bloccare solo il sottoinsieme noto, la probabilità di successo di un'intrusione
 
 Quanto appena detto è stato dimostrato e spiega una potenziale causa degli insuccessi nei metodi di valutazione della
 sicurezza basati sulla scoperta di un numero limitato di intrusioni.
+
+\section{Costruzione di un'intrusione}
+Per riuscire a scoprire un'intrusione è fondamentale la tecnica chiamata \textbf{adversary emulation} che consiste nel
+capire come l'attaccante riesce a sequenzializzare correttamente le sue azione per riuscire a raggiungere un certo
+obbiettivo.
+
+Il punto di partenza per modellare le azioni di un attaccante è quello di identificare \textbf{diritti iniziali} e i
+\textbf{diritti finali}. Dopo questa fase iniziale si deve riuscire a capire quale sia la catena di azione che
+permette, a partire dai diritti iniziali, di acquisire i diritti finali.
+
+Una volta scoperti gli attacchi possiamo scoprire anche quali siano le informazioni necessarie per eseguire gli
+attacchi.
+
+\subsection{Attack graph}
+L'\textbf{attack graph} è un grafo orientato privo di cicli associato ad uno specifico sistema in cui
+\begin{itemize}
+	\item Ad ogni nodo è associato un insieme di diritti che l'attaccante possiede in un certo momento.
+	\item Ogni arco è etichettato con un attacco.
+	\item I diritti necessari per eseguire un attacco si trovano nei nodi del grafo.
+\end{itemize}
+Il nodo iniziale del grafo è composto dai diritti \emph{legali} che tutti possiedono sul sistema, mentre in ognuno dei
+nodi finali sono presenti i diritti che un attaccante ha acquisito.
+
+Possiamo vedere l'intrusione come il \textbf{cammino} da un nodo iniziale ad uno finale con conseguente aumento dei
+diritti acquisiti dall'attaccante.
+
+L'acquisizione dei diritti è monotona quindi in un nodo si possono eseguire tutti gli attacchi possibili nel cammino
+fino a quel nodo purché
+\begin{itemize}
+	\item Non siano già stati eseguiti.
+	\item Concedano almeno un diritto non ancora posseduto.
+\end{itemize}
+L'acquisizione monotona dei diritti è dovuta al fatto che si modellano solo i possibili attacchi e non le possibili
+azioni di difesa, portando così a grafi molto ricchi e di difficile costruzione nel caso di sistemi ragionevolmente
+complessi.
+
+Conviene considerare solo gli attacchi che sono previsti dalla strategia dell'attaccante e non tutti gli attacchi
+possibili.
+
+Questo metodo è utile per capire se un certo obbiettivo è raggiungibile ma non per capire come fare per raggiungerlo.
+
+Chiariamo che solo il difensore di un sistema può costruire l'attack graph senza eseguire l'attacco in quanto conosce
+le componenti del sistema e tutti i diritti necessari per compiere le varie azioni.
+
+\subsection{Attack tree}
+Si tratta di una versione semplificata dell'attack graph in cui un'intrusione viene rappresentata come un albero i cui
+nodi rappresentano gli attacchi ed i sottoalberi rappresentano il come un certo attacco può essere eseguito.
+
+L'albero può anche essere costruito in una versione \verb|AND/OR|:
+\begin{itemize}
+	\item \verb|AND|: tutti gli attacchi nei nodi figli devono essere eseguiti.
+	\item \verb|OR|: basta un solo attacco tra quelli presenti nei nodi figli.
+\end{itemize}
+Si tratta di un metodo utile a rappresentare la decomposizione dell'intrusione e non a costruirla.
+
+\section{Fermare le intrusioni}
+Per fermare una minaccia occorre fermare un attacco in ogni intrusione che la minaccia può eseguire. Fermando un
+attacco la catena dell'intrusione considerata viene interrotta.
+
+Se si riesce a fermare un atacco che appare in più intrusioni si fermano tutte quelle intrusioni.
+
+\subsection{Ranking delle vulnerabilità}
+Il problema di ottimizzazione descritto in precedenza indica come sia possibile ottenere uno scoring delle
+vulnerabilità relativo al sistema considerato.
+
+Una vulnerabilità dipende dal numero di intrusioni che si riescono a fermare eliminando tale vulnerabilità. In
+generale, si cerca di procedere eliminando prima la vulnerabilità che appare nel maggior numero di intrusioni non
+ancora fermate.
+
+\section{Persistenza}
+Il problema della \textbf{persistenza} si verifica quando attaccanti interessati al furto di informazioni o
+all'attivazione di malware all'interno del sistema continuano ad essere persistenti all'interno del sistema nonostante
+le azioni dei difensori.
+
+Queste azioni vengono eseguite una volta completata l'intrusione ossia una volta raggiunto un certo obbiettivo.
