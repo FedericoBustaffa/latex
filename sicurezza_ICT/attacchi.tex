@@ -64,3 +64,27 @@ utente di autenticarsi si invia del codice al posto dei dati di autenticazione c
 controlli, potrebbe fornire dati personali all'attaccante o danneggiare il database.
 
 Per difendersi da questi attacchi esistono funzioni built-in del linguaggio che permettono di ovviare al problema.
+
+\subsection{Gerarchia di macchine virtuali}
+I sistemi informatici sono implementati come una \textbf{gerarchia} di macchine virtuali, ossia come una serie di
+strati, a partire dall'hardware proseguendo con la macchina assembler, il sistema operativo, la rete, le applicazioni
+e così via.
+
+Ogni macchina virtuale
+\begin{itemize}
+	\item Definisce un insieme di meccanismi implementati tramite un linguaggio di programmazione.
+	\item Astrae e nasconde i meccanismi della macchina virtuale sottostante.
+	\item Può essere standard con tutto quello che implica sulle vulnerabilità.
+\end{itemize}
+Il problema sta nel fatto che le vulnerabilità non si possono astrarre perché permettono di attaccare le macchine
+virtuali che eseguono.
+
+Una vulnerabilità di una certa macchina virtuale permette di attaccare tutte le macchine virtuali soprastanti.
+
+\subsubsection{Blue Pill attack}
+Una pratica molto usata è quella di attaccare i livelli più bassi di un sistema in modo da controllare tutti quelli
+superiori ed è anche possibili andare ad inserire una nuova macchina virtuale nella gerarchia poiché si tratta di
+un'operazione molto difficile da scoprire ma che può avere ripercussioni molto pesanti sulla sicurezza.
+
+Tramite questo attacco il nuovo strato manipola le invocazione che lo strato soprastante vuole fare allo strato
+sottostante andando a fornire informazioni false sugli strati sottostanti e inviando loro falsi comandi.
