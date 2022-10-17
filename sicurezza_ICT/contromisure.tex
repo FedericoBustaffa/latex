@@ -1,0 +1,108 @@
+\chapter{Contromisure}
+Una prima classificazione delle contromisure:
+\begin{itemize}
+	\item \textbf{Proattive}:
+	\item \textbf{Dinamiche}:
+	\item \textbf{Reattive}:
+\end{itemize}
+Il processo per l'eliminazione delle vulnerabilità prevede i seguenti passi:
+\begin{enumerate}
+	\item \textbf{Prevenire}
+	\item \textbf{Resistere}
+	\item \textbf{Scoprire}
+	\item \textbf{Ripristinare}
+	\item \textbf{Reagire}
+\end{enumerate}
+
+\section{Robustezza e resilienza}
+Due punti cardine della sicurezza sono \textbf{robustezza} e \textbf{resilienza}.
+
+Per robustezza si intende la capacità di un sistema di \emph{respingere} le intrusioni.
+
+Una volta che le intrusioni hanno successo le prestazioni (in termini di sicurezza) cala. La capacità di un sistema
+di ripristinare la robustezza dopo che questo viene violato è la resilienza.
+
+\subsection{Ridondanza ed eterogeneità}
+Robustezza e resilienza si basano su \textbf{ridondanza} ed \textbf{eterogeneità}.
+
+La ridondanza viene si ottiene sovradimensionando il sistema con componenti \emph{inutili} ai fini di funzionamento
+del sistema ma che sono molto utili nel momento in cui il sistema viene violato per ripristinarlo.
+
+La ridondanza può essere di vario tipo:
+\begin{itemize}
+	\item \textbf{Ridondanza fredda}: componenti inattive che vengono attivate solo quando il sistema viene attaccato
+	      per riuscire a ripristinare lo stato sicuro.
+	\item \textbf{Ridondanza calda}: componenti sempre attive in modo da riuscire a sopportare meglio gli attacchi.
+	\item \textbf{Triple Modular Redundancy}: ridondanza calda dove tre copie di uno stesso modulo prendono lo stesso
+	      input ed eseguono la stessa computazione \emph{votando} infine il risultato. Aumenta la safety ma non sempre
+	      la security.
+\end{itemize}
+
+Per eterogeneità si intende l'uso di componenti diversi per evitare la caduta del sistema su una singola vulnerabilità.
+
+\section{Sistema minimale}
+Una buona pratica per la sicurezza è quella di costruire un sottoinsieme del sistema, formato da componenti
+particolarmente robusti e spesso eterogenei rispetto a quelli del sistema principale.
+
+Il sistema minimale è quello da cui parte il ripristino del normale funzionamento del sistema.
+
+La violazione del sistema minimale comporta l'incapacità di ripristinare il sistema dopo un attacco.
+
+\section{Meccanismi per contromisure}
+L'implementazione di contromisure è basata di meccanismi condivisi i quali devono essere molto robusti dato che una
+loro vulnerabilità potrebbe influenzare molte contromisure del sistema.
+
+Tali meccanismi sono implementati su un security kernel che fa parte del TCB e che gestisce
+\begin{itemize}
+	\item Identificazione
+	\item Autenticazione
+	\item Diritti
+\end{itemize}
+
+\subsection{Autenticazione}
+Per implementare un buon meccanismo di autenticazione si fa sempre riferimento alla tripla
+\begin{center}
+	\verb|< soggetto, oggetto, operazione >|
+\end{center}
+la quale associa ad un soeggetto un certo diritto.
+
+Possiamo associare due tipi di controlli a questa tupla
+\begin{itemize}
+	\item Controlli sull'identità del soggetto.
+	\item Controlli sul possesso del diritto \verb|< oggetto, operazione >|.
+\end{itemize}
+
+Il controllo sul possesso dei diritti dei vari utenti e la loro gesione è compito del sistema operativo. Anche
+l'autenticazione è compito del sistema operativo ma ora esistono componenti specializzati per l'autenticazione che in
+seguito forniscono un token che certificano in qualche modo l'avvenuta autenticazione.
+
+\subsubsection{Tipi di autenticazione}
+Esistono tre tipi principali di autenticazione:
+\begin{itemize}
+	\item \textbf{Debole statica}: include password e altre tecniche soggette ad attacchi che cercano di riprodurre
+	      le sequenze di autenticazione.
+	\item \textbf{Debole non statica}: fa uso di meccanismi crittografici per creare password utilizzabili per una
+	      singola sessione. Può essere compromessa da attacchi di tipi \emph{session hijacking}, ossia dal
+	      \emph{furto} della sessione.
+	\item \textbf{Forte}: utilizza forti meccanismi crittografici per prevenire i principali problemi legati
+	      all'autenticazione debole.
+\end{itemize}
+
+\subsubsection{Meccanismi di autenticazione}
+Tra i meccanismi di autenticazione più comuni abbiamo:
+\begin{itemize}
+	\item L'utilizzo di un qualcosa che solo l'utente conosce, come una frase o un numero. Per difendersi da possibili
+	      attacchi in genere si salva un hash di queste informazioni e non l'informazione in chiaro. Un altro metodo
+	      consiste nell'uso di database diversi per impedire attacchi che precalcolano l'hash.
+	\item L'utilizzo di qualcosa che solo l'utente possiede, come una chiave di cifratura, una scheda magnetica o un
+	      meccanismo di autenticazione. Con questo metodo di autenticazione si può
+	      \begin{itemize}
+		      \item Generare il prossima bit di una sequenza pseudocasuale
+		      \item Applicare una funzione condivisa ad un valore ricevuto dal server e restituire il risultato.
+	      \end{itemize}
+	\item L'utilizzo di parametri biometrici. Questo tipo di autenticazione porta con sé problemi di falsi
+	      positivi/negativi, attacchi alla trasmissione di informazioni biometriche e difficoltà nel cambiare la
+	      password.
+\end{itemize}
+
+\subsubsection{Kerberos}
