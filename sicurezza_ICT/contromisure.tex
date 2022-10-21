@@ -105,3 +105,12 @@ Tra i meccanismi di autenticazione più comuni abbiamo:
 \end{itemize}
 
 \subsubsection{Kerberos}
+Il sistema \textbf{Kerberos} permette ad un client di autenticarsi con un server tramite due entità: un \textbf{KDC}
+(Key Distribution Center) e un \textbf{TGS}	(Ticket Granting Service). Kerberos funziona in questo modo
+\begin{enumerate}
+	\item Il KDC condivide con ogni entità del sistema (client, server e TGS) una chiave di cifratura.
+	\item Se un certo utente di identifica come $A$ deve essere in grado di decifrare qualsiasi cosa cifrata
+	      con la chiave $k_A$ fornita dal KDC.
+	\item Il KDC invia un TGT (boh) cifrato con la chiave $k_A$ ad $A$.
+	\item
+\end{enumerate}
