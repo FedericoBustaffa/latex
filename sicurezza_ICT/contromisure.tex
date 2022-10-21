@@ -106,11 +106,20 @@ Tra i meccanismi di autenticazione più comuni abbiamo:
 
 \subsubsection{Kerberos}
 Il sistema \textbf{Kerberos} permette ad un client di autenticarsi con un server tramite due entità: un \textbf{KDC}
-(Key Distribution Center) e un \textbf{TGS}	(Ticket Granting Service). Kerberos funziona in questo modo
+(Key Distribution Center) e un \textbf{TGS}	(Ticket Granting Service).
+
+Il KDC condivide con ogno entità del sistema (client, server e TGS) una chiave di cifratura. Per un client, conoscere
+tale chiave equivale ad essere autenticato.
+
+Un client che si connette al sistema deve essere in grado di decifrare qualsiasi cosa cifrata con la chiave che il KDC
+gli ha fornito. Dato che il sistema comunica con gli utenti tramite messaggi crittografati, un utente malizioso che si
+finge qualcun altro non sarebbe in grado di decifrare tali messaggi e dunque non riuscirebbe ad autenticarsi.
+
+Supponiamo ora che un utente $A$ voglia autenticarsi ad un server tramite Kerberos:
 \begin{enumerate}
-	\item Il KDC condivide con ogni entità del sistema (client, server e TGS) una chiave di cifratura.
-	\item Se un certo utente di identifica come $A$ deve essere in grado di decifrare qualsiasi cosa cifrata
-	      con la chiave $k_A$ fornita dal KDC.
-	\item Il KDC invia un TGT (boh) cifrato con la chiave $k_A$ ad $A$.
-	\item
+	\item Il KDC condivide con l'utente $A$ una chiave $k_A$.
+	\item Il KDC invia informazioni cifrate con la chiave $k_A$ ad $A$ per interagire con il TGS.
+	\item L'utente $A$ decifra le informazioni e le invia al TGS.
+	\item Il TGS fornisce un ticket di validità temporanea ad $A$ con il quale può autenticarsi con il server ed essere
+	      quindi in grado di usufruire dei suoi servizi.
 \end{enumerate}
