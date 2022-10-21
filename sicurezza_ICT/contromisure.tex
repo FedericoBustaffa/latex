@@ -1,34 +1,35 @@
 \chapter{Contromisure}
-Una prima classificazione delle contromisure:
+Quando parliamo di \textbf{contromisure} facciamo riferimento a delle modifiche che il difensore fa al sistema in
+risposta alle intrusioni. Una prima classificazione delle contromisure le divide in tre grandi categorie:
 \begin{itemize}
-	\item \textbf{Proattive}:
-	\item \textbf{Dinamiche}:
-	\item \textbf{Reattive}:
+	\item \textbf{Proattive}: Applicate prima di un'intrusione per impedirla.
+	\item \textbf{Dinamiche}: Applicate durante un'intrusione per fermarla.
+	\item \textbf{Reattive}: Applicate dopo un'intrusione per fermare quelle successive.
 \end{itemize}
 Il processo per l'eliminazione delle vulnerabilità prevede i seguenti passi:
 \begin{enumerate}
-	\item \textbf{Prevenire}
-	\item \textbf{Resistere}
-	\item \textbf{Scoprire}
-	\item \textbf{Ripristinare}
-	\item \textbf{Reagire}
+	\item Prevenire
+	\item Resistere
+	\item Scoprire
+	\item Ripristinare
+	\item Reagire
 \end{enumerate}
 
 \section{Robustezza e resilienza}
 Due punti cardine della sicurezza sono \textbf{robustezza} e \textbf{resilienza}.
 
-Per robustezza si intende la capacità di un sistema di \emph{respingere} le intrusioni.
-
-Una volta che le intrusioni hanno successo le prestazioni (in termini di sicurezza) cala. La capacità di un sistema
-di ripristinare la robustezza dopo che questo viene violato è la resilienza.
+Per \emph{robustezza} si intende la capacità di un sistema di \emph{respingere} le intrusioni ma nel caso in cui il
+sistema venga violato le prestazioni (in termini di sicurezza) calano. La capacità di un sistema di ripristinare la
+robustezza dopo un'intrusione è detta \emph{resilienza}.
 
 \subsection{Ridondanza ed eterogeneità}
-Robustezza e resilienza si basano su \textbf{ridondanza} ed \textbf{eterogeneità}.
+Due punti importanti su cui si basano i principi di robustezza e resilienza sono \textbf{ridondanza} ed
+\textbf{eterogeneità}.
 
-La ridondanza viene si ottiene sovradimensionando il sistema con componenti \emph{inutili} ai fini di funzionamento
-del sistema ma che sono molto utili nel momento in cui il sistema viene violato per ripristinarlo.
-
-La ridondanza può essere di vario tipo:
+\subsubsection{Ridondanza}
+La \emph{ridondanza} si ottiene sovradimensionando il sistema con componenti o procedure \emph{inutili} ai fini di
+funzionamento del sistema ma che sono molto utili nel momento in cui il sistema viene attaccato o violato per
+resistere all'attacco o ripristinare lo stato sicuro. La ridondanza può essere di vario tipo:
 \begin{itemize}
 	\item \textbf{Ridondanza fredda}: componenti inattive che vengono attivate solo quando il sistema viene attaccato
 	      per riuscire a ripristinare lo stato sicuro.
@@ -38,9 +39,14 @@ La ridondanza può essere di vario tipo:
 	      la security.
 \end{itemize}
 
-Per eterogeneità si intende l'uso di componenti diversi per evitare la caduta del sistema su una singola vulnerabilità.
+\subsubsection{Eterogeneità}
+Per \emph{eterogeneità} si intende l'uso di componenti diversi che svolgono compiti simili per evitare la caduta del
+sistema su una singola vulnerabilità. Se un componente ha una vulnerabilità e più nodi del sistema hanno quel
+componente, tutti i nodi con quel componente avranno quella vulnerabilità.
 
-\section{Sistema minimale}
+Un tipico esempio di eterogeneità è quello in cui si usano sistemi operativi diversi su una stessa rete.
+
+\subsection{Sistema minimale}
 Una buona pratica per la sicurezza è quella di costruire un sottoinsieme del sistema, formato da componenti
 particolarmente robusti e spesso eterogenei rispetto a quelli del sistema principale.
 
@@ -52,29 +58,22 @@ La violazione del sistema minimale comporta l'incapacità di ripristinare il sis
 L'implementazione di contromisure è basata di meccanismi condivisi i quali devono essere molto robusti dato che una
 loro vulnerabilità potrebbe influenzare molte contromisure del sistema.
 
-Tali meccanismi sono implementati su un security kernel che fa parte del TCB e che gestisce
-\begin{itemize}
-	\item Identificazione
-	\item Autenticazione
-	\item Diritti
-\end{itemize}
+Tali meccanismi sono implementati su un security kernel che fa parte del TCB e che gestisce: l'\textbf{identità},
+l'\textbf{autenticazione} e i \textbf{diritti} degli utenti.
 
 \subsection{Autenticazione}
 Per implementare un buon meccanismo di autenticazione si fa sempre riferimento alla tripla
 \begin{center}
 	\verb|<soggetto, oggetto, operazione>|
 \end{center}
-la quale associa ad un soeggetto un certo diritto.
-
-Possiamo associare due tipi di controlli a questa tupla
+la quale associa ad un soggetto un certo diritto. Possiamo associare due tipi di controlli a questa tupla:
 \begin{itemize}
 	\item Controlli sull'identità del soggetto.
 	\item Controlli sul possesso del diritto \verb|<oggetto, operazione>|.
 \end{itemize}
-
-Il controllo sul possesso dei diritti dei vari utenti e la loro gesione è compito del sistema operativo. Anche
-l'autenticazione è compito del sistema operativo ma ora esistono componenti specializzati per l'autenticazione che in
-seguito forniscono un token che certificano in qualche modo l'avvenuta autenticazione.
+Il controllo sul possesso dei diritti dei vari utenti e la loro gestione è compito del sistema operativo. Anche
+l'autenticazione è compito del sistema operativo ma attualmente esistono componenti specializzati per l'autenticazione
+che forniscono un token in grado di certificare in qualche modo l'avvenuta autenticazione.
 
 \subsubsection{Tipi di autenticazione}
 Esistono tre tipi principali di autenticazione:
@@ -91,13 +90,13 @@ Esistono tre tipi principali di autenticazione:
 \subsubsection{Meccanismi di autenticazione}
 Tra i meccanismi di autenticazione più comuni abbiamo:
 \begin{itemize}
-	\item L'utilizzo di un qualcosa che solo l'utente conosce, come una frase o un numero. Per difendersi da possibili
-	      attacchi in genere si salva un hash di queste informazioni e non l'informazione in chiaro. Un altro metodo
-	      consiste nell'uso di database diversi per impedire attacchi che precalcolano l'hash.
-	\item L'utilizzo di qualcosa che solo l'utente possiede, come una chiave di cifratura, una scheda magnetica o un
-	      meccanismo di autenticazione. Con questo metodo di autenticazione si può
+	\item L'utilizzo di frasi o numeri che solo l'utente conosce. Per difendersi da possibili attacchi, in genere si
+	      salva un hash di queste informazioni e non l'informazione in chiaro. Un altro metodo consiste nell'uso di
+	      database diversi per impedire attacchi che precalcolano l'hash.
+	\item L'utilizzo di qualcosa che solo l'utente possiede, come una chiave di cifratura. Con questo metodo di
+	      autenticazione si può
 	      \begin{itemize}
-		      \item Generare il prossima bit di una sequenza pseudocasuale
+		      \item Generare il prossima bit di una sequenza pseudocasuale.
 		      \item Applicare una funzione condivisa ad un valore ricevuto dal server e restituire il risultato.
 	      \end{itemize}
 	\item L'utilizzo di parametri biometrici. Questo tipo di autenticazione porta con sé problemi di falsi
