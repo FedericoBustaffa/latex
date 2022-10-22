@@ -117,9 +117,16 @@ finge qualcun altro non sarebbe in grado di decifrare tali messaggi e dunque non
 
 Supponiamo ora che un utente $A$ voglia autenticarsi ad un server tramite Kerberos:
 \begin{enumerate}
-	\item Il KDC condivide con l'utente $A$ una chiave $k_A$.
+	\item In una fase preliminare il KDC condivide due chiavi simmetriche $k_{TGS}$ e $k_A$ rispettivamente con il TGS
+	      e con $A$.
+	\item L'utente $A$ richiede i servizi del server $S$ e fa richiesta al sistema identificandosi come $A$.
 	\item Il KDC invia informazioni cifrate con la chiave $k_A$ ad $A$ per interagire con il TGS.
-	\item L'utente $A$ decifra le informazioni e le invia al TGS.
-	\item Il TGS fornisce un ticket di validità temporanea ad $A$ con il quale può autenticarsi con il server ed essere
-	      quindi in grado di usufruire dei suoi servizi.
+	\item L'utente $A$ decifra le informazioni e le invia al TGS. Ciò che $A$ invia al TGS è cifrato con la chiave
+	      del TGS.
+	\item Il TGS decifra ciò che $A$ gli ha inviato e se ottiene informazioni consistenti fornisce un ticket di
+	      validità temporanea ad $A$.
+	\item $A$ usa il ticket per autenticarsi con $S$ ed essere quindi in grado di usufruire dei suoi servizi.
 \end{enumerate}
+Il KDC e il TGS gestiscono dei database in cui sono memorizzate le \emph{master key} dei client e dei server registrati.
+Le \emph{master keys} all'interno del database sono criptate con la chiave privata rispettivamente del KDC e del TGS.
+Se qualcuno venisse a conoscenza di queste due chiavi, l'intero sistema sarebbe compromesso.
