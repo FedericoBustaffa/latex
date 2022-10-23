@@ -178,3 +178,72 @@ possono effettuare su esso ad un certo indirizzo (logico o fisico).
 
 Questo indirizzo viene memorizzato nell'ambiente del soggetto. Quando un soggetto vuole eseguire un'operazione deve
 indicare l'operazione che vuole eseguire e la \emph{capability} di cui dispone.
+
+\subsection{Capability}
+La soluzione a \emph{capability} memorizza le informazioni nel soggetto che poi presenta all'oggetto le operazioni
+che può fare.
+
+La soluzione a \emph{capability} più nota è quella per la protezione dei segmenti di memoria. Questa tecnica è
+implementata tramite la tabella usata per la traduzione da indirizzi logici a fisici, nella quale troviamo anche un
+gruppo di bit che indicano le operazioni possibili su quel segmento.
+
+Nel caso più generale, ogni puntatore ad un oggetto diventa un puntatore protetto che indica anche quali sono le
+operazioni possibili sull'oggetto puntato.
+
+I puntatori vengono memorizzati nell'ambiente del soggetto e devono essere adeguatamente protetti per evitare che il
+soggetto li manipoli in modo improprio. Un tipico approccio per la protezione è la cifratura dei puntatori non usati
+e la successiva decifrazione solo in fase di utilizzo.
+
+\subsubsection{Implementazione centralizzata}
+Sono architetture progettate e costruite dove tutti i puntatori sono \emph{capability} protette dall'hardware e/o dal
+sistema operativo tramite registri specializzati.
+
+In questo caso una funzione viene denominata da un indice in un segmento o in una tabella protetta dal sistema
+operativo.
+
+\subsubsection{Implementazione distribuita}
+Questa soluzione non prevede una protezione delle \emph{capability} a livello hardware o di sistema operativo dato che
+queste devono essere trasmesse in rete.
+
+In questo caso si fa uso di crittografia per la protezione delle \emph{capability}. Chi fornisce un servizio o gestisce
+un oggetto gestisce anche un \textbf{segreto}. L'utente che richiede il servizio \emph{firma} la richiesta o parte di
+essa con la sua chiave privata così che chiunque possa verificare l'identità tramite la sua chiave pubblica.
+
+Questo tipo di implementazione possiede le seguenti proprietà:
+\begin{itemize}
+	\item \textbf{Protezione} dal \emph{tampering} (non si può manipolare) e dal \emph{furto} (se chi la presenta
+	      viene autenticato).
+	\item \textbf{Controllo della propagazione}: la \emph{capability} può essere creata solo dal gestore.
+	\item \textbf{Delega}: un soggetto può trasmettere ad altri la capability ma si possono creare problemi con la
+	      protezione.
+	\item \textbf{Revoca}: si revoca una \emph{capability} ad un soggetto.
+\end{itemize}
+
+\subsection{ACL}
+L'\textbf{ACL} non è altro che una lista associata ad ogni oggetto in cui sono memorizzati i diritti necessari per
+interagire con quell'oggetto.
+
+Un soggetto per poter interagire presenta i diritti di cui è in possesso e nel caso sia idonei all'interazione con
+l'oggetto l'operazione viene effettuata, in caso contrario la richiesta viene rifiutata.
+
+Un tipico esempio è quello dei router, i quali contengono delle \emph{regole} come ad esempio una lista di IP dai
+quali si possono accettare pacchetti in ingresso e una lista di IP da cui rifiutare qualsiasi pacchetto ricevuto.
+
+\subsection{Controllo degli accessi basato su ruoli}
+Questo tipo di controllo non ragiona in termini di soggetti ma in termini di \textbf{ruoli}, ossia di profili
+professionali diversi come ad esempio in un'azienda in cui abbiamo da un lato l'amministratore delegato e dall'altro
+il dipendente.
+
+La matrice specifica i diritti per i singoli ruoli e non per i singoli utenti andando a risparmiare memoria e
+semplificando la gestione. Il meccanismo prevede una funzione o una tabella che mappa ogni utente con un ruolo e
+relativi diritti.
+
+\subsubsection{SE - Linux}
+Si tratta di una versione di Linux definita da NSA per permettere all'utente di definire una qualunque politica di
+sicurezza come un qualsiasi parametro del sistema operativo configurabile dall'utente. In particolare si possono
+definire
+\begin{itemize}
+	\item I diritti utente sulle risorse.
+	\item I diritti di ogni programma sulle risorse.
+	\item I programmi che ogni utente può eseguire.
+\end{itemize}
