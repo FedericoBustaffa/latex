@@ -130,3 +130,51 @@ Supponiamo ora che un utente $A$ voglia autenticarsi ad un server tramite Kerber
 Il KDC e il TGS gestiscono dei database in cui sono memorizzate le \emph{master key} dei client e dei server registrati.
 Le \emph{master keys} all'interno del database sono criptate con la chiave privata rispettivamente del KDC e del TGS.
 Se qualcuno venisse a conoscenza di queste due chiavi, l'intero sistema sarebbe compromesso.
+
+\subsection{Controllo e gestione dei diritti}
+Una volta avvenuta l'autenticazione l'utente è riconosciuto dal sistema ma ciò che può fare all'interno di esso dipende
+dai diritti che possiede.
+
+Per controllare quali diritti un soggetto $S_i$ ha nel sistema si fa utilizzo della \textbf{matrice di controllo degli
+	accessi}, la quale mette in relazione il soggetto $S_i$ che vuole compiere un'azione e l'oggetto $O_j$ su cui viene
+compiuta e ricava i diritti (o operazioni $op_{ij}$) che quel soggetto ha (o può fare) sull'oggetto.
+\begin{center}
+	\begin{tabular}{ c | c | c | c | c |}
+		      & $O_1$ & $O_2$     & \dots     & $O_n$ \\
+		\hline
+		$S_1$ &       & $op_{12}$ &           &       \\
+		\hline
+		$S_2$ &       &           &           &       \\
+		\hline
+		\dots &       &           & $op_{ij}$ &       \\
+		\hline
+		$S_m$ &       &           &           &       \\
+		\hline
+	\end{tabular}
+\end{center}
+In genere una matrice del genere è presente a livello di sistema operativo per protezione di zone di memoria, file,
+dispositivi di I/O e porte dei vari protocolli. Possono esserci matrici di controllo anche a livello applicativo per
+le specifiche applicazioni nel caso fosse necessario.
+
+In generale la matrice del sistema operativo determina quali utenti possono interagire con un'applicazione. Questo si
+può controllare mediante il meccanismo delle porte o dei canali di comunicazione.
+
+Per gli utenti che possono interagire la matrice determina quali operazioni nello specifico possono essere eseguite
+sull'oggetto. Se invece un utente non può interagire conviene impedire l'interazione al livello più basso possibile
+e scartare la richiesta.
+
+Tutte queste operazioni di controllo comportano un \emph{overhead}, in particolare l'operazione di scarto di una
+richiesta e rende il sistema più soggetto ad attacchi di tipo DOS. Ecco perché è fondamentale compiere ottimizzazioni
+per scartare le richieste il prima possibile.
+
+\subsection{Implementazione della matrice}
+La matrice di controllo degli accessi può essere implementata principalmente in due modi:
+\begin{itemize}
+	\item Per \textbf{righe}: soluzione a \emph{capability} o \emph{ticket}.
+	\item Per \textbf{colonne}: soluzione a \emph{lista di controllo} degli accessi (ACL).
+\end{itemize}
+La soluzione a \emph{capability} memorizza le informazioni relative ad un oggetto e alle relative operazioni che si
+possono effettuare su esso ad un certo indirizzo (logico o fisico).
+
+Questo indirizzo viene memorizzato nell'ambiente del soggetto. Quando un soggetto vuole eseguire un'operazione deve
+indicare l'operazione che vuole eseguire e la \emph{capability} di cui dispone.
