@@ -247,3 +247,100 @@ definire
 	\item I diritti di ogni programma sulle risorse.
 	\item I programmi che ogni utente può eseguire.
 \end{itemize}
+
+\subsection{Firewall}
+Un \textbf{firewall} è un componente che separa due reti di diversa criticità e concentra tutte le linee in ingresso o
+uscita tra le due reti e filtra le comunicazioni per implementare una certa politica di sicurezza.
+
+Possiamo definire un firewall in base a due caratteristiche ortogonali:
+\begin{itemize}
+	\item I protocolli che conosce e che filtra, ossia il tipo di controlli che il firewall implementa.
+	\item La sua implementazione, la quale va a determinare la robustezza del firewall.
+\end{itemize}
+Il firewall determina un punto di centralizzazione delle comunicazioni e quindi un potenziale collo di bottiglia per
+le prestazioni.
+
+\subsubsection{Controlli}
+In firewall per protocolli dello stack TCP/IP i controlli dipendono dal livello dello stack a cui operano.
+
+Un firewall che lavora al livello 3, ovvero il \textbf{livello IP}, opera solo sui bit nell'header del pacchetto e può
+controllare
+\begin{itemize}
+	\item Mittente
+	\item Destinatario
+	\item Porte
+	\item Protocollo usato
+	\item Origine di connessioni di livello 4
+\end{itemize}
+Un firewall che invece lavora al livello 4, ossia il \textbf{livello TCP}, è detto \textbf{circuit level gateway} ed in
+grado di controllare
+\begin{itemize}
+	\item Che la connessione esista
+	\item Il contenuto del pacchetto (\emph{stateful inspection})
+\end{itemize}
+I firewall di \textbf{livello applicativo} sfruttano la conoscenza del protocollo applicativo e possono anche scoprire
+attacchi che sfruttano vulnerabilità di tale protocollo.
+
+\subsubsection{Circuit level gateway}
+Un \textbf{circuit level gateway} fa uso di una tabella delle connessioni per riuscire a validare un pacchetto in
+arrivo. Questo meccanismo serve a riconoscere se il pacchetto in arrivo rappresenta una richiesta di connessione al
+nodo o se si tratta di un pacchetto in transito e che quindi deve solo passare dal nodo.
+\begin{enumerate}
+	\item Quando una connessione TCP viene instaurata viene memorizzata nella tabella.
+	\item Il firewall cerca di determinare, tramite	l'ispezione del pacchetto in arrivo e le sue regole interne, se
+	      esso possa entrare nel nodo o se debba essere rifiutato.
+	\item Esamina la connessione da cui proviene il pacchetto e controlla se questa è presente nella tabella.
+	\item Se è presente allora si tratta di una connessione valida e accetta il pacchetto altrimenti lo scarta.
+	\item Una volta terminata la sessione si elimina anche la connessione dalla tabella.
+\end{enumerate}
+Questo metodo funziona anche con UDP sebbene sia un protocollo \emph{connectionless} è comunque possibile ricostruire
+i circuiti logici.
+
+Un possibile attacco a questo firewall tenta di saturare la tabella delle connessioni. Quando la tabella è satura non è
+possibile eliminare una connessione ancora attiva e si vengono a creare due possibili scenari:
+\begin{itemize}
+	\item \textbf{Default allow}: Il firewall accetta qualsiasi richiesta di connessione.
+	\item \textbf{Default deny}: Il firewall rifiuta qualsiasi richiesta di connessione.
+\end{itemize}
+
+\subsubsection{Proxy e reverse proxy}
+Per \textbf{proxy} si intende un firewall specializzato nel proteggere un client da attacchi esterni. Controlla ad
+esempio che il servizio richiesto ad un determinato server non sia pericoloso per l'integrità del sistema.
+
+Il \textbf{reverse proxy} è invece un firewall specializzato nel proteggere un server da attacchi client. Per esempio
+controlla che le richieste dei client non sia formattate o formulate in modo da apportare danni al server o in modo da
+permettere in qualche modo un'intrusione.
+
+\subsubsection{Stateful firewall}
+Sono firewall che lavorano su tre livelli (IP, TCP e applicativo) e adottano un metodo di filtraggio e controllo
+dinamico dei pacchetti.
+
+Il firewall mantiene una tabella di stati che tiene traccia di tutte le sessioni e le caratteristiche di ogni pacchetto
+che passa dal firewall. Se il pacchetto in arrivo possiede le caratteristiche nella tabella il firewall permette che
+questo passi nel nodo.
+
+\subsubsection{NAT firewall}
+In una rete privata con un certo numero di nodi spesso si utilizza un \textbf{NAT firewall} che ha il compito di
+fornire e gestire pochi indirizzi IP per la comunicazione all'esterno della rete.
+
+In questo modo più nodi possono usare (a turno) lo stesso indirizzo IP globale per parlare all'esterno della rete mentre
+usano un indirizzo locale per comunicare sulla rete interna.
+
+\subsubsection{Egress filtering}
+Un firewall può interrompere una connessione nel momento in cui l'analisi del contenuto rivela che c'è un'intrusione in
+atto.
+
+Con l'\textbf{egress filtering} si fa un controllo non solo delle comunicazioni in ingresso ma anche di quelle in
+uscita. Questo meccanismo è fondamentale per rilevare \emph{botnet} connesse a nodi protetti della rete e per prevenire
+attacchi di tipo DDOS.
+
+\subsubsection{Micro segmentazione}
+Un firewall potrebbe essere usato per difendere un'applicazione invece dell'interno nodo su cui questa gira.
+\begin{itemize}
+	\item Si fanno girare le varie applicazioni su una o più macchine virtuali.
+	\item Si usa una terza macchina virtuale per eseguire un firewall che protegge le altre macchine virtuali.
+\end{itemize}
+Questo tipo di soluzione rappresenta un problema in termini di prestazioni ma un ottimo compromesso rispetto ad
+eseguire ogni applicazione e il firewall su macchine fisiche indipendenti.
+
+Con l'utilizzo di \emph{container} rinunciamo ad un po' di sicurezza ma favoriamo le prestazioni.
