@@ -367,21 +367,42 @@ Le differenze sostanziali tra i due tipi di contromisura sono queste:
 \subsubsection{Honeypot}
 Una \textbf{honeypot} può essere classificata con metodi alternativi:
 \begin{itemize}
-	\item Livello di interazione
+	\item Livello di \textbf{interazione}
 	      \begin{itemize}
 		      \item \textbf{Basso}: si tratta di un \emph{port-listener}.
 		      \item \textbf{Medio}: un servizio emulato che analizza le comunicazioni e restituisce risposte simulate
-		            per comportarsi come un servizio reale.
-		      \item \textbf{Alto}: richiede l'uso di servizi reali ma
+		            per comportarsi come un servizio reale (\emph{honeyd}).
+		      \item \textbf{Alto}: richiede l'uso di servizi reali e host completamente operativi o reti complete per
+		            ingannare l'attaccante. Sebbene sia migliore per ingannare l'attaccante comporta maggiori rischi
+		            per la sicurezza e dev'essere monitorato e protetto a dovere (\emph{honeynet}).
 	      \end{itemize}
-	\item Livello di implementazione
+	\item Livello di \textbf{implementazione}
 	      \begin{itemize}
-		      \item \textbf{Virtuale}:
-		      \item \textbf{Fisico}:
+		      \item \textbf{Virtuale}: viene simulata una rete tramite macchine virtuali (\emph{honeypot}).
+		      \item \textbf{Fisico}: viene utilizzata una rete fisica (\emph{honeynet})
 	      \end{itemize}
-	\item Obbiettivo
+	\item \textbf{Obbiettivo}
 	      \begin{itemize}
-		      \item \textbf{Produzione}:
-		      \item \textbf{Ricerca}:
+		      \item \textbf{Produzione}: rallentare l'attaccante.
+		      \item \textbf{Ricerca}: capire modalità d'azione dell'attaccante.
 	      \end{itemize}
 \end{itemize}
+
+\subsubsection{Honeyd}
+Un \textbf{honeyd} è un singolo host che simula reti di grosse dimensioni e permette un alto livello di
+configurabilità.
+
+Un \emph{honeyd} rileva attività non autorizzate monitorando gli indirizzi IP non utilizzati di uno specifico
+intervallo, detto \textbf{dark space}. Ogni connessione verso il \emph{dark space} viene considerata come un possibile
+attacco o comunque come il risultato di una scansione.
+
+Un \emph{honeyd} opera in questo modo
+\begin{enumerate}
+	\item Un \textbf{packet dispatcher} processa i pacchetti in arrivo e controlla indirizzo IP e integrità.
+	\item Accetta solo TCP , UDP e ICMP.
+	\item Interroga file di configurazione alla ricerca del modello associato all'IP di destinazione.
+	\item Se necessario interagisce con applicazioni esterne capaci di gestire il flusso dati.
+	\item Un meccanismo di reindirizzamento gira le richieste ad un sistema reale se necessario.
+	\item Un \textbf{personality engine} elabora un pacchetto di risposta e lo modifica per renderlo compatibile con
+	      lo stack utilizzato dal sistema operativo simulato.
+\end{enumerate}
