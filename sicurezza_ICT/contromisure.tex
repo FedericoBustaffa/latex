@@ -344,3 +344,44 @@ Questo tipo di soluzione rappresenta un problema in termini di prestazioni ma un
 eseguire ogni applicazione e il firewall su macchine fisiche indipendenti.
 
 Con l'utilizzo di \emph{container} rinunciamo ad un po' di sicurezza ma favoriamo le prestazioni.
+
+\subsection{Honeypot e Honeynet}
+Le \textbf{honeypot} e \textbf{honeynet} sono sistemi o reti la cui funzione è quella di essere attaccati al posto del
+sistema o della rete principale. Le motivazioni principali per l'utilizzo di contromisura sono due:
+\begin{itemize}
+	\item Scoprire come un sistema viene attaccato riuscendo a capire quali sia le vulnerabilità e come queste vengano
+	      sfruttate dall'attaccante.
+	\item Rallentare e scoprire un attaccante deviandolo verso un sistema che non provoca alcun danno.
+\end{itemize}
+
+Le differenze sostanziali tra i due tipi di contromisura sono queste:
+\begin{itemize}
+	\item Quando parliamo di \textbf{honeypot} stiamo facendo riferimento ad un sistema progettato appositamente per
+	      essere attaccato e che comprende meccanismi per ricordare il comportamento dell'attaccante e fermarlo.
+
+	      Il suo principale obbiettivo è quello di rallentare l'attaccante e scoprire come questo opera.
+	\item Quando invece parliamo di \textbf{honeynet} stiamo facendo riferimento ad una rete vera e propria collegata
+	      ad un sistema reale su cui viene usato il software vero e proprio.
+\end{itemize}
+
+\subsubsection{Honeypot}
+Una \textbf{honeypot} può essere classificata con metodi alternativi:
+\begin{itemize}
+	\item Livello di interazione
+	      \begin{itemize}
+		      \item \textbf{Basso}: si tratta di un \emph{port-listener}.
+		      \item \textbf{Medio}: un servizio emulato che analizza le comunicazioni e restituisce risposte simulate
+		            per comportarsi come un servizio reale.
+		      \item \textbf{Alto}: richiede l'uso di servizi reali ma
+	      \end{itemize}
+	\item Livello di implementazione
+	      \begin{itemize}
+		      \item \textbf{Virtuale}:
+		      \item \textbf{Fisico}:
+	      \end{itemize}
+	\item Obbiettivo
+	      \begin{itemize}
+		      \item \textbf{Produzione}:
+		      \item \textbf{Ricerca}:
+	      \end{itemize}
+\end{itemize}
