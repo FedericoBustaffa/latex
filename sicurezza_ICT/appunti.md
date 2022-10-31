@@ -67,4 +67,3 @@ Un IDS molto popolare è **Snort**.
 L'obbiettivo è rendere inefficienti gli strumenti di _reverse 
 engineering_ che rendono possibile risalire dal codice in 
 linguaggio macchina al codice ad alto livello.
-

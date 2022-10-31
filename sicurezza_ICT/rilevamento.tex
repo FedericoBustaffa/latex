@@ -1,1 +1,171 @@
 \chapter{Rilevamento intrusioni}
+Per il rilevamento di intrusioni si fa uso di una componente del sistema, l'\textbf{intrusion detection system}
+(\textbf{IDS}), che esamina informazioni e stato dei vari moduli per scoprire un attacco.
+
+Non scopre tuttavia l'intrusione vera e propria, per quello serve costruire una correlazione tra i vari attacchi al
+sistema.
+
+Gli IDS si dividono in due tipologie principali:
+\begin{itemize}
+	\item \textbf{Local IDS}: esaminano le informazioni su un singolo nodo del sistema per scoprire attacchi avvenuti
+	      su di esso.
+	\item \textbf{Network IDS}: esaminano le informazioni scambiate e ricevute dai nodi di una sottorete per scoprire
+	      attacchi contro uno dei nodi della sottorete.
+
+	      Si tratta fondamentalmente di \emph{sniffer} che catturano (in modo trasparente) pacchetti e li esaminano
+	      ricostruendo i protocolli di livello superiore.
+
+	      Il problema di questi IDS è che la velocità di elaborazione e cattura dei pacchetti spesso non sta al passo
+	      con la quantità di pacchetti inviati e si finisce per perderne alcuni.
+\end{itemize}
+
+\section{Rilevamento basato su anomalie}
+Questa tecnica sfrutta il machine learning per riuscire ad apprendere il comportamento più comune del sistema. Richiede
+quindi una fase iniziale di apprendimento che può durare anche dei mesi nella quale vengono monitorati
+\begin{itemize}
+	\item Invocazioni ai servizi
+	\item Logging degli utenti
+	\item Volume di richieste e traffico
+\end{itemize}
+Dopo l'apprendimento, qualsiasi comportamento troppo distante da quello appreso, viene identificato come
+\textbf{anomalia}.
+
+Ci sono tre possibili approcci per questo metodo:
+\begin{itemize}
+	\item \textbf{Statico}: le informazioni sul comportamento atteso sono prodotte dall'analisi statica della struttura
+	      di un programma. Non richiede tempo ma è meno efficace.
+	\item \textbf{Dinamico}: le informazioni sul comportamento di un programma vengono raccolte dalle esecuzioni e
+	      quindi confrontate con il comportamento.
+	\item \textbf{Ibrido}: il comportamento atteso del programma viene raccolto per colmare il divario dovuto ad
+	      un'analisi statica e l'output viene confrontato con il comportamento.
+\end{itemize}
+Una volta appreso il comportamento, per riuscire a definire le anomalie, è necessario fornire un valore \textbf{soglia}.
+
+\subsection{Rilevamento basato su specifica}
+Si tratta sempre di una tecnica basata sull'apprendimento di un comportamento atteso tramite il monitoraggio
+dell'esecuzione ma questo è specificato dalla politica di sicurezza.
+
+L'intrusione è dedotta tramite l'analisi delle specifiche confrontata con l'analisi dei diritti dei vari utenti. Se
+un utente viola la specifica è perché sta provando ad attaccare il sistema.
+
+Anche qui abbiamo i soliti tre approcci visti in precedenza ma definiti come segue:
+\begin{itemize}
+	\item \textbf{Statico}: un programma viene analizzato staticamente per calcolare le specifiche e il comportamento
+	      viene confrontato con le specifiche.
+	\item \textbf{Dinamico}: le informazioni sul comportamento del programma vengono raccolte e confrontate con le sue
+	      specifiche.
+	\item \textbf{Ibrido}: il compilatore crea una specifica e le osservazioni vengono raccolte per essere confrontate
+	      con il comportamento del programma integrando quei casi che non possono essere risolti staticamente.
+\end{itemize}
+
+\section{Rilevamento basato su firma}
+Con \textbf{firma} si fa riferimento a comportamenti e dati costanti che caratterizzano e identificano completamente
+un malware.
+
+Tutte le firme vengono raccolte in un database che guida il rilevamento. In questo modo si vengono a creare due
+problemi: la \textbf{scoperta} di una firma e l'\textbf{aggiornamento} del database.
+
+Questo metodo funziona solo se la firma del malware utilizzato è nota. Non è possibile rilevare un exploit mai
+utilizzato prima o la cui firma non è presente nel database.
+
+Il meccanismo prevede una politica \emph{default allow} e tutto ciò che differisce dalle firme nel database è
+consentito. Definiamo di nuovo i tre approcci visti in precedenza:
+\begin{itemize}
+	\item \textbf{Statico}: il codice del programma viene analizzato e confrontato con la firma.
+	\item \textbf{Dinamico}: le informazioni sul comportamento del programma vengono raccolte e confrontate con la
+	      firma.
+	\item \textbf{Ibrido}: si uniscono l'approccio statico e quello dinamico compiendo un'analisi statica che seleziona
+	      i programmi sospetti. Questi vengono poi eseguiti e monitorati in un ambiente protetto.
+\end{itemize}
+
+\subsection{Firma locale e di rete}
+Una \textbf{firma locale} è formata da una sequenza di
+\begin{itemize}
+	\item Informazioni di un log.
+	\item Istruzioni in memoria.
+	\item Invocazioni al sistema operativo.
+\end{itemize}
+
+Una \textbf{firma di rete} è una sequenza di informazioni che si possono trovare in uno o più pacchetti IP o in una
+connessione TCP. In questo casi l'IDS fa un'ipotesi su come i pacchetti verrano ricevuti ed elaborati dal destinatario.
+
+\subsection{Polimorfismo di malware e virus}
+Per ottenere virus sempre diversi si potrebbe cifrare il loro corpo in modo da ottenere virus sempre diversi dai quali
+non è possibile rilevare una firma.
+
+In questo ambito parliamo di virus o malware
+\begin{itemize}
+	\item \textbf{Crittografati}: il virus è composto da una parte detta \textbf{decryptor} e il codice del virus è
+	      inizialmente criptato. Il virus sfrutta la cifratura del codice per eludere i controlli di firma. Una volta
+	      dentro il sistema, il corpo del virus viene decifrato dal \emph{decryptor} ed eseguito.
+	\item \textbf{Polimorfici}: si tratta di un'estensione dei virus crittografati. Una volta avvenuta la decifrazione,
+	      il \emph{decryptor} genera una nuova chiave di cifratura casuale e cifra di nuovo il corpo del virus.
+
+	      In questo modo non si riesce ad estrarre una firma dal virus poiché questo continua a mutare.
+\end{itemize}
+
+\section{Sandbox}
+Una \textbf{sandbox} altro non è che una macchina virtuale dove eseguire il codice di un attaccante in modo sicuro. I
+malware moderni tuttavia riescono a capire di essere eseguiti in una \emph{sandbox} e non rivelano il loro
+comportamento pericoloso fino a che non superano i test per essere eseguiti sul sistema operativo (magari con permessi
+di \emph{root}).
+
+\section{Rilevamento basato su regole}
+Si tratta di un modo per generalizzare il metodo basato su firma in cui si usa un insieme di regole che \emph{matchano}
+i pacchetti ricevuti.
+
+In questo modo abbiamo regole più astratte che riescono a gestire anche modifiche nel contenuto dei pacchetti.
+
+\subsection{Snort}
+Un IDS di questo tipo molto popolare è \textbf{Snort} composto dai seguenti moduli:
+\begin{itemize}
+	\item \textbf{Sniffer}: cattura i pacchetti che passano sul canale e possiede un motore di decifrazione.
+	\item \textbf{Preprocessori}: ogni preprocessore esamina e manipola i pacchetti.
+	\item \textbf{Motore di rilevamento}: analizza i pacchetti e li confronta con le regole dell'IDS.
+	\item \textbf{Plugin per il rilevamento}: consentono ulteriori controlli sui pacchetti.
+\end{itemize}
+
+\subsubsection{Regole Snort}
+Le \textbf{regole Snort} sono divise in due sezioni logiche:
+\begin{itemize}
+	\item \textbf{Intestazione} contenente
+	      \begin{itemize}
+		      \item Azione della regola
+		      \item Protocollo utilizzato
+		      \item Indirizzi IP di origine e destinazione
+		      \item Maschere di rete
+		      \item Informazioni sulle porte di origine e destinazione
+	      \end{itemize}
+	\item \textbf{Opzioni} contenente
+	      \begin{itemize}
+		      \item Messaggio di avviso
+		      \item Informazioni sulle parti del pacchetto da ispezionare
+	      \end{itemize}
+\end{itemize}
+Le azioni predefinite di Snort sono
+\begin{itemize}
+	\item \verb|alert|: genera un alert e logga il pacchetto.
+	\item \verb|log|: logga il pacchetto.
+	\item \verb|pass|: ignora il pacchetto.
+	\item \verb|activate|: alert e poi attiva una regola dinamica.
+	\item \verb|dynamic|: idle fino a quando non viene attivata poi logga i pacchetti.
+	\item \verb|drop|: blocca e logga il pacchetto.
+	\item \verb|reject|: blocca e logga il pacchetto e invia un \emph{TCP reset} o \emph{ICMP port unreacheable}.
+	\item \verb|sdrop|: blocca il pacchetto senza loggarlo.
+\end{itemize}
+Un pacchetto dovrebbe essere controllato nell'ordine
+\begin{center}
+	\verb|drop > pass > alert > log|
+\end{center}
+in quanto è il modo più sicuro di operare e non permette a nessun pacchetto di passare se prima non è verificato
+secondo le varie regole. Si tratta tuttavia di un metodo molto dispendioso, è per questo che si preferisce verificare
+i pacchetti tramite il seguente ordine di regole
+\begin{center}
+	\verb|pass > drop > alert > log|
+\end{center}
+
+\section{Offuscamento del codice}
+L'obbiettivo è rendere inefficienti gli strumenti di \emph{reverse engineering} che rendono possibile risalire al
+codice ad alto livello dal codice in linguaggio macchina.
+
+Una tecnica consiste nel cancellare parti di codice o fare uso di crittografia per rendere il codice polimorfico.
