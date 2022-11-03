@@ -1,1 +1,14 @@
 \section{Beta riduzione}
+La valutazione di una $\lambda$-espressione consiste nel calcolare un risultato a partire dall'applicazione di
+un'espressione su di un'altra espressione. Per esempio la valutazione di
+\[ \lambda x.e_1 \quad e_2 \]
+consiste nel valutare $e_1$ dove ogni occorrenza di $x$ in $e_1$ è rimpiazzata da $e_2$.
+
+In particolare quando valutiamo un'espressione dobbiamo individuare quale sia l'operazione da eseguire e sostituire
+nell'espressione il suo risultato. Nel $\lambda$-calcolo l'unica operazione possibile è l'applicazione funzione.
+
+L'operazione di applicazione funzionale è detta \textbf{$\beta$-riduzione} e la porzione di $\lambda$-espressione su
+cui si esegue tale operazione è detta \textbf{redex}.
+
+Ricordiamo che la convenzione sintattica per l'applicazione funzionale prevede l'associatività a sinistra prevenendo
+ambiguità nell'ordine di applicazione.
