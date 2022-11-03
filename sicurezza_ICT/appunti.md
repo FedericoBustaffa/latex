@@ -1,69 +1,35 @@
-# Rilevamento intrusioni
+# Reazione ad un attacco
 
-## Basato sulla specifica
+Ci sono due possibili tipi di reazione:
 
-L'intrusione è dedotta tramite l'analisi delle specifiche 
-confrontata con l'analisi dei diritti dei vari utenti.
+- Aggiungere contromisure
+- Contrattacco
 
-Se un utente viola la specifica è perché sta provando ad attaccare
-il sistema.
+Il contrattacco è molto complesso in quanto l'attaccante usa 
+infrastrutture di _command & control_ sacrificabili.
 
-- **Dinamico**: Le informazioni sul comportamento del
-programma vengono raccolte e confrontate con le specifiche del 
-programma.
-- **Statico**: Questo approccio, in generale, non è
-applicabile perché non si riesce a definire bene se un 
-comportamento sia dovuto ad un input  particolare (legale) o ad un
-intrusione.
-- **Ibrido**: Il compilatore crea una specifica e le
-osservazioni vengono raccolte per essere confrontate con il
-comportamento del programma integrando quei casi che non possono
-essere risolti staticamente
+Per riuscire ad effettuare un contrattacco efficace si dovrebbe 
+smantellare l'intera rete dell'attaccante andando a trovare tutti 
+i nodi fino a risalire al sistema vero e proprio.
 
-## Basato su firma
+## Attribuzione
 
-Si rileva l'attacco mediante l'analisi di alcuni comportamenti e 
-dati che caratterizzano un determinato attacco (**firme**).
+Per reagire in modo offensivo si deve risolvere il problema 
+dell'**attribuzione**, ossia il problema di determinare chi ha 
+condotto l'attacco.
 
-Una volta che si verifica un attacco se estrapola la firma e la si 
-memorizza in una database per il rilevamento di futuri attacchi.
+In genere per riuscirci si deve monitorare in anticipo la struttura
+da cui proviene l'attacco.
 
-Tutto ciò che differisce da una firma memorizzata nel database è 
-consentito. Nel momento in cui viene compiuta un'azione analoga a 
-ad una presente in una firma nel database, viene etichettata come 
-azione di un attacco.
+Un altro modo è quello dell'attribuzione delle TTPs utilizzate 
+e sulla similarità del codice.
 
-Fare un rilevamento basato su firme in rete non è banale dato che 
-si deve tenere di conto dell'efficienza dell'IDS messo in rete, 
-dell'implementazione della rete, della connessione e così via.
+### Act of War
 
-## Polimorfismo di malware e virus
+Le assicurazioni non coprono gli atti di guerra.
 
-Per ottenere virus sempre diverse si potrebbe cifrare il corpo 
-del virus per in modo da ottenere virus sempre diversi dai quali 
-non è possibile rilevare una firma.
+Se un attacco è sponsorizzato o eseguito da uno stato le 
+assicurazioni lo classificano come atto di guerra che non 
+è coperto da assicurazione.
 
-## Sandbox
-
-Macchine virtuali dove eseguire codice di un attaccante.
-
-I malware moderni riescono a capire di essere eseguiti in una 
-sandbox e non rivelano il loro comportamento pericoloso fino a che
-non superano i test per essere eseguiti sul sistema operativo 
-(magari con permessi di _root_).
-
-## Basato su regole
-
-Si tratta di un modo per generalizzare il metodo basato su firma 
-in cui si usa un insieme di regole che _matchano_ i pacchetti.
-
-In questo modo abbiamo regole più astratte che riescono a gestire
-anche modifiche nel contenuto dei pacchetti.
-
-Un IDS molto popolare è **Snort**.
-
-## Offuscamento del codice
-
-L'obbiettivo è rendere inefficienti gli strumenti di _reverse 
-engineering_ che rendono possibile risalire dal codice in 
-linguaggio macchina al codice ad alto livello.
+# DNS
