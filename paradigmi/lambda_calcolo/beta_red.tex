@@ -62,3 +62,21 @@ seguito i vari casi sono scritti nella forma $e_1 \; \{ x := e_2 \}$ dove $e_1$ 
 	      All'espressione risultante si sostituisce ogni occorrenza di $x$ con $e_2$.
 	      \[ (\lambda y.e) \; \{ x := e_2 \} = \lambda z.((e \; \{ y := z \}) \; \{ x := e_2 \}) \]
 \end{itemize}
+Ecco che possiamo definire meglio l'operazione di $\beta$-riduzione come segue
+\[ \underbrace{(\lambda x.e_1) \; e_2}_{redex} \rightarrow e_1 \; \{ x := e_2 \} \]
+Finché la nostra espressione contiene dei \emph{redex} è possibile applicare una $\beta$-riduzione portando avanti
+il calcolo. Una volta esauriti i la computazione termina.
+
+Possiamo anche definire meglio un \emph{redex} come un'espressione che può essere \emph{ridotta} tramite applicazione
+funzionale.
+
+Quando un'espressione non può più essere ridotta diciamo che è in \textbf{forma normale beta}.
+
+\subsection{Non terminazione}
+Anche nel $\lambda$-calcolo possiamo avere espressioni non terminali ovvero funzioni che, una volta ridotte continuano
+a produrre altri \emph{redex}.
+
+La $\lambda$-espressione
+\[ \Omega = (\lambda x.xx) (\lambda x.xx) \]
+non può essere ridotta in forma normale in quanto contiene una sola espressione riducibile tramite $\beta$-riduzione.
+La riduzione produce ancora $\Omega$.
