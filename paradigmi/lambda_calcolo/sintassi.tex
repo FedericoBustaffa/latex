@@ -16,7 +16,7 @@ Un programma nel lambda calcolo è di fatto un'espressione, detta \textbf{lambda
 	      In questo modo si applica l'espressione $e_1$ al parametro $e_2$.
 \end{itemize}
 Una funzione può essere definita e applicata scrivendo tutto nella solita riga.
-\[ (\lambda x.(\lambda y.xy)) \quad (\lambda z.z) \]
+\[ (\lambda x.(\lambda y.xy)) \; (\lambda z.z) \]
 
 \subsection{Costruttore lambda}
 Lo \textbf{scope} del lambda si estende il più a destra possibile. Scrivere
@@ -28,9 +28,9 @@ parametro $y$ e corpo l'applicazione di $x$ a $y$, ovvero $xy$.
 
 \subsection{Applicazione funzionale}
 L'\textbf{applicazione funzionale} associa a sinistra. Scrivere
-\[ e_1 e_2 e_3 \]
+\[ e_1 \; e_2 \; e_3 \]
 è come scrivere
-\[ (e_1 e_2) e_3 \]
+\[ (e_1 \; e_2) \; e_3 \]
 In entrambi i casi stiamo applicando $e_3$ all'applicazione di $e_1$ su $e_2$.
 
 \subsection{Variabili legate e libere}
@@ -44,9 +44,25 @@ L'\textbf{insieme delle variabili libere} di una lambda espressione $e$, denotat
 ricorsivamente sulla struttura di $e$ come segue:
 \begin{gather*}
 	FV(x) = \{ x \} \\
-	FV(\lambda x.e) = FV(e) \backslash \{ x \} \\
-	FV(e_1 e_2) = FV(e_1) \cup FV(e_2)
+	FV(\lambda x.e) = FV(e) \; \backslash \; \{ x \} \\
+	FV(e_1 \; e_2) = FV(e_1) \cup FV(e_2)
 \end{gather*}
 In altre parole il calcolo di $FV(e)$ scende ricorsivamente accumulando tramite l'unione tutte le variabili che
 incontra nelle sottoespressioni. Nel momento in cui si incontra una $\lambda$-astrazione la variabile legata
 viene rimossa dall'insieme delle variabili libere.
+
+\subsection{Alpha equivalenza}
+Due espressioni $e_1$ ed $e_2$ sono \textbf{$\alpha$-equivalenti} ($e_1 \equiv_\alpha e_2$) se l'una può essere
+ottenuta dall'altra rinominando una o più variabili legate, senza interferire con le variabili libere. Le due
+espressioni
+\[ \lambda a.ac \quad \text{e} \quad \lambda b.bc \]
+sono \textbf{$\alpha$-equivalenti}.
+
+Espressioni $\alpha$-equivalenti rappresentano lo stesso programma.
+
+\subsubsection{Alpha conversione}
+La sostituzione di una variabile legata con un'altra opportuna variabile \emph{fresca} costituisce una
+trasformazione sintattica di programmi che, solitamente in matematica, viene chiamata \textbf{$\alpha$-conversione}.
+
+Nel $\lambda$-calcolo, un'espressione $e_2$, risultato dell'$\alpha$-conversione di un'espressione $e_1$ è
+$\alpha$-equivalente a $e_1$.
