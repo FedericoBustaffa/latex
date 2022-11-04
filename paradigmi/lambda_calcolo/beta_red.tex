@@ -72,11 +72,21 @@ funzionale.
 
 Quando un'espressione non può più essere ridotta diciamo che è in \textbf{forma normale beta}.
 
+\subsection{Confluenza}
+L'ordine con cui vengono scelte le $\beta$-riduzioni non influisce sul risultato finale. Più precisamente, se ci sono
+due riduzioni distinte o sequenze di riduzioni che possono essere applicate alla stessa $\lambda$-espressione, allora
+esiste una $\lambda$-espressione che è raggiungibile da entrambi i risultati, applicando sequenze di riduzioni
+aggiuntive.
+
+Questo teorema (di Church-Rosser) prende il nome di \textbf{confluenza}.
+
 \subsection{Non terminazione}
 Anche nel $\lambda$-calcolo possiamo avere espressioni non terminali ovvero funzioni che, una volta ridotte continuano
-a produrre altri \emph{redex}.
-
-La $\lambda$-espressione
+a produrre altri \emph{redex}. La $\lambda$-espressione
 \[ \Omega = (\lambda x.xx) (\lambda x.xx) \]
 non può essere ridotta in forma normale in quanto contiene una sola espressione riducibile tramite $\beta$-riduzione.
 La riduzione produce ancora $\Omega$.
+
+\subsubsection{Confluenza e non terminazione}
+La confluenza assicura che tutti i casi in cui una $\lambda$-espressione termina il risultato sarà lo stesso. Tuttavia
+ci possono essere casi in cui, a seconda delle riduzioni che si eseguono, l'espressione potrebbe terminare oppure no.
