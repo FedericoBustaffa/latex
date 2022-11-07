@@ -90,3 +90,26 @@ La riduzione produce ancora $\Omega$.
 \subsubsection{Confluenza e non terminazione}
 La confluenza assicura che tutti i casi in cui una $\lambda$-espressione termina il risultato sarà lo stesso. Tuttavia
 ci possono essere casi in cui, a seconda delle riduzioni che si eseguono, l'espressione potrebbe terminare oppure no.
+
+\subsection{Chiusura transitiva}
+Con il simbolo $\rightarrow$ indichiamo un passo di $\beta$-riduzione da un'espressione $e_1$ a un'espressione $e_2$,
+ad esempio
+\[ \lambda x.e_1 \; e_2 \; \{ x := e_2 \} \rightarrow e_3 \]
+Il simbolo $\Rightarrow$ indica invece la \textbf{chiusura transitiva} di $\rightarrow$, ossia equivale all'aggiunta
+della regola di transitività. La $\lambda$-espressione $e_1$ è $\beta$-riducibile alla $\lambda$-espressione $e_2$
+quando vale che
+\[ e_1 \Rightarrow e_2 \]
+Vale inoltre la seguente relazione
+\[ \frac{e_1 \Rightarrow e_3 \quad e_2 \Rightarrow e_3}{e_1 \Rightarrow e_3} \]
+
+\subsubsection{Beta equivalenza}
+La relazione di riduzione $\Rightarrow$ ci permette di definire la nozione di $\beta$-equivalenza tra le
+$\lambda$-espressioni. Due $\lambda$-espressioni $e_1$ ed $e_2$ si dicono $\beta$-equivalenti
+($e_1 \equiv_\beta e_2$) se
+\begin{itemize}
+	\item Sono identiche ($\alpha$-conversione)
+	\item Vale $e_1 \Rightarrow e_2$ oppure $e_2 \Rightarrow e_1$
+	\item Vale $e_1 \Rightarrow e$ e $e_2 \Rightarrow e$
+\end{itemize}
+Possiamo quindi dedurre che due espressioni sono $\beta$-equivalenti se calcolano lo stesso risultato ovvero se
+sono equivalenti dal punto di vista \emph{computazionale}.

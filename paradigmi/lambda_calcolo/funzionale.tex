@@ -1,0 +1,68 @@
+﻿\section{Programmazione funzionale}
+Vediamo ora come simulare costrutti di programmazione funzionale in $\lambda$-calcolo.
+
+\subsection{Ricorsione}
+In $\lambda$-calcolo esiste un costrutto che permette di implementare la ricorsione. Questo costrutto è il
+\textbf{combinatore} $Y$, definito come segue
+\[ Y = \lambda f.(\lambda x.f(x x)) (\lambda x.f(x x)) \]
+e vale, qualunque sia $F$, la seguente relazione di $\beta$-equivalenza
+\[ Y F \equiv_\beta F (Y F) \]
+\begin{proof}
+	Si può anche dimostrare la relazione in questo modo
+	\[
+		\begin{array}{rcl}
+			Y F & =           & \lambda x.f(x x) (\lambda x.f(x x)) F     \\
+			    & \rightarrow & (\lambda x. F (x x)) (\lambda x.F(x x))   \\
+			    & \rightarrow & F ((\lambda x.F(x x))) (\lambda x.F(x x))
+		\end{array}
+	\]
+\end{proof}
+Per definire una funzione ricorsiva il procedimento è il seguente:
+\begin{enumerate}
+	\item Si definisce $G = \lambda f.\langle \text{espressione che contiene } f \rangle$.
+	\item Si definisce $F = Y G$.
+\end{enumerate}
+
+\subsection{Tipi di dato}
+In $\lambda$-calcolo è possibile definire o per meglio dire \emph{codificare} delle funzioni che rappresentano
+costanti, valori booleani, interi e relative operazioni.
+
+\subsubsection{Booleani}
+Come primo esempio vediamo come codificare i due valori booleani \verb|True| e \verb|False|:
+\begin{gather*}
+	True = \lambda t.\lambda f.t \\
+	False = \lambda t. \lambda f.f
+\end{gather*}
+Possiamo codificare anche il costrutto \verb|IF| come segue
+\[ IF = \lambda e.\lambda then.\lambda else.(e \; then \; else) \]
+L'\verb|IF|, come vediamo è codificato come una funzione che prende tre parametri, $e$ è l'espressione booleana
+che viene valutata mentre $then$ è il valore restituito se la guardia è vera mentre $else$ è il valore restituito
+se la guardia è falsa.
+\[
+	\begin{array}{rcl}
+		IF \; True \; e_1 \; e_2 & =           &
+		(\lambda e.\lambda then.\lambda else.(e \; then \; else)) \; True \; e_1 \; e_2                         \\
+		                         & \rightarrow & (\lambda then.\lambda else.True \; then \; else) \; e_1 \; e_2 \\
+		                         & \rightarrow & (\lambda else.True \; e_1 \; else) \; e_2                      \\
+		                         & \rightarrow & True \; e_1 \; e_2                                             \\
+		                         & =           & (\lambda t.\lambda f.t) \; e_1 \; e_2                          \\
+		                         & \rightarrow & (\lambda f.e_1) \; e_2                                         \\
+		                         & \rightarrow & e_1
+	\end{array}
+\]
+Come c'era da aspettarsi un \verb|IF| con guardia \verb|True| ritorna il valore nel ramo \verb|then|, ossia $e_1$.
+
+\subsubsection{Numeri naturali}
+Per rappresentare i \textbf{numeri naturali} si assume di avere un costrutto libero $z$ che rappresenta lo $0$ e un
+costrutto $s$ che rappresenta il successore. La codifica dello $0$ è rappresentata come segue
+\[ C_0 = \lambda z.\lambda s.z \]
+La codifica dell'$1$ è definita come il successore di zero, ossia
+\[ C_1 = \lambda z.\lambda s.s \; z \]
+In generale possiamo rappresentare un qualsiasi numero naturale $n$ come una serie di $n$ funzioni successore infine
+applicate a $z$.
+
+La \textbf{somma} è definita come una funzione a quattro parametri nella quale il primo e secondo parametro sono gli
+addendi, il terzo valore è lo zero e l'ultimo è la funzione successore.
+\[ Plus = \lambda m.\lambda n.\lambda z.\lambda s. m \; (n \; z \; s) \; s \]
+Il \textbf{prodotto} fa uso della somma per essere definito più comodamente:
+\[ Times = \lambda m.\lambda n.m \; C_0 \; (Plus \; n) \]
