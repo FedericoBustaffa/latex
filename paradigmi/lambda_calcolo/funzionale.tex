@@ -66,3 +66,53 @@ addendi, il terzo valore è lo zero e l'ultimo è la funzione successore.
 \[ Plus = \lambda m.\lambda n.\lambda z.\lambda s. m \; (n \; z \; s) \; s \]
 Il \textbf{prodotto} fa uso della somma per essere definito più comodamente:
 \[ Times = \lambda m.\lambda n.m \; C_0 \; (Plus \; n) \]
+
+\subsection{Passaggio di parametri}
+Andiamo ora a vedere le regole per la valutazione dell'applicazione di funzione in tre passi.
+\begin{enumerate}
+	\item Valutazione dell'espressione che definisce la funzione.
+	\item Definizione del meccanismo di passaggio dei parametri. Abbiamo due alternative:
+	      \begin{itemize}
+		      \item \textbf{Call by value}: tutte le occorrenze della variabile legata alla funzione nell'espressione
+		            del corpo della funzione sono sostituite dall'\textbf{espressione valutata} che definisce il
+		            parametro formale.
+		      \item \textbf{Call by name}: tutte le occorrenze della variabile legata alla funzione nell'espressione
+		            del corpo della funzione sono sostituite dall'\textbf{espressione non valutata} che definisce il
+		            parametro attuale.
+	      \end{itemize}
+	\item Passaggio dei parametri e valutazione della funzione.
+\end{enumerate}
+
+\subsubsection{Regole di inferenza per beta riduzione}
+Prima di proseguire definiamo tre regole di inferenza per l'operazione di $\beta$-riduzione:
+\begin{itemize}
+	\item Se $e_1$ può essere ridotta in $e'$, l'applicazione di $e_1$ a $e_2$ è equivalente all'applicazione di $e'$
+	      su $e_2$.
+	      \[ \frac{e_1 \rightarrow e'}{e_1 \; e_2 \rightarrow e' \; e_2} \]
+	\item Se $e_2$ può essere ridotta in $e'$, l'applicazione di $e_1$ su $e_2$ è equivalente all'applicazione di $e_1$
+	      su $e'$.
+	      \[ \frac{e_2 \rightarrow e'}{e_1 \; e_2 \rightarrow e_1 \; e'} \]
+	\item Se il corpo $e$, di una funzione $\lambda x.e$, può essere ridotto in $e'$, allora l'intera espressione si
+	      può riscrivere con $e'$ al posto di $e$ come corpo della funzione.
+	      \[ \frac{e \rightarrow e'}{\lambda x.e \rightarrow \lambda x.e'} \]
+\end{itemize}
+
+\subsubsection{Riduzione call by value}
+Prima si valuta completamente l'argomento e poi si applica la funzione. In questo caso la notazione per la
+$\beta$-riduzione diventa questa:
+\[ (\lambda x.e_1) \; v \rightarrow e_1 \; \{ x := v \} \]
+dove $v$ è un'espressione non ulteriormente riducibile. Le regole di inferenza per il passaggio \emph{call by value}
+diventano le seguenti:
+\[
+	\frac{e_1 \rightarrow e'}{e_1 \; e_2 \rightarrow e' \; e_2} \quad \quad
+	\frac{e_2 \rightarrow e'}{v \; e_2 \rightarrow v \; e'}
+\]
+
+\subsubsection{Riduzione call by name}
+Si applica la funzione il prima possibile portandola prima in forma $\lambda x.e_1$ e non scende nel corpo delle
+funzioni come nei linguaggi di programmazione. La notazione ritorna quella vista in precedenza per la $\beta$-riduzione.
+\[ (\lambda x.e_1) \; e_2 \rightarrow e_1 \; \{ x := e_2 \} \]
+L'unica regola di inferenza è questa
+\[ \frac{e_1 \rightarrow e'}{e_1 \; e_2 \rightarrow e' \; e_2} \]
+Il vantaggio di questa strategia è la \textbf{posticipazione} della valutazione dell'espressione. L'espressione viene
+valutata solo quando necessario e non prima.
