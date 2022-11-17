@@ -24,7 +24,7 @@ In questo contesto le tre principali proprietà che ci interessano sono:
 \begin{itemize}
 	\item \textbf{Confidenzialità}: solo chi ha il diritto di leggere una certa informazione può farlo.
 	\item \textbf{Integrità}: solo chi ha il diritto di aggiornare una certa informazione può farlo.
-	\item \textbf{Disponibilitò}: chi ha un diritto e vuole esercitarlo riesce a farlo in un tempo finito.
+	\item \textbf{Disponibilità}: chi ha un diritto e vuole esercitarlo riesce a farlo in un tempo finito.
 \end{itemize}
 Da queste tre proprietà fondamentali possiamo derivarne altre secondarie:
 \begin{itemize}
@@ -42,14 +42,15 @@ aziendale per decidere gli utenti che possono invocare un'operazione e quando po
 
 Esistono diverse categorie di politiche descrivibili come il risultato di due scelte indipendenti:
 \begin{itemize}
-	\item La prima scelta è relativa al come la politica viene descritta:
+	\item La prima scelta è relativa al come la politica viene descritta e al come essa gestisce situazioni ambigue:
 	      \begin{itemize}
-		      \item \textbf{Default allow}: operazioni vietate.
-		      \item \textbf{Default deny}: operazioni permesse.
+		      \item \textbf{Default allow}: il permesso sull'operazione viene negato negato.
+		      \item \textbf{Default deny}: il permesso sull'operazione viene concesso.
 	      \end{itemize}
 	\item La seconda scelta definisce vincoli sul proprietario del sistema:
 	      \begin{itemize}
-		      \item \textbf{Discretionary Access Control}: decide il proprietario.
+		      \item \textbf{Discretionary Access Control}: il proprietario del sistema definisce i diritti e chi li
+		            possiede.
 		      \item \textbf{Mandatory Access Control}: esistono vincoli globali a tutto il sistema che nemmeno il
 		            proprietario può violare.
 	      \end{itemize}
