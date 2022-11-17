@@ -20,8 +20,8 @@ Gli IDS si dividono in due tipologie principali:
 \end{itemize}
 
 \section{Rilevamento basato su anomalie}
-Questa tecnica sfrutta il machine learning per riuscire ad apprendere il comportamento più comune del sistema. Richiede
-quindi una fase iniziale di apprendimento che può durare anche dei mesi nella quale vengono monitorati
+Questa tecnica sfrutta il machine learning per riuscire ad apprendere il comportamento più comune del sistema.
+Richiede quindi una fase iniziale di apprendimento che può durare anche dei mesi nella quale vengono monitorati
 \begin{itemize}
 	\item Invocazioni ai servizi
 	\item Logging degli utenti
@@ -32,14 +32,15 @@ Dopo l'apprendimento, qualsiasi comportamento troppo distante da quello appreso,
 
 Ci sono tre possibili approcci per questo metodo:
 \begin{itemize}
-	\item \textbf{Statico}: le informazioni sul comportamento atteso sono prodotte dall'analisi statica della struttura
-	      di un programma. Non richiede tempo ma è meno efficace.
+	\item \textbf{Statico}: le informazioni sul comportamento atteso sono prodotte dall'analisi statica della
+	      struttura di un programma. Non richiede tempo ma è meno efficace.
 	\item \textbf{Dinamico}: le informazioni sul comportamento di un programma vengono raccolte dalle esecuzioni e
 	      quindi confrontate con il comportamento.
 	\item \textbf{Ibrido}: il comportamento atteso del programma viene raccolto per colmare il divario dovuto ad
 	      un'analisi statica e l'output viene confrontato con il comportamento.
 \end{itemize}
-Una volta appreso il comportamento, per riuscire a definire le anomalie, è necessario fornire un valore \textbf{soglia}.
+Una volta appreso il comportamento, per riuscire a definire le anomalie, è necessario fornire un valore
+\textbf{soglia}.
 
 \subsection{Rilevamento basato su specifica}
 Si tratta sempre di una tecnica basata sull'apprendimento di un comportamento atteso tramite il monitoraggio
@@ -74,8 +75,8 @@ consentito. Definiamo di nuovo i tre approcci visti in precedenza:
 	\item \textbf{Statico}: il codice del programma viene analizzato e confrontato con la firma.
 	\item \textbf{Dinamico}: le informazioni sul comportamento del programma vengono raccolte e confrontate con la
 	      firma.
-	\item \textbf{Ibrido}: si uniscono l'approccio statico e quello dinamico compiendo un'analisi statica che seleziona
-	      i programmi sospetti. Questi vengono poi eseguiti e monitorati in un ambiente protetto.
+	\item \textbf{Ibrido}: si uniscono l'approccio statico e quello dinamico compiendo un'analisi statica che
+	      seleziona i programmi sospetti. Questi vengono poi eseguiti e monitorati in un ambiente protetto.
 \end{itemize}
 
 \subsection{Firma locale e di rete}
@@ -86,8 +87,9 @@ Una \textbf{firma locale} è formata da una sequenza di
 	\item Invocazioni al sistema operativo.
 \end{itemize}
 
-Una \textbf{firma di rete} è una sequenza di informazioni che si possono trovare in uno o più pacchetti IP o in una
-connessione TCP. In questo casi l'IDS fa un'ipotesi su come i pacchetti verrano ricevuti ed elaborati dal destinatario.
+Una \textbf{firma di rete} è una sequenza di informazioni che si possono trovare in uno o più pacchetti IP o in
+una connessione TCP. In questo casi l'IDS fa un'ipotesi su come i pacchetti verrano ricevuti ed elaborati dal
+destinatario.
 
 \subsection{Polimorfismo di malware e virus}
 Per ottenere virus sempre diversi si potrebbe cifrare il loro corpo in modo da ottenere virus sempre diversi dai quali
@@ -169,3 +171,22 @@ L'obbiettivo è rendere inefficienti gli strumenti di \emph{reverse engineering}
 codice ad alto livello dal codice in linguaggio macchina.
 
 Una tecnica consiste nel cancellare parti di codice o fare uso di crittografia per rendere il codice polimorfico.
+
+\section{VPN}
+Si tratta di una rete che emula una connessione sicura sopra una rete pubblica (non sicura). Nella pratica connette
+due sottoreti (protette da firewall) cifrando e autenticando tutto il traffico tra ogni coppia di firewall.
+
+\`E una meccanismo soggetto ad attacchi di tipo DDOS poiché l'unico modo che si ha di scoprire traffico malevolo
+in transito sul canale è decifrando.
+
+\subsection{IPSEC}
+Si tratta di un'estensione di IPv4 che cifra e autentica flussi di informazioni che offre due possibili protocolli:
+\begin{itemize}
+	\item \textbf{Authentication Mode}: è previsto un \emph{header} di autenticazione nel pacchetto in transito.
+	\item \textbf{Encapsulated Security Payload}: le informazioni nel pacchetto sono cifrate.
+\end{itemize}
+Entrambi i protocolli possono essere usati in due modi:
+\begin{itemize}
+	\item \textbf{Transport Mode}: si inferiscono nuovi campi nel pacchetto originale.
+	\item \textbf{Tunnel Mode}: il pacchetto IP è protetto e diventa il contenuto informativo di un nuovo pacchetto.
+\end{itemize}
