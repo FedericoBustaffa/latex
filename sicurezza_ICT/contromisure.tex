@@ -406,3 +406,52 @@ Un \emph{honeyd} opera in questo modo
 	\item Un \textbf{personality engine} elabora un pacchetto di risposta e lo modifica per renderlo compatibile con
 	      lo stack utilizzato dal sistema operativo simulato.
 \end{enumerate}
+
+\section{VPN}
+Si tratta di una rete che emula una connessione sicura sopra una rete pubblica (non sicura). Nella pratica connette
+due sottoreti (protette da firewall) cifrando e autenticando tutto il traffico tra ogni coppia di firewall.
+
+\`E una meccanismo soggetto ad attacchi di tipo DDOS poiché l'unico modo che si ha di scoprire traffico malevolo
+in transito sul canale è decifrando.
+
+\subsection{IPSEC}
+Si tratta di un'estensione di IPv4 che cifra e autentica flussi di informazioni e che offre due possibili protocolli:
+\begin{itemize}
+	\item \textbf{Authentication Mode}: è previsto un \emph{header} di autenticazione nel pacchetto in transito.
+	\item \textbf{Encapsulated Security Payload}: le informazioni nel pacchetto sono cifrate.
+\end{itemize}
+Entrambi i protocolli possono essere usati in due modi:
+\begin{itemize}
+	\item \textbf{Transport Mode}: si inferiscono nuovi campi nel pacchetto originale e dopo lo si invia. \`E
+	      rischioso poiché le informazioni dei nodi terminali come l'indirizzo IP viaggiano in chiaro.
+	\item \textbf{Tunnel Mode}: il pacchetto IP è protetto e diventa il contenuto informativo di un nuovo pacchetto,
+	      nascondendo così le informazioni private degli utenti.
+\end{itemize}
+Ogni connessione è protetta mediante crittografia simmetrica mentre i vari nodi che interagiscono possono essere
+dotati di una coppia chiave pubblica e privata.
+
+In una fase iniziale si adotta un protocollo per lo scambio di chiavi tramite crittografia asimmetrica. Una volta
+stabilita la connessione, questa viene protetta tramite crittografia simmetrica.
+
+Le chiavi simmetriche vengono aggiornate periodicamente:
+\begin{itemize}
+	\item Per limitare l'impatto che avrebbe un attacco in grado di scoprire scoprire la chiave.
+	\item \`E possibile sfruttare il volume di dati trasmessi per condurre attacchi che sfruttano particolari
+	      configurazioni di bit per violare il sistema.
+\end{itemize}
+IPSEC definisce quindi 4 nuovi protocolli:
+\begin{itemize}
+	\item \textbf{Authentication Header}: autentica gli utenti e protegge l'integrità.
+	\item \textbf{Encpsulating Security Payload}: garantisce la confidenzialità proteggendo il contenuto informativo
+	      della comunicazione.
+	\item \textbf{Internet Key Exchange}: due utenti concordano la chiave da usare e per quanto tempo usarla.
+	\item \textbf{Internet Security Association and Key Management Protocol}: protocollo necessario per stabilire e
+	      aggiornare la Security Association e i suoi attributi.
+\end{itemize}
+
+\subsubsection{Security Association}
+Una \textbf{security association} o \textbf{SA} descrive una connessione diretta con i servizi associati al traffico
+che la connessione trasmette. Per assicurare una connessione bidirezionale sono richieste due security association
+(una per ogni direzione).
+
+La SA comprende anche tutte le informazioni per rendere sicura la comunicazione.

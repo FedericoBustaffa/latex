@@ -172,21 +172,22 @@ codice ad alto livello dal codice in linguaggio macchina.
 
 Una tecnica consiste nel cancellare parti di codice o fare uso di crittografia per rendere il codice polimorfico.
 
-\section{VPN}
-Si tratta di una rete che emula una connessione sicura sopra una rete pubblica (non sicura). Nella pratica connette
-due sottoreti (protette da firewall) cifrando e autenticando tutto il traffico tra ogni coppia di firewall.
+\section{Endpoint Detection \& Response - EDR}
+Per \textbf{endpoint} si intende un nodo terminale della rete e l'EDR è un metodo di contromisura che si basa sul
+monitoraggio continuo e la raccolta di dati dagli endpoint con funzionalità di analisi e risposta automatizzate.
 
-\`E una meccanismo soggetto ad attacchi di tipo DDOS poiché l'unico modo che si ha di scoprire traffico malevolo
-in transito sul canale è decifrando.
-
-\subsection{IPSEC}
-Si tratta di un'estensione di IPv4 che cifra e autentica flussi di informazioni che offre due possibili protocolli:
+Le funzioni principali di un sistema EDR sono:
 \begin{itemize}
-	\item \textbf{Authentication Mode}: è previsto un \emph{header} di autenticazione nel pacchetto in transito.
-	\item \textbf{Encapsulated Security Payload}: le informazioni nel pacchetto sono cifrate.
+	\item \textbf{Monitaraggio e raccolta} dati.
+	\item \textbf{Analisi} dati per identificare modelli di minaccia.
+	\item \textbf{Risposta automatica} alle minacce identificate.
+	\item \textbf{Ricerca} di minacce e attività sospette anche fra più nodi.
 \end{itemize}
-Entrambi i protocolli possono essere usati in due modi:
+Un sistema EDR ha tre aspetti fondamentali:
 \begin{itemize}
-	\item \textbf{Transport Mode}: si inferiscono nuovi campi nel pacchetto originale.
-	\item \textbf{Tunnel Mode}: il pacchetto IP è protetto e diventa il contenuto informativo di un nuovo pacchetto.
+	\item \textbf{Agenti} software che monitorano sistemi, raccolgono informazioni su attacchi e le trasmettono ad un
+	      database centrale.
+	\item Un \textbf{motore analitico} in grado di analizzare i dati raccolti e, in caso di rilevamento di un minaccia
+	      nota, si attiva una risposta automatica.
+	\item \textbf{Analisi} per l'individuazione di minacce non note.
 \end{itemize}
