@@ -17,5 +17,68 @@ Server di altri domini quando deve reperire informazioni (come l'indirizzo IP) s
 Le informazioni devono essere aggiornate quando quelle dell'host cambiano. Questi aggiornamenti dinamici cambiano i
 dati del DNS senza la necessità di ricostruire ogni altra parte dell'albero DNS.
 
+\subsubsection{Risoluzione dei nomi}
 La comunicazione con il Name Server è gestita dal \textbf{resolver}, il quale permette all'utente di fornire nomi
 parziali, i quali vengono estesi per provare ad ottenere nomi completamente qualificati.
+
+Non esiste però un metodo standard per gli host per individuare un Name Server sulla rete locale. In genere il nome
+del Name Server è salvato su un file di configurazione oppure è prelevato da un servere DHCP.
+
+Il Name Sever può usare due modalità differenti per rispondere ad una richiesta:
+\begin{itemize}
+	\item \textbf{Ricorsiva}: se non conosce la risposta interroga altri Name Server e poi passa la risposta al
+	      client.
+	\item \textbf{Iterativa}: Se non conosce la risposta passa al client l'indirizzo di un altro Name Server.
+\end{itemize}
+La modalità di risposta è scelta dal client tramite un flag nel messaggio di richiesta.
+
+Uno dei problemi è la mancanza di autenticazione nella risposta che arriva dal Name Server.
+
+\subsection{Cache}
+Ogni name server mantiene in una \textbf{cache} tutte le corrispondenze tra nomi e indirizzi di cui viene a
+conoscenza, permettendo così una risoluzione dei nomi direttamente dal name server locale.
+
+Ogni corrispondenza viene mantenuta nella cache per un periodo di tempo fissato dal name server (in genere 2 giorni).
+
+\section{Attacchi al DNS}
+Il fatto che nei protocolli DNS manchi un sistema di autenticazione permette numerosi attacchi basati sullo scambio
+di false informazioni.
+
+Un meccanismo tra i più usati consiste nella ridirezione del traffico ad un nodo malizioso che può rubare informazioni
+contando sulla fiducia tra i due nodi coinvolti.
+
+Un possibile attacco è quello dello \textbf{shadow server} il quale si occupa di \emph{sniffare} le richieste e
+produrre informazioni false.
+
+Un altro attacco è il \textbf{cache poisoning} che consiste nel fornire dati falsi relativi a determinati nodi, i
+quali vengono salvati nella cache e poi utilizzati dal name server.
+
+\subsection{Autenticazione basata su nomi}
+Alcune applicazioni utilizzano meccanismi di autenticazione e autorizzazione basate su nomi. Le quali associano
+due utenti di due host differenti sulla base dei loro nomi.
+
+L'accesso al computer remoto è garantito se l'utente remoto è dichiarato \emph{equivalente} all'utente locale e se
+la richiesta dell'hostname coincide con quella contenuta nella definizione equivalente.
+
+Visto quanto è semplice falsificare le informazioni relative ad un nodo, la prima cosa che si può fare è fornire
+informazioni false al name server, spacciandosi così per un nodo \emph{fidato}. A questo punto si può accedere ad
+un nodo remoto in maniera molto semplice.
+
+\section{DNSSEC}
+Con \textbf{DNSSEC} si provvede ad aggiungere un sistema di firma al sistema precedente. In questo modo si crea
+un sistema di autenticazione crittografico in cui ogni name server possiede una coppia di chiavi pubblica e privata.
+
+La chiave privata viene utilizzata dal name server per cifrare le informazioni che trasmette, mentre quella privata
+per permettere l'autenticazione di tale name server. In questo modo si può verificare autenticità ed integrità del
+messaggio e anche che certi domini (falsi) non esistono.
+
+DNSSEC utilizza la crittografia solo per l'integrità e non per la confidenzialità.
+
+\subsection{Problemi}
+DNSSEC non è molto utilizzato per tre motivi principalmente:
+\begin{itemize}
+	\item C'è controllo sulle risposte ma non sulle domande fatte.
+	\item Non c'è sicurezza nel dialogo tra DNS client e DNS server.
+	\item La crittografia appesantisce troppo il carico di lavoro su macchine che già devono gestire computazioni
+	      molto pesanti.
+\end{itemize}
