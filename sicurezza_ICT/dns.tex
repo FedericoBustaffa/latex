@@ -10,4 +10,12 @@ La \textbf{risoluzione} dei nomi è affidata ad un sistema distribuito. I membri
 
 Ogni autorità deve avere almeno un Name Server che gestisce la risoluzione dei nomi per quel dominio.
 
-\subsection{Name Server e risoluzione}
+\subsection{Name Server e Resolver}
+Un \textbf{Name Server} mantiene un database delle informazioni sugli host per il suo dominio e contatta il Name
+Server di altri domini quando deve reperire informazioni (come l'indirizzo IP) sull'host a cui ci si vuole connettere.
+
+Le informazioni devono essere aggiornate quando quelle dell'host cambiano. Questi aggiornamenti dinamici cambiano i
+dati del DNS senza la necessità di ricostruire ogni altra parte dell'albero DNS.
+
+La comunicazione con il Name Server è gestita dal \textbf{resolver}, il quale permette all'utente di fornire nomi
+parziali, i quali vengono estesi per provare ad ottenere nomi completamente qualificati.
