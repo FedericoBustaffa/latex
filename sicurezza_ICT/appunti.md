@@ -139,7 +139,8 @@ per l'appunto la propagazione partizionando aspetti del sistema.
 Il sistema continua a funzionare anche quando le componenti 
 di sicurezza hanno dei malfunzionamenti.
 
-Per esempio si disattiva un firewall che non riesce più ad eseguire i suoi controlli di sicurezza.
+Per esempio si disattiva un firewall che non riesce più ad eseguire 
+i suoi controlli di sicurezza.
 
 ## Failing Secure
 Il sistema viene disattivato in modo da impedire ogni 
