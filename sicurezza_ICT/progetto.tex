@@ -1,4 +1,8 @@
 \chapter{Verifica del progetto di sistema}
+In questo capitolo andiamo a vedere come un sistema dovrebbe essere progettato per limitare al minimo le
+vulnerabilità.
+
+\section{Principi di Saltzer \& Schroeder}
 Nel 1975, Saltzer \& Schroeder hanno definito dei principi che permettono di scoprire vulnerabilità non legati ad
 errori di programmazione:
 \begin{enumerate}
@@ -25,3 +29,18 @@ Ogni sistema deve stabilire un compromesso tra verifica di questi principi e pre
 questa: possono mancare solo controlli che peggiorano delle prestazioni di interesse, un controllo che non peggiora
 le prestazioni deve essere presente.
 
+\section{Fallimento sicuro}
+Il sistema deve essere strutturato in modo che un certo soggetto debba perforza avere un \emph{ragione} per compiere
+una determinata azione su un certo oggetto.
+
+Se non c'è ragione per un soggetto di compiere una determinata azione non deve poterla compiere. Se non si è in grado
+di spiegare perché un soggetto possa compiere un'operazione si sta violando il principio del privilegio minimo.
+
+\section{Mediazione completa}
+Recentemente sono stati aggiunti dei supporti hardware più veloci ed efficienti delle architetture a capability.
+
+La memoria virtuale viene partizionata in zone ed ogni zona viene dedicata ad un certo tipo di dato e nessuna zona
+di memoria può essere utilizzata da tipi di dato diversi.
+
+Alcuni bit di ogni puntatore di memoria (\textbf{tag}) sono dedicati ad informazioni sul tipo di dato puntato e ad
+ogni accesso si controlla che il tipo del puntatore sia coerente con quello dell'area di memoria puntata.
