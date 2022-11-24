@@ -82,3 +82,69 @@ I fondamenti su cui si basa il meccanismo di \emph{zero trust} sono
 	\item Autenticazione multi-factor.
 \end{itemize}
 Con questo meccanismo non c'è più un \emph{perimetro} ma si assume che nel sistema ci sia sempre un attaccante.
+
+\subsection{Principio del meccanismo comune}
+Si basa sul minimizzare la condivisione di risorse tra utenti poiché ogni canale di condivisione potrebbe essere
+usato per violare il modello di sicurezza a livelli.
+
+Nella pratica un attaccante potrebbe sfruttare il fatto che una risorsa potrebbe essere condivisa tra utenti di
+livelli diversi e il fatto che tale risorsa ha sempre e comunque uno stato. Lo stato della risorsa potrebbe essere
+usato per trasmettere informazioni.
+
+Il problema si risolve eliminando risorse condivise tra utenti di livello diverso là dove non sono necessarie. Ogni
+utente avrà quel tipo di risorsa per il suo livello e nessun utente di livello diverso potrà interagire con essa.
+
+\subsection{Work factor}
+Per valutare la robustezza di un sistema si misura la \textbf{quantità di lavoro} necessaria ad un attaccante per
+violare il sistema. Per fare ciò si deve \textbf{emulare} l'attaccante e cercare di scoprire l'ordine in cui questo
+compie le azioni della sua intrusione.
+
+L'emulazione di attacchi ha una serie di problemi come
+\begin{itemize}
+	\item Necessità di \textbf{prove ripetute} per avere una valutazione consistente delle vulnerabilità.
+	\item \textbf{Eventi stocastici} che provocano violazioni al sistema molto efficienti o inefficienti, dunque non
+	      utili per una valutazione generale dell'attacco.
+	\item Attaccare il sistema provoca \textbf{rumore} che disturba il sistema.
+	\item Il \textbf{costo} di emulazione di un attacco è alto.
+\end{itemize}
+
+\subsection{Compromise recording}
+Questo principio afferma che a volte è più conveniente essere attaccati e riportare il sistema in uno stato
+consistente piuttosto che impedire totalmente l'attacco.
+
+Per riuscire a fare questo si fa utilizzo di \textbf{file di log} usati per registrare tutte le azioni compiute sul
+sistema dai vari soggetti per riuscire a ricostruire uno stato consistente del sistema.
+
+I file di log permette di controllare abusi di privilegi che il soggetto deve possedere ma uso in modo inappropriato.
+
+I file di log \textbf{non} devono essere memorizzati sullo stesso nodo di rete del quale vogliamo ricordare gli
+eventi.
+
+L'utilizzo di una \emph{blockchain} è utile per riuscire ad avere più copie per un file di log, il quale deve essere
+poi accettato come valido da tutti i membri della blockchain.
+
+\section{Approccio sistemico}
+In generale una violazione dei principi precedentemente elencati indica una \textbf{debolezza} e non una
+vulnerabilità.
+
+Una debolezza è un difetto del sistema che può diventare una vulneabilità nel momento in cui qualcuno scopre come
+sfruttarla per violare il sistema stesso.
+
+Quando si applicano i principi ad un modulo, questi ci dicono quanto questo modulo sia robusto. Quando però li
+applichiamo ad un sistema. Non è detto che le vulnerabilità del singolo modulo si trasferiscano all'intero sistema.
+Questo perché si possono effettuare i cosiddetti \textbf{controlli compensativi o delegati}, in cui un componente
+rimedia ai difetti di un altro.
+
+Questo potrebbe portare anche un incremento delle prestazioni nel momento in cui il sistema comprenda un modulo
+specializzato a fare controlli in modo efficiente.
+
+\subsection{NIST Cybersecurity framework}
+Si tratta di un framework che propone una modalità di miglioramento della sicurezza per il proprio sistema, piccolo o
+grande che sia, diviso in cinque punti fondamentali:
+\begin{itemize}
+	\item \textbf{Identificare} cosa si vuola proteggere.
+	\item \textbf{Proteggere} ciò che si è individuato al punto precedente.
+	\item \textbf{Scoprire} attacchi in corso.
+	\item \textbf{Reagire} all'intrusione.
+	\item \textbf{Recupero} di uno stato consistente dopo che si viene attaccati.
+\end{itemize}
