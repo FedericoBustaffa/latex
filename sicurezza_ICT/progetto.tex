@@ -6,22 +6,19 @@ vulnerabilità.
 Nel 1975, Saltzer \& Schroeder hanno definito dei principi che permettono di scoprire vulnerabilità non legati ad
 errori di programmazione:
 \begin{enumerate}
-	\item \textbf{Economia dei meccanismi}: l'implementazione dei sistemi di
-	      sicurezza devono essere semplici e compatti.
-	\item \textbf{Fail-safe Default}: i meccanismi di protezione dovrebbero
-	      vietare l'esecuzione di qualsiasia azione in assenza di diritti
-	\item \textbf{Mediazione completa}: il meccanismo di protezione dovrebbe
-	      controllare l'accesso ogni volta ad ogni oggetto.
-	\item \textbf{Open Design}: il sistema deve rimanere sicuro finché
-	      l'attaccante non scopre la chiave di cifratura.
-	\item \textbf{Privilegio di separazione}: il meccanismo di protezione
-	      dovrebbe permettere l'accesso tramite più di un pezzo di
-	      informazione.
-	\item \textbf{Privilegio minimo}: ogni processo dovrebbe essere eseguito
-	      con il numero minimo di diritti.
-	\item \textbf{Meccanismo comune}: si deve ridurre al minimo la
-	      condivisione di informazioni tra utenti. Ogni canale di
-	      condivisione può essere causa di vulnerabilità.
+	\item \textbf{Economia dei meccanismi}: l'implementazione dei sistemi di sicurezza devono essere semplici e
+	      compatti.
+	\item \textbf{Fail-safe Default}: i meccanismi di protezione dovrebbero vietare l'esecuzione di qualsiasia
+	      azione in assenza di diritti
+	\item \textbf{Mediazione completa}: il meccanismo di protezione dovrebbe controllare l'accesso ogni volta ad
+	      ogni oggetto.
+	\item \textbf{Open Design}: il sistema deve rimanere sicuro finché l'attaccante non scopre la chiave di
+	      cifratura.
+	\item \textbf{Principio di separazione}: il meccanismo di protezione dovrebbe permettere l'accesso tramite più
+	      di un pezzo di informazione.
+	\item \textbf{Privilegio minimo}: ogni processo dovrebbe essere eseguito con il numero minimo di diritti.
+	\item \textbf{Meccanismo comune}: si deve ridurre al minimo la condivisione di informazioni tra utenti. Ogni
+	      canale di condivisione può essere causa di vulnerabilità.
 	\item \textbf{Psychological Acceptability}: Il meccanismo di protezione dovrebbe essere facile da utilizzare
 	      per l'utente finale.
 \end{enumerate}
@@ -29,14 +26,14 @@ Ogni sistema deve stabilire un compromesso tra verifica di questi principi e pre
 questa: possono mancare solo controlli che peggiorano delle prestazioni di interesse, un controllo che non peggiora
 le prestazioni deve essere presente.
 
-\section{Fallimento sicuro}
+\subsection{Fail-safe default}
 Il sistema deve essere strutturato in modo che un certo soggetto debba perforza avere un \emph{ragione} per compiere
 una determinata azione su un certo oggetto.
 
 Se non c'è ragione per un soggetto di compiere una determinata azione non deve poterla compiere. Se non si è in grado
 di spiegare perché un soggetto possa compiere un'operazione si sta violando il principio del privilegio minimo.
 
-\section{Mediazione completa}
+\subsection{Mediazione completa}
 Recentemente sono stati aggiunti dei supporti hardware più veloci ed efficienti delle architetture a capability.
 
 La memoria virtuale viene partizionata in zone ed ogni zona viene dedicata ad un certo tipo di dato e nessuna zona
@@ -44,3 +41,44 @@ di memoria può essere utilizzata da tipi di dato diversi.
 
 Alcuni bit di ogni puntatore di memoria (\textbf{tag}) sono dedicati ad informazioni sul tipo di dato puntato e ad
 ogni accesso si controlla che il tipo del puntatore sia coerente con quello dell'area di memoria puntata.
+
+\subsection{Open design}
+Un attaccante che scopre una chiave di cifratura non apprende nulla di utile per decifrare informazioni cifrate con
+chiavi diverse.
+
+Il sistema dovrebbe essere progettato assumendo che prima o poi l'attaccante scoprirà come questo è implementato. In
+altre parole, il sistema deve rimanere sicuro anche quando l'attaccante scopre come è fatto. Per garantire questa
+sicurezza è fondamentale che non venga scoperta la chiave.
+
+In ogni caso è sempre bene lasciare all'attaccante il lavoro di scoprire come il sistema è definito.
+
+L'unico caso in cui è utile rivelare informazioni è quello in cui viene effettuata una \textbf{peer review}, ossia
+un'analisi, condotta da esperti, che rivela le vulnerabilità del sistema.
+
+\subsection{Principio di separazione}
+Ogni sistema dovrebbe implementare un meccanismo di \textbf{difesa in profondità} segmentando la rete in sottoreti,
+ognuna protetta da un firewall, in modo da impedire che l'attacco ad un qualsiasi nodo della rete venga usato come
+punto di appoggio per attacchi ad altri nodi della rete.
+
+In una rete segmentata l'attaccante si muove più lentamente perché per raggiungere un nodo qualsiasi deve attaccare
+prima una serie di altri nodi (\textbf{pivoting}). Più firewall differenti proteggono i nodi intermedi più lavoro sarà
+richiesto all'attaccante per compiere l'attacco.
+
+\subsection{Privilegio minimo: Zero trust network}
+Una VPN può essere molto pericolosa se il client è stato attaccato con successo dato che fornisce un canale sicuro e
+criptato all'attaccante.
+
+Nelle reti \textbf{zero trust}, l'esito di una richiesta di un dispositivo, dipende da informazioni disponibili sul
+dispositivo e dall'utente che lo usa, non dalla posizione fisica del dispositivo.
+
+Le richieste sono elaborate da un \textbf{trust engine} che riceve informazioni su utente/dispositivo/servizio e sulla
+rete e decide di accettare o rifiutare in base al rischio.
+
+I fondamenti su cui si basa il meccanismo di \emph{zero trust} sono
+\begin{itemize}
+	\item La conoscenza di dispositivi, utenti e risorse.
+	\item Tutte le comunicazioni (anche all'interno della stessa sottorete) sono protette.
+	\item La comunicazione vale solo per la singola richiesta (privilegio minimo) poi viene distrutta.
+	\item Autenticazione multi-factor.
+\end{itemize}
+Con questo meccanismo non c'è più un \emph{perimetro} ma si assume che nel sistema ci sia sempre un attaccante.
