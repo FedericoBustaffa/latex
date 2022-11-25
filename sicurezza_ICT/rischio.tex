@@ -1,1 +1,15 @@
-\chapter{Cyber Risk}
+\chapter{Valutazione del rischio}
+Il meccanismo di sicurezza di un sistema informatico viene progettato in base ad alcuni parametri utili a valutare
+quanto tale sistema sia "\emph{a rischio}". Come vedremo tra poco, il \textbf{fattore di rischio}, è dato da un 
+insieme di altri fattori che toccano vari aspetti del sistema stesso.
+
+\section{Parametri}
+Tra i parametri di cui parlavamo prima abbiamo
+\begin{itemize}
+	\item Impatti di un'intrusione di un attaccante $A$ \[ Imp_A \]
+	\item Probabilità che $A$ tenti l'intrusione \[ P(Int_A) \]
+	\item Probabilità di successo dell'intrusione di $A$ \[ P(Succ_A \mid Int_A) \]
+	\item Probabilità che $A$ provochi l'impatto di $A$ \[ P(Imp_A) = P(Succ_A \mid Int_A) \times P(Int_A) \]
+	\item Rischio dovuto ad $A$ \[ F(Imp_A, P(Imp_A)) \]
+\end{itemize}
+L'attaccante analizza i sistemi e attacca il sistema che massimizza la probabilità di successo.
