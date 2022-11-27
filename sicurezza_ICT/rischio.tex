@@ -1,6 +1,6 @@
 \chapter{Valutazione del rischio}
 Il meccanismo di sicurezza di un sistema informatico viene progettato in base ad alcuni parametri utili a valutare
-quanto tale sistema sia "\emph{a rischio}". Come vedremo tra poco, il \textbf{fattore di rischio}, è dato da un 
+quanto tale sistema sia "\emph{a rischio}". Come vedremo tra poco, il \textbf{fattore di rischio}, è dato da un
 insieme di altri fattori che toccano vari aspetti del sistema stesso.
 
 \section{Parametri}
@@ -13,3 +13,56 @@ Tra i parametri di cui parlavamo prima abbiamo
 	\item Rischio dovuto ad $A$ \[ F(Imp_A, P(Imp_A)) \]
 \end{itemize}
 L'attaccante analizza i sistemi e attacca il sistema che massimizza la probabilità di successo.
+
+\subsection{Valutazione dei parametri}
+Per riuscire a dare un valore ai parametri appena elencati si possono usare varie tecniche a seconda del parametro
+che stiamo valutando.
+\begin{itemize}
+	\item La probabilità che l'intrusione avvenga con successo, $P(Succ_A \mid Int_A)$, può essere stimata mediante
+	      meccanismi di emulazione dell'avversario (anche ripetute) oppure tramite Mitre Attack Matrix.
+	\item La probabilità $P(Int_A)$, che l'attaccante $A$ tenti l'attacco, è molto difficile da valutare ed è per
+	      questo che non si ha un valore preciso ma un \textbf{intervallo}. Esistono due framework per la valutazione
+	      di questo intervallo: \textbf{DREAD} e \textbf{OWASP}.
+\end{itemize}
+
+\subsubsection{DREAD}
+Il framework DREAD considera 5 elementi per ordinare le varie intrusioni possibili:
+\begin{itemize}
+	\item \textbf{Damage}
+	\item \textbf{Reproducibility}
+	\item \textbf{Exploitability}
+	\item \textbf{Affected users}
+	\item \textbf{Discoverability}
+\end{itemize}
+\emph{Damage} e \emph{Affected users} valutano l'impatto che l'intrusione avrebbe, mentre gli altri tre parametri ci
+dicono quanto è probabile che l'intrusione avvenga.
+
+Ogni parametro viene valutato in un intervallo da 0 a 10 e la loro somma ci fornisce la valutazione.
+
+\subsubsection{OWASP}
+Modello più sofisticato che valuta minaccia e sistema separatemente. La minaccia è valutata in base a
+\begin{itemize}
+	\item \textbf{Livello di abilità}
+	\item \textbf{Motivazione}
+	\item \textbf{Opportunità e possibilità}
+	\item \textbf{Dimensione della minaccia}
+\end{itemize}
+Il sistema viene invece valutato in base a
+\begin{itemize}
+	\item \textbf{Facilità con cui viene scoperto}
+	\item \textbf{Costruzione di exploit}
+	\item \textbf{Conoscenza delle vulnerabilità da parte della minaccia}
+	\item \textbf{Rilevamento di exploit}
+\end{itemize}
+Questa seconda valutazione è applicabile se conosciamo interamente il sistema e non se consideriamo la singola
+vulnerabilità.
+
+Ovviamente per riuscire a valutare correttamente il sistema lo si deve osservare dal punto di vista dell'attaccante
+cercando di individuare ciò di cui è a conoscenza e cosa invece non conosce.
+
+\section{Calcolo del rischio}
+Una volta compiuta la fase di valutazione è possibile trasformare anche $P(Succ_A \mid Int_A)$ in una valutazione
+semiquantitativa della probabilità di intrusione ottenendo la \textbf{matrice di valutazione di rischio}.
+
+Si tratta di una matrice bidimensionale che mette insieme la probabilità che un attacco avvenga e la probabilità che
+questo abbia successo.

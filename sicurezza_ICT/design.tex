@@ -1,0 +1,28 @@
+\chapter{Strategie di progetto}
+Vediamo in questo capitolo come sia possibile progettare un sistema, tenendo conto di tutto ciò che abbiamo detto in
+precedenza.
+
+\section{Progettare con il privilegio minimo}
+Come sappiamo, il principio del privilegio minimo, dice che ogni utente o componente del sistema dovrebbe avere il
+minimo numero di diritti per svolgere il proprio compito.
+
+Questa restrizione è molto più efficace se sta alla base della progettazione e non se viene aggiunta in seguito. La
+sua successiva aggiunta potrebbe anzi essere motivo di comportamenti indesiderati e anche di vulneabilità.
+
+La concessione di diritti non necessari porta ad una crescente probabilità di errore, bug e costringe i progettisti a
+compromessi andando a creare problemi di sicurezza difficili da contenere o minimizzare.
+
+Il progettista deve essere anche in grado du  capire dove e come applicare il principio del privilegio minimo, valutando
+vari fattori come rischio, possibili danni ecc.
+
+In generale la figura dell'\textbf{amministratore onnipotente} è sempre motivo di problemi di sicurezza ed è per questo
+molto utile applicare il principio di \emph{compromise recording}
+
+\section{API}
+Per \textbf{API} si intende qualsiasi operazione in grado di modificare lo stato interno del sistema. Le API di livello
+amministrativo sono quelle più importanti e pericolose in quanto, in genere, hanno gli impatti più pesanti sul sistema
+e sono quindi il bersaglio preferito degli attaccanti.
+
+Se un utente necessita di privilegi di amministrazione per eseguire una o più operazioni, i controlli di autenticazione
+devono essere più pesanti e la API in questione deve essere ristretta il più possibile per riuscire a contenere il
+più possibile eventuali comportamenti scorretti.
