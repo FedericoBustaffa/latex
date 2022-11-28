@@ -25,4 +25,49 @@ e sono quindi il bersaglio preferito degli attaccanti.
 
 Se un utente necessita di privilegi di amministrazione per eseguire una o più operazioni, i controlli di autenticazione
 devono essere più pesanti e la API in questione deve essere ristretta il più possibile per riuscire a contenere il
-più possibile eventuali comportamenti scorretti.
+eventuali comportamenti scorretti.
+
+Adottare questo approccio di progettazione potrebbe impedire ad un certo operatore di risolvere un particolare problema,
+ecco perché è possibile i cosiddetti \textbf{breakglass mechanism}, i quali permettono di violare il controllo degli
+accessi in caso di necessità.
+
+Questo tipo di meccanismo (molto potente) può essere molto utile nella risoluzione di problemi ma per evitare che
+qualcuno ne abusi, il loro utilizzo deve essere \emph{regolamentato} e \emph{verificato} (\emph{audit}).
+
+Un modo per rendere questo meccanismo più sicuro consiste nel permettere il suo utilizzo solo tramite determinate
+macchine poste in ambienti controllati.
+
+\section{Testing}
+Un sistema che cerca di soddisfare il principio del privilegio minimo è più complesso di uno che concede pieni diritti
+a tutti gli utenti.
+
+In generale è più difficile anche scoprire se c'è qualche vulnerabilità in un sistema che adotta il privilegio minimo,
+dato che questa viene scoperta molte volte solo dopo che un'intrusione ha avuto successo.
+
+Il caso più comune è quello in cui si fornisce ad un utente un diritto che non dovrebbe avere. Fin tanto che l'utente
+si comporta nel modo corretto è difficile che l'errore venga scoperto.
+
+In questo caso si hanno due tipi di testing:
+\begin{itemize}
+	\item \textbf{Test del privilegio minimo}: verifica che ogni utente riesca ad eseguire solo le operazioni per le
+	      quali ha diritto e, al contrario, non riesca ad eseguire quelle per le quali non possiede diritti.
+	\item \textbf{Test con il privilegio minimo}: verifica che l'ambiente dedicato al test abbia solo i diritti
+	      necessari.
+\end{itemize}
+
+\section{Autenticazione e autorizzazione}
+Come già detto in precedenza i meccanismi di \textbf{autenticazione} e \textbf{autorizzazione} sono fondamentali per
+la costruzione di un sistema sicuro.
+\begin{itemize}
+	\item L'\textbf{autenticazione} consiste nel verificare che l'utente richiedente l'utilizzo di una API, sia davvero
+	      chi afferma di essere.
+	\item L'\textbf{autorizzazione} consiste nel verificare che l'utente richiedente l'utilizzo di una API, abbia i
+	      diritti necessari affinché tale servizio gli venga concesso. Si parla di \textbf{multi party authorization}
+	      quando più persone o entità del sistema sono coinvolte nella concessione di un diritto o di un servizio.
+\end{itemize}
+
+\subsection{MPA e 3FA}
+Si tratta di due protocolli di autorizzazione multi-fattore in cui l'idea di base è quella di verificare
+l'autorizzazione per un'operazione, tramite uno o più nodi specializzati.
+
+Questi nodi sono progettati per essere più robusti e hanno il ruolo di confermare le decisioni prese dagli altri nodi.
