@@ -18,7 +18,7 @@ vari fattori come rischio, possibili danni ecc.
 In generale la figura dell'\textbf{amministratore onnipotente} è sempre motivo di problemi di sicurezza ed è per questo
 molto utile applicare il principio di \emph{compromise recording}
 
-\section{API}
+\subsection{API}
 Per \textbf{API} si intende qualsiasi operazione in grado di modificare lo stato interno del sistema. Le API di livello
 amministrativo sono quelle più importanti e pericolose in quanto, in genere, hanno gli impatti più pesanti sul sistema
 e sono quindi il bersaglio preferito degli attaccanti.
@@ -37,7 +37,7 @@ qualcuno ne abusi, il loro utilizzo deve essere \emph{regolamentato} e \emph{ver
 Un modo per rendere questo meccanismo più sicuro consiste nel permettere il suo utilizzo solo tramite determinate
 macchine poste in ambienti controllati.
 
-\section{Testing}
+\subsection{Testing}
 Un sistema che cerca di soddisfare il principio del privilegio minimo è più complesso di uno che concede pieni diritti
 a tutti gli utenti.
 
@@ -55,19 +55,94 @@ In questo caso si hanno due tipi di testing:
 	      necessari.
 \end{itemize}
 
-\section{Autenticazione e autorizzazione}
+\subsection{Autenticazione e autorizzazione}
 Come già detto in precedenza i meccanismi di \textbf{autenticazione} e \textbf{autorizzazione} sono fondamentali per
 la costruzione di un sistema sicuro.
 \begin{itemize}
 	\item L'\textbf{autenticazione} consiste nel verificare che l'utente richiedente l'utilizzo di una API, sia davvero
 	      chi afferma di essere.
 	\item L'\textbf{autorizzazione} consiste nel verificare che l'utente richiedente l'utilizzo di una API, abbia i
-	      diritti necessari affinché tale servizio gli venga concesso. Si parla di \textbf{multi party authorization}
-	      quando più persone o entità del sistema sono coinvolte nella concessione di un diritto o di un servizio.
+	      diritti necessari affinché tale servizio gli venga concesso.
 \end{itemize}
 
-\subsection{MPA e 3FA}
+\subsubsection{MPA e 3FA}
 Si tratta di due protocolli di autorizzazione multi-fattore in cui l'idea di base è quella di verificare
 l'autorizzazione per un'operazione, tramite uno o più nodi specializzati.
 
 Questi nodi sono progettati per essere più robusti e hanno il ruolo di confermare le decisioni prese dagli altri nodi.
+
+Si parla di \textbf{MPA} o \textbf{Multi Party Authorization}, quando più persone o entità del sistema sono coinvolte
+nella concessione di un diritto o di un servizio.
+
+Si parla di \textbf{3FA} quando, in aggiunta ad una \emph{two factor authentication}, si chiede all'utente, tramite il
+suo smartphone, di confermare la richiesta di accesso.
+
+\subsubsection{Accesso temporaneo}
+Quando non si possono avere controlli esaurienti sulle operazioni per ragioni di tempo e non è possibile applicare il
+principio del privilegio minimo, è possibile concedere il diritto all'operazione per un tempo limitato.
+
+Una volta esaurito il tempo si interrompe il servizio e si forza l'utente a ripetere la richiesta riducendo così gli
+impatti di uso scorretto della API.
+
+\subsection{Conclusioni}
+Per riuscire a progettare un sistema che soddisfi il principio del privilegio minimo serve:
+\begin{itemize}
+	\item Una buona conoscenza del sistema. La conoscenza del sistema è massima quando siamo noi stessi a progettarlo,
+	      al contrario è molto complicato e in molti casi impossibile applicare il privilegio minimo ad un sistema
+	      progettato da altri e già terminato.
+	\item Un sistema di autenticazione per validare i tentativi di accesso.
+	\item Un sistema di autorizzazione per rinforzare la politica di sicurezza che vogliamo implementare.
+	\item Un insieme di controlli avanzati per l'autorizzazione temporanea.
+	\item Alcune capacità tra cui:
+	      \begin{itemize}
+		      \item Capacità di regolamentare gli accessi.
+		      \item Capacità di progettare, definire e correggere la politica di sicurezza.
+		      \item Un meccanismo di \emph{breakglass} in caso di comportamenti inattesi da parte del sistema.
+	      \end{itemize}
+\end{itemize}
+
+\section{Progettare per la robustezza}
+Un requisito fondamentale per avere un sistema \textbf{robusto} è quello di avere un sistema che sia anche
+\textbf{comprensibile}. Tra i motivi principali per volere questo abbiamo:
+\begin{itemize}
+	\item Nel caso di modifiche al sistema la probabilità di generare nuove vulnerabilità o la probabilità che il
+	      meccanismo di \emph{backup} fallisca dopo un intrusione si riducono.
+	\item La risposta agli attacchi è molto più semplice e agevole quando il sistema è semplice.
+	\item Un sistema semplice permette una più facile individuazione dei casiddetti \textbf{invarianti}, ossia
+	      proprietà che il sistema deve possedere sempre.
+\end{itemize}
+
+\subsection{Invarianti}
+Un'\textbf{invariante} è una proprietà di sistema sempre vera anche se il sistema si comporta in modo inaspettato o
+scorretto.
+
+Il sistema assicura che una certa proprietà sia un invariante e riuscire a capire se una proprietà è un invariante
+o meno è molto complesso e richiede analisi e conoscenza del sistema.
+
+Quando si vuole definire un invariante si deve tener conto del fatto che, in genere, ci sono diversi modi di soddisfare
+un invariante. Principalmente ci sono due modi di soddisfare un invariante:
+\begin{itemize}
+	\item Si eseguono dei test semplici ma anche poco affidabili per riuscire a scoprire se l'invariante viene violato.
+	      Il problema di questi test è che spesso non scoprono alcuna violazione dell'invariante ma vengono eseguiti
+	      per contenere i costi.
+	\item Si cerca una dimostrazione formale del fatto che l'invariante è sempre soddisfatto. Soluzione decisamente
+	      migliore ma anche molto più costosa.
+\end{itemize}
+La tecnica più usata si basa sulla costruzione di \textbf{modelli mentali} del sistema, ossia modelli parziali con i
+quali si prende in esame la parte di sistema di cui si vuole validare l'invariante per poi effettuare dei test su di
+essa.
+
+Il problema di questo approccio è che spesso prende in esame solo i casi più frequenti che sono anche quelli dove è
+più semplice che tutto vada nel modo migliore, quando invece i problemi di sicurezza si verificano molto spesso nelle
+casistiche meno frequenti.
+
+\subsection{Comprensibilità e complessità}
+La \textbf{comprensibilità} aumenta se la \textbf{complessità} viene gestita decomponendo un sistema in modo
+orizzontale o verticale creando moduli e gerarchie di maccine virtuali.
+
+Un approccio molto utilizzato è quello di avere moduli che iteragiscono e cooperano con altri moduli ma che allo
+stesso riescono a scoprire anomalie dei moduli con cui cooperano.
+
+In generale è bene che un modulo sia più \textbf{autonomo} possibile, dove per modulo autonomo si intende un modulo
+che non fa assunzioni sul comportamento di altri moduli. Minori sono le assunzioni di un modulo sul comportamento
+degli altri, più facile è prevedere il suo comportamento.
