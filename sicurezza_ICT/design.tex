@@ -154,5 +154,95 @@ Altri modi per ridurre la complessità del sistema sono:
 	      dei dati \textbf{comune} ai vari moduli.
 	\item Riconoscere operazioni \textbf{idempotenti}, le quali possono essere invocate e ripetute senza errori.
 \end{itemize}
+
+\subsection{Identità}
 Favorire la comprensibilità permette anche di avere sistemi più sicuri per accertare l'\textbf{identità} dei vari
 utenti.
+
+Identità ben riconoscibili rendono più semplici le fasi di autenticazione e controllo degli accessi al sistema.
+La robustezza del sistema dipende in gran parte dalla robustezza del meccanismo per l'identità. Se è molto facile
+spacciarsi per un altro utente allora non ha senso avere un meccanismo di controllo o di autenticazione molto
+potente.
+
+Un identificatore robusto in termini di sicurezza informatica deve essere
+\begin{itemize}
+	\item Comprensibile agli essere umani.
+	\item Robusto allo spoofing.
+	\item Non riutilizzabile.
+\end{itemize}
+
+\subsubsection{Identità in Google}
+In Google ci sono quattro cose che hanno un'identità:
+\begin{itemize}
+	\item Utenti
+	\item Amministratori
+	\item Macchine, le quali hanno come
+	      \begin{itemize}
+		      \item Identificatore il nome DNS.
+		      \item Identità il ruolo che ha quella macchina.
+	      \end{itemize}
+	\item \textbf{Workload} suddivisi in
+	      \begin{itemize}
+		      \item Richiesti dall'utente.
+		      \item Assegnati ad una macchina in un certo insieme.
+		      \item Gestito da un sistema di orchestrazione simile a \emph{kubernetes} che offre:
+		            \begin{itemize}
+			            \item Load balancing
+			            \item Resource optimization
+		            \end{itemize}
+	      \end{itemize}
+\end{itemize}
+Il meccanismo di controllo degli accessi che ne deriva è strutturato come un framework che coordina i vari workload
+a partire da una richiesta utente. I dati vengono poi passati tra i vari workload ed infine il framework decide se
+i controlli degli accessi sono risolti in base all'identità dell'utente richiedente o del workload.
+
+\section{Trusted Computing Base - TCB}
+Il TCB di un sistema è un sottoinsieme dei componenti del sistema che determina la \textbf{politica di sicurezza}.
+
+In un sistema possiamo avere sottoinsiemi diversi, ognuno con un TCB diverso, per riuscire ad avere maggiore
+modularità e scalabilità.
+
+Ogni TCB dovrebbe essere \emph{sospettoso} di qualsiasi cosa arrivi dall'esterno della sua area di competenza, sia
+che si tratti di qualcosa che arriva dall'esterno del sistema sia che si tratti di qualcosa interno al sistema.
+Questo permette di trovare ad esempio guasti di altri moduli interni al sistema.
+
+Decomporre un sistema in parallelo fa sì che si soddisfi quasi automaticamente il principio del privilegio minimo.
+
+\section{Controllo dei tipi}
+Definito un tipo di dato conviene definire una funzione associata per il controllo e la validazione del tipo stesso.
+Il controllo dei tipi si decompone in:
+\begin{itemize}
+	\item Verifica della correttezza della funzione associata.
+	\item Verifica che ogni modulo che utilizza il tipo invochi la funzione associata.
+	\item Altri controlli sul codice dei vari moduli.
+\end{itemize}
+In molti linguaggi il meccanismo di incapsulamento e definizione di tipi non è sicuro quanto si pensa in quanto,
+tramite \emph{reflection}, \emph{casting} e altri meccanismi, è possibile violare i tipi stessi.
+
+\section{Progettare per la resilienza}
+Un sistema dovrebbe essere progettato per semplificare future modifiche, dovute alla scoperta di nuove vulnerabilità
+o per riuscire a soddisfare nuovi requisiti di sicurezza.
+
+Un altro requisito fondamentale per la sicurezza di un sistema è la \textbf{resilienza} agli attacchi. A tal fine,
+tra le pratiche più utili abbiamo:
+\begin{itemize}
+	\item Differenziazione e partizionamento di parti di sistema per riuscire a favorire l'indipendenza e la
+	      sicurezza dei diversi moduli.
+	\item Implementazione di funzioni di sicurezza automatiche per ridurre le risposte agli attacchi.
+\end{itemize}
+
+\section{Degradazione}
+Dato che non è possibile sapere sempre dove o quando si presenterà una vulnerabilità, quello che si può fare è
+limitare il danno che un attacco può fare.
+
+Il sistema dovrebbe essere progettato in modo tale che gli strati più interni, in quanto meno complessi, siano
+anche quelli più robusti in quanto il progettista dovrebbe riuscire meglio ad individuare tutte le vulnerabilità.
+
+\subsection{Failing Safe e Failing Secure}
+Si parla di \textbf{failing safe} quando il sistema continua a funzionare anche quando le componenti di sicurezza
+hanno dei malfunzionamenti.
+
+Per esempio si disattiva un firewall che non riesce più ad eseguire i suoi controlli di sicurezza.
+
+Si parla invece di \textbf{failing secure} quando il sistema viene disattivato in modo da impedire ogni
+comportamento scorretto ma anche impedendo ogni funzionamento.
