@@ -146,3 +146,13 @@ stesso riescono a scoprire anomalie dei moduli con cui cooperano.
 In generale è bene che un modulo sia più \textbf{autonomo} possibile, dove per modulo autonomo si intende un modulo
 che non fa assunzioni sul comportamento di altri moduli. Minori sono le assunzioni di un modulo sul comportamento
 degli altri, più facile è prevedere il suo comportamento.
+
+Altri modi per ridurre la complessità del sistema sono:
+\begin{itemize}
+	\item Preferire interfacce \textbf{strette} che riducono quindi i gradi di libertà dell'interpretazione.
+	\item Un'interfaccia per gestire risorse di tipo diverso si semplifica nel caso sia possibile definire un modello
+	      dei dati \textbf{comune} ai vari moduli.
+	\item Riconoscere operazioni \textbf{idempotenti}, le quali possono essere invocate e ripetute senza errori.
+\end{itemize}
+Favorire la comprensibilità permette anche di avere sistemi più sicuri per accertare l'\textbf{identità} dei vari
+utenti.
