@@ -1,0 +1,63 @@
+\documentclass[11pt, a4paper]{article}
+
+\pdfpagewidth\paperwidth
+\pdfpageheight\paperheight
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+
+\title{Rischi legati alla blockchain}
+\author{Federico Bustaffa}
+\date{02/12/2022}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Blockchain}
+Per prima cosa facciamo chiarezza sul funzionamento di una \textbf{blockchain} a prescindere dall'ambito per il
+quale essa viene utilizzata. Che si tratti di criptovalute, sistemi di sicurezza, meccanismi di autenticazione o
+autorizzazione, la blockchain è una struttura dati con proprietà crittografiche in grado di garantire grande
+sicurezza ma soprattutto \textbf{consistenza} dei dati.
+
+\subsection{Struttura}
+La blockchain altro non è che una \textbf{lista concatenata} di blocchi contenenti delle informazioni. Ogni blocco
+possiede un \textbf{header} e un \textbf{corpo}.
+
+Nell'header sono contenute informazioni come riferimenti al blocco precedente e altri dati fondamentali per
+il mantenimento dell'integrità della struttura di cui parleremo tra poco.
+
+Nel corpo sono invece contenuti i dati veri e propri che si intende proteggere, nel caso di Bitcoin, il corpo di
+un blocco contiene transazioni.
+
+\subsubsection{Header}
+Un generico header della blockchain contiene quattro campi:
+\begin{itemize}
+	\item \textbf{Timestamp}: informazione temporale che indica il momento di creazione del blocco.
+	\item \textbf{Nonce}: si tratta di un valore numerico di cui parleremo più avanti, fondamentale per il
+	      funzionamento di tutto il meccanismo.
+	\item \textbf{Merkle Root}: la radice di un albero di Merkle costruito calcolando l'hash del contenuto del corpo
+	      di un blocco. Fondamentale per verificare l'integrità dei dati.
+	\item \textbf{Previous Block Hash}: si tratta del valore hash calcolato sull'header del blocco precedente.
+\end{itemize}
+
+\subsubsection{Corpo}
+Nel corpo del blocco vi sono semplicemente le informazioni di interesse della blockchain, come già detto, nel caso
+di Bitcoin, il corpo di un blocco contiene delle transazioni in bitcoin mentre in altri casi potrebbe contenere
+dati utili per autenticare o autorizzare un certo utente ad accedere a un determinato servizio.
+
+\subsection{Funzionamento}
+L'idea alla base della blockchain è quella di mettere in \textbf{competizione} i vari utenti del sistema facendogli
+risolvere un problema \emph{computazionalmente complesso}.
+
+Il problema consiste nel trovare un certo valore, \textbf{nonce}, di cui abbiamo parlato prima, tale che la funzione
+hash (per esempio SHA256), applicata a tale valore, concatenato con l'header del blocco precedente dia come
+risultato un valore inferiore ad un \textbf{difficulty target}.
+
+Se si riesce a trovare tale valore per primi si ha diritto ad appendere un nuovo blocco in fondo alla catena e si
+viene ricompensati per il tempo macchina messo a disposizione.
+
+\end{document}
