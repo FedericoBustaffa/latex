@@ -39,8 +39,8 @@ Un generico header della blockchain contiene quattro campi:
 	\item \textbf{Timestamp}: informazione temporale che indica il momento di creazione del blocco.
 	\item \textbf{Nonce}: si tratta di un valore numerico di cui parleremo più avanti, fondamentale per il
 	      funzionamento di tutto il meccanismo.
-	\item \textbf{Merkle Root}: la radice di un albero di Merkle costruito calcolando l'hash del contenuto del corpo
-	      di un blocco. Fondamentale per verificare l'integrità dei dati.
+	\item \textbf{Merkle Root}: la radice di un albero di Merkle costruito calcolando l'hash del contenuto del
+	      corpo di un blocco. Fondamentale per verificare l'integrità dei dati.
 	\item \textbf{Previous Block Hash}: si tratta del valore hash calcolato sull'header del blocco precedente.
 \end{itemize}
 
@@ -50,6 +50,19 @@ di Bitcoin, il corpo di un blocco contiene delle transazioni in bitcoin mentre i
 dati utili per autenticare o autorizzare un certo utente ad accedere a un determinato servizio.
 
 \subsection{Funzionamento}
+Perché un sistema basato su blockchain funzioni c'è bisogni di un sistema \textbf{P2P} in cui ogni nodo
+rappresenta un utente, il quale possiede una copia della blockchain.
+
+Ogni utente del sistema \emph{compete} con altri utenti per riuscire ad aggiungere un blocco alla catena (più
+avanti vedremo nello specifico in cosa consiste questa competizione). Nel caso si riesca a vincere tale
+competizione si ha diritto a creare ed aggiungere un nuovo blocco.
+
+In realtà, prima di aggiungere un nuovo blocco, questo dev'essere validato da tutti gli altri utenti del
+sistema. Come sappiamo, ogni blocco della catena possiede un header contenente dei valori, come la radice
+dell'albero di Merkle, la quale viene calcolata sulla base dei valori di tutti i blocchi precedenti della
+catena.
+
+\subsubsection{Competizione}
 L'idea alla base della blockchain è quella di mettere in \textbf{competizione} i vari utenti del sistema facendogli
 risolvere un problema \emph{computazionalmente complesso}.
 
