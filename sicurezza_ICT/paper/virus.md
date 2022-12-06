@@ -29,10 +29,12 @@ sul proprio dispositivo e sui dispositivi connessi in rete.
 
 Per sfuggire al rilevamento, il programmatore utilizza diverse 
 tecniche per riuscire a nascondere il codice del virus o ciò
-che esso va a modificare all'interno del sisteam infetto. Tra queste abbiamo:
+che esso va a modificare all'interno del sisteam infetto. Tra queste 
+abbiamo:
 - Non modificare la data di "_ultima modifica_" dei file 
 dell'host una volta infetti.
-- Sovrascrivere le aree di codice intulizzate dei programmi della vittima con codice malevolo in modo da non alterare la 
+- Sovrascrivere le aree di codice intulizzate dei programmi della 
+vittima con codice malevolo in modo da non alterare la 
 dimensione del file che si sta alterando.
 - Terminare task associati ai processi dell'antivirus prima 
 che questo possa rilevare il virus.
