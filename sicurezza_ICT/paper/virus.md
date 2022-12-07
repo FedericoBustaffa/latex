@@ -27,6 +27,8 @@ in grado di scaricare il virus sulla propria macchina.
 Una volta scaricato, il virus rimane dormiente e si replica 
 sul proprio dispositivo e sui dispositivi connessi in rete.
 
+## Evitare il rilevamento
+
 Per sfuggire al rilevamento, il programmatore utilizza diverse 
 tecniche per riuscire a nascondere il codice del virus o ciò
 che esso va a modificare all'interno del sisteam infetto. Tra queste 
@@ -44,6 +46,27 @@ aggiornamento dei sistemi operativi ha portato ad un conseguente
 aumento dei controlli di sicurezza atti a prevenire queste 
 violazioni.
 
+### Auto modifica
+
 Sono quindi nate nuove tecniche per riuscire sfuggire al 
 rilevamento. Una delle prime tecniche nate in questo contesto
 consiste nell'**auto-modifica** del virus.
+
+Gli antivirus basati su firma contengono un database contenente
+delle firme di virus noti.
+
+L'antivirus compara la firma di ogni file con le firme presenti
+nel suo database e, nel caso trovi una corrispondeza, elimina
+o blocca il file etichettato come pericoloso.
+
+I virus più moderni hanno la capacità di cambiare la propria
+firma dinamicamente per ogni file che modificano in modo da 
+scampare al rilevamento che questi antivirus adottano.
+
+### Crittografia
+
+Un altro metodo prevede l'uso della crittografia al fine di 
+cifrare l'intero corpo del virus in modo da
+- Renderlo non rilevabile tramite firma
+- Complicare tutti i procedimenti di ingegneria inversa
+- 
