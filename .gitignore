@@ -6,3 +6,6 @@
 *.out
 *.gz
 *.pdf
+*.snm
+*.nav
+
