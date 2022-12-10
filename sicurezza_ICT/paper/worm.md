@@ -108,5 +108,11 @@ per trovare vulnerabilità:
 	- **Analisi del codice sorgente**
 	- **Analisi dell'eseguibile**
 	- **Metodi ibridi**
-3. **Sviluppo**: Dopo aver trovato una nuova vulnerabilità il 
+3. **Sviluppo**: Dopo aver trovato una nuova vulnerabilità, il
 passo successivo è quello di sviluppare un exploit che la sfrutti.
+La parte critica di ogni exploit è la _shellcode_, la quale deve
+essere posta in memoria in modo tale da non essere individuata.
+Per farlo si deve riuscire a capire quanto spazio è disponibile
+e a seconda di questa informazione si decide se usare una shellcode
+più o meno grande e completa.
+4. **Exploit**: 
