@@ -103,4 +103,10 @@ protocolli.
 di produrre input di vario genere per riuscire a stressare il
 programma e scoprire vettori d'attacco per funzionalità del 
 sistema poco utilizzate e di conseguenza più soggette a bug 
-ed errori.
+ed errori. Altri metodi oltre al _fuzzing_ esistono altri metodi
+per trovare vulnerabilità:
+	- **Analisi del codice sorgente**
+	- **Analisi dell'eseguibile**
+	- **Metodi ibridi**
+3. **Sviluppo**: Dopo aver trovato una nuova vulnerabilità il 
+passo successivo è quello di sviluppare un exploit che la sfrutti.
