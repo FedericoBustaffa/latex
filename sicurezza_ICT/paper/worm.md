@@ -108,11 +108,55 @@ per trovare vulnerabilità:
 	- **Analisi del codice sorgente**
 	- **Analisi dell'eseguibile**
 	- **Metodi ibridi**
-3. **Sviluppo**: Dopo aver trovato una nuova vulnerabilità, il
+3. **Sviluppo**: dopo aver trovato una nuova vulnerabilità, il
 passo successivo è quello di sviluppare un exploit che la sfrutti.
 La parte critica di ogni exploit è la _shellcode_, la quale deve
 essere posta in memoria in modo tale da non essere individuata.
 Per farlo si deve riuscire a capire quanto spazio è disponibile
 e a seconda di questa informazione si decide se usare una shellcode
 più o meno grande e completa.
-4. **Exploit**: 
+4. **Exploit**: per effettuare l'exploit, l'attaccante può
+scegliere il suo **vettore d'attacco** tra due possibili categorie:
+	- **Network**: si fa uso di traffico internet per inviare ed 
+	eseguire codice malevolo sul dispositivo della vittima andando
+	così a comprometterlo. Le vulnerabilità che di solito 
+	permettono queste modalità di attacco sono dovute ad errori
+	di programmazione che permettono dei _buffer overflow_.
+	- **Applicativi**: si fa uso di eseguibili per attaccare e
+	compromettere il dispositivo della vittima. In genere questo 
+	tipo di attacco necessita di un qualche coinvolgimento 
+	dell'utente per riuscire.
+
+### Rilevamento di attacchi zero-day
+
+L'argomento in questione è molto ampio e complesso. Iniziamo con 
+inquadrare alcuni aspetti fondamentali:
+- **Obbiettivi di ricerca**: quelli di seguito rappresentano i 
+maggiori obbiettivi di ricerca nel campo:
+	- **Firme sconosciute**: gli attacchi zero-day, i quali non 
+	possiedono una firma conosciuta non vengono rilevati da 
+	meccanismi di rilevamento puramente basati su firma fino alla
+	scoperta di una firma identificativa per quell'attacco.
+	- **Offuscamento**: gli attaccanti utilizzano di continuo 
+	strumenti per rendere il rilevamento dei loro malware il più
+	difficile possibile. Tra questi abbiamo meccanismi di 
+	_offuscamento_, _polimorfismo_ e _incapsulamento_. I malware 
+	che adottano meccanismi di offuscamento rappresentano una 
+	sfida ancora aperta per quanto riguarda il loro rilevamento.
+	- **Basso tasso di rilevamento**: un altro grosso problema di
+	rilevamento di questi malware consiste nel basso tasso di 
+	rilevamento dovuto alla loro novità. Si è anche riscontrato
+	che il tasso di rilevamento scende con l'aumentare di _falsi
+	positivi_.
+	- **Analisi manuale**: non esistono ancora metodi totalmente
+	automatici per riuscire ad interpretare il fine di un attacco
+	zero-day. Che si tratti di analisi statica o dinamica ci deve
+	essere sempre un intervento manuale di un esperto.
+	- **Validazione**: molte volte i sistemi di rilevamento sono
+	testati in ambienti controllati tramite attacchi condotti
+	da coloro che hanno sviluppato il sistema. Questo potrebbe 
+	dare l'illusione di un sistema sicuro ma lo scenario reale 
+	è molto diverso. Ogni meccanismo di rilevamento dovrebbe 
+	essere testato in un ambiente controllato ma comunque esposto
+	al traffico esterno prima di essere rilasciato.
+- **Rilevamento di worm polimorfi zero-day**: 
