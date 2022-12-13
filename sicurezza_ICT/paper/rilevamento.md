@@ -49,8 +49,8 @@ generare per ognuno di questi cluster una firma.
 
 Le sequenze contigue di byte, dette **token**, sono selezionate 
 in base alla loro lunghezza (minimo $\alpha$) e nel caso 
-occorrano in almeno in $K$ istanze su $n$ totali tra quelle 
-del rilevate nel traffico sospetto.
+occorrano in almeno $K$ istanze su $n$ totali tra quelle 
+rilevate nel traffico sospetto.
 
 I _token_ estratti sono poi utilizzati per generare diverse 
 classi di firma:
@@ -103,6 +103,79 @@ sottostringhe comuni nel contenuto dei vari pacchetti che
 viaggiano dai client verso diverse destinazioni.
 
 Si fa uso di una cache contenente le varie sottostringhe 
-incontrate ed una lista delle destinazioni a cui queste sono
-state inviate entro un certo periodo di tempo.
+incontrate e, associata ad ognuna di esse, una lista delle 
+destinazioni a cui la sottostringa deve essere inviata.
+
+Nel caso in cui arrivi un pacchetto con una sottostringa non
+presente nella cache la si aggiunge con la relativa 
+destinazione.
+
+Nel caso in cui la sottostringa sia invece già presente e la 
+relativa destinazione non appartenga già alla lista delle 
+destinazioni la si aggiunge. Una volta aggiunta la nuova 
+destinazione si compie un controllo sul numero di destinazioni
+presenti nella lista. Se questo supera un valore soglia 
+potrebbe essere indice del fatto che un worm sta venendo 
+inviato su più macchine facendo scattare un **alert**.
+
+La cache viene liberata degli elementi rimasti invariati 
+per un certo periodo di tempo.
+
+### Hamsa
+
+Sistema automatizzato basato su network, veloce, resistente
+al _rumore_ e agli attacchi.
+
+Si basa sul fatto che un worm ben progettato si diffonde 
+molto velocemente e gli approcci di rilevamento basati sulla
+generazione di firme non rispondono abbastanza tempestivamente
+contro attacchi zero-day.
+
+Hamsa propone un meccanismo più veloce ed efficiente di 
+Polygraph trattando i worm come stringhe di byte senza 
+dipendere da alcun protocollo di rete o informazione da 
+parte di qualche server.
+
+Gli algoritmi di comparazione delle firme sono molto efficienti
+e facilmente incorporabili all'interno di firewall.
+
+#### Architettura
+
+Similmente a Polygraph si compie una classificazione iniziale 
+del traffico. Le due categorie di traffico vengono usate 
+come input per il generatore di firme.
+
+Inizialmente si estraggono i token che compaiono $\lambda$
+volte nell'insieme di token di traffico sospetto.
+
+Il valore $\lambda$ è una soglia che risparmia di analizzare 
+tutti i token uguali nell'insieme ma solo una parte di essi.
+
+I token vengono passati in seguito ad un modulo di 
+identificazione dove vengono comparati con il traffico non 
+sospetto per **specificità**.
+
+Nel caso del traffico contenente un worm ottenga una 
+corrispondenza questo viene marcato come worm.
+
+#### Valutazione
+
+Hamsa fa uso di due motori polimorfici per generare worm 
+polimorfi per testare l'algoritmo di classificazione e 
+rilavamento.
+
+Rispetto a Polygraph riesce ad ottenere firme più specifiche 
+con zero falsi negativi in assenza di rumore.
+
+In presenza di rumore continua ad essere migliore di Polygraph
+per specificità e continua a non generare falsi negativi. 
+Genera tuttavia un basso numero di falsi positvi.
+
+Se il rapporto tra rumore e dati è maggiore del 50% vengono
+generate due firme. Una sicuramente giusta e l'altra dovuta 
+al rumore nell'insieme di traffico innocuo.
+
+In generale è stato osservato che, per riuscire a rilevare 
+worm sconosciuti più facilmente, è meglio adottare un insieme 
+del traffico sospetto più ampio.
 

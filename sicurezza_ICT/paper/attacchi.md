@@ -132,7 +132,7 @@ Il rilevamento a livello di rete scopre il worm quando ancora
 questo viaggia sotto forma di pacchetto.
 
 Un meccanismo di questo tipo, installato su una rete in 
-particolare compie controlli anche sui nodi della rete. Si 
+particolare, compie controlli anche sui nodi della rete. Si 
 tratta tuttavia di metodi in grado di identificare i worm 
 allo stadio iniziale dell'infezione.
 
