@@ -82,3 +82,27 @@ e rendere il rilevamento più complesso.
 Di base, tutti e tre i tipi di firma riescono a rilevare worm
 cifrano il loro corpo e mantengono una routine di decifrazione
 invariata.
+
+### Rilevamento efficiente basasto sul contenuto
+
+Tecnica di rilevamento per worm zero-day si basa sull'analisi
+e l'identificazione di pacchetti di pacchetti simili diretti
+su più host.
+
+#### Approccio
+
+Il rilevamento si basa su quattro osservazioni facilmente 
+identificabili sui worm più comuni:
+- Destinazioni multiple di pacchetti simili
+- Diffusione tramite client
+- Ripetizione del corpo
+- Piccole dimensioni
+
+Per riuscire ad identificare nuovi worm, si cercano 
+sottostringhe comuni nel contenuto dei vari pacchetti che 
+viaggiano dai client verso diverse destinazioni.
+
+Si fa uso di una cache contenente le varie sottostringhe 
+incontrate ed una lista delle destinazioni a cui queste sono
+state inviate entro un certo periodo di tempo.
+
