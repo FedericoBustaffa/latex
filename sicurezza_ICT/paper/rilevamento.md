@@ -336,6 +336,6 @@ i byte sono organizzati.
 ### PAYL
 
 Si tratta di un meccanismo di rilevamento di anomalie in 
-gradi di generare firme per worm zero-day. Rileva codice 
+grado di generare firme per worm zero-day. Rileva codice 
 anomalo e lo confronta con il traffico in uscita sulle stesse
 porte.
