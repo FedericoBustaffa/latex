@@ -238,6 +238,92 @@ porte.
 Tutte le firme vengono estratte correttamente dai cluster 
 generati senza falsi positivi.
 
+### SweetBait
+
+Si tratta di una combinazione di tecniche per la prevenzione
+ed il rilevamento di intrusioni.
+
+Impiega diversi tipi di sensori posti su honeypot per rilevare
+e intercettare traffico sospetto. Il primo (Argos) un 
+meccanismo con un alto livello di interazione e il secondo
+(SweetsPot) a più bassa interazione.
+
+Questo meccanismo genera firme automaticamente worm che 
+scansionano spazi di indirizzi IP casuali, senza possedere alcuna conoscenza a priori.
+
+Argos viene usato per generare firme compatibili con worm
+che invece non effettuano scansioni degli indirizzi IP.
+
+Un aspetto particolare di questo meccanismo è che inserisce 
+una shellcode a scopo forense, sostituendo la shellcode 
+utilizzata dal worm per iniettare codice malevolo.
+
+#### Architettura
+
+SweetBait si compone di più moduli con ruoli distinti: 
+**sensori** ed **elementi di controllo**.
+
+Le honeypot ed il sistema di rilevamento e prevenzione 
+sono i sensori, mentre i centri di controllo e il centro
+di controllo globale rappresentano gli elementi di controllo.
+
+Le honeypot sono impostate per ricevere traffico destinato
+ad indirizzi IP inesistenti della sottorete di riferimento.
+
+Questi dati sono filtrati in modo da escludere il traffico
+che si sa essere innocuo.
+
+Tutto il resto viene trattato come traffico sospetto e 
+processato per riuscire a generare firme per il rilevamento
+a livello network di intrusioni.
+
+Le firme generate sono poi passate al centro di controllo 
+dove sono comparate alle firme conosciute e, in base al 
+numero di volte che la firma viene riscontrata il centro
+di controllo decide se trasmetterla alle componenti di 
+rilevamento e prevenzione.
+
+Queste componenti danno un feedback al centro di controllo
+sul numero di volte in cui hanno riscontrato una corrispondenza
+con le firme che stanno monitorando.
+
+Il centro di controllo a questo punto scambia le firme e 
+le analisi statistiche con un centro di controllo globale
+il quale inizia una collaborazione con istanze multiple 
+di SweetBait.
+
+Argos invece utilizza tecniche di memory tainting per riuscire
+a rilevare violazioni come stack o heap overflow e generare un
+alert.
+
+Le firme sono generate automaticamente da honeycomb, un plugin
+di honeyd, il quale scansione il traffico in ingresso e rileva
+sequenze ripetute utilizzando l'algoritmo della sottostringa 
+comune più lunga.
+
+#### Valutazione
+
+SweetBait è stato eseguito per periodi di tempo lunghi 
+24 ore con tutti i sensori di SweetSpot per riuscire a
+generare quante più firme possibili. In poche ore si è
+riuscite ad ottenere un gran numero di firme.
+
+A seguire si è adottato un meccanismo di specializzazione
+delle firme per risucire a passare da un numero di firme 
+nell'ordine delle decine di migliaia all'ordine delle decine.
+
+I test sono stati effettuati con una componente di rilevamento
+di intrusioni al livello network e una honeypot le quali 
+generavano di continuo un alert per effettuare uno stress test
+sul centro di controllo e riuscire a trovare un eventuale 
+collo di bottiglia.
+
+Argo è stato invece eseguito un Windows2000 e attaccato con 
+una serie di exploit presenti nel framework Metasploit.
+
+Il test condotto includeva diversi tipi di buffer overflow
+e non ha riscontrato né falsi negativi né falsi positivi.
+
 ## Rilevamento flessibile di firme basato su contenuto
 
 Questo approccio lavora a livello di byte ed è definito 
