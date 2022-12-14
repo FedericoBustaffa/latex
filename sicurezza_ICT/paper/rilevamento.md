@@ -179,3 +179,77 @@ In generale è stato osservato che, per riuscire a rilevare
 worm sconosciuti più facilmente, è meglio adottare un insieme 
 del traffico sospetto più ampio.
 
+### IDS basato sul payload
+
+Questo metodo di rilevamento integra un processo di 
+clustering multidimensionale del traffico basato sugli header
+lato front-end con un processo di estrazione delle firme 
+eseguito separatamente su ogni cluster nell'insieme dei 
+cluster di traffico sospetto.
+
+Il processo di clustering migliora la purezza degli insiemi
+di traffico andando anche a ridurre la complessità
+dell'analisi servendosi di un **albero dei suffissi**.
+
+#### Architettura
+
+Il sistema si compone di tre parti principali:
+- Clustering multidimensionale e classificazione del traffico
+- Estrazione e valutazione della firma dei worm
+- Contenimento dei worm basato sul loro payload
+
+L'analisi multidimensionale del traffico e il rilevamento 
+basato sugli header permette di classificare il traffico e 
+identificare meglio i vari cluster, dividendoli per ogni 
+tipo di anomalia o attacco.
+
+Per quanto riguarda l'estrazione delle firme dei worm viene
+generato un albero dei suffissi basato sul contenuto dei 
+pacchetti presenti nei cluster di traffico sospetto.In seguito
+si visita ogni nodo dell'albero e, basandosi su due criteri,
+si prende il prefisso di ogni nodo analizzato e si considera 
+come firma di un worm.
+- Il primo criterio mira a trovare stringhe relativamente 
+lunghe che appaiono un certo numero di volte in un certo
+intervallo di tempo per un certo cluster.
+- Il secondo criterio mira a trovare stringhe brevi ma presenti
+quasi sempre in instanze differenti di vari worm.
+
+Firme che sono sottostringhe di altre e che appaionon quasi con
+la stessa frequenza vengono rimosse in modo da generare firme
+più specifiche e non ridondanti.
+
+#### Valutazione
+
+Il sistema fa uso di un sistema di tracciamento il quale 
+considera intervalli di tempo di un minuto in cui vengono 
+inviati quasi 80.000 pacchetti e il worm viene inserito con
+una frequenza di 15 pacchetti al secondo, per un totale di 
+quasi 900 pacchetti worm aggiunti.
+
+Tali pacchetti vengono selezionati casualmente da un insieme
+di 20 immagini differenti, ognuna lunga 100 byte e la quale 
+condivide 15 byte posizionati casualmente nel payload.
+
+Tutti i pacchetti worm utilizzano lo stesso indirizzo IP sulla
+porta 110 e protocollo 6 ma, in modo casuale, generano IP e 
+porte.
+
+Tutte le firme vengono estratte correttamente dai cluster 
+generati senza falsi positivi.
+
+## Rilevamento flessibile di firme basato su contenuto
+
+Questo approccio lavora a livello di byte ed è definito 
+_flessibile_ in quanto non mira a trovare corrispondenze 
+tra stringhe o sottostringhe dei pacchetti in arrivo.
+
+Quello che fa invece è generare firme che descrivono come 
+i byte sono organizzati.
+
+### PAYL
+
+Si tratta di un meccanismo di rilevamento di anomalie in 
+gradi di generare firme per worm zero-day. Rileva codice 
+anomalo e lo confronta con il traffico in uscita sulle stesse
+porte.
