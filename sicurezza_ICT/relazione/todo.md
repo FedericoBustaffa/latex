@@ -1,23 +1,23 @@
 # TODO
 
 ---
-- [x] Introduzione
+- [ ] Introduzione
 
 ---
-- [x] Attacchi zero-day
+- [ ] Attacchi zero-day
 
-	- [x] Ciclo di vita delle vulnerabilità
+	- [ ] Ciclo di vita delle vulnerabilità
 
-	- [x] Sviluppo di un exploit zero-day
+	- [ ] Sviluppo di un exploit zero-day
 
-	- [x] Rilevamento di attacchi zero-day
+	- [ ] Rilevamento di attacchi zero-day
 
 ---
-- [x] Rilevamento basato su firma
+- [ ] Rilevamento basato su firma
 
-	- [x] Firme basate sul contenuto
+	- [ ] Firme basate sul contenuto
 
-	- [x] Firme flessibile basate sul contenuto
+	- [ ] Firme flessibile basate sul contenuto
 
 	- [ ] Firme basate sulla semantica
 
