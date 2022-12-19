@@ -59,7 +59,7 @@ Per sviluppare un exploit zero-day si deve in prima battuta
 scoprire una nuova debolezza del sistema, dopodiché si procede
 con lo sviluppo dell'exploit vero e proprio. Il processo 
 comprende quattro fasi:
-1. **Analis**: si tratta di una fase preliminare in cui si 
+1. **Analisi**: si tratta di una fase preliminare in cui si 
 cerca di accrescere la conoscenza del sistema e dei relativi 
 protocolli.
 2. **Fuzz**: fase opzionale in cui si usa un _fuzzer_ in grado
@@ -72,19 +72,22 @@ per trovare vulnerabilità:
 	- **Analisi dell'eseguibile**
 	- **Metodi ibridi**
 3. **Sviluppo**: dopo aver trovato una nuova vulnerabilità, il
-passo successivo è quello di sviluppare un exploit che la sfrutti.
+passo successivo è quello di sviluppare un exploit che la
+sfrutti.
 La parte critica di ogni exploit è la _shellcode_, la quale deve
 essere posta in memoria in modo tale da non essere individuata.
 Per farlo si deve riuscire a capire quanto spazio è disponibile
-e a seconda di questa informazione si decide se usare una shellcode
-più o meno grande e completa.
+e a seconda di questa informazione si decide se usare una 
+shellcode più o meno grande e completa.
 4. **Exploit**: per effettuare l'exploit, l'attaccante può
-scegliere il suo **vettore d'attacco** tra due possibili categorie:
+scegliere il suo **vettore d'attacco** tra due possibili 
+categorie:
 	- **Network**: si fa uso di traffico internet per inviare ed 
-	eseguire codice malevolo sul dispositivo della vittima andando
-	così a comprometterlo. Le vulnerabilità che di solito 
-	permettono queste modalità di attacco sono dovute ad errori
-	di programmazione che permettono dei _buffer overflow_.
+	eseguire codice malevolo sul dispositivo della vittima 
+	andando	così a comprometterlo. Le vulnerabilità che di 
+	solito permettono queste modalità di attacco sono dovute ad 
+	errori di programmazione che permettono dei _buffer 
+	overflow_.
 	- **Applicativi**: si fa uso di eseguibili per attaccare e
 	compromettere il dispositivo della vittima. In genere questo 
 	tipo di attacco necessita di un qualche coinvolgimento 
