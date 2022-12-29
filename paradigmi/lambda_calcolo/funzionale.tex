@@ -110,9 +110,35 @@ diventano le seguenti:
 
 \subsubsection{Riduzione call by name}
 Si applica la funzione il prima possibile portandola prima in forma $\lambda x.e_1$ e non scende nel corpo delle
-funzioni come nei linguaggi di programmazione. La notazione ritorna quella vista in precedenza per la $\beta$-riduzione.
+funzioni come invece avviene nei linguaggi di programmazione. La notazione ritorna quella vista in precedenza per la
+$\beta$-riduzione.
 \[ (\lambda x.e_1) \; e_2 \rightarrow e_1 \; \{ x := e_2 \} \]
 L'unica regola di inferenza è questa
 \[ \frac{e_1 \rightarrow e'}{e_1 \; e_2 \rightarrow e' \; e_2} \]
 Il vantaggio di questa strategia è la \textbf{posticipazione} della valutazione dell'espressione. L'espressione viene
-valutata solo quando necessario e non prima.
+valutata solo quando e se necessario, non prima.
+
+\subsubsection{Non terminazione}
+In molti casi, qualunque sia la scelta, il risultato finale non cambia. Esistono tuttavia situazioni in cui una riduzione
+\emph{call by value} piuttosto che una riduzione \emph{call by name} potrebbe influire sull'esito della computazione.
+
+Per esempio, alcune computazioni, a seconda della scelta fatta, potrebbero terminare o non terminare.
+\begin{center}
+	\verb|IF| \verb|True| \verb|True| $(\Omega \Omega)$
+\end{center}
+Nel caso adottassimo una riduzione \emph{call by name} la computazione terminerebbe subito:
+\begin{center}
+	\verb|IF| \verb|True| \verb|True| $(\Omega \Omega) \Rightarrow$ \verb|True|
+\end{center}
+Nel caso della \emph{call by value} la computazione invece non termina:
+\begin{center}
+	\verb|IF| \verb|True| \verb|True| $(\Omega \Omega)$
+
+	$\Rightarrow$ \verb|IF| \verb|True| \verb|True| $(\Omega \Omega)$
+
+	$\Rightarrow$ \verb|IF| \verb|True| \verb|True| $(\Omega \Omega)$
+
+	...
+\end{center}
+
+\section{Lambda calcolo tipato}
