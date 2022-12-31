@@ -7,3 +7,35 @@ particolare dato.
 
 Un tipo limita i valori che un'espressione, come una variabile o una funzione, può assumere. Inoltre, definisce le
 operazioni che possono essere fatte sui dati e il modo in cui i valori di quel tipo possono essere memorizzati.
+
+Un sistema di tipi è un metodo sintattico, effettivo per dimostrare l'assenza di comportamenti anomali del programma
+strutturando le operazioni del programma in base ai tipi di valori che calcolano.
+\begin{itemize}
+	\item \textbf{Metodo sintattico}: la struttura sintattica guida il metodo di analisi del comportamento dei programmi.
+	\item \textbf{Metodo effettivo}: si può definire un \textbf{algoritmo} che controlla i vincoli sui tipi e implementarlo
+	      in un compilatore o in un interprete.
+	\item \textbf{Metodo strutturale}: i tipi assegnati alle componenti di un programma sono calcolati in modo
+	      \textbf{composizionale}. Il tipo di un espressione dipende quindi solo dai tipi delle sue sottoespressioni.
+\end{itemize}
+Un sistema di tipi associa quindi dei tipi ai valori calcolati ed esaminando il flusso dei valori calcolati, tenta di
+dimostrare che non avvengano \textbf{errori di tipo}. Determina inoltre che cosa costituisce un errore di tipo, garantendo
+che le operazioni che si aspettano un certo tipo di valore non siano utilizzate con valori per i quali quell'operazione non
+ha senso.
+
+\subsection{Controllo dei tipi}
+La mancanza di \textbf{controlli sui tipi} permette di scrivere programmi pieni di bug, i quali possono essere sfruttati da
+utenti malintenzionati per violare i sistemi informatici (\textbf{type safety}).
+
+I controlli sul tipo possono essere \textbf{statici} o \textbf{dinamici}. Il primo viene fatto a tempo di compilazione e
+segnala l'errore prima che il programma venga eseguito, il secondo viene fatto a tempo di esecuzione.
+
+\subsubsection{Type Checker}
+Il \textbf{type checker} è un meccanismo che permette di verificare che i vari dati siano usati correttamente all'interno di
+espressioni e costrutti. In questo modo non si applica mai un'operazione ad un valore con il tipo non corretto per
+quell'operazione, evitando così risultati sbagliati o indesiderati.
+
+Si deve comunque tenere a mente che il controllo dei tipi è una forma di \textbf{correttezza parziale} del programma:
+controlla solo gli \emph{errori di tipo} e non altri tipi di errore.
+
+Per dimostrare la correttezza di un sistema di tipi è indispensabile comprendere nel dettaglio il \emph{significato} dei
+programmi.
