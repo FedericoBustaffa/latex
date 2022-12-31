@@ -39,3 +39,39 @@ controlla solo gli \emph{errori di tipo} e non altri tipi di errore.
 
 Per dimostrare la correttezza di un sistema di tipi è indispensabile comprendere nel dettaglio il \emph{significato} dei
 programmi.
+
+\subsection{Regole per i tipi}
+Quando si definisce un linguaggio si definiscono delle regole per riuscire a definire sintassi e semantica di tale
+linguaggio.
+
+Nel caso in cui il linguaggio di riferimento comprenda anche dei tipi, stabilire delle regole per il controllo dei tipi
+consiste nel definire una \textbf{relazione binaria} che associa una certa espressione ad un tipo.
+
+Le regole di controllo di tipo, altro non sono che regole di inferenza che stabiliscono la correttezza delle operazioni
+sulla base del loro tipo.
+
+\subsubsection{Approssimazione}
+I sistemi di tipo sono generalmente \textbf{imprecisi}: non definiscono esattamente quale sarà il tipo del valore restituito
+dal programma. Definiscono invece un'\textbf{approssimazione conservativa}.
+
+Il controllo potrebbe accettare più tipi diversi per lo stesso costrutto oppure assicurarsi che all'interno dello stesso
+costrutto siano presenti due valori dello stesso tipo (generico).
+
+\subsubsection{Composizionalità}
+La regola di controllo di tipo condizionale
+\[ \frac{E : Bool, \quad E_1 : T, \quad E_2 : T}{if \; E \; then \; E_1 \; else \; E_2 : T} \]
+garantisce la \textbf{composizionalità} in quanto richiede che le espressioni del ramo \emph{then} e del ramo \emph{else}
+abbiano lo stesso tipo e che quel tipo sia il tipo del condizionale.
+
+Un'espressione, per essere usata in un certo contesto, deve avere un tipo ben preciso.
+
+\subsubsection{Correttezza}
+La \textbf{correttezza} del sistema di tipo è epressa formalmente da queste due proprietà:
+\begin{itemize}
+	\item \textbf{Progresso}: Se l'espressione $E$ ha tipo $T$ allora $E$ è un valore oppure $E \rightarrow E'$ per una
+	      qualche espressione $E'$. Possiamo quindi affermare che un'espressione ben tipata non si blocca a tempo di
+	      esecuzione.
+	\item \textbf{Conservazione}: Se l'espressione $E$ ha tipo $T$ e $E \rightarrow E'$ allora l'espressione $E'$ ha
+	      tipo $T$. In altre parole, i tipi sono preservati dalle regole di esecuzione.
+\end{itemize}
+Queste due proprietà, messe insieme, garantiscono che l'esecuzione dell'intera espressione non si blocchi.
