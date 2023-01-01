@@ -75,3 +75,17 @@ La \textbf{correttezza} del sistema di tipo è epressa formalmente da queste due
 	      tipo $T$. In altre parole, i tipi sono preservati dalle regole di esecuzione.
 \end{itemize}
 Queste due proprietà, messe insieme, garantiscono che l'esecuzione dell'intera espressione non si blocchi.
+
+\subsection{Lambda calcolo tipato}
+Come abbiamo visto, il $\lambda$-calcolo, non prevede alcun tipo ma in funzione di ciò che abbiamo appena discusso introduciamo
+una variante basata su valori \textbf{booleani} e su valori di tipo \textbf{funzione}, ossia quelli visti fino ad ora.
+
+\subsubsection{Sintassi dei tipi}
+Definiamo la sintassi dei tipi di questa variante del $\lambda$-calcolo come segue:
+\[
+	\begin{array}{lr}
+		\tau ::=              & \text{Tipi}                \\
+		\text{Bool}           & \text{Tipo dei booleani}   \\
+		\tau \rightarrow \tau & \text{Tipo delle funzioni}
+	\end{array}
+\]
