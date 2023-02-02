@@ -1,0 +1,49 @@
+\documentclass[10pt, a4paper]{article}
+
+\pdfpagewidth\paperwidth
+\pdfpageheight\paperheight
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+
+% maths
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+
+% tikz
+\usepackage{tikz}
+\usepackage{scalerel}
+\usepackage{pict2e}
+\usepackage{tkz-euclide}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns, arrows}
+\usetikzlibrary{shadows}
+\usetikzlibrary{external}
+
+% pgfplots
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{statistics, fillbetween}
+
+\title{Tikz}
+\author{Federico Bustaffa}
+\date{10/08/2022}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{figure.tex}
+\include{strutture.tex}
+\include{funzioni.tex}
+\include{statistica.tex}
+
+\end{document}
