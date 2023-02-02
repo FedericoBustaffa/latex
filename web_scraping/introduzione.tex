@@ -1,0 +1,47 @@
+\chapter{Introduzione}
+
+Il corso tratterà le modalità di reperimento e analisi di dati da blockchain tramite Python. Si compirà un'analisi
+statistica sui dati raccolti tramite \emph{scraping} o API di vario genere per riuscire ad estrapolare informazioni
+sulle blockchain prese in esame.
+
+Saranno necessarie nozioni di statistica descrittiva ed inferenziale e si farà uso di strumenti per l'analisi di
+grafi.
+
+Le librerie Python necessarie per lavorare al meglio in questo ambito sono:
+\begin{itemize}
+	\item \verb|BeautifulSoup|, \verb|Scrapy|: web scraping
+	\item \verb|Pandas|: gestione di tabelle
+	\item \verb|Numpy|: algebra vettoriale e matriciale
+	\item \verb|SciPy|: statistica
+	\item \verb|Matplotlib|: visualizzazione di grafici
+	\item \verb|NetworkX|: analisi di grafi
+\end{itemize}
+Per installare le librerie scaricare il package manager \verb|pip| di Python:
+\begin{verbatim}
+	> sudo apt install python3-pip
+\end{verbatim}
+Installazione delle librerie
+\begin{verbatim}
+	> pip install beautifulsoup4
+	> pip install scrapy
+	> pip install pandas
+	> pip install numpy
+	> pip install scipy
+	> pip install matplotlib
+	> pip install networkx
+\end{verbatim}
+
+\section{Blockchain}
+Una \textbf{blockchain} utilizza un modello computazionale differente dal classico modello \textbf{client-server},
+si basa infatti sul sistema \textbf{peer-to-peer}.
+
+In questo modello ogni nodo possiede una frazione del potere necessario a compiere determinate azioni all'interno
+della blockchain. Il sistema nasce infatti per eliminare l'entità centrale che controlla e gestisce l'intero servizio.
+
+Possiamo vedere una blockchain come un \textbf{registro} \emph{distribuito} e \emph{replicato} tra i nodi di una
+rete \emph{peer-to-peer}. In altre parole ogni nodo della rete possiede una copia della blockchain uguale a quella
+di tutti gli altri nodi.
+
+Una proprietà fondamentale al fine di mantenere la blockchain consistente e \textbf{immutabile} è la
+\textbf{tamper freeness} garantita tramite meccanismi crittografici e algoritmi basati sul consenso.
+
