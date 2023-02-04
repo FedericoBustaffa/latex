@@ -51,6 +51,25 @@ ecc.
 \end{example}
 
 \begin{example}
-	Altra rappresentazione molto utilizzata è quella tramite istogrammi, per esempio per rappresentare le altezze
-	degli studenti in una classe.
+	Altra rappresentazione molto utilizzata è quella tramite istogrammi, per esempio per rappresentare quante famiglie
+	hanno un determinato numero di figli in una certa zona.
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title = {Numero di figli},
+					y tick label style={/pgf/number format/use comma},
+					ybar,
+					ybar interval = 0.7,
+					ymin = 0
+				]
+
+				\addplot [
+					thick,
+					draw=red,
+					fill=red!20
+				]
+				coordinates {(0, 1000) (1, 2200) (2, 2700) (3, 1250) (4, 10)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
 \end{example}

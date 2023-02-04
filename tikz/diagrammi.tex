@@ -15,18 +15,21 @@
 	\begin{tikzpicture}
 		\begin{axis}[
 				title={Istogramma},
+				width=12cm,
 				x tick label style={/pgf/number format/1000 sep={}},
 				y tick label style={/pgf/number format/use comma},
+				ytick = {1, 2, 3, 4, 5},
+				xtick = {2009, 2010, 2011, 2012},
 				xlabel={Anno},
 				enlargelimits=0.05,
 				legend style={legend columns=1},
 				legend pos=north east,
-				ybar interval=0.5
+				ybar interval=0.7
 			]
 
-			\addplot [thick, draw=green, fill=green!30] coordinates {(2012, 4) (2011, 5) (2010, 3) (2009, 4)};
+			\addplot coordinates { (2009, 4) (2010, 2) (2011, 5) (2012, 4) };
 
-			\addplot [thick, draw=red, fill=red!30] coordinates {(2012, 1) (2011, 2) (2010, 2) (2009, 3)};
+			\addplot coordinates { (2009, 3) (2010, 2) (2011, 2) (2012, 1) };
 
 			\legend{Uomini, Donne}
 		\end{axis}

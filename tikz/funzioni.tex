@@ -1,16 +1,17 @@
 \section{Funzioni}
 
 \begin{center}
-	\begin{tikzpicture}[scale=1.5]
+	\begin{tikzpicture}
 		\begin{axis}[
 				title={Funzioni},
-				font=\scriptsize,
+				font=\normalsize,
+				width=13cm,
 				axis lines = center,
 				xlabel = $x$,
 				ylabel = $y$,
 				xtick = {-4, -2, 2, 4},
 				ytick = {-4, -2, 2, 4, 6, 8},
-				ymin = -5, ymax = 10,
+				ymin = -5, ymax = 8,
 				xmin = -5, xmax = 5,
 				grid = both,
 				grid style = dashed,
@@ -19,22 +20,22 @@
 			]
 
 			\addplot [
+				name path=f,
 				domain=0:5,
 				samples=100,
 				thick,
 				color=red
 			]
 			{log2(x)};
-			% \addlegendentry{$\log_2{x}$}
 
 			\addplot [
+				name path=g,
 				domain=0:5,
 				samples=100,
 				thick,
 				color=blue
 			]
 			{sqrt(x)};
-			% \addlegendentry{$\sqrt{x}$}
 
 			\addplot [
 				domain=-5:5,
@@ -43,7 +44,6 @@
 				color=yellow,
 			]
 			{2^x};
-			% \addlegendentry{$2^x$}
 
 			\addplot [
 				domain=-5:5,
@@ -51,7 +51,7 @@
 				thick,
 				color=green
 			]
-			{8 * exp(-x^2)} node [black, above] {$8 e^{-x^2}$};
+			{8 * exp(-x^2)};
 
 			\legend{
 				$\log_2{x}$,
@@ -64,10 +64,11 @@
 \end{center}
 
 \begin{center}
-	\begin{tikzpicture}[scale=1.5]
+	\begin{tikzpicture}
 		\begin{axis}[
 				title={Data},
-				font=\scriptsize,
+				font=\normalsize,
+				width=12cm,
 				axis lines = center,
 				xlabel = $x$,
 				ylabel = $y$,
