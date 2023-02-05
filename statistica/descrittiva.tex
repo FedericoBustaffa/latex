@@ -58,17 +58,22 @@ ecc.
 			\begin{axis}[
 					title = {Numero di figli},
 					y tick label style={/pgf/number format/use comma},
+					xtick={0, 1, 2, 3, 4},
+					ymin=0,
+					width=10cm,
+					enlarge x limits=0.2,
 					ybar,
-					ybar interval = 0.7,
-					ymin = 0
+					bar width=1cm,
+					grid=both,
+					grid style=dashed
 				]
 
 				\addplot [
 					thick,
 					draw=red,
-					fill=red!20
+					fill=red!30,
 				]
-				coordinates {(0, 1000) (1, 2200) (2, 2700) (3, 1250) (4, 10)};
+				coordinates {(0, 1000) (1, 2200) (2, 2700) (3, 1250) (4, 750)};
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
