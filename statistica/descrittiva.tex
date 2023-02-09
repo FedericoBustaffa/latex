@@ -364,3 +364,46 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 
 Intuitivamente il \emph{coefficiente di correlazione} misura il \emph{legame lineare} che c'è tra i dati $x$ e $y$ ma per
 comprendere meglio il concetto dobbiamo introdurre la \textbf{retta di regressione}.
+
+Al fine di calcolare una \emph{retta di regressione} dobbiamo calcolare questo termine
+\[ \inf_{a,b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - a - b x_i)^2 \]
+vogliamo cioè approssimare nel modo migliore i dati $y_i$ con una combinazione lineare affine $a + b x_i$.
+
+\begin{theorem}
+	Il minimo al variare di $(a, b) \in \mathbb{R}^2$ della quantità
+	\[ \sum_{i=1}^n (y_i - a - b x_i)^2 \]
+	si ottiene con
+	\[ b^* = \frac{\Cov(x, y)}{\Var(x)} \quad \wedge \quad a^* = -b^* \overline{x} + \overline{y} \]
+	e vale l'uguaglianza
+	\[
+		\min_{a, b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - a - b x_i)^2 =
+		\sum_{i=1}^n (y_i - \overline{y})^2 (1 - r(x, y)^2)
+	\]
+	La retta $y = a^* + b^* x$ è chiamata \textbf{retta di regressione}.
+	\begin{proof}
+		Quel che vogliamo fare è minimizzare la funzione
+		\[ Q(a, b) = \sum_{i=1}^n (y_i - a - b x_i)^2 \]
+		al variare di $a$ e $b$. Come è possibile notare dal calcolo del limite
+		\[ \lim_{|a|, |b| \to +\infty} Q(a, b) = +\infty \]
+		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$
+		tendono a $+\infty$.
+
+		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali rispetto a $x$ e $y$.
+	\end{proof}
+\end{theorem}
+
+\begin{observation}
+	Il \textbf{valore assoluto} del coefficiente di correlazione ci fornisce quindi delle informazioni interessanti
+	sui dati:
+	\begin{itemize}
+		\item $|r(x, y)| = 1$ se e solo se i dati sono tutti sulla stessa retta.
+		\item $|r(x, y)| \approx 1$ se i dati sono molto allineati.
+		\item $|r(x, y)| \approx 0$ se i dati sono dispersi.
+	\end{itemize}
+	Possiamo anche notare che il \textbf{segno} del coefficiente di correlazione ci fornisce un'altra informazione
+	interessante:
+	\begin{itemize}
+		\item Se $r(x, y) < 0$ allora la retta decresce al crescere di $x$.
+		\item Se $r(x, y) > 0$ allora la retta cresce al crescere di $x$.
+	\end{itemize}
+\end{observation}
