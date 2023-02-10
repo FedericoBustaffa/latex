@@ -388,7 +388,33 @@ vogliamo cioè approssimare nel modo migliore i dati $y_i$ con una combinazione 
 		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$
 		tendono a $+\infty$.
 
-		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali rispetto a $x$ e $y$.
+		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali rispetto a $a$ e $b$
+		\[ \frac{\partial Q}{\partial a} = 0 \quad \frac{\partial Q}{\partial b} = 0 \]
+		Dobbiamo quindi andare a risolvere un sistema a due equazioni di questo tipo
+		\[
+			\begin{cases}
+				\sum_{i=1}^n y_i - n a - b \sum_{i=1}^n x_i                      & = 0 \\
+				\sum_{i=1}^n x_i y_i - a \sum_{i=1}^n x_i - b \sum_{i=1}^n x_i^2 & = 0
+			\end{cases}
+		\]
+		Dividendo per $n$ entrambe le equazioni si arriva a
+		\[
+			\begin{cases}
+				a + b \overline{x}                              & = \overline{y}                   \\
+				a \overline{x} + b \sum_{i=1}^n \frac{x_i^2}{n} & = \sum_{i=1}^n \frac{x_i y_i}{n}
+			\end{cases}
+		\]
+		Risolvendo il sistema si ricavano $a^*$ e $b^*$ come segue
+		\[
+			\begin{cases}
+				b^* = \displaystyle\frac{\sum_i \frac{x_i y_i}{n} - \overline{x} \cdot \overline{y}}
+				{\sum_i \frac{x_i^2}{n} - \overline{x}^2} =
+				\frac{\Cov_e(x, y)}{\Var_e(x)}         \\
+				a^* = -b^* \overline{x} + \overline{y} \\
+			\end{cases}
+		\]
+		Se si calcola $Q(a^*, b^*)$ si ricava che
+		\[ Q(a^*, b^*) = \sum_{i=1}^n (y_i - \overline{y})^2 (1 - r(x, y)^2) \]
 	\end{proof}
 \end{theorem}
 
@@ -407,3 +433,48 @@ vogliamo cioè approssimare nel modo migliore i dati $y_i$ con una combinazione 
 		\item Se $r(x, y) > 0$ allora la retta cresce al crescere di $x$.
 	\end{itemize}
 \end{observation}
+
+\begin{example}
+	Proviamo ora a calcolare la retta di regressione su un insieme di dati contenuto. Supponiamo di avere 5 maschi e 5
+	femmine della stessa età e, per ognuno di essi, sappiamo altezza e peso.
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					title={Rette di regressione},
+					xmin=145, xmax=195,
+					ymin=35, ymax=100,
+					xlabel={Altezza},
+					ylabel={Peso},
+					width=9cm,
+					grid=both,
+					grid style=dashed,
+					legend pos=north west
+				]
+				\addplot [blue, only marks] coordinates{
+						(170, 60)
+						(175, 70)
+						(180, 78)
+						(185, 87)
+						(190, 96)
+					};
+
+				\addplot [blue, domain=158:190, dashed] {1.78 * x - 242.2};
+
+				\addplot [red, only marks] coordinates{
+						(150, 40)
+						(155, 47)
+						(160, 50)
+						(170, 55)
+						(180, 65)
+					};
+
+				\addplot [red, domain=148:190, dashed] {0.76 * x - 73.38};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	Come possiamo notare abbiamo due rette che passano molto vicine ai dati, ma hanno coefficiente angolare differente.
+
+	Sia per maschi che per femmine possiamo dire che, più un ragazzo è alto, più è pesante. Il fatto che però le due
+	rette crescano in modo differente ci dice che le ragazze hanno un rapporto peso-altezza
+	più basso dei maschi.
+\end{example}
