@@ -1,0 +1,115 @@
+\section{Valutazione di espressioni}
+La \textbf{valutazione} di una $\lambda$-espressione consiste nel calcolare un risultato a partire dall'applicazione
+di un'espressione su di un'altra espressione. Per esempio la valutazione di
+\[ (\lambda x.e_1) \; e_2 \]
+consiste nel valutare $e_1$ dove ogni occorrenza di $x$ in $e_1$ è rimpiazzata da $e_2$.
+
+\subsection{Beta riduzione e redex}
+In particolare quando valutiamo un'espressione dobbiamo individuare quale sia l'operazione da eseguire e sostituire
+nell'espressione il suo risultato. Nel $\lambda$-calcolo l'unica operazione possibile è l'applicazione funzione.
+
+L'operazione di applicazione funzionale è detta \textbf{$\beta$-riduzione} e la porzione di $\lambda$-espressione su
+cui si esegue tale operazione è detta \textbf{redex}.
+
+La stessa espressione potrebbe essere valutata in ordine diverso, l'importante è che ogni valutazione dia sempre il
+solito risultato.
+
+Un caso comune in cui si hanno più \emph{redex} valutabili allo stesso tempo è quello delle funzioni a più parametri.
+Queste funzioni possono essere trattate in due modi:
+\begin{itemize}
+	\item In \textbf{ampiezza}:
+	      \begin{enumerate}
+		      \item Si sostituisce ad ogni variabile legata il parametro in input.
+		      \item Si passa alla valutazione dello strato successivo.
+	      \end{enumerate}
+	\item In \textbf{profondità}:
+	      \begin{enumerate}
+		      \item Si sostituisce una sola delle variabili con il corrispondente parametro in input.
+		      \item Si continua la valutazione nella sotto-espressione ottenuta.
+	      \end{enumerate}
+\end{itemize}
+Possiamo quindi definire una \emph{redex} come una struttura del tipo
+\[ (\lambda x.e_1) \; e_2 \]
+che deve essere individuata nell'espressione per poter applicare la $\beta$-riduzione in modo corretto.
+
+\subsection{Capture avoiding substitution}
+La sostituzione sintattica che viene svolta in ogni $\beta$-riduzione può causare problemi come ad esempio andare a
+legare una variabile libera (sempre da evitare per evitare di cambiare il significato dell'espressione).
+
+Ecco che introduciamo la \textbf{capture avoiding substitution}. Consideriamo sempre l'espressione genereale
+$(\lambda x.e_1) \; e_2$, possiamo passare alla notazione \emph{capture avoiding substitution} scrivendo
+\[ (\lambda x.e_1) \{ x := e_2 \} \]
+In questo modo andiamo ad esplicitare che ogni occorrenza di $x$ in $e_1$ deve essere sostituita con $e_2$.
+
+La \emph{capture avoiding substitution} è definita ricorsivamente per andare a catturare ogni casistica possibile. Di
+seguito i vari casi sono scritti nella forma $e_1 \; \{ x := e_2 \}$ dove $e_1$ è il corpo della funzione.
+\begin{itemize}
+	\item Se il corpo è esattamente $x$ questo viene sostituito interamente da $e_2$
+	      \[ x \; \{ x := e_2 \} = e_2 \]
+	\item Se il corpo è qualcosa di diverso da $x$ non si applica alcuna sostituzione
+	      \[ y \; \{ x := e_2 \} = y \]
+	\item Se il corpo è costituito dall'applicazione di $e'$ su $e''$ si sostituisce ad ogni occorrenza di $x$ in
+	      $e'$ ed $e''$ l'espressione $e_2$
+	      \[ (e' e'') \; \{ x := e_2 \} = (e' \; \{ x := e_2 \})(e'' \; \{ x := e_2 \}) \]
+	\item Se il corpo è un'astrazione funzionale che prende un generico parametro $y \neq x$, con corpo $e$ e $y$ non
+	      appartiene all'insieme delle variabili libere in $e$, si va a sostituire ogni occorrenza di $x$ in $e$ con
+	      $e_2$
+	      \[ (\lambda y.e) \; \{ x := e_2 \} = \lambda y.(e \; \{ x := e_2 \}) \]
+	\item Se il corpo è un'astrazione funzionale che prende un generico parametro $y \neq x$, con corpo $e$ e $y$
+	      appartiene all'insieme delle variabili libere in $e$, si introduce una variabile fresca $z$, andando ad
+	      eseguire una $\alpha$-conversione sostituendo ogni occorrenza di $y$ in $e$ con $z$.
+
+	      All'espressione risultante si sostituisce ogni occorrenza di $x$ con $e_2$.
+	      \[ (\lambda y.e) \; \{ x := e_2 \} = \lambda z.((e \; \{ y := z \}) \; \{ x := e_2 \}) \]
+\end{itemize}
+Ecco che possiamo definire meglio l'operazione di $\beta$-riduzione come segue
+\[ \underbrace{(\lambda x.e_1) \; e_2}_{redex} \rightarrow e_1 \; \{ x := e_2 \} \]
+Finché la nostra espressione contiene dei \emph{redex} è possibile applicare una $\beta$-riduzione portando avanti
+il calcolo. Una volta esauriti i la computazione termina.
+
+Possiamo anche definire meglio un \emph{redex} come un'espressione che può essere \emph{ridotta} tramite applicazione
+funzionale.
+
+Quando un'espressione non può più essere ridotta diciamo che è in \textbf{forma normale beta}.
+
+\subsection{Confluenza}
+L'ordine con cui vengono scelte le $\beta$-riduzioni non influisce sul risultato finale. Più precisamente, se ci sono
+due riduzioni distinte o sequenze di riduzioni che possono essere applicate alla stessa $\lambda$-espressione, allora
+esiste una $\lambda$-espressione che è raggiungibile da entrambi i risultati, applicando sequenze di riduzioni
+aggiuntive.
+
+Questo teorema (di Church-Rosser) prende il nome di \textbf{confluenza}.
+
+\subsection{Non terminazione}
+Anche nel $\lambda$-calcolo possiamo avere espressioni non terminali ovvero funzioni che, una volta ridotte continuano
+a produrre altri \emph{redex}. La $\lambda$-espressione
+\[ \Omega = (\lambda x.xx) (\lambda x.xx) \]
+non può essere ridotta in forma normale in quanto contiene una sola espressione riducibile tramite $\beta$-riduzione.
+La riduzione produce ancora $\Omega$.
+
+\subsubsection{Confluenza e non terminazione}
+La confluenza assicura che tutti i casi in cui una $\lambda$-espressione termina il risultato sarà lo stesso. Tuttavia
+ci possono essere casi in cui, a seconda delle riduzioni che si eseguono, l'espressione potrebbe terminare oppure no.
+
+\subsection{Chiusura transitiva}
+Con il simbolo $\rightarrow$ indichiamo un passo di $\beta$-riduzione da un'espressione $e_1$ a un'espressione $e_2$,
+ad esempio
+\[ \lambda x.e_1 \; e_2 \; \{ x := e_2 \} \rightarrow e_3 \]
+Il simbolo $\Rightarrow$ indica invece la \textbf{chiusura transitiva} di $\rightarrow$, ossia equivale all'aggiunta
+della regola di transitività. La $\lambda$-espressione $e_1$ è $\beta$-riducibile alla $\lambda$-espressione $e_2$
+quando vale che
+\[ e_1 \Rightarrow e_2 \]
+Vale inoltre la seguente relazione
+\[ \frac{e_1 \Rightarrow e_3 \quad e_2 \Rightarrow e_3}{e_1 \Rightarrow e_3} \]
+
+\subsubsection{Beta equivalenza}
+La relazione di riduzione $\Rightarrow$ ci permette di definire la nozione di $\beta$-equivalenza tra le
+$\lambda$-espressioni. Due $\lambda$-espressioni $e_1$ ed $e_2$ si dicono $\beta$-equivalenti
+($e_1 \equiv_\beta e_2$) se
+\begin{itemize}
+	\item Sono identiche ($\alpha$-conversione)
+	\item Vale $e_1 \Rightarrow e_2$ oppure $e_2 \Rightarrow e_1$
+	\item Vale $e_1 \Rightarrow e$ e $e_2 \Rightarrow e$
+\end{itemize}
+Possiamo quindi dedurre che due espressioni sono $\beta$-equivalenti se calcolano lo stesso risultato ovvero se
+sono equivalenti dal punto di vista \emph{computazionale}.

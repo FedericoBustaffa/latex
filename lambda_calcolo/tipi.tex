@@ -1,0 +1,184 @@
+\section{Sistema dei tipi}
+Uno dei principi fondamentali nella definizione di un linguaggio di programmazione è quello del \textbf{sistema di tipi}.
+Questi non sono altro che un meccanismo in grado di rilevare errori di programmazione prima che il programma venga eseguito.
+
+Il \textbf{tipo} è un attributo di un dato che descrive come il linguaggio di programmazione permette di usare quel
+particolare dato.
+
+Un tipo limita i valori che un'espressione, come una variabile o una funzione, può assumere. Inoltre, definisce le
+operazioni che possono essere fatte sui dati e il modo in cui i valori di quel tipo possono essere memorizzati.
+
+Un sistema di tipi è un metodo sintattico, effettivo per dimostrare l'assenza di comportamenti anomali del programma
+strutturando le operazioni del programma in base ai tipi di valori che calcolano.
+\begin{itemize}
+	\item \textbf{Metodo sintattico}: la struttura sintattica guida il metodo di analisi del comportamento dei programmi.
+	\item \textbf{Metodo effettivo}: si può definire un \textbf{algoritmo} che controlla i vincoli sui tipi e implementarlo
+	      in un compilatore o in un interprete.
+	\item \textbf{Metodo strutturale}: i tipi assegnati alle componenti di un programma sono calcolati in modo
+	      \textbf{composizionale}. Il tipo di un espressione dipende quindi solo dai tipi delle sue sottoespressioni.
+\end{itemize}
+Un sistema di tipi associa quindi dei tipi ai valori calcolati ed esaminando il flusso dei valori calcolati, tenta di
+dimostrare che non avvengano \textbf{errori di tipo}. Determina inoltre che cosa costituisce un errore di tipo, garantendo
+che le operazioni che si aspettano un certo tipo di valore non siano utilizzate con valori per i quali quell'operazione non
+ha senso.
+
+\subsection{Controllo dei tipi}
+La mancanza di \textbf{controlli sui tipi} permette di scrivere programmi pieni di bug, i quali possono essere sfruttati da
+utenti malintenzionati per violare i sistemi informatici (\textbf{type safety}).
+
+I controlli sul tipo possono essere \textbf{statici} o \textbf{dinamici}. Il primo viene fatto a tempo di compilazione e
+segnala l'errore prima che il programma venga eseguito, il secondo viene fatto a tempo di esecuzione.
+
+\subsubsection{Type Checker}
+Il \textbf{type checker} è un meccanismo che permette di verificare che i vari dati siano usati correttamente all'interno di
+espressioni e costrutti. In questo modo non si applica mai un'operazione ad un valore con il tipo non corretto per
+quell'operazione, evitando così risultati sbagliati o indesiderati.
+
+Si deve comunque tenere a mente che il controllo dei tipi è una forma di \textbf{correttezza parziale} del programma:
+controlla solo gli \emph{errori di tipo} e non altri tipi di errore.
+
+Per dimostrare la correttezza di un sistema di tipi è indispensabile comprendere nel dettaglio il \emph{significato} dei
+programmi.
+
+\subsection{Regole per i tipi}
+Quando si definisce un linguaggio si definiscono delle regole per riuscire a definire sintassi e semantica di tale
+linguaggio.
+
+Nel caso in cui il linguaggio di riferimento comprenda anche dei tipi, stabilire delle regole per il controllo dei tipi
+consiste nel definire una \textbf{relazione binaria} che associa una certa espressione ad un tipo.
+
+Le regole di controllo di tipo, altro non sono che regole di inferenza che stabiliscono la correttezza delle operazioni
+sulla base del loro tipo.
+
+Aggiungiamo alla notazione $E : T$ per indicare che una certa espressione $E$ ha tipo $T$.
+
+\subsubsection{Approssimazione}
+I sistemi di tipo sono generalmente \textbf{imprecisi}: non definiscono esattamente quale sarà il tipo del valore restituito
+dal programma. Definiscono invece un'\textbf{approssimazione conservativa}.
+
+Il controllo potrebbe accettare più tipi diversi per lo stesso costrutto oppure assicurarsi che all'interno dello stesso
+costrutto siano presenti due valori dello stesso tipo (generico).
+
+\subsubsection{Composizionalità}
+Diciamo che i controlli sul tipo sono \textbf{composizionali} perché per valutare la correttezza di un'espressione si parte
+dalla valutazione di correttezza delle sottoespressioni che la compongono.
+
+La regola di controllo di tipo condizionale
+\[ \frac{E : Bool, \quad E_1 : T, \quad E_2 : T}{if \; E \; then \; E_1 \; else \; E_2 : T} \]
+garantisce la composizionalità in quanto richiede che le espressioni del ramo \emph{then} e del ramo \emph{else} abbiano
+lo stesso tipo e che quel tipo sia il tipo del condizionale.
+
+Un'espressione, per essere usata in un certo contesto, deve avere un tipo ben preciso.
+
+\subsubsection{Correttezza}
+La \textbf{correttezza} del sistema di tipo è epressa formalmente da queste due proprietà:
+\begin{itemize}
+	\item \textbf{Progresso}: Se $E : T$ allora $E$ è un valore oppure $E \rightarrow E'$ per una qualche espressione $E'$.
+	      Possiamo quindi affermare che un'espressione ben tipata non si blocca a tempo di esecuzione.
+	\item \textbf{Conservazione}: Se $E : T$ e $E \rightarrow E'$ allora l'espressione $E' : T$. In altre parole, i tipi
+	      sono preservati dalle regole di esecuzione.
+\end{itemize}
+Queste due proprietà, messe insieme, garantiscono che l'esecuzione dell'intera espressione non si blocchi.
+
+\subsection{Lambda calcolo tipato}
+Come abbiamo visto, il $\lambda$-calcolo, non prevede alcun tipo ma, in funzione di ciò che abbiamo appena discusso,
+introduciamo una variante basata su valori \textbf{booleani} e su valori di tipo \textbf{funzione}, ossia quelli visti fino
+ad ora.
+
+\subsubsection{Sintassi dei tipi}
+Definiamo la sintassi dei tipi di questa variante del $\lambda$-calcolo come segue:
+\[
+	\begin{array}{lr}
+		\tau ::=              & \text{Tipi}                \\
+		\text{Bool}           & \text{Tipo dei booleani}   \\
+		\tau \rightarrow \tau & \text{Tipo delle funzioni}
+	\end{array}
+\]
+
+\subsubsection{Sintassi del linguaggio}
+A questo punto la sintassi del linguaggio diventa:
+\[
+	\begin{array}{lr}
+		e ::=                                        & \text{Espressioni}    \\
+		x                                            & \text{Variabili}      \\
+		\text{fun } x : \tau = e                     & \text{Funzioni}       \\
+		\text{Apply} (e, e)                          & \text{Applicazione}   \\
+		true                                         & \text{Costante vera}  \\
+		false                                        & \text{Costante falsa} \\
+		\text{if } e \text{ then } e \text{ else } e & \text{Condizionale}
+	\end{array}
+\]
+I valori del linguaggio sono:
+\[
+	\begin{array}{lr}
+		V ::=                    & \text{Valori}       \\
+		\text{fun } x : \tau = e & \text{Funzioni}     \\
+		true                     & \text{Valore true}  \\
+		false                    & \text{Valore false}
+	\end{array}
+\]
+
+\subsubsection{Semantica}
+La \textbf{semantica} del linguaggio non cambia rispetto a prima, definiamola in funzione della nuova sintassi e aggiungiamo
+le regole per i valori booleani e per l'espressione condizionale:
+\begin{gather*}
+	\text{Apply}(\text{fun } x : \tau = e_1, e_2) \rightarrow e_1 \{ x := e_2 \} \\
+	\\
+	\frac{e_1 \rightarrow e'}{\text{Apply}(e_1, e_2) \rightarrow \text{Apply}(e', e_2)} \\
+	\\
+	\frac{e_2 \rightarrow e'}{\text{Apply}(e_1, e') \rightarrow \text{Apply}(e_1, e')} \\
+	\\
+	\frac{e \rightarrow e'}{\text{fun } x : \tau = e \rightarrow \text{fun } x : \tau = e'} \\
+	\\
+	\frac{e_1 \rightarrow true}{\text{if } e_1 \text{ then } e_2 \text{ else } e_3 \rightarrow e_2} \\
+	\\
+	\frac{e_1 \rightarrow false}{\text{if } e_1 \text{ then } e_2 \text{ else } e_3 \rightarrow e_3} \\
+\end{gather*}
+
+\subsubsection{Ambiente dei tipi}
+L'\textbf{ambiente dei tipi} è una funzione (di dominio finito) che associa nomi a tipi. Lo rappresentiamo come segue:
+\[ \Gamma = x_1 : \tau_1, \; x_2 : \tau_2, \; \dots, \; x_k : \tau_k \]
+In altre parole possiamo scrivere
+\[ \Gamma (x_i) = \tau_i \]
+per rappresentare la funzione che associa il tipo $\tau_i$ al valore $x_i$. La notazione
+\[ \Gamma, x : \tau \]
+sarà usata per indicare l'\textbf{estensione} della funzione $\Gamma$ con l'associazione $x : \tau$
+\[ (\Gamma, x : \tau)(x) = \tau \quad \text{e} \quad (\Gamma, x : \tau)(y) = \Gamma(y) \quad \text{per} \quad y \neq x \]
+In altre parole estendiamo l'ambiente con una nuova variabile.
+
+\subsubsection{Giudizio di tipo}
+Supponendo di avere un ambiente $\Gamma$, la notazione
+\[ \Gamma \vdash e : \tau \]
+è usata per indicare che l'espressione $e$ ha tipo $\tau$ nell'ambiente di tipo $\Gamma$.
+
+L'ambiente di tipo tiene inoltre conto dei legami tra i nomi che compaiono nel programma e il loro tipo.
+
+\subsubsection{Regole di tipo}
+Definiamo il sistema per il controllo dei tipi per questa versione del $\lambda$-calcolo:
+\begin{gather*}
+	\Gamma \vdash true : Bool \\
+	\Gamma \vdash false : Bool \\
+	\frac{\Gamma (x) = \tau}{\Gamma \vdash x : \tau}
+\end{gather*}
+Una variabile ha il tipo a lei associato nell'ambiente dei tipi.
+
+\subsubsection{Tipi per le funzioni}
+La regola per calcolare il tipo di una funzione è questo:
+\[ \frac{\Gamma, \; x : \tau_1 \vdash e : \tau_2}{\Gamma \vdash \text{fun } x : \tau_1 = e : \tau_1 \rightarrow \tau_2} \]
+Dato che il tipo del parametro formale $x (\tau_1)$ è noto
+\begin{itemize}
+	\item Il tipo delle occorrenze del parametro $x$ nel corpo della funzione saranno associate a $\tau_1$.
+	\item Il tipo del risultato della funzione sarà il tipo del corpo della funzione.
+\end{itemize}
+La funzione richiede un parametro di tipo $\tau_1$ e restituisce come risultato un valore di tipo $\tau_2$.
+
+Se $\Gamma$ conteneva già una funzione con parametro $x$ e si definisce un'altra funzione più interna, sempre con parametro
+$x$, quello che si considera in $e$ è il parametro $x$ più recente (appena dichiarato).
+
+\subsubsection{Chiamata di funzione}
+La regola per la chiamata di funzione, o più nello specifico per Apply, è la seguente:
+\[
+	\frac{\Gamma \vdash e_1 : \tau_1 \rightarrow \tau_2 \quad \Gamma \vdash e_2 : \tau_1}
+	{\Gamma \vdash \text{Apply} (e_1, e_2) : \tau_2}
+\]
+La chiamata di funzione viene valutata corretta se il parametro passato è del tipo giusto.
