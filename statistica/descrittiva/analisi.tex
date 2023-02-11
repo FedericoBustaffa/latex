@@ -230,28 +230,41 @@ Intuitivamente il \emph{coefficiente di correlazione} misura il \emph{legame lin
 ma per comprendere meglio il concetto dobbiamo introdurre la \textbf{retta di regressione}.
 
 \subsection{Rette di regressione}
-Al fine di calcolare una \emph{retta di regressione} dobbiamo calcolare questo termine
-\[ \inf_{a,b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - a - b x_i)^2 \]
-vogliamo cioè approssimare nel modo migliore i dati $y_i$ con una combinazione lineare affine $a + b x_i$.
+Per calcolare una \textbf{retta di regressione} facciamo ovviamente riferimento all'equazione generica di una retta
+\[ y = a x + b \]
+Per calcolare la retta di regressione su un certo insieme di dati dobbiamo trovare $a$ e $b$ tali che la distanza
+fra la retta e i punti sia minima.
+
+In altre parole stiamo cercando di \emph{approssimare} al meglio i dati un insieme di dati calcolando la retta che
+lo fa con il minor errore di approssimazione possibile.
+
+Di seguito troviamo l'equazione che ci fornisce l'\textbf{errore quadratico medio} di una retta di regressione
+\[ Q(a, b) = \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
+Come possiamo vedere, l'\emph{errore quadratico medio}, si calcola facendo la differenza tra $y_i$, ossia uno dei
+dati nel vettore $y$ e $a x_i + b$, ossia il valore della retta con $x_i$ come valore sulle ascisse.
+
+Dato che l'\emph{errore quadratico medio} della retta è la somma degli errori di approssimazione su tutti i punti
+della retta, e questi possono essere anche negativi, non si fa una pura di tutti gli errori, ma del loro quadrato,
+di modo da averli tutti positivi e di modo da poter minimizzare meglio la funzione.
 
 \begin{theorem}
-	Il minimo al variare di $(a, b) \in \mathbb{R}^2$ della quantità
-	\[ \sum_{i=1}^n (y_i - a - b x_i)^2 \]
+	Il minimo, al variare di $(a, b) \in \mathbb{R}^2$, della quantità
+	\[ \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
 	si ottiene calcolando i coefficienti $a^*$ e $b^*$ come segue
-	\[ b^* = \frac{\Cov(x, y)}{\Var(x)} \quad \wedge \quad a^* = -b^* \overline{x} + \overline{y} \]
+	\[ a^* = \frac{\Cov(x, y)}{\Var(x)} \quad \wedge \quad b^* = \overline{y} - a^* \overline{x} \]
 	e vale l'uguaglianza
 	\[
-		\min_{a, b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - a - b x_i)^2 =
-		\sum_{i=1}^n (y_i - \overline{y})^2 (1 - r(x, y)^2)
+		\min_{a, b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - (a x_i + b))^2 =
+		(1 - r(x, y)^2) \cdot \sum_{i=1}^n (y_i - \overline{y})^2
 	\]
-	La retta $y = a^* + b^* x$ è chiamata \textbf{retta di regressione}.
+	La retta $y = a^* x + b^*$ è chiamata \textbf{retta di regressione}.
 	\begin{proof}
 		Quel che vogliamo fare è minimizzare la funzione
-		\[ Q(a, b) = \sum_{i=1}^n (y_i - a - b x_i)^2 \]
+		\[ Q(a, b) = \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
 		al variare di $a$ e $b$. Come è possibile notare dal calcolo del limite
 		\[ \lim_{|a|, |b| \to +\infty} Q(a, b) = +\infty \]
-		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$
-		tendono a $+\infty$.
+		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$ tendono a
+		$\pm\infty$.
 
 		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali rispetto a
 		$a$ e $b$
@@ -259,27 +272,27 @@ vogliamo cioè approssimare nel modo migliore i dati $y_i$ con una combinazione 
 		Dobbiamo quindi andare a risolvere un sistema a due equazioni di questo tipo
 		\[
 			\begin{cases}
-				\sum_{i=1}^n y_i - n a - b \sum_{i=1}^n x_i                      & = 0 \\
-				\sum_{i=1}^n x_i y_i - a \sum_{i=1}^n x_i - b \sum_{i=1}^n x_i^2 & = 0
+				\sum_{i=1}^n x_i y_i - a \sum_{i=1}^n x_i^2 - b \sum_{i=1}^n x_i & = 0 \\
+				\sum_{i=1}^n y_i - a \sum_{i=1}^n x_i - n b                      & = 0
 			\end{cases}
 		\]
 		Dividendo per $n$ entrambe le equazioni si arriva a
 		\[
 			\begin{cases}
-				a + b \overline{x}                              & = \overline{y}                   \\
-				a \overline{x} + b \sum_{i=1}^n \frac{x_i^2}{n} & = \sum_{i=1}^n \frac{x_i y_i}{n}
+				\frac{1}{n} \sum_{i=1}^n x_i y_i - \frac{a}{n} \sum_{i=1}^n x_i^2 + b \overline{x} & = 0 \\
+				\overline{y} - a \overline{x} - b                                                  & = 0
 			\end{cases}
 		\]
-		Risolvendo il sistema si ricavano $a^*$ e $b^*$ come segue
+		Risolvendo il sistema si ricavano $a$ e $b$ come segue
 		\[
 			\begin{cases}
-				b^* = \displaystyle\frac{\sum_i \frac{x_i y_i}{n} - \overline{x} \cdot \overline{y}}
+				b = & \overline{y} - a \overline{x}                                                   \\
+				a = & \displaystyle\frac{\frac{1}{n}\sum_i x_i y_i - \overline{x} \cdot \overline{y}}
 				{\sum_i \frac{x_i^2}{n} - \overline{x}^2} =
-				\frac{\Cov_e(x, y)}{\Var_e(x)}         \\
-				a^* = -b^* \overline{x} + \overline{y} \\
+				\frac{\Cov_e(x, y)}{\Var_e(x)}
 			\end{cases}
 		\]
-		Se si calcola $Q(a^*, b^*)$ si ricava che
+		Otteniamo così $a^*$ e $b^*$ e se proviamo a calcolare $Q(a^*, b^*)$ si ricava che
 		\[ Q(a^*, b^*) = \sum_{i=1}^n (y_i - \overline{y})^2 (1 - r(x, y)^2) \]
 	\end{proof}
 \end{theorem}
