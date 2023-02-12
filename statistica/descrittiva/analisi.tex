@@ -18,13 +18,13 @@ La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un cam
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza campionaria} come
-	\[ \Var(x) = \sum_{i=1}^n \frac{(x_i - \overline{x})^2}{n - 1} \]
+	\[ \Var(x) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \overline{x})^2 \]
 	La varianza campionaria si applica meglio su campioni di dati.
 \end{definition}
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza empirica} come
-	\[ \Var_e(x) = \sum_{i=1}^n \frac{(x_i - \overline{x})^2}{n} \]
+	\[ \Var_e(x) = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2 \]
 	La varianza empirica si applica meglio su intere popolazioni di dati.
 \end{definition}
 
@@ -286,9 +286,10 @@ di modo da averli tutti positivi e di modo da poter minimizzare meglio la funzio
 		Risolvendo il sistema si ricavano $a$ e $b$ come segue
 		\[
 			\begin{cases}
-				b = & \overline{y} - a \overline{x}                                                   \\
-				a = & \displaystyle\frac{\frac{1}{n}\sum_i x_i y_i - \overline{x} \cdot \overline{y}}
-				{\sum_i \frac{x_i^2}{n} - \overline{x}^2} =
+				b = & \overline{y} - a \overline{x}                         \\
+				a = & \displaystyle\frac{\frac{1}{n} \sum_{i=1}^n x_i y_i -
+					\overline{x} \cdot \overline{y}}
+				{\frac{1}{n} \sum_{i=1}^n x_i^2 - \overline{x}^2} =
 				\frac{\Cov_e(x, y)}{\Var_e(x)}
 			\end{cases}
 		\]
