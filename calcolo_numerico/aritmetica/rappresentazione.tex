@@ -1,0 +1,103 @@
+\chapter{Aritmetica di macchina}
+I punti d'interesse del corso sono quindi
+\begin{itemize}
+	\item Capire come i numeri sono rappresentati in macchina.
+	\item Capire come viene implementata l'aritmetica in macchina.
+	\item Capire come il calcolatore approssima i calcoli eseguiti.
+	\item Capire se tale approssimazione è accettabile per il problema che stiamo cercando di risolvere.
+\end{itemize}
+In questo capitolo andremo a trattare la \emph{rappresentazione} dei numeri in macchina, l'\emph{implementazione}
+dell'aritmetica e quali \emph{errori} si possono generare.
+
+\section{Rappresentazione dei numeri}
+Cerchiamo come prima cosa di rappresentare i numeri in modo \textbf{univoco}. Come prima cosa abbandoniamo la
+forma frazionaria di rappresentazione. Come sappiamo le quantità
+\[ 0.1 \quad \frac{1}{10} \quad \frac{2}{20} \]
+hanno tutte lo stesso valore ma, come possiamo facilmente intuire, la forma frazionaria fornisce infinite
+rappresentazioni, tutte equivalenti, per la stessa quantità $0.1$.
+
+Considerando anche che la riduzione ai minimi termini di una frazione è un'operazione in generale costosa ma
+necessaria al fine di avere espressioni più facili da calcolare, non ci possiamo permettere un tipo di
+rappresentazione di questo tipo.
+
+Ecco perché, per rappresentare numeri reali, utilizzeremo la rappresentazione tramite sequenza di cifre decimali.
+
+\begin{observation}
+	Talvolta sarà necessario passare alla rappresentazione di numeri complessi ma, come sappiamo, possiamo vedere
+	un numero complesso come una coppia di reali, dunque non ci saranno grosse differenze nella rappresentazione
+	di questi ultimi.
+\end{observation}
+
+\begin{observation}
+	La rappresentazione in cifre decimali potrebbe essere \textbf{infinita} (per esempio
+	$\frac{1}{3} = 0.\overline{33}$), ma chiaramente non è possibile utilizzare una rappresentazione del genere
+	su un calcolatore.
+\end{observation}
+
+Quest'ultima osservazione ci dice che un grado di approssimazione sia necessario e approssimare significa
+generare un certo errore nella rappresentazione.
+
+Per una questione di \emph{minimizzazione} dello spazio utilizzato per la rappresentazione dei numeri in
+macchina si farà anche ricorso ad esponenziali per rapprentare cifre non significative in forma \emph{compatta}.
+
+\begin{example}
+	Per esempio, per rappresentare 0.0000001 conviene usare la seguente notazione
+	\[ 0.0000001 = 0.1 \cdot 10^{-6} \]
+	in quanto ci permette di rappresentare quei 6 zeri dopo la virgola rappresentando solo il 6 all'esponente.
+\end{example}
+
+\subsection{Rappresentazione normalizzata in virgola mobile}
+\begin{theorem}[Rappresentazione]\label{th: rappr}
+	Dato $x \in \R$ tale che $x \neq 0$, e sia $B \in \N$ tale che $B > 1$, la \textbf{base} di numerazione,
+	esistono e sono univocamente determinati:
+	\begin{itemize}
+		\item Un intero $p \in \Z$, detto \textbf{esponente} della rappresentazione.
+		\item Una serie di numeri naturali $\{ d_i \}_{i \geq 1}$ con
+		      \begin{itemize}
+			      \item $d_1 \neq 0$
+			      \item $0 \leq d_i \leq B - 1$
+			      \item Tutti i $d_i$ non definitivamente uguali a $B - 1$
+		      \end{itemize}
+		      dette \textbf{cifre} di rappresentazione.
+	\end{itemize}
+	tali che
+	\begin{equation}\label{rappr}
+		x = \sign(x) \cdot B^p \cdot \sum_{i=1}^{+\infty} d_i B^{-i}
+	\end{equation}
+\end{theorem}
+
+\begin{definition}
+	La serie $d_1 B^{-1} + d_2 B^{-2} + \dots$ è detta \textbf{mantissa}.
+\end{definition}
+
+La rappresentazione \ref{rappr} è detta \textbf{rappresentazione normalizzata in virgola mobile}
+(\emph{floating point}) in quanto l'esponente $p$ è determinato in modo da avere parte intera nulla e prima
+cifra dopo la virgola non nulla.
+
+Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla rappresentazione.
+\begin{itemize}
+	\item Le condizioni $d_1 \neq 0$ (rappresentazione normalizzata) e $d_i$ non definitivamente uguale a
+	      $B - 1$ ci garantiscono l'\emph{unicità} della rappresentazione
+	\item Il numero $x = 0$ non ammette rappresentazione normalizzata e in macchina viene trattato e
+	      memorizzato in modo speciale.
+\end{itemize}
+
+\begin{example}
+	Rappresentiamo 0.1 tramite la rappresentazione \ref{rappr}:
+	\[ 0.1 = + 10^0 \cdot (1 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \]
+	Se però volessimo rappresentare lo stesso numero in modo diverso, lo potremmo fare in questo modo
+	\[ 0.1 = + 10^1 \cdot (0 \cdot 10^{-1} + 1 \cdot 10^{-2} + 0 \cdot 10^{-3} + \dots) \]
+	Cambiando ogni volta l'esponente $p$ e adattando i $d_i$ è possibile trovare infinte rappresentazioni
+	per 0.1. Dunque $d_1$ deve essere non nullo.
+\end{example}
+
+\begin{example}
+	Come sappiamo $0.\overline{9} = 1$. Se volessimo rappresentare 1 otterremmo
+	\[ 1 = + 10^1 \cdot (1 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \]
+	mentre se rappresentassimo $0.\overline{9}$ otterremmo
+	\[ 0.\overline{9} = + 10^0 \cdot (9 \cdot 10^{-1} + 9 \cdot 10^{-2} + \dots) \]
+	Si ottiene così una rappresentazione normalizzata ($d_1 = 9$) e costituita da soli 9 dopo la virgola, ma
+	dato che i due numeri sono equivalenti la rappresentazione utilizzata è la prima.
+\end{example}
+
+\subsection{Rappresentazione in macchina}

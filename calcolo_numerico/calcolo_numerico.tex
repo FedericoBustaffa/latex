@@ -7,6 +7,21 @@
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definizione}[chapter]
+\newtheorem{proposition}{Proposizione}[chapter]
+\newtheorem{corollary}{Corollario}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{observation}{Osservazione}[chapter]
+\newtheorem{example}{Esempio}[chapter]
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\sign}{sign}
 
 \title{Calcolo numerico}
 \author{Federico Bustaffa}
@@ -18,6 +33,6 @@
 \tableofcontents
 
 \include{introduzione}
-\include{aritmetica}
+\include{aritmetica/rappresentazione}
 
 \end{document}
