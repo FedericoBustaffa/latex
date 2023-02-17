@@ -96,8 +96,54 @@ Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla
 	\[ 1 = + 10^1 \cdot (1 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \]
 	mentre se rappresentassimo $0.\overline{9}$ otterremmo
 	\[ 0.\overline{9} = + 10^0 \cdot (9 \cdot 10^{-1} + 9 \cdot 10^{-2} + \dots) \]
-	Si ottiene così una rappresentazione normalizzata ($d_1 = 9$) e costituita da soli 9 dopo la virgola, ma
-	dato che i due numeri sono equivalenti la rappresentazione utilizzata è la prima.
+	Si ottiene così una rappresentazione normalizzata ($d_1 = 9$) e costituita da soli 9 dopo la virgola,
+	ma dato che i due numeri sono equivalenti la rappresentazione utilizzata è la prima.
 \end{example}
 
 \subsection{Rappresentazione in macchina}
+Per ora abbiamo dato una definizione ideale della rappresentazione in virogla mobile di un numero reale.
+In macchina si ha però a disposizione un registro di lunghezza finita per memorizzare la rappresentazione.
+Tale registro è suddiviso in tre parti:
+\begin{itemize}
+	\item Segno di $x$
+	\item Esponente $p$
+	\item Cifre di rappresentazione $\{ d_i \}$
+\end{itemize}
+Questo ci dice che il numero dei rappresentazione possibili in macchina è finito.
+
+\begin{definition}\label{set_num_macchina}
+	Si definisce \textbf{insieme dei numeri di macchina} in rappresentazione \emph{floating point} con $t$
+	cifre, base $B$ e range $(-m, M)$ l'insieme dei numeri reali
+	\[
+		\F (B, t, m, M) = \{ 0 \} \cup
+		\{ x \in \R : x = \sign(x) \cdot B^p \cdot \sum_{i=1}^t d_i B^{-i} \}
+	\]
+	con $0 \leq d_i \leq B-1$, $d_1 \neq 0$ e $-m \leq p \leq M$.
+\end{definition}
+
+\begin{observation}
+	Guardando l'\emph{insieme dei numeri di macchina} possiamo osservare che
+	\begin{itemize}
+		\item L'insieme dei numeri di macchina $\F(B, t, m, M)$ ha cardinalità finita
+		      \[ N = 2 B^{t-1} (B - 1) (M + m + 1) + 1 \]
+		\item Se $x \in \F(B, t, m, M)$ e $x \neq 0$ allora $\omega = B^{-m - 1}$ e
+		      $\Omega = B^M (1 - B^{-t})$ e vale
+		      \[ \omega \leq |x| \leq \Omega \]
+		      Ne segue che non è possibile rappresentare esattamente numeri non nulli di modulo minore a
+		      $\omega$. Ecco perché si per tali numeri è prevista una rappresentazione \emph{denormalizzata}.
+
+		      Quando $p = -m$ la condizione $d_1 \neq 0$ può essere abbandonata riuscendo a rappresentare
+		      numeri positivi e negativi compresi in modulo tra
+		      \[ [ B^{-m-t} \;;\; B^{-m} (B^{-1} - B^{-t}) ] \]
+
+		      Analogamente se $p = M$ si introducono rappresentazioni speciali per i simboli $\pm \infty$
+		      e NaN.
+		\item L'insieme dei numeri di macchina $\F (B, t, m, M)$ è simmetrico rispetto all'origine.
+		\item Posto $x = (-1)^s \cdot B^p \cdot \alpha$ appartente a $\F(B, t, m, M)$ allora il
+		      successivo numero di macchina risulta essere
+		      \[ y = (-1)^s \cdot B^p \cdot (\alpha + B^{p-t}) \]
+		      Questo ci dice che, in un sistema a virgola mobile, la distanza
+		      \[ |y - x| = B^{p-t} \]
+		      varia con $p$, ovvero con l'ordine di grandezza dei numeri considerati.
+	\end{itemize}
+\end{observation}
