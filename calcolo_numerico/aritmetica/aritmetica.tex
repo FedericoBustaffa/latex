@@ -62,3 +62,42 @@ considerato. Il primo risultato fornisce una maggiorazione uniforme dell'errore 
 \end{observation}
 
 \subsection{Operazioni aritmetiche}
+Per le operazioni aritmetiche eseguite in un sistema \emph{floating point} si pone un analogo problema di
+approssimazione in quanto il risultato dell'operazione tra due numeri di macchina, in generale, non sarà
+un numero di macchina.
+
+Introduciamo dunque una variante delle quattro operazioni fondamentali che indichiamo con $\oplus$, $\ominus$,
+$\otimes$ e $\oslash$. Per tali operazioni è ovviamente richiesto che siano interne all'insieme dei numeri
+di macchina e che producano un'approssimazione quanto più accurata del risultato esatto.
+
+Prendiamo ad esempio l'operazione di addizione in macchina. Un possibile implementazione è la seguente
+\[ \tilde{x} \oplus \tilde{y} = \trn(\tilde{x} + \tilde{y}) \]
+Qui usiamo il troncamento per semplicità ma in realtà l'arrotondamento è il metodo più usato in quanto fornisce
+maggiore accuratezza per l'approssimazione. L'operazione scritta sopra produrrà quindi un errore di
+approssimazione, il quale viene chiamato \textbf{errore di rappresentazione locale} dell'operazione.
+
+\begin{example}
+	Supponiamo di voler calcolare la quantità $f(x) = \frac{x - 1}{x}$. \`E immediato accorgersi che
+	\[ \frac{x - 1}{x} = x - \frac{1}{x} \]
+	E dunque già si identificano due possibile strade per il calcolo della quantità ma concentriamoci solo
+	sulla prima per il momento.
+
+	La prima cosa che fa la macchina è mappare $x$ in $\tilde{x}$. A questo dobbiamo stare molto attenti in
+	quanto l'algoritmo girerà con
+	\[ \tilde{x} = x (1 + \epsilon_x), \quad |\epsilon_x| \leq u \]
+	e non con $x$, fornendo un risultato potenzialmente del tutto sbagliato.
+
+	La cifra 1 la possiamo assumere come numero di macchina in quanto ogni sistema ragionevole include 1 tra
+	i numeri di macchina.
+
+	Se siamo molto fortunati calcolaremo esattamente $f(\tilde{x})$ ma la maggior parte delle volte non sarà
+	così e ne calcolaremo un'approssimazione
+	\[ g(\tilde{x}) = \frac{\tilde{x} \ominus 1}{\tilde{x}} \]
+	Dunque calcoliamo una funzione di fatto differente dalla prima. Sviluppiando l'espressione otteniamo
+	\begin{align*}
+		g(\tilde{x})  = & \frac{\tilde{x} \ominus 1}{\tilde{x}}                                                \\
+		=               & \frac{x (1 + \epsilon_x) \ominus 1}{x (1 + \epsilon_x)}                              \\
+		=               & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2)
+	\end{align*}
+	Dove $\epsilon_x \leq u$, $\epsilon_1 \leq u$ e $\epsilon_2 \leq 2$.
+\end{example}
