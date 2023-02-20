@@ -1,4 +1,4 @@
-\chapter{Aritmetica di macchina}
+\chapter{L'aritmetica del calcolatore}
 I punti d'interesse del corso sono quindi
 \begin{itemize}
 	\item Capire come i numeri sono rappresentati in macchina.
@@ -61,16 +61,14 @@ macchina si farà anche ricorso ad esponenziali per rapprentare cifre non signif
 		      dette \textbf{cifre} di rappresentazione.
 	\end{itemize}
 	tali che
-	\begin{equation}\label{rappr}
-		x = \sign(x) \cdot B^p \cdot \sum_{i=1}^{+\infty} d_i B^{-i}
-	\end{equation}
+	\[ x = \sign(x) \cdot B^p \cdot \sum_{i=1}^{+\infty} d_i B^{-i} \]
 \end{theorem}
 
 \begin{definition}
 	La serie $d_1 B^{-1} + d_2 B^{-2} + \dots$ è detta \textbf{mantissa}.
 \end{definition}
 
-La rappresentazione \ref{rappr} è detta \textbf{rappresentazione normalizzata in virgola mobile}
+La rappresentazione \ref{th: rappr} è detta \textbf{rappresentazione normalizzata in virgola mobile}
 (\emph{floating point}) in quanto l'esponente $p$ è determinato in modo da avere parte intera nulla e prima
 cifra dopo la virgola non nulla.
 
@@ -83,7 +81,7 @@ Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla
 \end{itemize}
 
 \begin{example}
-	Rappresentiamo 0.1 tramite la rappresentazione \ref{rappr}:
+	Rappresentiamo 0.1 tramite la rappresentazione \ref{th: rappr}:
 	\[ 0.1 = + 10^0 \cdot (1 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \]
 	Se però volessimo rappresentare lo stesso numero in modo diverso, lo potremmo fare in questo modo
 	\[ 0.1 = + 10^1 \cdot (0 \cdot 10^{-1} + 1 \cdot 10^{-2} + 0 \cdot 10^{-3} + \dots) \]
@@ -124,13 +122,14 @@ Questo ci dice che il numero dei rappresentazione possibili in macchina è finit
 \begin{observation}
 	Guardando l'\emph{insieme dei numeri di macchina} possiamo osservare che
 	\begin{itemize}
-		\item L'insieme dei numeri di macchina $\F(B, t, m, M)$ ha cardinalità finita
+		\item L'insieme dei numeri di macchina $\F(B, t, m, M)$ ha \textbf{cardinalità finita}
 		      \[ N = 2 B^{t-1} (B - 1) (M + m + 1) + 1 \]
-		\item Se $x \in \F(B, t, m, M)$ e $x \neq 0$ allora $\omega = B^{-m - 1}$ e
-		      $\Omega = B^M (1 - B^{-t})$ e vale
+		\item Se $x \in \F(B, t, m, M)$ e $x \neq 0$ allora $\omega = B^{-m - 1}$ è il più piccolo numero di
+		      macchina positivo e $\Omega = B^M (1 - B^{-t})$ è il più grande numero di macchina positivo e
+		      vale
 		      \[ \omega \leq |x| \leq \Omega \]
 		      Ne segue che non è possibile rappresentare esattamente numeri non nulli di modulo minore a
-		      $\omega$. Ecco perché si per tali numeri è prevista una rappresentazione \emph{denormalizzata}.
+		      $\omega$. Ecco perché, per tali numeri, è prevista una rappresentazione \emph{denormalizzata}.
 
 		      Quando $p = -m$ la condizione $d_1 \neq 0$ può essere abbandonata riuscendo a rappresentare
 		      numeri positivi e negativi compresi in modulo tra
@@ -142,7 +141,7 @@ Questo ci dice che il numero dei rappresentazione possibili in macchina è finit
 		\item Posto $x = (-1)^s \cdot B^p \cdot \alpha$ appartente a $\F(B, t, m, M)$ allora il
 		      successivo numero di macchina risulta essere
 		      \[ y = (-1)^s \cdot B^p \cdot (\alpha + B^{p-t}) \]
-		      Questo ci dice che, in un sistema a virgola mobile, la distanza
+		      Questo ci dice che, in un sistema in virgola mobile, la distanza
 		      \[ |y - x| = B^{p-t} \]
 		      varia con $p$, ovvero con l'ordine di grandezza dei numeri considerati.
 	\end{itemize}
