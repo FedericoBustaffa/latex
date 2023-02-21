@@ -99,5 +99,41 @@ approssimazione, il quale viene chiamato \textbf{errore di rappresentazione loca
 		=               & \frac{x (1 + \epsilon_x) \ominus 1}{x (1 + \epsilon_x)}                              \\
 		=               & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2)
 	\end{align*}
-	Dove $\epsilon_x \leq u$, $\epsilon_1 \leq u$ e $\epsilon_2 \leq 2$.
+	Dove
+	\[ |\epsilon_x| \leq u \quad |\epsilon_1| \leq u \quad |\epsilon_2| \leq u \]
+	Noi siamo interessati ad un'analisi \emph{qualitativa} e per farla dobbiamo introdurre una semplificazione:
+	Svolgiamo un'\textbf{analisi al primo ordine}, semplifichiamo tutti i termini (di errore) di ordine superiore
+	al primo, in quanto considerabili come trascurabili.
+	\begin{align*}
+		       & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2) \\
+		\doteq & \frac{x (1 + \epsilon_x) - 1}{x (1 + \epsilon_x)} (1 + \epsilon_1 + \epsilon_2)
+	\end{align*}
+	A questo punto dobbiamo portare $1 + \epsilon_x$ che sta al denominatore, a numeratore. Sapendo che, in
+	un'analisi al primo ordine, vale che
+	\[ \frac{1}{1 + \epsilon_x} \doteq 1 - \epsilon_x \]
+	possiamo sviluppare il calcolo in questo modo
+	\begin{align*}
+		       & \frac{x (1 + \epsilon_x) - 1}{x (1 + \epsilon_x)} (1 + \epsilon_1 + \epsilon_2)        \\
+		\doteq & \frac{x (1 + \epsilon_x) - 1}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2)            \\
+		=      & \frac{x - 1 + x \epsilon_x}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2)              \\
+		\doteq & \left( \frac{x - 1}{x} + \epsilon_x \right) (1 + \epsilon_x + \epsilon_1 + \epsilon_2) \\
+		\doteq & \frac{x - 1}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x
+	\end{align*}
+	La funzione effettivamente calcolata in macchina è dunque
+	\[ g(\tilde{x}) = \frac{x - 1}{x} \cdot (1 + \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x \]
+	L'errore totale sul risultato sarà dunque
+	\begin{align*}
+		       & \frac{g(\tilde{x} - f(x))}{f(x)}                                                           \\
+		\doteq & \frac{\frac{x - 1}{x} + \frac{x-1}{x}(\epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x -
+		\frac{x - 1}{x}}{\frac{x-1}{x}}                                                                     \\
+		\doteq & \epsilon_x + \epsilon_1 + \epsilon_2 + \epsilon_x \frac{x}{x - 1}
+	\end{align*}
+	Questo ci dice che l'errore finale dipende dagli errori di rappresentazione sui dati e dagli errori locali
+	delle operazioni.
+
+	In questo specifico caso l'errore di rappresentazione di $x$ potrebbe essere amplificato molto quando $x$
+	tende a 1. Se però $x$ è un numero di macchina (errore di rappresentazione nullo) allora $\epsilon_x = 0$
+	e l'errore diventa
+	\[ \epsilon_1 + \epsilon_2 \]
+	e il risultato è accurato.
 \end{example}
