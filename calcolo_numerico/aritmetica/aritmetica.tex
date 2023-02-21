@@ -114,19 +114,20 @@ approssimazione, il quale viene chiamato \textbf{errore di rappresentazione loca
 	possiamo sviluppare il calcolo in questo modo
 	\begin{align*}
 		       & \frac{x (1 + \epsilon_x) - 1}{x (1 + \epsilon_x)} (1 + \epsilon_1 + \epsilon_2)        \\
-		\doteq & \frac{x (1 + \epsilon_x) - 1}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2)            \\
-		=      & \frac{x - 1 + x \epsilon_x}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2)              \\
-		\doteq & \left( \frac{x - 1}{x} + \epsilon_x \right) (1 + \epsilon_x + \epsilon_1 + \epsilon_2) \\
-		\doteq & \frac{x - 1}{x} (1 + \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x
+		\doteq & \frac{x (1 + \epsilon_x) - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2)            \\
+		=      & \frac{x - 1 + x \epsilon_x}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2)              \\
+		\doteq & \left( \frac{x - 1}{x} + \epsilon_x \right) (1 - \epsilon_x + \epsilon_1 + \epsilon_2) \\
+		\doteq & \frac{x - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x
 	\end{align*}
 	La funzione effettivamente calcolata in macchina è dunque
-	\[ g(\tilde{x}) = \frac{x - 1}{x} \cdot (1 + \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x \]
+	\[ g(\tilde{x}) = \frac{x - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x \]
 	L'errore totale sul risultato sarà dunque
 	\begin{align*}
-		       & \frac{g(\tilde{x} - f(x))}{f(x)}                                                           \\
-		\doteq & \frac{\frac{x - 1}{x} + \frac{x-1}{x}(\epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x -
-		\frac{x - 1}{x}}{\frac{x-1}{x}}                                                                     \\
-		\doteq & \epsilon_x + \epsilon_1 + \epsilon_2 + \epsilon_x \frac{x}{x - 1}
+		       & \frac{g(\tilde{x}) - f(x)}{f(x)}                                                            \\
+		\doteq & \frac{\frac{x - 1}{x} + \frac{x-1}{x}(-\epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x -
+		\frac{x - 1}{x}}{\frac{x-1}{x}}                                                                      \\
+		\doteq & -\epsilon_x + \epsilon_1 + \epsilon_2 + \epsilon_x \frac{x}{x - 1}                          \\
+		=      & \epsilon_x \left( \frac{1}{x - 1} \right) + \epsilon_1 + \epsilon_2
 	\end{align*}
 	Questo ci dice che l'errore finale dipende dagli errori di rappresentazione sui dati e dagli errori locali
 	delle operazioni.
