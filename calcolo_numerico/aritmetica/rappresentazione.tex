@@ -14,13 +14,14 @@ Cerchiamo come prima cosa di rappresentare i numeri in modo \textbf{univoco}. Co
 forma frazionaria di rappresentazione. Come sappiamo le quantità
 \[ 0.1 \quad \frac{1}{10} \quad \frac{2}{20} \]
 hanno tutte lo stesso valore ma, come possiamo facilmente intuire, la forma frazionaria fornisce infinite
-rappresentazioni, tutte equivalenti, per la stessa quantità $0.1$.
+rappresentazioni tutte equivalenti per la stessa quantità $0.1$.
 
 Considerando anche che la riduzione ai minimi termini di una frazione è un'operazione in generale costosa ma
 necessaria al fine di avere espressioni più facili da calcolare, non ci possiamo permettere un tipo di
 rappresentazione di questo tipo.
 
-Ecco perché, per rappresentare numeri reali, utilizzeremo la rappresentazione tramite sequenza di cifre decimali.
+Ecco perché, per rappresentare numeri reali, utilizzeremo la rappresentazione tramite \emph{sequenza di cifre
+	decimali}.
 
 \begin{observation}
 	Talvolta sarà necessario passare alla rappresentazione di numeri complessi ma, come sappiamo, possiamo vedere
@@ -34,14 +35,14 @@ Ecco perché, per rappresentare numeri reali, utilizzeremo la rappresentazione t
 	su un calcolatore.
 \end{observation}
 
-Quest'ultima osservazione ci dice che un grado di approssimazione sia necessario e approssimare significa
-generare un certo errore nella rappresentazione.
+Quest'ultima osservazione ci dice che un grado di approssimazione sarà necessario andando così a generare un
+certo errore sulla rappresentazione.
 
 Per una questione di \emph{minimizzazione} dello spazio utilizzato per la rappresentazione dei numeri in
-macchina si farà anche ricorso ad esponenziali per rapprentare cifre non significative in forma \emph{compatta}.
+macchina si farà ricorso ad esponenziali per rapprentare cifre non significative in forma \emph{compatta}.
 
 \begin{example}
-	Per esempio, per rappresentare 0.0000001 conviene usare la seguente notazione
+	Per esempio, per rappresentare 0.0000001 si usa la seguente notazione
 	\[ 0.0000001 = 0.1 \cdot 10^{-6} \]
 	in quanto ci permette di rappresentare quei 6 zeri dopo la virgola rappresentando solo il 6 all'esponente.
 \end{example}
@@ -69,9 +70,10 @@ macchina si farà anche ricorso ad esponenziali per rapprentare cifre non signif
 \end{definition}
 
 La rappresentazione \ref{th: rappr} è detta \textbf{rappresentazione normalizzata in virgola mobile}
-(\emph{floating point}) in quanto l'esponente $p$ è determinato in modo da avere parte intera nulla e prima
-cifra dopo la virgola non nulla.
+(\emph{floating point}) in quanto l'esponente $p$ è determinato in modo che il numero da rappresentare abbia
+parte intera nulla e prima cifra dopo la virgola non nulla.
 
+\subsubsection{Vincoli per la rappresentazione}
 Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla rappresentazione.
 \begin{itemize}
 	\item Le condizioni $d_1 \neq 0$ (rappresentazione normalizzata) e $d_i$ non definitivamente uguale a
@@ -99,19 +101,19 @@ Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla
 \end{example}
 
 \subsection{Rappresentazione in macchina}
-Per ora abbiamo dato una definizione ideale della rappresentazione in virogla mobile di un numero reale.
-In macchina si ha però a disposizione un registro di lunghezza finita per memorizzare la rappresentazione.
-Tale registro è suddiviso in tre parti:
+Per ora abbiamo dato una definizione ideale della rappresentazione in virgola mobile di un numero reale.
+In macchina si ha però a disposizione un registro di lunghezza finita per memorizzarla. Tale registro è
+suddiviso in tre parti:
 \begin{itemize}
 	\item Segno di $x$
 	\item Esponente $p$
 	\item Cifre di rappresentazione $\{ d_i \}$
 \end{itemize}
-Questo ci dice che il numero dei rappresentazione possibili in macchina è finito.
+Abbiamo quindi un numero finito di rappresentazioni possibili in macchina.
 
 \begin{definition}\label{set_num_macchina}
 	Si definisce \textbf{insieme dei numeri di macchina} in rappresentazione \emph{floating point} con $t$
-	cifre, base $B$ e range $(-m, M)$ l'insieme dei numeri reali
+	cifre, base $B$ e range $(-m, M)$, l'insieme dei numeri reali
 	\[
 		\F (B, t, m, M) = \{ 0 \} \cup
 		\{ x \in \R : x = \sign(x) \cdot B^p \cdot \sum_{i=1}^t d_i B^{-i} \}
@@ -122,8 +124,19 @@ Questo ci dice che il numero dei rappresentazione possibili in macchina è finit
 \begin{observation}
 	Guardando l'\emph{insieme dei numeri di macchina} possiamo osservare che
 	\begin{itemize}
-		\item L'insieme dei numeri di macchina $\F(B, t, m, M)$ ha \textbf{cardinalità finita}
+		\item Ha \textbf{cardinalità finita}
 		      \[ N = 2 B^{t-1} (B - 1) (M + m + 1) + 1 \]
+		      Otteniamo questo risultato dato che
+		      \begin{itemize}
+			      \item Il segno di $x$ può avere solo 2 valori possibili.
+			      \item Avendo $t$ cifre disponibili per la rappresentazione abbiamo $B^t$ possibili
+			            configurazioni. Ma dato che $d_1 \neq 0$ allora passiamo a $B^{t-1}$ configurazioni
+			            effettive.
+			      \item Ogni $d_i$ ha $B - 1$ possibili valori.
+			      \item L'esponente è compreso tra $-m$ ed $M$ dunque abbiamo $m + M$ possibili valori ai quali
+			            dobbiamo aggiungere lo zero.
+			      \item Aggiungiamo lo zero.
+		      \end{itemize}
 		\item Se $x \in \F(B, t, m, M)$ e $x \neq 0$ allora $\omega = B^{-m - 1}$ è il più piccolo numero di
 		      macchina positivo e $\Omega = B^M (1 - B^{-t})$ è il più grande numero di macchina positivo e
 		      vale
@@ -131,9 +144,10 @@ Questo ci dice che il numero dei rappresentazione possibili in macchina è finit
 		      Ne segue che non è possibile rappresentare esattamente numeri non nulli di modulo minore a
 		      $\omega$. Ecco perché, per tali numeri, è prevista una rappresentazione \emph{denormalizzata}.
 
-		      Quando $p = -m$ la condizione $d_1 \neq 0$ può essere abbandonata riuscendo a rappresentare
-		      numeri positivi e negativi compresi in modulo tra
-		      \[ [ B^{-m-t} \;;\; B^{-m} (B^{-1} - B^{-t}) ] \]
+		      Quando $p = -m$ la condizione $d_1 \neq 0$ può essere abbandonata potendo quindi rappresentare come
+		      numero più piccolo positivo $B^{-m-t}$ e dunque riuscendo a rappresentare numeri positivi e negativi
+		      compresi in modulo tra
+		      \[ [ B^{-m-t} \;;\; B^{-m-1} - B^{-m-t} ] \]
 
 		      Analogamente se $p = M$ si introducono rappresentazioni speciali per i simboli $\pm \infty$
 		      e NaN.
@@ -146,3 +160,26 @@ Questo ci dice che il numero dei rappresentazione possibili in macchina è finit
 		      varia con $p$, ovvero con l'ordine di grandezza dei numeri considerati.
 	\end{itemize}
 \end{observation}
+
+\subsubsection{Standard IEEE per la doppia precisione}
+Lo standard proposto dal IEEE per la rappresentazione in virgola mobile (base 2) prevede registri lunghi 64 bit.
+In prima battuta si era pensato ad una suddivisione del registro di questo tipo:
+\begin{itemize}
+	\item 1 bit per il segno.
+	\item 11 bit per l'esponente.
+	\item 52 bit per le cifre di rappresentazione.
+\end{itemize}
+Il problema di questo modello di rappresentazione era la doppia rappresentazione dello 0 (-0 e +0) ed è stato
+quindi scartato.
+
+L'attuale standard, per risolvere il problema, rappresenta l'esponente in \textbf{traslazione}. Chiariamo meglio
+il concetto procedendo con ordine:
+\begin{itemize}
+	\item Dato che si hanno 11 bit per l'esponente si possono rappresentare numeri che vanno da 0 a 2047. Abbiamo
+	      quindi 2048 configurazioni totali per l'esponente.
+	\item Le due configurazioni di bit con tutti 0 e tutti 1 vengono tenute da parte e trattate in modo
+	      \emph{speciale}. Ci rimangono dunque 2046 configurazioni.
+	\item Lo standard definisce l'esponente nell'intervallo
+	      \[ [ -1021, \; 1024 ] \]
+	      Abbiamo dunque che $m = -1021$ e $M = 1024$.
+\end{itemize}
