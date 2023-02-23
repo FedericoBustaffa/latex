@@ -153,11 +153,16 @@ Abbiamo quindi un numero finito di rappresentazioni possibili in macchina.
 		      e NaN.
 		\item L'insieme dei numeri di macchina $\F (B, t, m, M)$ è simmetrico rispetto all'origine.
 		\item Posto $x = (-1)^s \cdot B^p \cdot \alpha$ appartente a $\F(B, t, m, M)$ allora il
-		      successivo numero di macchina risulta essere
+		      successivo numero di macchina si ottiene sommando alle cifre di rappresentazione il più piccolo
+		      numero di macchina rappresentabile in quell'ordine di grandezza, ossia
+		      \[ B^p \cdot 1 \cdot B^{-t} = B^{p - t} \]
+		      Otteniamo quindi che il numero di macchina successivo a $x$ è
 		      \[ y = (-1)^s \cdot B^p \cdot (\alpha + B^{p-t}) \]
-		      Questo ci dice che, in un sistema in virgola mobile, la distanza
+		      Questo ci dice che, in un sistema in virgola mobile, la distanza tra due numeri di macchina
 		      \[ |y - x| = B^{p-t} \]
-		      varia con $p$, ovvero con l'ordine di grandezza dei numeri considerati.
+		      varia con $p$, ovvero con l'ordine di grandezza dei numeri considerati. In generale possiamo
+		      immaginarci l'insieme dei numeri di macchina più denso vicino a $\omega$, al contrario andando verso
+		      $\Omega$ la distanza tra i numeri di macchina sarà più grande.
 	\end{itemize}
 \end{observation}
 
