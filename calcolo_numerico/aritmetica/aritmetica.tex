@@ -10,51 +10,66 @@ quanto più piccolo possibile in valore assoluto. La quantità
 \[ \eta_x = \tilde{x} - x \]
 è detta \textbf{errore assoluto} di rappresentazione. Dato $x \in \R$ con $x \neq 0$, distinguiamo 2 casi:
 \begin{itemize}
-	\item $|x| < \omega$ (\textbf{underflow}) o $|x| > \Omega$ (\textbf{overflow})
+	\item $|x| < \omega$ (\emph{underflow}) o $|x| > \Omega$ (\emph{overflow})
 	\item $\omega \leq |x| \leq \Omega$
 \end{itemize}
 Nel secondo caso le tecniche di approssimazione previste dallo standard IEEE 754 sono:
 \begin{itemize}
-	\item \textbf{Round to the nearest} (arrotondamento): il numero $x$ viene approssimato con il numero di
-	      macchina $\tilde{x}$ più vicino.
-	\item \textbf{Round toward zero} (troncamento): il numero $x$ viene approssimato con il più grande numero
-	      di macchina $\tilde{x}$ il cui valore assoluto risulti minore o uguale al valore assoluto di $x$.
+	\item \textbf{Arrotondamento}: il numero $x$ viene approssimato con il numero di macchina $\tilde{x}$
+	      più vicino.
+	\item \textbf{Troncamento}: il numero $x$ viene approssimato con il più grande numero di macchina
+	      $\tilde{x}$ il cui valore assoluto risulti minore o uguale al valore assoluto di $x$.
 	\item \textbf{Round toward plus infinity}: il numero $x$ viene approssimato al più piccolo numero
 	      rappresentabile maggiore del dato.
 	\item \textbf{Round toward minus infinity}: il numero $x$ viene approssimato al più grande numero
 	      rappresentabile minore del dato.
 \end{itemize}
-Assumiamo per semplicità di considerare una macchina che opera con troncamento sull'insieme $\F$. Per
-convenzione indichiamo con $\trn(x) = \tilde{x}$ il risultato dell'approssimazione di $x$ con troncamento e
-più generalmente $\fl(x)$ l'approssimazione in macchina del dato $x$ nel sistema \emph{floating point}
-considerato. Il primo risultato fornisce una maggiorazione uniforme dell'errore di rappresentazione.
+Consideriamo una macchina che opera con troncamento sull'insieme $\F$. Per convenzione indichiamo con
+$\trn(x) = \tilde{x}$ il risultato dell'approssimazione di $x$ con troncamento e più generalmente $\fl(x)$
+l'approssimazione in macchina del dato $x$ nel sistema \emph{floating point} considerato. Il primo risultato
+fornisce una maggiorazione uniforme dell'errore di rappresentazione.
 
-\begin{theorem}\label{th: prec}
-	Sia $x \in \R$ con $\omega \leq |x| \leq \Omega$. Si ha
-	\[ |\epsilon_x| = \left| \frac{\trn(x) - x}{x} \right| \leq u = B^{1-t} \]
+\begin{theorem}\label{th: precisione}
+	Sia $x \in \R$ con $\omega \leq |x| \leq \Omega$ e sia $\trn(x)$ l'approssimazione di $x$ con troncamento.
+	Vale che
+	\[ |\epsilon_x| = \left| \frac{\trn(x) - x}{x} \right| \leq B^{1-t} = u \]
 	dove $u$ è detta \textbf{precisione di macchina}, la quale non dipende da $x$ e fornisce errori più grandi
 	per numeri grandi ed errori piccoli per numeri piccoli.
 	\begin{proof}
-		Sia $x = (-1)^s \cdot B^p \alpha$. L'errore assoluto $|\trn(x) - x|$ risulta maggiorato dalla distanza
-		tra i due numeri di macchina consecutivi e quindi
+		Sia $x = (-1)^s \cdot B^p \cdot \alpha$. L'errore assoluto $|\trn(x) - x|$ risulta maggiorato dalla
+		distanza tra i due numeri di macchina consecutivi e quindi
 		\[ |\trn(x) - x| \leq B^{p-t} \]
 		Inoltre $|x| \geq B^{p-1}$. Pertanto vale
 		\[ |\epsilon_x| = \left| \frac{\trn(x) - x}{x} \right| \leq \frac{B^{p-t}}{B^{p-1}} = B^{1-t} = u \]
 	\end{proof}
 \end{theorem}
 
+Il termine \emph{precisione di macchina} potrebbe confondere in quanto si potrebbe pensare che un alto valore
+di $u$ significhi una migliore rappresentazione del numero $x$. In realtà la precisione di macchina ci fornisce
+un limite superiore per l'errore di rappresentazione su $x$. L'errore di rappresentazione può infatti avere un
+valore compreso tra 0 e $u$.
+
 \begin{observation}
 	Possiamo osservare che
 	\begin{itemize}
 		\item La \emph{precisione di macchina} è indipendente dalla grandezza del numero e caratteristica
-		      dell'aritmetica \emph{floating point} implementata sulla macchina su cui stiamo operando. Se ad
-		      esempio operiamo con arrotondamento, la distanza tra $x$ e la sua approssimazione di macchina, e
-		      quindi la precisione di macchina, si dimezzano.
+		      dell'aritmetica \emph{floating point} implementata sulla macchina su cui stiamo operando.
+
+		      Se ad esempio operiamo con arrotondamento, la distanza tra $x$ e la sua approssimazione di
+		      macchina, e quindi la precisione di macchina, si dimezzano.
+		      \[ |\epsilon_x| = \left| \frac{\arr(x) - x}{x} \right| \leq \frac{B^{1 - t}}{2} = u \]
+		      Questo perché non abbiamo più una
+		      maggiorazione sull'intera ampiezza dell'intervallo tra $\tilde{x}$ e il successivo numero di
+		      macchina ma sulla metà di tale ampiezza.
 		\item Per valutare la precisione di macchina possiamo determinare il più piccolo numero di macchina
-		      maggiore di 1. Sia infatti $x$ il numero che cerchiamo, abbiamo che $x - 1 = |x - 1| = B^{1-t}$,
-		      essendo $1 = B^1 \cdot B^{-1}$ rappresentato con esponente $p = 1$.
-		\item Dal teorema \ref{th: prec} si ricava che, dato $x \in \R$, in assenza di situazione di
-		      \emph{underflow} o \emph{overflow}, per la sua rappresentazione in macchina vale che
+		      maggiore di 1. Sia infatti $x$ il numero che cerchiamo, abbiamo che
+		      \[ x - 1 = |x - 1| = B^{1-t} \]
+		      essendo
+		      \[ 1 = B^1 \cdot B^{-1} \]
+		      rappresentato con esponente $p = 1$.
+		\item Dal teorema \ref{th: precisione} e dall'osservazione appena fatta si ricava che, dato $x \in \R$,
+		      in assenza di situazione di \emph{underflow} o \emph{overflow}, per la sua rappresentazione in
+		      macchina vale che
 		      \[ \fl(x) = x (1 + \epsilon_x), \quad |\epsilon_x| \leq u \]
 		      Questa relazione esprime il modo in cui viene generalmente descritto il legame tra un numero reale
 		      e la sua rappresentazione in macchina.

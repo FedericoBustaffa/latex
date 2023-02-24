@@ -48,7 +48,7 @@ macchina si farà ricorso ad esponenziali per rapprentare cifre non significativ
 \end{example}
 
 \subsection{Rappresentazione normalizzata in virgola mobile}
-\begin{theorem}[Rappresentazione]\label{th: rappr}
+\begin{theorem}[Rappresentazione]\label{th: rappresentazione}
 	Dato $x \in \R$ tale che $x \neq 0$, e sia $B \in \N$ tale che $B > 1$, la \textbf{base} di numerazione,
 	esistono e sono univocamente determinati:
 	\begin{itemize}
@@ -69,12 +69,12 @@ macchina si farà ricorso ad esponenziali per rapprentare cifre non significativ
 	La serie $d_1 B^{-1} + d_2 B^{-2} + \dots$ è detta \textbf{mantissa}.
 \end{definition}
 
-La rappresentazione \ref{th: rappr} è detta \textbf{rappresentazione normalizzata in virgola mobile}
+La rappresentazione \ref{th: rappresentazione} è detta \textbf{rappresentazione normalizzata in virgola mobile}
 (\emph{floating point}) in quanto l'esponente $p$ è determinato in modo che il numero da rappresentare abbia
 parte intera nulla e prima cifra dopo la virgola non nulla.
 
 \subsubsection{Vincoli per la rappresentazione}
-Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla rappresentazione.
+Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappresentazione} sulla rappresentazione.
 \begin{itemize}
 	\item Le condizioni $d_1 \neq 0$ (rappresentazione normalizzata) e $d_i$ non definitivamente uguale a
 	      $B - 1$ ci garantiscono l'\emph{unicità} della rappresentazione
@@ -83,7 +83,7 @@ Andiamo ad analizzare meglio i vincoli imposti nel teorema \ref{th: rappr} sulla
 \end{itemize}
 
 \begin{example}
-	Rappresentiamo 0.1 tramite la rappresentazione \ref{th: rappr}:
+	Rappresentiamo 0.1 tramite la rappresentazione \ref{th: rappresentazione}:
 	\[ 0.1 = + 10^0 \cdot (1 \cdot 10^{-1} + 0 \cdot 10^{-2} + \dots) \]
 	Se però volessimo rappresentare lo stesso numero in modo diverso, lo potremmo fare in questo modo
 	\[ 0.1 = + 10^1 \cdot (0 \cdot 10^{-1} + 1 \cdot 10^{-2} + 0 \cdot 10^{-3} + \dots) \]
@@ -111,7 +111,7 @@ suddiviso in tre parti:
 \end{itemize}
 Abbiamo quindi un numero finito di rappresentazioni possibili in macchina.
 
-\begin{definition}\label{set_num_macchina}
+\begin{definition}\label{def: numeri_macchina}
 	Si definisce \textbf{insieme dei numeri di macchina} in rappresentazione \emph{floating point} con $t$
 	cifre, base $B$ e range $(-m, M)$, l'insieme dei numeri reali
 	\[

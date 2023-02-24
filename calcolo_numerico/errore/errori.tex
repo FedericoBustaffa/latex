@@ -1,0 +1,63 @@
+\chapter{Analisi degli errori}
+In questo capitolo andiamo a trattare gli errori nel calcolo di funzioni razionali e non e andiamo a vedere
+alcune tecniche per l'analisi tali errori.
+
+\section{Errori nel calcolo di una funzione razionale}
+Inizialmente andremo a considerare funzioni di questo tipo
+\[ f : \R \to \R\]
+anche se si tratta di una semplificazione in quanto, in casi più realistici si ha a che fare con funzioni del tipo
+\[ f : \R^n \to \R \]
+Come abbiamo già anticipato nel capitolo precedente, quello che calcoliamo non è $f(x)$ ma, se abbiamo fortuna,
+quello che andiamo a calcolare è $f(\tilde{x})$.
+
+\begin{definition}
+	Definiamo \textbf{errore inerente} la quantità
+	\[ \epsilon_{\text{in}} = \frac{f(\tilde{x}) - f(x)}{f(x)} \]
+	La quale rappresenta l'errore che viene sempre commesso in quanto la macchina non riceve in ingresso
+	il dato esatto ma quello approssimato.
+\end{definition}
+
+\begin{observation}
+	Possiamo osservare che
+	\begin{itemize}
+		\item L'\emph{errore inerente} non dipende dall'algoritmo usato per la risoluzione del problema ma
+		      misura la sensibilità della funzione $f$ rispetto alla perturbazione del dato iniziale.
+		\item Se l'\emph{errore inerente} è qualitativamente elevato in valore assoluto diciamo che il problema
+		      è \textbf{mal condizionato}. Al contrario, se è piccolo, diciamo che il problema è
+		      \textbf{ben condizionato}.
+	\end{itemize}
+\end{observation}
+
+\begin{definition}
+	Definiamo \textbf{errore algoritmico} la quantità
+	\[ \epsilon_{\text{alg}} = \frac{g(\tilde{x}) - f(\tilde{x})}{f(\tilde{x})} \]
+	l'errore generato nel calcolo di $f(\tilde{x}) \neq 0$.
+\end{definition}
+
+\begin{observation}
+	Possiamo osservare che
+	\begin{itemize}
+		\item La funzione $g$ dipende dall'algoritmo utilizzato per calcolare $f(x)$. In generale possiamo dire
+		      che diversi algoritmi conducono a differenti errori algoritmici.
+		\item Se l'\emph{errore algoritmico} è qualitativamente elevato in valore assoluto diciamo che l'algoritmo
+		      è \textbf{numericamente instabile}. Al contrario, se è piccolo, diciamo che il problema è
+		      \textbf{numericamente stabile}.
+	\end{itemize}
+\end{observation}
+
+\begin{definition}
+	Definiamo \textbf{errore totale} la quantità
+	\[ \epsilon_{\text{tot}} = \frac{g(\tilde{x}) - f(x)}{f(x)} \]
+	l'errore generato nel calcolo di $f(x) \neq 0$ mediante l'algoritmo specificato da $g$. L'\emph{errore totale}
+	misura la differenza relativa tra l'output atteso e l'output effettivamente calcolato.
+\end{definition}
+
+\begin{theorem}
+	In un'analisi al primo ordine vale
+	\[ \epsilon_{\text{tot}} = \epsilon_{\text{in}} + \epsilon_{\text{alg}} \]
+\end{theorem}
+
+Il teorema esprime il fatto che nel calcolo di una funzione razionale in un'analisi al primo ordine le due fonti
+di errore individuate precedentemente forniscono contributi separati che possono essere analizzati
+indipendentemente. L'obbiettivo dell'analisi numerica è individuare algoritmi numericamente \emph{stabili} per
+problemi \emph{ben condizionati}.
