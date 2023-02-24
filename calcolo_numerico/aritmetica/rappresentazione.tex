@@ -174,10 +174,10 @@ In prima battuta si era pensato ad una suddivisione del registro di questo tipo:
 	\item 11 bit per l'esponente.
 	\item 52 bit per le cifre di rappresentazione.
 \end{itemize}
-Il problema di questo modello di rappresentazione era la doppia rappresentazione dello 0 ($-0$ e $+0$) ed è stato
+Il problema di questo modello di rappresentazione è la doppia rappresentazione dello 0 ($-0$ e $+0$) ed è stato
 quindi scartato.
 
-L'attuale standard, per risolvere il problema, rappresenta l'esponente in \textbf{traslazione}. Chiariamo meglio
+L'attuale standard rappresenta l'esponente in \textbf{traslazione}. Chiariamo meglio
 il concetto procedendo con ordine:
 \begin{enumerate}
 	\item Dato che si hanno 11 bit per l'esponente si possono rappresentare numeri che vanno da 0 a 2047. Abbiamo
@@ -188,3 +188,19 @@ il concetto procedendo con ordine:
 	      \[ [ -1021, \; 1024 ] \]
 	      Abbiamo dunque che $m = -1021$ e $M = 1024$.
 \end{enumerate}
+Notiamo inoltre che, in notazione normalizzata, $d_1$ deve essere $\neq 0$ ma dato che stiamo operando in
+base 2 possiamo dedurre che $d_1$ deve essere sempre uguale a 1. Questo ci permette di non includere $d_1$
+nelle cifre della rappresentazione dandoci la possibilità di usare, di fatto, 53 cifre di rappresentazione.
+
+Come abbiamo detto poco fa, le due configurazioni dell'esponente con tutti 0 e tutti 1, sono configurazioni
+\emph{speciali}. Nel caso in cui l'esponente sia rappresentato da tutti 1 distinguono due casi:
+\begin{itemize}
+	\item Nel caso in cui nella mantissa ci sia almeno una cifra diversa da 0 allora si rappresenta
+	      $\pm \infty$
+	\item Nel caso in cui tutte le cifre della mantissa siano uguali a 0 allora si rappresenta NaN.
+\end{itemize}
+Nel caso in cui l'esponente sia rappresentato da tutti 0 allora si usa la notazione \textbf{denormalizzata}
+per riuscire a rappresentare anche un po' dei numeri che stanno tra 0 e $\omega$. Per riuscire a farlo
+abbandoniamo il vincolo $d_1 \neq 0$. Nello specifico, si va rappresentare il numero in questo modo
+\[ x = \sign(x) \cdot 2^{-1022} \cdot \sum_{i=1}^t d_i 2^{-i} \]
+andando a rappresentare lo 0 nel caso in cui ci siano tutti 0 nella mantissa.
