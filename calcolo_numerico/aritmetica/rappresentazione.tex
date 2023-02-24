@@ -174,12 +174,12 @@ In prima battuta si era pensato ad una suddivisione del registro di questo tipo:
 	\item 11 bit per l'esponente.
 	\item 52 bit per le cifre di rappresentazione.
 \end{itemize}
-Il problema di questo modello di rappresentazione era la doppia rappresentazione dello 0 (-0 e +0) ed è stato
+Il problema di questo modello di rappresentazione era la doppia rappresentazione dello 0 ($-0$ e $+0$) ed è stato
 quindi scartato.
 
 L'attuale standard, per risolvere il problema, rappresenta l'esponente in \textbf{traslazione}. Chiariamo meglio
 il concetto procedendo con ordine:
-\begin{itemize}
+\begin{enumerate}
 	\item Dato che si hanno 11 bit per l'esponente si possono rappresentare numeri che vanno da 0 a 2047. Abbiamo
 	      quindi 2048 configurazioni totali per l'esponente.
 	\item Le due configurazioni di bit con tutti 0 e tutti 1 vengono tenute da parte e trattate in modo
@@ -187,4 +187,4 @@ il concetto procedendo con ordine:
 	\item Lo standard definisce l'esponente nell'intervallo
 	      \[ [ -1021, \; 1024 ] \]
 	      Abbiamo dunque che $m = -1021$ e $M = 1024$.
-\end{itemize}
+\end{enumerate}
