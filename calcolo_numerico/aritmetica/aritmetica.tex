@@ -1,13 +1,13 @@
 \section{Aritmetica di macchina}
 Adesso rimane da capire come la macchina mappa i numeri reali in numeri di macchina. Il problema che ci
-poniamo è il seguente: sia $x \in \R$, quale numero di macchina $\tilde{x} \in \F$ viene associato a $x$
+poniamo è il seguente: sia $x \in \R$, quale numero di macchina $\tx \in \F$ viene associato a $x$
 per la rappresentazione?
 
-Associare un numero di macchina $\tilde{x}$ a $x$ significa \textbf{approssimare} $x$ commettendo un
+Associare un numero di macchina $\tx$ a $x$ significa \textbf{approssimare} $x$ commettendo un
 \textbf{errore relativo} di rappresentazione
-\[ \epsilon_x = \frac{\tilde{x} - x}{x} = \frac{\eta_x}{x}, \quad x \neq 0 \]
+\[ \epsilon_x = \frac{\tx - x}{x} = \frac{\eta_x}{x}, \quad x \neq 0 \]
 quanto più piccolo possibile in valore assoluto. La quantità
-\[ \eta_x = \tilde{x} - x \]
+\[ \eta_x = \tx - x \]
 è detta \textbf{errore assoluto} di rappresentazione. Dato $x \in \R$ con $x \neq 0$, distinguiamo 2 casi:
 \begin{itemize}
 	\item $|x| < \omega$ (\emph{underflow}) o $|x| > \Omega$ (\emph{overflow})
@@ -15,17 +15,17 @@ quanto più piccolo possibile in valore assoluto. La quantità
 \end{itemize}
 Nel secondo caso le tecniche di approssimazione previste dallo standard IEEE 754 sono:
 \begin{itemize}
-	\item \textbf{Arrotondamento}: il numero $x$ viene approssimato con il numero di macchina $\tilde{x}$
+	\item \textbf{Arrotondamento}: il numero $x$ viene approssimato con il numero di macchina $\tx$
 	      più vicino.
 	\item \textbf{Troncamento}: il numero $x$ viene approssimato con il più grande numero di macchina
-	      $\tilde{x}$ il cui valore assoluto risulti minore o uguale al valore assoluto di $x$.
+	      $\tx$ il cui valore assoluto risulti minore o uguale al valore assoluto di $x$.
 	\item \textbf{Round toward plus infinity}: il numero $x$ viene approssimato al più piccolo numero
 	      rappresentabile maggiore del dato.
 	\item \textbf{Round toward minus infinity}: il numero $x$ viene approssimato al più grande numero
 	      rappresentabile minore del dato.
 \end{itemize}
 Consideriamo una macchina che opera con troncamento sull'insieme $\F$. Per convenzione indichiamo con
-$\trn(x) = \tilde{x}$ il risultato dell'approssimazione di $x$ con troncamento e più generalmente $\fl(x)$
+$\trn(x) = \tx$ il risultato dell'approssimazione di $x$ con troncamento e più generalmente $\fl(x)$
 l'approssimazione in macchina del dato $x$ nel sistema \emph{floating point} considerato. Il primo risultato
 fornisce una maggiorazione uniforme dell'errore di rappresentazione.
 
@@ -59,7 +59,7 @@ valore compreso tra 0 e $u$.
 		      macchina, e quindi la precisione di macchina, si dimezzano.
 		      \[ |\epsilon_x| = \left| \frac{\arr(x) - x}{x} \right| \leq \frac{B^{1 - t}}{2} = u \]
 		      Questo perché non abbiamo più una
-		      maggiorazione sull'intera ampiezza dell'intervallo tra $\tilde{x}$ e il successivo numero di
+		      maggiorazione sull'intera ampiezza dell'intervallo tra $\tx$ e il successivo numero di
 		      macchina ma sulla metà di tale ampiezza.
 		\item Per valutare la precisione di macchina possiamo determinare il più piccolo numero di macchina
 		      maggiore di 1. Sia infatti $x$ il numero che cerchiamo, abbiamo che
@@ -86,7 +86,7 @@ $\otimes$ e $\oslash$. Per tali operazioni è ovviamente richiesto che siano int
 di macchina e che producano un'approssimazione quanto più accurata del risultato esatto.
 
 Prendiamo ad esempio l'operazione di addizione in macchina. Un possibile implementazione è la seguente
-\[ \tilde{x} \oplus \tilde{y} = \trn(\tilde{x} + \tilde{y}) \]
+\[ \tx \oplus \tilde{y} = \trn(\tx + \tilde{y}) \]
 Qui usiamo il troncamento per semplicità ma in realtà l'arrotondamento è il metodo più usato in quanto fornisce
 maggiore accuratezza per l'approssimazione. L'operazione scritta sopra produrrà quindi un errore di
 approssimazione, il quale viene chiamato \textbf{errore di rappresentazione locale} dell'operazione.
@@ -97,22 +97,22 @@ approssimazione, il quale viene chiamato \textbf{errore di rappresentazione loca
 	E dunque già si identificano due possibile strade per il calcolo della quantità ma concentriamoci solo
 	sulla prima per il momento.
 
-	La prima cosa che fa la macchina è mappare $x$ in $\tilde{x}$. A questo dobbiamo stare molto attenti in
+	La prima cosa che fa la macchina è mappare $x$ in $\tx$. A questo dobbiamo stare molto attenti in
 	quanto l'algoritmo girerà con
-	\[ \tilde{x} = x (1 + \epsilon_x), \quad |\epsilon_x| \leq u \]
+	\[ \tx = x (1 + \epsilon_x), \quad |\epsilon_x| \leq u \]
 	e non con $x$, fornendo un risultato potenzialmente del tutto sbagliato.
 
 	La cifra 1 la possiamo assumere come numero di macchina in quanto ogni sistema ragionevole include 1 tra
 	i numeri di macchina.
 
-	Se siamo molto fortunati calcolaremo esattamente $f(\tilde{x})$ ma la maggior parte delle volte non sarà
+	Se siamo molto fortunati calcolaremo esattamente $f(\tx)$ ma la maggior parte delle volte non sarà
 	così e ne calcolaremo un'approssimazione
-	\[ g(\tilde{x}) = \frac{\tilde{x} \ominus 1}{\tilde{x}} \]
+	\[ g(\tx) = \frac{\tx \ominus 1}{\tx} \]
 	Dunque calcoliamo una funzione di fatto differente dalla prima. Sviluppiando l'espressione otteniamo
 	\begin{align*}
-		g(\tilde{x})  = & \frac{\tilde{x} \ominus 1}{\tilde{x}}                                                \\
-		=               & \frac{x (1 + \epsilon_x) \ominus 1}{x (1 + \epsilon_x)}                              \\
-		=               & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2)
+		g(\tx)  = & \frac{\tx \ominus 1}{\tx}                                                            \\
+		=         & \frac{x (1 + \epsilon_x) \ominus 1}{x (1 + \epsilon_x)}                              \\
+		=         & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2)
 	\end{align*}
 	Dove
 	\[ |\epsilon_x| \leq u \quad |\epsilon_1| \leq u \quad |\epsilon_2| \leq u \]
@@ -135,10 +135,10 @@ approssimazione, il quale viene chiamato \textbf{errore di rappresentazione loca
 		\doteq & \frac{x - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x
 	\end{align*}
 	La funzione effettivamente calcolata in macchina è dunque
-	\[ g(\tilde{x}) = \frac{x - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x \]
+	\[ g(\tx) = \frac{x - 1}{x} (1 - \epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x \]
 	L'errore totale sul risultato sarà dunque
 	\begin{align*}
-		       & \frac{g(\tilde{x}) - f(x)}{f(x)}                                                            \\
+		       & \frac{g(\tx) - f(x)}{f(x)}                                                                  \\
 		\doteq & \frac{\frac{x - 1}{x} + \frac{x-1}{x}(-\epsilon_x + \epsilon_1 + \epsilon_2) + \epsilon_x -
 		\frac{x - 1}{x}}{\frac{x-1}{x}}                                                                      \\
 		\doteq & -\epsilon_x + \epsilon_1 + \epsilon_2 + \epsilon_x \frac{x}{x - 1}                          \\
