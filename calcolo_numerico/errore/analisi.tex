@@ -6,8 +6,26 @@ Parliamo ora delle tecniche per l'analisi dell'errore. La continuità della funz
 	\frac{f(\tx) - f(x)}{\tx - x} \frac{x}{f(x)} \frac{\tx - x}{x}
 \]
 si ricava che la \emph{differenziabilità} di $f(x)$ è essenziale per il controllo dell'errore inerente. In
-particolare se la funzione è \textbf{regolare}, ossia derivabile due volte con derivata continua, allora vale
+particolare se la funzione è \textbf{regolare}, ossia derivabile volte con derivate continue, allora vale
 lo sviluppo di Taylor
 \[ f(\tx) = f(x) + f'(x) (\tx - x) + \frac{f''(\xi)}{2} (\tx - x)^2 \]
 con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
-\[ \ein \frac{}{} \]
+\[
+	\ein \frac{f(\tx) - f(x)}{f(x)} \doteq \frac{f'(x)}{f(x)} \cdot x \cdot \epsilon_x = c_x \cdot \epsilon_x
+\]
+\begin{definition}
+	La quantità
+	\[ c_x = c_x (f) = \frac{f'(x)}{f(x)} \cdot x \]
+	è detta \textbf{coefficiente di amplificazione} e fornisce una misura del condizionamento del problema.
+\end{definition}
+
+Più in generale possiamo dire che se $f : \Omega \to \R$ è definita su un insieme aperto di $\R^n$, differenziabile
+due volte su $\Omega$ ed il segmento di estremi $\tx$ e $x$ è contenuto in $\Omega$ allora vale
+\[
+	\ein = \frac{f(\tx) - f(x)}{f(x)} \doteq
+	\frac{1}{f(x)} \sum_{i=1}^n \frac{\partial f}{\partial x_i} (x) x_i \epsilon_{x_i} =
+	\sum_{i=1}^n c_{x_i} (f) \epsilon_{x_i}
+\]
+con
+\[ c_{x_i} (f) = \frac{1}{f(x)} \frac{\partial f}{\partial x_i} (x) x_i \]
+con $1 \leq i \leq n$, detti coefficienti di amplificazione della funzione $f$ rispetto alla variabile $x_i$.
