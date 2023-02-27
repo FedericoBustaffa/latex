@@ -1,6 +1,6 @@
 \section{Analisi degli errori}
 Parliamo ora delle tecniche per l'analisi dell'errore. La continuità della funzione implica che il problema sia
-\emph{ben posto}. La relazione
+\emph{ben posto}. Dalla relazione
 \[
 	\ein = \frac{f(\tx) - f(x)}{f(x)} =
 	\frac{f(\tx) - f(x)}{\tx - x} \frac{x}{f(x)} \frac{\tx - x}{x}
@@ -8,10 +8,11 @@ Parliamo ora delle tecniche per l'analisi dell'errore. La continuità della funz
 si ricava che la \emph{differenziabilità} di $f(x)$ è essenziale per il controllo dell'errore inerente. In
 particolare se la funzione è \textbf{regolare}, ossia derivabile volte con derivate continue, allora vale
 lo sviluppo di Taylor
-\[ f(\tx) = f(x) + f'(x) (\tx - x) + \frac{f''(\xi)}{2} (\tx - x)^2 \]
+\[ f(\tx) = f(x) + f'(x) (\tx - x) + \frac{f''(\xi) \cdot (\tx - x)^2}{2} \]
 con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
 \[
-	\ein \frac{f(\tx) - f(x)}{f(x)} \doteq \frac{f'(x)}{f(x)} \cdot x \cdot \epsilon_x = c_x \cdot \epsilon_x
+	\ein = \frac{f(\tx) - f(x)}{f(x)} \doteq \frac{f'(x)}{f(x)} \cdot x \cdot \epsilon_x
+	= c_x \cdot \epsilon_x
 \]
 \begin{definition}
 	La quantità
@@ -29,3 +30,44 @@ due volte su $\Omega$ ed il segmento di estremi $\tx$ e $x$ è contenuto in $\Om
 con
 \[ c_{x_i} (f) = \frac{1}{f(x)} \frac{\partial f}{\partial x_i} (x) x_i \]
 con $1 \leq i \leq n$, detti coefficienti di amplificazione della funzione $f$ rispetto alla variabile $x_i$.
+
+\begin{example}
+	Per $f(x) = \frac{x^2 + 1}{x}$ si ha
+	\[
+		c_x = \left( 2 - \frac{x^2 + 1}{x^2} \right) \cdot \frac{x}{x^2 + 1} \cdot x =
+		\frac{x^2 - 1}{x^2 + 1}
+	\]
+	Poiché $|c_x| \leq 1$ il problema del calcolo di $f(x)$ risulta ben condizionato.
+\end{example}
+
+\begin{example}
+	Studiamo il condizionamento di $f(x, y) = x - y$, ossia studiamo l'errore inerente. Per farlo, calcoliamo
+	\[ f(\tx, \tilde{y}) = \tx - \tilde{y} = x \cdot (1 + \epsilon_x) - y \cdot (1 + \epsilon_y) \]
+	che equivale a
+	\[ f(x, y) + x \epsilon_x - y \epsilon_y \]
+	Se proviamo a calcolare l'errore inerente otteniamo
+	\[
+		\ein = \frac{f(\tx, \tilde{y}) - f(x, y)}{f(x, y)} =
+		\frac{x}{x - y} \cdot \epsilon_x - \frac{y}{x - y} \cdot \epsilon_y
+	\]
+	Per terminare possiamo dire che il problema è mal condizionato per valori vicini di $x$ e $y$ con segno
+	concorde.
+\end{example}
+Come possiamo notare, l'errore inerente, nel caso di sottrazione di numeri vicini fra loro tende ad essere
+amplificato molto causando così il fenomeno di \textbf{cancellazione numerica}, portando cosiddetti
+\textbf{errori di cancellazione}.
+
+Si può dire lo stesso per la somma di valori vicini con segno discorde. Per le operazini moltiplicative invece
+la situazione cambia e al contrario di quanto si possa pensare, i problemi moltiplicativi sono, in generale,
+ben condizionati.
+
+\begin{example}
+	Studiamo il condizionamento di $f(x, y) = x\cdot y$
+	\[
+		f(\tx, \tilde{y}) = \tx \cdot \tilde{y} = x (1 + \epsilon_x) \cdot y (1 + \epsilon_y) =
+		f(x, y) \cdot (1 + \epsilon_x + \epsilon_y)
+	\]
+	Ne segue che l'errore inerente ha valore
+	\[ \ein = \frac{f(\tx, \tilde{y}) - f(x, y)}{f(x, y)} = \epsilon_x + \epsilon_y \]
+	che, come possiamo notare, ha un coefficiente di amplificazione costante.
+\end{example}
