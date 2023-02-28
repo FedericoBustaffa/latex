@@ -14,6 +14,8 @@ con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
 	\ein = \frac{f(\tx) - f(x)}{f(x)} \doteq \frac{f'(x)}{f(x)} \cdot x \cdot \epsilon_x
 	= c_x \cdot \epsilon_x
 \]
+
+\subsection{Coefficiente di amplificazione}
 \begin{definition}
 	La quantità
 	\[ c_x = c_x (f) = \frac{f'(x)}{f(x)} \cdot x \]
@@ -53,13 +55,6 @@ con $1 \leq i \leq n$, detti coefficienti di amplificazione della funzione $f$ r
 	Per terminare possiamo dire che il problema è mal condizionato per valori vicini di $x$ e $y$ con segno
 	concorde.
 \end{example}
-Come possiamo notare, l'errore inerente, nel caso di sottrazione di numeri vicini fra loro tende ad essere
-amplificato molto causando così il fenomeno di \textbf{cancellazione numerica}, portando cosiddetti
-\textbf{errori di cancellazione}.
-
-Si può dire lo stesso per la somma di valori vicini con segno discorde. Per le operazini moltiplicative invece
-la situazione cambia e al contrario di quanto si possa pensare, i problemi moltiplicativi sono, in generale,
-ben condizionati.
 
 \begin{example}
 	Studiamo il condizionamento di $f(x, y) = x\cdot y$
@@ -71,3 +66,145 @@ ben condizionati.
 	\[ \ein = \frac{f(\tx, \tilde{y}) - f(x, y)}{f(x, y)} = \epsilon_x + \epsilon_y \]
 	che, come possiamo notare, ha un coefficiente di amplificazione costante.
 \end{example}
+
+\subsubsection{Cancellazione numerica}
+Come possiamo notare, l'errore inerente, nel caso della sottrazione (ma anche addizione) di numeri vicini fra
+loro tende ad essere amplificato molto, causando così il fenomeno di \textbf{cancellazione numerica}, portando
+cosiddetti \textbf{errori di cancellazione}. Supponiamo di volere calcolare la differenza tra due numeri $x$
+e $y$
+\begin{align*}
+	x = & 0. d_1 \dots d_i d_{i+1} \dots d_t \\
+	y = & 0. d_1 \dots d_i d_{i+1} \dots d_t
+\end{align*}
+dove le prime $i$ cifre sono uguali. Supponiamo che queste due quantità abbiano del rumore sulle ultime cifre.
+Quando viene effettuata la sottrazione le prime $i$ cifre si annullano e le ultile cifre, dato che siamo in
+virgola mobile, vengono portate in testa. Abbiamo quindi portato il rumore in testa di conseguenza.
+
+Per le operazioni moltiplicative invece la situazione cambia e al contrario di quanto si possa pensare, i problemi
+moltiplicativi sono, in generale, ben condizionati.
+
+\subsection{Calcolo dell'errore algoritmico mediante grafi}
+Supponiamo di avere un algoritmo di calcolo di questo tipo
+\begin{lstlisting}[language=pseudo]
+...
+...
+z = x + y
+...
+...
+\end{lstlisting}
+Quello che verrà calcolato in macchina sarà
+\[ \hat{z} = \hat{x} \oplus \hat{y} \]
+dove $\hat{x} = x (1 + \epsilon)$ e $\hat{y} = y (1 + \delta)$. I due errori $\epsilon$ e $\delta$ non sono gli
+errori di rappresentazione di $x$ e $y$ ma tutto l'errore accumulato fino a quel momento nel calcolo di $x$ e $y$.
+Da qui possiamo calcolare $\hat{z}$ come segue
+\begin{align*}
+	\hat{z} = & [ x (1 + \epsilon) + y (1 + \delta) ] (1 + \epsilon_1) \quad |\epsilon_1| \leq u \\
+	=         & x (1 + \epsilon + \epsilon_1) + y (1 + \delta + \epsilon_1)
+\end{align*}
+Calcoliamo ora l'errore accumulato su $\hat{z}$
+\[ \etot = \frac{\hat{z} - z}{z} = \frac{x}{x + y} \epsilon + \frac{y}{x + y} \delta + \epsilon_1 = \eta \]
+Ne concludiamo che l'errore accumulato su $z$ dipende dall'errore locale dell'operazione e dagli errori presenti
+sugli operandi, amplificati dai coefficienti di amplificazione dell'operazione che stiamo considerando (in questo
+caso la somma). Graficamente possiamo rappresentare la situazione in questo modo
+\begin{center}
+	\begin{tikzpicture}[node distance=2cm, mynode/.style={draw=red, thick, circle, font=\Large}]
+		\node[mynode, label=above:$\epsilon_1$] (1) {$z$};
+		\node[mynode, below left of=1, label=below:$\epsilon$] (2) {$x$};
+		\node[mynode, below right of=1, label=below:$\delta$] (3) {$y$};
+
+		\path
+		(1) edge[thick] node[above left, black] {$\frac{x}{x+y}$} (2)
+		(1) edge[thick] node[above right, black] {$\frac{y}{x+y}$} (3);
+	\end{tikzpicture}
+\end{center}
+
+\begin{example}
+	Proviamo a trattare in questo modo due algoritmi già visti in precendenza. Vogliamo valutare la stabilità
+	di $\frac{x - 1}{x}$ e $1 - \frac{1}{x}$. Nel primo caso, il grafo avrà questo aspetto
+	\begin{center}
+		\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
+			\node[mynode, label=left:$0$] at (0, 1.5) (x1) {$x$};
+			\node[mynode, label=left:$0$] at (0, 0) (1) {$1$};
+			\node[mynode, label=left:$0$] at (0, -1.5) (x2) {$x$};
+
+			\node[mynode, label=above:$\epsilon_1$] at (4, 0.5) (x-1) {$x-1$};
+			\node[mynode, label=above:$\epsilon_2$] at (8, 0) (x-1/x) {$\frac{x-1}{x}$};
+
+			\path
+			(x1) edge[thick] node[above, black] {$\left( \frac{x}{x-1} \right)$} (x-1)
+			(1) edge[thick] node[below, black] {$\left( -\frac{1}{x-1} \right)$} (x-1)
+			(x-1) edge[thick] node[above, black] {$1$} (x-1/x)
+			(x2) edge[thick] node[below, black] {$(-1)$} (x-1/x);
+		\end{tikzpicture}
+	\end{center}
+	Dato che stiamo calcolando l'errore algoritmico non mettiamo errore sui dati in ingresso, poiché assumiamo
+	che essi siano numeri di macchina (possiamo mettere 0 se preferiamo).
+
+	Fatta questa considerazione diventa inutile anche scrivere i coefficienti di amplificazione dovuti
+	alle operazioni di sottrazione e divisione (per quanto riguarda il denominatore) in quanto verrebbero
+	moltiplicati per 0.
+
+	L'unico coefficiente di amplificazione che ha senso scrivere è quello dovuto all'operazione di divisione (per
+	quanto riguarda il numeratore) in quanto andrebbe a moltiplicare l'errore locale $\epsilon_1$ dovuto
+	all'operazione di sottrazione.
+
+	Terminiamo scrivendo l'errore locale $\epsilon_2$ dovuto all'operazione di divisione sull'ultimo nodo. L'errore
+	algoritmico si ricava sommando tutti i prodotti tra i nodi e i coefficienti di amplificazione posti sugli archi
+	adiacenti a tali nodi.
+	\begin{align*}
+		\ealg =   & 0 \cdot \frac{x}{x-1} + 0 \cdot \left( -\frac{1}{x-1} \right) + 0 \cdot (-1) +
+		\epsilon_1 \cdot 1 + \epsilon_2                                                            \\
+		=         & \epsilon_1 + \epsilon_2                                                        \\
+		\\
+		|\ealg| = & |\epsilon_1| + |\epsilon_2| \leq 2u
+	\end{align*}
+	ovvero il risultato ottenuto dall'analisi già fatta in precendenza. Dato che i coefficienti di amplificazione
+	che moltiplicano errori non nulli sono costanti, possiamo concludere che l'algoritmo sia numericamente stabile.
+
+	Disegnamo il grafo anche per l'algoritmo $1 - \frac{1}{x}$, senza spiegare nuovamente tutti i passaggi
+	\begin{center}
+		\begin{tikzpicture}[scale=0.8, mynode/.style={draw=red, thick, circle, font=\Large}]
+			\node[mynode, label=left:$0$] at (0, 1.5) (11) {$1$};
+			\node[mynode, label=left:$0$] at (0, 0) (12) {$1$};
+			\node[mynode, label=left:$0$] at (0, -1.5) (x) {$x$};
+
+			\node[mynode, label=below:$\epsilon_1$] at (4, -0.5) (1/x) {$\frac{1}{x}$};
+			\node[mynode, label=above:$\epsilon_2$] at (8, 0) (1-1/x) {$1 - \frac{1}{x}$};
+
+			\path
+			(11) edge[thick] node[above, black] {$\left( \frac{1}{1 - \frac{1}{x}} \right)$} (1-1/x)
+			(12) edge[thick] node[above, black] {$(1)$} (1/x)
+			(x) edge[thick] node[below, black] {$(-1)$} (1/x)
+			(1/x) edge[thick] node[below, black] {$-\frac{1}{x-1}$} (1-1/x);
+		\end{tikzpicture}
+	\end{center}
+	In questo caso, l'errore algoritmico risulta
+	\begin{align*}
+		\ealg =   & 0 \cdot \frac{1}{1 - \frac{1}{x}} + 0 \cdot 1 + 0 \cdot (-1) +
+		\epsilon_1 \cdot \left( -\frac{1}{x-1} \right) + \epsilon_2                                    \\
+		=         & -\frac{1}{x-1} \cdot \epsilon_1 + \epsilon_2                                       \\
+		\\
+		|\ealg| = & \frac{1}{|x-1|} \cdot |\epsilon_1| + |\epsilon_2| \leq \frac{1}{|x-1|} \cdot u + u
+	\end{align*}
+	Ne deduciamo che per valori di $x$ prossimi a 1 l'algoritmo è numericamente instabile.
+\end{example}
+
+\subsection{Calcolo dell'errore totale mediante grafi}
+Per calcolare l'errore totale non dobbiamo fare altro che aggiungere l'errore di rappresentazione sui dati in
+ingresso e procedere nel solito modo. Facciamolo per l'algoritmo $\frac{x-1}{x}$.
+\begin{center}
+	\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
+		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, 1.5) (x1) {$x$};
+		\node[mynode, label=left:$0$] at (0, 0) (1) {$1$};
+		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, -1.5) (x2) {$x$};
+
+		\node[mynode, label=above:$\epsilon_1$] at (4, 0.5) (x-1) {$x-1$};
+		\node[mynode, label=above:$\epsilon_2$] at (8, 0) (x-1/x) {$\frac{x-1}{x}$};
+
+		\path
+		(x1) edge[thick] node[above, black] {$\frac{x}{x-1}$} (x-1)
+		(1) edge[thick] node[below, black] {$-\frac{1}{x-1}$} (x-1)
+		(x-1) edge[thick] node[above, black] {$1$} (x-1/x)
+		(x2) edge[thick] node[below, black] {$(-1)$} (x-1/x);
+	\end{tikzpicture}
+\end{center}
