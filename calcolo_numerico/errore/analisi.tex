@@ -118,6 +118,13 @@ caso la somma). Graficamente possiamo rappresentare la situazione in questo modo
 	\end{tikzpicture}
 \end{center}
 
+\subsubsection{Analisi all'indietro}
+In un'\textbf{analisi all'indietro} si assume che i dati in ingresso siano numeri di macchina e che quindi non
+abbiano errori di rappresentazione. Si assume di conseguenza che il valore effettivamente calcolato non sia
+$g(\tx)$ ma $f(\hat{x})$, ossia che il valore $g(\tx)$ risulti uguale, in un'analisi al primo ordine, al valore
+assunto dalla funzione esatta $f$ valutata in un dato perturbato $\hat{x}$. Queste assunzioni implicano un errore
+di rappresentazione \textbf{nullo} sui dati in ingresso.
+
 \begin{example}
 	Proviamo a trattare in questo modo due algoritmi già visti in precendenza. Vogliamo valutare la stabilità
 	di $\frac{x - 1}{x}$ e $1 - \frac{1}{x}$. Nel primo caso, il grafo avrà questo aspetto
@@ -188,10 +195,13 @@ caso la somma). Graficamente possiamo rappresentare la situazione in questo modo
 	\end{align*}
 	Ne deduciamo che per valori di $x$ prossimi a 1 l'algoritmo è numericamente instabile.
 \end{example}
+Come possiamo notare, un'analisi all'indietro conduce a risultati più ottimistici e spesso anche più realistici
+per una buona valutazione dell'errore algoritmico.
 
-\subsection{Calcolo dell'errore totale mediante grafi}
-Per calcolare l'errore totale non dobbiamo fare altro che aggiungere l'errore di rappresentazione sui dati in
-ingresso e procedere nel solito modo. Facciamolo per l'algoritmo $\frac{x-1}{x}$.
+\subsubsection{Analisi in avanti}
+L'\textbf{analisi in avanti} è di norma più pessimista in quanto considera il massimo errore accumulabile e quindi
+considera anche l'errore di rappresentazione dei dati in ingresso. Vediamo come cambiano il grafo e dunque il
+calcolo dell'errore per l'algoritmo $\frac{x-1}{x}$.
 \begin{center}
 	\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
 		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, 1.5) (x1) {$x$};
@@ -203,8 +213,15 @@ ingresso e procedere nel solito modo. Facciamolo per l'algoritmo $\frac{x-1}{x}$
 
 		\path
 		(x1) edge[thick] node[above, black] {$\frac{x}{x-1}$} (x-1)
-		(1) edge[thick] node[below, black] {$-\frac{1}{x-1}$} (x-1)
+		(1) edge[thick] node[below, black] {$\left( -\frac{1}{x-1} \right)$} (x-1)
 		(x-1) edge[thick] node[above, black] {$1$} (x-1/x)
-		(x2) edge[thick] node[below, black] {$(-1)$} (x-1/x);
+		(x2) edge[thick] node[below, black] {$-1$} (x-1/x);
 	\end{tikzpicture}
 \end{center}
+In questo caso abbiamo
+\begin{align*}
+	g(\tx) = & x (1 + \epsilon_x) \frac{x}{x-1} - x (1 + \epsilon_x) + \epsilon_1 + \epsilon_2 \\
+	=        & x (1 + \epsilon_x) \left( \frac{x}{x-1} - 1 \right) + \epsilon_1 + \epsilon_2   \\
+	=        & (1 + \epsilon_x) \left( \frac{x}{x - 1} \right) + \epsilon_1 + \epsilon_2       \\
+	=        & \frac{x}{x - 1} + \frac{x}{x-1} \epsilon_x + \epsilon_1 + \epsilon_2
+\end{align*}
