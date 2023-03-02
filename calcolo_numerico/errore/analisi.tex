@@ -119,7 +119,9 @@ caso la somma). Graficamente possiamo rappresentare la situazione in questo modo
 \end{center}
 
 \subsubsection{Analisi all'indietro}
-In un'\textbf{analisi all'indietro} si assume che i dati in ingresso siano numeri di macchina e che quindi non
+In un'\textbf{analisi all'indietro} si assume che la funzione calcolata non sia $g(\tx)$ ma che sia $f(\hat{x})$,
+ossia la funzione
+i dati in ingresso siano numeri di macchina e che quindi non
 abbiano errori di rappresentazione. Si assume di conseguenza che il valore effettivamente calcolato non sia
 $g(\tx)$ ma $f(\hat{x})$, ossia che il valore $g(\tx)$ risulti uguale, in un'analisi al primo ordine, al valore
 assunto dalla funzione esatta $f$ valutata in un dato perturbato $\hat{x}$. Queste assunzioni implicano un errore
@@ -199,9 +201,8 @@ Come possiamo notare, un'analisi all'indietro conduce a risultati più ottimisti
 per una buona valutazione dell'errore algoritmico.
 
 \subsubsection{Analisi in avanti}
-L'\textbf{analisi in avanti} è di norma più pessimista in quanto considera il massimo errore accumulabile e quindi
-considera anche l'errore di rappresentazione dei dati in ingresso. Vediamo come cambiano il grafo e dunque il
-calcolo dell'errore per l'algoritmo $\frac{x-1}{x}$.
+L'\textbf{analisi in avanti} è di norma più pessimista in quanto considera il massimo errore algoritmico
+accumulabile. Vediamo come cambiano il grafo e dunque il calcolo dell'errore per l'algoritmo $\frac{x-1}{x}$.
 \begin{center}
 	\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
 		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, 1.5) (x1) {$x$};
