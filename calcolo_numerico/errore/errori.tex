@@ -54,7 +54,25 @@ fortuna, riusciamo a calcolare $f(\tx)$ dato che introduciamo un errore sul dato
 
 \begin{theorem}
 	In un'analisi al primo ordine vale
-	\[ \epsilon_{\text{tot}} = \epsilon_{\text{in}} + \epsilon_{\text{alg}} \]
+	\[ \etot = \ealg + \ein \]
+	\begin{proof}
+		Proviamo a dimostrarlo espandendo l'equazione per il calcolo dell'errore totale.
+		\begin{align*}
+			\epsilon_{\text{tot}} = & \frac{g(\tx) - f(x) + f(\tx) - f(\tx)}{f(x)}              \\
+			=                       & \frac{g(\tx) - f(\tx)}{f(x)} + \frac{f(\tx) - f(x)}{f(x)} \\
+			=                       & \frac{g(\tx) - f(\tx)}{f(x)} + \ein                       \\
+			=                       & \frac{g(\tx) - f(\tx)}{f(\tx)} \frac{f(\tx)}{f(x)} + \ein
+		\end{align*}
+		Dato che
+		\[ \ein = \frac{f(\tx) - f(x)}{f(x)} = \frac{f(\tx)}{f(x)} - 1 \]
+		vale
+		\[ \frac{f(\tx)}{f(x)} = \ein + 1 \]
+		Possiamo quindi scrivere
+		\begin{align*}
+			\etot = & \ealg (\ein + 1) + \ein \\
+			\doteq  & \ealg + \ein
+		\end{align*}
+	\end{proof}
 \end{theorem}
 
 Il teorema esprime il fatto che nel calcolo di una funzione razionale in un'analisi al primo ordine le due fonti
