@@ -10,7 +10,7 @@ anche se si tratta di una semplificazione in quanto, in casi più realistici si 
 Come abbiamo già anticipato nel capitolo precedente, in generale non riusciamo a calcolare $f(x)$ ma, se abbiamo
 fortuna, riusciamo a calcolare $f(\tx)$ dato che introduciamo un errore sul dato $x$ in ingresso.
 
-\begin{definition}
+\begin{definition}\label{def: errore_inerente}
 	Definiamo \textbf{errore inerente} (o \textbf{inevitabile}) la quantità
 	\[ \epsilon_{\text{in}} = \frac{f(\tx) - f(x)}{f(x)} \]
 	La quale rappresenta l'errore che viene sempre commesso in quanto la macchina non riceve in ingresso
@@ -28,7 +28,7 @@ fortuna, riusciamo a calcolare $f(\tx)$ dato che introduciamo un errore sul dato
 	\end{itemize}
 \end{observation}
 
-\begin{definition}
+\begin{definition}\label{def: errore_algoritmico}
 	Definiamo \textbf{errore algoritmico} la quantità
 	\[ \epsilon_{\text{alg}} = \frac{g(\tx) - f(\tx)}{f(\tx)} \]
 	l'errore generato nel calcolo di $f(\tx) \neq 0$.
@@ -45,7 +45,7 @@ fortuna, riusciamo a calcolare $f(\tx)$ dato che introduciamo un errore sul dato
 	\end{itemize}
 \end{observation}
 
-\begin{definition}
+\begin{definition}\label{def: errore_totale}
 	Definiamo \textbf{errore totale} la quantità
 	\[ \epsilon_{\text{tot}} = \frac{g(\tx) - f(x)}{f(x)} \]
 	l'errore generato nel calcolo di $f(x) \neq 0$ mediante l'algoritmo specificato da $g$. L'\emph{errore totale}

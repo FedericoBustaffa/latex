@@ -102,34 +102,34 @@ Da qui possiamo calcolare $\hat{z}$ come segue
 	=         & x (1 + \epsilon + \epsilon_1) + y (1 + \delta + \epsilon_1)
 \end{align*}
 Calcoliamo ora l'errore accumulato su $\hat{z}$
-\[ \etot = \frac{\hat{z} - z}{z} = \frac{x}{x + y} \epsilon + \frac{y}{x + y} \delta + \epsilon_1 = \eta \]
+\[ \ealg = \frac{\hat{z} - z}{z} = \frac{x}{x + y} \epsilon + \frac{y}{x + y} \delta + \epsilon_1 = \eta \]
 Ne concludiamo che l'errore accumulato su $z$ dipende dall'errore locale dell'operazione e dagli errori presenti
 sugli operandi, amplificati dai coefficienti di amplificazione dell'operazione che stiamo considerando (in questo
 caso la somma). Graficamente possiamo rappresentare la situazione in questo modo
 \begin{center}
 	\begin{tikzpicture}[node distance=2cm, mynode/.style={draw=red, thick, circle, font=\Large}]
-		\node[mynode, label=above:$\epsilon_1$] (1) {$z$};
-		\node[mynode, below left of=1, label=below:$\epsilon$] (2) {$x$};
-		\node[mynode, below right of=1, label=below:$\delta$] (3) {$y$};
+		\node[mynode, label=below:$\epsilon_1$] (1) {$z$};
+		\node[mynode, above left of=1, label=above:$\epsilon$] (2) {$x$};
+		\node[mynode, above right of=1, label=above:$\delta$] (3) {$y$};
 
 		\path
-		(1) edge[thick] node[above left, black] {$\frac{x}{x+y}$} (2)
-		(1) edge[thick] node[above right, black] {$\frac{y}{x+y}$} (3);
+		(1) edge[thick] node[left, black] {$\frac{x}{x+y}$} (2)
+		(1) edge[thick] node[right, black] {$\frac{y}{x+y}$} (3);
 	\end{tikzpicture}
 \end{center}
+L'errore algoritmico totale sarà dato dalla somma tra gli errori accumulati fino a quel momento su $x$ e $y$
+($\epsilon$ e $\delta$) moltiplicati per i coefficiente di amplificazione dovuti all'operazione di somma e l'errore
+locale dell'operazione di somma ($\epsilon_1$).
 
-\subsubsection{Analisi all'indietro}
-In un'\textbf{analisi all'indietro} si assume che la funzione calcolata non sia $g(\tx)$ ma che sia $f(\hat{x})$,
-ossia la funzione
-i dati in ingresso siano numeri di macchina e che quindi non
-abbiano errori di rappresentazione. Si assume di conseguenza che il valore effettivamente calcolato non sia
-$g(\tx)$ ma $f(\hat{x})$, ossia che il valore $g(\tx)$ risulti uguale, in un'analisi al primo ordine, al valore
-assunto dalla funzione esatta $f$ valutata in un dato perturbato $\hat{x}$. Queste assunzioni implicano un errore
-di rappresentazione \textbf{nullo} sui dati in ingresso.
+Lo stesso procedimento può essere applicato su $\epsilon$ e $\delta$ per compiere un'analisi più dettagliata di
+tali errori.
+
+\subsubsection{Analisi in avanti}
+L'\textbf{analisi in avanti} è di norma più pessimista in quanto considera il massimo errore algoritmico
+accumulabile.
 
 \begin{example}
-	Proviamo a trattare in questo modo due algoritmi già visti in precendenza. Vogliamo valutare la stabilità
-	di $\frac{x - 1}{x}$ e $1 - \frac{1}{x}$. Nel primo caso, il grafo avrà questo aspetto
+	Proviamo a valutare la stabilità di un algoritmo già visto in precendenza, ossia $\frac{x - 1}{x}$.
 	\begin{center}
 		\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
 			\node[mynode, label=left:$0$] at (0, 1.5) (x1) {$x$};
@@ -147,82 +147,50 @@ di rappresentazione \textbf{nullo} sui dati in ingresso.
 		\end{tikzpicture}
 	\end{center}
 	Dato che stiamo calcolando l'errore algoritmico non mettiamo errore sui dati in ingresso, poiché assumiamo
-	che essi siano numeri di macchina (possiamo mettere 0 se preferiamo).
+	che essi siano numeri di macchina (possiamo mettere 0 se preferiamo). L'eventuale errore di rappresentazione
+	su tali dati verrà messo in evidenza nel calcolo dell'errore inerente.
 
-	Fatta questa considerazione diventa inutile anche scrivere i coefficienti di amplificazione dovuti
-	alle operazioni di sottrazione e divisione (per quanto riguarda il denominatore) in quanto verrebbero
-	moltiplicati per 0.
+	Fatta questa considerazione diventa inutile anche scrivere i coefficienti di amplificazione (scritti comunque
+	tra parentesi per completezza) dovuti alle operazioni di sottrazione e divisione (per quanto riguarda il
+	denominatore) in quanto verrebbero moltiplicati per 0.
 
 	L'unico coefficiente di amplificazione che ha senso scrivere è quello dovuto all'operazione di divisione (per
 	quanto riguarda il numeratore) in quanto andrebbe a moltiplicare l'errore locale $\epsilon_1$ dovuto
 	all'operazione di sottrazione.
 
 	Terminiamo scrivendo l'errore locale $\epsilon_2$ dovuto all'operazione di divisione sull'ultimo nodo. L'errore
-	algoritmico si ricava sommando tutti i prodotti tra i nodi e i coefficienti di amplificazione posti sugli archi
-	adiacenti a tali nodi.
+	algoritmico totale equivale alla quantità
 	\begin{align*}
-		\ealg =   & 0 \cdot \frac{x}{x-1} + 0 \cdot \left( -\frac{1}{x-1} \right) + 0 \cdot (-1) +
-		\epsilon_1 \cdot 1 + \epsilon_2                                                            \\
-		=         & \epsilon_1 + \epsilon_2                                                        \\
-		\\
-		|\ealg| = & |\epsilon_1| + |\epsilon_2| \leq 2u
+		\ealg = & 0 \cdot \frac{x}{x-1} + 0 \cdot \left( -\frac{1}{x-1} \right) + 0 \cdot (-1) +
+		\epsilon_1 \cdot 1 + \epsilon_2                                                          \\
+		=       & \epsilon_1 + \epsilon_2
 	\end{align*}
+	Come in precedenza siamo interessati ad una maggiorazione in valore assoluto dell'errore, ne ricaviamo quindi
+	che
+	\[ |\ealg| = |\epsilon_1| + |\epsilon_2| \leq 2u \]
 	ovvero il risultato ottenuto dall'analisi già fatta in precendenza. Dato che i coefficienti di amplificazione
 	che moltiplicano errori non nulli sono costanti, possiamo concludere che l'algoritmo sia numericamente stabile.
-
-	Disegnamo il grafo anche per l'algoritmo $1 - \frac{1}{x}$, senza spiegare nuovamente tutti i passaggi
-	\begin{center}
-		\begin{tikzpicture}[scale=0.8, mynode/.style={draw=red, thick, circle, font=\Large}]
-			\node[mynode, label=left:$0$] at (0, 1.5) (11) {$1$};
-			\node[mynode, label=left:$0$] at (0, 0) (12) {$1$};
-			\node[mynode, label=left:$0$] at (0, -1.5) (x) {$x$};
-
-			\node[mynode, label=below:$\epsilon_1$] at (4, -0.5) (1/x) {$\frac{1}{x}$};
-			\node[mynode, label=above:$\epsilon_2$] at (8, 0) (1-1/x) {$1 - \frac{1}{x}$};
-
-			\path
-			(11) edge[thick] node[above, black] {$\left( \frac{1}{1 - \frac{1}{x}} \right)$} (1-1/x)
-			(12) edge[thick] node[above, black] {$(1)$} (1/x)
-			(x) edge[thick] node[below, black] {$(-1)$} (1/x)
-			(1/x) edge[thick] node[below, black] {$-\frac{1}{x-1}$} (1-1/x);
-		\end{tikzpicture}
-	\end{center}
-	In questo caso, l'errore algoritmico risulta
-	\begin{align*}
-		\ealg =   & 0 \cdot \frac{1}{1 - \frac{1}{x}} + 0 \cdot 1 + 0 \cdot (-1) +
-		\epsilon_1 \cdot \left( -\frac{1}{x-1} \right) + \epsilon_2                                    \\
-		=         & -\frac{1}{x-1} \cdot \epsilon_1 + \epsilon_2                                       \\
-		\\
-		|\ealg| = & \frac{1}{|x-1|} \cdot |\epsilon_1| + |\epsilon_2| \leq \frac{1}{|x-1|} \cdot u + u
-	\end{align*}
-	Ne deduciamo che per valori di $x$ prossimi a 1 l'algoritmo è numericamente instabile.
 \end{example}
-Come possiamo notare, un'analisi all'indietro conduce a risultati più ottimistici e spesso anche più realistici
-per una buona valutazione dell'errore algoritmico.
 
-\subsubsection{Analisi in avanti}
-L'\textbf{analisi in avanti} è di norma più pessimista in quanto considera il massimo errore algoritmico
-accumulabile. Vediamo come cambiano il grafo e dunque il calcolo dell'errore per l'algoritmo $\frac{x-1}{x}$.
-\begin{center}
-	\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
-		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, 1.5) (x1) {$x$};
-		\node[mynode, label=left:$0$] at (0, 0) (1) {$1$};
-		\node[mynode, label=left:$x(1 + \epsilon_x)$] at (0, -1.5) (x2) {$x$};
+\subsubsection{Analisi all'indietro}
+In un'\textbf{analisi all'indietro} si assume che il valore calcolato $g(\tx)$ sia uguale, in un'analisi al primo
+ordine a $f(\hat{x})$, ossia al valore assunto dalla funzione esatta $f$ valutata su un dato $\hat{x}$ perturbato.
+La formula per il calcolo dell'errore algoritmico diventa quindi
+\[ \ealg = \frac{f(\hat{x}) - f(\tx)}{f(\tx)} \]
+Con questa formula siamo in grado di stimare l'errore algoritmico utilizzando i risultati per l'amplificazione
+dell'errore inerente.
 
-		\node[mynode, label=above:$\epsilon_1$] at (4, 0.5) (x-1) {$x-1$};
-		\node[mynode, label=above:$\epsilon_2$] at (8, 0) (x-1/x) {$\frac{x-1}{x}$};
+Generalmente l'analisi all'indietro conduce a risultati più ottimistici e spesso anche più realistici, andando a
+definire la stabilità dell'algoritmo in situazioni di buon condizionamento del problema.
 
-		\path
-		(x1) edge[thick] node[above, black] {$\frac{x}{x-1}$} (x-1)
-		(1) edge[thick] node[below, black] {$\left( -\frac{1}{x-1} \right)$} (x-1)
-		(x-1) edge[thick] node[above, black] {$1$} (x-1/x)
-		(x2) edge[thick] node[below, black] {$-1$} (x-1/x);
-	\end{tikzpicture}
-\end{center}
-In questo caso abbiamo
-\begin{align*}
-	g(\tx) = & x (1 + \epsilon_x) \frac{x}{x-1} - x (1 + \epsilon_x) + \epsilon_1 + \epsilon_2 \\
-	=        & x (1 + \epsilon_x) \left( \frac{x}{x-1} - 1 \right) + \epsilon_1 + \epsilon_2   \\
-	=        & (1 + \epsilon_x) \left( \frac{x}{x - 1} \right) + \epsilon_1 + \epsilon_2       \\
-	=        & \frac{x}{x - 1} + \frac{x}{x-1} \epsilon_x + \epsilon_1 + \epsilon_2
-\end{align*}
+\begin{example}
+	Andiamo a compiere un'analisi all'indietro valutando la stabilità del solito algoritmo $\frac{x-1}{x}$.
+	\begin{align*}
+		\ealg = & \frac{\frac{\hat{x} - 1}{\hat{x}} - \frac{\tx - 1}{\tx}}{\frac{\tx - 1}{\tx}} \\
+		=       & \frac{\tx (\hat{x} - 1) - \hat{x}(\tx - 1)}{\tx \hat{x}} \frac{\tx}{\tx - 1}  \\
+		=       & \frac{\tx \hat{x} - \tx - \tx \hat{x} + \hat{x}}{\tx \hat{x} - \hat{x}}       \\
+		=       & \frac{\hat{x} - \tx}{\hat{x}(\tx - 1)}                                        \\
+		=       & \frac{1}{\tx - 1} - \frac{\tx}{\hat{x} (\tx - 1)}                             \\
+		=       & \frac{1}{\tx - 1} \left( 1 - \frac{\tx}{\hat{x}} \right)
+	\end{align*}
+\end{example}
