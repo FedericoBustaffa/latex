@@ -182,15 +182,3 @@ dell'errore inerente.
 
 Generalmente l'analisi all'indietro conduce a risultati più ottimistici e spesso anche più realistici, andando a
 definire la stabilità dell'algoritmo in situazioni di buon condizionamento del problema.
-
-\begin{example}
-	Andiamo a compiere un'analisi all'indietro valutando la stabilità del solito algoritmo $\frac{x-1}{x}$.
-	\begin{align*}
-		\ealg = & \frac{\frac{\hat{x} - 1}{\hat{x}} - \frac{\tx - 1}{\tx}}{\frac{\tx - 1}{\tx}} \\
-		=       & \frac{\tx (\hat{x} - 1) - \hat{x}(\tx - 1)}{\tx \hat{x}} \frac{\tx}{\tx - 1}  \\
-		=       & \frac{\tx \hat{x} - \tx - \tx \hat{x} + \hat{x}}{\tx \hat{x} - \hat{x}}       \\
-		=       & \frac{\hat{x} - \tx}{\hat{x}(\tx - 1)}                                        \\
-		=       & \frac{1}{\tx - 1} - \frac{\tx}{\hat{x} (\tx - 1)}                             \\
-		=       & \frac{1}{\tx - 1} \left( 1 - \frac{\tx}{\hat{x}} \right)
-	\end{align*}
-\end{example}
