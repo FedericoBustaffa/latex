@@ -1,0 +1,51 @@
+\chapter{Problemi di algebra lineare}
+In questo capitolo verranno trattati i problemi dell'algebra lineare e il loro condizionamento tra cui la
+risoluzione di sistemi lineari e il calcolo di autovalori e autovettori di matrici.
+
+Il primo problema che andiamo a trattare è quello della risoluzione di sistemi lineari. Dall'algebra lineare
+noi sappiamo che un sistema lineare è rappresentabile come
+\[ A x = b \]
+con $A \in \R^{n \times m}$ e $b \in \R^n$. La soluzione del sistema è quindi il vettore $x \in \R^n$ tale che
+\[ x = A^{-1} b \]
+Come sappiamo è possibile scrivere ognuna delle componenti $x_i$ di $x$ come funzione $f_i$ di $A$ e $b$ in
+questo modo
+\[ x_i = f_i (a_{11}, \dots, a_{nm}, b_1, \dots, b_n) \quad i = 1 \dots n \]
+Abbiamo quindi $n$ funzioni del tipo $f : \R^{n \times m} \times \R^n \to \R$. Questa rappresentazione ci
+fornisce un modo per scrivere la soluzione del problema dal punto di vista matematico ma non ci dà alcuna
+informazione sul condizionamento del problema.
+
+In macchina non abbiamo $A$ e $b$ ma $\hat{A}$ e $\hat{b}$, rispettivamente \emph{vicini} ad $A$ e $b$. Il
+concetto di \emph{vicinanza} tra due numeri $x$ e $y$ per esempio è esprimibile come $|x - y|$. Quanto più
+questo valore sarà vicino a 0 tanto più i due numeri saranno per l'appunto \emph{vicini}.
+
+Il valore assoluto possiede delle proprietà interessanti che ci serviranno per quello che andremo a trattare
+tra poco. Prendiamo $f(x) = |x|$, vale che
+\begin{itemize}
+	\item La distanza è maggiore o uguale a 0 $\to f(x) \geq 0$ e $f(x) = 0 \Leftrightarrow x = 0$
+	\item La distanza da $x$ a $y$ e la stessa che da $y$ a $x$ $\to f(\alpha x) = \alpha \cdot f(x)$
+	\item $f(x + y) \leq f(x) + f(y)$
+\end{itemize}
+
+\section{Norme vettoriali e matriciali}
+Dopo la breve premessa introduciamo il concetto di \textbf{norma} e chiariamo meglio la sua utilità in questo
+ambito.
+
+\begin{definition}
+	Definiamo \textbf{norma vettoriale} su $\F^n$ una funzione $f : \F^n \to \R$ che soddisfa le seguenti
+	proprietà:
+	\begin{itemize}
+		\item $\forall v \in \F^n$ vale che
+		      \[ f(v) > 0, \quad f(v) = 0 \Leftrightarrow v = 0 \]
+		\item $\forall v \in \F^n$, $\forall \alpha \in \F$ vale che
+		      \[ f(\alpha v) = |\alpha| \cdot f(v) \]
+		\item $\forall v, w \in \F^n$ vale che
+		      \[ f(v + w) \leq f(v) + f(w) \]
+	\end{itemize}
+\end{definition}
+
+Se $f$ è una norma vettoriale su $\F^n$, la indicheremo per comodità di notazione con $f(v) = \| v \|$ e possiamo
+definire la \textbf{distanza} come la \textbf{norma} vettoriale della differenza tra due vettori
+\[ \dist(v, w) = f(v - w) = \| v - w \| \]
+Questa non è l'unica funzione per il calcolo della distanza tra due vettori ma per il momento ci limitiamo ad
+analizzare il funzionamento di questa per introdurre un concetto generale e per poi muoverci sulla distanza
+tra matrici.
