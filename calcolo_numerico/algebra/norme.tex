@@ -5,12 +5,12 @@ risoluzione di sistemi lineari e il calcolo di autovalori e autovettori di matri
 Il primo problema che andiamo a trattare è quello della risoluzione di sistemi lineari. Dall'algebra lineare
 noi sappiamo che un sistema lineare è rappresentabile come
 \[ A x = b \]
-con $A \in \R^{n \times m}$ e $b \in \R^n$. La soluzione del sistema è quindi il vettore $x \in \R^n$ tale che
+con $A \in \R^{n \times n}$ e $b \in \R^n$. La soluzione del sistema è quindi il vettore $x \in \R^n$ tale che
 \[ x = A^{-1} b \]
 Come sappiamo è possibile scrivere ognuna delle componenti $x_i$ di $x$ come funzione $f_i$ di $A$ e $b$ in
 questo modo
-\[ x_i = f_i (a_{11}, \dots, a_{nm}, b_1, \dots, b_n) \quad i = 1 \dots n \]
-Abbiamo quindi $n$ funzioni del tipo $f : \R^{n \times m} \times \R^n \to \R$. Questa rappresentazione ci
+\[ x_i = f_i (a_{11}, \dots, a_{nn}, b_1, \dots, b_n) \quad i = 1 \dots n \]
+Abbiamo quindi $n$ funzioni del tipo $f : \R^{n \times n} \times \R^n \to \R$. Questa rappresentazione ci
 fornisce un modo per scrivere la soluzione del problema dal punto di vista matematico ma non ci dà alcuna
 informazione sul condizionamento del problema.
 
@@ -21,8 +21,8 @@ questo valore sarà vicino a 0 tanto più i due numeri saranno per l'appunto \em
 Il valore assoluto possiede delle proprietà interessanti che ci serviranno per quello che andremo a trattare
 tra poco. Prendiamo $f(x) = |x|$, vale che
 \begin{itemize}
-	\item La distanza è maggiore o uguale a 0 $\to f(x) \geq 0$ e $f(x) = 0 \Leftrightarrow x = 0$
-	\item La distanza da $x$ a $y$ e la stessa che da $y$ a $x$ $\to f(\alpha x) = \alpha \cdot f(x)$
+	\item $f(x) \geq 0$ e $f(x) = 0 \Leftrightarrow x = 0$
+	\item $f(\alpha x) = \alpha \cdot f(x)$
 	\item $f(x + y) \leq f(x) + f(y)$
 \end{itemize}
 
@@ -30,22 +30,73 @@ tra poco. Prendiamo $f(x) = |x|$, vale che
 Dopo la breve premessa introduciamo il concetto di \textbf{norma} e chiariamo meglio la sua utilità in questo
 ambito.
 
+\subsection{Norma vettoriale}
 \begin{definition}
-	Definiamo \textbf{norma vettoriale} su $\F^n$ una funzione $f : \F^n \to \R$ che soddisfa le seguenti
-	proprietà:
+	Definiamo \textbf{norma vettoriale} su $\R^n$ di un vettore $v$, una funzione del tipo $f : \R^n \to \R$ che
+	soddisfa le seguenti proprietà:
 	\begin{itemize}
-		\item $\forall v \in \F^n$ vale che
+		\item $\forall v \in \R^n$ vale che
 		      \[ f(v) > 0, \quad f(v) = 0 \Leftrightarrow v = 0 \]
-		\item $\forall v \in \F^n$, $\forall \alpha \in \F$ vale che
+		\item $\forall v \in \R^n$ e $\forall \alpha \in \R$ vale che
 		      \[ f(\alpha v) = |\alpha| \cdot f(v) \]
-		\item $\forall v, w \in \F^n$ vale che
+		\item $\forall v, w \in \R^n$ vale che
 		      \[ f(v + w) \leq f(v) + f(w) \]
 	\end{itemize}
 \end{definition}
 
-Se $f$ è una norma vettoriale su $\F^n$, la indicheremo per comodità di notazione con $f(v) = \| v \|$ e possiamo
-definire la \textbf{distanza} come la \textbf{norma} vettoriale della differenza tra due vettori
+Per comodoità di notazione indicheremo la norma vettoriale $f$ per il vettore $v$ con $f(v) = \| v \|$. Definiamo
+inoltre la \textbf{distanza} tra $v$ e $w$ come la norma vettoriale della loro differenza:
 \[ \dist(v, w) = f(v - w) = \| v - w \| \]
-Questa non è l'unica funzione per il calcolo della distanza tra due vettori ma per il momento ci limitiamo ad
-analizzare il funzionamento di questa per introdurre un concetto generale e per poi muoverci sulla distanza
-tra matrici.
+Una funzione norma tra le più comuni nell'algebra lineare è quella per il calcolo della lunghezza di un vettore
+\[ f(v) = \sqrt{v_1^2 + v_2^2 + \dots + v_n^2} = \sqrt{v^T v} = \| v \|_2 \]
+Il 2 indica il fatto che stiamo facendo riferimento alla \textbf{norma 2} o \textbf{norma euclidea} del vettore $v$.
+Tra le altre funzioni norma che utilizzeremo più spesso abbiamo la \textbf{norma 1} e la \textbf{norma infinito}:
+\begin{itemize}
+	\item $f(v) = |v_1| + |v_2| + \dots + |v_n| = \| v \|_1$
+	\item $f(v) = \max(|v_i|) = \| v \|_\infty$ con $i = 1 \dots n$
+\end{itemize}
+In generale questi tre metodi di calcolo della norma di un vettore non forniscono lo stesso risultato. Quello che
+conta è che qualsiasi scegliamo, un'analisi qualitativa fornisce gli stessi risultati.
+
+\subsection{Norma matriciale}
+Discorso analogo per il calcolo della distanza tra matrici.
+
+\begin{definition}
+	Definiamo \textbf{norma matriciale} su $\R^{n \times n}$ di una matrice $A$, una funzione del tipo
+	$f : \R^{n \times n} \to \R$ che soddisfa le seguenti proprietà:
+	\begin{itemize}
+		\item $\forall A \in \R^{n \times n}$ vale che
+		      \[ f(A) \geq 0, \quad f(A) = 0 \Leftrightarrow A = 0 \]
+		\item $\forall A \in \R^{n \times n}$ e $\forall \alpha \in \R$ vale che
+		      \[ f(\alpha \cdot A) = |\alpha| \cdot f(A) \]
+		\item $\forall A, B \in \R^{n \times n}$ vale che
+		      \[ f(A + B) \leq f(A) + f(B) \]
+		\item $\forall A, B \in \R^{n \times n}$ vale che
+		      \[ f(A \cdot B) \leq f(A) \cdot f(B) \]
+	\end{itemize}
+\end{definition}
+
+Abbiamo aggiunto una proprietà in più ma il punto del discorso non cambia. Anche in questo caso se $f$ è una
+norma matriciale su $\R^{n \times n}$ allora possiamo indicarla come $f(A) = \| A \|$ e possiamo definire la
+distanza tra due matrici $A$ e $B$ come la norma della loro differenza:
+\[ \dist(A, B) = f(A - B) = \| A - B \| \]
+Per poter proseguire dobbiamo riuscire a definire delle norme matriciali legate in qualche modo alla norma
+vettoriale.
+
+\subsection{Norme matriciali indotte dalla norma vettoriale}
+Introduciamo ora l'ultimo strumento necessario per poter risolvere e studiare problemi di algebra lineare in
+macchina.
+\begin{definition}
+	Data una norma vettoriale su $\R^n$ si dice \textbf{norma matriciale indotta} la funzione
+	$f : \R^{n \times n} \to \R$ tale che $\forall A \in \R^{n \times n}$ vale che
+	\[ f(A) = \max \| A v \| \]
+	sull'insieme $\{ v \in \R^n \mid \| v \| = 1 \}$, ossia dei vettori $v$ che hanno norma 1.
+\end{definition}
+
+Prendere una norma matriciale indotta ci permette di introdurre una proprietà fondamentale per l'analisi:
+\[ \| A v \| \leq \| A \| \cdot \| v \| \]
+Questo ci permette di maggiorare la lunghezza di $A v$ con la lunghezza di $A$ per la lunghezza di $v$.
+
+\subsubsection{Caratterizzazione}
+L'insieme di vettori con norma 1 è infinito e per riuscire a trovare il massimo di $\| A v \|$ ricorriamo ai
+cosiddetti \textbf{teoremi di caratterizzazione}.
