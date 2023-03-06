@@ -95,8 +95,47 @@ macchina.
 
 Prendere una norma matriciale indotta ci permette di introdurre una proprietà fondamentale per l'analisi:
 \[ \| A v \| \leq \| A \| \cdot \| v \| \]
-Questo ci permette di maggiorare la lunghezza di $A v$ con la lunghezza di $A$ per la lunghezza di $v$.
+Questo ci permette di maggiorare la lunghezza di $A v$ con la "\emph{lunghezza}" di $A$ per la lunghezza di $v$.
 
 \subsubsection{Caratterizzazione}
 L'insieme di vettori con norma 1 è infinito e per riuscire a trovare il massimo di $\| A v \|$ ricorriamo ai
-cosiddetti \textbf{teoremi di caratterizzazione}.
+cosiddetti \textbf{teoremi di caratterizzazione}. Questi teoremi ci indicano una qualche  proprietà che
+\emph{caratterizza} la norma che stiamo considerando.
+
+\begin{theorem}
+	Sia $A \in \R^{n \times n}$, si ha che
+	\[ \| A \|_\infty = \max \| A v \|_\infty \]
+	sull'insieme dei vettori $v$ tali che $\| v \|_\infty = 1$. Si può dimostrare che questo equivale a
+	\[ \max \sum_{j=1}^n |a_{ij}| \quad i = 1 \dots n \]
+	Si va quindi a calcolare la somma dei valori assoluti dei valori che compongono le righe della matrice e
+	andando a prendere il massimo di tali somme.
+\end{theorem}
+
+\begin{theorem}
+	Sia $A \in \R^{n \times n}$, si ha che
+	\[ \| A \|_1 = \max \| A v \|_1 \]
+	sull'insieme dei vettori $v$ tali che $\| v \|_1 = 1$. Si può dimostrare che questo equivale a
+	\[ \max \sum_{i=1}^n |a_{ij}| \quad j = 1 \dots n \]
+	Si va quindi a calcolare la somma dei valori assoluti dei valori che compongono le colonne della matrice e
+	andando a prendere il massimo di tali somme.
+\end{theorem}
+
+Andiamo ora a vedere perché la norma euclidea non sarà usata per il calcolo della norma matriciale.
+
+\begin{theorem}
+	Sia $A \in \R^{n \times n}$, si ha che
+	\[ \| A \|_2 = \max \| A v \|_2 \]
+	sull'insieme dei vettori $v$ tali che $\| v \|_2 = 1$. Si può dimostrare che questo equivale a
+	\[ \sqrt{\rho (A^T A)} \]
+	ossia alla radice quadrata del \emph{raggio spettrale} di $A^T A$. Il raggio spettrale di una matrice è il
+	modulo dell'autovalore di modulo massimo.
+\end{theorem}
+
+Per quanto riguarda i primi due metodi abbiamo un complessità computazionale di $\theta (n^2)$ in quanto dobbiamo
+fare la somma di tutti i valori di ogni riga/colonna e poi trovarne il massimo.
+
+Nel caso della norma euclidea invece dobbiamo fare un prodotto tra matrici di costo $\theta (n^3)$ e in più
+dobbiamo trovare gli autovalori della matrice. Quest'ultimo problema in particolare diventa molto complesso anche
+per matrici di dimensioni contenute. Ecco perché, in generale, non utilizzeremo la norma euclidea per il calcolo
+della norma di una matrice. L'unico caso in cui la complessità del problema ci rende possibile utilizzarla è
+quello in cui abbiamo $A^T = A$ (matrice simmetrica).

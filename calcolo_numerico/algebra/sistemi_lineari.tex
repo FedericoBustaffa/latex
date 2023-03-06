@@ -1,0 +1,36 @@
+\section{Sistemi lineari e loro condizionamento}
+Ora che abbiamo chiarito il concetto di norma riprendiamo il discorso fatto all'inizio del capitolo e poniamoci
+il problema di studiare il condizionamento di
+\[ A x = b \]
+Per semplicità supponiamo di perturbare solo il termine noto ottenendo
+\[ A \hat{x} = b + \delta b \]
+Come sempre consideriamo che, in generale, quando si va ad inserire una quantità in macchina questa non sarà un
+numero di macchina. Se abbiamo quindi il vettore
+\[ b = \begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix} \]
+in macchina avremo il vettore
+\[
+	\hat{b} = \begin{pmatrix} \hat{b}_1 \\ \vdots \\ \hat{b}_n \end{pmatrix} =
+	\begin{pmatrix} b_1 (1 + \epsilon_1) \\ \vdots \\ b_n (1 + \epsilon_n)	\end{pmatrix} =
+	\begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix} +
+	\begin{pmatrix} b_1 \epsilon_1 \\ \vdots \\ b_n \epsilon_n \end{pmatrix}
+\]
+Per riuscire a stimare quanto $x$ sia perturbato nel calcolo in macchina calcoliamo
+\[
+	\frac{\| \hat{x} - x \|}{\| x \|} =
+	\frac{\| A^{-1} b + A^{-1} \delta b - A^{-1} b \|}{\| x \|} =
+	\frac{\| A^{-1} \delta b \|}{\| x \|}
+\]
+Dato che siamo interessati ad una maggiorazione, utilizzando la norma matriciale indotta, possiamo scrivere
+\[ \frac{\| A^{-1} \delta b \|}{\| x \|} \leq \frac{\| A^{-1} \| \cdot \| \delta b \|}{\| x \|} \]
+Ci rimane da sostituire il denominatore. Per farlo teniamo di conto che $A x = b$ e quindi
+\[ \| b \| \leq \| A \| \cdot \| x \| \Rightarrow \| x \| \geq \frac{\| b \|}{\| A \|} \]
+Otteniamo quindi
+\[
+	\frac{\| A^{-1} \| \cdot \| \delta b \|}{\| x \|} \leq
+	\frac{\| A^{-1} \| \cdot \| \delta b \|}{\frac{\| b \|}{\| A \|}} \leq
+	\| A \| \cdot \| A^{-1} \| \cdot \frac{\| \delta b \|}{\| b \|}
+\]
+Questa relazione ci dice che l'errore relativo sul risultato è dato dall'errore relativo sui dati
+($\| \delta b \| / \| b \|$) amplificato dalla quantità $\| A \| \cdot \| A^{-1} \|$ detta
+\textbf{numero di condizionamento} del sistema lineare. Se questa quantità è grande il problema è
+\emph{mal condizionato}, viceversa se il valore è piccolo il problema è \emph{ben condizionato}.
