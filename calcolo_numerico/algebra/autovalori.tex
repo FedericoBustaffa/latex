@@ -1,0 +1,91 @@
+\section{Autovalori e invertibilità}
+L'obbiettivo che ci poniamo ora è quello di studiare gli autovalori di una matrice in modo da ricavare un metodo
+semplice per riuscire a determinare se una matrice sia invertibile senza calcolare il determinante e senza avere
+altre informazioni sull'invertibilità.
+
+Dato che gli autovalori di una matrice $A$ a componenti reali possono essere numeri complessi, andremo fin da
+subito a considerare $A \in \C^{n \times n}$.
+
+Prima di andare più in dettaglio riprendiamo i concetti di algebra lineare relativi al calcolo degli autovalori.
+
+\begin{definition}
+	Definiamo lo scalare $\lambda$, \textbf{autovalore} di $A$ se $\exists x \neq 0 \in \C^n$ tale che
+	\[ A x = \lambda x \]
+	Chiamiamo $x$ che soddisfa tale relazione \textbf{autovettore} di $A$ relativo all'autovalore $\lambda$.
+\end{definition}
+
+\begin{observation}
+	Osserviamo che
+	\begin{align*}
+		A x = \lambda x       & \Leftrightarrow \\
+		A x - \lambda x = 0   & \Leftrightarrow \\
+		A x - \lambda I x = 0 & \Leftrightarrow \\
+		(A - \lambda I) x = 0
+	\end{align*}
+	Ne deduciamo che $\lambda$ è un autovalore di $A$ se e solo se
+	\[ \det (A - \lambda I) = 0 \]
+\end{observation}
+
+\begin{definition}
+	Il determinante di una matrice è un polinomio di grado $n$ negli elementi della matrice $A$ di dimensione
+	$n \times n$, dunque possiamo scrivere
+	\[ p(\lambda) = \det (A - \lambda I) \]
+	Questo è detto \textbf{polinomio caratteristico} di $A$.
+\end{definition}
+
+Per il \emph{teorema fondamentale dell'algebra} sappiamo che un polinomio di grado $n$ ha $n$ radici complesse
+e lo scalare $\lambda$ è autovalore di $A$ se e solo se $p(\lambda) = 0$. Da qui deduciamo che una matrice $A$
+di dimensione $n \times n$ ha $n$ autovalori corrispondenti alle radici del suo polinomio caratteristico.
+
+\begin{definition}
+	Il numero di volte che un autovalore compare come radice del polinomio caratteristico è detto
+	\textbf{molteplicità algebrica}.
+\end{definition}
+
+\begin{definition}
+	Sia $\lambda$ un autovalore di $A$, definiamo la \textbf{molteplicità geometrica} di $\lambda$ come
+	\[ \dim (\ker (A - b I)) \]
+\end{definition}
+
+In termini più pratici, la \emph{molteplicità geometrica} ci dice quanti autovettori linearmente indipendenti
+troviamo nel nucleo rispetto all'autovalore.
+
+Si può dimostrare che la \emph{molteplicità geometrica} è minore o uguale della \emph{molteplicità algebrica}.
+
+\begin{definition}
+	Una matrice $A$ si dice \textbf{diagonalizzabile} se esiste una matrice $S$ con $\det (S) \neq 0$ tale che
+	\[ B = S \cdot A \cdot S^{-1} \]
+	è una matrice diagonale.
+\end{definition}
+
+\begin{theorem}
+	Una matrice con tutti gli autovalori distinti e quindi con molteplicità algebrica uguale alla molteplicità
+	geometrica per ogni autovalore è diagonalizzabile.
+\end{theorem}
+
+\begin{theorem}
+	La matrice $A$ è invertibile se e solo se $\lambda = 0$ non è un suo autovalore.
+\end{theorem}
+
+\subsection{Teoremi di localizzazione}
+Questi teoremi non ci permettono di calcolare gli autovalori, bensì di definire dove questi si trovano sul piano
+complesso.
+
+L'idea è quella di identificare l'area all'interno della quale si trovano gli autovalori e se questa non comprende
+lo 0 allora possiamo dedurre che la matrice sia invertibile.
+
+Il contrario, in generale, non è vero. Non è detto che se lo 0 è compreso nell'area degli autovalori questo sia
+autovalore. Non possiamo quindi dedurre che la matrice sia singolare.
+
+\begin{theorem}[Gershgorin]
+	Sia $A = (a_{ij}) \in \C^{n \times n}$. Definiamo i \textbf{cerchi di Gershgorin} $K_i$, con $1 \leq i \leq n$
+	come
+	\[ K_i = \{ z \in \C \mid |z - a_{ii}| \leq \sum_{j=1,\;j\neq i}^n |a_{ij}| \} \]
+	Se $\lambda$ è un autovalore di $A$ allora questo appartiene all'unione dei $K_i$
+	\[ \lambda \in \cup_{i=1}^n K_i \]
+	\begin{proof}
+		Sia $\lambda$ autovalore di $A$ con corrispondente autovettore destro $x$. La relazione $A x = \lambda x$
+		implica che
+		\[ \sum_{j=1}^n a_{ij} x_j = \lambda x_i \quad 1 \leq i \leq n \]
+	\end{proof}
+\end{theorem}
