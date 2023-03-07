@@ -87,5 +87,35 @@ autovalore. Non possiamo quindi dedurre che la matrice sia singolare.
 		Sia $\lambda$ autovalore di $A$ con corrispondente autovettore destro $x$. La relazione $A x = \lambda x$
 		implica che
 		\[ \sum_{j=1}^n a_{ij} x_j = \lambda x_i \quad 1 \leq i \leq n \]
+		da cui
+		\[ (\lambda - a_{ii}) x_i = \sum_{j=1,\; j \neq i}^n a_{ij} x_j \quad 1 \leq i \leq n \]
+		Sia $p$ l'indice di una componente di modulo massimo di $x$ allora $|x_p| = \| x \|_\infty$. Poiché
+		$x \neq 0$ si ha $|x_p| > 0$. La relazione per $i = p$ nell'equazione appena scritta vale
+		\[ (\lambda - a_{pp}) x_p = \sum_{j=1,\; j \neq p}^n a_{pj} x_j \]
+		Passando ai valori assoluti otteniamo
+		\begin{align*}
+			|(\lambda - a_{pp} x_p)|                           &
+			= |\lambda - a_{pp}| \cdot |x_p| =                   \\
+			\left| \sum_{j=1,\; j \neq p}^n a_{pj} x_j \right| &
+			\leq \sum_{j=1,\; j \neq p}^n |a_{pj}| \cdot |x_j|
+		\end{align*}
+		Dividendo ambo i membri per $|x_p|$ otteniamo
+		\[
+			|\lambda - a_{pp}| \leq
+			\sum_{j=1,\; j \neq p}^n |a_{pj}| \cdot \frac{|x_j|}{|x_p|} \leq
+			\sum_{j=1,\; j \neq p}^n |a_{pj}|
+		\]
+		Quest'ultima relazione implica che $\lambda \in K_p$.
 	\end{proof}
 \end{theorem}
+
+Per il momento abbiamo definito i cerchi in funzione della somma sulle righe della matrice ma nulla ci vieta di
+fare la somma sulle colonne.
+
+Se andiamo a vedere la relazione tra gli autovalori di $A$ e di $A^T$ possiamo notare che hanno lo stesso
+polinomio caratteristico dato che $\det(A) = \det(A^T)$. Volendo si potrebbe localizzare gli autovalori di $A$
+localizzando gli autovalori di $A^T$. Questo però ci fornisce i cerchi di Gershgorin per colonne rispetto agli
+elementi di $A$ ossia
+\[ H_i = \{ z \in \C \mid |z - a_{ii}| \leq \sum_{j=1,\;j\neq i}^n |a_{ji}| \} \]
+A questo punto, se volessimo localizzare gli autovalori potremmo dire che
+\[ \lambda \in \left( \cup_{i=1}^n K_i \right) \cap \left( \cup_{i=1}^n H_i \right) \]
