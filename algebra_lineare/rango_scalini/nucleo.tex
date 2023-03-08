@@ -1,0 +1,29 @@
+\section{Il teorema della dimensione del nucleo e dell'immagine di una applicazione lineare}
+Il teorema del completamento, ha come importante corollario un risultato che stabilisce
+una relazione tra la dimensione del nucleo e quella dell'immagine di una applicazione
+lineare.
+
+\begin{theorem}
+	Considerata una applicazione lineare $L : V \to W$, dove $V$ e $W$ sono spazi
+	vettoriali su $\K$, vale
+	\[
+		\dim(\Ker(L)) + \dim(\Imm(L)) = \dim(V)
+	\]
+\end{theorem}
+
+\begin{definition}
+	Una applicazione lineare bigettiva $L : V \to W$, tra due spazi vettoriali $V$ e $W$
+	sul campo $\K$, si dice un \textbf{isomorfismo lineare}.
+
+	Dal teorema precedente segue che:
+	\begin{itemize}
+		\item Se $L : V \to W$ è una applicazione lineare iniettiva allora
+		      \[ \dim(\Imm(L)) = \dim(V) \]
+		      Infatti sappiamo che $\Ker(L) = \{O\}$ dunque $\dim(\Ker(L)) = 0$.
+		\item Se $L : V \to W$ è un isomorfismo lineare allora \[\dim(V) = \dim(W)\]
+		      Infatti se $L$ è bigettiva, in particolare è iniettiva e surgettiva.
+		\item Se $L : V \to W$ è una applicazione lineare iniettiva, allora $L$,
+		      pensata come applicazione da $V$ ad $\Imm(L)$, è un isomorfismo lineare.
+	\end{itemize}
+\end{definition}
+

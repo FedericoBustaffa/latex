@@ -1,0 +1,124 @@
+\section{Teorema di Binet}
+Il determinante non è un'applicazione lineare. In generale
+\[ \det(A + B) \neq \det(A) + \det(B) \]
+
+\begin{theorem}[Teorema di Binet]
+	Siano $A, B \in \Mat_{n \times n}(\K)$. Allora
+	\[
+		\det(AB) = \det(A)\det(B)
+	\]
+\end{theorem}
+
+\begin{corollary}
+	Se $M \in \Mat_{n \times n}(\K)$ è una matrice invertibile, allora
+	\[
+		\det(M^{-1}) = \frac{1}{\det(M)}
+	\]
+	\begin{proof}
+		Calcoliamo $\det(M^{-1} M)$. Per il teorema di Binet vale
+		\begin{gather*}
+			\det(M^{-1} M) = \det(M^{-1})\det(M) \\
+			M^{-1}M = I \\
+			\det(I) = 1
+		\end{gather*}
+	\end{proof}
+\end{corollary}
+
+Grazie al teorema di Binet possiamo osservare che, dato un endomorfismo
+$L \in End(V)$, il determinante assume lo stesso valore su tutte le matrici
+che si associano a $V$ al variare delle basi dello spazio, ossia vale:
+\[
+	\det \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) =
+	\det \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right)
+\]
+per ogni scelta di due basi $e_1, e_2, \dots, e_n$ e $v_1, v_2, \dots, v_n$
+di $V$.
+
+Possima scrivere dunque:
+\[
+	\det \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) =
+	\det \left(
+	M^{-1}[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}} M
+	\right)
+\]
+A questo punto, per il teorema di Binet, possiamo concludere che
+\begin{gather*}
+	\det \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) = \\
+	= \det(M^{-1}) \det \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right) \det(M) = \\
+	= \det \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right)
+\end{gather*}
+
+\begin{example}
+	Consideriamo l'endomorfismo $L : \R^2 \to \R^2$
+	\[
+		L \begin{pmatrix}
+			x \\ y
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2x - y \\
+			3y
+		\end{pmatrix}
+	\]
+	La sua matrice associata rispetto alla base standard di $\R^2$ è
+	\[
+		[L] = \begin{pmatrix}
+			2 & -1 \\
+			0 & 3
+		\end{pmatrix}
+	\]
+	il cui determinante è \[ \det([L]) = 2 \cdot 3 - (-1) \cdot 0 = 6 \]
+	Consideriamo ora la base di $\R^2$
+	\[
+		\B =
+		\left\{
+		\begin{pmatrix} 1 \\ 1 \end{pmatrix}, \quad
+		\begin{pmatrix} 1 \\ 0 \end{pmatrix}
+		\right\}
+	\]
+	La matrice associata a $L$ rispetto a tale base è
+	\[
+		[L]_{\substack{\B \\ \B}} =
+		\begin{pmatrix}
+			3  & 0 \\
+			-2 & 2
+		\end{pmatrix}
+	\]
+	Calcoliamo il determinante
+	\[
+		\det \left( [L]_{\substack{\B \\ \B}} \right) =
+		3 \cdot 2 - 0 \cdot (-2) = 6
+	\]
+\end{example}

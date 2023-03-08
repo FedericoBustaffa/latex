@@ -1,0 +1,192 @@
+\section{Ortogonalità}
+Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Estendiamo il
+concetto di perpendicolarità che ci è noto in $\R^2$ e
+$\R^3$ dando la seguente definizione:
+
+\begin{definition}
+	Due vettori $u, v \in V$ sono detti \textbf{ortogonali} se
+	\[
+		\langle u, v \rangle = 0
+	\]
+\end{definition}
+
+Notiamo che se due vettori verificano $\langle u, v \rangle = 0$ vale anche che
+$\langle v, u \rangle = \overline{\langle u, v \rangle} = 0$ dunque il concetto
+di ortogonalità non dipende dall'ordine con cui stiamo considerando i due
+vettori. Inoltre dalla definizione si ricava subito che il vettore $O$ è
+ortogonale a tutti i vettori di $V$:
+\[
+	\langle O, v \rangle = \langle 0O, v \rangle = 0\langle O, v \rangle = 0
+\]
+
+\begin{definition}
+	Sia $U$ un sottospazio di $V$. L'insieme dato dai vettori di $V$ che sono
+	ortogonali ad ogni vettore di $U$ si indica con $U^{\perp}$:
+	\[
+		U^{\perp} = \{v \in V | \langle v, u \rangle = 0 \forall u \in U\}
+	\]
+	Si verifica facilmente che $U^{\perp}$ è un sottospazio di $V$, chiamato
+	il \textbf{sottospazio ortogonale} a $U$.
+\end{definition}
+
+\begin{definition}
+	Un insieme $\{u_1, \dots, u_r\}$ di vettori si dice \textbf{ortogonale} se
+	i suoi elementi sono a due a due ortogonali fra loro. L'insieme
+	$\{u_1, \dots, u_r\}$ si dice \textbf{ortonormale} se è ortogonale e se
+	per ogni $i$ vale $\| u_i \| = 1$.
+\end{definition}
+
+\begin{example}
+	Nello spazio euclideo $\R^n$ con il prodotto scalare standard,
+	i vettori della base standard costituiscono un insieme ortonormale.
+\end{example}
+
+\begin{theorem}\label{orto}
+	Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Un insieme
+	ortonormale di vettori $\{u_1, \dots, u_r\}$ è linearmente indipendente
+	e, per ogni $v \in V$, il vettore
+	\[
+		w = v - \langle v, u_1 \rangle u_1 - ... -\langle v, u_r \rangle u_r
+	\]
+	è ortogonale ad ognuno degli $u_i$, dunque appartiene a
+	$Span(u_1, \dots, u_r)^{\perp}$.
+	\begin{proof}
+		Supponiamo di avere una combinazione lineare dei vari $u_i$ uguale a $O$:
+		\[
+			a_1 u_1 + ... + a_r u_r = O
+		\]
+		Per dimostrare la lineare indipendenza dei vettori $u_1, ..., u_r$ dobbiamo
+		dimostrare che per ogni $i$ vale che $a_i = 0$.
+
+		Fissato un $i$, consideriamo il prodotto scalare di entrambi i membri
+		dell'uguaglianza con $u_i$:
+		\[
+			\langle a_1 u_1 + \cdots + a_r u_r, u_i \rangle = \langle O, u_i \rangle
+		\]
+		ovvero
+		\[
+			a_1 \langle u_1, u_i \rangle + \dots + a_r \langle u_r, u_i \rangle = 0
+		\]
+		Vista la ortonormalità dell'insieme $\{ u_1, \dots, u_r \}$ questo implica
+		$a_i = 0$.
+
+		Ripetendo questa considerazione per ogni $i = 1, \dots, r$ si dimostra che i vettori
+		$u_1, \dots, u_r$ sono linearmente indipendenti.
+
+		Per concludere possiamo verificare che $w$ sia ortogonale a $u_i$ per ogni $i$:
+		\begin{gather*}
+			\langle w, u_i \rangle = \langle v, u_i \rangle - \langle v, u_1 \rangle
+			\langle u_1, u_i \rangle - ... - \langle v, u_r \rangle \langle u_r, u_i \rangle =\\
+			= \langle v, u_i \rangle - \langle v, u_1 \rangle 0 - \cdots - \langle v, u_i \rangle 1
+			- \cdots - \langle v, u_r \rangle 0 = 0
+		\end{gather*}
+	\end{proof}
+\end{theorem}
+
+Il teorema appena dimostrato sarà fondamentale per il
+\emph{procedimento di ortogonalizzazione di Gram-Schmidt}, che permette di ottenere una base
+ortonormale "modificando" una base data.
+
+\begin{theorem}[Gram-Schmidt]
+	Sia $V$ uno spazio vettoriale munito di un prodotto scalare, e sia
+	$v_1, \dots, v_n$ una qualunque base di $V$. Allora esiste una base
+	$u_1, \dots, u_n$ di $V$ che è ortonormale e tale che, per ogni
+	$i = 1, \dots, n$, $u_i \in Span(v_1, \dots, v_n)$.
+	\begin{proof}
+		Per prima cosa poniamo $u_1 = \frac{v_1}{\| v_1 \|}$. L'insieme ${u_1}$ è ortonormale.
+		Come secondo passo consideriamo il vettore
+		\[
+			v_2 - \langle v_2, u_1 \rangle u_1
+		\]
+		questo vettore è diverso da $O$ per lineare indipendenza e per il teorema \ref{orto},
+		applicato riferendosi all'insieme ortonormale $\{ u_1 \}$, è ortogonale a $u_1$. Inoltre
+		appartiene al sottospazio $Span(v_1, v_2)$.
+
+		È dunque un buon candidato per essere il nostro $u_2$; l'unico problema è che non ha
+		norma 1. Per rimediare basta moltiplicarlo per un opportuno scalare. Poniamo dunque
+		\[
+			u_2 = \frac{v_2 - \langle v_2, u_1 \rangle u_1}
+			{\| v_2 - \langle v_2, u_1 \rangle u_1\|}
+		\]
+		Per le osservazioni precedenti, l'insieme $\{ u_1, u_2 \}$ è ortonormale.
+
+		Volendo possiamo proseguire per induzione e compiere $n$ passi e definire $u_n$ come segue:
+		\[
+			u_n = \frac{v_n - \langle v_n, u_1 \rangle u_1 - \dots -
+				\langle v_n, u_{n-1} \rangle u_{n-1}}
+			{\| v_n - \langle v_n, u_1 \rangle u_1 - \dots - \langle v_n, u_{n-1} \rangle u_{n-1} \|}
+		\]
+	\end{proof}
+\end{theorem}
+
+Il teorema appena dimostrato afferma che ogni spazio $V$ munito di un prodotto
+scalare ha una base ortonormale.
+
+\begin{example}
+	Applicare il procedimento di ortogonalizzazione alla seguente base di $\R^2$:
+	\[
+		v_1 = \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \quad
+		v_2 = \begin{pmatrix} 3 \\ -1 \end{pmatrix}
+	\]
+	Per trovare $u_1$ mi basta fare
+	\[
+		u_1 = \frac{v_1}{\| v_1 \|}
+	\]
+	Per prima cosa calcolo $\| v_1 \|$
+	\[ \| v_1 \| = \sqrt{\langle v_1, v_1 \rangle} = \sqrt{8} = 2 \sqrt{2} \]
+	Ottengo dunque che
+	\[
+		u_1 = \begin{pmatrix}
+			2 \\ 2
+		\end{pmatrix} \frac{1}{2 \sqrt{2}} =
+		\begin{pmatrix}
+			\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}
+		\end{pmatrix}
+	\]
+	Ci rimane da calcolare $u_2$
+	\[
+		u_2 = \frac{v_2 - \langle v_2, u_1 \rangle u_1}
+		{\| v_2 - \langle v_2, u_1 \rangle u_1 \|}
+	\]
+	Calcoliamo $\langle v_2, u_1 \rangle$
+	\[
+		\langle v_2, u_1 \rangle = \frac{2}{\sqrt{2}}
+	\]
+	Possiamo proseguire calcolando
+	\[
+		\langle v_2, u_1 \rangle u_1 =
+		\frac{2}{\sqrt{2}}
+		\begin{pmatrix}
+			\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}
+		\end{pmatrix} =
+		\begin{pmatrix}
+			1 \\ 1
+		\end{pmatrix}
+	\]
+	Calcoliamo infine
+	\[
+		v_2 - \langle v_2, u_1 \rangle u_1 =
+		\begin{pmatrix} 3 \\ -1 \end{pmatrix} - \begin{pmatrix} 1 \\ 1 \end{pmatrix} =
+		\begin{pmatrix} 2 \\ -2 \end{pmatrix}
+	\]
+	Calcoliamo la norma di tale vettore
+	\[
+		\| v_2 - \langle v_2, u_1 \rangle u_1 \| = \sqrt{ 2^2 + (-2)^2 } = \sqrt{8} = 2 \sqrt{2}
+	\]
+	Quindi, in conclusione
+	\[
+		u_2 = \begin{pmatrix} 2 \\ -2 \end{pmatrix} \frac{1}{2 \sqrt{2}} =
+		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{pmatrix}
+	\]
+	La base ortonormale cercata è dunque
+	\[
+		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{pmatrix}, \quad
+		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{pmatrix}
+	\]
+\end{example}
+
+\begin{example}
+	Trovare una base ortonormale di $\R^3$ il cui primo vettore sia
+	\[ \left( \frac{1}{2}, \quad \frac{2}{3}, \quad \frac{2}{3} \right) \]
+\end{example}
+

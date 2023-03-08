@@ -1,0 +1,318 @@
+\section{Cambio di base negli endomorfismi lineari}
+Sia $V$ uno spazio vettoriale di dimensione $n$ sul campo $\K$
+e sia $L \in End(V)$. Supponiamo di avere due basi di $V$, una data dai vettori
+$v_1, v_2, \dots, v_n$ e l'altra dai vettori $e_1, e_2, \dots, e_n$. Quello che
+vedremo sarà la relazione che lega le matrici associate a $L$ rispetto a tali
+basi,
+\[
+	[L]_{\substack{
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}}
+\]
+e
+\[
+	[L]_{\substack{
+				e_1, e_2, \dots, e_n \\
+				e_1, e_2, \dots, e_n
+			}}
+\]
+Per prima cosa scriviamo ogni vettore $v_i$ come combinazione lineare dei vettori
+della base $e_1, e_2, \dots, e_n$:
+\begin{gather*}
+	v_1 = a_{11}e_1 + a_{21}e_2 + \cdots + a_{n1}e_n \\
+	v_2 = a_{12}e_1 + a_{22}e_2 + \cdots + a_{n2}e_n \\
+	\cdots                                           \\
+	v_n = a_{1n}e_1 + a_{2n}e_2 + \cdots + a_{nn}e_n \\
+\end{gather*}
+Se proviamo ora a scrivere la matrice associata all'endomorfismo identità
+$I \in End(V)$ prendendo come base in partenza $v_1, v_2, \dots, v_n$ e come base
+in arrivo $e_1, e_2, \dots, e_n$ è la seguente:
+\[
+	[I]_{\substack{
+				v_1, v_2, \dots, v_n \\
+				e_1, e_2, \dots, e_n
+			}} = \begin{pmatrix}
+		a_{11} & a_{12} & \dots & a_{1n} \\
+		a_{21} & a_{22} & \dots & \dots  \\
+		\dots  & \dots  & \dots & \dots  \\
+		a_{n1} & \dots  & \dots & a_{nn}
+	\end{pmatrix}
+\]
+Infatti nella prima colonna abbiamo scritto i coefficienti di $I(v_1)$ rispetto
+alla base $e_1, e_2, \dots, e_n$, nella seconda colonna i coefficienti di
+$I(v_2) = v_2$ e così via.
+
+La matrice appena trovata è una matrice di
+\textbf{cambiamento di base} e la chiameremo $M$. Osserviamo subito che $M$ è
+invertibile. Infatti pensiamo alla composizione di endomorfismi $I \circ I$
+ovvero $V \to^{I} V \to^{I} V$ e consideriamo il primo spazio $V$ e l'ultimo muniti
+della base $v_1, v_2, \dots, v_n$, mentre lo spazio $V$ al centro lo consideriamo
+con la base $e_1, e_2, \dots, e_n$. A questo punto otteniamo:
+\[
+	[I \circ I]_{\substack{
+	v_1, v_2, \dots, v_n \\
+	v_1, v_2, \dots, v_n
+}} =
+		[I]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				v_1, v_2, \dots, v_n
+			}}
+		[I]_{\substack{
+				v_1, v_2, \dots, v_n\\
+				e_1, e_2, \dots, e_n
+			}}
+\]
+Visto che $I \circ I = I$ possiamo riscrivere
+\[
+	[I]_{\substack{
+	v_1, v_2, \dots, v_n \\
+	v_1, v_2, \dots, v_n
+}} =
+		[I]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				v_1, v_2, \dots, v_n
+			}}
+		[I]_{\substack{
+				v_1, v_2, \dots, v_n\\
+				e_1, e_2, \dots, e_n
+			}}
+\]
+Ora la matrice al membro di sinistra è la matrice identità $I$, mentre quella
+più a destra è $M$, dunque:
+\[
+	I = [I]_{\substack{
+		e_1, e_2, \dots, e_n\\
+		v_1, v_2, \dots, v_n
+	}} M
+\]
+Questo ci permette di concludere che $M$ è invertibile e che
+\[
+	M^{-1} = [I]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				v_1, v_2, \dots, v_n
+			}}
+\]
+A questo punto possiamo enunciare il teorema che descrive la relazione fra matrici
+assocaite a $L$ rispetto alle due diverse basi:
+\begin{theorem}
+	Con le notazioni introdotte sopra, vale:
+	\[
+		[L]_{\substack{
+					v_1, v_2, \dots, v_n \\
+					v_1, v_2, \dots, v_n
+				}} =
+		M^{-1}[L]_{\substack{
+					e_1, e_2, \dots, e_n\\
+					e_1, e_2, \dots, e_n
+				}}M
+	\]
+\end{theorem}
+
+Ricordiamo che il problema di trovare la matrice associata a $L$ rispetto ad una
+base se si conosce la matrice associata rispetto ad un'altra base può essere
+affrontato anche senza scrivere le matrici $M$ e $M^{-1}$ ma il teorema precedente
+ha una grande importanza dal punto di vista teorico.
+
+Per esempio, se definiamo l'applicazione traccia
+\[
+	\tau : \Mat_{n \times n}(\K) \to \K
+\]
+nel seguente modo:
+\[
+	\tau((a_{ij})) = a_{11} + a_{22} + \dots + a_{nn}
+\]
+è naturale chiedersi se, dato un endomorfismo $L \in End(V)$, la funzione traccia
+dia lo stesso valore su tutte le matrici che si possono associare a $V$, in altre
+parole se vale:
+\[
+	\tau \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) =
+	\tau \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right)
+\]
+per ogni scelta delle basi $e_1, e_2, \dots, e_n$ e $v_1, v_2, \dots, v_n$.
+
+La risposta è si: la traccia non dipende dalla base scelta e dunque possiamo
+anche considerarla come applicazione lineare da $End(V)$ a $\K$.
+Per mostrarlo scriviamo:
+\[
+	\tau \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) =
+	\tau \left(
+	M^{-1} [L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}} M
+	\right)
+\]
+A questo punto ricordiamo che per ogni $A, B \in \Mat_{n \times n}(\K)$
+vale $\tau(AB) = \tau(BA)$, dunque:
+\begin{gather*}
+	\tau \left(
+	\left(
+		M^{-1}[L]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				e_1, e_2, \dots, e_n
+			}}
+		\right) M
+	\right) =\\
+	\tau \left(
+	M \left(
+		M^{-1}[L]_{\substack{
+				e_1, e_2, \dots, e_n\\
+				e_1, e_2, \dots, e_n
+			}}
+		\right)
+	\right) =\\
+	\tau \left(
+	M M^{-1} [L]_{\substack{
+			e_1, e_2, \dots, e_n\\
+			e_1, e_2, \dots, e_n
+		}}
+	\right) =\\
+	\tau \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right)
+\end{gather*}
+Questa catena di uguaglianza conduce, come annunciato, a:
+\[
+	\tau \left(
+	[L]_{\substack{
+			v_1, v_2, \dots, v_n \\
+			v_1, v_2, \dots, v_n
+		}}
+	\right) =
+	\tau \left(
+	[L]_{\substack{
+			e_1, e_2, \dots, e_n \\
+			e_1, e_2, \dots, e_n
+		}}
+	\right)
+\]
+
+\textbf{Ricapitolando:} Sia $V$ uno spazio vettoriale, sia $L \in End(V)$ e siano
+$\B_1$ e $\B_2$ due basi di $V$. Se conosciamo la matrice
+$[L]_{\substack{\B_1 \\ \B_1}}$ e vogliamo scrivere la matrice
+$[L]_{\substack{\B_2 \\ \B_2}}$ passando per la matrice di
+cambiamento di base dobbiamo:
+\begin{enumerate}
+	\item Trovare la matrice di cambiamento di base. Per farlo scriviamo la
+	      matrice $[I]_{\substack{\B_1 \\ \B_2}}$ ovvero la
+	      matrice associata all'indentità con $\B_1$ in partenza e
+	      $\B_2$ in arrivo. Questa sarà la nostra $M$.
+	\item Troviamo l'inversa di $M$ tramite il metodo specificato al capitolo
+	      precedente.
+	\item A questo punto risolviamo
+	      \[
+		      [L]_{\substack{\B_2 \\ \B_2}} =
+		      M^{-1} [L]_{\substack{\B_1 \\ \B_1}} M
+	      \]
+\end{enumerate}
+
+\begin{example}
+	Consideriamo $L : \R^2 \to \R^2$
+	\[
+		L \begin{pmatrix}
+			x \\ y
+		\end{pmatrix} =
+		\begin{pmatrix}
+			x + y \\ x
+		\end{pmatrix}
+	\]
+	e la sua matrice associata rispetto alla base standard di $\R^2$ in
+	partenza e in arrivo
+	\[
+		[L] = \begin{pmatrix}
+			1 & 1 \\
+			1 & 0
+		\end{pmatrix}
+	\]
+	Vogliamo scrivere ora la matrice associata a $L$ rispetto alla base
+	\[
+		\B = \left\{
+		\begin{pmatrix}
+			1 \\ 1
+		\end{pmatrix}, \quad
+		\begin{pmatrix}
+			0 \\ 1
+		\end{pmatrix}
+		\right\}
+	\]
+	di $\R^2$ in partenza e in arrivo. Per farlo seguiamo i punti elencati
+	sopra.
+	\begin{enumerate}
+		\item Troviamo la matrice $M$ di cambiamento di base scrivendo la matrice
+		      associata all'identità con la base standard di $\R^2$ in partenza
+		      e la base $\B$ in arrivo.
+		      \[
+			      M = \begin{pmatrix}
+				      1 & 0 \\
+				      1 & 1
+			      \end{pmatrix}
+		      \]
+		\item Troviamo l'inversa di $M$.
+		      \[
+			      M^{-1} = \begin{pmatrix}
+				      1  & 0 \\
+				      -1 & 1
+			      \end{pmatrix}
+		      \]
+		\item Scriviamo infine la matrice cercata risolvendo l'equazione
+		      \[
+			      [L]_{\substack{\B \\ \B}} =
+			      M^{-1} [L] M
+		      \]
+		      Avremo dunque che
+		      \begin{gather*}
+			      [L]_{\substack{\B \\ \B}} =
+			      \begin{pmatrix}
+				      1  & 0 \\
+				      -1 & 1
+			      \end{pmatrix}
+			      \begin{pmatrix}
+				      1 & 1 \\
+				      1 & 0
+			      \end{pmatrix}
+			      \begin{pmatrix}
+				      1 & 0 \\
+				      1 & 1
+			      \end{pmatrix} \\
+			      \Downarrow \\
+			      [L]_{\substack{\B \\ \B}} =
+			      \begin{pmatrix}
+				      1 & 1  \\
+				      0 & -1
+			      \end{pmatrix}
+			      \begin{pmatrix}
+				      1 & 0 \\
+				      1 & 1
+			      \end{pmatrix} \\
+			      \Downarrow \\
+			      [L]_{\substack{\B \\ \B}} =
+			      \begin{pmatrix}
+				      2  & 1  \\
+				      -1 & -1
+			      \end{pmatrix}
+		      \end{gather*}
+	\end{enumerate}
+	Lo stesso identico risultato si ottiene scrivendo esprimendo
+	l'immagine di ogni elemento della base $\B$ come combinazione lineare
+	della stessa base $\B$ e mettendo poi i vettori colonna ottenuti
+	uno di fianco all'altro (come abbiamo visto nei primi capitoli).
+\end{example}

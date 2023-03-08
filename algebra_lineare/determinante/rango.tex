@@ -1,0 +1,95 @@
+\section{Determinante e calcolo del rango}
+Data una matrice $A = (a_{ij}) \in \Mat_{n \times m}(\K)$ e dato un
+numero intero positivo $k$ minore o uguale al minimo fra $m$ e $n$, possiamo
+scegliere $k$ righe fra le $n$ righe (diciamo $i_1, i_2, \dots i_k$) e
+$k$ colonne fra le $m$ colonne (diciamo $j_1, j_2, \dots, j_k$).
+
+\begin{definition}
+	Data la scelta di $k$ righe e $k$ colonne come sopra, chiamiamo
+	\textbf{minore} di $A$ di formato $k \times k$, la matrice ottenuta da $A$
+	cancellando tutti i coefficienti eccetto quelli che giacciono
+	contemporaneamente su una delle $k$ righe e su una delle $k$ colonne scelte,
+	in altre parole cancellando tutti i coefficienti eccetto gli $a_{ij}$ per
+	cui $i \in \{i_1, i_2, \dots, i_k\}$ e $j \in \{j_1, j_2, \dots j_k\}$.
+\end{definition}
+
+\begin{observation}
+	Da una matrice $n \times m$ è possibile ricavare $\begin{psmallmatrix}
+			n \\ k \end{psmallmatrix} \begin{psmallmatrix}
+			m \\ k \end{psmallmatrix}$ minori di formato $k \times k$.
+\end{observation}
+
+I determinanti dei minori possono essere usati per calcolare il rango di una
+matrice $n \times m$ come risulta dal seguente teorema
+
+\begin{theorem}
+	Data una matrice $A = (a_{ij}) \in \Mat_{n \times m}(\K)$, supponiamo
+	che esista un minore di formato $k \times k$ il cui determinante è diverso
+	da 0. Allora il rango di $A$ è maggiore o uguale a $k$. Se $k = n$ oppure
+	$k = m$ allora il rango di $A$ è uguale a $k$. Se $k < n$ e $k < m$ e tutti
+	i determinanti dei minori di formato $(k + 1) \times (k + 1)$ sono uguali a 0
+	allora il rango di $A$ è uguale a $k$.
+\end{theorem}
+
+\begin{observation}
+	Se una matrice quadrata $n \times n$ ha determinante diverso da zero, allora
+	per il teorema precedente ha rango $n$ e dunque è invertibile. Sempre per il
+	teorema vale anche il viceversa: se una matrice $n \times n$ ha determinante
+	uguale a 0, allora il suo rango è strettamente minore di $n$ e dunque la
+	matrice non è invertibile.
+
+	Nel caso $2 \times 2$, data
+	\[
+		A = \begin{pmatrix}
+			a & b \\
+			c & d
+		\end{pmatrix}
+	\]
+	con determinante diverso da 0, ossia $ad - bc \neq 0$, l'inversa si scrive
+	esplicitamente come:
+	\[
+		A^{-1} = \frac{1}{ad - bc} \begin{pmatrix}
+			d  & -b \\
+			-c & a
+		\end{pmatrix}
+	\]
+\end{observation}
+
+\begin{example}
+	La matrice
+	\[
+		\begin{pmatrix}
+			3 & 9          & 4          & 7 & 12         \\
+			1 & \textbf{3} & \textbf{2} & 0 & \textbf{5} \\
+			1 & \textbf{2} & \textbf{0} & 0 & \textbf{1} \\
+			1 & \textbf{4} & \textbf{2} & 7 & \textbf{6}
+		\end{pmatrix}
+	\]
+	ha rango maggiore o uguale a 3 in quanto contiene un minore $3 \times 3$
+	(quello individuato dalle righe seconda, terza e quarta e dalle colonne
+	seconda terza e quinta) che ha determinante diverso da 0. Inoltre, poiché
+	tutti i minori $4 \times 4$ hanno determinante uguale a zero, la matrice ha
+	rango esattamente 3. È più rapido osservare che la prima riga è uguale
+	alla somma delle altre delle altre tre righe, dunque il rango è minore o
+	uguale a 3: poiché dal calcolo del determinante del minore $3 \times 3$
+	sappiamo che il rango è maggiore o uguale a 3, allora è esattamente 3.
+\end{example}
+
+Il calcolo del rango attraverso il teorema precedente può richiedere molte
+verifiche, ed è in generale meno conveniente della riduzione di Gauss. Il
+seguente teorema può comunque ridurre i determinanti da calcolare:
+
+\begin{theorem}[Teorema degli orlati]
+	Data $A = (a_{ij}) \in \Mat_{n \times m}(\K)$, supponiamo che esista un minore $K$ di formato $k \times k$
+	il cui determinante è diverso da 0. Se sono uguali a 0 tutti i determinanti dei minori di formato
+	$(k + 1) \times (k + 1)$ che si ottengono aggiungendo una riga e una colonna a quelle scelte per formare il
+	minore $K$, allora il rango di $A$ è uguale a $k$, altrimenti è strettamente maggiore di $k$.
+\end{theorem}
+
+Dunque se abbiamo un minore di formato $k \times k$ con determinante diverso da 0
+e vogliamo decidere se la matrice ha rango $k$ oppure ha rango strettamente
+maggiore di $k$ basta controllare $(n - k)(m - k)$ minori di formato
+$(k + 1) \times (k + 1)$, non tutti i
+$\begin{psmallmatrix} n \\ k + 1 \end{psmallmatrix}$
+$\begin{psmallmatrix} m \\ k + 1 \end{psmallmatrix}$ minori di formato
+$(k + 1) \times (k + 1)$.

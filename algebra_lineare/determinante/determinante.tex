@@ -1,28 +1,21 @@
 \chapter{Determinante}
 \section{Definizione di determinante}
 Il determinante è una funzione
-\[
-	Det : \Mat_{n \times n}(\K) \to \K
-\]
+\[ \det : \Mat_{n \times n}(\K) \to \K \]
 Per allegerire la notazione talvolta indicheremo con $|a_{ij}|$ oppure con
-$Det(a_{ij})$ o con $Det(A)$ il determinante di una matrice $A = (a_{ij})$.
+$\det(a_{ij})$ o con $\det(A)$ il determinante di una matrice $A = (a_{ij})$.
 
 Il determinante è definito ricorsivamente, al crescere di $n$, nel seguente
 modo:
 \begin{itemize}
 	\item Il determinante di una matrice $1 \times 1$ è uguale all'unico
 	      coefficiente della matrice:
-	      \[
-		      Det(a) = a
-	      \]
+	      \[ \det(a) = a \]
 	\item Dato $n \geq 2$ il determinante di una matrice $A = (a_{ij})$ di
 	      formato $n \times n$ può essere ottenuto come combinazione lineare
 	      di una qualunque riga, diciamo la $i$-esima, tramite la seguente
 	      formula:
-	      \[
-		      Det(A) = (-1)^{i + 1}a_{i1}Det(A_{i1}) + ... +
-		      (-1)^{i + n}a_{in}Det(A_{in})
-	      \]
+	      \[ \det(A) = (-1)^{i + 1}a_{i1}\det(A_{i1}) + \dots + (-1)^{i + n}a_{in}\det(A_{in}) \]
 	      dove $A_{ij}$ indica la matrice quadrata di formato
 	      $(n - 1) \times (n - 1)$ che si ottiene da $A$ cancellando la riga
 	      $i$-esima e la colonna $j$-esima.
@@ -32,7 +25,7 @@ modo:
 	Dalla definizione possiamo immediatamente ricavare la seguente formula
 	per le matrici $2 \times 2$:
 	\[
-		Det \begin{pmatrix}
+		\det \begin{pmatrix}
 			a & b \\
 			c & d
 		\end{pmatrix} =
@@ -44,10 +37,7 @@ modo:
 	Il determinante si può mettere anche come combinazione lineare dei
 	coefficienti di una qualsiasi colonna, diciamo la $j$-esima, tramite
 	la seguente formula:
-	\[
-		Det(A) = (-1)^{1 + j}a_{1j}Det(A_{1j}) + ... +
-		(-1)^{n + j}a_{nj}Det(A_{nj})
-	\]
+	\[ \det(A) = (-1)^{1 + j}a_{1j}\det(A_{1j}) + \dots + (-1)^{n + j}a_{nj}\det(A_{nj}) \]
 \end{observation}
 
 \begin{example}
@@ -62,15 +52,15 @@ modo:
 	per calcolare il determinante si sceglie una riga (o una colonna) e poi si
 	applica la formula. Per esempio, scegliamo la seconda riga:
 	\begin{gather*}
-		Det(A) = -2Det \begin{pmatrix}
+		\det(A) = -2Det \begin{pmatrix}
 			2 & 5 \\
 			2 & 6
 		\end{pmatrix} +
-		0 Det \begin{pmatrix}
+		0 \det \begin{pmatrix}
 			3 & 5 \\
 			4 & 6
 		\end{pmatrix} -
-		Det \begin{pmatrix}
+		\det \begin{pmatrix}
 			3 & 2 \\
 			4 & 2
 		\end{pmatrix} = \\
@@ -101,7 +91,7 @@ modo:
 	prodotti dei coefficienti che si trovano sulle tre diagonali che salgono
 	da sinistra a destra:
 	\[
-		Det(B) = aci + bfg + cdh - gec - hfa - idb
+		\det(B) = aci + bfg + cdh - gec - hfa - idb
 	\]
 	Verifichiamo che nel caso della matrice
 	\[
@@ -118,259 +108,3 @@ modo:
 		8 + 20 - 6 - 24 = -2
 	\]
 \end{observation}
-
-\section{Determinante e calcolo del rango}
-Data una matrice $A = (a_{ij}) \in \Mat_{n \times m}(\K)$ e dato un
-numero intero positivo $k$ minore o uguale al minimo fra $m$ e $n$, possiamo
-scegliere $k$ righe fra le $n$ righe (diciamo $i_1, i_2, \dots i_k$ e
-$k$ colonne fra le $m$ colonne (diciamo $j_1, j_2, \dots, j_k$).
-
-\begin{definition}
-	Data la scelta di $k$ righe e $k$ colonne come sopra, chiamiamo
-	\textbf{minore} di $A$ di formato $k \times k$, la matrice ottenuta da $A$
-	cancellando tutti i coefficienti eccetto quelli che giacciono
-	contemporaneamente su una delle $k$ righe e su una delle $k$ colonne scelte,
-	in altre parole cancellando tutti i coefficienti eccetto gli $a_{ij}$ per
-	cui $i \in \{i_1, i_2, \dots, i_k\}$ e $j \in \{j_1, j_2, \dots j_k\}$.
-\end{definition}
-
-\begin{observation}
-	Da una matrice $n \times m$ è possibile ricavare $\begin{psmallmatrix}
-			n \\ k \end{psmallmatrix} \begin{psmallmatrix}
-			m \\ k \end{psmallmatrix}$ minori di formato $k \times k$.
-\end{observation}
-
-I determinanti dei minori possono essere usati per calcolare il rango di una
-matrice $n \times m$ come risulta dal seguente teorema
-
-\begin{theorem}
-	Data una matrice $A = (a_{ij}) \in \Mat_{n \times m}(\K)$, supponiamo
-	che esista un minore di formato $k \times k$ il cui determinante è diverso
-	da 0. Allora il rango di $A$ è maggiore o uguale a $k$. Se $k = n$ oppure
-	$k = m$ allora il rango di $A$ è uguale a $k$. Se $k < n$ e $k < m$ e tutti
-	i determinanti dei minori di formato $(k + 1) \times (k + 1)$ sono uguali a 0
-	allora il rango di $A$ è uguale a $k$.
-\end{theorem}
-
-\begin{observation}
-	Se una matrice quadrata $n \times n$ ha determinante diverso da zero, allora
-	per il teorema precedente ha rango $n$ e dunque è invertibile. Sempre per il
-	teorema vale anche il viceversa: se una matrice $n \times n$ ha determinante
-	uguale a 0, allora il suo rango è strettamente minore di $n$ e dunque la
-	matrice non è invertibile.
-
-	Nel caso $2 \times 2$, data
-	\[
-		A = \begin{pmatrix}
-			a & b \\
-			c & d
-		\end{pmatrix}
-	\]
-	con determinante diverso da 0, ossia $ad - bc \neq 0$, l'inversa si scrive
-	esplicitamente come:
-	\[
-		A^{-1} = \frac{1}{ad - bc} \begin{pmatrix}
-			d  & -b \\
-			-c & a
-		\end{pmatrix}
-	\]
-\end{observation}
-
-\begin{example}
-	La matrice
-	\[
-		\begin{pmatrix}
-			3 & 9          & 4          & 7 & 12         \\
-			1 & \textbf{3} & \textbf{2} & 0 & \textbf{5} \\
-			1 & \textbf{2} & \textbf{0} & 0 & \textbf{1} \\
-			1 & \textbf{4} & \textbf{2} & 7 & \textbf{6}
-		\end{pmatrix}
-	\]
-	ha rango maggiore o uguale a 3 in quanto contiene un minore $3 \times 3$
-	(quello individuato dalle righe seconda, terza e quarta e dalle colonne
-	seconda terza e quinta) che ha determinante diverso da 0. Inoltre, poiché
-	tutti i minori $4 \times 4$ hanno determinante uguale a zero, la matrice ha
-	rango esattamente 3. È più rapido osservare che la prima riga è uguale
-	alla somma delle altre delle altre tre righe, dunque il rango è minore o
-	uguale a 3: poiché dal calcolo del determinante del minore $3 \times 3$
-	sappiamo che il rango è maggiore o uguale a 3, allora è esattamente 3.
-\end{example}
-
-Il calcolo del rango attraverso il teorema precedente può richiedere molte
-verifiche, ed è in generale meno conveniente della riduzione di Gauss. Il
-seguente teorema può comunque ridurre i determinanti da calcolare:
-
-\begin{theorem}[Teorema degli orlati]
-	Data $A = (a_{ij}) \in \Mat_{n \times m}(\K)$, supponiamo che esista un minore $K$ di formato $k \times k$
-	il cui determinante è diverso da 0. Se sono uguali a 0 tutti i determinanti dei minori di formato
-	$(k + 1) \times (k + 1)$ che si ottengono aggiungendo una riga e una colonna a quelle scelte per formare il
-	minore $K$, allora il rango di $A$ è uguale a $k$, altrimenti è strettamente maggiore di $k$.
-\end{theorem}
-
-Dunque se abbiamo un minore di formato $k \times k$ con determinante diverso da 0
-e vogliamo decidere se la matrice ha rango $k$ oppure ha rango strettamente
-maggiore di $k$ basta controllare $(n - k)(m - k)$ minori di formato
-$(k + 1) \times (k + 1)$, non tutti i
-$\begin{psmallmatrix} n \\ k + 1 \end{psmallmatrix}$
-$\begin{psmallmatrix} m \\ k + 1 \end{psmallmatrix}$ minori di formato
-$(k + 1) \times (k + 1)$.
-
-\section{Teorema di Binet}
-Il determinante non è un'applicazione lineare. In generale
-\[ Det(A + B) \neq Det(A) + Det(B) \]
-
-\begin{theorem}[Teorema di Binet]
-	Siano $A, B \in \Mat_{n \times n}(\K)$. Allora
-	\[
-		Det(AB) = Det(A)Det(B)
-	\]
-\end{theorem}
-
-\begin{corollary}
-	Se $M \in \Mat_{n \times n}(\K)$ è una matrice invertibile, allora
-	\[
-		Det(M^{-1}) = \frac{1}{Det(M)}
-	\]
-	\begin{proof}
-		Calcoliamo $Det(M^{-1} M)$. Per il teorema di Binet vale
-		\begin{gather*}
-			Det(M^{-1} M) = Det(M^{-1})Det(M) \\
-			M^{-1}M = I \\
-			Det(I) = 1
-		\end{gather*}
-	\end{proof}
-\end{corollary}
-
-Grazie al teorema di Binet possiamo osservare che, dato un endomorfismo
-$L \in End(V)$, il determinante assume lo stesso valore su tutte le matrici
-che si associano a $V$ al variare delle basi dello spazio, ossia vale:
-\[
-	Det \left(
-	[L]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}}
-	\right) =
-	Det \left(
-	[L]_{\substack{
-			e_1, e_2, \dots, e_n \\
-			e_1, e_2, \dots, e_n
-		}}
-	\right)
-\]
-per ogni scelta di due basi $e_1, e_2, \dots, e_n$ e $v_1, v_2, \dots, v_n$
-di $V$.
-
-Possima scrivere dunque:
-\[
-	Det \left(
-	[L]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}}
-	\right) =
-	Det \left(
-	M^{-1}[L]_{\substack{
-			e_1, e_2, \dots, e_n \\
-			e_1, e_2, \dots, e_n
-		}} M
-	\right)
-\]
-A questo punto, per il teorema di Binet, possiamo concludere che
-\begin{gather*}
-	Det \left(
-	[L]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}}
-	\right) = \\
-	= Det(M^{-1}) Det \left(
-	[L]_{\substack{
-			e_1, e_2, \dots, e_n \\
-			e_1, e_2, \dots, e_n
-		}}
-	\right) Det(M) = \\
-	= Det \left(
-	[L]_{\substack{
-			e_1, e_2, \dots, e_n \\
-			e_1, e_2, \dots, e_n
-		}}
-	\right)
-\end{gather*}
-
-\begin{example}
-	Consideriamo l'endomorfismo $L : \R^2 \to \R^2$
-	\[
-		L \begin{pmatrix}
-			x \\ y
-		\end{pmatrix} =
-		\begin{pmatrix}
-			2x - y \\
-			3y
-		\end{pmatrix}
-	\]
-	La sua matrice associata rispetto alla base standard di $\R^2$ è
-	\[
-		[L] = \begin{pmatrix}
-			2 & -1 \\
-			0 & 3
-		\end{pmatrix}
-	\]
-	il cui determinante è \[ Det([L]) = 2 \cdot 3 - (-1) \cdot 0 = 6 \]
-	Consideriamo ora la base di $\R^2$
-	\[
-		\B =
-		\left\{
-		\begin{pmatrix} 1 \\ 1 \end{pmatrix}, \quad
-		\begin{pmatrix} 1 \\ 0 \end{pmatrix}
-		\right\}
-	\]
-	La matrice associata a $L$ rispetto a tale base è
-	\[
-		[L]_{\substack{\B \\ \B}} =
-		\begin{pmatrix}
-			3  & 0 \\
-			-2 & 2
-		\end{pmatrix}
-	\]
-	Calcoliamo il determinante
-	\[
-		Det \left( [L]_{\substack{\B \\ \B}} \right) =
-		3 \cdot 2 - 0 \cdot (-2) = 6
-	\]
-\end{example}
-
-\section{Proprietà del determinante rispetto alle mosse di riga e colonna}
-Ricordiamo le operazioni elementari di colonna:
-\begin{itemize}
-	\item si somma alla colonna $i$ la colonna $j$ moltiplicata per uno
-	      scalare $\lambda$.
-	\item si moltiplica la colonna $s$ per uno scalare $k \neq 0$.
-	\item si permutano tra loro due colonne, diciamo $i$ e $j$.
-\end{itemize}
-
-Vediamo ora come cambia il determinante se facciamo un'operazione elementare di colonna
-su una matrice $A \in \Mat_{n \times n}(\K)$.
-\begin{itemize}
-	\item Un'operazione del primo tipo equivale a moltiplicare $A$ a destra per la
-	      matrice $n \times n$ che ha tutti 1 sulla diagonale, e 0 in tutte le altre
-	      caselle eccetto che nella casella identificata da "riga $j$, colonna $i$",
-	      dove troviamo $\lambda$. La matrice $M_{ij}$ è triangolare e il suo
-	      determinante è uguale a 1, dunque $Det(AM_{ij})$ è uguale a $Det(A)$ per
-	      il teorema di Binet.
-	\item Un'operazione di colonna del terzo tipo ha come
-	      effetto quello di cambiare il segno del determinante.
-	\item Quanto alle operazioni del secondo tipo, dalla definizione stessa di
-	      determinante si ricava che, se si moltiplica una colonna per uno scalare
-	      $k \neq 0$, anche il determinante della matrice risulterà moltiplicato
-	      per $k$.
-\end{itemize}
-
-Considerazioni analoghe valgono, ovviamente, per le operazioni elementari di
-riga.
-
-Una conseguenza di queste osservazioni è che se vogliamo sapere se il
-determinante di una certa matrice è uguale a 0 oppure no possiamo,
-prima di calcolarlo, fare alcune operazioni di riga e/o di colonna.
-Di solito questo risulta utile se con tali operazioni otteniamo una riga
-(o una colonna) con molti coefficienti uguali a 0, facilitando il calcolo.

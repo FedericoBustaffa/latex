@@ -1,0 +1,42 @@
+\section{La disuguaglianza di Cauchy-Schwarz}
+Dato un prodotto scalare $\langle , \rangle$ su $V$, abbiamo il seguente
+teorema:
+
+\begin{theorem}[Disuguaglianza di Cauchy-Schwarz]
+	Per ogni coppia di vettori $u, v \in V$ vale
+	\[
+		|\langle u, v \rangle| \leq \| u \| \| v \|
+	\]
+\end{theorem}
+
+\begin{example}
+	Nel caso in cui $V$ sia $\R^n$ col prodotto scalare standard, la
+	disuguaglianza di Cauchy-Schwarz si traduce così. Dati
+	\[
+		u = \begin{pmatrix}
+			a_1 \\ \dots \\ a_n
+		\end{pmatrix},
+		v = \begin{pmatrix}
+			b_1, \dots, b_n
+		\end{pmatrix}
+	\]
+	vale
+	\[
+		|a_1 b_1 + \cdots + a_n b_n| \leq
+		(a_1^2 + \cdots + a_n^2)(b_1^2 + \cdots + b_n^2)
+	\]
+	che può essere pensata anche, svincolandosi dai vettori e dagli spazi
+	vettoriali, come una disuguaglianza che riguarda due qualsiasi $n$-uple
+	$a_1, \dots, a_n$ e $b_1, \dots, b_n$ di numeri reali.
+\end{example}
+
+\begin{example}
+	Nel caso in cui $V$ sia lo spazio delle funzioni continue reali definite
+	sull'intervallo $[0, 1]$ la disuguaglianza di Cauchy-Schwarz si traduce
+	nella seguente importante disuguaglianza fra integrali:
+	\[
+		\left( \int_0^1 f(t)g(t)dt \right)^2 \leq
+		\int_0^1 f(t)^2 dt \int_0^1 g(t)^2 dt
+	\]
+\end{example}
+

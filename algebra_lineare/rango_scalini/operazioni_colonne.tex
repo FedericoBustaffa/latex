@@ -1,0 +1,134 @@
+\chapter{Riduzione a scalini}
+\section{Operazioni elementari sulle colonne}
+Consideriamo una generica matrice in $\Mat_{m \times n}(\K)$:
+\[
+	A = \begin{pmatrix}
+		a_{11} & a_{12} & \dots & a_{1n} \\
+		a_{21} & a_{22} & \dots & \dots  \\
+		\dots  & \dots  & \dots & \dots  \\
+		a_{m1} & \dots  & \dots & a_{mn}
+	\end{pmatrix}
+\]
+e i tre seguenti tipi di mossa sulle colonne, detti anche
+\textbf{operazioni elementari sulle colonne}:
+\begin{enumerate}
+	\item si somma alla colonna $i$ la colonna $j$ moltiplicata per uno scalare
+	      $\lambda$.
+	\item si moltiplica la colonna $i$ per uno scalare $\lambda$
+	\item si scambiano fra di loro due colonne $i$ e $j$.
+\end{enumerate}
+
+\begin{definition}
+	La \textbf{profondità} di una colonna è definita come la posizione
+	occupata (contata dal basso) dal suo più alto coefficiente diverso da 0.
+	Alla colonna nulla si assegna per convenzione profondità uguale a 0.
+\end{definition}
+
+\begin{example}
+	Consideriamo la seguente matrice:
+	\[
+		A = \begin{pmatrix}
+			0            & 4 - \sqrt{3} & 0  \\
+			\sqrt{3} + 1 & 0            & 0  \\
+			-2           & -2           & -2
+		\end{pmatrix}
+	\]
+	In questo caso la prima colonna ha profodità uguale a 2, la
+	seconda colonna uguale a 3 mentre la terza ha profondità uguale a 1.
+\end{example}
+
+\begin{definition}
+	Una matrice $A \in \Mat_{m \times n}(\K)$, si dice
+	\textbf{in forma a scalini per colonne} se rispetta le seguenti proprietà:
+	\begin{itemize}
+		\item leggendo la matrice da sinistra a destra, le colonne non nulle si
+		      incontrano tutte prima delle colonne nulle.
+		\item leggendo la matrice da sinistra a destra, le profondità
+		      delle sue colonne non nulle risultano strettamente
+		      decrescenti.
+	\end{itemize}
+\end{definition}
+
+\begin{example}
+	Questi sono esempi di matrici in forma \emph{a scalini}:
+	\[
+		A = \begin{pmatrix}
+			1            & 0           & 0 & 0 \\
+			\sqrt{3} + 1 & 1           & 0 & 0 \\
+			-2           & \frac{5}{2} & 1 & 0
+		\end{pmatrix}
+	\]
+	\[
+		B = \begin{pmatrix}
+			1  & 0           & 0 & 0 \\
+			0  & 1           & 0 & 0 \\
+			-2 & \frac{5}{2} & 0 & 0
+		\end{pmatrix}
+	\]
+\end{example}
+
+\begin{definition}
+	In una matrice in forma a scalini per colonna, i coefficienti diversi
+	da zero più alti di posizione di ogni colonna non nulla si
+	chiamano \textbf{pivot}.
+\end{definition}
+
+\begin{theorem}
+	Data una matrice $A \in \Mat_{m \times n}(\K)$ è sempre
+	possibile, usando operazioni elementari sulle colonne, ridurre la
+	matrice in forma a scalini per colonne.
+\end{theorem}
+
+\begin{observation}
+	Quando si riduce una matrice in forma a scalini, la forma a scalini
+	ottenuta non è unica.
+\end{observation}
+
+\begin{definition}
+	Una matrice $A \in \Mat_{m \times n}(\K)$, si dice \textbf{in forma a
+		scalini per colonne ridotta} se:
+	\begin{itemize}
+		\item $A$ è a scalini per colonne.
+		\item Tutte le entrate nella stessa riga di un pivot, precedenti al pivot,
+		      sono nulle
+	\end{itemize}
+\end{definition}
+
+\begin{example}
+	Esempio di matrice in forma a scalini ridotta:
+	\[
+		\begin{pmatrix}
+			1            & 0           & 0 & 0 \\
+			\sqrt{3} + 1 & 1           & 0 & 0 \\
+			-2           & \frac{5}{2} & 1 & 0
+		\end{pmatrix} \rightarrow
+		\begin{pmatrix}
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 1 & 0
+		\end{pmatrix}
+	\]
+\end{example}
+
+\begin{proposition}
+	Data una matrice in forma a scalini per colonne, è sempre possibile, usando
+	solo la prima delle operazioni elementari sulle colonne, portare $A$ in forma
+	a scalini ridotta.
+\end{proposition}
+
+\begin{corollary}
+	Ogni matrice $A$ può essere trasformata, tramite le operazioni elementari
+	sulle colonne, in una matrice in forma a scalini per colonne ridotta.
+\end{corollary}
+
+\begin{proposition}
+	Se operiamo attraverso le operazioni elementari sulle colonne, lo
+	$Span$ dei vettori colonna rimane invariato. Ovvero se indichiamo con
+	$v_1, \dots, v_n$ i vettori colonna di una matrice
+	$A \in \Mat_{m \times n}(\K)$, per ogni matrice $A'$ ottenuta da $A$
+	attraverso le operazioni elementari sulle colonne, si ha, indicando con
+	$w_1, \dots, w_n$ i vettori colonna di $A'$, che:
+	\[
+		Span(v_1, \dots, v_n) = Span(w_1, \dots, w_n)
+	\]
+\end{proposition}

@@ -1,0 +1,50 @@
+\section{Endomorfismi simmetrici}
+Come già visto in precedenza, un endomorfismo autoaggiunto è diagonalizzabile e
+tutti i suoi autovalori sono reali.
+
+\begin{definition}
+	Sia $T : V \to V$ un endomorfismo autoaggiunto di uno spazio vettoriale $V$ di
+	dimensione finita su $\K$ (con $\K = \R$ o
+	$\K = \mathbb{C}$). Se tutti i suoi autovalori sono numeri reali $\geq 0$
+	si dice che $T$ è \textbf{semidefinito positivo}. Se tutti i suoi autovalori
+	sono numeri reali $\leq 0$ si dice che $T$ è \textbf{semidefinito negativo}.
+	In particolare, se tutti i suoi autovalori sono numeri reali $> 0$ si dice che
+	$T$ è \textbf{definito positivo}. Se invece tutti i suoi autovalori sono numeri
+	reali $< 0$ si dice che $T$ è \textbf{definito negativo}.
+\end{definition}
+
+La definizione appena data si applica in particolare nel caso reale degli
+endomorfismi simmetrici.
+
+Consideriamo, per esempio, cosa accade nel caso in cui $V$ ha dimensione 2.
+Ricordiamo innanzitutto che, dato un endomorfismo, sono ben definiti la sua traccia
+e il suo determinante.
+
+\begin{proposition}
+	Sia $T : \R^2 \to \R^2$ un endomorfismo simmetrico. Vale che:
+	\begin{enumerate}
+		\item
+		      $T$ è definito positivo se e solo se il suo determinante e la sua
+		      traccia sono entrambi $> 0$.
+		\item
+		      $T$ è definito negativo se e solo se il suo determinante è $> 0$ e
+		      la sua traccia è $< 0$.
+	\end{enumerate}
+
+	\begin{proof}
+		Come sappiamo dal teorema spettrale, $T$ è diagonalizzabile. Siano
+		$\lambda_1, \lambda_2$ i suoi autovalori. Fissata una base di autovettori,
+		la matrice che rappresenta $T$ rispetto a tale base è:
+		\[
+			\begin{pmatrix}
+				\lambda_1 & 0         \\
+				0         & \lambda_2
+			\end{pmatrix}
+		\]
+		da cui si ricava subito che il determinante di $T$ è $\lambda_1 \lambda_2$
+		e la traccia è $\lambda_1 + \lambda_2$. A questo punto si deve solo
+		analizzare caso per caso i valori di $\lambda_1$ e $\lambda_2$ e valutare
+		il segno di determinante e traccia.
+	\end{proof}
+\end{proposition}
+
