@@ -1,7 +1,7 @@
 \chapter{Prodotti scalari e spazi euclidei}
 \section{Prodotto scalare}
 
-\begin{defn}
+\begin{definition}
 	Sia $V$ uno spazio vettoriale sul campo $\mathbb{K}$, dove
 	$\mathbb{K} = \mathbb{R}^n$ o $\mathbb{K} = \mathbb{C}^n$. Il
 	\textbf{prodotto scalare} \`e una funzione che ad ogni coppia di vettori $u, v$
@@ -25,7 +25,7 @@
 	\end{enumerate}
 	Uno spazio vettoriale reale $V$ munito di un prodotto scalare si dice
 	\textbf{spazio euclideo}.
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Osserviamo che, per la seconda propriet\`a, il prodotto scalare
@@ -33,13 +33,13 @@
 	che compare nella terza propriet\`a.
 \end{observation}
 
-\begin{defn}
+\begin{definition}
 	Per ogni vettore $u \in V$, scriveremo
 	\begin{equation*}
 		\| u \| = \sqrt{\langle u, u \rangle}
 	\end{equation*}
 	e diremo che $\| u \|$ \`e la \textbf{norma} di $u$.
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Dalle propriet\`a (1) e (2) segue che
@@ -102,12 +102,12 @@ Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Estendiamo il
 concetto di perpendicolarit\`a che ci \`e noto in $\mathbb{R}^2$ e
 $\mathbb{R}^3$ dando la seguente definizione:
 
-\begin{defn}
+\begin{definition}
 	Due vettori $u, v \in V$ sono detti \textbf{ortogonali} se
 	\begin{equation*}
 		\langle u, v \rangle = 0
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 Notiamo che se due vettori verificano $\langle u, v \rangle = 0$ vale anche che
 $\langle v, u \rangle = \overline{\langle u, v \rangle} = 0$ dunque il concetto
@@ -118,7 +118,7 @@ ortogonale a tutti i vettori di $V$:
 	\langle O, v \rangle = \langle 0O, v \rangle = 0\langle O, v \rangle = 0
 \end{equation*}
 
-\begin{defn}
+\begin{definition}
 	Sia $U$ un sottospazio di $V$. L'insieme dato dai vettori di $V$ che sono
 	ortogonali ad ogni vettore di $U$ si indica con $U^{\perp}$:
 	\begin{equation*}
@@ -126,14 +126,14 @@ ortogonale a tutti i vettori di $V$:
 	\end{equation*}
 	Si verifica facilmente che $U^{\perp}$ \`e un sottospazio di $V$, chiamato
 	il \textbf{sottospazio ortogonale} a $U$.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Un insieme $\{u_1, \dots, u_r\}$ di vettori si dice \textbf{ortogonale} se
 	i suoi elementi sono a due a due ortogonali fra loro. L'insieme
 	$\{u_1, \dots, u_r\}$ si dice \textbf{ortonormale} se \`e ortogonale e se
 	per ogni $i$ vale $\| u_i \| = 1$.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Nello spazio euclideo $\mathbb{R}^n$ con il prodotto scalare standard,

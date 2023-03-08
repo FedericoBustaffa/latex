@@ -18,11 +18,11 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 	\item si scambiano fra di loro due colonne $i$ e $j$.
 \end{enumerate}
 
-\begin{defn}
+\begin{definition}
 	La \textbf{profondit\`a} di una colonna \`e definita come la posizione
 	occupata (contata dal basso) dal suo pi\`u alto coefficiente diverso da 0.
 	Alla colonna nulla si assegna per convenzione profondit\`a uguale a 0.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Consideriamo la seguente matrice:
@@ -37,7 +37,7 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 	seconda colonna uguale a 3 mentre la terza ha profondit\`a uguale a 1.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Una matrice $A \in Mat_{m \times n}(\mathbb{K})$, si dice
 	\textbf{in forma a scalini per colonne} se rispetta le seguenti propriet\`a:
 	\begin{itemize}
@@ -47,7 +47,7 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 		      delle sue colonne non nulle risultano strettamente
 		      decrescenti.
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Questi sono esempi di matrici in forma \emph{a scalini}:
@@ -67,11 +67,11 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 	\end{equation*}
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	In una matrice in forma a scalini per colonna, i coefficienti diversi
 	da zero pi\`u alti di posizione di ogni colonna non nulla si
 	chiamano \textbf{pivot}.
-\end{defn}
+\end{definition}
 
 \begin{theorem}
 	Data una matrice $A \in Mat_{m \times n}(\mathbb{K})$ \`e sempre
@@ -84,7 +84,7 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 	ottenuta non \`e unica.
 \end{observation}
 
-\begin{defn}
+\begin{definition}
 	Una matrice $A \in Mat_{m \times n}(\mathbb{K})$, si dice \textbf{in forma a
 		scalini per colonne ridotta} se:
 	\begin{itemize}
@@ -92,7 +92,7 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 		\item Tutte le entrate nella stessa riga di un pivot, precedenti al pivot,
 		      sono nulle
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Esempio di matrice in forma a scalini ridotta:
@@ -325,7 +325,7 @@ lineare.
 	\end{equation*}
 \end{theorem}
 
-\begin{defn}
+\begin{definition}
 	Una applicazione lineare bigettiva $L : V \to W$, tra due spazi vettoriali $V$ e $W$
 	sul campo $\mathbb{K}$, si dice un \textbf{isomorfismo lineare}.
 
@@ -339,7 +339,7 @@ lineare.
 		\item Se $L : V \to W$ \`e una applicazione lineare iniettiva, allora $L$,
 		      pensata come applicazione da $V$ ad $Imm(L)$, \`e un isomorfismo lineare.
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 \section{Immagine di un'applicazione lineare}
 La riduzione a scalini per colonna risulta molto utile anche per lo
@@ -398,12 +398,12 @@ scalini $[L]$.
 	\end{proof}
 \end{proposition}
 
-\begin{defn}
+\begin{definition}
 	Data una applicazione lineare $L : V \to W$, dove $V$ e $W$ sono due spazi
 	vettoriali di dimensione finita sul campo $\mathbb{K}$ e sia $[L]$ la matrice
 	associata ad $L$. Se riduco in forma a scalini $[L]$, il \textbf{rango} equivale
 	al numero di pivot della matrice ottenuta.
-\end{defn}
+\end{definition}
 
 \begin{theorem}
 	Data una applicazione lineare $L$ come sopra e fissate le basi, vale che
@@ -447,7 +447,7 @@ In questo caso chiameremo \emph{profondit\`a} di una riga la posizione occupata,
 contata da destra, dal suo coefficiente diverso da zero che sta pi\`u a sinistra
 nella riga. La riga nulla ha \emph{profondit\`a} 0.
 
-\begin{defn}
+\begin{definition}
 	Una matrice $A$ in $Mat_{m \times n}(\mathbb{K})$, si dice \textbf{in forma
 		a scalini per righe} se:
 	\begin{itemize}
@@ -456,7 +456,7 @@ nella riga. La riga nulla ha \emph{profondit\`a} 0.
 		\item Leggendo la matrice dall'alto verso il basso, le profondit\`a
 		      delle sue righe non nulle risultano strettamente decrescenti.
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 \begin{theorem}
 	Data una matrice $A$ in $Mat_{m \times n}(\mathbb{K})$ \`e sempre possibile,

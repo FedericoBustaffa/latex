@@ -2,18 +2,18 @@
 \section{Autovalori e autovettori}
 Sia $T : V \to V$ un endomorfismo lineare dello spazio $V$ sul campo $\mathbb{K}$.
 
-\begin{defn}
+\begin{definition}
 	Un vettore $v \in V - \{O\}$ si dice un \textbf{autovettore} di $T$ se
 	\begin{equation*}
 		T(v) = \lambda v
 	\end{equation*}
 	per un certo $\lambda \in \mathbb{K}$.
-\end{defn}
+\end{definition}
 
 In altre parole un autovettore di $T$ \`e un vettore diverso da $O$ dello spazio $V$
 che ha la seguente propriet\`a: la $T$ lo manda in un multiplo di se stesso.
 
-\begin{defn}
+\begin{definition}
 	Se $v \in V - \{O\}$ \`e un autovettore di $T$ tale che
 	\begin{equation*}
 		T(v) = \lambda v
@@ -21,7 +21,7 @@ che ha la seguente propriet\`a: la $T$ lo manda in un multiplo di se stesso.
 	allora lo scalare $\lambda \in \mathbb{K}$ si dice \textbf{autovalore} di $T$
 	relativo a $v$ (e viceversa si dice che $v$ \`e un autovettore relativo a
 	$\lambda$).
-\end{defn}
+\end{definition}
 
 Si noti che l'autovalore pu\`o essere $0 \in \mathbb{K}$: se per esempio $T$ non
 \`e iniettiva, ossia $Ker(T) \supsetneq \{O\}$, tutti gli elementi
@@ -31,13 +31,13 @@ $w \in (Ker(T)) - \{O\}$ soddisfano
 \end{equation*}
 ossia sono autovettori relativi all'autovalore 0.
 
-\begin{defn}
+\begin{definition}
 	Dato $\lambda \in \mathbb{K}$ chiamiamo l'insieme
 	\begin{equation*}
 		V_\lambda = \{v \in V \mid T(v) = \lambda v\}
 	\end{equation*}
 	\textbf{autospazio} relativo a $\lambda$.
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Possiamo notare dalla definizione precedente che $V_0 = Ker(T)$.
@@ -166,7 +166,7 @@ dovr\`a avere determinante uguale a 0:
 \end{equation*}
 dove come consuetudine abbiamo indicato con $I$ anche la matrice identit\`a.
 
-\begin{defn}
+\begin{definition}
 	Dato un endomorfismo $T : V \to V$ con $n = dim(V)$, scegliamo una base
 	per $V$ e costruiamo la matrice $[T]$ associata a $T$ rispetto a tale
 	base. Il \textbf{polinomio caratteristico} $P_T(t) \in \mathbb{K}[t]$
@@ -174,7 +174,7 @@ dove come consuetudine abbiamo indicato con $I$ anche la matrice identit\`a.
 	\begin{equation*}
 		P_T(t) = det(t[I] - [T])
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Prima di procedere dobbiamo fare un paio di considerazioni:

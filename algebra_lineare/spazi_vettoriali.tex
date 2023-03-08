@@ -1,12 +1,11 @@
 \chapter{Spazi Vettoriali}
+
 \section{Definizione di spazio vettoriale}
-Per fornire la definizione di spazio vettoriale si ha
-bisogno di un insieme non vuoto $V$ e di un campo
-$\mathbb{K}$, dove sia possibile definire le operazioni
-di \textbf{somma vettoriale} e
+Per fornire la definizione di spazio vettoriale si ha bisogno di un insieme non vuoto $V$ e di un campo
+$\mathbb{K}$, dove sia possibile definire le operazioni di \textbf{somma vettoriale} e
 \textbf{prodotto per scalare}.
 
-\begin{defn}
+\begin{definition}
 	Uno \textbf{spazio vettoriale su un campo} $\mathbb{K}$
 	\`e un insieme $V$ su cui sono definite la somma fra due
 	elementi di $V$ (il cui risultato \`e ancora un elemento
@@ -46,7 +45,7 @@ di \textbf{somma vettoriale} e
 		      $\forall v \in V$ vale \[ 1v = v \]
 		      (invariante moltiplicativo)
 	\end{enumerate}
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	L'elemento neutro della somma $O$ e lo $0$, elemento neutro di $\mathbb{K}$
@@ -91,22 +90,22 @@ di \textbf{somma vettoriale} e
 
 \section{Sottospazi vettoriali}
 
-\begin{defn}
+\begin{definition}
 	Un \textbf{sottospazio vettoriale} $W$ di $V$ \`e un sottoinsieme di $V$
 	che (rispetto alle operazioni $+$ e $\cdot$ che rendono $V$
 	uno spazio vettoriale su $\mathbb{K}$) \`e uno spazio
 	vettoriale su $\mathbb{K}$.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Dato uno spazio vettoriale $V$ su un campo $\mathbb{K}$, $V$ e l'insieme
 	${O}$ sono sempre sottospazi di $V$.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Chiamiamo \textbf{sottospazio proprio} di $V$ un qualsiasi sottospazio
 	vettoriale di $V$ che sia diverso da $V$ e dal sottospazio ${O}$.
-\end{defn}
+\end{definition}
 
 \begin{proposition}
 	Dato uno spazio vettoriale $V$ su $\mathbb{K}$ e $W \subseteq V$, $W$ \`e
@@ -216,13 +215,13 @@ $w \in W$.
 	dall'origine, $v + w$ non appartiene all'unione $U \cup W$.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Dati due sottospazi vettoriali $U$ e $W$ di uno spazio vettoriale $V$
 	su $\mathbb{K}$, chiamo \textbf{somma} di $U$ e $W$ l'insieme
 	\begin{equation*}
 		U + W = \{u + w \mid u \in U, w \in W\}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 \begin{proposition}
 
@@ -255,7 +254,7 @@ $k_1, k_2, ..., k_n$ di $\mathbb{K}$ il vettore:
 appartiene a $V$, in quanto $V$ \`e chiuso per somma vettoriale
 e prodotto per scalare.
 
-\begin{defn}
+\begin{definition}
 	Dato un insieme di vettori $\{v_1, v_2, ..., v_n\}$ di $V$,
 	spazio vettoriale sul campo $\mathbb{K}$, il vettore:
 	\begin{equation*}
@@ -265,7 +264,7 @@ e prodotto per scalare.
 	si dice una \textbf{combinazione lineare} dei vettori
 	$\{v_1, v_2, ..., v_n\}$. I $k_i$ sono detti \textbf{coefficienti}
 	della combinazione lineare.
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Consideriamo lo spazio vettoriale $\mathbb{R}^3$ su $\mathbb{R}$ e i seguenti
@@ -295,15 +294,15 @@ e prodotto per scalare.
 	coefficienti 1 e 2.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Dati $\{v_1, v_2, ..., v_t\}$ vettori di $V$ su $\mathbb{K}$,
 	si definisce \textbf{span} dei vettori $v_1, v_2, ..., v_t$
 	(e si indica con $Span(v_1, v_2, ..., v_t)$) l'insieme di tutte
 	le possibili combinazioni lineari dell'insieme di vettori
 	$\{v_1, v_2, ..., v_t\}$.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Un insieme di vettori $\{v_1, v_2, ..., v_t\}$ di $V$ per cui
 	$V = Span(v_1, v_2, ..., v_t)$, ovvero $\forall v \in V$, esistono
 	degli scalari $a_1, a_2, ..., a_t$ tali che
@@ -312,7 +311,7 @@ e prodotto per scalare.
 	\end{equation*}
 	si dice un \textbf{insieme di generatori} di $V$. In tal caso si dice
 	anche che i vettori $v_1, v_2, ..., v_t$ \textbf{generano} $V$.
-\end{defn}
+\end{definition}
 
 L'esistenza di un sistema finito di generatori per uno spazio vettoriale
 $V$ su un campo $\mathbb{K}$ \`e un fatto molto importante, dato che
@@ -377,7 +376,7 @@ identificare univocamente ogni vettore di $v \in V$.
 	\end{equation*}
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Si dice che un insieme finito di vettori $\{v_1, v_2, ..., v_r\}$ \`e
 	un \textbf{insieme di vettori linearmente indipendenti} se l'unico
 	modo di scrivere il vettore $O$ come combinazione lineare di questi
@@ -389,7 +388,7 @@ identificare univocamente ogni vettore di $v \in V$.
 	Si pu\`o dire anche che i vettori sono \textbf{linearmente indipendenti}.
 	Se invece i vettori $v_1, v_2, ..., v_r$ non sono linearmente indipendenti
 	si dice che sono \textbf{linearmente dipendenti}.
-\end{defn}
+\end{definition}
 
 \begin{proposition}
 	Un insieme $A = \{v_1, ..., v_n\}$ di vettori di uno spazio
@@ -399,11 +398,11 @@ identificare univocamente ogni vettore di $v \in V$.
 	$B = A \backslash \{v_i\}$ (ovvero $v_i$ non appartiene a $Span(B)$).
 \end{proposition}
 
-\begin{defn}
+\begin{definition}
 	Sia $V$ uno spazio vettoriale su $\mathbb{K}$, un insieme di vettori
 	$\{v_1, v_2, ..., v_n\} \in V$, che generano lo spazio $V$ e che sono
 	linearmente indipendenti, si dice una \textbf{base} (finita) di $V$.
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Nella definizione \`e specificato \emph{finita}. Non sempre uno
@@ -437,10 +436,10 @@ Fissata la defizione di base siamo interessati a capire:
 	una base di $V$.
 \end{theorem}
 
-\begin{defn}
+\begin{definition}
 	Sia $V$  uno spazio vettoriale con basi di cardinalit\`a $n$.
 	Tale cardinalit\`a $n$ \`e detta \textbf{dimensione} di $V$.
-\end{defn}
+\end{definition}
 
 \section{Applicazioni Lineari}
 Le applicazioni lineari non sono altro che funzioni che mandano
@@ -471,7 +470,7 @@ sottospazi in sottospazi
 	Si devono dunque considerare applicazioni con propriet\`a particolari.
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Siano $V$ e $W$ spazi vettoriali di dimensione finita sul campo
 	$\mathbb{K}$. Un'applicazione $L$ da $V$ in $W$ \`e detta
 	\textbf{lineare} se soddisfa le seguenti propriet\`a:
@@ -481,7 +480,7 @@ sottospazi in sottospazi
 		      $\forall \lambda \in \mathbb{K}$ e $\forall v \in V$
 		      vale \[ L(\lambda v) = \lambda L(v) \]
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 \begin{observation}
 	Soddisfare le due propriet\`a, da parte di un'applicazione lineare $L$,
@@ -493,28 +492,28 @@ sottospazi in sottospazi
 	\end{equation*}
 \end{observation}
 
-\begin{defn}
+\begin{definition}
 	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
 	lineare da $V$ in $W$. Chiamo \textbf{immagine} di $L$, e la indico con
 	$Imm(L)$, il seguente sottoinsieme di $W$:
 	\begin{equation*}
 		Imm(L) = \{w \in W \mid \forall v \in V, \quad L(v) = w\}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 \begin{proposition}
 	\`E dimostrabile che \[ Imm(L) = Span(L(e_1), \dots, L(e_n)) \]
 	dove $\{e_1, \dots, e_n\}$ \`e una base di $V$.
 \end{proposition}
 
-\begin{defn}
+\begin{definition}
 	Siano $V$ e $W$ spazi vettoriali su $\mathbb{K}$ e $L$ un'applicazione
 	lineare da $V$ in $W$. Chiamo \textbf{nucleo} di $L$, e lo indico con
 	$Ker(L)$, il seguente sottoinsieme di $V$:
 	\begin{equation*}
 		Ker(L) = \{v \in V \mid L(v) = O\}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 Di seguito qualche propriet\`a utile:
 \begin{enumerate}
@@ -525,7 +524,7 @@ Di seguito qualche propriet\`a utile:
 
 \section{Matrici e vettori}
 
-\begin{defn}
+\begin{definition}
 	Dati due interi positivi $m, n$, una \textbf{matrice} $m \times n$
 	a coefficienti in $\mathbb{K}$ \`e una griglia composta da $m$ righe
 	e $n$ colonne in cui in ogni posizione c'\`e un elemento di
@@ -548,15 +547,15 @@ Di seguito qualche propriet\`a utile:
 					j = 1, 2, \dots, n
 				}}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Dati due interi positivi m, n, chiamiamo
 	$Mat_{m \times n} (\mathbb{K})$, l'insieme di tutte le matrici
 	$m \times n$ a coefficienti in $\mathbb{K}$.
-\end{defn}
+\end{definition}
 
-\begin{defn}
+\begin{definition}
 	Sull'insieme $Mat_{m \times n} (\mathbb{K})$ possiamo definire la
 	\textbf{somma} e il \textbf{prodotto per scalare}. Date due matrici
 	$A, B \in Mat_{m \times n} (\mathbb{K})$ e dato uno scalare
@@ -576,7 +575,7 @@ Di seguito qualche propriet\`a utile:
 		      $i \leq m$ e per ogni $j \leq n$ ho che
 		      $d_{ij} = k \cdot a_{ij}$.
 	\end{itemize}
-\end{defn}
+\end{definition}
 
 Esiste un'altra operazione, si tratta del
 \emph{prodotto righe per colonne}. Per definire tale prodotto \`e
@@ -584,7 +583,7 @@ importante l'ordine in cui si considerano le due matrici (quindi non vale la
 proprit\`a commutativa). Inoltre tale operazione \`e definita solo quando il
 numero di colonne di $A$ \`e uguale al numero di righe di $B$.
 
-\begin{defn}
+\begin{definition}
 	Data una matrice $A = (a_{ij}) \in Mat_{m \times n} (\mathbb{K})$ e una
 	matrice $B = (b_{st}) \in Mat_{n \times k} (\mathbb{K})$, il
 	\textbf{prodotto riga per colonna} $AB$, \`e la matrice
@@ -593,7 +592,7 @@ numero di colonne di $A$ \`e uguale al numero di righe di $B$.
 	\begin{equation*}
 		c_{rh} = a_{r1} b_{1h} + a_{r2} b_{2h} + \cdots + a_{rn} b_{nh}
 	\end{equation*}
-\end{defn}
+\end{definition}
 
 \begin{example}
 	Consideriamo la matrice $A \in Mat_{2 \times 3}(\mathbb{K})$:
@@ -630,7 +629,7 @@ numero di colonne di $A$ \`e uguale al numero di righe di $B$.
 	\end{equation*}
 \end{example}
 
-\begin{defn}
+\begin{definition}
 	Data un'applicazione lineare $L$ da uno spazio vettoriale $V$ di
 	dimensione $n$ ad uno spazio vettoriale $W$ di dimensione $m$, si dice
 	\textbf{matrice associata} all'applicazione lineare $L$ nelle basi
@@ -650,7 +649,7 @@ numero di colonne di $A$ \`e uguale al numero di righe di $B$.
 	\end{equation*}
 	dove $\{e_1, e_2, \dots, e_n\}$ \`e la base di partenza e
 	$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ \`e la base di arrivo.
-\end{defn}
+\end{definition}
 
 Sar\`a tutto pi\`u chiaro con un esempio che vedremo tra poco. In ogni caso, per
 alleggerire la notazione, si possono omettere le basi, tuttavia si deve ricordare che
