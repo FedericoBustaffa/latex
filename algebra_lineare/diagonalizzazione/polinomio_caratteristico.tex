@@ -1,0 +1,99 @@
+\section{Polinomio caratteristico}
+Vogliamo trovare dei criteri semplici per stabilire se un endomorfismo
+è diagonalizzabile o no. Prima di tutto troviamo un metodo che, dato un
+endomorfismo $T : V \to V$ e posto $n = \dim(V)$, ci permetta di decidere se
+uno scalare $\lambda \in \K$ è o no un autovalore di $T$. Entrano
+qui in gioco i polinomi e le loro radici.
+
+Innanzitutto osserviamo che, perché $\lambda \in \K$ sia un
+autovalore, secondo la definizione bisogna che esista un $v \in V - \{O\}$
+tale che
+\[
+	T(v) = \lambda v
+\]
+Questo si può riscrivere anche come
+\[
+	T(v) - \lambda I(v) = O
+\]
+dove $I : V \to V$ è l'identità. Riscriviamo ancora:
+\[
+	(T - \lambda I)(v) = O
+\]
+Abbiamo scoperto che, se $T$ possiede un autovalore $\lambda$, allora
+l'endomorfismo $T - \lambda I$ non è iniettivo: infatti manda il vettore
+$v$ in $O$. Dunque, se scegliamo una base qualunque per $V$ e costruiamo la
+matrice $[T]$ associata a $T$, la matrice $[T - \lambda I] = [T] - \lambda I$
+dovrà avere determinante uguale a 0:
+\[
+	det([T] - \lambda I) = 0 = det(\lambda I - [T])
+\]
+dove come consuetudine abbiamo indicato con $I$ anche la matrice identità.
+
+\begin{definition}
+	Dato un endomorfismo $T : V \to V$ con $n = \dim(V)$, scegliamo una base
+	per $V$ e costruiamo la matrice $[T]$ associata a $T$ rispetto a tale
+	base. Il \textbf{polinomio caratteristico} $P_T(t) \in \K[t]$
+	dell'endomorfismo $T$ è definito da:
+	\[
+		P_T(t) = det(t[I] - [T])
+	\]
+\end{definition}
+
+\begin{observation}
+	Prima di procedere dobbiamo fare un paio di considerazioni:
+	\begin{enumerate}
+		\item Perché la definizione precedente abbia senso si deve verificare
+		      che \[det(t[I] - [T])\] sia veramente un polinomio. Questo si può
+		      dimostrare facilmente per induzione sulla dimensione
+		      $n$ di $V$.
+		\item È fondamentale inoltre che la definizione appena data non dipenda
+		      dalla base scelta di $V$: non sarebbe una definizione buona se con
+		      la scelta di due basi diverse ottenessimo due polinomi
+		      caratteristici diversi.
+	\end{enumerate}
+\end{observation}
+
+Questo problema per fortuna non si verifica. Infatti se scegliamo due basi $b$ e
+$b'$ di $V$, come sappiamo, le due matrici $[T]_{\substack{b \\ b}}$ e
+$[T]_{\substack{b' \\ b'}}$ sono legate dalla seguente relazione: esiste una
+matrice $[B]$ invertibile tale che
+\[
+	[T]_{\substack{b \\ b}} =
+		[B]^{-1} [T]_{\substack{b' \\ b'}} [B]
+\]
+
+Usando il teorema di Binet a questo punto verifichiamo che
+\begin{gather*}
+	det \left(tI - [T]_{\substack{b \\ b}}\right) = \\
+	det \left(tI - [B]^{-1} [T]_{\substack{b' \\ b'}} [B]\right) = \\
+	det \left([B]^{-1} \left(tI - [T]_{\substack{b' \\ b'}}\right) [B] \right) = \\
+	det \left([B]^{-1}\right) det \left(tI - [T]_{\substack{b' \\ b'}}\right)
+	det \left([B]\right) = \\
+	det \left(tI - [T]_{\substack{b' \\ b'}}\right)
+\end{gather*}
+
+Abbiamo dunque mostrato che $P_T(t) = det(tI - [T])$ non dipende dalla scelta della
+base.
+
+\begin{theorem}
+	Considerato $T$ come sopra, vale che uno scalare $\lambda \in \K$ è un
+	autovalore di $T$ se e solo se $\lambda$ è una radice di $P_T(t)$, ossia se e
+	solo se $P_T(\lambda) = 0$.
+\end{theorem}
+
+\begin{example}
+	Consideriamo l'endomorfismo $T : \mathbb{C}^2 \to \mathbb{C}^2$ che, rispetto
+	alla base standard di $\mathbb{C}^2$, è rappresentato dalla matrice
+	\[
+		[T] = \begin{pmatrix}
+			\frac{1}{2}        & -\frac{\sqrt{3}}{2} \\
+			\frac{\sqrt{3}}{2} & \frac{1}{2}
+		\end{pmatrix}
+	\]
+	Il suo polinomio caratteristico risulta $P_T(t) = t^2 - t + 1$. Questo polinomio
+	ha due radici in $\mathbb{C}$, ovvero $\frac{1 - i\sqrt{3}}{2}$ e
+	$\frac{1 + i\sqrt{3}}{2}$, che in effetti, come sappiamo, sono gli autovalori
+	di $T$.
+\end{example}
+
+

@@ -1,0 +1,60 @@
+\section{Applicazioni Lineari}
+Le applicazioni lineari non sono altro che funzioni che mandano sottospazi in sottospazi.
+
+\begin{example}
+	Consideriamo la funzione $\textit{f} : \R^2 \to \R^2$ definita da
+	\[
+		f \begin{pmatrix}
+			x \\ y
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			x \\ x^2
+		\end{pmatrix}
+	\]
+	La funzione $f$ manda il punto $(x, x)$, con la prima e seconda coordinata uguali, ovvero i punti della
+	retta di equazione $x = y$, nella parabola di equazione $y = x^2$. Ma, come sappiamo, la retta $y = x$,
+	passando dall'origine, è un sottospazio di $\R^2$, mentre la parabola non lo è. Si devono dunque
+	considerare applicazioni con proprietà particolari.
+\end{example}
+
+\begin{definition}
+	Siano $V$ e $W$ spazi vettoriali di dimensione finita sul campo $\K$. Un'applicazione $L$ da $V$
+	in $W$ è detta \textbf{lineare} se soddisfa le seguenti proprietà:
+	\begin{itemize}
+		\item $\forall v_1, v_2 \in V$ vale
+		      \[ L(v_1 + v_2) = L(v_1) + L(v_2) \]
+		\item $\forall \lambda \in \K$ e $\forall v \in V$ vale
+		      \[ L(\lambda v) = \lambda L(v) \]
+	\end{itemize}
+\end{definition}
+
+\begin{observation}
+	Soddisfare le due proprietà, da parte di un'applicazione lineare $L$, è equivalente a soddisfare la seguente
+	proprietà: $\forall v_1, v_2 \in V$ e $\forall \lambda, \mu \in \K$ vale
+	\[ L(\lambda v_1 + \mu v_2) = \lambda L(v_1) + \mu L(v_2) \]
+\end{observation}
+
+\begin{definition}
+	Siano $V$ e $W$ spazi vettoriali su $\K$ e $L$ un'applicazione lineare da $V$ in $W$. Chiamo
+	\textbf{immagine} di $L$, e la indico con $\Imm(L)$, il seguente sottoinsieme di $W$:
+	\[ \Imm(L) = \{w \in W \mid \forall v \in V, \quad L(v) = w\} \]
+\end{definition}
+
+\begin{proposition}
+	È dimostrabile che \[ \Imm(L) = Span(L(e_1), \dots, L(e_n)) \] dove $\{e_1, \dots, e_n\}$ è una base di $V$.
+\end{proposition}
+
+\begin{definition}
+	Siano $V$ e $W$ spazi vettoriali su $\K$ e $L$ un'applicazione lineare da $V$ in $W$. Chiamo
+	\textbf{nucleo} di $L$, e lo indico con $\Ker(L)$, il seguente sottoinsieme di $V$:
+	\[ \Ker(L) = \{v \in V \mid L(v) = O\} \]
+\end{definition}
+
+Di seguito qualche proprietà utile:
+\begin{enumerate}
+	\item $\Ker(L)$ è un sottospazio vettoriale di $V$.
+	\item $\Imm(L)$ è un sottospazio vettoriale di $W$.
+	\item $L$ è iniettiva se e solo se $\Ker(L) = \{O\}$.
+\end{enumerate}
+

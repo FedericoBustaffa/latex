@@ -1,0 +1,54 @@
+\section{Sottospazi vettoriali}
+
+\begin{definition}
+	Un \textbf{sottospazio vettoriale} $W$ di $V$ è un sottoinsieme di $V$ che (rispetto alle operazioni $+$
+	e $\cdot$ che rendono $V$ uno spazio vettoriale su $\K$) è uno spazio vettoriale su $\K$.
+\end{definition}
+
+\begin{example}
+	Dato uno spazio vettoriale $V$ su un campo $\K$, $V$ e l'insieme ${O}$ sono sempre sottospazi di $V$.
+\end{example}
+
+\begin{definition}
+	Chiamiamo \textbf{sottospazio proprio} di $V$ un qualsiasi sottospazio vettoriale di $V$ che sia diverso da
+	$V$ e dal sottospazio ${O}$.
+\end{definition}
+
+\begin{proposition}
+	Dato uno spazio vettoriale $V$ su $\K$ e $W \subseteq V$, $W$ è sottospazio vettoriale di $V$
+	(rispetto alle operazioni $+$ e $\cdot$ che rendono $V$ uno spazio vettoriale su $\K$) se e solo
+	se:
+	\begin{enumerate}
+		\item Il vettore $O$ appartiene a $W$.
+		\item $\forall u, v \in W$ vale $u + v \in W$.
+		\item $\forall k \in \K$ e $\forall u \in W$ vale $ku \in W$.
+	\end{enumerate}
+\end{proposition}
+
+\begin{example}
+	Consideriamo lo spazio vettoriale $\R^2$ su $\R$ e proviamo vedere se l'insieme
+	$X = \{\forall x,y \in \R \mid x^2 + y^2 = 1\}$ è un sottospazio vettoriale di $\R^2$.
+	L'insieme in questione è l'insieme di punti di una circonferenza. Subito notiamo che il vettore $(0, 0)$
+	non appartiene all'insieme dunque possiamo subito concludere che $X$ non è un sottospazio di
+	$\R^2$.
+\end{example}
+
+\begin{observation}
+	Tutte le rette passanti per l'origine sono gli unici sottospazi vettoriali di $\R^2$. Tutti gli altri
+	sottoinsiemi non sono chiusi per somma e prodotto.
+\end{observation}
+
+\begin{example}
+	Consideriamo il sottoinsieme $L$ di $\K[x]$ che contiene tutti e soli i polinomi che hanno radice
+	$1$, ovvero:
+	\[ L = \{p(x) \in \K[x] \mid p(1) = 0\} \]
+	Verifichiamo che $L$ è sottospazio vettoriale di $\K[x]$.
+	\begin{itemize}
+		\item Il polinomio $0$, che è il vettore $O$ di $\K[x]$, appartiene a $L$, infatti ha $1$
+		      come radice (addirittura ogni elemento di $\K$ è una radice di $0$).
+		\item Se $p(x), q(x) \in L$ allora $(p + q)(x)$ appartiene a $L$, infatti:
+		      \[ (p + q)(1) = p(1) + q(1) = 0 + 0 = 0 \]
+		\item Se $p(x) \in L$ e $k \in \K$ allora $k \cdot p(x) \in L$, infatti:
+		      \[ (k \cdot p)(1) = k \cdot p(1) = k \cdot 0 = 0 \]
+	\end{itemize}
+\end{example}

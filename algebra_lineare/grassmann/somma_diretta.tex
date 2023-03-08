@@ -1,0 +1,35 @@
+\section{Somma diretta di sottospazi}
+Si dice che due sottospazi $U$ e $W$ di uno spazio vettoriale $V$ sono in
+\textbf{somma diretta} se vale che \[ U \cap W = \{O\} \] In questo caso,
+come sappiamo dalla formula di Grassmann, la dimensione di $U + W$ è "la
+massima possibile", ovvero \[ \dim(U) + \dim(W) \] Vale anche il
+viceversa, ossia due sottospazi sono in somma diretta se e solo se
+\[ \dim(U + W) = \dim(U) + \dim(W) \] Quando siamo sicuri che $U + W$ è la somma di due
+sottospazi che sono in somma diretta, al posto di $U + W$ possiamo scrivere:
+\[
+	U \oplus W
+\]
+In particolare, per avere una base di $U \oplus W$ basta fare l'unione di una
+base di $U$ con una base di $W$.
+
+\begin{observation}
+	Attenzione: un sottospazio vettoriale $U$ di $V$ che non è uguale a $V$
+	possiede in generale molti complementari. Per esempio, in $\R^3$
+	un piano passante per l'origine ha per complementare una qualunque retta
+	passante per l'origine e che non giace sul piano.
+\end{observation}
+
+In generale dati $k$ sottospazi $U_1, \dots, U_k$ di uno spazio vettoriale $V$,
+si dice che tali sottospazi sono in somma diretta se, per ogni
+$i = 1, \dots, k$, vale che l'intersezione di $U_i$ con la somma di tutti
+gli altri è uguale a $\{O\}$, ovvero
+\[
+	U_i \cap (U_1 + \cdots + \hat{U_i} + \cdots + U_k) = \{O\}
+\]
+dove il simbolo $\hat{U_i}$ indica che nella somma si è saltato il termine
+$U_i$.
+
+In tal caso per indicare $U_1 + \cdots + U_k$ si può usare la notazione:
+\[
+	U_1 \oplus \cdots \oplus U_k
+\]

@@ -1,0 +1,153 @@
+\section{Base di uno spazio vettoriale}
+Sia $V$ uno spazio vettoriale su $\K$. Per definizione di $V$, se $v_1, v_2, ..., v_n$ sono $n$ vettori
+di $V$, allora per qualsiasi scelta di $n$ elementi $k_1, k_2, ..., k_n$ di $\K$ il vettore:
+\[ v = k_1 v_1 + ... + k_n v_n = \sum_{i=1}^n k_i v_i \]
+appartiene a $V$, in quanto $V$ è chiuso per somma vettoriale e prodotto per scalare.
+
+\begin{definition}
+	Dato un insieme di vettori $\{v_1, v_2, ..., v_n\}$ di $V$, spazio vettoriale sul campo $\K$, il
+	vettore:
+	\[ v = k_1 \cdot v_1 + ... + k_n \cdot v_n \]
+	con $\{k_1, k_2, ..., k_n\}$ scalari di $\K$, si dice una \textbf{combinazione lineare} dei vettori
+	$\{v_1, v_2, ..., v_n\}$. I $k_i$ sono detti \textbf{coefficienti} della combinazione lineare.
+\end{definition}
+
+\begin{example}
+	Consideriamo lo spazio vettoriale $\R^3$ su $\R$ e i seguenti due vettori:
+	\[
+		v_1 = \begin{pmatrix}
+			3 \\ -1 \\ 3
+		\end{pmatrix}
+		\quad
+		v_2 = \begin{pmatrix}
+			1 \\ 0 \\ 2
+		\end{pmatrix}
+	\]
+	Allora il vettore $v_3$ seguente:
+	\[
+		v_3 = \begin{pmatrix}
+			5 \\ -1 \\ 7
+		\end{pmatrix}
+		= 1 \cdot \begin{pmatrix}
+			3 \\ -1 \\ 3
+		\end{pmatrix}
+		+ 2 \cdot \begin{pmatrix}
+			1 \\ 0 \\ 2
+		\end{pmatrix}
+	\]
+	È una combinazione lineare dell'insieme dei vettori $\{v_1, v_2\}$ di coefficienti 1 e 2.
+\end{example}
+
+\begin{definition}
+	Dati $\{v_1, v_2, ..., v_t\}$ vettori di $V$ su $\K$, si definisce \textbf{span} dei vettori
+	$v_1, v_2, ..., v_t$ (e si indica con $Span(v_1, v_2, \dots, v_t)$) l'insieme di tutte le possibili
+	combinazioni lineari dell'insieme di vettori $\{v_1, v_2, \dots, v_t\}$.
+\end{definition}
+
+\begin{definition}
+	Un insieme di vettori $\{v_1, v_2, \dots, v_t\}$ di $V$ per cui $V = Span(v_1, v_2, \dots, v_t)$, ovvero
+	$\forall v \in V$, esistono degli scalari $a_1, a_2, \dots, a_t$ tali che
+	\[ a_1 v_1 + a_2 v_2 + \dots + a_t v_t = v \]
+	si dice un \textbf{insieme di generatori} di $V$. In tal caso si dice anche che i vettori
+	$v_1, v_2, \dots, v_t$ \textbf{generano} $V$.
+\end{definition}
+
+L'esistenza di un sistema finito di generatori per uno spazio vettoriale $V$ su un campo $\K$ è un
+fatto molto importante, dato che si riduce la descrizione di uno spazio vettoriale con cardinalità infinita,
+ad una lista di numero finito di vettori di $V$.
+
+Dato un sistema di generatori $\{v_1, ..., v_t\}$ di $V$ sappiamo dunque che ogni $v \in V$ si può scrivere,
+con opportuni coefficienti $\{k_1, ..., k_t\}$, come:
+\[ v = \sum_{i=1}^t k_i v_i \]
+In generale, tale scrittura non è unica, ovvero non ci permette di identificare univocamente ogni vettore di
+$v \in V$.
+
+\begin{example}
+	Si verifica che i vettori
+	\[
+		\begin{pmatrix}
+			1 \\ 2 \\ 3
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix} \quad
+		\begin{pmatrix}
+			2 \\ 2 \\ 4
+		\end{pmatrix}
+	\]
+	generano $\R^3$. Si possono facilmente trovare due distinte combinazioni lineari di tali vettori
+	che esprimono il vettore
+	\[ \begin{pmatrix} 2 \\ 2 \\ 5 \end{pmatrix} \]
+	Per esempio:
+	\[
+		\begin{pmatrix}
+			1 \\ 2 \\ 3
+		\end{pmatrix} +
+		\begin{pmatrix}
+			1 \\ 0 \\ 1
+		\end{pmatrix} +
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 2 \\ 5
+		\end{pmatrix} =
+		\begin{pmatrix}
+			2 \\ 2 \\ 4
+		\end{pmatrix} +
+		\begin{pmatrix}
+			0 \\ 0 \\ 1
+		\end{pmatrix}
+	\]
+\end{example}
+
+\begin{definition}
+	Si dice che un insieme finito di vettori $\{v_1, v_2, ..., v_r\}$ è un \textbf{insieme di vettori
+		linearmente indipendenti} se l'unico modo di scrivere il vettore $O$ come combinazione lineare di questi
+	vettori è con tutti i coefficienti nulli, ossia se
+	\[ a_1 v_1 + a_2 v_2 + ... + a_r v_r = O \quad \Leftrightarrow \quad a_1 = a_2 = ... = a_r = 0 \]
+	Si può dire anche che i vettori sono \textbf{linearmente indipendenti}. Se invece i vettori
+	$v_1, v_2, ..., v_r$ non sono linearmente indipendenti si dice che sono \textbf{linearmente dipendenti}.
+\end{definition}
+
+\begin{proposition}
+	Un insieme $A = \{v_1, ..., v_n\}$ di vettori di uno spazio vettoriale $V$ su $\K$ è un insieme
+	di vettori linearmente indipendenti se e solo se nessun $v_i$, appartenente ad $A$, si può scrivere come
+	combinazione lineare dell'insieme $B = A \backslash \{v_i\}$ (ovvero $v_i$ non appartiene a $Span(B)$).
+\end{proposition}
+
+\begin{definition}
+	Sia $V$ uno spazio vettoriale su $\K$, un insieme di vettori $\{v_1, v_2, ..., v_n\} \in V$, che
+	generano lo spazio $V$ e che sono linearmente indipendenti, si dice una \textbf{base} (finita) di $V$.
+\end{definition}
+
+\begin{observation}
+	Nella definizione è specificato \emph{finita}. Non sempre uno spazio vettoriale ammette un numero finito di
+	generatori, e di conseguenza nemmeno una base finita.
+\end{observation}
+
+Fissata la defizione di base siamo interessati a capire:
+\begin{enumerate}
+	\item Se la scelta di una base garantisce l'unicità di scrittura di un vettore in termini di combinazione
+	      lineare degli elementi della base.
+	\item Quando uno spazio vettoriale ammette una base finita, ed in particolare se il fatto che uno spazio
+	      vettoriale $V$ abbia un insieme finito di generatori, garantisca che $V$ abbia una base finita o meno.
+\end{enumerate}
+
+\begin{proposition}
+	Ogni vettore $v \in V$ si scrive \emph{in modo unico} come combinazione lineare degli elementi della base.
+\end{proposition}
+
+\begin{theorem}
+	Sia $V$ uno spazio vettoriale su $\K$ diverso da $\{O\}$ e generato dall'insieme finito di vettori
+	\emph{non nulli} $\{w_1, w_2, ..., w_s\}$. Allora è possibile estrarre da $\{w_1, w_2, ..., w_s\}$ un
+	sottoinsieme $\{w_{i_1}, w_{i_2}, ..., w_{i_n}\}$ (con $n \leq s$) che è una base di $V$.
+\end{theorem}
+
+\begin{definition}
+	Sia $V$  uno spazio vettoriale con basi di cardinalità $n$. Tale cardinalità $n$ è detta \textbf{dimensione}
+	di $V$.
+\end{definition}

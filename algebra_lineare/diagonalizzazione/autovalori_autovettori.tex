@@ -1,0 +1,136 @@
+\chapter{Diagonalizzazione di endomorfismi lineari}
+\section{Autovalori e autovettori}
+Sia $T : V \to V$ un endomorfismo lineare dello spazio $V$ sul campo $\K$.
+
+\begin{definition}
+	Un vettore $v \in V - \{O\}$ si dice un \textbf{autovettore} di $T$ se
+	\[
+		T(v) = \lambda v
+	\]
+	per un certo $\lambda \in \K$.
+\end{definition}
+
+In altre parole un autovettore di $T$ è un vettore diverso da $O$ dello spazio $V$
+che ha la seguente proprietà: la $T$ lo manda in un multiplo di se stesso.
+
+\begin{definition}
+	Se $v \in V - \{O\}$ è un autovettore di $T$ tale che
+	\[
+		T(v) = \lambda v
+	\]
+	allora lo scalare $\lambda \in \K$ si dice \textbf{autovalore} di $T$
+	relativo a $v$ (e viceversa si dice che $v$ è un autovettore relativo a
+	$\lambda$).
+\end{definition}
+
+Si noti che l'autovalore può essere $0 \in \K$: se per esempio $T$ non
+è iniettiva, ossia $\Ker(T) \supsetneq \{O\}$, tutti gli elementi
+$w \in (\Ker(T)) - \{O\}$ soddisfano
+\[
+	T(w) = O = 0w
+\]
+ossia sono autovettori relativi all'autovalore 0.
+
+\begin{definition}
+	Dato $\lambda \in \K$ chiamiamo l'insieme
+	\[
+		V_\lambda = \{v \in V \mid T(v) = \lambda v\}
+	\]
+	\textbf{autospazio} relativo a $\lambda$.
+\end{definition}
+
+\begin{observation}
+	Possiamo notare dalla definizione precedente che $V_0 = \Ker(T)$.
+\end{observation}
+
+Anche se abbiamo definito l'autospazio $V_\lambda$ per qualunque
+$\lambda \in \K$, in realtà $V_\lambda$ è sempre uguale a $\{O\}$ a
+meno che $\lambda$ non sia un autovalore. Questo è dunque il caso interessante:
+se $\lambda$ è un autovalore di $T$ allora $V_\lambda$ è costituito da $O$ e
+da tutti gli autovettori relativi a $\lambda$.
+
+Ma perché sono importanti autovettori e autovalori ?
+Supponiamo che $V$ abbia dimensione $n$ e pensiamo a cosa succederebbe se
+riuscissimo a trovare una base di $V$, $\{v_1, v_2, \dots, v_n\}$, composta solo
+da autovettori di $T$.
+
+Avremmo, per ogni $i = 1, 2, \dots, n$,
+\[
+	T(v_i) = \lambda_i v_i
+\]
+per certi autovalori $\lambda_i$.
+
+Come sarebbe fatta la matrice
+\[
+	[T]_{\substack{
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}}
+\]
+associata a $T$ rispetto a questa base ?
+
+Ricordandoci come si costruiscono le matrici osserviamo che la prima colonna
+conterrebbe il vettore $T(v_1)$ scritto in termini della base $\{v_1, \dots v_n\}$,
+ossia
+\[
+	T(v_1) = \lambda_1 v_1 + 0 v_2 + 0 v_3 + \cdots + 0 v_n
+\]
+la seconda il vettore $T(v_2) = 0 v_1 + \lambda_2 v_2 + 0 v_3 + \cdots + 0 v_n$ e
+così via. Otterremo quindi una matrice diagonale.
+\[
+	[T]_{\substack{
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}} = \begin{pmatrix}
+		\lambda_1 & 0         & 0     & 0         \\
+		0         & \lambda_2 & 0     & 0         \\
+		0         & 0         & \dots & 0         \\
+		0         & 0         & 0     & \lambda_n
+	\end{pmatrix}
+\]
+
+Da questa matrice possiamo ricavare a colpo d'occhio informazioni come
+\begin{itemize}
+	\item Il rango di $T$.
+	\item La dimensione del nucleo.
+	\item Quali sono i vettori di $\Ker(T)$.
+	\item Quali sono (se esistono) i sottospazi in cui $T$ si comporta come l'identità,
+	      ossia i sottospazi costituiti dai vettori di $V$ che $T$ lascia fissi.
+\end{itemize}
+
+Dunque l'obbiettivo di studiare autovalori e autovettori di $T$ è quello di
+trovare basi "buone" che ci permettano di conoscere bene il comportamento di $T$.
+Tuttavia non esistono sempre queste basi buone. E si dice che, se per un certo
+endomorfismo $T$ esiste una base buona, questo è \textbf{diagonalizzabile}.
+
+\begin{example}
+	Consideriamo l'endomorfismo $R_{\theta} : \R^2 \to \R^2$ dato
+	da una \emph{rotazione} di angolo $\theta$ con centro l'origine. Si verifica
+	immediatamente che, rispetto alla base standard di $\R^2$, questo
+	endomorfismo è rappresentato dalla matrice
+	\[
+		[R_\theta] = \begin{pmatrix}
+			\cos{\theta} & -\sin{\theta} \\
+			\sin{\theta} & \cos{\theta}
+		\end{pmatrix}
+	\]
+	Per esempio nel caso di una rotazione di $60^\circ$ (ovvero $\frac{\pi}{3}$),
+	abbiamo:
+	\[
+		R_{\frac{\pi}{3}} = \begin{pmatrix}
+			\frac{1}{2}        & -\frac{\sqrt{3}}{2} \\
+			\frac{\sqrt{3}}{2} & \frac{1}{2}
+		\end{pmatrix}
+	\]
+	Nel caso in cui $0 < \theta < \pi$, non ci sono vettori $v \neq O$ che vengono
+	mandati in un multiplo di se stessi, visto che tutti i vettori vengono ruotati
+	di un angolo che non è nullo e non è di $180^\circ$. Dunque non ci sono
+	autovalori e autovettori.
+
+	Nel caso $\theta = 0$ la rotazione è l'identità, dunque tutti i vettori
+	$v \neq O$ sono autovettori relativi all'autovalore 1, e $V_1 = \R^2$.
+
+	Nel caso $\theta = \pi$ la rotazione è uguale a $-I$, dunque tutti i vettori
+	$v \neq O$ sono autovettori relativi all'autovalore $-1$, e
+	$V_{-1} = \R^2$.
+\end{example}
