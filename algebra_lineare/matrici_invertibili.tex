@@ -33,7 +33,7 @@
 \end{observation}
 
 Se fissiamo una base di $V$, ad ogni endomorfismo $L \in End(V)$ viene associata
-una matrice $[L] \in \Mat{n \times n}(\K)$. Se $L$ è invertibile,
+una matrice $[L] \in \Mat_{n \times n}(\K)$. Se $L$ è invertibile,
 consideriamo l'inversa $L^{-1}$ e la matrice ad essa associata $[L^{-1}]$.
 Visto che $L \circ L^{-1} = L^{-1} \circ L = I$, vale
 \[
@@ -46,15 +46,15 @@ endomorfismo lineare è invertibile allora anche $L$ è invertibile e la sua
 inversa è l'applicazione associata alla matrice $[L^{-1}]$.
 
 \begin{corollary}
-	Una matrice $A \in \Mat{n \times n}(\K)$ è invertibile se e solo se
+	Una matrice $A \in \Mat_{n \times n}(\K)$ è invertibile se e solo se
 	il suo rango è $n$.
 \end{corollary}
 
 \section{Metodo per trovare l'inversa di una matrice}
 Come abbiamo visto nel paragrafo precedente, il problema di trovare un'inversa
 di $L \in End(V)$ si può tradurre nel problema di trovare l'inversa in
-$\Mat{n \times n}(\K)$ di una matrice data. In questo paragrafo descriviamo
-un metodo per trovare l'inversa di una matrice $A \in \Mat{n \times n}(\K)$.
+$\Mat_{n \times n}(\K)$ di una matrice data. In questo paragrafo descriviamo
+un metodo per trovare l'inversa di una matrice $A \in \Mat_{n \times n}(\K)$.
 
 \begin{definition}
 	Una matrice in forma a scalini per righe (o per colonne) ridotta, si dice
@@ -158,7 +158,7 @@ un metodo per trovare l'inversa di una matrice $A \in \Mat{n \times n}(\K)$.
 
 \textbf{Perchè il metodo funziona ?}
 
-Consideriamo una matrice $A \in \Mat{n \times n}(\K)$ e cerchiamo la sua
+Consideriamo una matrice $A \in \Mat_{n \times n}(\K)$ e cerchiamo la sua
 inversa; supponiamo che $A$ abbia rango $n$.
 
 Per prima cosa creiamo una matrice $n \times 2n$ ponendo accanto le colonne di $A$
@@ -200,7 +200,7 @@ $A$ e che $U = B$ come avevamo annunciato.
 	$A$. Come detto $C$ deve soddisfare per definizione la condizione $AC = I$.
 	Se moltiplichiamo per $C$ entrambi i membri della relazione $BA = I$ (a destra)
 	\[ BAC = IC \] Usando la proprietà associativa del prodotto in
-	$\Mat{n \times n}(\K)$ otteniamo \[B = C\] visto che $AC = I$.
+	$\Mat_{n \times n}(\K)$ otteniamo \[B = C\] visto che $AC = I$.
 \end{observation}
 
 \section{Cambiamento di base negli endomorfismi lineari}
@@ -321,7 +321,7 @@ ha una grande importanza dal punto di vista teorico.
 
 Per esempio, se definiamo l'applicazione traccia
 \[
-	\tau : \Mat{n \times n}(\K) \to \K
+	\tau : \Mat_{n \times n}(\K) \to \K
 \]
 nel seguente modo:
 \[
@@ -363,7 +363,7 @@ Per mostrarlo scriviamo:
 		}} M
 	\right)
 \]
-A questo punto ricordiamo che per ogni $A, B \in \Mat{n \times n}(\K)$
+A questo punto ricordiamo che per ogni $A, B \in \Mat_{n \times n}(\K)$
 vale $\tau(AB) = \tau(BA)$, dunque:
 \begin{gather*}
 	\tau \left(

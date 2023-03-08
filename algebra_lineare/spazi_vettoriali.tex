@@ -427,13 +427,13 @@ Di seguito qualche proprietà utile:
 \end{definition}
 
 \begin{definition}
-	Dati due interi positivi m, n, chiamiamo $\Mat{m \times n} (\K)$, l'insieme di tutte le matrici
-	$m \times n$ a coefficienti in $\K$.
+	Dati due interi positivi $m$ ed $n$, definiamo l'insieme di tutte le matrici $m \times n$ a
+	coefficienti in $\K$ indicandolo con $\Mat_{m \times n} (\K)$.
 \end{definition}
 
 \begin{definition}
-	Sull'insieme $\Mat{m \times n} (\K)$ possiamo definire la \textbf{somma} e il
-	\textbf{prodotto per scalare}. Date due matrici $A, B \in \Mat{m \times n} (\K)$ e dato uno scalare
+	Sull'insieme $\Mat_{m \times n} (\K)$ possiamo definire la \textbf{somma} e il
+	\textbf{prodotto per scalare}. Date due matrici $A, B \in \Mat_{m \times n} (\K)$ e dato uno scalare
 	$k \in \K$, definiamo:
 	\begin{itemize}
 		\item La \textbf{matrice somma} $A + B = C$, il cui generico coefficiente nella $i$-esima riga e
@@ -451,22 +451,22 @@ importante l'ordine in cui si considerano le due matrici (quindi non vale la pro
 tale operazione è definita solo quando il numero di colonne di $A$ è uguale al numero di righe di $B$.
 
 \begin{definition}
-	Data una matrice $A = (a_{ij}) \in \Mat{m \times n} (\K)$ e una matrice
-	$B = (b_{st}) \in \Mat{n \times k} (\K)$, il \textbf{prodotto riga per colonna} $AB$, è la matrice
-	$C = (c_{rh}) \in \Mat{m \times k} (\K)$, i cui coefficienti, per ogni $r, h$, sono definiti come
+	Data una matrice $A = (a_{ij}) \in \Mat_{m \times n} (\K)$ e una matrice
+	$B = (b_{st}) \in \Mat_{n \times k} (\K)$, il \textbf{prodotto riga per colonna} $AB$, è la matrice
+	$C = (c_{rh}) \in \Mat_{m \times k} (\K)$, i cui coefficienti, per ogni $r, h$, sono definiti come
 	segue:
 	\[ c_{rh} = a_{r1} b_{1h} + a_{r2} b_{2h} + \cdots + a_{rn} b_{nh} \]
 \end{definition}
 
 \begin{example}
-	Consideriamo la matrice $A \in \Mat{2 \times 3}(\K)$:
+	Consideriamo la matrice $A \in \Mat_{2 \times 3}(\K)$:
 	\[
 		A = \begin{pmatrix}
 			1 & 2 & 4 \\
 			0 & 6 & 3
 		\end{pmatrix}
 	\]
-	e la matrice $B \in \Mat{3 \times 3}(\K)$:
+	e la matrice $B \in \Mat_{3 \times 3}(\K)$:
 	\[
 		B = \begin{pmatrix}
 			2 & 2 & 2  \\
