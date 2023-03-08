@@ -1,14 +1,14 @@
 \chapter{Riduzione a scalini}
 \section{Operazioni elementari sulle colonne}
-Consideriamo una generica matrice in $Mat_{m \times n}(\mathbb{K})$:
-\begin{equation*}
+Consideriamo una generica matrice in $\Mat{m \times n}(\K)$:
+\[
 	A = \begin{pmatrix}
 		a_{11} & a_{12} & \dots & a_{1n} \\
 		a_{21} & a_{22} & \dots & \dots  \\
 		\dots  & \dots  & \dots & \dots  \\
 		a_{m1} & \dots  & \dots & a_{mn}
 	\end{pmatrix}
-\end{equation*}
+\]
 e i tre seguenti tipi di mossa sulle colonne, detti anche
 \textbf{operazioni elementari sulle colonne}:
 \begin{enumerate}
@@ -19,31 +19,31 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 \end{enumerate}
 
 \begin{definition}
-	La \textbf{profondit\`a} di una colonna \`e definita come la posizione
-	occupata (contata dal basso) dal suo pi\`u alto coefficiente diverso da 0.
-	Alla colonna nulla si assegna per convenzione profondit\`a uguale a 0.
+	La \textbf{profondità} di una colonna è definita come la posizione
+	occupata (contata dal basso) dal suo più alto coefficiente diverso da 0.
+	Alla colonna nulla si assegna per convenzione profondità uguale a 0.
 \end{definition}
 
 \begin{example}
 	Consideriamo la seguente matrice:
-	\begin{equation*}
+	\[
 		A = \begin{pmatrix}
 			0            & 4 - \sqrt{3} & 0  \\
 			\sqrt{3} + 1 & 0            & 0  \\
 			-2           & -2           & -2
 		\end{pmatrix}
-	\end{equation*}
-	In questo caso la prima colonna ha profodit\`a uguale a 2, la
-	seconda colonna uguale a 3 mentre la terza ha profondit\`a uguale a 1.
+	\]
+	In questo caso la prima colonna ha profodità uguale a 2, la
+	seconda colonna uguale a 3 mentre la terza ha profondità uguale a 1.
 \end{example}
 
 \begin{definition}
-	Una matrice $A \in Mat_{m \times n}(\mathbb{K})$, si dice
-	\textbf{in forma a scalini per colonne} se rispetta le seguenti propriet\`a:
+	Una matrice $A \in \Mat{m \times n}(\K)$, si dice
+	\textbf{in forma a scalini per colonne} se rispetta le seguenti proprietà:
 	\begin{itemize}
 		\item leggendo la matrice da sinistra a destra, le colonne non nulle si
 		      incontrano tutte prima delle colonne nulle.
-		\item leggendo la matrice da sinistra a destra, le profondit\`a
+		\item leggendo la matrice da sinistra a destra, le profondità
 		      delle sue colonne non nulle risultano strettamente
 		      decrescenti.
 	\end{itemize}
@@ -51,44 +51,44 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 
 \begin{example}
 	Questi sono esempi di matrici in forma \emph{a scalini}:
-	\begin{equation*}
+	\[
 		A = \begin{pmatrix}
 			1            & 0           & 0 & 0 \\
 			\sqrt{3} + 1 & 1           & 0 & 0 \\
 			-2           & \frac{5}{2} & 1 & 0
 		\end{pmatrix}
-	\end{equation*}
-	\begin{equation*}
+	\]
+	\[
 		B = \begin{pmatrix}
 			1  & 0           & 0 & 0 \\
 			0  & 1           & 0 & 0 \\
 			-2 & \frac{5}{2} & 0 & 0
 		\end{pmatrix}
-	\end{equation*}
+	\]
 \end{example}
 
 \begin{definition}
 	In una matrice in forma a scalini per colonna, i coefficienti diversi
-	da zero pi\`u alti di posizione di ogni colonna non nulla si
+	da zero più alti di posizione di ogni colonna non nulla si
 	chiamano \textbf{pivot}.
 \end{definition}
 
 \begin{theorem}
-	Data una matrice $A \in Mat_{m \times n}(\mathbb{K})$ \`e sempre
+	Data una matrice $A \in \Mat{m \times n}(\K)$ è sempre
 	possibile, usando operazioni elementari sulle colonne, ridurre la
 	matrice in forma a scalini per colonne.
 \end{theorem}
 
 \begin{observation}
 	Quando si riduce una matrice in forma a scalini, la forma a scalini
-	ottenuta non \`e unica.
+	ottenuta non è unica.
 \end{observation}
 
 \begin{definition}
-	Una matrice $A \in Mat_{m \times n}(\mathbb{K})$, si dice \textbf{in forma a
+	Una matrice $A \in \Mat{m \times n}(\K)$, si dice \textbf{in forma a
 		scalini per colonne ridotta} se:
 	\begin{itemize}
-		\item $A$ \`e a scalini per colonne.
+		\item $A$ è a scalini per colonne.
 		\item Tutte le entrate nella stessa riga di un pivot, precedenti al pivot,
 		      sono nulle
 	\end{itemize}
@@ -96,7 +96,7 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 
 \begin{example}
 	Esempio di matrice in forma a scalini ridotta:
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1            & 0           & 0 & 0 \\
 			\sqrt{3} + 1 & 1           & 0 & 0 \\
@@ -107,17 +107,17 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 			0 & 1 & 0 & 0 \\
 			0 & 0 & 1 & 0
 		\end{pmatrix}
-	\end{equation*}
+	\]
 \end{example}
 
 \begin{proposition}
-	Data una matrice in forma a scalini per colonne, \`e sempre possibile, usando
+	Data una matrice in forma a scalini per colonne, è sempre possibile, usando
 	solo la prima delle operazioni elementari sulle colonne, portare $A$ in forma
 	a scalini ridotta.
 \end{proposition}
 
 \begin{corollary}
-	Ogni matrice $A$ pu\`o essere trasformata, tramite le operazioni elementari
+	Ogni matrice $A$ può essere trasformata, tramite le operazioni elementari
 	sulle colonne, in una matrice in forma a scalini per colonne ridotta.
 \end{corollary}
 
@@ -125,19 +125,19 @@ e i tre seguenti tipi di mossa sulle colonne, detti anche
 	Se operiamo attraverso le operazioni elementari sulle colonne, lo
 	$Span$ dei vettori colonna rimane invariato. Ovvero se indichiamo con
 	$v_1, \dots, v_n$ i vettori colonna di una matrice
-	$A \in Mat_{m \times n}(\mathbb{K})$, per ogni matrice $A'$ ottenuta da $A$
+	$A \in \Mat{m \times n}(\K)$, per ogni matrice $A'$ ottenuta da $A$
 	attraverso le operazioni elementari sulle colonne, si ha, indicando con
 	$w_1, \dots, w_n$ i vettori colonna di $A'$, che:
-	\begin{equation*}
+	\[
 		Span(v_1, \dots, v_n) = Span(w_1, \dots, w_n)
-	\end{equation*}
+	\]
 \end{proposition}
 
 \section{Riduzione a scalini e studio delle basi}
 
 \begin{theorem}
-	Sia $V$ uno spazio vettoriale su $\mathbb{K}$ che ammette una base
-	finita, allora tutte le basi di $V$ hanno la stessa cardinalit\`a.
+	Sia $V$ uno spazio vettoriale su $\K$ che ammette una base
+	finita, allora tutte le basi di $V$ hanno la stessa cardinalità.
 \end{theorem}
 
 \begin{corollary}
@@ -152,20 +152,20 @@ un criterio concreto per decidere se, dato uno spazio vettoriale $V$ di
 dimensione $n$ ed una base $e_1, \dots, e_n$ di $V$, e dati $n$ vettori
 $v_1, \dots, v_n$ di $V$, tali vettori costituiscono una base di $V$ o no.
 
-Il criterio \`e espresso dai seguenti punti:
+Il criterio è espresso dai seguenti punti:
 \begin{enumerate}
 	\item Esprimiamo i vettori $v_1, \dots, v_n$ trovandone i coefficienti rispetto
 	      alla base $e_1, \dots, e_n$.
-	\item Poniamoli in colonna uno accanto all'altro. Cos\`i facendo otteniamo una
-	      matrice $M$ che \`e $n \times n$.
+	\item Poniamoli in colonna uno accanto all'altro. Così facendo otteniamo una
+	      matrice $M$ che è $n \times n$.
 	\item Riduciamo $M$ in forma a scalini ridotta ottenendo $M'$.
-	\item A questo punto, se $M'$ \`e l'identit\`a, allora $\{v_1, \dots, v_n\}$
-	      \`e una base di $V$, altrimenti no.
+	\item A questo punto, se $M'$ è l'identità, allora $\{v_1, \dots, v_n\}$
+	      è una base di $V$, altrimenti no.
 \end{enumerate}
 
 \begin{example}
-	Verificare che i seguenti vettori siano una base di $\mathbb{R}^4$.
-	\begin{equation*}
+	Verificare che i seguenti vettori siano una base di $\R^4$.
+	\[
 		v_1 = \begin{pmatrix}
 			1 \\ 1 \\ 0 \\ 0
 		\end{pmatrix} \quad
@@ -178,34 +178,34 @@ Il criterio \`e espresso dai seguenti punti:
 		v_4 = \begin{pmatrix}
 			0 \\ 0 \\ 0 \\ 1
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Verifichiamo col nuovo metodo che si tratta di una base.
 	Scriviamo dunque la matrice
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 0 & 0 & 0 \\
 			1 & 1 & 0 & 0 \\
 			0 & 1 & 1 & 0 \\
 			0 & 0 & 1 & 1 \\
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Portandola in forma a scalini ridotta diventa
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 0 & 0 & 0 \\
 			0 & 1 & 0 & 0 \\
 			0 & 0 & 1 & 0 \\
 			0 & 0 & 0 & 1
 		\end{pmatrix}
-	\end{equation*}
-	Dunque $\{v_1, v_2, v_3, v_4\}$ \`e una base di $\mathbb{R}^4$.
+	\]
+	Dunque $\{v_1, v_2, v_3, v_4\}$ è una base di $\R^4$.
 \end{example}
 
 \begin{theorem}[Completamento]
 	Dato uno spazio vettoriale $V$ di dimensione $n$, ogni
 	sottoinsieme $B = \{v_1, \dots, v_k\} \subset V$ di vettori
-	linearmente indipendenti di cardinalit\`a $k$, con
-	$1 \leq k \leq n$, pu\`o essere completato ad una base di $V$
+	linearmente indipendenti di cardinalità $k$, con
+	$1 \leq k \leq n$, può essere completato ad una base di $V$
 	aggiungendo a $B$ $n - k$ vettori di $V \backslash Span(B)$.
 	\begin{proof}
 		La dimostrazione che segue ci fornisce un algoritmo per trovare
@@ -217,10 +217,10 @@ Il criterio \`e espresso dai seguenti punti:
 			      la matrice $M$ che ha questi vettori come colonne.
 			\item Si riduce $M$ in forma a scalini.
 			\item Tutte le volte le volte che troviamo uno scalino lungo
-			      (altezza $\geq 2$, dove l'altezza \`e la differenza di profondit\`a
+			      (altezza $\geq 2$, dove l'altezza è la differenza di profondità
 			      tra due colonne adiacenti che formano lo scalino lungo) possiamo
 			      facilmente trovare $i - 1$ vettori $w_1, \dots, w_{i - 1}$ tali che
-			      $\{v_1, \dots, v_k, w_1, \dots, w_{i - 1}\}$ \`e ancora un
+			      $\{v_1, \dots, v_k, w_1, \dots, w_{i - 1}\}$ è ancora un
 			      insieme di vettori linearmente indipendenti.
 			\item Supponiamo infatti che $M$ abbia uno scalino di lunghezza $i$,
 			      ovvero in una certa colonna abbia il pivot alla riga $t$ e nella
@@ -228,13 +228,13 @@ Il criterio \`e espresso dai seguenti punti:
 			      per $j$ che varia tra 1 ed $i - 1$.
 			\item Scegliere un vettore $w_j$ tale che abbia tutti
 			      0 tranne un 1 in corrispondeza della riga $(t + j)$-esima.
-			      \`E facile osservare che ogni $w_j$ non appartiene
+			      È facile osservare che ogni $w_j$ non appartiene
 			      allo $Span(v_1, \dots, v_k, w_1, \dots, w_{j-1})$. Dunque ad
 			      ogni aggiunta di $w_j$, l'insieme
 			      $\{v_1, \dots, v_k, w_1, \dots, w_j\}$ rimane un insieme di
 			      vettori linearmente indipendenti di $V$.
 			\item Ripetiamo questa aggiunta di vettori $w_k$ per ogni scalino
-			      lungo che troviamo in $M$, trovando cos\`i alla fine $n$ vettori
+			      lungo che troviamo in $M$, trovando così alla fine $n$ vettori
 			      linearmente indipendenti, dunque una base di $V$ come richiesto.
 		\end{enumerate}
 	\end{proof}
@@ -242,10 +242,10 @@ Il criterio \`e espresso dai seguenti punti:
 
 \begin{example}
 	Illustriamo il metodo descritto con un esempio. Supponiamo che
-	$V = \mathbb{R}^7$ e siano dati i 4 vettori linearmente
+	$V = \R^7$ e siano dati i 4 vettori linearmente
 	indipendenti che, scritti rispetto alla base standard di
-	$\mathbb{R}^7$, sono rappresentati come segue:
-	\begin{equation*}
+	$\R^7$, sono rappresentati come segue:
+	\[
 		v_1 = \begin{pmatrix}
 			1 \\ 1 \\ 0 \\ 2 \\ 1 \\ 0 \\ 1
 		\end{pmatrix} \quad
@@ -258,9 +258,9 @@ Il criterio \`e espresso dai seguenti punti:
 		v_4 = \begin{pmatrix}
 			0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 2
 		\end{pmatrix}
-	\end{equation*}
-	La matrice $M$ in questo caso \`e:
-	\begin{equation*}
+	\]
+	La matrice $M$ in questo caso è:
+	\[
 		M = \begin{pmatrix}
 			1 & 0 & 0 & 0 \\
 			1 & 1 & 0 & 0 \\
@@ -270,9 +270,9 @@ Il criterio \`e espresso dai seguenti punti:
 			0 & 0 & 0 & 0 \\
 			1 & 3 & 1 & 2
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Riduciamola a scalini per colonne.
-	\begin{equation*}
+	\[
 		M' = \begin{pmatrix}
 			1 & 0 & 0 & 0 \\
 			0 & 1 & 0 & 0 \\
@@ -282,33 +282,33 @@ Il criterio \`e espresso dai seguenti punti:
 			0 & 0 & 0 & 0 \\
 			0 & 1 & 2 & 1
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Il primo scalino lungo ha altezza 3. Come osservato nella dimostrazione
 	del teorema del completamento, i vettori
-	\begin{equation*}
+	\[
 		w_1 = \begin{pmatrix}
 			0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0
 		\end{pmatrix} \quad
 		w_2 = \begin{pmatrix}
 			0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	non appartengono al sottospazio generato dalle colonne di $M'$, e si
-	osserva immediatamente che $\{v_1, v_2, v_3, v_4, w_1, w_2\}$ \`e un
-	insieme di vettori linearmente indipendenti di $\mathbb{R}^7$.
+	osserva immediatamente che $\{v_1, v_2, v_3, v_4, w_1, w_2\}$ è un
+	insieme di vettori linearmente indipendenti di $\R^7$.
 
 	Similmente prendendo in considerazione il secondo scalino lungo, notiamo
 	che il vettore
-	\begin{equation*}
+	\[
 		w_3 = \begin{pmatrix}
 			0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	non appartiene al sottospazio generato da $v_1, v_2, v_3, v_4, w_1, w_2$.
 
 	A questo punto abbiamo ottenuto l'insieme di vettori linearmente indipendenti
-	$\{v_1, v_2, v_3, v_4, w_1, w_2, w_3\}$ di $\mathbb{R}^7$ e dato che
-	$\mathbb{R}^7$ ha dimensione 7 abbiamo ottenuto una base di $\mathbb{R}^7$.
+	$\{v_1, v_2, v_3, v_4, w_1, w_2, w_3\}$ di $\R^7$ e dato che
+	$\R^7$ ha dimensione 7 abbiamo ottenuto una base di $\R^7$.
 \end{example}
 
 
@@ -319,104 +319,104 @@ lineare.
 
 \begin{theorem}
 	Considerata una applicazione lineare $L : V \to W$, dove $V$ e $W$ sono spazi
-	vettoriali su $\mathbb{K}$, vale
-	\begin{equation*}
-		dim(Ker(L)) + dim(Imm(L)) = dim(V)
-	\end{equation*}
+	vettoriali su $\K$, vale
+	\[
+		\dim(\Ker(L)) + \dim(\Imm(L)) = \dim(V)
+	\]
 \end{theorem}
 
 \begin{definition}
 	Una applicazione lineare bigettiva $L : V \to W$, tra due spazi vettoriali $V$ e $W$
-	sul campo $\mathbb{K}$, si dice un \textbf{isomorfismo lineare}.
+	sul campo $\K$, si dice un \textbf{isomorfismo lineare}.
 
 	Dal teorema precedente segue che:
 	\begin{itemize}
-		\item Se $L : V \to W$ \`e una applicazione lineare iniettiva allora
-		      \[ dim(Imm(L)) = dim(V) \]
-		      Infatti sappiamo che $Ker(L) = \{O\}$ dunque $dim(Ker(L)) = 0$.
-		\item Se $L : V \to W$ \`e un isomorfismo lineare allora \[dim(V) = dim(W)\]
-		      Infatti se $L$ \`e bigettiva, in particolare \`e iniettiva e surgettiva.
-		\item Se $L : V \to W$ \`e una applicazione lineare iniettiva, allora $L$,
-		      pensata come applicazione da $V$ ad $Imm(L)$, \`e un isomorfismo lineare.
+		\item Se $L : V \to W$ è una applicazione lineare iniettiva allora
+		      \[ \dim(\Imm(L)) = \dim(V) \]
+		      Infatti sappiamo che $\Ker(L) = \{O\}$ dunque $\dim(\Ker(L)) = 0$.
+		\item Se $L : V \to W$ è un isomorfismo lineare allora \[\dim(V) = \dim(W)\]
+		      Infatti se $L$ è bigettiva, in particolare è iniettiva e surgettiva.
+		\item Se $L : V \to W$ è una applicazione lineare iniettiva, allora $L$,
+		      pensata come applicazione da $V$ ad $\Imm(L)$, è un isomorfismo lineare.
 	\end{itemize}
 \end{definition}
 
-\section{Immagine di un'applicazione lineare}
+\section{immagine di un'applicazione lineare}
 La riduzione a scalini per colonna risulta molto utile anche per lo
 studio di applicazioni lineari, ed in particolare per la
 determinazione di dimensione e base dell'immagine di una applicazione
 lineare.
 
-Dati due spazi vettoriali $V$ e $W$ sul campo $\mathbb{K}$ di dimensione $n$
+Dati due spazi vettoriali $V$ e $W$ sul campo $\K$ di dimensione $n$
 e $m$ rispettivamente, consideriamo una applicazione lineare:
-\begin{equation*}
+\[
 	L : V \to W
-\end{equation*}
+\]
 Fissiamo una base $\{e_1, e_2, \dots, e_n\}$ di $V$ e una base
 $\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ di $W$. Indichiamo con $[L]$
 la matrice, di forma $m \times n$, associata a $L$ nelle basi scelte.
 
 Per quanto abbiamo fin qui detto, possiamo, tramite un numero finito $k$ di
 operazioni elementari sulle colonne di $[L]$, portarla in forma a scalini
-ridotta. Ma c'\`e di pi\`u. Ogni operazione elementare sulle colonne corrisponde
-a moltiplicare la matrice iniziale $[L] \in Mat_{m \times n}(\mathbb{K})$,
+ridotta. Ma c'è di più. Ogni operazione elementare sulle colonne corrisponde
+a moltiplicare la matrice iniziale $[L] \in \Mat{m \times n}(\K)$,
 a destra, per una matrice $B$ di dimensioni $n \times n$ invertibile.
 
 \begin{theorem}
-	Siano $V, W, U$ spazi vettoriali su $\mathbb{K}$, fissiamo per ciascuno
+	Siano $V, W, U$ spazi vettoriali su $\K$, fissiamo per ciascuno
 	una base. Siano $T : V \to W$ e $S : W \to U$ applicazioni lineari. Allora,
 	rispetto alle basi fissate, vale:
-	\begin{equation*}
+	\[
 		[S \circ T] = [S][T]
-	\end{equation*}
+	\]
 	dove nel membro di destra stiamo considerando il prodotto righe per colonne
 	fra matrici.
 \end{theorem}
 
 Tornando all'applicazione lineare $L$, sappiamo già che lo span delle colonne
 di $[L]$ coincide con lo span delle colonne della matrice ottenuta portando $[L]$
-in forma a scalini. Sappiamo cio\`e che $Imm(L)$ coincide con l'immagine
+in forma a scalini. Sappiamo cioè che $\Imm(L)$ coincide con l'immagine
 dell'applicazione lineare associata alla matrice ottenuta portando i forma a
 scalini $[L]$.
 
 \begin{proposition}
 	Siano $L$ ed $M$ due applicazioni lineari, vale
-	\[ Imm(L \circ M) = Imm(L) \]
+	\[ \Imm(L \circ M) = \Imm(L) \]
 	ossia, scritto con un'altra notazione,
 	\[ (L \circ M)(V) = L(V) \]
 \end{proposition}
 
 \begin{proposition}
 	Sia $B : V \to V$ un'applicazione lineare invertibile, allora vale
-	\[ Imm(L) = Imm(L \circ B) \]
+	\[ \Imm(L) = \Imm(L \circ B) \]
 	\begin{proof}
-		Dato che $B$ \`e una funzione invertibile, \`e bigettiva, ossia
+		Dato che $B$ è una funzione invertibile, è bigettiva, ossia
 		\[ B(V) = V \]. Dunque
-		\begin{equation*}
-			Imm(L \circ B) = L(B(V)) = L(V)
-		\end{equation*}
+		\[
+			\Imm(L \circ B) = L(B(V)) = L(V)
+		\]
 	\end{proof}
 \end{proposition}
 
 \begin{definition}
 	Data una applicazione lineare $L : V \to W$, dove $V$ e $W$ sono due spazi
-	vettoriali di dimensione finita sul campo $\mathbb{K}$ e sia $[L]$ la matrice
+	vettoriali di dimensione finita sul campo $\K$ e sia $[L]$ la matrice
 	associata ad $L$. Se riduco in forma a scalini $[L]$, il \textbf{rango} equivale
 	al numero di pivot della matrice ottenuta.
 \end{definition}
 
 \begin{theorem}
 	Data una applicazione lineare $L$ come sopra e fissate le basi, vale che
-	il rango di $L$ \`e uguale al numero di colonne non nulle che si trovano
+	il rango di $L$ è uguale al numero di colonne non nulle che si trovano
 	quando si trasforma $[L]$ in forma a scalini.
 \end{theorem}
 
 \begin{observation}
-	Osserviamo che il rango di una applicazione lineare $L$ \`e anche uguale al
+	Osserviamo che il rango di una applicazione lineare $L$ è anche uguale al
 	\textbf{massimo numero di colonne linearmente indipendenti} di $[L]$.
-	Infatti sappiamo che $Imm(L)$ \`e il sottospazio vettoriale di $W$ generato
-	dai vettori colonna di $[L]$. Da questi vettori \`e possibile estrarre una
-	base di $Imm(L)$ e, inoltre, possiamo dire che \[dim(Imm(L)) = rango (L)\]
+	Infatti sappiamo che $\Imm(L)$ è il sottospazio vettoriale di $W$ generato
+	dai vettori colonna di $[L]$. Da questi vettori è possibile estrarre una
+	base di $\Imm(L)$ e, inoltre, possiamo dire che \[\dim(\Imm(L)) = rango (L)\]
 \end{observation}
 
 \begin{observation}
@@ -424,17 +424,17 @@ scalini $[L]$.
 	applicazione lineare tra due spazi vettoriali $V$ e $W$, e fissata una base
 	$\{e_1, e_2, \dots, e_n\}$ di $V$ e una base
 	$\{\epsilon_1, \epsilon_2, \dots, \epsilon_m\}$ di $W$, ci permette di
-	determinare la dimensione ed una base di $Imm(L)$:
+	determinare la dimensione ed una base di $\Imm(L)$:
 	\begin{enumerate}
 		\item Scrivere la matrice $[L]$ associata ad $L$ rispetto alle basi
 		      fissate
 		\item Ridurre $[L]$ in forma a scalini
-		\item Contare il numero di pivot per ottenere la dimensione di $Imm(L)$.
+		\item Contare il numero di pivot per ottenere la dimensione di $\Imm(L)$.
 	\end{enumerate}
 \end{observation}
 
 \section{Riduzione a scalini per righe}
-Data una matrice in $Mat_{m \times n}(\mathbb{K})$ \`e possibile definire le
+Data una matrice in $\Mat{m \times n}(\K)$ è possibile definire le
 operazioni elementari di riga in modo analogo alle mosse di colonna in questo
 modo:
 \begin{enumerate}
@@ -443,66 +443,66 @@ modo:
 	\item Permutare fra loro due righe, diciamo $i$ e $j$
 \end{enumerate}
 A questo punto possiamo definire la forma a scalini per righe di una matrice.
-In questo caso chiameremo \emph{profondit\`a} di una riga la posizione occupata,
-contata da destra, dal suo coefficiente diverso da zero che sta pi\`u a sinistra
-nella riga. La riga nulla ha \emph{profondit\`a} 0.
+In questo caso chiameremo \emph{profondità} di una riga la posizione occupata,
+contata da destra, dal suo coefficiente diverso da zero che sta più a sinistra
+nella riga. La riga nulla ha \emph{profondità} 0.
 
 \begin{definition}
-	Una matrice $A$ in $Mat_{m \times n}(\mathbb{K})$, si dice \textbf{in forma
+	Una matrice $A$ in $\Mat{m \times n}(\K)$, si dice \textbf{in forma
 		a scalini per righe} se:
 	\begin{itemize}
 		\item Leggendo la matrice dall'alto verso il basso, le righe non nulle si
 		      incontrano tutte prima delle righe nulle.
-		\item Leggendo la matrice dall'alto verso il basso, le profondit\`a
+		\item Leggendo la matrice dall'alto verso il basso, le profondità
 		      delle sue righe non nulle risultano strettamente decrescenti.
 	\end{itemize}
 \end{definition}
 
 \begin{theorem}
-	Data una matrice $A$ in $Mat_{m \times n}(\mathbb{K})$ \`e sempre possibile,
+	Data una matrice $A$ in $\Mat{m \times n}(\K)$ è sempre possibile,
 	usando un numero finito di operazioni elementari sulle righe, ridurre la
 	matrice in forma a scalini per righe.
 \end{theorem}
 
 In particolare, anche quando abbiamo una matrice in forma a scalini per righe, si
-possono definire i \textbf{pivot} della matrice, come i coefficienti pi\`u a
+possono definire i \textbf{pivot} della matrice, come i coefficienti più a
 sinistra delle righe non nulle.
 
-Inoltre anche in questo caso \`e possibile definire una forma a scalini
+Inoltre anche in questo caso è possibile definire una forma a scalini
 \emph{particolare}: la forma a \textbf{scalini per righe ridotta}.
 
 \begin{example}
-	Matrice in forma a scalini per righe
-	\begin{equation*}
+	matrice in forma a scalini per righe
+	\[
 		\begin{pmatrix}
 			1 & 0 & 0 & -20 \\
 			0 & 1 & 0 & 0   \\
 			0 & 0 & 1 & 5
 		\end{pmatrix}
-	\end{equation*}
+	\]
 \end{example}
 
 \begin{corollary}
-	Ogni matrice $A$ pu\`o essere trasformata, attraverso le operazioni elementari
+	Ogni matrice $A$ può essere trasformata, attraverso le operazioni elementari
 	sulle righe, in una matrice in forma a scalini per righe ridotta.
 \end{corollary}
 
-In generale valgono tutte le propriet\`a gi\`a elencate per le operazioni sulle
+In generale valgono tutte le proprietà già elencate per le operazioni sulle
 colonne.
 
 \section{Riduzione a scalini e applicazioni lineari}
 
 \begin{theorem}
 	Data una applicazione lineare $L : V \to W$ tra due spazi vettoriali $V$ e
-	$W$ sul campo $\mathbb{K}$, e data la matrice $[L]$ associata a $L$ rispetto
+	$W$ sul campo $\K$, e data la matrice $[L]$ associata a $L$ rispetto
 	a due basi fissate di $V$ e $W$:
 	\begin{enumerate}
-		\item Il massimo numero di righe linearmente indipendenti di $[L]$ \`e
+		\item Il massimo numero di righe linearmente indipendenti di $[L]$ è
 		      uguale al massimo numero di colonne linearmente indipendenti di
 		      $[L]$, ossia al rango di $L$.
 		\item Se si riduce la matrice $[L]$ a scalini, sia che lo si faccia
 		      per righe, sia che lo si faccia per colonne, il numero di scalini
-		      sar\`a sempre uguale al rango di $L$.
+		      sarà sempre uguale al rango di $L$.
 	\end{enumerate}
 \end{theorem}
 
@@ -513,8 +513,8 @@ colonne.
 \end{observation}
 
 \begin{proposition}
-	Se $A$ \`e una matrice $m \times n$ a valori su un campo $\mathbb{K}$, ed
-	indichiamo con $e_1, \dots, e_n$ le sue colonne, e $B$ \`e una riduzione
+	Se $A$ è una matrice $m \times n$ a valori su un campo $\K$, ed
+	indichiamo con $e_1, \dots, e_n$ le sue colonne, e $B$ è una riduzione
 	a scalini per righe di $A$, allora le colonne di $A$ in corrispondenza alla
 	posizione dei pivot di $B$ formano una base dello $Span$ delle colonne di $A$
 	($Span(e_1, \dots, e_n)$).

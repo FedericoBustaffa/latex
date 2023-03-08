@@ -2,21 +2,21 @@
 \section{Prodotto scalare}
 
 \begin{definition}
-	Sia $V$ uno spazio vettoriale sul campo $\mathbb{K}$, dove
-	$\mathbb{K} = \mathbb{R}^n$ o $\mathbb{K} = \mathbb{C}^n$. Il
-	\textbf{prodotto scalare} \`e una funzione che ad ogni coppia di vettori $u, v$
-	appartenenti a $V$ associa lo scalare $\langle u, v \rangle \in \mathbb{K}$
+	Sia $V$ uno spazio vettoriale sul campo $\K$, dove
+	$\K = \R^n$ o $\K = \mathbb{C}^n$. Il
+	\textbf{prodotto scalare} è una funzione che ad ogni coppia di vettori $u, v$
+	appartenenti a $V$ associa lo scalare $\langle u, v \rangle \in \K$
 	calcolato come segue:
 	\[
 		\langle u, v \rangle = u_1 v_1 + u_2 v_2 + ... + u_n v_n
 	\]
 	dove gli $u_i$ e $v_i$ sono le $i$-esime coordinate di $u$ e $v$.
 
-	Il prodotto scalare gode inoltre delle seguenti propriet\`a:
+	Il prodotto scalare gode inoltre delle seguenti proprietà:
 	\begin{enumerate}
 		\item $\langle au_1 + bu_2, v \rangle =
 			      a \langle u_1, v \rangle + b \langle u_2, v \rangle$, per ogni
-		      $u_1, u_2, v \in V$ e per ogni $a, b \in \mathbb{K}$.
+		      $u_1, u_2, v \in V$ e per ogni $a, b \in \K$.
 		\item $\langle u, v \rangle = \overline{\langle v, u \rangle}$ per ogni
 		      $u, v \in V$ (dove $\overline{\langle v, u \rangle}$ indica il numero
 		      complesso coniugato di $\langle u, v \rangle$).
@@ -28,61 +28,61 @@
 \end{definition}
 
 \begin{observation}
-	Osserviamo che, per la seconda propriet\`a, il prodotto scalare
-	$\langle u, u \rangle$ \`e sempre un numero reale, dunque ha senso la disuguaglianza
-	che compare nella terza propriet\`a.
+	Osserviamo che, per la seconda proprietà, il prodotto scalare
+	$\langle u, u \rangle$ è sempre un numero reale, dunque ha senso la disuguaglianza
+	che compare nella terza proprietà.
 \end{observation}
 
 \begin{definition}
 	Per ogni vettore $u \in V$, scriveremo
-	\begin{equation*}
+	\[
 		\| u \| = \sqrt{\langle u, u \rangle}
-	\end{equation*}
-	e diremo che $\| u \|$ \`e la \textbf{norma} di $u$.
+	\]
+	e diremo che $\| u \|$ è la \textbf{norma} di $u$.
 \end{definition}
 
 \begin{observation}
-	Dalle propriet\`a (1) e (2) segue che
-	\begin{equation*}
+	Dalle proprietà (1) e (2) segue che
+	\[
 		\langle u, av_1 + bv_2 \rangle =
 		\overline{a} \langle u, v_1 \rangle + \overline{b} \langle u, v_2 \rangle
-	\end{equation*}
-	Se il campo $\mathbb{K}$ \`e $\mathbb{R}$ tutti i simboli di coniugazione
+	\]
+	Se il campo $\K$ è $\R$ tutti i simboli di coniugazione
 	complessa possono essere ignorati.
 \end{observation}
 
 \begin{observation}
-	Il prodotto scalare standard estende a tutti gli spazi $\mathbb{R}^n$ un concetto
-	che in $\mathbb{R}^2$ e in $\mathbb{R}^3$ ci \`e gi\`a familiare. Si pu\`o
+	Il prodotto scalare standard estende a tutti gli spazi $\R^n$ un concetto
+	che in $\R^2$ e in $\R^3$ ci è già familiare. Si può
 	facilmente verificare che in questi casi per esempio $\| u \|$ coincide con
-	ci\`o che \`e chiamata lunghezza del vettore $u$ e che $\| u - v \|$ coincide
+	ciò che è chiamata lunghezza del vettore $u$ e che $\| u - v \|$ coincide
 	con la distanza tra i vettori $u$ e $v$. Inoltre $\langle u, v \rangle = 0$ se
-	e solo se $u$ e $v$ sono ortogonali fra loro. Potete anche gi\`a osservare in
-	$\mathbb{R}^2$ che vale la seguente relazione:
-	\begin{equation*}
+	e solo se $u$ e $v$ sono ortogonali fra loro. Potete anche già osservare in
+	$\R^2$ che vale la seguente relazione:
+	\[
 		\langle u, v \rangle = \| u \| \| v \| \cos \theta
-	\end{equation*}
-	dove $\theta$ \`e l'angolo compreso fra i vettori $u$ e $v$.
+	\]
+	dove $\theta$ è l'angolo compreso fra i vettori $u$ e $v$.
 \end{observation}
 
 \begin{example}
 	In $\mathbb{C}^n$, dati i vettori
-	\begin{equation*}
+	\[
 		u = \begin{pmatrix}
 			a_1 \\ \dots \\ a_n
 		\end{pmatrix}, \quad
 		v = \begin{pmatrix}
 			b_1 \\ \dots \\ b_n
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	scritti rispetto alla base standard, abbiamo il prodotto scalare
-	\begin{equation*}
+	\[
 		\langle u, v \rangle = a_1 \overline{b_1} + \cdots + a_n \overline{b_n}
-	\end{equation*}
+	\]
 \end{example}
 
 \begin{example}
-	In $\mathbb{R}^3$, dati i vettori
+	In $\R^3$, dati i vettori
 	\[
 		u = \begin{pmatrix}
 			2 \\ 1 \\ 1
@@ -91,63 +91,63 @@
 			-1 \\ 0 \\ 3
 		\end{pmatrix}
 	\]
-	Abbiamo che il prodotto scalare $\langle u, v \rangle$ \`e dato da
+	Abbiamo che il prodotto scalare $\langle u, v \rangle$ è dato da
 	\[
 		\langle u, v \rangle = 2 \cdot (-1) + 1 \cdot 0 + 1 \cdot 3 = 1
 	\]
 \end{example}
 
-\section{Ortogonalit\`a}
+\section{Ortogonalità}
 Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Estendiamo il
-concetto di perpendicolarit\`a che ci \`e noto in $\mathbb{R}^2$ e
-$\mathbb{R}^3$ dando la seguente definizione:
+concetto di perpendicolarità che ci è noto in $\R^2$ e
+$\R^3$ dando la seguente definizione:
 
 \begin{definition}
 	Due vettori $u, v \in V$ sono detti \textbf{ortogonali} se
-	\begin{equation*}
+	\[
 		\langle u, v \rangle = 0
-	\end{equation*}
+	\]
 \end{definition}
 
 Notiamo che se due vettori verificano $\langle u, v \rangle = 0$ vale anche che
 $\langle v, u \rangle = \overline{\langle u, v \rangle} = 0$ dunque il concetto
-di ortogonalit\`a non dipende dall'ordine con cui stiamo considerando i due
-vettori. Inoltre dalla definizione si ricava subito che il vettore $O$ \`e
+di ortogonalità non dipende dall'ordine con cui stiamo considerando i due
+vettori. Inoltre dalla definizione si ricava subito che il vettore $O$ è
 ortogonale a tutti i vettori di $V$:
-\begin{equation*}
+\[
 	\langle O, v \rangle = \langle 0O, v \rangle = 0\langle O, v \rangle = 0
-\end{equation*}
+\]
 
 \begin{definition}
 	Sia $U$ un sottospazio di $V$. L'insieme dato dai vettori di $V$ che sono
 	ortogonali ad ogni vettore di $U$ si indica con $U^{\perp}$:
-	\begin{equation*}
+	\[
 		U^{\perp} = \{v \in V | \langle v, u \rangle = 0 \forall u \in U\}
-	\end{equation*}
-	Si verifica facilmente che $U^{\perp}$ \`e un sottospazio di $V$, chiamato
+	\]
+	Si verifica facilmente che $U^{\perp}$ è un sottospazio di $V$, chiamato
 	il \textbf{sottospazio ortogonale} a $U$.
 \end{definition}
 
 \begin{definition}
 	Un insieme $\{u_1, \dots, u_r\}$ di vettori si dice \textbf{ortogonale} se
 	i suoi elementi sono a due a due ortogonali fra loro. L'insieme
-	$\{u_1, \dots, u_r\}$ si dice \textbf{ortonormale} se \`e ortogonale e se
+	$\{u_1, \dots, u_r\}$ si dice \textbf{ortonormale} se è ortogonale e se
 	per ogni $i$ vale $\| u_i \| = 1$.
 \end{definition}
 
 \begin{example}
-	Nello spazio euclideo $\mathbb{R}^n$ con il prodotto scalare standard,
+	Nello spazio euclideo $\R^n$ con il prodotto scalare standard,
 	i vettori della base standard costituiscono un insieme ortonormale.
 \end{example}
 
 \begin{theorem}\label{orto}
 	Sia $V$ uno spazio vettoriale munito di un prodotto scalare. Un insieme
-	ortonormale di vettori $\{u_1, \dots, u_r\}$ \`e linearmente indipendente
+	ortonormale di vettori $\{u_1, \dots, u_r\}$ è linearmente indipendente
 	e, per ogni $v \in V$, il vettore
-	\begin{equation*}
+	\[
 		w = v - \langle v, u_1 \rangle u_1 - ... -\langle v, u_r \rangle u_r
-	\end{equation*}
-	\`e ortogonale ad ognuno degli $u_i$, dunque appartiene a
+	\]
+	è ortogonale ad ognuno degli $u_i$, dunque appartiene a
 	$Span(u_1, \dots, u_r)^{\perp}$.
 	\begin{proof}
 		Supponiamo di avere una combinazione lineare dei vari $u_i$ uguale a $O$:
@@ -166,7 +166,7 @@ ortogonale a tutti i vettori di $V$:
 		\[
 			a_1 \langle u_1, u_i \rangle + \dots + a_r \langle u_r, u_i \rangle = 0
 		\]
-		Vista la ortonormalit\`a dell'insieme $\{ u_1, \dots, u_r \}$ questo implica
+		Vista la ortonormalità dell'insieme $\{ u_1, \dots, u_r \}$ questo implica
 		$a_i = 0$.
 
 		Ripetendo questa considerazione per ogni $i = 1, \dots, r$ si dimostra che i vettori
@@ -182,32 +182,32 @@ ortogonale a tutti i vettori di $V$:
 	\end{proof}
 \end{theorem}
 
-Il teorema appena dimostrato sar\`a fondamentale per il
+Il teorema appena dimostrato sarà fondamentale per il
 \emph{procedimento di ortogonalizzazione di Gram-Schmidt}, che permette di ottenere una base
 ortonormale "modificando" una base data.
 
 \begin{theorem}[Gram-Schmidt]
 	Sia $V$ uno spazio vettoriale munito di un prodotto scalare, e sia
 	$v_1, \dots, v_n$ una qualunque base di $V$. Allora esiste una base
-	$u_1, \dots, u_n$ di $V$ che \`e ortonormale e tale che, per ogni
+	$u_1, \dots, u_n$ di $V$ che è ortonormale e tale che, per ogni
 	$i = 1, \dots, n$, $u_i \in Span(v_1, \dots, v_n)$.
 	\begin{proof}
-		Per prima cosa poniamo $u_1 = \frac{v_1}{\| v_1 \|}$. L'insieme ${u_1}$ \`e ortonormale.
+		Per prima cosa poniamo $u_1 = \frac{v_1}{\| v_1 \|}$. L'insieme ${u_1}$ è ortonormale.
 		Come secondo passo consideriamo il vettore
 		\[
 			v_2 - \langle v_2, u_1 \rangle u_1
 		\]
-		questo vettore \`e diverso da $O$ per lineare indipendenza e per il teorema \ref{orto},
-		applicato riferendosi all'insieme ortonormale $\{ u_1 \}$, \`e ortogonale a $u_1$. Inoltre
+		questo vettore è diverso da $O$ per lineare indipendenza e per il teorema \ref{orto},
+		applicato riferendosi all'insieme ortonormale $\{ u_1 \}$, è ortogonale a $u_1$. Inoltre
 		appartiene al sottospazio $Span(v_1, v_2)$.
 
-		\`E dunque un buon candidato per essere il nostro $u_2$; l'unico problema \`e che non ha
+		È dunque un buon candidato per essere il nostro $u_2$; l'unico problema è che non ha
 		norma 1. Per rimediare basta moltiplicarlo per un opportuno scalare. Poniamo dunque
 		\[
 			u_2 = \frac{v_2 - \langle v_2, u_1 \rangle u_1}
 			{\| v_2 - \langle v_2, u_1 \rangle u_1\|}
 		\]
-		Per le osservazioni precedenti, l'insieme $\{ u_1, u_2 \}$ \`e ortonormale.
+		Per le osservazioni precedenti, l'insieme $\{ u_1, u_2 \}$ è ortonormale.
 
 		Volendo possiamo proseguire per induzione e compiere $n$ passi e definire $u_n$ come segue:
 		\[
@@ -222,7 +222,7 @@ Il teorema appena dimostrato afferma che ogni spazio $V$ munito di un prodotto
 scalare ha una base ortonormale.
 
 \begin{example}
-	Applicare il procedimento di ortogonalizzazione alla seguente base di $\mathbb{R}^2$:
+	Applicare il procedimento di ortogonalizzazione alla seguente base di $\R^2$:
 	\[
 		v_1 = \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \quad
 		v_2 = \begin{pmatrix} 3 \\ -1 \end{pmatrix}
@@ -277,7 +277,7 @@ scalare ha una base ortonormale.
 		u_2 = \begin{pmatrix} 2 \\ -2 \end{pmatrix} \frac{1}{2 \sqrt{2}} =
 		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{pmatrix}
 	\]
-	La base ortonormale cercata \`e dunque
+	La base ortonormale cercata è dunque
 	\[
 		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{pmatrix}, \quad
 		\begin{pmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{pmatrix}
@@ -285,7 +285,7 @@ scalare ha una base ortonormale.
 \end{example}
 
 \begin{example}
-	Trovare una base ortonormale di $\mathbb{R}^3$ il cui primo vettore sia
+	Trovare una base ortonormale di $\R^3$ il cui primo vettore sia
 	\[ \left( \frac{1}{2}, \quad \frac{2}{3}, \quad \frac{2}{3} \right) \]
 \end{example}
 
@@ -295,28 +295,28 @@ teorema:
 
 \begin{theorem}[Disuguaglianza di Cauchy-Schwarz]
 	Per ogni coppia di vettori $u, v \in V$ vale
-	\begin{equation*}
+	\[
 		|\langle u, v \rangle| \leq \| u \| \| v \|
-	\end{equation*}
+	\]
 \end{theorem}
 
 \begin{example}
-	Nel caso in cui $V$ sia $\mathbb{R}^n$ col prodotto scalare standard, la
-	disuguaglianza di Cauchy-Schwarz si traduce cos\`i. Dati
-	\begin{equation*}
+	Nel caso in cui $V$ sia $\R^n$ col prodotto scalare standard, la
+	disuguaglianza di Cauchy-Schwarz si traduce così. Dati
+	\[
 		u = \begin{pmatrix}
 			a_1 \\ \dots \\ a_n
 		\end{pmatrix},
 		v = \begin{pmatrix}
 			b_1, \dots, b_n
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	vale
-	\begin{equation*}
+	\[
 		|a_1 b_1 + \cdots + a_n b_n| \leq
 		(a_1^2 + \cdots + a_n^2)(b_1^2 + \cdots + b_n^2)
-	\end{equation*}
-	che pu\`o essere pensata anche, svincolandosi dai vettori e dagli spazi
+	\]
+	che può essere pensata anche, svincolandosi dai vettori e dagli spazi
 	vettoriali, come una disuguaglianza che riguarda due qualsiasi $n$-uple
 	$a_1, \dots, a_n$ e $b_1, \dots, b_n$ di numeri reali.
 \end{example}
@@ -325,10 +325,10 @@ teorema:
 	Nel caso in cui $V$ sia lo spazio delle funzioni continue reali definite
 	sull'intervallo $[0, 1]$ la disuguaglianza di Cauchy-Schwarz si traduce
 	nella seguente importante disuguaglianza fra integrali:
-	\begin{equation*}
+	\[
 		\left( \int_0^1 f(t)g(t)dt \right)^2 \leq
 		\int_0^1 f(t)^2 dt \int_0^1 g(t)^2 dt
-	\end{equation*}
+	\]
 \end{example}
 
 \section{Sottospazi ortogonali}
@@ -336,24 +336,24 @@ Sia $V$, uno spazio vettoriale munito di prodotto scalare.
 
 \begin{proposition}
 	Sia $U$ un sottospazio vettoriale di $V$. Allora esiste una base
-	ortonormale di $U$ che \`e un sottoinsieme di una base ortonormale di $V$.
+	ortonormale di $U$ che è un sottoinsieme di una base ortonormale di $V$.
 \end{proposition}
 
 \begin{theorem}
 	Sia $U$ un sottospazio vettoriale di $V$. Allora $V$ si decompone come
 	somma diretta di $U$ e di $U^\perp$:
-	\begin{equation*}
+	\[
 		V = U \oplus U^\perp
-	\end{equation*}
-	In particolare vale che $dim(U^\perp) = dim(V) - dim(U)$.
+	\]
+	In particolare vale che $\dim(U^\perp) = \dim(V) - \dim(U)$.
 \end{theorem}
 
 \begin{observation}
-	Consideriamo $V = \mathbb{R}^n$ munito del prodotto scalare standard. Dato
+	Consideriamo $V = \R^n$ munito del prodotto scalare standard. Dato
 	un sottospazio $W$, con base $w_1, \dots, w_r$, se pensiamo a come si
 	scrive il prodotto scalare ci rendiamo conto che i vettori $W^\perp$ sono
 	esattamente le soluzioni del sistema
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			a_1   & \dots & a_n   \\
 			b_1   & \dots & b_n   \\
@@ -366,5 +366,5 @@ Sia $V$, uno spazio vettoriale munito di prodotto scalare.
 		\begin{pmatrix}
 			0 \\ 0 \\ \dots \\ \dots \\ 0
 		\end{pmatrix}
-	\end{equation*}
+	\]
 \end{observation}

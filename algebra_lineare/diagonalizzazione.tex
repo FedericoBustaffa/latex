@@ -1,189 +1,189 @@
 \chapter{Diagonalizzazione di endomorfismi lineari}
 \section{Autovalori e autovettori}
-Sia $T : V \to V$ un endomorfismo lineare dello spazio $V$ sul campo $\mathbb{K}$.
+Sia $T : V \to V$ un endomorfismo lineare dello spazio $V$ sul campo $\K$.
 
 \begin{definition}
 	Un vettore $v \in V - \{O\}$ si dice un \textbf{autovettore} di $T$ se
-	\begin{equation*}
+	\[
 		T(v) = \lambda v
-	\end{equation*}
-	per un certo $\lambda \in \mathbb{K}$.
+	\]
+	per un certo $\lambda \in \K$.
 \end{definition}
 
-In altre parole un autovettore di $T$ \`e un vettore diverso da $O$ dello spazio $V$
-che ha la seguente propriet\`a: la $T$ lo manda in un multiplo di se stesso.
+In altre parole un autovettore di $T$ è un vettore diverso da $O$ dello spazio $V$
+che ha la seguente proprietà: la $T$ lo manda in un multiplo di se stesso.
 
 \begin{definition}
-	Se $v \in V - \{O\}$ \`e un autovettore di $T$ tale che
-	\begin{equation*}
+	Se $v \in V - \{O\}$ è un autovettore di $T$ tale che
+	\[
 		T(v) = \lambda v
-	\end{equation*}
-	allora lo scalare $\lambda \in \mathbb{K}$ si dice \textbf{autovalore} di $T$
-	relativo a $v$ (e viceversa si dice che $v$ \`e un autovettore relativo a
+	\]
+	allora lo scalare $\lambda \in \K$ si dice \textbf{autovalore} di $T$
+	relativo a $v$ (e viceversa si dice che $v$ è un autovettore relativo a
 	$\lambda$).
 \end{definition}
 
-Si noti che l'autovalore pu\`o essere $0 \in \mathbb{K}$: se per esempio $T$ non
-\`e iniettiva, ossia $Ker(T) \supsetneq \{O\}$, tutti gli elementi
-$w \in (Ker(T)) - \{O\}$ soddisfano
-\begin{equation*}
+Si noti che l'autovalore può essere $0 \in \K$: se per esempio $T$ non
+è iniettiva, ossia $\Ker(T) \supsetneq \{O\}$, tutti gli elementi
+$w \in (\Ker(T)) - \{O\}$ soddisfano
+\[
 	T(w) = O = 0w
-\end{equation*}
+\]
 ossia sono autovettori relativi all'autovalore 0.
 
 \begin{definition}
-	Dato $\lambda \in \mathbb{K}$ chiamiamo l'insieme
-	\begin{equation*}
+	Dato $\lambda \in \K$ chiamiamo l'insieme
+	\[
 		V_\lambda = \{v \in V \mid T(v) = \lambda v\}
-	\end{equation*}
+	\]
 	\textbf{autospazio} relativo a $\lambda$.
 \end{definition}
 
 \begin{observation}
-	Possiamo notare dalla definizione precedente che $V_0 = Ker(T)$.
+	Possiamo notare dalla definizione precedente che $V_0 = \Ker(T)$.
 \end{observation}
 
 Anche se abbiamo definito l'autospazio $V_\lambda$ per qualunque
-$\lambda \in \mathbb{K}$, in realt\`a $V_\lambda$ \`e sempre uguale a $\{O\}$ a
-meno che $\lambda$ non sia un autovalore. Questo \`e dunque il caso interessante:
-se $\lambda$ \`e un autovalore di $T$ allora $V_\lambda$ \`e costituito da $O$ e
+$\lambda \in \K$, in realtà $V_\lambda$ è sempre uguale a $\{O\}$ a
+meno che $\lambda$ non sia un autovalore. Questo è dunque il caso interessante:
+se $\lambda$ è un autovalore di $T$ allora $V_\lambda$ è costituito da $O$ e
 da tutti gli autovettori relativi a $\lambda$.
 
-Ma perch\'e sono importanti autovettori e autovalori ?
+Ma perché sono importanti autovettori e autovalori ?
 Supponiamo che $V$ abbia dimensione $n$ e pensiamo a cosa succederebbe se
 riuscissimo a trovare una base di $V$, $\{v_1, v_2, \dots, v_n\}$, composta solo
 da autovettori di $T$.
 
 Avremmo, per ogni $i = 1, 2, \dots, n$,
-\begin{equation*}
+\[
 	T(v_i) = \lambda_i v_i
-\end{equation*}
+\]
 per certi autovalori $\lambda_i$.
 
 Come sarebbe fatta la matrice
-\begin{equation*}
+\[
 	[T]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}}
-\end{equation*}
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}}
+\]
 associata a $T$ rispetto a questa base ?
 
 Ricordandoci come si costruiscono le matrici osserviamo che la prima colonna
 conterrebbe il vettore $T(v_1)$ scritto in termini della base $\{v_1, \dots v_n\}$,
 ossia
-\begin{equation*}
+\[
 	T(v_1) = \lambda_1 v_1 + 0 v_2 + 0 v_3 + \cdots + 0 v_n
-\end{equation*}
+\]
 la seconda il vettore $T(v_2) = 0 v_1 + \lambda_2 v_2 + 0 v_3 + \cdots + 0 v_n$ e
-cos\`i via. Otterremo quindi una matrice diagonale.
-\begin{equation*}
+così via. Otterremo quindi una matrice diagonale.
+\[
 	[T]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}} = \begin{pmatrix}
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}} = \begin{pmatrix}
 		\lambda_1 & 0         & 0     & 0         \\
 		0         & \lambda_2 & 0     & 0         \\
 		0         & 0         & \dots & 0         \\
 		0         & 0         & 0     & \lambda_n
 	\end{pmatrix}
-\end{equation*}
+\]
 
 Da questa matrice possiamo ricavare a colpo d'occhio informazioni come
 \begin{itemize}
 	\item Il rango di $T$.
 	\item La dimensione del nucleo.
-	\item Quali sono i vettori di $Ker(T)$.
-	\item Quali sono (se esistono) i sottospazi in cui $T$ si comporta come l'identit\`a,
+	\item Quali sono i vettori di $\Ker(T)$.
+	\item Quali sono (se esistono) i sottospazi in cui $T$ si comporta come l'identità,
 	      ossia i sottospazi costituiti dai vettori di $V$ che $T$ lascia fissi.
 \end{itemize}
 
-Dunque l'obbiettivo di studiare autovalori e autovettori di $T$ \`e quello di
+Dunque l'obbiettivo di studiare autovalori e autovettori di $T$ è quello di
 trovare basi "buone" che ci permettano di conoscere bene il comportamento di $T$.
 Tuttavia non esistono sempre queste basi buone. E si dice che, se per un certo
-endomorfismo $T$ esiste una base buona, questo \`e \textbf{diagonalizzabile}.
+endomorfismo $T$ esiste una base buona, questo è \textbf{diagonalizzabile}.
 
 \begin{example}
-	Consideriamo l'endomorfismo $R_{\theta} : \mathbb{R}^2 \to \mathbb{R}^2$ dato
+	Consideriamo l'endomorfismo $R_{\theta} : \R^2 \to \R^2$ dato
 	da una \emph{rotazione} di angolo $\theta$ con centro l'origine. Si verifica
-	immediatamente che, rispetto alla base standard di $\mathbb{R}^2$, questo
-	endomorfismo \`e rappresentato dalla matrice
-	\begin{equation*}
+	immediatamente che, rispetto alla base standard di $\R^2$, questo
+	endomorfismo è rappresentato dalla matrice
+	\[
 		[R_\theta] = \begin{pmatrix}
 			\cos{\theta} & -\sin{\theta} \\
 			\sin{\theta} & \cos{\theta}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Per esempio nel caso di una rotazione di $60^\circ$ (ovvero $\frac{\pi}{3}$),
 	abbiamo:
-	\begin{equation*}
+	\[
 		R_{\frac{\pi}{3}} = \begin{pmatrix}
 			\frac{1}{2}        & -\frac{\sqrt{3}}{2} \\
 			\frac{\sqrt{3}}{2} & \frac{1}{2}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Nel caso in cui $0 < \theta < \pi$, non ci sono vettori $v \neq O$ che vengono
 	mandati in un multiplo di se stessi, visto che tutti i vettori vengono ruotati
-	di un angolo che non \`e nullo e non \`e di $180^\circ$. Dunque non ci sono
+	di un angolo che non è nullo e non è di $180^\circ$. Dunque non ci sono
 	autovalori e autovettori.
 
-	Nel caso $\theta = 0$ la rotazione \`e l'identit\`a, dunque tutti i vettori
-	$v \neq O$ sono autovettori relativi all'autovalore 1, e $V_1 = \mathbb{R}^2$.
+	Nel caso $\theta = 0$ la rotazione è l'identità, dunque tutti i vettori
+	$v \neq O$ sono autovettori relativi all'autovalore 1, e $V_1 = \R^2$.
 
-	Nel caso $\theta = \pi$ la rotazione \`e uguale a $-I$, dunque tutti i vettori
+	Nel caso $\theta = \pi$ la rotazione è uguale a $-I$, dunque tutti i vettori
 	$v \neq O$ sono autovettori relativi all'autovalore $-1$, e
-	$V_{-1} = \mathbb{R}^2$.
+	$V_{-1} = \R^2$.
 \end{example}
 
 \section{Polinomio caratteristico}
 Vogliamo trovare dei criteri semplici per stabilire se un endomorfismo
-\`e diagonalizzabile o no. Prima di tutto troviamo un metodo che, dato un
-endomorfismo $T : V \to V$ e posto $n = dim(V)$, ci permetta di decidere se
-uno scalare $\lambda \in \mathbb{K}$ \`e o no un autovalore di $T$. Entrano
+è diagonalizzabile o no. Prima di tutto troviamo un metodo che, dato un
+endomorfismo $T : V \to V$ e posto $n = \dim(V)$, ci permetta di decidere se
+uno scalare $\lambda \in \K$ è o no un autovalore di $T$. Entrano
 qui in gioco i polinomi e le loro radici.
 
-Innanzitutto osserviamo che, perch\'e $\lambda \in \mathbb{K}$ sia un
+Innanzitutto osserviamo che, perché $\lambda \in \K$ sia un
 autovalore, secondo la definizione bisogna che esista un $v \in V - \{O\}$
 tale che
-\begin{equation*}
+\[
 	T(v) = \lambda v
-\end{equation*}
-Questo si pu\`o riscrivere anche come
-\begin{equation*}
+\]
+Questo si può riscrivere anche come
+\[
 	T(v) - \lambda I(v) = O
-\end{equation*}
-dove $I : V \to V$ \`e l'identit\`a. Riscriviamo ancora:
-\begin{equation*}
+\]
+dove $I : V \to V$ è l'identità. Riscriviamo ancora:
+\[
 	(T - \lambda I)(v) = O
-\end{equation*}
+\]
 Abbiamo scoperto che, se $T$ possiede un autovalore $\lambda$, allora
-l'endomorfismo $T - \lambda I$ non \`e iniettivo: infatti manda il vettore
+l'endomorfismo $T - \lambda I$ non è iniettivo: infatti manda il vettore
 $v$ in $O$. Dunque, se scegliamo una base qualunque per $V$ e costruiamo la
 matrice $[T]$ associata a $T$, la matrice $[T - \lambda I] = [T] - \lambda I$
-dovr\`a avere determinante uguale a 0:
-\begin{equation*}
+dovrà avere determinante uguale a 0:
+\[
 	det([T] - \lambda I) = 0 = det(\lambda I - [T])
-\end{equation*}
-dove come consuetudine abbiamo indicato con $I$ anche la matrice identit\`a.
+\]
+dove come consuetudine abbiamo indicato con $I$ anche la matrice identità.
 
 \begin{definition}
-	Dato un endomorfismo $T : V \to V$ con $n = dim(V)$, scegliamo una base
+	Dato un endomorfismo $T : V \to V$ con $n = \dim(V)$, scegliamo una base
 	per $V$ e costruiamo la matrice $[T]$ associata a $T$ rispetto a tale
-	base. Il \textbf{polinomio caratteristico} $P_T(t) \in \mathbb{K}[t]$
-	dell'endomorfismo $T$ \`e definito da:
-	\begin{equation*}
+	base. Il \textbf{polinomio caratteristico} $P_T(t) \in \K[t]$
+	dell'endomorfismo $T$ è definito da:
+	\[
 		P_T(t) = det(t[I] - [T])
-	\end{equation*}
+	\]
 \end{definition}
 
 \begin{observation}
 	Prima di procedere dobbiamo fare un paio di considerazioni:
 	\begin{enumerate}
-		\item Perch\'e la definizione precedente abbia senso si deve verificare
-		      che \[det(t[I] - [T])\] sia veramente un polinomio. Questo si pu\`o
+		\item Perché la definizione precedente abbia senso si deve verificare
+		      che \[det(t[I] - [T])\] sia veramente un polinomio. Questo si può
 		      dimostrare facilmente per induzione sulla dimensione
 		      $n$ di $V$.
-		\item \`E fondamentale inoltre che la definizione appena data non dipenda
+		\item È fondamentale inoltre che la definizione appena data non dipenda
 		      dalla base scelta di $V$: non sarebbe una definizione buona se con
 		      la scelta di due basi diverse ottenessimo due polinomi
 		      caratteristici diversi.
@@ -194,10 +194,10 @@ Questo problema per fortuna non si verifica. Infatti se scegliamo due basi $b$ e
 $b'$ di $V$, come sappiamo, le due matrici $[T]_{\substack{b \\ b}}$ e
 $[T]_{\substack{b' \\ b'}}$ sono legate dalla seguente relazione: esiste una
 matrice $[B]$ invertibile tale che
-\begin{equation*}
+\[
 	[T]_{\substack{b \\ b}} =
 		[B]^{-1} [T]_{\substack{b' \\ b'}} [B]
-\end{equation*}
+\]
 
 Usando il teorema di Binet a questo punto verifichiamo che
 \begin{gather*}
@@ -213,20 +213,20 @@ Abbiamo dunque mostrato che $P_T(t) = det(tI - [T])$ non dipende dalla scelta de
 base.
 
 \begin{theorem}
-	Considerato $T$ come sopra, vale che uno scalare $\lambda \in \mathbb{K}$ \`e un
-	autovalore di $T$ se e solo se $\lambda$ \`e una radice di $P_T(t)$, ossia se e
+	Considerato $T$ come sopra, vale che uno scalare $\lambda \in \K$ è un
+	autovalore di $T$ se e solo se $\lambda$ è una radice di $P_T(t)$, ossia se e
 	solo se $P_T(\lambda) = 0$.
 \end{theorem}
 
 \begin{example}
 	Consideriamo l'endomorfismo $T : \mathbb{C}^2 \to \mathbb{C}^2$ che, rispetto
-	alla base standard di $\mathbb{C}^2$, \`e rappresentato dalla matrice
-	\begin{equation*}
+	alla base standard di $\mathbb{C}^2$, è rappresentato dalla matrice
+	\[
 		[T] = \begin{pmatrix}
 			\frac{1}{2}        & -\frac{\sqrt{3}}{2} \\
 			\frac{\sqrt{3}}{2} & \frac{1}{2}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Il suo polinomio caratteristico risulta $P_T(t) = t^2 - t + 1$. Questo polinomio
 	ha due radici in $\mathbb{C}$, ovvero $\frac{1 - i\sqrt{3}}{2}$ e
 	$\frac{1 + i\sqrt{3}}{2}$, che in effetti, come sappiamo, sono gli autovalori
@@ -234,28 +234,28 @@ base.
 \end{example}
 
 
-\section{Strategia per scoprire se un endomorfismo \`e diagonalizzabile}
-Con il metodo descritto a breve si potr\`a scoprire se un endomorfismo
-$T : V \to V$, dove $V$ \`e uno spazio vettoriale su $\mathbb{K}$ di dimensione $n$
-\`e diagonalizzabile, e, in caso lo sia, si potr\`a trovare una base che lo diagonalizza,
+\section{Strategia per scoprire se un endomorfismo è diagonalizzabile}
+Con il metodo descritto a breve si potrà scoprire se un endomorfismo
+$T : V \to V$, dove $V$ è uno spazio vettoriale su $\K$ di dimensione $n$
+è diagonalizzabile, e, in caso lo sia, si potrà trovare una base che lo diagonalizza,
 ossia una base di $V$ fatta tutta di autovettori di $T$.
 
 \begin{itemize}
 	\item PASSO 1. Troviamo gli autovalori di un endomorfismo lineare $T$ calcolando il polinomio
-	      caratteristico e le sue radici in $\mathbb{K}$.
+	      caratteristico e le sue radici in $\K$.
 	\item PASSO 2. Supponiamo dunque di aver trovato gli autovalori di $T$. A questo punto
 	      vogliamo individuare gli autospazi relativi a tali autovalori.
-	      Per questo baster\`a calcolare il $Ker([T] - \lambda_i I)$. Prendiamo dunque la
+	      Per questo basterà calcolare il $\Ker([T] - \lambda_i I)$. Prendiamo dunque la
 	      matrice $[T] - \lambda_i I$ e risolviamo il sistema lineare omogeneo associato.
 	\item PASSO 3. Per prima cosa enunciamo il seguente teorema
 	      \begin{theorem}
 		      Dato un endomorfismo $T : V \to V$, siano $\lambda_1, \dots, \lambda_k$
 		      degli autovalori di $T$ distinti fra loro. Consideriamo ora degli autovettori
 		      $v_1 \in V_{\lambda_1}, \dots, v_k \in V_{\lambda_k}$. Allora
-		      $v_1, \dots, v_k$ \`e un insieme di vettori linearmente indipendenti.
+		      $v_1, \dots, v_k$ è un insieme di vettori linearmente indipendenti.
 	      \end{theorem}
 
-	      Il seguente teorema \`e un rafforazamento del precedente.
+	      Il seguente teorema è un rafforazamento del precedente.
 	      \begin{theorem}
 		      Dato un endomorfismo $T : V \to V$, siano $\lambda_1, \dots, \lambda_k$ degli
 		      autovalori di $T$ distinti fra loro. Allora gli autospazi
@@ -263,31 +263,31 @@ ossia una base di $V$ fatta tutta di autovettori di $T$.
 	      \end{theorem}
 
 	      Nelle ipotesi del teorema precedente sappiamo allora, che la dimensione della somma
-	      degli autospazi \`e la massima possibile, ossia
-	      \begin{equation*}
-		      dim(V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}) = dim(V_{\lambda_1}) +
-		      \cdots + dim(V_{\lambda_k})
-	      \end{equation*}
+	      degli autospazi è la massima possibile, ossia
+	      \[
+		      \dim(V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}) = \dim(V_{\lambda_1}) +
+		      \cdots + \dim(V_{\lambda_k})
+	      \]
 
-	      Osserviamo che abbiamo gi\`a un criterio per dire se $T$ \`e diagonalizzabile o no.
+	      Osserviamo che abbiamo già un criterio per dire se $T$ è diagonalizzabile o no.
 	      Ovvero, se
-	      \begin{equation*}
-		      dim(V_{\lambda_1}) + \cdots + dim(V_{\lambda_k}) = n = dim(V)
-	      \end{equation*}
+	      \[
+		      \dim(V_{\lambda_1}) + \cdots + \dim(V_{\lambda_k}) = n = \dim(V)
+	      \]
 	      altrimenti se
-	      \begin{equation*}
-		      dim(V_{\lambda_1}) + \cdots + dim(V_{\lambda_k}) < n = dim(V)
-	      \end{equation*}
-	      $T$ non \`e diagonalizzabile. Infatti non \`e possibile trovare una base di
+	      \[
+		      \dim(V_{\lambda_1}) + \cdots + \dim(V_{\lambda_k}) < n = \dim(V)
+	      \]
+	      $T$ non è diagonalizzabile. Infatti non è possibile trovare una base di
 	      autovettori.
-	\item PASSO 4. Se l'endomorfismo $T$ \`e diagonalizzabile, scegliamo allora una base di
+	\item PASSO 4. Se l'endomorfismo $T$ è diagonalizzabile, scegliamo allora una base di
 	      autovettori nel modo descritto al Passo 3, e avremo una matrice associata $[T]$ che
-	      risulter\`a diagonale. Mantenendo la notazione introdotta al Passo 3 troviamo sulla
-	      diagonale $dim(V_{\lambda_1})$ coefficienti uguali a
-	      $\lambda_1$, ... e $dim(V_{\lambda_k})$ coefficienti uguali a $\lambda_k$.
+	      risulterà diagonale. Mantenendo la notazione introdotta al Passo 3 troviamo sulla
+	      diagonale $\dim(V_{\lambda_1})$ coefficienti uguali a
+	      $\lambda_1$, ... e $\dim(V_{\lambda_k})$ coefficienti uguali a $\lambda_k$.
 \end{itemize}
-Il rango di $T$ sar\`a uguale al numero dei coefficienti non nulli che troviamo
-sulla diagonale di $[T]$, la dimensione del nucleo sar\`a uguale al numero dei
+Il rango di $T$ sarà uguale al numero dei coefficienti non nulli che troviamo
+sulla diagonale di $[T]$, la dimensione del nucleo sarà uguale al numero dei
 coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 
 \begin{example}
@@ -306,7 +306,7 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			0 & -1
 		\end{pmatrix}
 	\]
-	Per prima cosa calcoliamo la matrice $[T] - tI$ che chiameremo $M$ per comodit\`a
+	Per prima cosa calcoliamo la matrice $[T] - tI$ che chiameremo $M$ per comodità
 	\[
 		M = \begin{pmatrix}
 			t - 1 & -2    \\
@@ -320,7 +320,7 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 	Le radici di tale polinomio (e quindi gli autovalori di $T$) sono $t = 1$ e $t = -1$.
 	Dobbiamo trovare quindi i relativi autospazi.
 	\begin{itemize}
-		\item Se $t = 1$ dobbiamo calcolare $Ker([T] - 1I)$. Dobbiamo quindi risolvere il
+		\item Se $t = 1$ dobbiamo calcolare $\Ker([T] - 1I)$. Dobbiamo quindi risolvere il
 		      sistema associato alla matrice
 		      \[
 			      \begin{pmatrix}
@@ -340,10 +340,10 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			      \end{cases} \quad \Rightarrow \quad
 			      y = 0
 		      \]
-		      otteniamo dunque che l'autospazio $V_1$ \`e definito come segue
+		      otteniamo dunque che l'autospazio $V_1$ è definito come segue
 		      \[
 			      V_1 = < \begin{pmatrix} 1 \\ 0 \end{pmatrix} > \quad \Rightarrow \quad
-			      dim(V_1) = 1
+			      \dim(V_1) = 1
 		      \]
 		\item Se $t = -1$ procediamo in maniera analoga. Stavolta otteniamo il sistema
 		      \[
@@ -352,39 +352,39 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			      \end{cases} \quad \Rightarrow \quad
 			      x = -y
 		      \]
-		      Ne deduciamo che l'autospazio $V_2$ sar\`a definito come segue
+		      Ne deduciamo che l'autospazio $V_2$ sarà definito come segue
 		      \[
 			      V_2 = < \begin{pmatrix} -1 \\ 1 \end{pmatrix} > \quad \Rightarrow \quad
-			      dim(V_2) = 1
+			      \dim(V_2) = 1
 		      \]
 	\end{itemize}
-	Dato che $T$ \`e definta su $\mathbb{R}^2$ che ha dimensione 2 e dato che
-	\[ dim(V_1) + dim(V_2) = 2 \] l'endomorfismo \`e diagonalizzabile.
+	Dato che $T$ è definta su $\R^2$ che ha dimensione 2 e dato che
+	\[ \dim(V_1) + \dim(V_2) = 2 \] l'endomorfismo è diagonalizzabile.
 \end{example}
 
 
-\section{Strategia per scoprire se un endomorfismo \`e diagonalizzabile}
-Con il metodo descritto a breve si potr\`a scoprire se un endomorfismo
-$T : V \to V$, dove $V$ \`e uno spazio vettoriale su $\mathbb{K}$ di dimensione $n$
-\`e diagonalizzabile, e, in caso lo sia, si potr\`a trovare una base che lo diagonalizza,
+\section{Strategia per scoprire se un endomorfismo è diagonalizzabile}
+Con il metodo descritto a breve si potrà scoprire se un endomorfismo
+$T : V \to V$, dove $V$ è uno spazio vettoriale su $\K$ di dimensione $n$
+è diagonalizzabile, e, in caso lo sia, si potrà trovare una base che lo diagonalizza,
 ossia una base di $V$ fatta tutta di autovettori di $T$.
 
 \begin{itemize}
 	\item PASSO 1. Troviamo gli autovalori di un endomorfismo lineare $T$ calcolando il polinomio
-	      caratteristico e le sue radici in $\mathbb{K}$.
+	      caratteristico e le sue radici in $\K$.
 	\item PASSO 2. Supponiamo dunque di aver trovato gli autovalori di $T$. A questo punto
 	      vogliamo individuare gli autospazi relativi a tali autovalori.
-	      Per questo baster\`a calcolare il $Ker([T] - \lambda_i I)$. Prendiamo dunque la
+	      Per questo basterà calcolare il $\Ker([T] - \lambda_i I)$. Prendiamo dunque la
 	      matrice $[T] - \lambda_i I$ e risolviamo il sistema lineare omogeneo associato.
 	\item PASSO 3. Per prima cosa enunciamo il seguente teorema
 	      \begin{theorem}
 		      Dato un endomorfismo $T : V \to V$, siano $\lambda_1, \dots, \lambda_k$
 		      degli autovalori di $T$ distinti fra loro. Consideriamo ora degli autovettori
 		      $v_1 \in V_{\lambda_1}, \dots, v_k \in V_{\lambda_k}$. Allora
-		      $v_1, \dots, v_k$ \`e un insieme di vettori linearmente indipendenti.
+		      $v_1, \dots, v_k$ è un insieme di vettori linearmente indipendenti.
 	      \end{theorem}
 
-	      Il seguente teorema \`e un rafforazamento del precedente.
+	      Il seguente teorema è un rafforazamento del precedente.
 	      \begin{theorem}
 		      Dato un endomorfismo $T : V \to V$, siano $\lambda_1, \dots, \lambda_k$ degli
 		      autovalori di $T$ distinti fra loro. Allora gli autospazi
@@ -392,31 +392,31 @@ ossia una base di $V$ fatta tutta di autovettori di $T$.
 	      \end{theorem}
 
 	      Nelle ipotesi del teorema precedente sappiamo allora, che la dimensione della somma
-	      degli autospazi \`e la massima possibile, ossia
-	      \begin{equation*}
-		      dim(V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}) = dim(V_{\lambda_1}) +
-		      \cdots + dim(V_{\lambda_k})
-	      \end{equation*}
+	      degli autospazi è la massima possibile, ossia
+	      \[
+		      \dim(V_{\lambda_1} \oplus \cdots \oplus V_{\lambda_k}) = \dim(V_{\lambda_1}) +
+		      \cdots + \dim(V_{\lambda_k})
+	      \]
 
-	      Osserviamo che abbiamo gi\`a un criterio per dire se $T$ \`e diagonalizzabile o no.
+	      Osserviamo che abbiamo già un criterio per dire se $T$ è diagonalizzabile o no.
 	      Ovvero, se
-	      \begin{equation*}
-		      dim(V_{\lambda_1}) + \cdots + dim(V_{\lambda_k}) = n = dim(V)
-	      \end{equation*}
+	      \[
+		      \dim(V_{\lambda_1}) + \cdots + \dim(V_{\lambda_k}) = n = \dim(V)
+	      \]
 	      altrimenti se
-	      \begin{equation*}
-		      dim(V_{\lambda_1}) + \cdots + dim(V_{\lambda_k}) < n = dim(V)
-	      \end{equation*}
-	      $T$ non \`e diagonalizzabile. Infatti non \`e possibile trovare una base di
+	      \[
+		      \dim(V_{\lambda_1}) + \cdots + \dim(V_{\lambda_k}) < n = \dim(V)
+	      \]
+	      $T$ non è diagonalizzabile. Infatti non è possibile trovare una base di
 	      autovettori.
-	\item PASSO 4. Se l'endomorfismo $T$ \`e diagonalizzabile, scegliamo allora una base di
+	\item PASSO 4. Se l'endomorfismo $T$ è diagonalizzabile, scegliamo allora una base di
 	      autovettori nel modo descritto al Passo 3, e avremo una matrice associata $[T]$ che
-	      risulter\`a diagonale. Mantenendo la notazione introdotta al Passo 3 troviamo sulla
-	      diagonale $dim(V_{\lambda_1})$ coefficienti uguali a
-	      $\lambda_1$, ... e $dim(V_{\lambda_k})$ coefficienti uguali a $\lambda_k$.
+	      risulterà diagonale. Mantenendo la notazione introdotta al Passo 3 troviamo sulla
+	      diagonale $\dim(V_{\lambda_1})$ coefficienti uguali a
+	      $\lambda_1$, ... e $\dim(V_{\lambda_k})$ coefficienti uguali a $\lambda_k$.
 \end{itemize}
-Il rango di $T$ sar\`a uguale al numero dei coefficienti non nulli che troviamo
-sulla diagonale di $[T]$, la dimensione del nucleo sar\`a uguale al numero dei
+Il rango di $T$ sarà uguale al numero dei coefficienti non nulli che troviamo
+sulla diagonale di $[T]$, la dimensione del nucleo sarà uguale al numero dei
 coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 
 \begin{example}
@@ -435,7 +435,7 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			0 & -1
 		\end{pmatrix}
 	\]
-	Per prima cosa calcoliamo la matrice $[T] - tI$ che chiameremo $M$ per comodit\`a
+	Per prima cosa calcoliamo la matrice $[T] - tI$ che chiameremo $M$ per comodità
 	\[
 		M = \begin{pmatrix}
 			t - 1 & -2    \\
@@ -449,7 +449,7 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 	Le radici di tale polinomio (e quindi gli autovalori di $T$) sono $t = 1$ e $t = -1$.
 	Dobbiamo trovare quindi i relativi autospazi.
 	\begin{itemize}
-		\item Se $t = 1$ dobbiamo calcolare $Ker([T] - 1I)$. Dobbiamo quindi risolvere il
+		\item Se $t = 1$ dobbiamo calcolare $\Ker([T] - 1I)$. Dobbiamo quindi risolvere il
 		      sistema associato alla matrice
 		      \[
 			      \begin{pmatrix}
@@ -469,10 +469,10 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			      \end{cases} \quad \Rightarrow \quad
 			      y = 0
 		      \]
-		      otteniamo dunque che l'autospazio $V_1$ \`e definito come segue
+		      otteniamo dunque che l'autospazio $V_1$ è definito come segue
 		      \[
 			      V_1 = < \begin{pmatrix} 1 \\ 0 \end{pmatrix} > \quad \Rightarrow \quad
-			      dim(V_1) = 1
+			      \dim(V_1) = 1
 		      \]
 		\item Se $t = -1$ procediamo in maniera analoga. Stavolta otteniamo il sistema
 		      \[
@@ -481,12 +481,12 @@ coefficienti uguali a zero che troviamo sulla diagonale di $[T]$.
 			      \end{cases} \quad \Rightarrow \quad
 			      x = -y
 		      \]
-		      Ne deduciamo che l'autospazio $V_2$ sar\`a definito come segue
+		      Ne deduciamo che l'autospazio $V_2$ sarà definito come segue
 		      \[
 			      V_2 = < \begin{pmatrix} -1 \\ 1 \end{pmatrix} > \quad \Rightarrow \quad
-			      dim(V_2) = 1
+			      \dim(V_2) = 1
 		      \]
 	\end{itemize}
-	Dato che $T$ \`e definta su $\mathbb{R}^2$ che ha dimensione 2 e dato che
-	\[ dim(V_1) + dim(V_2) = 2 \] l'endomorfismo \`e diagonalizzabile.
+	Dato che $T$ è definta su $\R^2$ che ha dimensione 2 e dato che
+	\[ \dim(V_1) + \dim(V_2) = 2 \] l'endomorfismo è diagonalizzabile.
 \end{example}

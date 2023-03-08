@@ -2,59 +2,59 @@
 \section{Endomorfismi lineari invertibili}
 
 \begin{definition}
-	Consideriamo uno spazio vettoriale $V$ di dimensione $n$ sul campo $\mathbb{K}$ e
+	Consideriamo uno spazio vettoriale $V$ di dimensione $n$ sul campo $\K$ e
 	una applicazione lineare $L : V \to V$. Una tale applicazione lineare si dice
 	\textbf{endomorfismo lineare di $V$}. Indicheremo con $End(V)$ l'insieme di tutti gli
 	endomorifsimi lineari di $V$.
 \end{definition}
 
 \begin{proposition}
-	Un endomorfismo $L$ di $V$ \`e invertibile se e solo se ha rango $n$. La
-	funzione inversa $L^{-1} : V \to V$ \`e anch'essa un'applicazione lineare.
+	Un endomorfismo $L$ di $V$ è invertibile se e solo se ha rango $n$. La
+	funzione inversa $L^{-1} : V \to V$ è anch'essa un'applicazione lineare.
 \end{proposition}
 
 \begin{observation}
 	Dati due spazi $V$ e $W$ entrambi di dimensione $n$ e una applicazione lineare
-	$L : V \to W$, l'applicazione lineare $L$ \`e invertibile se e solo se ha rango
-	$n$; l'applicazione inversa $L^{-1}$ \`e anch'essa lineare.
-	Abbiamo invece gi\`a osservato che se $V$ e $W$ hanno dimensioni diverse,
-	rispettivamente $m$ e $n$, nessuna applicazione lineare $L$ da $V$ a $W$ pu\`o
+	$L : V \to W$, l'applicazione lineare $L$ è invertibile se e solo se ha rango
+	$n$; l'applicazione inversa $L^{-1}$ è anch'essa lineare.
+	Abbiamo invece già osservato che se $V$ e $W$ hanno dimensioni diverse,
+	rispettivamente $m$ e $n$, nessuna applicazione lineare $L$ da $V$ a $W$ può
 	essere invertibile. Infatti, avendo in mente la relazione che lega la dimensione
 	del nucleo di $L$, dell'immagine di $L$ e di $V$
-	($dim(Imm(L)) + dim(Ker(L)) = dim(V)$), si ha che:
+	($\dim(\Imm(L)) + \dim(\Ker(L)) = \dim(V)$), si ha che:
 	\begin{itemize}
-		\item se $m > n$ allora la dimensione di $Imm(L)$ \`e al massimo $n$.
-		      Quindi la dimensione di $Ker(L)$ \`e almeno $m - n$, ovvero
-		      maggiore di 0, e $L$ non \`e iniettiva.
-		\item se $m < n$ allora la dimensione di $Imm(L)$ \`e al massimo $m$.
-		      Quindi la dimensione di $Imm(L)$ \`e minore della dimensione di
-		      $W$, e $L$ non \`e surgettiva.
+		\item se $m > n$ allora la dimensione di $\Imm(L)$ è al massimo $n$.
+		      Quindi la dimensione di $\Ker(L)$ è almeno $m - n$, ovvero
+		      maggiore di 0, e $L$ non è iniettiva.
+		\item se $m < n$ allora la dimensione di $\Imm(L)$ è al massimo $m$.
+		      Quindi la dimensione di $\Imm(L)$ è minore della dimensione di
+		      $W$, e $L$ non è surgettiva.
 	\end{itemize}
 \end{observation}
 
 Se fissiamo una base di $V$, ad ogni endomorfismo $L \in End(V)$ viene associata
-una matrice $[L] \in Mat_{n \times n}(\mathbb{K})$. Se $L$ \`e invertibile,
+una matrice $[L] \in \Mat{n \times n}(\K)$. Se $L$ è invertibile,
 consideriamo l'inversa $L^{-1}$ e la matrice ad essa associata $[L^{-1}]$.
 Visto che $L \circ L^{-1} = L^{-1} \circ L = I$, vale
-\begin{equation*}
+\[
 	[L^{-1}][L] = [L][L^{-1}] = [I] = I
-\end{equation*}
+\]
 
-Dunque la matrice $[L]$ \`e invertibile e ha per inversa $[L^{-1}]$.
+Dunque la matrice $[L]$ è invertibile e ha per inversa $[L^{-1}]$.
 Possiamo affermare anche il viceversa: se la matrice $[L]$ associata ad un
-endomorfismo lineare \`e invertibile allora anche $L$ \`e invertibile e la sua
-inversa \`e l'applicazione associata alla matrice $[L^{-1}]$.
+endomorfismo lineare è invertibile allora anche $L$ è invertibile e la sua
+inversa è l'applicazione associata alla matrice $[L^{-1}]$.
 
 \begin{corollary}
-	Una matrice $A \in Mat_{n \times n}(\mathbb{K})$ \`e invertibile se e solo se
-	il suo rango \`e $n$.
+	Una matrice $A \in \Mat{n \times n}(\K)$ è invertibile se e solo se
+	il suo rango è $n$.
 \end{corollary}
 
 \section{Metodo per trovare l'inversa di una matrice}
 Come abbiamo visto nel paragrafo precedente, il problema di trovare un'inversa
-di $L \in End(V)$ si pu\`o tradurre nel problema di trovare l'inversa in
-$Mat_{n \times n}(\mathbb{K})$ di una matrice data. In questo paragrafo descriviamo
-un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K})$.
+di $L \in End(V)$ si può tradurre nel problema di trovare l'inversa in
+$\Mat{n \times n}(\K)$ di una matrice data. In questo paragrafo descriviamo
+un metodo per trovare l'inversa di una matrice $A \in \Mat{n \times n}(\K)$.
 
 \begin{definition}
 	Una matrice in forma a scalini per righe (o per colonne) ridotta, si dice
@@ -62,7 +62,7 @@ un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K
 \end{definition}
 
 \begin{observation}
-	Una matrice pu\`o essere portata in forma a scalini per righe (o colonne)
+	Una matrice può essere portata in forma a scalini per righe (o colonne)
 	ridotta e normalizzata, attraverso un numero finito di operazioni elementari.
 \end{observation}
 
@@ -75,19 +75,19 @@ un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K
 			1 & 1 & 0
 		\end{pmatrix}
 	\]
-	che ha rango 3, dunque \`e invertibile, e calcoliamo la
+	che ha rango 3, dunque è invertibile, e calcoliamo la
 	sua inversa. Per prima cosa formiamo la matrice
-	\begin{equation*}
+	\[
 		(A I) = \begin{pmatrix}
 			3 & 2 & 1 & 1 & 0 & 0 \\
 			0 & 1 & 1 & 0 & 1 & 0 \\
 			1 & 1 & 0 & 0 & 0 & 1
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Ora con delle operazioni elementari di riga portiamola in forma a scalini
 	per righe ridotta, per esempio nel seguente modo: si sottrae alla prima riga
 	la terza moltiplicata per 3
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			3 & 2 & 1 & 1 & 0 & 0 \\
 			0 & 1 & 1 & 0 & 1 & 0 \\
@@ -98,9 +98,9 @@ un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K
 			0 & 1  & 1 & 0 & 1 & 0  \\
 			1 & 1  & 0 & 0 & 0 & 1
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	poi si somma alla prima riga la seconda
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			0 & -1 & 1 & 1 & 0 & -3 \\
 			0 & 1  & 1 & 0 & 1 & 0  \\
@@ -111,117 +111,117 @@ un metodo per trovare l'inversa di una matrice $A \in Mat_{n \times n}(\mathbb{K
 			0 & 1 & 1 & 0 & 1 & 0  \\
 			1 & 1 & 0 & 0 & 0 & 1
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	a questo punto si permutano le righe e si ottiene
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 1 & 0 & 0 & 0 & 1  \\
 			0 & 1 & 1 & 0 & 1 & 0  \\
 			0 & 0 & 2 & 1 & 1 & -3
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	Per ottenere la forma a scalini ridotta, moltiplichiamo l'ultima riga per
 	$\frac{1}{2}$
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 1 & 0 & 0           & 0           & 1            \\
 			0 & 1 & 1 & 0           & 1           & 0            \\
 			0 & 0 & 1 & \frac{1}{2} & \frac{1}{2} & -\frac{3}{2}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	sottraiamo alla seconda riga la terza riga
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 1 & 0 & 0           & 0           & 1            \\
 			0 & 1 & 0 & \frac{1}{2} & \frac{1}{2} & \frac{3}{2}  \\
 			0 & 0 & 1 & \frac{1}{2} & \frac{1}{2} & -\frac{3}{2}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	infine sottriamo alla prima riga la seconda:
-	\begin{equation*}
+	\[
 		\begin{pmatrix}
 			1 & 0 & 0 & \frac{1}{2}  & -\frac{1}{2} & -\frac{1}{2} \\
 			0 & 1 & 0 & -\frac{1}{2} & \frac{1}{2}  & \frac{3}{2}  \\
 			0 & 0 & 1 & \frac{1}{2}  & \frac{1}{2}  & -\frac{3}{2}
 		\end{pmatrix}
-	\end{equation*}
+	\]
 	La matrice
-	\begin{equation*}
+	\[
 		B = \begin{pmatrix}
 			\frac{1}{2}  & -\frac{1}{2} & -\frac{1}{2} \\
 			-\frac{1}{2} & \frac{1}{2}  & \frac{3}{2}  \\
 			\frac{1}{2}  & \frac{1}{2}  & -\frac{3}{2}
 		\end{pmatrix}
-	\end{equation*}
-	\`e l'inversa di $A$.
+	\]
+	è l'inversa di $A$.
 \end{example}
 
-\textbf{Perch\`e il metodo funziona ?}
+\textbf{Perchè il metodo funziona ?}
 
-Consideriamo una matrice $A \in Mat_{n \times n}(\mathbb{K})$ e cerchiamo la sua
+Consideriamo una matrice $A \in \Mat{n \times n}(\K)$ e cerchiamo la sua
 inversa; supponiamo che $A$ abbia rango $n$.
 
 Per prima cosa creiamo una matrice $n \times 2n$ ponendo accanto le colonne di $A$
 e quelle di $I$. Indicheremo tale matrice con $(A I)$.
 
 Adesso possiamo agire con operazioni elementari di riga in modo da ridurre la
-matrice in forma a scalini per righe ridotta. Poich\`e $A$ ha rango $n$, anche
-$(A I)$ ha rango $n$. Un modo per rendersene conto \`e il seguente: il rango di
-$(A I)$ \`e minore o uguale a $n$ visto che ha $n$ righe ed \`e maggiore o uguale
+matrice in forma a scalini per righe ridotta. Poichè $A$ ha rango $n$, anche
+$(A I)$ ha rango $n$. Un modo per rendersene conto è il seguente: il rango di
+$(A I)$ è minore o uguale a $n$ visto che ha $n$ righe ed è maggiore o uguale
 a $n$ visto che individuiamo facilmente $n$ colonne linearmente indipendenti.
 
 Allora quando la matrice $(A I)$ viene ridotta in forma a scalini per righe ridotta,
 deve avere esattamente $n$ scalini, dunque deve avere la forma $(I B)$.
-Affermiamo che la matrice $B$ che si ricava dalla matrice precedente \`e proprio
+Affermiamo che la matrice $B$ che si ricava dalla matrice precedente è proprio
 l'inversa di $A$ che cercavamo.
 
 Infatti agire con operazioni di riga equivale a moltiplicare a sinistra la matrice
 $(A I)$ per una matrice invertibile $U$ di formato $n \times n$, dunque:
-\begin{equation*}
+\[
 	U (A I) = (I B)
-\end{equation*}
-Per come \`e definito il prodotto righe per colonne,
-\begin{equation*}
+\]
+Per come è definito il prodotto righe per colonne,
+\[
 	U (A I) = (U A U I)
-\end{equation*}
+\]
 Dalle uguaglianze precedenti ricaviamo
-\begin{equation*}
+\[
 	(U A U I) = (I B)
-\end{equation*}
-ossia le relazioni $U A = I$ e $U I = B$ che ci dicono che $U$ \`e l'inversa di
+\]
+ossia le relazioni $U A = I$ e $U I = B$ che ci dicono che $U$ è l'inversa di
 $A$ e che $U = B$ come avevamo annunciato.
 
 \begin{observation}
-	La relazione $U A = I$, ossia $BA = I$, ci dice solo che $B$ \`e l'inversa
-	sinistra di $A$. In generale sappiamo che il prodotto tra matrici non \`e
+	La relazione $U A = I$, ossia $BA = I$, ci dice solo che $B$ è l'inversa
+	sinistra di $A$. In generale sappiamo che il prodotto tra matrici non è
 	commutativo. Dunque, il fatto che $A$ sia invertibile, ci dice che esiste una
 	matrice $B$ tale che $BA = I$, e che esiste una matrice $C$ tale che $AC = I$.
 	Ma possiamo mostrare facilmente che $B$ coincide con l'inversa destra $C$ di
 	$A$. Come detto $C$ deve soddisfare per definizione la condizione $AC = I$.
 	Se moltiplichiamo per $C$ entrambi i membri della relazione $BA = I$ (a destra)
-	\[ BAC = IC \] Usando la propriet\`a associativa del prodotto in
-	$Mat_{n \times n}(\mathbb{K})$ otteniamo \[B = C\] visto che $AC = I$.
+	\[ BAC = IC \] Usando la proprietà associativa del prodotto in
+	$\Mat{n \times n}(\K)$ otteniamo \[B = C\] visto che $AC = I$.
 \end{observation}
 
 \section{Cambiamento di base negli endomorfismi lineari}
-Sia $V$ uno spazio vettoriale di dimensione $n$ sul campo $\mathbb{K}$
+Sia $V$ uno spazio vettoriale di dimensione $n$ sul campo $\K$
 e sia $L \in End(V)$. Supponiamo di avere due basi di $V$, una data dai vettori
 $v_1, v_2, \dots, v_n$ e l'altra dai vettori $e_1, e_2, \dots, e_n$. Quello che
-vedremo sar\`a la relazione che lega le matrici associate a $L$ rispetto a tali
+vedremo sarà la relazione che lega le matrici associate a $L$ rispetto a tali
 basi,
-\begin{equation*}
+\[
 	[L]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			v_1, v_2, \dots, v_n
-		}}
-\end{equation*}
+				v_1, v_2, \dots, v_n \\
+				v_1, v_2, \dots, v_n
+			}}
+\]
 e
-\begin{equation*}
+\[
 	[L]_{\substack{
-			e_1, e_2, \dots, e_n \\
-			e_1, e_2, \dots, e_n
-		}}
-\end{equation*}
+				e_1, e_2, \dots, e_n \\
+				e_1, e_2, \dots, e_n
+			}}
+\]
 Per prima cosa scriviamo ogni vettore $v_i$ come combinazione lineare dei vettori
 della base $e_1, e_2, \dots, e_n$:
 \begin{gather*}
@@ -230,35 +230,35 @@ della base $e_1, e_2, \dots, e_n$:
 	\cdots                                           \\
 	v_n = a_{1n}e_1 + a_{2n}e_2 + \cdots + a_{nn}e_n \\
 \end{gather*}
-Se proviamo ora a scrivere la matrice associata all'endomorfismo identit\`a
+Se proviamo ora a scrivere la matrice associata all'endomorfismo identità
 $I \in End(V)$ prendendo come base in partenza $v_1, v_2, \dots, v_n$ e come base
-in arrivo $e_1, e_2, \dots, e_n$ \`e la seguente:
-\begin{equation*}
+in arrivo $e_1, e_2, \dots, e_n$ è la seguente:
+\[
 	[I]_{\substack{
-			v_1, v_2, \dots, v_n \\
-			e_1, e_2, \dots, e_n
-		}} = \begin{pmatrix}
+				v_1, v_2, \dots, v_n \\
+				e_1, e_2, \dots, e_n
+			}} = \begin{pmatrix}
 		a_{11} & a_{12} & \dots & a_{1n} \\
 		a_{21} & a_{22} & \dots & \dots  \\
 		\dots  & \dots  & \dots & \dots  \\
 		a_{n1} & \dots  & \dots & a_{nn}
 	\end{pmatrix}
-\end{equation*}
+\]
 Infatti nella prima colonna abbiamo scritto i coefficienti di $I(v_1)$ rispetto
 alla base $e_1, e_2, \dots, e_n$, nella seconda colonna i coefficienti di
-$I(v_2) = v_2$ e cos\`i via.
+$I(v_2) = v_2$ e così via.
 
-La matrice appena trovata \`e una matrice di
-\textbf{cambiamento di base} e la chiameremo $M$. Osserviamo subito che $M$ \`e
+La matrice appena trovata è una matrice di
+\textbf{cambiamento di base} e la chiameremo $M$. Osserviamo subito che $M$ è
 invertibile. Infatti pensiamo alla composizione di endomorfismi $I \circ I$
 ovvero $V \to^{I} V \to^{I} V$ e consideriamo il primo spazio $V$ e l'ultimo muniti
 della base $v_1, v_2, \dots, v_n$, mentre lo spazio $V$ al centro lo consideriamo
 con la base $e_1, e_2, \dots, e_n$. A questo punto otteniamo:
-\begin{equation*}
+\[
 	[I \circ I]_{\substack{
-		v_1, v_2, \dots, v_n \\
-		v_1, v_2, \dots, v_n
-	}} =
+	v_1, v_2, \dots, v_n \\
+	v_1, v_2, \dots, v_n
+}} =
 		[I]_{\substack{
 				e_1, e_2, \dots, e_n\\
 				v_1, v_2, \dots, v_n
@@ -267,13 +267,13 @@ con la base $e_1, e_2, \dots, e_n$. A questo punto otteniamo:
 				v_1, v_2, \dots, v_n\\
 				e_1, e_2, \dots, e_n
 			}}
-\end{equation*}
+\]
 Visto che $I \circ I = I$ possiamo riscrivere
-\begin{equation*}
+\[
 	[I]_{\substack{
-		v_1, v_2, \dots, v_n \\
-		v_1, v_2, \dots, v_n
-	}} =
+	v_1, v_2, \dots, v_n \\
+	v_1, v_2, \dots, v_n
+}} =
 		[I]_{\substack{
 				e_1, e_2, \dots, e_n\\
 				v_1, v_2, \dots, v_n
@@ -282,16 +282,16 @@ Visto che $I \circ I = I$ possiamo riscrivere
 				v_1, v_2, \dots, v_n\\
 				e_1, e_2, \dots, e_n
 			}}
-\end{equation*}
-Ora la matrice al membro di sinistra \`e la matrice identit\`a $I$, mentre quella
-pi\`u a destra \`e $M$, dunque:
-\begin{equation*}
+\]
+Ora la matrice al membro di sinistra è la matrice identità $I$, mentre quella
+più a destra è $M$, dunque:
+\[
 	I = [I]_{\substack{
 		e_1, e_2, \dots, e_n\\
 		v_1, v_2, \dots, v_n
 	}} M
-\end{equation*}
-Questo ci permette di concludere che $M$ \`e invertibile e che
+\]
+Questo ci permette di concludere che $M$ è invertibile e che
 \[
 	M^{-1} = [I]_{\substack{
 				e_1, e_2, \dots, e_n\\
@@ -302,35 +302,35 @@ A questo punto possiamo enunciare il teorema che descrive la relazione fra matri
 assocaite a $L$ rispetto alle due diverse basi:
 \begin{theorem}
 	Con le notazioni introdotte sopra, vale:
-	\begin{equation*}
+	\[
 		[L]_{\substack{
-				v_1, v_2, \dots, v_n \\
-				v_1, v_2, \dots, v_n
-			}} =
+					v_1, v_2, \dots, v_n \\
+					v_1, v_2, \dots, v_n
+				}} =
 		M^{-1}[L]_{\substack{
 					e_1, e_2, \dots, e_n\\
 					e_1, e_2, \dots, e_n
 				}}M
-	\end{equation*}
+	\]
 \end{theorem}
 
 Ricordiamo che il problema di trovare la matrice associata a $L$ rispetto ad una
-base se si conosce la matrice associata rispetto ad un'altra base pu\`o essere
+base se si conosce la matrice associata rispetto ad un'altra base può essere
 affrontato anche senza scrivere le matrici $M$ e $M^{-1}$ ma il teorema precedente
 ha una grande importanza dal punto di vista teorico.
 
 Per esempio, se definiamo l'applicazione traccia
-\begin{equation*}
-	\tau : Mat_{n \times n}(\mathbb{K}) \to \mathbb{K}
-\end{equation*}
+\[
+	\tau : \Mat{n \times n}(\K) \to \K
+\]
 nel seguente modo:
-\begin{equation*}
+\[
 	\tau((a_{ij})) = a_{11} + a_{22} + \dots + a_{nn}
-\end{equation*}
-\`e naturale chiedersi se, dato un endomorfismo $L \in End(V)$, la funzione traccia
+\]
+è naturale chiedersi se, dato un endomorfismo $L \in End(V)$, la funzione traccia
 dia lo stesso valore su tutte le matrici che si possono associare a $V$, in altre
 parole se vale:
-\begin{equation*}
+\[
 	\tau \left(
 	[L]_{\substack{
 			v_1, v_2, \dots, v_n \\
@@ -343,13 +343,13 @@ parole se vale:
 			e_1, e_2, \dots, e_n
 		}}
 	\right)
-\end{equation*}
+\]
 per ogni scelta delle basi $e_1, e_2, \dots, e_n$ e $v_1, v_2, \dots, v_n$.
 
-La risposta \`e si: la traccia non dipende dalla base scelta e dunque possiamo
-anche considerarla come applicazione lineare da $End(V)$ a $\mathbb{K}$.
+La risposta è si: la traccia non dipende dalla base scelta e dunque possiamo
+anche considerarla come applicazione lineare da $End(V)$ a $\K$.
 Per mostrarlo scriviamo:
-\begin{equation*}
+\[
 	\tau \left(
 	[L]_{\substack{
 			v_1, v_2, \dots, v_n \\
@@ -362,8 +362,8 @@ Per mostrarlo scriviamo:
 			e_1, e_2, \dots, e_n
 		}} M
 	\right)
-\end{equation*}
-A questo punto ricordiamo che per ogni $A, B \in Mat_{n \times n}(\mathbb{K})$
+\]
+A questo punto ricordiamo che per ogni $A, B \in \Mat{n \times n}(\K)$
 vale $\tau(AB) = \tau(BA)$, dunque:
 \begin{gather*}
 	\tau \left(
@@ -396,7 +396,7 @@ vale $\tau(AB) = \tau(BA)$, dunque:
 	\right)
 \end{gather*}
 Questa catena di uguaglianza conduce, come annunciato, a:
-\begin{equation*}
+\[
 	\tau \left(
 	[L]_{\substack{
 			v_1, v_2, \dots, v_n \\
@@ -409,29 +409,29 @@ Questa catena di uguaglianza conduce, come annunciato, a:
 			e_1, e_2, \dots, e_n
 		}}
 	\right)
-\end{equation*}
+\]
 
 \textbf{Ricapitolando:} Sia $V$ uno spazio vettoriale, sia $L \in End(V)$ e siano
-$\mathcal{B}_1$ e $\mathcal{B}_2$ due basi di $V$. Se conosciamo la matrice
-$[L]_{\substack{\mathcal{B}_1 \\ \mathcal{B}_1}}$ e vogliamo scrivere la matrice
-$[L]_{\substack{\mathcal{B}_2 \\ \mathcal{B}_2}}$ passando per la matrice di
+$\B_1$ e $\B_2$ due basi di $V$. Se conosciamo la matrice
+$[L]_{\substack{\B_1 \\ \B_1}}$ e vogliamo scrivere la matrice
+$[L]_{\substack{\B_2 \\ \B_2}}$ passando per la matrice di
 cambiamento di base dobbiamo:
 \begin{enumerate}
 	\item Trovare la matrice di cambiamento di base. Per farlo scriviamo la
-	      matrice $[I]_{\substack{\mathcal{B}_1 \\ \mathcal{B}_2}}$ ovvero la
-	      matrice associata all'indentit\`a con $\mathcal{B}_1$ in partenza e
-	      $\mathcal{B}_2$ in arrivo. Questa sar\`a la nostra $M$.
+	      matrice $[I]_{\substack{\B_1 \\ \B_2}}$ ovvero la
+	      matrice associata all'indentità con $\B_1$ in partenza e
+	      $\B_2$ in arrivo. Questa sarà la nostra $M$.
 	\item Troviamo l'inversa di $M$ tramite il metodo specificato al capitolo
 	      precedente.
 	\item A questo punto risolviamo
 	      \[
-		      [L]_{\substack{\mathcal{B}_2 \\ \mathcal{B}_2}} =
-		      M^{-1} [L]_{\substack{\mathcal{B}_1 \\ \mathcal{B}_1}} M
+		      [L]_{\substack{\B_2 \\ \B_2}} =
+		      M^{-1} [L]_{\substack{\B_1 \\ \B_1}} M
 	      \]
 \end{enumerate}
 
 \begin{example}
-	Consideriamo $L : \mathbb{R}^2 \to \mathbb{R}^2$
+	Consideriamo $L : \R^2 \to \R^2$
 	\[
 		L \begin{pmatrix}
 			x \\ y
@@ -440,7 +440,7 @@ cambiamento di base dobbiamo:
 			x + y \\ x
 		\end{pmatrix}
 	\]
-	e la sua matrice associata rispetto alla base standard di $\mathbb{R}^2$ in
+	e la sua matrice associata rispetto alla base standard di $\R^2$ in
 	partenza e in arrivo
 	\[
 		[L] = \begin{pmatrix}
@@ -450,7 +450,7 @@ cambiamento di base dobbiamo:
 	\]
 	Vogliamo scrivere ora la matrice associata a $L$ rispetto alla base
 	\[
-		\mathcal{B} = \left\{
+		\B = \left\{
 		\begin{pmatrix}
 			1 \\ 1
 		\end{pmatrix}, \quad
@@ -459,12 +459,12 @@ cambiamento di base dobbiamo:
 		\end{pmatrix}
 		\right\}
 	\]
-	di $\mathbb{R}^2$ in partenza e in arrivo. Per farlo seguiamo i punti elencati
+	di $\R^2$ in partenza e in arrivo. Per farlo seguiamo i punti elencati
 	sopra.
 	\begin{enumerate}
 		\item Troviamo la matrice $M$ di cambiamento di base scrivendo la matrice
-		      associata all'identit\`a con la base standard di $\mathbb{R}^2$ in partenza
-		      e la base $\mathcal{B}$ in arrivo.
+		      associata all'identità con la base standard di $\R^2$ in partenza
+		      e la base $\B$ in arrivo.
 		      \[
 			      M = \begin{pmatrix}
 				      1 & 0 \\
@@ -480,12 +480,12 @@ cambiamento di base dobbiamo:
 		      \]
 		\item Scriviamo infine la matrice cercata risolvendo l'equazione
 		      \[
-			      [L]_{\substack{\mathcal{B} \\ \mathcal{B}}} =
+			      [L]_{\substack{\B \\ \B}} =
 			      M^{-1} [L] M
 		      \]
 		      Avremo dunque che
 		      \begin{gather*}
-			      [L]_{\substack{\mathcal{B} \\ \mathcal{B}}} =
+			      [L]_{\substack{\B \\ \B}} =
 			      \begin{pmatrix}
 				      1  & 0 \\
 				      -1 & 1
@@ -499,7 +499,7 @@ cambiamento di base dobbiamo:
 				      1 & 1
 			      \end{pmatrix} \\
 			      \Downarrow \\
-			      [L]_{\substack{\mathcal{B} \\ \mathcal{B}}} =
+			      [L]_{\substack{\B \\ \B}} =
 			      \begin{pmatrix}
 				      1 & 1  \\
 				      0 & -1
@@ -509,7 +509,7 @@ cambiamento di base dobbiamo:
 				      1 & 1
 			      \end{pmatrix} \\
 			      \Downarrow \\
-			      [L]_{\substack{\mathcal{B} \\ \mathcal{B}}} =
+			      [L]_{\substack{\B \\ \B}} =
 			      \begin{pmatrix}
 				      2  & 1  \\
 				      -1 & -1
@@ -517,7 +517,7 @@ cambiamento di base dobbiamo:
 		      \end{gather*}
 	\end{enumerate}
 	Lo stesso identico risultato si ottiene scrivendo esprimendo
-	l'immagine di ogni elemento della base $\mathcal{B}$ come combinazione lineare
-	della stessa base $\mathcal{B}$ e mettendo poi i vettori colonna ottenuti
+	l'immagine di ogni elemento della base $\B$ come combinazione lineare
+	della stessa base $\B$ e mettendo poi i vettori colonna ottenuti
 	uno di fianco all'altro (come abbiamo visto nei primi capitoli).
 \end{example}
