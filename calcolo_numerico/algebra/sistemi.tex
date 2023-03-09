@@ -1,0 +1,25 @@
+\section{Risoluzione di sistemi lineari}
+Vediamo ora alcuni metodi per la risoluzione di sistemi lineari e andiamo a studiare il loro condizionamento
+in macchina. Il problema che vogliamo provare a risolvere ha in input la matrice $A \in \R^{n \times n}$ e il
+vettore $b \in \R^n$ dai quali vogliamo ricavare il vettore $x \in \R^n$ tale che $A x = b$.
+
+La prima cosa che vogliamo osservare è che per particolari classi della matrice $A$ il sistema è facilmente
+risolubile. Prendiamo ad esempio la classe delle matrici \textbf{diagonali} ossia matrici con tutti gli elementi
+fuori dalla diagonale principale nulli:
+\[ i \neq j \quad \Rightarrow \quad a_{ij} = 0 \]
+Se proviamo a calcolare il determinante della matrice $A$ possiamo vedere che questo equivale al prodotto degli
+elementi sulla diagonale principale così come possiamo dimostrare che gli autovalori sono gli elementi sulla
+diagonale principale.
+
+Una matrice diagonale è invertibile se e solo se ha tutti gli elementi sulla diagonale principale diversi da 0.
+Per risolvere un sistema diagonale possiamo scrivere ogni equazione nella forma
+\[ a_{ii} x_i = b_i \]
+e quindi possiamo facilmente ottenere $x_i$ tramite
+\[ x_i = \frac{b_i}{a_{ii}} \]
+che è ben definito se tutti gli $a_{ii}$ sono diversi da 0. Un semplice algoritmo che risolve un sistema diagonale
+$n \times n$ è il seguente:
+\begin{lstlisting}[language=pseudo, style=pseudo-style]
+	for i = 1 to n
+		x[i] = b[i] / a[i][i]
+\end{lstlisting}
+Dunque il costo della risoluzione di un sistema diagonale è $O(n)$.
