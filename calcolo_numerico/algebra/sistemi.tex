@@ -3,23 +3,233 @@ Vediamo ora alcuni metodi per la risoluzione di sistemi lineari e andiamo a stud
 in macchina. Il problema che vogliamo provare a risolvere ha in input la matrice $A \in \R^{n \times n}$ e il
 vettore $b \in \R^n$ dai quali vogliamo ricavare il vettore $x \in \R^n$ tale che $A x = b$.
 
+\subsection{Matrici diagonali}
 La prima cosa che vogliamo osservare è che per particolari classi della matrice $A$ il sistema è facilmente
 risolubile. Prendiamo ad esempio la classe delle matrici \textbf{diagonali} ossia matrici con tutti gli elementi
-fuori dalla diagonale principale nulli:
-\[ i \neq j \quad \Rightarrow \quad a_{ij} = 0 \]
+fuori dalla diagonale principale nulli (per $i \neq j$ vale $a_{ij} = 0$). Per esempio sono matrici diagonali
+\[
+	\begin{pmatrix}
+		1 & 0 & 0 \\
+		0 & 3 & 0 \\
+		0 & 0 & 2
+	\end{pmatrix} \quad
+	\begin{pmatrix}
+		2 & 0 & 0 \\
+		0 & 5 & 0 \\
+		0 & 0 & 0
+	\end{pmatrix} \quad
+	\begin{pmatrix}
+		0 & 0 & 0 \\
+		0 & 0 & 0 \\
+		0 & 0 & 0
+	\end{pmatrix}
+\]
 Se proviamo a calcolare il determinante della matrice $A$ possiamo vedere che questo equivale al prodotto degli
-elementi sulla diagonale principale così come possiamo dimostrare che gli autovalori sono gli elementi sulla
-diagonale principale.
+elementi sulla diagonale principale, così come possiamo dimostrare che gli autovalori sono esattamente gli
+elementi sulla diagonale principale.
 
-Una matrice diagonale è invertibile se e solo se ha tutti gli elementi sulla diagonale principale diversi da 0.
-Per risolvere un sistema diagonale possiamo scrivere ogni equazione nella forma
+Segue dalle considerazioni appena fatte che una matrice diagonale è invertibile se e solo se ha tutti gli elementi
+sulla diagonale principale diversi da 0. Per risolvere un sistema diagonale possiamo scrivere ogni equazione del
+sistema nella forma
 \[ a_{ii} x_i = b_i \]
-e quindi possiamo facilmente ottenere $x_i$ tramite
+ottenendo facilmente che
 \[ x_i = \frac{b_i}{a_{ii}} \]
 che è ben definito se tutti gli $a_{ii}$ sono diversi da 0. Un semplice algoritmo che risolve un sistema diagonale
 $n \times n$ è il seguente:
 \begin{lstlisting}[language=pseudo, style=pseudo-style]
-	for i = 1 to n
-		x[i] = b[i] / a[i][i]
+for i = 1 to n
+	x[i] = b[i] / a[i][i]
 \end{lstlisting}
-Dunque il costo della risoluzione di un sistema diagonale è $O(n)$.
+Dunque il costo per risoluzione di un sistema diagonale è di $O(n)$ operazioni.
+
+\subsection{Matrici triangolari}
+Prendiamo ora in esame il caso delle matrici triangolari.
+
+\begin{definition}
+	Una matrice si dice \textbf{triangolare} se ha tutti elementi nulli sopra la diagonale principale e, in
+	tal caso, si dirà \textbf{inferiore} (per $i < j$ vale $a_{ij} = 0$). Se invece ha tutti elementi nulli
+	sotto la diagonale principale si dirà \textbf{superiore} (per $i > j$ vale $a_{ij} = 0$).
+\end{definition}
+
+Non facciamo nessuna assunzione sugli altri elementi: la matrice nulla è sia triangolare superiore che inferiore.
+Esempi di matrici triangolari inferiori e superiori sono
+\[
+	\begin{pmatrix}
+		1 & 0 & 0 \\
+		2 & 4 & 0 \\
+		3 & 1 & 9
+	\end{pmatrix} \quad
+	\begin{pmatrix}
+		1 & 3 & 5 \\
+		0 & 2 & 7 \\
+		0 & 0 & 4
+	\end{pmatrix}
+\]
+Il determinante di una matrice triangolare, se calcolato ad esempio con lo sviluppo di Laplace secondo la prima
+colonna, risulta ancora una volta equivalente al prodotto degli elementi sulla diagonale principale.
+
+Il discorso fatto per gli autovalori di matrici diagonali vale anche qui, dato che la matrice $A - \lambda I$ è
+ancora una matrice triangolare, abbiamo anche in questo caso che gli autovalori di una matrice triangolare sono
+esattamente gli elementi sulla diagonale principale.
+
+Prendiamo un generico sistema di equazioni $A x = b$ con $A$ triangolare superiore. Otterremo qualcosa di questo
+tipo
+\[
+	\begin{cases}
+		a_{11} x_1 + a_{12} x_2 + \dots + a_{1n} x_n = b_1 \\
+		a_{22} x_2 + \dots + a_{2n} x_n = b_2              \\
+		\dots                                              \\
+		a_{nn} x_n = b_n
+	\end{cases}
+\]
+Per risolvere il sistema si fa ricorso al metodo di \textbf{sostituzione all'indietro}: si ricava $x_n$
+dall'ultima equazione, lo si sostituisce nella penultima trovando $x_{n-1}$ e così via fino a ricavare tutti gli
+$x_i$.
+
+Supponiamo di aver già ricavato $x_{k+1}, \dots, x_n$ e di voler determinare $x_k$. Dalla $k$-esima equazione si
+ottiene
+\[
+	a_{kk} x_k = \sum_{j=k+1}^n a_{kj} x_j = b_k \quad \to \quad
+	x_k = \frac{b_k - \displaystyle\sum_{j=k+1}^n a_{kj} x_j}{a_{kk}}
+\]
+In MatLab la \emph{sostituzione all'indietro} sarebbe così implementata:
+\begin{lstlisting}[language=matlab]
+function[x] = solve_tri(a, b)
+	n = length(b);
+	x = zeros(n, 1);
+	x(n) = b(n) / a(n, n);
+	for k = n-1 : -1 : 1
+		s = 0;
+		for j = k+1 : n
+			s = s+ a(k, j) * x(j);
+		end
+		x(k) = (b(k) - s) / a(k, k);
+	end
+end
+\end{lstlisting}
+Il costo computazionale di questo algoritmo è di $O(n^2)$ moltiplicazioni:
+\[ \sum_{k=1}^n k = \frac{n (n + 1)}{2} \]
+Se $A \in \R^{n \times n}$ si può pensare, per la risoluzione del sistema lineare $A x = b$, di \emph{ridurre}
+progressivamente $A$ in forma triangolare mediante una sequenza di trasformazioni del tipo
+\begin{align*}
+	A_0 = & A, \quad A_k \to A_{k+1}, \quad 0 \leq k \leq n - 2; \\
+	b_0 = & b, \quad b_k \to b_{k+1}, \quad 0 \leq k \leq n - 2
+\end{align*}
+Introduciamo quindi il concetto di \textbf{fattorizzazione}, ossia scrivere una matrice come prodotto di più
+matrici.
+
+Vogliamo quindi rappresentare la matrice $A \in \R^{n \times n}$ come prodotto di due matrici $L$ ed $R$, la
+prima triangolare inferiore con elementi uguali a 1 sulla diagonale pricipale e la seconda triangolare superiore.
+
+Se siamo in grado di fare questo allora diciamo che $A$ è \textbf{fattorizzabile} nella forma $LR$
+(fattorizzazione di Gauss).
+
+\begin{observation}
+	Se $A$ può essere scritta in questa forma allora, per il teorema di Binet, possiamo dire che
+	\[ \det(A) = \det(L) \cdot \det(R) \]
+	Dato che $L$ ha tutti 1 sulla diagonale principale $\det(L) = 1$ quindi vale che
+	\[ \det(A) = \det(R) \neq 0 \]
+	Ne deduciamo quindi che, se tale fattorizzazione esiste, allora $L$ e $R$ sono invertibili. Vale quindi che
+	\[ A x = b \quad \Leftrightarrow \quad LR x = b \]
+	Imponendo $U x = y$ possiamo scrivere
+	\[
+		\begin{cases}
+			L y = b \\
+			U x = y
+		\end{cases}
+	\]
+	Il sistema lineare è dunque risolvibile tramite la risoluzione di due sistemi triangolari.
+\end{observation}
+
+\begin{observation}
+	In questo modo abbiamo anche un metodo veloce per il calcolo del determinante di $A$ in quanto questo equivale
+	al determinante di $R$. E dato che $R$ è triangolare il suo determinante è equivalente al prodotto degli
+	elementi sulla diagonale principale.
+\end{observation}
+
+Il problema è che, in generale, una decomposizione di questo tipo \textbf{non esiste} e se esiste
+\textbf{non è univocamente} determinata.
+
+\begin{example}
+	Prendiamo la matrice
+	\[
+		A  = \begin{pmatrix}
+			0 & 1 \\
+			1 & 0
+		\end{pmatrix}
+	\]
+	e proviamo a cercare una fattorizzazione per tale matrice in questo modo
+	\[
+		\begin{pmatrix}
+			0 & 1 \\
+			1 & 0
+		\end{pmatrix} =
+		\begin{pmatrix}
+			1 & 0 \\
+			x & 1
+		\end{pmatrix} \cdot
+		\begin{pmatrix}
+			r_1 & r_2 \\
+			0   & r_3
+		\end{pmatrix}
+	\]
+	Vogliamo provare a trovare $x$, $r_1$, $r_2$ e $r_3$ che soddisfano questa relazione. Se facciamo prima riga
+	per prima colonna notiamo subito che $r_1$ deve essere uguale a 0, ma a questo punto, se proviamo a fare
+	seconda riga per prima colonna otteniamo come risultato 0 per qualunque valore di $x$, quando invece dovremmo
+	ottenere come risultato 1.
+\end{example}
+
+In generale, possiamo dire che una fattorizzazione di quel tipo non esiste neanche se la matrice è invertibile.
+
+\begin{example}
+	Proviamo ora a trovare unafattorizzazione per la matrice nulla
+	\[
+		\begin{pmatrix}
+			0 & 0 \\
+			0 & 0
+		\end{pmatrix} =
+		\begin{pmatrix}
+			1 & 0 \\
+			x & 1
+		\end{pmatrix} \cdot
+		\begin{pmatrix}
+			0 & 0 \\
+			0 & 0
+		\end{pmatrix}
+	\]
+	Come possiamo vedere, la fattorizzazione in questo caso esiste ma non è univocamente determinata. Questo
+	perché, per qualsiasi valore di $x$, otteniamo una fattorizzazione $LR$.
+\end{example}
+
+Prima di proseguire introduciamo una notazione. Sia $A \in \R^{n \times n}$ la matrice ad elementi $(a_{ij})$
+chiamiamo $A_k = (a_{ij}) \in \R^{k \times k}$ \textbf{sottomatrici principali di testa} di $A$. Si tratta delle
+matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
+
+\begin{theorem}
+	Sia $A \in \R^{n \times n}$, se $\det(A_k) \neq 0$ per $1 \leq k \leq n-1$ allora esiste ed è unica la
+	fattorizzazione $LR$ di $A$.
+	\begin{proof}
+		Dimostriamo per induzione su $n$. Per $n = 1$ allora $n-1 = 0$ dunque il teorema ci dice che, presa
+		una matrice $1 \times 1$ esiste ed è unica la sua fattorizzazione $LR$
+		\[ (a) = (1) \cdot (a) \]
+
+		Assumiamo che il teorema sia vero per una qualsiasi matrice di ordine fino a $n-1$ e consideriamo una
+		matrice $A$ di ordine $n$ che scriviamo in questo modo
+		\[
+			A = \begin{pmatrix}
+				A_{n-1} & z      \\
+				w^T     & a_{nn}
+			\end{pmatrix} = LR =
+			\begin{pmatrix}
+				L_{n-1} & 0 \\
+				x^T     & 1
+			\end{pmatrix} \cdot
+			\begin{pmatrix}
+				R_{n-1} & y      \\
+				0       & r_{nn}
+			\end{pmatrix}
+		\]
+	\end{proof}
+\end{theorem}
+
+Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
