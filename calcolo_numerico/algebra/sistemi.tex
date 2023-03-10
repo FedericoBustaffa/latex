@@ -212,14 +212,13 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 		Dimostriamo per induzione su $n$. Per $n = 1$ allora $n-1 = 0$ dunque il teorema ci dice che, presa
 		una matrice $1 \times 1$ esiste ed è unica la sua fattorizzazione $LR$
 		\[ (a) = (1) \cdot (a) \]
-
 		Assumiamo che il teorema sia vero per una qualsiasi matrice di ordine fino a $n-1$ e consideriamo una
 		matrice $A$ di ordine $n$ che scriviamo in questo modo
 		\[
 			A = \begin{pmatrix}
 				A_{n-1} & z      \\
 				w^T     & a_{nn}
-			\end{pmatrix} = LR =
+			\end{pmatrix} = L \cdot R =
 			\begin{pmatrix}
 				L_{n-1} & 0 \\
 				x^T     & 1
@@ -229,7 +228,38 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 				0       & r_{nn}
 			\end{pmatrix}
 		\]
-	\end{proof}
-\end{theorem}
+		Vogliamo quindi trovare due matrici $L$ e $R$ tali che $L \cdot R = A$. Per riuscire a farlo cerchiamo
+		gli elementi dei vari partizionamenti con i quali abbiamo organizzato le matrici tali che $L \cdot R = A$.
 
-Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
+		Tenendo conto delle dimensioni è possibile fare il prodotto righe per colonne anche per interi blocchi di
+		matrice. Otteniamo quindi
+		\[
+			\begin{cases}
+				L_{n-1} \cdot R_{n-1} = A_{n-1} \\
+				L_{n-1} \cdot y = z             \\
+				x^T \cdot R_{n-1} = w^T         \\
+				x^T \cdot y + r_{nn} = a_{nn}
+			\end{cases}
+		\]
+		La prima equazione ci dice che $L_{n-1} \cdot R_{n-1}$ è una fattorizzazione della matrice $A_{n-1}$.
+		Dato che $A_{n-1}$ è una matrice di ordine $n-1$ e le sue sottomatrici principali di testa fino all'ordine
+		$n-2$ sono invertibili per l'ipotesi del teorema e per ipotesi induttiva il teorema è vero per tutte le
+		matrici fino all'ordine $n-1$. Quindi tale fattorizzazione esiste ed è unica.
+
+		Per trovare $y$ dobbiamo risolvere un sistema lineare e vale
+		\[ y = L_{n-1}^{-1} \cdot z \]
+		e sappiamo che $L_{n-1}$ è invertibile perché si tratta di una matrice triangolare con tutti 1 sulla
+		diagonale principale.
+
+		Anche la terza equazione è un sistema lineare e, dato che $R_{n-1}$ è invertibile per ipotesi del teorema
+		la quale ci garantisce l'invertibilità fino all'ordine $n-2$ ma anche $A_{n-1}$ è invertibile e quindi,
+		per il teorema di Binet vale che
+		\[ \det(A_{n-1}) = \det(R_{n-1}) \]
+		Possiamo quindi scrivere
+		\[ x^T = w^T \cdot R_{n-1} \]
+		Una volta ricavati $x^T$ e $y$ troviamo $r_{nn}$ in modo univoco calcolando
+		\[ r_{nn} = a_{nn} - x^T \cdot y \]
+		Il sistema è quindi univocamente risolubile e quindi la fattorizzazione esiste ed è unica.
+	\end{proof}
+	Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
+\end{theorem}
