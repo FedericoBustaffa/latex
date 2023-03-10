@@ -263,3 +263,99 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 	\end{proof}
 	Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
 \end{theorem}
+
+La dimostrazione del teorema appena enunciato ci dice che se siamo interessati a calcolare la fattorizzazione
+$LR$ di una matrice di ordine $n$, è possibile farlo calcolando la fattorizzazione $LR$ della sua sottomatrice
+di ordine $n-1$ per poi aggiornarla con tale costruzione.
+
+Supponendo di avere la fattorizzazione di ordine $n-1$, il costo per trovare al fattorizzazione di ordine $n$
+è dato dal costo per trovare la fattorizzazione di ordine $n-1$ sommato al costo dell'\emph{aggiornamento}.
+
+Il costo dell'aggiornamento è pari al costo della risoluzione di due sistemi triangolari di ordine $n-1$ ossia
+\[ c (n - 1)^2 \]
+Il costo complessivo dell'algoritmo per la fattorizzazione è dunque
+\[ F(n) = F(n-1) + c (n-1)^2 = c \cdot \sum_{i=1}^{n} (n - i)^2 \]
+Il costo che ne ricaviamo è di $O(n^3)$ operazioni. Il problema di questo metodo è che, implementato in macchina,
+riporta problemi di stabilità.
+
+L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alcune classi di matrici particolari.
+
+\begin{example}
+	Prendiamo la matrice $A \in \R^{n \times n}$ così definita
+	\[
+		A = \begin{pmatrix}
+			1      & 0      & \dots  & 0      & x_1    \\
+			0      & \ddots & \ddots & \vdots & \vdots \\
+			\vdots & \ddots & \ddots & 0      & \vdots \\
+			0      & \dots  & 0      & 1      & \vdots \\
+			x_1    & \dots  & \dots  & \dots  & x_n
+		\end{pmatrix}
+	\]
+	detta \textbf{matrice a freccia}. Il problema che ci poniamo è trovare per quali $x_i$ con $1 \leq i \leq n$
+	la matrice ammette fattorizzazione $LR$ e in caso affermativo, trovare la fattorizzazione $LR$ per tali
+	valori.
+
+	\`E immediato notare che le sottomatrici principali di testa di $A$ sono tutte matrici identità e dunque vale
+	\[ A_k = I_k \]
+	quindi sono tutte invertibili. Per il teorema esiste ed è unica la sua fattorizzazione.
+
+	Per trovare tale fattorizzazione dobbiamo trovare la fattorizzazione $LR$ della matrice di ordine $n-1$. Per
+	farlo scriviamo
+	\[
+		A = \begin{pmatrix}
+			L_{n-1} & 0 \\
+			x^T     & 1
+		\end{pmatrix} \cdot
+		\begin{pmatrix}
+			R_{n-1} & y      \\
+			0       & r_{nn}
+		\end{pmatrix}
+	\]
+	Come abbiamo detto, abbiamo che
+	\[ A_{n-1} = I_{n-1} \]
+	L'identità di ordine $n-1$ si fattorizza come l'identità per se stessa. Possiamo quindi scrivere
+	\[
+		A = \begin{pmatrix}
+			I_{n-1} & 0 \\
+			x^T     & 1
+		\end{pmatrix} \cdot
+		\begin{pmatrix}
+			I_{n-1} & y      \\
+			0       & r_{nn}
+		\end{pmatrix}
+	\]
+	A questo punto ricaviamo che
+	\begin{align*}
+		y =      & \begin{pmatrix} x_1 \\ \vdots \\ x_{n-1} \end{pmatrix} \\
+		x^T =    & \begin{pmatrix} x_1 & \dots & x_{n-1} \end{pmatrix}    \\
+		r_{nn} = & x_n - \sum_{i=1}^{n-1} x_i^2
+	\end{align*}
+	Quando $r_{nn} \neq 0$ allora la matrice è invertibile, ossia quando
+	\[ x_n - \sum_{i=1}^{n-1} x_i^2 \neq 0 \]
+	Risolvere i sistemi lineari per $L$ e $R$ appena trovate con l'eliminazione gaussiana ha un costo di $O(n)$
+	operazioni.
+\end{example}
+
+\begin{definition}
+	La matrice $A$ si dice \textbf{tridiagonale} se, per $|i - j| > 1$, l'elemento $a_{ij}$ è uguale a 0.
+\end{definition}
+
+\begin{example}
+	Prendiamo la seguente matrice \emph{tridiagonale} $A \in \R^{n \times n}$
+	\[
+		A = \begin{pmatrix}
+			3      & -1     & 0      & \dots  & 0      \\
+			-1     & \ddots & \ddots & \ddots & \vdots \\
+			0      & \ddots & \ddots & \ddots & 0      \\
+			\vdots & \ddots & \ddots & \ddots & -1     \\
+			0      & \dots  & 0      & -1     & 3
+		\end{pmatrix}
+	\]
+	Se volessimo applicare il teorema dobbiamo andare a verificare l'invertibilità di tutte le sottomatrici fino
+	all'ordine $n-1$. Le sottomatrici sono tutte \emph{predominanti diagonali} in quanto, se $A$ è predominante
+	diagonale anche le sue sottomatrici sono predominanti diagonali e dunque invertibili.
+\end{example}
+
+\begin{theorem}
+	Se una matrice è \emph{predominante diagonale} allora esiste ed è unica la sua fattorizzazione $LR$.
+\end{theorem}
