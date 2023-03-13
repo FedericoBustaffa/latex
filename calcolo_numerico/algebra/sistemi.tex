@@ -6,7 +6,7 @@ vettore $b \in \R^n$ dai quali vogliamo ricavare il vettore $x \in \R^n$ tale ch
 \subsection{Matrici diagonali}
 La prima cosa che vogliamo osservare è che per particolari classi della matrice $A$ il sistema è facilmente
 risolubile. Prendiamo ad esempio la classe delle matrici \textbf{diagonali} ossia matrici con tutti gli elementi
-fuori dalla diagonale principale nulli (per $i \neq j$ vale $a_{ij} = 0$). Per esempio sono matrici diagonali
+fuori dalla diagonale principale nulli (per $i \neq j$ vale $a_{i,j} = 0$). Per esempio sono matrici diagonali
 \[
 	\begin{pmatrix}
 		1 & 0 & 0 \\
@@ -31,10 +31,10 @@ elementi sulla diagonale principale.
 Segue dalle considerazioni appena fatte che una matrice diagonale è invertibile se e solo se ha tutti gli elementi
 sulla diagonale principale diversi da 0. Per risolvere un sistema diagonale possiamo scrivere ogni equazione del
 sistema nella forma
-\[ a_{ii} x_i = b_i \]
+\[ a_{i,i} x_i = b_i \]
 ottenendo facilmente che
-\[ x_i = \frac{b_i}{a_{ii}} \]
-che è ben definito se tutti gli $a_{ii}$ sono diversi da 0. Un semplice algoritmo che risolve un sistema diagonale
+\[ x_i = \frac{b_i}{a_{i,i}} \]
+che è ben definito se tutti gli $a_{i,i}$ sono diversi da 0. Un semplice algoritmo che risolve un sistema diagonale
 $n \times n$ è il seguente:
 \begin{lstlisting}[language=pseudo, style=pseudo-style]
 for i = 1 to n
@@ -47,8 +47,8 @@ Prendiamo ora in esame il caso delle matrici triangolari.
 
 \begin{definition}
 	Una matrice si dice \textbf{triangolare} se ha tutti elementi nulli sopra la diagonale principale e, in
-	tal caso, si dirà \textbf{inferiore} (per $i < j$ vale $a_{ij} = 0$). Se invece ha tutti elementi nulli
-	sotto la diagonale principale si dirà \textbf{superiore} (per $i > j$ vale $a_{ij} = 0$).
+	tal caso, si dirà \textbf{inferiore} (per $i < j$ vale $a_{i,j} = 0$). Se invece ha tutti elementi nulli
+	sotto la diagonale principale si dirà \textbf{superiore} (per $i > j$ vale $a_{i,j} = 0$).
 \end{definition}
 
 Non facciamo nessuna assunzione sugli altri elementi: la matrice nulla è sia triangolare superiore che inferiore.
@@ -76,10 +76,10 @@ Prendiamo un generico sistema di equazioni $A x = b$ con $A$ triangolare superio
 tipo
 \[
 	\begin{cases}
-		a_{11} x_1 + a_{12} x_2 + \dots + a_{1n} x_n = b_1 \\
-		a_{22} x_2 + \dots + a_{2n} x_n = b_2              \\
-		\dots                                              \\
-		a_{nn} x_n = b_n
+		a_{1,1} x_1 + a_{1,2} x_2 + \dots + a_{1,n} x_n = b_1 \\
+		a_{2,2} x_2 + \dots + a_{2,n} x_n = b_2               \\
+		\dots                                                 \\
+		a_{n,n} x_n = b_n
 	\end{cases}
 \]
 Per risolvere il sistema si fa ricorso al metodo di \textbf{sostituzione all'indietro}: si ricava $x_n$
@@ -89,8 +89,8 @@ $x_i$.
 Supponiamo di aver già ricavato $x_{k+1}, \dots, x_n$ e di voler determinare $x_k$. Dalla $k$-esima equazione si
 ottiene
 \[
-	a_{kk} x_k = \sum_{j=k+1}^n a_{kj} x_j = b_k \quad \to \quad
-	x_k = \frac{b_k - \displaystyle\sum_{j=k+1}^n a_{kj} x_j}{a_{kk}}
+	a_{k,k} x_k = \sum_{j=k+1}^n a_{k,j} x_j = b_k \quad \to \quad
+	x_k = \frac{b_k - \displaystyle\sum_{j=k+1}^n a_{k,j} x_j}{a_{k,k}}
 \]
 In MatLab la \emph{sostituzione all'indietro} sarebbe così implementata:
 \begin{lstlisting}[language=matlab]
@@ -120,6 +120,20 @@ matrici.
 
 Vogliamo quindi rappresentare la matrice $A \in \R^{n \times n}$ come prodotto di due matrici $L$ ed $R$, la
 prima triangolare inferiore con elementi uguali a 1 sulla diagonale pricipale e la seconda triangolare superiore.
+\[
+	A = L \cdot R = \begin{pmatrix}
+		1       & 0      & \dots     & 0      \\
+		l_{2,1} & \ddots & \ddots    & \vdots \\
+		\vdots  & \ddots & \ddots    & 0      \\
+		l_{n,1} & \dots  & l_{n,n-1} & 1
+	\end{pmatrix} \cdot
+	\begin{pmatrix}
+		r_{1,1} & \dots  & \dots  & r_{1,n} \\
+		0       & \ddots &        & \vdots  \\
+		\vdots  & \ddots & \ddots & \vdots  \\
+		0       & \dots  & 0      & r_{n,n}
+	\end{pmatrix}
+\]
 
 Se siamo in grado di fare questo allora diciamo che $A$ è \textbf{fattorizzabile} nella forma $LR$
 (fattorizzazione di Gauss).
@@ -131,11 +145,11 @@ Se siamo in grado di fare questo allora diciamo che $A$ è \textbf{fattorizzabil
 	\[ \det(A) = \det(R) \neq 0 \]
 	Ne deduciamo quindi che, se tale fattorizzazione esiste, allora $L$ e $R$ sono invertibili. Vale quindi che
 	\[ A x = b \quad \Leftrightarrow \quad LR x = b \]
-	Imponendo $U x = y$ possiamo scrivere
+	Imponendo $R x = y$ possiamo scrivere
 	\[
 		\begin{cases}
 			L y = b \\
-			U x = y
+			R x = y
 		\end{cases}
 	\]
 	Il sistema lineare è dunque risolvibile tramite la risoluzione di due sistemi triangolari.
@@ -201,8 +215,8 @@ In generale, possiamo dire che una fattorizzazione di quel tipo non esiste neanc
 	perché, per qualsiasi valore di $x$, otteniamo una fattorizzazione $LR$.
 \end{example}
 
-Prima di proseguire introduciamo una notazione. Sia $A \in \R^{n \times n}$ la matrice ad elementi $(a_{ij})$
-chiamiamo $A_k = (a_{ij}) \in \R^{k \times k}$ \textbf{sottomatrici principali di testa} di $A$. Si tratta delle
+Prima di proseguire introduciamo una notazione. Sia $A \in \R^{n \times n}$ la matrice ad elementi $(a_{i,j})$
+chiamiamo $A_k = (a_{i,j}) \in \R^{k \times k}$ \textbf{sottomatrici principali di testa} di $A$. Si tratta delle
 matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 
 \begin{theorem}
@@ -216,16 +230,16 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 		matrice $A$ di ordine $n$ che scriviamo in questo modo
 		\[
 			A = \begin{pmatrix}
-				A_{n-1} & z      \\
-				w^T     & a_{nn}
+				A_{n-1} & z       \\
+				w^T     & a_{n,n}
 			\end{pmatrix} = L \cdot R =
 			\begin{pmatrix}
 				L_{n-1} & 0 \\
 				x^T     & 1
 			\end{pmatrix} \cdot
 			\begin{pmatrix}
-				R_{n-1} & y      \\
-				0       & r_{nn}
+				R_{n-1} & y       \\
+				0       & r_{n,n}
 			\end{pmatrix}
 		\]
 		Vogliamo quindi trovare due matrici $L$ e $R$ tali che $L \cdot R = A$. Per riuscire a farlo cerchiamo
@@ -238,7 +252,7 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 				L_{n-1} \cdot R_{n-1} = A_{n-1} \\
 				L_{n-1} \cdot y = z             \\
 				x^T \cdot R_{n-1} = w^T         \\
-				x^T \cdot y + r_{nn} = a_{nn}
+				x^T \cdot y + r_{n,n} = a_{n,n}
 			\end{cases}
 		\]
 		La prima equazione ci dice che $L_{n-1} \cdot R_{n-1}$ è una fattorizzazione della matrice $A_{n-1}$.
@@ -257,8 +271,8 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 		\[ \det(A_{n-1}) = \det(R_{n-1}) \]
 		Possiamo quindi scrivere
 		\[ x^T = w^T \cdot R_{n-1} \]
-		Una volta ricavati $x^T$ e $y$ troviamo $r_{nn}$ in modo univoco calcolando
-		\[ r_{nn} = a_{nn} - x^T \cdot y \]
+		Una volta ricavati $x^T$ e $y$ troviamo $r_{n,n}$ in modo univoco calcolando
+		\[ r_{n,n} = a_{n,n} - x^T \cdot y \]
 		Il sistema è quindi univocamente risolubile e quindi la fattorizzazione esiste ed è unica.
 	\end{proof}
 	Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
@@ -307,8 +321,8 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 			x^T     & 1
 		\end{pmatrix} \cdot
 		\begin{pmatrix}
-			R_{n-1} & y      \\
-			0       & r_{nn}
+			R_{n-1} & y       \\
+			0       & r_{n,n}
 		\end{pmatrix}
 	\]
 	Come abbiamo detto, abbiamo che
@@ -320,24 +334,24 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 			x^T     & 1
 		\end{pmatrix} \cdot
 		\begin{pmatrix}
-			I_{n-1} & y      \\
-			0       & r_{nn}
+			I_{n-1} & y       \\
+			0       & r_{n,n}
 		\end{pmatrix}
 	\]
 	A questo punto ricaviamo che
 	\begin{align*}
-		y =      & \begin{pmatrix} x_1 \\ \vdots \\ x_{n-1} \end{pmatrix} \\
-		x^T =    & \begin{pmatrix} x_1 & \dots & x_{n-1} \end{pmatrix}    \\
-		r_{nn} = & x_n - \sum_{i=1}^{n-1} x_i^2
+		y =       & \begin{pmatrix} x_1 \\ \vdots \\ x_{n-1} \end{pmatrix} \\
+		x^T =     & \begin{pmatrix} x_1 & \dots & x_{n-1} \end{pmatrix}    \\
+		r_{n,n} = & x_n - \sum_{i=1}^{n-1} x_i^2
 	\end{align*}
-	Quando $r_{nn} \neq 0$ allora la matrice è invertibile, ossia quando
+	Quando $r_{n,n} \neq 0$ allora la matrice è invertibile, ossia quando
 	\[ x_n - \sum_{i=1}^{n-1} x_i^2 \neq 0 \]
 	Risolvere i sistemi lineari per $L$ e $R$ appena trovate con l'eliminazione gaussiana ha un costo di $O(n)$
 	operazioni.
 \end{example}
 
 \begin{definition}
-	La matrice $A$ si dice \textbf{tridiagonale} se, per $|i - j| > 1$, l'elemento $a_{ij}$ è uguale a 0.
+	La matrice $A$ si dice \textbf{tridiagonale} se, per $|i - j| > 1$, l'elemento $a_{i,j}$ è uguale a 0.
 \end{definition}
 
 \begin{example}

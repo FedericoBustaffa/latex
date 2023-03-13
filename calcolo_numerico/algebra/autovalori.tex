@@ -78,32 +78,32 @@ Il contrario, in generale, non è vero. Non è detto che se lo 0 è compreso nel
 autovalore. Non possiamo quindi dedurre che la matrice sia singolare.
 
 \begin{theorem}[Gershgorin]
-	Sia $A = (a_{ij}) \in \C^{n \times n}$. Definiamo i \textbf{cerchi di Gershgorin} $K_i$, con $1 \leq i \leq n$
+	Sia $A = (a_{i,j}) \in \C^{n \times n}$. Definiamo i \textbf{cerchi di Gershgorin} $K_i$, con $1 \leq i \leq n$
 	come
-	\[ K_i = \{ z \in \C \mid |z - a_{ii}| \leq \sum_{j=1,\;j\neq i}^n |a_{ij}| \} \]
+	\[ K_i = \{ z \in \C \mid |z - a_{i,i}| \leq \sum_{j=1,\;j \neq i}^n |a_{i,j}| \} \]
 	Se $\lambda$ è un autovalore di $A$ allora questo appartiene all'unione dei $K_i$
 	\[ \lambda \in \cup_{i=1}^n K_i \]
 	\begin{proof}
 		Sia $\lambda$ autovalore di $A$ con corrispondente autovettore destro $x$. La relazione $A x = \lambda x$
 		implica che
-		\[ \sum_{j=1}^n a_{ij} x_j = \lambda x_i \quad 1 \leq i \leq n \]
+		\[ \sum_{j=1}^n a_{i,j} x_j = \lambda x_i \quad 1 \leq i \leq n \]
 		da cui
-		\[ (\lambda - a_{ii}) x_i = \sum_{j=1,\; j \neq i}^n a_{ij} x_j \quad 1 \leq i \leq n \]
+		\[ (\lambda - a_{i,i}) x_i = \sum_{j=1,\; j \neq i}^n a_{i,j} x_j \quad 1 \leq i \leq n \]
 		Sia $p$ l'indice di una componente di modulo massimo di $x$ allora $|x_p| = \| x \|_\infty$. Poiché
 		$x \neq 0$ si ha $|x_p| > 0$. La relazione per $i = p$ nell'equazione appena scritta vale
-		\[ (\lambda - a_{pp}) x_p = \sum_{j=1,\; j \neq p}^n a_{pj} x_j \]
+		\[ (\lambda - a_{p,p}) x_p = \sum_{j=1,\; j \neq p}^n a_{p,j} x_j \]
 		Passando ai valori assoluti otteniamo
 		\begin{align*}
-			|(\lambda - a_{pp} x_p)|                           &
-			= |\lambda - a_{pp}| \cdot |x_p| =                   \\
-			\left| \sum_{j=1,\; j \neq p}^n a_{pj} x_j \right| &
-			\leq \sum_{j=1,\; j \neq p}^n |a_{pj}| \cdot |x_j|
+			|(\lambda - a_{p,p} x_p)|                           &
+			= |\lambda - a_{p,p}| \cdot |x_p| =                   \\
+			\left| \sum_{j=1,\; j \neq p}^n a_{p,j} x_j \right| &
+			\leq \sum_{j=1,\; j \neq p}^n |a_{p,j}| \cdot |x_j|
 		\end{align*}
 		Dividendo ambo i membri per $|x_p|$ otteniamo
 		\[
-			|\lambda - a_{pp}| \leq
-			\sum_{j=1,\; j \neq p}^n |a_{pj}| \cdot \frac{|x_j|}{|x_p|} \leq
-			\sum_{j=1,\; j \neq p}^n |a_{pj}|
+			|\lambda - a_{p,p}| \leq
+			\sum_{j=1,\; j \neq p}^n |a_{p,j}| \cdot \frac{|x_j|}{|x_p|} \leq
+			\sum_{j=1,\; j \neq p}^n |a_{p,j}|
 		\]
 		Quest'ultima relazione implica che $\lambda \in K_p$.
 	\end{proof}
@@ -116,6 +116,6 @@ Se andiamo a vedere la relazione tra gli autovalori di $A$ e di $A^T$ possiamo n
 polinomio caratteristico dato che $\det(A) = \det(A^T)$. Volendo si potrebbe localizzare gli autovalori di $A$
 localizzando gli autovalori di $A^T$. Questo però ci fornisce i cerchi di Gershgorin per colonne rispetto agli
 elementi di $A$ ossia
-\[ H_i = \{ z \in \C \mid |z - a_{ii}| \leq \sum_{j=1,\;j\neq i}^n |a_{ji}| \} \]
+\[ H_i = \{ z \in \C \mid |z - a_{i,i}| \leq \sum_{j=1,\;j\neq i}^n |a_{j,i}| \} \]
 A questo punto, se volessimo localizzare gli autovalori potremmo dire che
 \[ \lambda \in \left( \cup_{i=1}^n K_i \right) \cap \left( \cup_{i=1}^n H_i \right) \]
