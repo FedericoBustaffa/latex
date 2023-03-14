@@ -1,4 +1,4 @@
-\section{Analisi degli errori}
+\section{Metodi di analisi dell'errore}
 Parliamo ora delle tecniche per l'analisi dell'errore. La continuità della funzione implica che il problema sia
 \emph{ben posto}. Dalla relazione
 \[
@@ -6,14 +6,22 @@ Parliamo ora delle tecniche per l'analisi dell'errore. La continuità della funz
 	\frac{f(\tx) - f(x)}{\tx - x} \frac{x}{f(x)} \frac{\tx - x}{x}
 \]
 si ricava che la \emph{differenziabilità} di $f(x)$ è essenziale per il controllo dell'errore inerente. In
-particolare se la funzione è \textbf{regolare}, ossia derivabile volte con derivate continue, allora vale
-lo sviluppo di Taylor
-\[ f(\tx) = f(x) + f'(x) (\tx - x) + \frac{f''(\xi) \cdot (\tx - x)^2}{2} \]
-con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
-\[
-	\ein = \frac{f(\tx) - f(x)}{f(x)} \doteq \frac{f'(x)}{f(x)} \cdot x \cdot \epsilon_x
-	= c_x \cdot \epsilon_x
-\]
+particolare se la funzione è \textbf{regolare}, ossia derivabile due volte con derivate continue, allora
+vale
+\[ f(\tx) = f(x) + f'(x) (\tx - x) + f''(\xi) \frac{(\tx - x)^2}{2} \]
+ossia, lo sviluppo di Taylor di $f$ con resto in forma di Lagrange arrestato al secondo ordine intorno a
+$\tx$ con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
+\begin{align*}
+	f(\tx) - f(x) =              & f'(x) (\tx - x) + f''(\xi) \frac{(\tx - x)^2}{2} \\
+	=                            & f'(x) \frac{\tx - x}{x} x +
+	f''(\xi) \frac{(\tx - x)^2}{x^2} \frac{x^2}{2}                                  \\
+	=                            & f'(x) \frac{\tx - x}{x} x +
+	f''(\xi) \left( \frac{\tx - x}{x} \right)^2 \frac{x^2}{2}                       \\
+	=                            & f'(x) \epsilon_x x +
+	f''(\xi) \epsilon_x^2 \frac{x^2}{2}                                             \\
+	\doteq                       & f'(x) \epsilon_x x                               \\
+	\frac{f(\tx) - f(x)}{f(x)} = & \frac{f'(x)}{f(x)} \epsilon_x x
+\end{align*}
 
 \subsection{Coefficiente di amplificazione}
 \begin{definition}

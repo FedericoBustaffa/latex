@@ -1,0 +1,41 @@
+\section{Errori nel calcolo di funzioni non razionali}
+Nel caso in cui si abbia a che fare con \textbf{funzioni non razionali} dobbiamo, prima di procedere al
+calcolo in macchina, approssimarla con una funzione razionale.
+
+Dobbiamo quindi trovare una funzione $h$ che approssima $f$, la quale introduce un nuovo tipo di errore, detto
+\textbf{errore analitico} dato dalla formula
+\[ \ean = \frac{h(x) - f(x)}{f(x)} \]
+Un possibile modo di approssimare la funzione $f$ è tramite lo sviluppo di Taylor arrestato ad un certo ordine.
+
+In questo corso non trattiamo l'errore analitico ma siamo comunque interessati all'analisi dell'errore inerente
+e algoritmico di funzioni non razionali.
+
+\begin{example}
+	Studiamo il condizionamento della funzione
+	\[ f(x) = \frac{e^x - 1}{x} \]
+	per $x \to 0^+$. Come sappiamo l'errore inerente, in un'analisi al primo ordine, equivale a
+	\[ \ein = \frac{f'(x)}{f(x)} \epsilon_x x \]
+	Mentre l'errore di rappresentazione sul dato iniziale equivale a
+	\[ \epsilon_x = \frac{\tx - x}{x} \]
+	con $|\epsilon_x| \leq u$. Per prima cosa dobbiamo calcolare la derivata della funzione $f$
+	\[ f'(x) = \frac{x e^x - 1 (e^x - 1)}{x^2} = \frac{x e^x - e^x + 1}{x^2} \]
+	Possiamo ora calcolare il coefficienti di amplificazione
+	\[
+		c_x = \frac{f'(x)}{f(x)} x =
+		\frac{x e^x - e^x + 1}{x^2} \frac{x}{e^x - 1} x =
+		\frac{x e^x - e^x + 1}{e^x - 1}
+	\]
+	Il limite per $x \to 0^+$, come possiamo notare, è un caso di indeterminazione
+	\[ \lim_{x \to 0^+} \frac{x e^x - e^x + 1}{e^x - 1} = \frac{0}{0} \]
+	risolvibile con il teorema di de l'H\^ospital calcolando il limite
+	\[ \lim_{x \to 0^+} \frac{e^x + x e^x - e^x}{e^x} = \lim_{x \to 0^+} x = 0 \]
+	Concludiamo quindi che il problema per $x \to 0^+$ è perfettamente ben condizionato.
+\end{example}
+
+\begin{example}
+	Calcoliamo l'errore algoritmico della funzione
+	\[ f(x) = \frac{e^x - 1}{x} \]
+	assumendo di avere a disposizione una funzione di macchina \verb|Exp| tale che
+	\[ \text{Exp} (x) = e^x (1 + \epsilon) \]
+	con $|\epsilon| \leq u$
+\end{example}
