@@ -10,18 +10,15 @@ In questo capitolo andremo a trattare la \emph{rappresentazione} dei numeri in m
 dell'aritmetica e quali \emph{errori} si possono generare.
 
 \section{Rappresentazione dei numeri}
-Cerchiamo come prima cosa di rappresentare i numeri in modo \textbf{univoco}. Come prima cosa abbandoniamo la
-forma frazionaria di rappresentazione. Come sappiamo le quantità
+Cerchiamo come prima cosa di rappresentare i numeri in modo \textbf{univoco}, per farlo abbandoniamo la forma
+frazionaria di rappresentazione. Come sappiamo, le quantità
 \[ 0.1 \quad \frac{1}{10} \quad \frac{2}{20} \]
 hanno tutte lo stesso valore ma, come possiamo facilmente intuire, la forma frazionaria fornisce infinite
-rappresentazioni tutte equivalenti per la stessa quantità $0.1$.
+rappresentazioni, tutte equivalenti per la stessa quantità $0.1$.
 
 Considerando anche che la riduzione ai minimi termini di una frazione è un'operazione in generale costosa ma
 necessaria al fine di avere espressioni più facili da calcolare, non ci possiamo permettere un tipo di
-rappresentazione di questo tipo.
-
-Ecco perché, per rappresentare numeri reali, utilizzeremo la rappresentazione tramite \emph{sequenza di cifre
-	decimali}.
+rappresentazione di questo tipo. Ecco perché rappresenteremo numeri reali come \emph{sequenza di cifre decimali}.
 
 \begin{observation}
 	Talvolta sarà necessario passare alla rappresentazione di numeri complessi ma, come sappiamo, possiamo vedere
@@ -39,12 +36,11 @@ Quest'ultima osservazione ci dice che un grado di approssimazione sarà necessar
 certo errore sulla rappresentazione.
 
 Per una questione di \emph{minimizzazione} dello spazio utilizzato per la rappresentazione dei numeri in
-macchina si farà ricorso ad esponenziali per rapprentare cifre non significative in forma \emph{compatta}.
+macchina si farà ricorso ad esponenziali per rappresentare cifre non significative in forma \emph{compatta}.
 
 \begin{example}
-	Per esempio, per rappresentare 0.0000001 si usa la seguente notazione
+	Per esempio, per rappresentare 0.0000001, si usa la seguente notazione
 	\[ 0.0000001 = 0.1 \cdot 10^{-6} \]
-	in quanto ci permette di rappresentare quei 6 zeri dopo la virgola rappresentando solo il 6 all'esponente.
 \end{example}
 
 \subsection{Rappresentazione normalizzata in virgola mobile}
