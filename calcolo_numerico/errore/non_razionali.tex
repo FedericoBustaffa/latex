@@ -71,3 +71,44 @@ e algoritmico di funzioni non razionali.
 	Concludiamo quindi che l'algoritmo è numericamente instabile quando $x$ tende a 0 da destra poiché
 	\[ \lim_{x \to 0^+} \frac{e^x}{|e^x-1|} = +\infty \]
 \end{example}
+
+\begin{example}
+	Consideriamo ora l'ultimo caso in cui introduciamo un cambio di variabile
+	\[ y = e^x \]
+	e valutiamo condizionamento e stabilità di un algoritmo equivalente, ossia
+	\[ g(y) = \frac{y - 1}{\ln (y)} \]
+	Assumiamo di avere a disposizione una funzione di macchina \verb|Ln| per il calcolo del logaritmo naturale
+	tale che
+	\[ \text{Ln}(y) = \ln (y) (1 + \epsilon_1) \]
+	con $|\epsilon_1| \leq u|$. Procediamo con un'analisi in avanti dell'errore algoritmico
+	\begin{center}
+		\begin{tikzpicture}[mynode/.style={draw=red, thick, circle, font=\Large}]
+			\node[mynode, label=left:$\epsilon$] at (0, 1.5) (y1) {$y$};
+			\node[mynode, label=left:$0$] at (0, 0) (1) {$1$};
+			\node[mynode, label=left:$\epsilon$] at (0, -1.5) (y2) {$y$};
+
+			\node[mynode, label=above:$\epsilon_2$] at (3.5, 0.75) (y-1) {$y-1$};
+			\node[mynode, label=below:$\epsilon_1$] at (3.5, -1.5) (lny) {$\ln (y)$};
+			\node[mynode, label=above:$\epsilon_3$] at (8, 0) (y-1/lny) {$\frac{y-1}{\ln (y)}$};
+
+			\path
+			(y1) edge[thick] node[above, black] {$\frac{y}{y-1}$} (y-1)
+			(1) edge[thick] node[below, black] {$\left( -\frac{1}{y-1} \right)$} (y-1)
+			(y-1) edge[thick] node[above, black] {$1$} (y-1/lny)
+			(y2) edge[thick] node[below, black] {$\frac{1}{\ln(y)}$} (lny)
+			(lny) edge[thick] node[below, black] {$-1$} (y-1/lny);
+		\end{tikzpicture}
+	\end{center}
+	Dato che $y=e^x$ stavolta $y$ non lo consideriamo numero di macchina ma lo consideriamo come risultato di
+	dell'operazione di esponenziazione e dobbiamo quindi considerare l'errore $\epsilon$ dovuto al calcolo di
+	$e^x$. Otteniamo quindi
+	\begin{align*}
+		\ealg =      & \epsilon_3 + 1 \left( \epsilon_2 + \frac{y}{y-1} \epsilon \right) -
+		1 \left( \epsilon_1 + \frac{1}{\ln (y)} \right) \epsilon                           \\
+		=            & \epsilon_3 + \epsilon_2 - \epsilon_1 +
+		\epsilon \left( \frac{y}{y-1} - \frac{1}{\ln (y)} \right)                          \\
+		|\ealg| \leq & 3u + u \left| \frac{y}{y-1} - \frac{1}{\ln(y)} \right|              \\
+	\end{align*}
+	Per $x$ che tende a $0^+$, $y$ tende a $1$ da destra e quindi
+	\[ \lim_{y \to 1^+} \frac{y}{y-1} - \frac{1}{\ln (y)} = +\infty - \infty \]
+\end{example}
