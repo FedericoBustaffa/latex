@@ -75,7 +75,8 @@ e algoritmico di funzioni non razionali.
 \begin{example}
 	Consideriamo ora l'ultimo caso in cui introduciamo un cambio di variabile
 	\[ y = e^x \]
-	e valutiamo condizionamento e stabilità di un algoritmo equivalente, ossia
+	e siamo interessati a valutare la stabilità di un algoritmo equivalente a quello visto negli esercizi appena
+	svolti, ossia
 	\[ g(y) = \frac{y - 1}{\ln (y)} \]
 	Assumiamo di avere a disposizione una funzione di macchina \verb|Ln| per il calcolo del logaritmo naturale
 	tale che
@@ -111,4 +112,33 @@ e algoritmico di funzioni non razionali.
 	\end{align*}
 	Per $x$ che tende a $0^+$, $y$ tende a $1$ da destra e quindi
 	\[ \lim_{y \to 1^+} \frac{y}{y-1} - \frac{1}{\ln (y)} = +\infty - \infty \]
+	Sviluppiamo quindi l'espressione in questo modo
+	\[
+		\lim_{y \to 1^+} \frac{y}{y-1} - \frac{1}{\ln(y)} =
+		\lim_{y \to 1^+} \frac{y \ln (y) - y + 1}{y \ln(y) - \ln (y)} = \frac{0}{0}
+	\]
+	A questo punto possiamo applicare il teorema di de l'H\^ospital ottenendo
+	\begin{align*}
+		  & \lim_{y \to 1^+} \frac{y \ln (y) - y + 1}{y \ln(y) - \ln (y)}            \\
+		= & \lim_{y \to 1^+} \frac{\ln (y) + 1 - 1}{\ln (y) + 1 - \frac{1}{y}}       \\
+		= & \lim_{y \to 1^+} \frac{\ln (y)}{\ln (y) + 1 - \frac{1}{y}} = \frac{0}{0}
+	\end{align*}
+	Applichiamo de l'H\^ospital una seconda volta
+	\begin{align*}
+		  & \lim_{y \to 1^+} \frac{\ln (y)}{\ln (y) + 1 - \frac{1}{y}}       \\
+		= & \lim_{y \to 1^+} \frac{\frac{1}{y}}{\frac{1}{y} + \frac{1}{y^2}} \\
+		= & \lim_{y \to 1^+} \frac{1}{1 + \frac{1}{y}} = \frac{1}{2}
+	\end{align*}
+	Concludiamo quindi che l'algoritmo è numericamente stabile per $y \to 1^+$. Ricordiamoci però che $y = e^x$
+	quindi possiamo riscrivere il limite in questo modo
+	\begin{align*}
+		  & \lim_{y \to 1^+} \frac{y \ln (y) - y + 1}{y \ln(y) - \ln (y)} \\
+		= & \lim_{e^x \to 1^+} \frac{x e^x - e^x + 1}{x e^x - x}          \\
+		= & \lim_{x \to 0^+} \frac{e^x + x e^x - e^x}{e^x + x e^x - 1}    \\
+		= & \lim_{x \to 0^+} \frac{e^x + x e^x}{e^x + e^x + x e^x}        \\
+		= & \lim_{x \to 0^+} \frac{1 + x}{2 + x} = \frac{1}{2}
+	\end{align*}
+	Quest'ultimo passaggio era ovvio ma è per mettere in evidenza che stiamo trattando un algoritmo che,
+	analiticamente, calcola lo stesso valore di quello visto nel primo esercizio ma che in macchina si comporta
+	meglio (almeno per $x \to 0^+$).
 \end{example}
