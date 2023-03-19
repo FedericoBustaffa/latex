@@ -52,10 +52,10 @@ valore compreso tra 0 e $u$.
 \begin{observation}
 	Possiamo osservare che
 	\begin{itemize}
-		\item La \emph{precisione di macchina} è indipendente dalla grandezza del numero e caratteristica
+		\item La \emph{precisione di macchina} è indipendente dalla grandezza del numero ed è caratteristica
 		      dell'aritmetica \emph{floating point} implementata sulla macchina su cui stiamo operando.
 
-		      Se ad esempio operiamo con arrotondamento, la distanza tra $x$ e la sua approssimazione di
+		      Se ad esempio operiamo con arrotondamento, la distanza tra $x$ e la sua approssimazione in
 		      macchina, e quindi la precisione di macchina, si dimezzano.
 		      \[ |\epsilon_x| = \left| \frac{\arr(x) - x}{x} \right| \leq \frac{B^{1 - t}}{2} = u \]
 		      Questo perché non abbiamo più una
@@ -117,7 +117,7 @@ approssimazione, il quale viene chiamato \textbf{errore di rappresentazione loca
 	Dove
 	\[ |\epsilon_x| \leq u \quad |\epsilon_1| \leq u \quad |\epsilon_2| \leq u \]
 	Noi siamo interessati ad un'analisi \emph{qualitativa} e per farla dobbiamo introdurre una semplificazione:
-	Svolgiamo un'\textbf{analisi al primo ordine}, semplifichiamo tutti i termini (di errore) di ordine superiore
+	Svolgiamo un'\textbf{analisi al primo ordine}, semplificando tutti i termini (di errore) di ordine superiore
 	al primo, in quanto considerabili come trascurabili.
 	\begin{align*}
 		       & \frac{[x (1 + \epsilon_x) - 1](1 + \epsilon_1)}{x (1 + \epsilon_x)} (1 + \epsilon_2) \\
