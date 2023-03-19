@@ -31,15 +31,20 @@ $\tx$ con $|\xi - x| \leq |\tx - x|$, da cui si ottiene
 \end{definition}
 
 Più in generale possiamo dire che se $f : \Omega \to \R$ è definita su un insieme aperto di $\R^n$, differenziabile
-due volte su $\Omega$ ed il segmento di estremi $\tx$ e $x$ è contenuto in $\Omega$ allora vale
+due volte su $\Omega$ ed il segmento di estremi $\tx$ e $x$ con
 \[
-	\ein = \frac{f(\tx) - f(x)}{f(x)} \doteq
-	\frac{1}{f(x)} \sum_{i=1}^n \frac{\partial f}{\partial x_i} (x) x_i \epsilon_{x_i} =
-	\sum_{i=1}^n c_{x_i} (f) \epsilon_{x_i}
+	\tx = \begin{bmatrix}
+		\tx_1 \\ \vdots \\ \tx_n
+	\end{bmatrix} \quad
+	x = \begin{bmatrix}
+		x_1 \\ \vdots \\ x_n
+	\end{bmatrix}
 \]
-con
-\[ c_{x_i} (f) = \frac{1}{f(x)} \frac{\partial f}{\partial x_i} (x) x_i \]
-con $1 \leq i \leq n$, detti coefficienti di amplificazione della funzione $f$ rispetto alla variabile $x_i$.
+è contenuto in $\Omega$ allora il coefficiente di amplificazione della funzione $f$ rispetto alla variabile
+$x_i$ si calcola tramite la seguente formula:
+\[ c_{x_i} (f) = \frac{1}{f(x)} \cdot \frac{\partial f}{\partial x_i} (x) \cdot x_i \]
+con $1 \leq i \leq n$. L'errore inerente è dunque pari a
+\[ \ein = \frac{f(\tx) - f(x)}{f(x)} \doteq \sum_{i=1}^n c_{x_i} (f) \epsilon_{x_i} \]
 
 \begin{example}
 	Per $f(x) = \frac{x^2 + 1}{x}$ si ha
