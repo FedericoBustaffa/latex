@@ -395,3 +395,28 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 	all'ordine $n-1$. Le sottomatrici sono tutte \emph{predominanti diagonali} in quanto, se $A$ è predominante
 	diagonale anche le sue sottomatrici sono predominanti diagonali e dunque invertibili.
 \end{example}
+
+\subsection{Eliminazione gaussiana}
+Parliamo ora di come sia possibile calcolare una fattorizzazione $LU$ per la risoluzione di sistemi lineari
+tramite eliminazione gaussiana.
+
+\subsubsection{Matrici elementari di Gauss}
+Per riuscire a calcolare tale fattorizzazione abbiamo bisogno di una \textbf{matrice elementare di Gauss}. Una
+matrice $A$ è elementare se è possibile esprimerla in questo modo
+\[ A = I + u \cdot v^T \]
+Le matrici elementari di Gauss sono particolari matrici elementari nelle quali il vettore $v$ è un vettore della
+base canonica e il vettore $u$ ha le prime $j$ componenti nulle.
+\[ A = I + u \cdot e_j^T \]
+con $u_1 = u_2 = \dots = u_j = 0$. Le matrici elementari di Gauss sono triangolari inferiori con tutti 1 sulla
+diagonale principale.
+\[
+	I + u \cdot e_1^T =
+	\begin{pmatrix}
+		1   & 0 & 0 \\
+		u_2 & 1 & 0 \\
+		u_3 & 0 & 1
+	\end{pmatrix}
+\]
+L'inversa di una matrice elementare di Gauss è equivalente alla stessa matrice dove si cambia segno agli elementi
+del vettore $u$.
+\[ A^{-1} = I - u \cdot e_j^T \]
