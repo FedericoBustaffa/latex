@@ -633,3 +633,45 @@ della computazione è quindi $O(n^3)$.
 	\]
 	Facciamo il prodotto $L \cdot U$ per verificare che la fattorizzazione sia corretta.
 \end{example}
+
+\subsubsection{Eliminazione gaussiana con pivoting parziale}
+Supponiamo di avere ora una matrice $A$ definta come segue
+\[
+	A = \begin{bmatrix}
+		1 & 1 & 1 \\
+		1 & 1 & 2 \\
+		1 & 2 & 3
+	\end{bmatrix}
+\]
+In questo caso se provassimo ad applicare l'algoritmo appena visto otteniamo dopo il primo passaggio
+\[
+	A_1 = \begin{bmatrix}
+		1 & 1 & 1 \\
+		0 & 0 & 1 \\
+		0 & 1 & 2
+	\end{bmatrix}
+\]
+La quale non ci permette di compiere un ulteriore passo. Ma come possiamo notare, scambiando le ultime due righe
+si giunge ad una forma triangolare. Questa \textbf{non} è una fattorizzazione $LU$ di $A$, vale infatti
+\[ P_2 E_1 A = U \]
+dove $P_2$ è detta \textbf{matrice di permutazione}, la quale scambia le ultime due righe ed è definita come
+segue
+\[
+	P_2 = \begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & 0 & 1 \\
+		0 & 1 & 0
+	\end{bmatrix}
+\]
+A questo punto per ricaviamo $A$ in questo modo
+\[ A = E_1^{-1} P_2^{-1} U \]
+L'inversa di una matrice di permutazione coincide con la trasposta.
+\[ P^{-1} = P^T \]
+
+Supponiamo ora che una generica matrice
+\[
+	\begin{bmatrix}
+
+	\end{bmatrix}
+\]
+sia invertibile.
