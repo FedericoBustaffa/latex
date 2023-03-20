@@ -8,21 +8,21 @@ La prima cosa che vogliamo osservare è che per particolari classi della matrice
 risolubile. Prendiamo ad esempio la classe delle matrici \textbf{diagonali} ossia matrici con tutti gli elementi
 fuori dalla diagonale principale nulli (per $i \neq j$ vale $a_{i,j} = 0$). Per esempio sono matrici diagonali
 \[
-	\begin{pmatrix}
+	\begin{bmatrix}
 		1 & 0 & 0 \\
 		0 & 3 & 0 \\
 		0 & 0 & 2
-	\end{pmatrix} \quad
-	\begin{pmatrix}
+	\end{bmatrix} \quad
+	\begin{bmatrix}
 		2 & 0 & 0 \\
 		0 & 5 & 0 \\
 		0 & 0 & 0
-	\end{pmatrix} \quad
-	\begin{pmatrix}
+	\end{bmatrix} \quad
+	\begin{bmatrix}
 		0 & 0 & 0 \\
 		0 & 0 & 0 \\
 		0 & 0 & 0
-	\end{pmatrix}
+	\end{bmatrix}
 \]
 Se proviamo a calcolare il determinante della matrice $A$ possiamo vedere che questo equivale al prodotto degli
 elementi sulla diagonale principale, così come possiamo dimostrare che gli autovalori sono esattamente gli
@@ -54,16 +54,16 @@ Prendiamo ora in esame il caso delle matrici triangolari.
 Non facciamo nessuna assunzione sugli altri elementi: la matrice nulla è sia triangolare superiore che inferiore.
 Esempi di matrici triangolari inferiori e superiori sono
 \[
-	\begin{pmatrix}
+	\begin{bmatrix}
 		1 & 0 & 0 \\
 		2 & 4 & 0 \\
 		3 & 1 & 9
-	\end{pmatrix} \quad
-	\begin{pmatrix}
+	\end{bmatrix} \quad
+	\begin{bmatrix}
 		1 & 3 & 5 \\
 		0 & 2 & 7 \\
 		0 & 0 & 4
-	\end{pmatrix}
+	\end{bmatrix}
 \]
 Il determinante di una matrice triangolare, se calcolato ad esempio con lo sviluppo di Laplace secondo la prima
 colonna, risulta ancora una volta equivalente al prodotto degli elementi sulla diagonale principale.
@@ -123,18 +123,18 @@ matrici.
 Vogliamo quindi rappresentare la matrice $A \in \R^{n \times n}$ come prodotto di due matrici $L$ ed $U$, la
 prima triangolare inferiore con elementi uguali a 1 sulla diagonale pricipale e la seconda triangolare superiore.
 \[
-	A = L \cdot U = \begin{pmatrix}
+	A = L \cdot U = \begin{bmatrix}
 		1       & 0      & \dots     & 0      \\
 		l_{2,1} & \ddots & \ddots    & \vdots \\
 		\vdots  & \ddots & \ddots    & 0      \\
 		l_{n,1} & \dots  & l_{n,n-1} & 1
-	\end{pmatrix} \cdot
-	\begin{pmatrix}
+	\end{bmatrix} \cdot
+	\begin{bmatrix}
 		u_{1,1} & \dots  & \dots  & u_{1,n} \\
 		0       & \ddots &        & \vdots  \\
 		\vdots  & \ddots & \ddots & \vdots  \\
 		0       & \dots  & 0      & u_{n,n}
-	\end{pmatrix}
+	\end{bmatrix}
 \]
 
 Se siamo in grado di fare questo allora diciamo che $A$ è \textbf{fattorizzabile} nella forma $LU$
@@ -169,25 +169,25 @@ Il problema è che, in generale, una decomposizione di questo tipo \textbf{non e
 \begin{example}
 	Prendiamo la matrice
 	\[
-		A  = \begin{pmatrix}
+		A  = \begin{bmatrix}
 			0 & 1 \\
 			1 & 0
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	e proviamo a cercare una fattorizzazione per tale matrice in questo modo
 	\[
-		\begin{pmatrix}
+		\begin{bmatrix}
 			0 & 1 \\
 			1 & 0
-		\end{pmatrix} =
-		\begin{pmatrix}
+		\end{bmatrix} =
+		\begin{bmatrix}
 			1 & 0 \\
 			x & 1
-		\end{pmatrix} \cdot
-		\begin{pmatrix}
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
 			u_1 & u_2 \\
 			0   & u_3
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	Vogliamo provare a trovare $x$, $u_1$, $u_2$ e $u_3$ che soddisfano questa relazione. Se facciamo prima riga
 	per prima colonna notiamo subito che $u_1$ deve essere uguale a 0, ma a questo punto, se proviamo a fare
@@ -200,18 +200,18 @@ In generale, possiamo dire che una fattorizzazione di quel tipo non esiste neanc
 \begin{example}
 	Proviamo ora a trovare una fattorizzazione per la matrice nulla
 	\[
-		\begin{pmatrix}
+		\begin{bmatrix}
 			0 & 0 \\
 			0 & 0
-		\end{pmatrix} =
-		\begin{pmatrix}
+		\end{bmatrix} =
+		\begin{bmatrix}
 			1 & 0 \\
 			x & 1
-		\end{pmatrix} \cdot
-		\begin{pmatrix}
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
 			0 & 0 \\
 			0 & 0
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	Come possiamo vedere, la fattorizzazione in questo caso esiste ma non è univocamente determinata. Questo
 	perché, per qualsiasi valore di $x$, otteniamo una fattorizzazione $LU$.
@@ -231,18 +231,18 @@ matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
 		Assumiamo che il teorema sia vero per una qualsiasi matrice di ordine fino a $n-1$ e consideriamo una
 		matrice $A$ di ordine $n$ che scriviamo in questo modo
 		\[
-			A = \begin{pmatrix}
+			A = \begin{bmatrix}
 				A_{n-1} & z       \\
 				w^T     & a_{n,n}
-			\end{pmatrix} = L \cdot U =
-			\begin{pmatrix}
+			\end{bmatrix} = L \cdot U =
+			\begin{bmatrix}
 				L_{n-1} & 0 \\
 				x^T     & 1
-			\end{pmatrix} \cdot
-			\begin{pmatrix}
+			\end{bmatrix} \cdot
+			\begin{bmatrix}
 				U_{n-1} & y       \\
 				0       & u_{n,n}
-			\end{pmatrix}
+			\end{bmatrix}
 		\]
 		Vogliamo quindi trovare due matrici $L$ e $U$ tali che $L \cdot U = A$. Per riuscire a farlo cerchiamo
 		gli elementi dei vari partizionamenti con i quali abbiamo organizzato le matrici tali che $L \cdot U = A$.
@@ -299,13 +299,13 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 \begin{example}
 	Prendiamo la matrice $A \in \R^{n \times n}$ così definita
 	\[
-		A = \begin{pmatrix}
+		A = \begin{bmatrix}
 			1      & 0      & \dots  & 0      & x_1    \\
 			0      & \ddots & \ddots & \vdots & \vdots \\
 			\vdots & \ddots & \ddots & 0      & \vdots \\
 			0      & \dots  & 0      & 1      & \vdots \\
 			x_1    & \dots  & \dots  & \dots  & x_n
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	detta \textbf{matrice a freccia}. Il problema che ci poniamo è trovare per quali $x_i$ con $1 \leq i \leq n$
 	la matrice ammette fattorizzazione $LU$ e in caso affermativo, trovare la fattorizzazione $LU$ per tali
@@ -318,32 +318,32 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 	Per trovare tale fattorizzazione dobbiamo trovare la fattorizzazione $LU$ della matrice di ordine $n-1$. Per
 	farlo scriviamo
 	\[
-		A = \begin{pmatrix}
+		A = \begin{bmatrix}
 			L_{n-1} & 0 \\
 			x^T     & 1
-		\end{pmatrix} \cdot
-		\begin{pmatrix}
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
 			U_{n-1} & y       \\
 			0       & u_{n,n}
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	Come abbiamo detto, abbiamo che
 	\[ A_{n-1} = I_{n-1} \]
 	L'identità di ordine $n-1$ si fattorizza come l'identità per se stessa. Possiamo quindi scrivere
 	\[
-		A = \begin{pmatrix}
+		A = \begin{bmatrix}
 			I_{n-1} & 0 \\
 			x^T     & 1
-		\end{pmatrix} \cdot
-		\begin{pmatrix}
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
 			I_{n-1} & y       \\
 			0       & u_{n,n}
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	A questo punto ricaviamo che
 	\begin{align*}
-		y =       & \begin{pmatrix} x_1 \\ \vdots \\ x_{n-1} \end{pmatrix} \\
-		x^T =     & \begin{pmatrix} x_1 & \dots & x_{n-1} \end{pmatrix}    \\
+		y =       & \begin{bmatrix} x_1 \\ \vdots \\ x_{n-1} \end{bmatrix} \\
+		x^T =     & \begin{bmatrix} x_1 & \dots & x_{n-1} \end{bmatrix}    \\
 		u_{n,n} = & x_n - \sum_{i=1}^{n-1} x_i^2
 	\end{align*}
 	Quando $u_{n,n} \neq 0$ allora la matrice è invertibile, ossia quando
@@ -383,13 +383,13 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 \begin{example}
 	Prendiamo la seguente matrice \emph{tridiagonale} $A \in \R^{n \times n}$
 	\[
-		A = \begin{pmatrix}
+		A = \begin{bmatrix}
 			3      & -1     & 0      & \dots  & 0      \\
 			-1     & \ddots & \ddots & \ddots & \vdots \\
 			0      & \ddots & \ddots & \ddots & 0      \\
 			\vdots & \ddots & \ddots & \ddots & -1     \\
 			0      & \dots  & 0      & -1     & 3
-		\end{pmatrix}
+		\end{bmatrix}
 	\]
 	Se volessimo applicare il teorema dobbiamo andare a verificare l'invertibilità di tutte le sottomatrici fino
 	all'ordine $n-1$. Le sottomatrici sono tutte \emph{predominanti diagonali} in quanto, se $A$ è predominante
@@ -401,22 +401,235 @@ Parliamo ora di come sia possibile calcolare una fattorizzazione $LU$ per la ris
 tramite eliminazione gaussiana.
 
 \subsubsection{Matrici elementari di Gauss}
-Per riuscire a calcolare tale fattorizzazione abbiamo bisogno di una \textbf{matrice elementare di Gauss}. Una
-matrice $A$ è elementare se è possibile esprimerla in questo modo
+Fino ad ora non abbiamo parlato di fattorizzazione $LU$ ma non abbiamo un vero e proprio algoritmo per riuscire a
+calcolarla. A tal proposito dobbiamo introdurre le \textbf{matrici elementari di Gauss}, ossia matrici elementari
+espresse come
 \[ A = I + u \cdot v^T \]
 Le matrici elementari di Gauss sono particolari matrici elementari nelle quali il vettore $v$ è un vettore della
 base canonica e il vettore $u$ ha le prime $j$ componenti nulle.
 \[ A = I + u \cdot e_j^T \]
 con $u_1 = u_2 = \dots = u_j = 0$. Le matrici elementari di Gauss sono triangolari inferiori con tutti 1 sulla
-diagonale principale.
+diagonale principale. Per esempio per $j=1$ abbiamo
 \[
 	I + u \cdot e_1^T =
-	\begin{pmatrix}
+	\begin{bmatrix}
 		1   & 0 & 0 \\
 		u_2 & 1 & 0 \\
 		u_3 & 0 & 1
-	\end{pmatrix}
+	\end{bmatrix}
 \]
-L'inversa di una matrice elementare di Gauss è equivalente alla stessa matrice dove si cambia segno agli elementi
-del vettore $u$.
-\[ A^{-1} = I - u \cdot e_j^T \]
+\begin{theorem}
+	L'inversa di una matrice elementare di Gauss è equivalente alla stessa matrice dove si cambia segno agli
+	elementi del vettore $u$.
+	\[ A^{-1} = I - u \cdot e_j^T \]
+	\begin{proof}
+		Per dimostrarlo è sufficiente verificare la seguente uguaglianza
+		\[ (I + u \cdot e_j^T) \cdot (I - u \cdot e_j^T) = I \]
+		Sviluppando il prodotto otteniamo
+		\[
+			(I + u \cdot e_j^T) \cdot (I - u \cdot e_j^T) =
+			I + u \cdot e_j^T - u \cdot e_j^T - u \cdot e_j^T \cdot u \cdot e_j^T
+		\]
+		Dato che il prodotto riga per colonna tra matrici è associativo è possibile svolgere per primo il prodotto
+		riga per colonna
+		\[ e_j^T \cdot u = 0 \]
+		A questo punto l'ultimo termine dell'equazione si annulla e otteniamo l'identità.
+	\end{proof}
+\end{theorem}
+
+Le matrici elementari di Gauss godono di una proprietà importante per riuscire a calcolare la fattorizzazione
+$LU$ di una matrice $A$. In particolare questa proprietà è necessaria per riuscire a mettere degli zeri dove
+necessario in modo da ottenere una matrice triangolare.
+
+\begin{theorem}\label{th: eliminazione_gauss}
+	Sia $x \in \R^n$ con $x_k \neq 0$ allora esiste una matrice elementare di Gauss $E$ tale che
+	\[
+		E \cdot x = \begin{bmatrix}
+			x_1 \\ \vdots \\ x_k \\ 0 \\ \vdots \\ 0
+		\end{bmatrix}
+	\]
+	\begin{proof}
+		Prendiamo
+		\[ E = I + u e_k^T \]
+		con $u_1 = \cdots = u_k = 0$. Calcoliamo quindi $E \cdot x$
+		\[
+			(I + u e_k^T) x = x + u x_k =
+			\begin{bmatrix}
+				x_1 \\ \vdots \\ x_k \\ x_{k+1} \\ \vdots \\ x_n
+			\end{bmatrix} + x_k
+			\begin{bmatrix}
+				0 \\ \vdots \\ 0 \\ u_{k+1} \\ \vdots \\ u_n
+			\end{bmatrix} =
+			\begin{bmatrix}
+				x_1 \\ \vdots \\ x_k \\ x_{k+1} + x_k u_{k+1} \\ \vdots \\ x_n + x_k u_n
+			\end{bmatrix}
+		\]
+		Dato che vogliamo le componenti dalla $(k+1)$-esima alla $n$-esima uguali a 0 basta imporre
+		\begin{align*}
+			u_{k+1} = & -\frac{x_{k+1}}{x_k} \\
+			\vdots    &                      \\
+			u_n =     & -\frac{x_n}{x_k}
+		\end{align*}
+		Le quali sono quantità ben definite dato che $x_k \neq 0$.
+	\end{proof}
+\end{theorem}
+
+\subsubsection{Algoritmo per l'eliminazione gaussiana}
+Passiamo ora al calcolo della fattorizzazione $LU$ tramite matrici elementari di Gauss. Supponiamo di avere una
+generica matrice $A$ così definita
+\[
+	A = A_0 = \begin{bmatrix}
+		a_{1,1}^{(0)} & \dots & a_{1,n}^{(0)} \\
+		\vdots        &       & \vdots        \\
+		a_{n,1}^{(0)} & \dots & a_{n,n}^{(0)}
+	\end{bmatrix}
+\]
+Per questo metodo supponiamo $a_{1,1}^{(0)} \neq 0$. Allora possiamo determinare $E_1$ tale che
+\[
+	E_1 \cdot \begin{bmatrix}
+		a_{1,1}^{(0)} \\ \vdots \\ a_{n,1}^{(0)}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		a_{1,1}^{(0)} \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}
+\]
+Ricaviamo quindi che
+\[ E_1 = I + u e_1^T \]
+con
+\[
+	u = \begin{bmatrix}
+		0 \\ -\frac{a_{2,1}^{(0)}}{a_{1,1}^{(0)}} \\ \vdots \\ -\frac{a_{n,1}^{(0)}}{a_{1,1}^{(0)}}
+	\end{bmatrix}
+\]
+A questo punto, possiamo generare la matrice $A_1$ come segue
+\[ A_1 = E_1 \cdot A_0 = E_1 \cdot A \]
+La matrice $A_1$ ha la seguente forma
+\[
+	A_1 = \begin{bmatrix}
+		a_{1,1}^{(1)} & \dots         & \dots & a_{1,n}^{(1)} \\
+		0             & a_{2,2}^{(1)} & \dots & a_{2,n}^{(1)} \\
+		\vdots        & \vdots        &       & \vdots        \\
+		0             & a_{n,2}^{(1)} & \dots & a_{n,n}^{(1)}
+	\end{bmatrix}
+\]
+dove
+\[ a_{1,i}^{(1)} = a_{1,i}^{(0)} \]
+e con
+\[ a_{i,j}^{(1)} = a_{i,j}^{(0)} + \left( -\frac{a_{i,1}^{(0)}}{a_{1,1}^{(0)}} \right) \cdot a_{1,j}^{(0)} \]
+Questo per ogni elemento $a_{i,j}^{(1)}$ con $2 \leq i,j \leq n$.
+
+Gli elementi sulla prima colonna di $E_1$ eccetto l'1 sulla diagonale sono detti \textbf{moltiplicatori} di
+Gauss. Per riuscire a calcolarli dobbiamo fare $n-1$ divisioni. Una volta ottenuti dobbiamo fare un prodotto
+e un'addizione per $(n-1)^2$ elementi per aggiornare la matrice. Ne deduciamo che il passaggio da $A_0$ ad $A_1$
+è costato $(n-1)^2$ operazioni moltiplicative.
+
+Ora passiamo alla seconda colonna e supponiamo $a_{2,2}^{(1)} \neq 0$ allora possiamo determinare $E_2$ tale che
+\[
+	E_2 \cdot \begin{bmatrix}
+		a_{1,2}^{(1)} \\ \vdots \\ a_{n,2}^{(1)}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		a_{1,2}^{(1)} \\ a_{2,2}^{(1)} \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}
+\]
+Per il teorema \ref{th: eliminazione_gauss} abbiamo che
+\[ E_2 = I + u e_2^T \]
+dove
+\[
+	u = \begin{bmatrix}
+		0 \\ 0 \\ -\frac{a_{3,2}^{(1)}}{a_{2,2}^{(1)}} \\ \vdots \\ -\frac{a_{n,2}^{(1)}}{a_{2,2}^{(1)}}
+	\end{bmatrix}
+\]
+Una volta ottenuto $u$ possiamo calcolare $A_2$ in questo modo
+\[ A_2 = E_2 \cdot A_1 = E_2 \cdot E_1 \cdot A_0 \]
+ottenendo una matrice con la seguente forma
+\[
+	A_2 = \begin{bmatrix}
+		a_{1,1}^{(2)} & \dots         & \dots         & \dots & a_{1,n}^{(2)} \\
+		0             & a_{2,2}^{(2)} & \dots         & \dots & a_{2,n}^{(2)} \\
+		\vdots        & 0             & a_{3,3}^{(2)} & \dots & a_{3,n}^{(2)} \\
+		\vdots        & \vdots        & \vdots        &       & \vdots        \\
+		0             & 0             & a_{n,3}^{(2)} & \dots & a_{n,n}^{(2)}
+	\end{bmatrix}
+\]
+A questo punto se $a_{3,3}^{(2)} \neq 0$ possiamo andare avanti fino a $a_{n,n}^{(n-1)}$ definendo così tutte
+le matrici elementari di Gauss $E_i$ con $1 \leq i \leq n-1$ e ottenendo la matrice triangolare superiore $U$
+in questo modo
+\[ E_{n-1} \dots E_1 A_0 = U \]
+Non ci rimane che calcolare $L$. Per farlo scriviamo
+\[ A = A_0 = E_1^{-1} \dots E_{n-1}^{-1} U \]
+da cui possiamo dedurre che
+\[ L = E_1^{-1} \dots E_{n-1}^{-1} \]
+Valutiamo ora il costo computazionale per il calcolo di una fattorizzazione $LU$ utilizzando il metodo appena
+descritto. In generale, il passaggio da $A_i$ ad $A_j$ ha costo $O((n-j)^2)$ operazioni. Il costo complessivo
+della computazione è quindi $O(n^3)$.
+
+\begin{example}
+	Calcoliamo la fattorizzazione $LU$ della matrice $A$ definita come segue
+	\[ A = \begin{bmatrix}
+			1 & 1 & 1 \\
+			1 & 2 & 2 \\
+			1 & 2 & 3
+		\end{bmatrix}
+	\]
+	Prima di tutto vogliamo calcolarci $E_1$ tale che
+	\[ E_1 \begin{bmatrix}
+			1 \\ 1 \\ 1
+		\end{bmatrix} = \begin{bmatrix}
+			1 \\ 0 \\ 0
+		\end{bmatrix}
+	\]
+	Per il teorema \ref{th: eliminazione_gauss} possiamo prendere $E_1$ tale che
+	\[ E_1 = I + u e_1^T \]
+	con
+	\[ u = \begin{bmatrix} 0 \\ -1 \\ -1 \end{bmatrix} \]
+	Ricaviamo quindi
+	\[
+		E_1 = \begin{bmatrix}
+			1  & 0 & 0 \\
+			-1 & 1 & 0 \\
+			-1 & 0 & 1
+		\end{bmatrix}
+	\]
+	Possiamo ora calcolare $A_1$
+	\[
+		A_1 = E_1 A = \begin{bmatrix}
+			1 & 1 & 1 \\
+			0 & 1 & 1 \\
+			0 & 1 & 2
+		\end{bmatrix}
+	\]
+	Dato che $a_{2,2}^{(1)} \neq 0$ allora procediamo con il calcolo di $E_2$ tale che
+	\[
+		E_2 = I + u e_2^T = \begin{bmatrix}
+			1 & 0  & 0 \\
+			0 & 1  & 0 \\
+			0 & -1 & 1 \\
+		\end{bmatrix}
+	\]
+	A questo punto possiamo calcolare $A_2$
+	\[
+		A_2 = E_2 A_1 = \begin{bmatrix}
+			1 & 1 & 1 \\
+			0 & 1 & 1 \\
+			0 & 0 & 1
+		\end{bmatrix} = U
+	\]
+	Non ci rimane che trovare $L$ in questo modo
+	\[
+		E_1^{-1} E_2^{-1} = \begin{bmatrix}
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+			1 & 0 & 1
+		\end{bmatrix} \begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 1 & 1
+		\end{bmatrix} = \begin{bmatrix}
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+			1 & 1 & 1
+		\end{bmatrix} = L
+	\]
+	Facciamo il prodotto $L \cdot U$ per verificare che la fattorizzazione sia corretta.
+\end{example}

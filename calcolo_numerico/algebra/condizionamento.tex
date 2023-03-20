@@ -6,13 +6,13 @@ Per semplicità supponiamo di perturbare solo il termine noto ottenendo
 \[ A \hat{x} = b + \delta b \]
 Come sempre consideriamo che, in generale, quando si va ad inserire una quantità in macchina questa non sarà un
 numero di macchina. Se abbiamo quindi il vettore
-\[ b = \begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix} \]
+\[ b = \begin{bmatrix} b_1 \\ \vdots \\ b_n \end{bmatrix} \]
 in macchina avremo il vettore
 \[
-	\hat{b} = \begin{pmatrix} \hat{b}_1 \\ \vdots \\ \hat{b}_n \end{pmatrix} =
-	\begin{pmatrix} b_1 (1 + \epsilon_1) \\ \vdots \\ b_n (1 + \epsilon_n)	\end{pmatrix} =
-	\begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix} +
-	\begin{pmatrix} b_1 \epsilon_1 \\ \vdots \\ b_n \epsilon_n \end{pmatrix}
+	\hat{b} = \begin{bmatrix} \hat{b}_1 \\ \vdots \\ \hat{b}_n \end{bmatrix} =
+	\begin{bmatrix} b_1 (1 + \epsilon_1) \\ \vdots \\ b_n (1 + \epsilon_n)	\end{bmatrix} =
+	\begin{bmatrix} b_1 \\ \vdots \\ b_n \end{bmatrix} +
+	\begin{bmatrix} b_1 \epsilon_1 \\ \vdots \\ b_n \epsilon_n \end{bmatrix}
 \]
 Per riuscire a stimare quanto $x$ sia perturbato nel calcolo in macchina calcoliamo
 \[
