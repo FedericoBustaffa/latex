@@ -668,10 +668,29 @@ A questo punto per ricaviamo $A$ in questo modo
 L'inversa di una matrice di permutazione coincide con la trasposta.
 \[ P^{-1} = P^T \]
 
-Supponiamo ora che una generica matrice
+Consideriamo ora la generica matrice $A$ e supponiamo che sia invertibile. Se la matrice è invertibile allora
+sulla prima colonna c'è almeno un elemento non nullo.
 \[
-	\begin{bmatrix}
-
+	A = \begin{bmatrix}
+		a_{1,1}^{(0)} & \dots & a_{1,n}^{(0)} \\
+		\vdots        &       & \vdots        \\
+		a_{n,1}^{(0)} & \dots & a_{n,n}^{(0)}
 	\end{bmatrix}
 \]
-sia invertibile.
+Se ci troviamo nell'ipotesi che $A$ sia invertibile l'algoritmo, all'$i$-esimo passo procede in questo modo:
+\begin{enumerate}
+	\item Per motivi di stabilità andiamo a scegliere l'elemento di modulo massimo della $i$-esima colonna.
+	      Determiniamo quindi $k$ tale che
+	      \[
+		      | a_{k,i}^{(0)} | = \norm{
+			      \begin{bmatrix}
+				      a_{1,i}^{(0)} \\ \vdots \\ a_{n,i}^{(0)}
+			      \end{bmatrix}}_\infty
+	      \]
+	      L'elemento di modulo massimo garantisce che gli elementi di $L$ saranno più piccoli possibile. Per
+	      trovarlo si ha un costo di $O(n)$ operazioni (scansione del vettore).
+	\item Scambiamo l'$i$-esima riga con la $k$-esima determinando una matrice $P_i$ che effettua tale scambio
+	      \[ P_i \cdot A_{i-1} \]
+	\item Procediamo con l'eliminazione di gauss determinando $E_i$ e ricavando la matrice $A_i$ in questo modo
+	      \[ A_i = E_i \cdot P_i \cdot A_{i-1} \]
+\end{enumerate}
