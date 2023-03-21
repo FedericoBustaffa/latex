@@ -680,11 +680,11 @@ sulla prima colonna c'è almeno un elemento non nullo.
 Se ci troviamo nell'ipotesi che $A$ sia invertibile l'algoritmo, all'$i$-esimo passo procede in questo modo:
 \begin{enumerate}
 	\item Per motivi di stabilità andiamo a scegliere l'elemento di modulo massimo della $i$-esima colonna.
-	      Determiniamo quindi $k$ tale che
+	      Tale elemento è detto \textbf{pivot} e si trova sulla riga $k$ con $k$ tale che
 	      \[
-		      | a_{k,i}^{(0)} | = \norm{
+		      | a_{k,i}^{(i-1)} | = \norm{
 			      \begin{bmatrix}
-				      a_{1,i}^{(0)} \\ \vdots \\ a_{n,i}^{(0)}
+				      a_{1,i}^{(i-1)} \\ \vdots \\ a_{n,i}^{(i-1)}
 			      \end{bmatrix}}_\infty
 	      \]
 	      L'elemento di modulo massimo garantisce che gli elementi di $L$ saranno più piccoli possibile. Per
@@ -694,3 +694,36 @@ Se ci troviamo nell'ipotesi che $A$ sia invertibile l'algoritmo, all'$i$-esimo p
 	\item Procediamo con l'eliminazione di gauss determinando $E_i$ e ricavando la matrice $A_i$ in questo modo
 	      \[ A_i = E_i \cdot P_i \cdot A_{i-1} \]
 \end{enumerate}
+Una volta eseguiti $n-1$ passi dell'algoritmo otteniamo $U$ calcolando
+\[ U = E_{n-1} P_{n-1} \dots E_1 P_1 A_0 \]
+che possiamo riscrivere come
+\[ A = E_{n-1} P_{n-1} \dots E_1 P_1 U = L U \]
+Dove $U$ è una triangolare superiore e $L$ non è triangolare inferiore per effetto del prodotto con le matrici
+di permutazione.
+
+Questa fattorizzazione è calcolabile per una qualsiasi matrice invertibile e ha ottime proprietà di stabilità
+numerica.
+
+Dato che i pivot sono scelti prendendo l'elemento di modulo massimo della colonna che abbiamo come
+riferimento, questa tecnica è detta \textbf{eliminazione gaussiana con pivoting parziale} che è anche l'algoritmo
+di riferimento che viene usato in MatLab tramite l'operatore \verb|\| quando vogliamo risolvere un sistema lineare
+$Ax = b$ e calcoliamo il vettore soluzione tramite
+\begin{center}
+	\verb|x = A \ b|
+\end{center}
+Se invece andassimo a scegliere l'elemento di modulo massimo su tutta la matrice dovremmo permutare sia righe
+che colonne, si parlerebbe di \textbf{eliminazione gaussiana con pivoting totale}, la quale ha stabilità ancora
+migliore ma intacca la complessità, in quanto la ricerca dell'elemento di modulo massimo dell'intera matrice ha
+costo $O(n^2)$.
+
+Per il calcolo del determinante teniamo sempre a mente che, per il teorema di Binet, vale
+\[ \det(A) = \det(L) \cdot \det(U) \]
+Per calcolare $\det(L)$ teniamo a mente che il determinante di una matrice elementare di Gauss è 1, mentre il
+determinante di una matrice di permutazione può essere $\pm 1$. Dobbiamo quindi calcolare il prodotto tra tutti
+i $\pm 1$ e moltiplicarlo per $\det(U)$. Dato che $U$ è una matrice triangolare il determinante equivale al
+prodotto di tutti gli elementi sulla diagonale.
+
+Per la risoluzione del sistema lineare $Ax = b$ non è necessario calcolare fattorizzazione di $A$. Possiamo
+applicare le matrici di eliminazione e permutazione ad $A$ e $b$ passo dopo passo, ottenendo dei sistemi
+equivalenti. Questo ci fa risparmiare memoria evitando di mantenere tutte le matrici di eliminazione e
+permutazione.
