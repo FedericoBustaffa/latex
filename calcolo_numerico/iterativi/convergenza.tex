@@ -1,0 +1,188 @@
+\section{Convergenza}
+Cerchiamo ora di capire come scegliere $M$ ed $N$, come capire quando un metodo è convergente e che cosa
+significa dire che un metodo è convergente. Prendiamo ad esempio la matrice quadrata $A$ definita come segue
+\[
+	A = \begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+	\end{bmatrix}
+\]
+In questo caso non possiamo usare il metodo di Jacobi e quindi nemmeno quello di Gauss-Seidel dato che la
+matrice $A$ ha tutti 0 sulla diagonale principale. Ma la condizione necessaria affinché la successione
+converga è che $M$ sia invertibile. Possiamo quindi definire $M$ ed $N$ come segue
+\[
+	M = \begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+	\end{bmatrix} \quad
+	N = \begin{bmatrix}
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\]
+In questo caso la matrice $P$ è la matrice nulla
+\[
+	P = M^{-1} N = \begin{bmatrix}
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\]
+Abbiamo quindi che il vettore $x$ al tempo $k+1$ si ricava calcolando
+\[ x^{(k+1)} P x^{(k)} + q = P x^{(k)} + M^{-1} b \]
+Questa successione, partendo da un vettore $x^{(0)} \in \R^n$, è costante in quanto
+\[ x^{(k+1)} M^{-1} b \]
+e quindi converge a $M^{-1} b$ per qualsiasi $x^{(0)} \in \R^n$ che è dunque la soluzione del sistema lineare.
+
+Consideriamo ora la stessa matrice $A$ ma scegliamo come $M$ l'identità. Ne segue che
+\[
+	N = M - A = \begin{bmatrix}
+		1  & -1 \\
+		-1 & 1
+	\end{bmatrix}
+\]
+Il vettore all'iterazione $k+1$ sarà quindi calcolato come segue
+\[
+	x^{(k+1)} = \begin{bmatrix}
+		1  & -1 \\
+		-1 & 1
+	\end{bmatrix} x^{(k)} + b
+\]
+Supponiamo inoltre che $b$ sia il vettore nullo, è facile dedurre che l'unica soluzione del sistema lineare è
+anch'essa un vettore nullo.
+
+Gli autovalori di $N$ sono $\lambda_1 = 0$ e $\lambda_2 = 2$. Gli autovettori relativi a tali autovalori sono
+\[ \begin{bmatrix} 1 \\ 1 \end{bmatrix}_{\lambda_1} \quad \begin{bmatrix} 1 \\ -1 \end{bmatrix}_{\lambda_2} \]
+Se ora scegliamo $x^{(0)}$ come l'autovettore relativo a $\lambda_1$ ricaviamo
+\[
+	x^{(1)} = \begin{bmatrix}
+		1  & -1 \\
+		-1 & 1
+	\end{bmatrix}
+	\begin{bmatrix} 1 \\ 1 \end{bmatrix} +
+	\begin{bmatrix} 0 \\ 0 \end{bmatrix} =
+	\begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+e tutti i vettori generati ai passi successivi sono vettori nulli. Ecco che la successione converge al vettore
+nullo, ossia la soluzione che stavamo cercando.
+
+Se invece scegliamo come vettore di partenza l'autovettore relativo a $\lambda_2$ allora otteniamo
+\[
+	x^{(1)} = \begin{bmatrix}
+		1  & -1 \\
+		-1 & 1
+	\end{bmatrix}
+	\begin{bmatrix} 1 \\ -1 \end{bmatrix} +
+	\begin{bmatrix} 0 \\ 0 \end{bmatrix} =
+	\begin{bmatrix} 2 \\ -2 \end{bmatrix}
+\]
+Andando avanti si nota che la successione diverge dal vettore nullo. Questo ci dice che la successione può
+convergere a divergere a seconda del vettore iniziale.
+
+\begin{definition}
+	Dato che, in generale, non si hanno informazione utili per scegliere il vettore iniziale, diciamo che il
+	metodo iterativo è \textbf{convergente} se le successione generate convergono per ogni scelta del vettore
+	iniziale.
+\end{definition}
+
+\begin{theorem}
+	Se esiste una norma matriciale indotta da una norma vettoriale $\norm{\cdot}$ tale che
+	\[ \norm{P} < 1 \]
+	allora il metodo è convergente.
+	\begin{proof}
+		Come sappiamo
+		\[ x^{(k+1)} = P x^{(k)} + q \]
+		e la soluzione del sistema lineare soddisfa
+		\[ x = P x + q \]
+		Se adesso sottraiamo la prima equazione alla seconda otteniamo
+		\[ x^{(k+1)} - x = P x^{(k)} - P x = P (x^{(k)} - x) \]
+		Se noi chiamiamo $e^{(k)}$ la differenza tra l'approssimazione alla $k$-esima iterazione e il vettore
+		soluzione
+		\[ e^{(k)} = x^{(k)} - x \]
+		otteniamo la relazione
+		\[ e_{k+1} = P e^{(k)} \]
+		per ogni $k \geq 0$. Questo ci dice inoltre che
+		\[ e^{(k+1)} = P e^{(k)} = P \cdot P e^{(k-1)} = \dots = P^{k+1} e^{(0)} \]
+		Passiamo ora alle norme vettoriale e otteniamo
+		\[
+			\norm{e^{(k+1)}} = \norm{P^{k+1} e^{(0)}} \leq
+			\norm{P^{k+1}} \norm{e^{(0)}} \leq \norm{P^{k+1}} \norm{e^{(0)}}
+		\]
+		per la quarta proprietà delle norme. Quindi per ogni norma vettoriale, considerando la sua norma
+		matriciale indotta vale
+		\[ 0 \leq \norm{e^{(k+1)}} \leq \norm{P}^{k+1} \cdot \norm{e^{(0)}} \]
+		Se considero una norma tale che $\norm{P} < 1$ allora
+		\[ \lim_{k \to +\infty} \norm{P}^{k+1} \norm{e^{(0)}} = 0 \]
+		E quindi, per il teorema del confronto
+		\[ \lim_{k \to +\infty} \norm{e^{(k+1)}} = 0 \]
+		qualunque sia $e^{(0)}$.
+	\end{proof}
+\end{theorem}
+
+\begin{example}
+	Sia $A$ la matrice definita come segue
+	\[
+		A = \begin{bmatrix}
+			3      & -1     & 0      & \dots  & 0      \\
+			-1     & \ddots & \ddots & \ddots & \vdots \\
+			0      & \ddots & \ddots & \ddots & 0      \\
+			\vdots & \ddots & \ddots & \ddots & -1     \\
+			0      & \dots  & 0      & -1     & 3
+		\end{bmatrix}
+	\]
+	Il metodo di Jacobi, ad ogni passo costa $O(\nnz(A))$ ma per una matrice triadiagonale $\nnz(A) = n$ quindi
+	il costo complessivo di ogni passo del metodo è $O(n)$.
+
+	Vediamo ora se il metodo converge per tale matrice. Per il metodo la matrice $M$ equivale a $3I$, quindi
+	\[
+		N = M - A = \begin{bmatrix}
+			0      & 1      & 0      & \dots  & 0      \\
+			1      & \ddots & \ddots & \ddots & \vdots \\
+			0      & \ddots & \ddots & \ddots & 0      \\
+			\vdots & \ddots & \ddots & \ddots & 1      \\
+			0      & \dots  & 0      & 1      & 0
+		\end{bmatrix}
+	\]
+	e la matrice $P$ si ottiene calcolando
+	\[
+		P = M^{-1} N = \begin{bmatrix}
+			0           & \frac{1}{3} & 0      & \dots       & 0           \\
+			\frac{1}{3} & \ddots      & \ddots & \ddots      & \vdots      \\
+			0           & \ddots      & \ddots & \ddots      & 0           \\
+			\vdots      & \ddots      & \ddots & \ddots      & \frac{1}{3} \\
+			0           & \dots       & 0      & \frac{1}{3} & 0
+		\end{bmatrix}
+	\]
+	A questo punto proviamo a calcolare la norma infinto di $P$ (la norma 1 è uguale)
+	\[ \norm{P}_\infty = \norm{P}_1 = \frac{2}{3} < 1 \]
+	Quindi il metodo converge.
+\end{example}
+
+\begin{theorem}\label{th: convergenza_spettrale}
+	Sia $P$ la matrice di iterazione della matrice $A$ associata al sistema lineare $Ax = b$. Allora se
+	\[ \rho (P) < 1 \]
+	il metodo iterativo è convergente.
+\end{theorem}
+
+\begin{example}
+	Sia $A$ la matrice definita come segue
+	\[
+		A = \begin{bmatrix}
+			1  &        &        & -\alpha \\
+			-1 & \ddots &        &         \\
+			   & \ddots & \ddots &         \\
+			   &        & -1     & 1
+		\end{bmatrix}
+	\]
+	Per tale matrice otteniamo una matrice di iterazione
+	\[
+		P = \begin{bmatrix}
+			  &        &   & \alpha \\
+			1 &        &   &        \\
+			  & \ddots &   &        \\
+			  &        & 1 &
+		\end{bmatrix}
+	\]
+	Se proviamo a calcolare la norma vediamo che essa è sempre maggiore di 1 e quindi non sappiamo nulla sulla
+	convergenza o meno del metodo. Proviamo quindi ad utilizzare il teorema \ref{th: convergenza_spettrale}
+	calcoando $\rho (P)$.
+\end{example}

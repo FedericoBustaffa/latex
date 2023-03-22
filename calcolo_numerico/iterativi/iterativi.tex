@@ -24,30 +24,30 @@ con $M$ invertibile ($\det(M) = 0$) allora vale
 \end{gather*}
 Osserviamo quindi che trovare la soluzione del sistema lineare $Ax = b$ equivale a trovare il vettore $x$ tale che
 \[ x = Px + q \]
-dove $P = M^{-1} N$ e $q = M^{-1} b$. Per generare la successione possiamo scegliere un vettore di partenza $x_0$
-e calcolare iterativamente altri vettori $x_{k+1}$ iterativamente.
+dove $P = M^{-1} N$ e $q = M^{-1} b$. Per generare la successione possiamo scegliere un vettore di partenza
+$x^{(0)}$ e calcolare iterativamente gli altri vettori $x^{(k+1)}$.
 \[
 	\begin{cases}
-		x_0 \in \R^n \\
-		x_{k+1} = P x_k + q
+		x^{(0)} \in \R^n \\
+		x^{(k+1)} = P x_k + q
 	\end{cases}
 \]
-Ovviamente la relazione $x_{k+1} = P x_k + q$ è esprimibile anche in forma estesa
+Ovviamente la relazione $x^{(k+1)} = P x^{(k)} + q$ è esprimibile anche in forma estesa
 \begin{gather*}
-	x_{k+1} = P x_k + q \\
+	x^{(k+1)} = P x^{(k)} + q \\
 	\Leftrightarrow         \\
-	M x_{k+1} = N x_k + b
+	M x^{(k+1)} = N x^{(k)} + b
 \end{gather*}
 Quest'ultima relazione è quella che viene di fatto implementata nei vari algoritmi. La matrice $P$ non viene quasi
 mai esplicitamente generata perché si potrebbe perdere la sparsità della matrice.
 
 Per riuscire a capire se una sequenza di vettori converge in un vettore $x$ deve valere la seguente relazione
-\[ \lim_{k \to +\infty} x_k = x \Leftrightarrow \lim_{k \to +\infty} \norm{x_k - x} = 0 \]
+\[ \lim_{k \to +\infty} x^{(k)} = x \Leftrightarrow \lim_{k \to +\infty} \norm{x^{(k)} - x} = 0 \]
 Questa relazione vale a prescindere dalla norma che stiamo considerando. Se però consideriamo la norma infinito
 vale che
-\[ \norm{x_k - x}_\infty = \max | (x_k - x)_i | \quad i = 1, \dots, n \]
+\[ \norm{x^{(k)} - x}_\infty = \max | (x^{(k)} - x)_i | \quad i = 1, \dots, n \]
 quindi vale
-\[ 0 \leq | (x_k - x)_i | \leq \max | (x_k - x)_i | \quad i = 1, \dots, n \]
+\[ 0 \leq | (x^{(k)} - x)_i | \leq \max | (x^{(k)} - x)_i | \quad i = 1, \dots, n \]
 possiamo quindi affermare che, se consideriamo la norma infinito, la successione di vettori converge nel vettore
 soluzione se, per ogni vettore della successione, ogni componente converge nella componente corrispondente del
 vettore soluzione.
@@ -55,15 +55,15 @@ vettore soluzione.
 \begin{theorem}
 	Se la successione dei vettori generati iterativamente converge allora converge nella soluzione che stiamo
 	cercando
-	\[ \lim_{k \to +\infty} x_k = x \in \R^n \Rightarrow x = Px + q \]
+	\[ \lim_{k \to +\infty} x^{(k)} = x \in \R^n \Rightarrow x = Px + q \]
 	\begin{proof}
 		Dimostrare il teorema è semplice in quanto se
-		\[ x_{k+1} = P x_k + q \]
+		\[ x^{(k+1)} = P x^{(k)} + q \]
 		basta fare il limite per $k \to +\infty$ per ambo i membri e otteniamo
 		\begin{align*}
-			\lim_{x \to +\infty} x_{k+1} & = \lim_{k \to +\infty} P x_k + q \\
-			                             & \Downarrow                       \\
-			x                            & = P x + q
+			\lim_{x \to +\infty} x^{(k+1)} & = \lim_{k \to +\infty} P x^{(k)} + q \\
+			                               & \Downarrow                           \\
+			x                              & = P x + q
 		\end{align*}
 	\end{proof}
 \end{theorem}
@@ -103,7 +103,7 @@ per passo. Se la matrice è piena, al caso pessimo ne facciamo $n^2$.
 Questo metodo nasce come modifica del metodo di Jacobi poiché, in tale metodo, quando calcoliamo $x^{(k+1)}_i$,
 abbiamo già calcolato le componenti del vettore $x^{(k+1)}$ dalla prima alla $(i-1)$-esima.
 
-Questo metodo sfrutta le componenti già calcolate per calcolare le successive e quindi per ottenere la componente
+Questo metodo sfrutta le componenti già calcolate per calcolare le successive. Per ottenere quindi la componente
 $i$-esima del vettore $x^{(k+1)}$ calcoliamo
 \[
 	x^{(k+1)}_i =
@@ -111,9 +111,12 @@ $i$-esima del vettore $x^{(k+1)}$ calcoliamo
 	\sum_{j=i+1}^{n} a_{i,j} x^{(k)}_j \right)
 \]
 Nella prima sommatoria gli elementi non sono conosciuti solo al tempo $k$ ma anche al tempo $k+1$ e quindi la
-formula sopra si modifica e diventa
+formula sopra si modifica come segue
 \[
 	x^{(k+1)}_i =
 	\frac{1}{a_{i,i}} \left( b_i - \sum_{j=1}^{i-1} a_{i,j} x^{(k+1)}_j -
 	\sum_{j=i+1}^{n} a_{i,j} x^{(k)}_j \right)
 \]
+L'iterazione per questo metodo ha lo stesso costo di prima in quanto si fa un prodotto ogni volta che si ha un
+elemento di $A$ non nullo. Abbiamo quindi un costo $O(\nnz(A))$ che equivale al costo del prodotto matrice per
+vettore.
