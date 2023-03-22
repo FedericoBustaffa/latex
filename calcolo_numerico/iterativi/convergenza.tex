@@ -122,11 +122,10 @@ convergere a divergere a seconda del vettore iniziale.
 	Sia $A$ la matrice definita come segue
 	\[
 		A = \begin{bmatrix}
-			3      & -1     & 0      & \dots  & 0      \\
-			-1     & \ddots & \ddots & \ddots & \vdots \\
-			0      & \ddots & \ddots & \ddots & 0      \\
-			\vdots & \ddots & \ddots & \ddots & -1     \\
-			0      & \dots  & 0      & -1     & 3
+			3  & -1     &        &    \\
+			-1 & \ddots & \ddots &    \\
+			   & \ddots & \ddots & -1 \\
+			   &        & -1     & 3
 		\end{bmatrix}
 	\]
 	Il metodo di Jacobi, ad ogni passo costa $O(\nnz(A))$ ma per una matrice triadiagonale $\nnz(A) = n$ quindi
@@ -135,21 +134,19 @@ convergere a divergere a seconda del vettore iniziale.
 	Vediamo ora se il metodo converge per tale matrice. Per il metodo la matrice $M$ equivale a $3I$, quindi
 	\[
 		N = M - A = \begin{bmatrix}
-			0      & 1      & 0      & \dots  & 0      \\
-			1      & \ddots & \ddots & \ddots & \vdots \\
-			0      & \ddots & \ddots & \ddots & 0      \\
-			\vdots & \ddots & \ddots & \ddots & 1      \\
-			0      & \dots  & 0      & 1      & 0
+			0 & 1      &        &   \\
+			1 & \ddots & \ddots &   \\
+			  & \ddots & \ddots & 1 \\
+			  &        & 1      & 0
 		\end{bmatrix}
 	\]
 	e la matrice $P$ si ottiene calcolando
 	\[
 		P = M^{-1} N = \begin{bmatrix}
-			0           & \frac{1}{3} & 0      & \dots       & 0           \\
-			\frac{1}{3} & \ddots      & \ddots & \ddots      & \vdots      \\
-			0           & \ddots      & \ddots & \ddots      & 0           \\
-			\vdots      & \ddots      & \ddots & \ddots      & \frac{1}{3} \\
-			0           & \dots       & 0      & \frac{1}{3} & 0
+			0           & \frac{1}{3} &             &             \\
+			\frac{1}{3} & \ddots      & \ddots      &             \\
+			            & \ddots      & \ddots      & \frac{1}{3} \\
+			            &             & \frac{1}{3} & 0
 		\end{bmatrix}
 	\]
 	A questo punto proviamo a calcolare la norma infinto di $P$ (la norma 1 è uguale)
@@ -184,5 +181,17 @@ convergere a divergere a seconda del vettore iniziale.
 	\]
 	Se proviamo a calcolare la norma vediamo che essa è sempre maggiore di 1 e quindi non sappiamo nulla sulla
 	convergenza o meno del metodo. Proviamo quindi ad utilizzare il teorema \ref{th: convergenza_spettrale}
-	calcoando $\rho (P)$.
+	calcolando $\rho (P)$.
+
+	Per calcolare il raggio spettrale di $P$ dobbiamo calcolare gli autovalori e quindi il polinomio
+	caratteristico, che risulta uguale a
+	\[ \det(\lambda I - P) = \lambda^n - \alpha \]
+	Dato che a noi interessa il modulo degli autovalori possiamo dire che
+	\[ |\lambda| = \sqrt[n]{|\alpha|} \]
+	Possiamo quindi dire che il metodi converge quando
+	\[
+		\sqrt[n]{|\alpha|} < 1 \quad
+		\Leftrightarrow \quad |\alpha| < 1 \quad
+		\Leftrightarrow \quad -1 < \alpha < 1
+	\]
 \end{example}

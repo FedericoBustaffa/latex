@@ -300,11 +300,10 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 	Prendiamo la matrice $A \in \R^{n \times n}$ così definita
 	\[
 		A = \begin{bmatrix}
-			1      & 0      & \dots  & 0      & x_1    \\
-			0      & \ddots & \ddots & \vdots & \vdots \\
-			\vdots & \ddots & \ddots & 0      & \vdots \\
-			0      & \dots  & 0      & 1      & \vdots \\
-			x_1    & \dots  & \dots  & \dots  & x_n
+			1   &        &       & x_1    \\
+			    & \ddots &       & \vdots \\
+			    &        & 1     & \vdots \\
+			x_1 & \dots  & \dots & x_n
 		\end{bmatrix}
 	\]
 	detta \textbf{matrice a freccia}. Il problema che ci poniamo è trovare per quali $x_i$ con $1 \leq i \leq n$
@@ -384,11 +383,10 @@ L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alc
 	Prendiamo la seguente matrice \emph{tridiagonale} $A \in \R^{n \times n}$
 	\[
 		A = \begin{bmatrix}
-			3      & -1     & 0      & \dots  & 0      \\
-			-1     & \ddots & \ddots & \ddots & \vdots \\
-			0      & \ddots & \ddots & \ddots & 0      \\
-			\vdots & \ddots & \ddots & \ddots & -1     \\
-			0      & \dots  & 0      & -1     & 3
+			3  & -1     &        &    \\
+			-1 & \ddots & \ddots &    \\
+			   & \ddots & \ddots & -1 \\
+			   &        & -1     & 3
 		\end{bmatrix}
 	\]
 	Se volessimo applicare il teorema dobbiamo andare a verificare l'invertibilità di tutte le sottomatrici fino
@@ -479,9 +477,9 @@ Passiamo ora al calcolo della fattorizzazione $LU$ tramite matrici elementari di
 generica matrice $A$ così definita
 \[
 	A = A_0 = \begin{bmatrix}
-		a_{1,1}^{(0)} & \dots & a_{1,n}^{(0)} \\
-		\vdots        &       & \vdots        \\
-		a_{n,1}^{(0)} & \dots & a_{n,n}^{(0)}
+		a_{1,1}^{(0)} & \dots  & a_{1,n}^{(0)} \\
+		\vdots        & \ddots & \vdots        \\
+		a_{n,1}^{(0)} & \dots  & a_{n,n}^{(0)}
 	\end{bmatrix}
 \]
 Per questo metodo supponiamo $a_{1,1}^{(0)} \neq 0$. Allora possiamo determinare $E_1$ tale che
@@ -506,10 +504,10 @@ A questo punto, possiamo generare la matrice $A_1$ come segue
 La matrice $A_1$ ha la seguente forma
 \[
 	A_1 = \begin{bmatrix}
-		a_{1,1}^{(1)} & \dots         & \dots & a_{1,n}^{(1)} \\
-		0             & a_{2,2}^{(1)} & \dots & a_{2,n}^{(1)} \\
-		\vdots        & \vdots        &       & \vdots        \\
-		0             & a_{n,2}^{(1)} & \dots & a_{n,n}^{(1)}
+		a_{1,1}^{(1)} & \dots         & \dots  & a_{1,n}^{(1)} \\
+		0             & a_{2,2}^{(1)} & \dots  & a_{2,n}^{(1)} \\
+		\vdots        & \vdots        & \ddots & \vdots        \\
+		0             & a_{n,2}^{(1)} & \dots  & a_{n,n}^{(1)}
 	\end{bmatrix}
 \]
 dove
@@ -672,9 +670,9 @@ Consideriamo ora la generica matrice $A$ e supponiamo che sia invertibile. Se la
 sulla prima colonna c'è almeno un elemento non nullo.
 \[
 	A = \begin{bmatrix}
-		a_{1,1}^{(0)} & \dots & a_{1,n}^{(0)} \\
-		\vdots        &       & \vdots        \\
-		a_{n,1}^{(0)} & \dots & a_{n,n}^{(0)}
+		a_{1,1}^{(0)} & \dots  & a_{1,n}^{(0)} \\
+		\vdots        & \ddots & \vdots        \\
+		a_{n,1}^{(0)} & \dots  & a_{n,n}^{(0)}
 	\end{bmatrix}
 \]
 Se ci troviamo nell'ipotesi che $A$ sia invertibile l'algoritmo, all'$i$-esimo passo procede in questo modo:

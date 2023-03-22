@@ -75,10 +75,10 @@ di una matrice $M$ definita come la matrice diagonale composta dagli elementi di
 Ne segue che la matrice $N$ avrà la seguente forma
 \[
 	N = M - A = \begin{bmatrix}
-		0        & -a_{1,2} & \dots      & -a_{1,n}   \\
-		-a_{2,1} & \ddots   & \ddots     & \vdots     \\
-		\vdots   & \ddots   & \ddots     & -a_{n-1,n} \\
-		-a_{n,1} & \dots    & -a_{n,n-1} & 0
+		         & -a_{1,2} & \dots      & -a_{1,n}   \\
+		-a_{2,1} &          & \ddots     & \vdots     \\
+		\vdots   & \ddots   &            & -a_{n-1,n} \\
+		-a_{n,1} & \dots    & -a_{n,n-1} &
 	\end{bmatrix}
 \]
 Dato che per applicare il metodo descritto in precedenza la matrice $M$ deve essere invertibile, il meotodo di
@@ -101,9 +101,10 @@ per passo. Se la matrice è piena, al caso pessimo ne facciamo $n^2$.
 
 \subsection{Metodo di Gauss-Seidel}
 Questo metodo nasce come modifica del metodo di Jacobi poiché, in tale metodo, quando calcoliamo $x^{(k+1)}_i$,
-abbiamo già calcolato le componenti del vettore $x^{(k+1)}$ dalla prima alla $(i-1)$-esima.
+abbiamo già calcolato le componenti del vettore $x^{(k+1)}$ dalla prima alla $(i-1)$-esima. Inoltre prendiamo
+la matrice $M$ come la parte triangolare inferiore di $A$.
 
-Questo metodo sfrutta le componenti già calcolate per calcolare le successive. Per ottenere quindi la componente
+Esso sfrutta le componenti già calcolate per calcolare le successive. Per ottenere quindi la componente
 $i$-esima del vettore $x^{(k+1)}$ calcoliamo
 \[
 	x^{(k+1)}_i =
