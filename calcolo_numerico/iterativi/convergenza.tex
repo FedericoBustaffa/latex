@@ -229,3 +229,75 @@ convergere a divergere a seconda del vettore iniziale.
 	\[ \rho(G) \ll \rho(J) \]
 	Questo si traduce in una convergenza più rapida per il metodo di Gauss-Seidel (in questo caso).
 \end{example}
+
+\begin{example}
+	Consideriamo ora la matrice
+	\[
+		A = \begin{bmatrix}
+			n      & -1     & \dots  & -1     \\
+			-1     & \ddots & \ddots & \vdots \\
+			\vdots & \ddots & \ddots & -1     \\
+			-1     & \dots  & -1     & n
+		\end{bmatrix}
+	\]
+	Proviamo a capire se il metodo di Jacobi applicato a questa matrice è convergente. Ricaviamo le matrici $M$
+	ed $N$
+	\[
+		M = \begin{bmatrix}
+			n &        &   \\
+			  & \ddots &   \\
+			  &        & n
+		\end{bmatrix} \quad
+		N = M - A = \begin{bmatrix}
+			       & 1      & \dots  & 1      \\
+			1      &        & \ddots & \vdots \\
+			\vdots & \ddots &        & 1      \\
+			1      & \dots  & 1      &
+		\end{bmatrix}
+	\]
+	La matrice di iterazione è quindi
+	\[
+		P = M^{-1} N = \begin{bmatrix}
+			            & \frac{1}{n} & \dots       & \frac{1}{n} \\
+			\frac{1}{n} &             & \ddots      & \vdots      \\
+			\vdots      & \ddots      &             & \frac{1}{n} \\
+			\frac{1}{n} & \dots       & \frac{1}{n} &
+		\end{bmatrix}
+	\]
+	Non ci rimane che calcolare la norma di questa matrice per vedere se il metodo converge
+	\[ \norm{P}_\infty = \norm{P}_1 = \frac{n-1}{n} < 1 \]
+	dunque il metodo converge.
+
+	Vogliamo ora determinare un numero $k$ di iterazioni del metodo di Jacobi sufficienti a garantire che
+	\[ \frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} \leq 10^{-12} \]
+	Vogliamo quindi determinare un numero $k$ di iterazioni tale che l'errore al passo $k$-esimo fratto l'errore
+	al passo iniziale sia minore o uguale di $10^{-12}$. Ricordiamoci che l'errore al passo $k$-esimo equivale a
+	\[ e^{(k)} = P^k e^{(0)} \]
+	Quindi possiamo dire che
+	\begin{align*}
+		\norm{e^{(k)}}_\infty                               & \leq \norm{P}_\infty^k \cdot \norm{e^{(0)}}_\infty \\
+		                                                    & \Downarrow                                         \\
+		\frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} & \leq \norm{P}_\infty^k
+	\end{align*}
+	Nel metodo di Jacobi la norma infinito della matrice di iterazione vale
+	\begin{align*}
+		\norm{P}                                            & = \frac{n-1}{n}                     \\
+		                                                    & \Downarrow                          \\
+		\norm{P}_\infty^k                                   & = \left( \frac{n-1}{n} \right)^k    \\
+		                                                    & \Downarrow                          \\
+		\frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} & \leq \left( \frac{n-1}{n} \right)^k
+	\end{align*}
+	Non ci rimane che determinare $k$ tale che
+	\[ \left( \frac{n-1}{n} \right)^k \leq 10^{-12} \]
+	Per farlo proseguiamo in questo modo
+	\begin{align*}
+		\left( \frac{n-1}{n} \right)^k                          & \leq 10^{-12}             \\
+		\log_{10} \left( \left( \frac{n-1}{n} \right)^k \right) & \leq \log_{10} (10^{-12}) \\
+		k \cdot \log_{10} \left( \frac{n-1}{n} \right)          & \leq -12                  \\
+		k                                                       & \geq \frac{-12}{\log_{10}
+			\left( \frac{n-1}{n} \right)}
+	\end{align*}
+	Ecco che ci basta prendere come $k$
+	\[ k = \left\lceil \frac{-12}{\left( \frac{n-1}{n} \right)} \right\rceil \]
+	ossia la parte intera superiore del membro a destra della disequazione.
+\end{example}
