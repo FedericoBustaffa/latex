@@ -194,4 +194,38 @@ convergere a divergere a seconda del vettore iniziale.
 		\Leftrightarrow \quad |\alpha| < 1 \quad
 		\Leftrightarrow \quad -1 < \alpha < 1
 	\]
+	Proviamo ora a vedere qual'è la condizione di convergenza per il metodo di Gauss-Seidel. Abbiamo le matrici
+	$M$ ed $N$ così definite
+	\[
+		M = \begin{bmatrix}
+			1  &        &            \\
+			-1 & \ddots &            \\
+			   & \ddots & \ddots     \\
+			   &        & -1     & 1
+		\end{bmatrix} \quad
+		N = \begin{bmatrix}
+			 &  & \alpha \\
+			 &  &
+		\end{bmatrix}
+	\]
+	La matrice di iterazione $P$ sarà una matrice tutta nulla tranne che per l'ultima colonna, calcolabile
+	tramite la risoluzione del sistema lineare
+	\[ A x = N_n \]
+	dove $N_n$ è l'ultima colonna di $N$. Ricaviamo quindi
+	\[
+		P = \begin{bmatrix}
+			 &  &  & \alpha \\
+			 &  &  & \vdots \\
+			 &  &  & \alpha
+		\end{bmatrix}
+	\]
+	Gli autovalori di questa matrice sono 0 e $\alpha$ e quindi
+	\[ \rho(P) = |\alpha| \]
+	La condizione di convergenza è quindi la stessa del metodo di Jacobi in questo caso
+	\[ -1 < \alpha < 1 \]
+	Osserviamo però che i raggi spettrali delle due matrici di iterazione per i due metodi sono differenti
+	\[ \rho(G) = |\alpha| \quad \rho(J) = \sqrt[n]{|\alpha|} \]
+	Supponendo di essere in condizioni di convergenza ($|\alpha| < 1$) abbiamo che
+	\[ \rho(G) \ll \rho(J) \]
+	Questo si traduce in una convergenza più rapida per il metodo di Gauss-Seidel (in questo caso).
 \end{example}
