@@ -1,0 +1,331 @@
+\section{Eliminazione gaussiana}
+Parliamo ora di come sia possibile calcolare una fattorizzazione $LU$ per la risoluzione di sistemi lineari
+tramite eliminazione gaussiana.
+
+\subsection{Matrici elementari di Gauss}
+Fino ad ora non abbiamo parlato di fattorizzazione $LU$ ma non abbiamo un vero e proprio algoritmo per riuscire a
+calcolarla. A tal proposito dobbiamo introdurre le \textbf{matrici elementari di Gauss}, ossia matrici elementari
+espresse come
+\[ A = I + u \cdot v^T \]
+Le matrici elementari di Gauss sono particolari matrici elementari nelle quali il vettore $v$ è un vettore della
+base canonica e il vettore $u$ ha le prime $j$ componenti nulle.
+\[ A = I + u \cdot e_j^T \]
+con $u_1 = u_2 = \dots = u_j = 0$. Le matrici elementari di Gauss sono triangolari inferiori con tutti 1 sulla
+diagonale principale. Per esempio per $j=1$ abbiamo
+\[
+	I + u \cdot e_1^T =
+	\begin{bmatrix}
+		1   & 0 & 0 \\
+		u_2 & 1 & 0 \\
+		u_3 & 0 & 1
+	\end{bmatrix}
+\]
+\begin{theorem}
+	L'inversa di una matrice elementare di Gauss è equivalente alla stessa matrice dove si cambia segno agli
+	elementi del vettore $u$.
+	\[ A^{-1} = I - u \cdot e_j^T \]
+	\begin{proof}
+		Per dimostrarlo è sufficiente verificare la seguente uguaglianza
+		\[ (I + u \cdot e_j^T) \cdot (I - u \cdot e_j^T) = I \]
+		Sviluppando il prodotto otteniamo
+		\[
+			(I + u \cdot e_j^T) \cdot (I - u \cdot e_j^T) =
+			I + u \cdot e_j^T - u \cdot e_j^T - u \cdot e_j^T \cdot u \cdot e_j^T
+		\]
+		Dato che il prodotto riga per colonna tra matrici è associativo è possibile svolgere per primo il prodotto
+		riga per colonna
+		\[ e_j^T \cdot u = 0 \]
+		A questo punto l'ultimo termine dell'equazione si annulla e otteniamo l'identità.
+	\end{proof}
+\end{theorem}
+
+Le matrici elementari di Gauss godono di una proprietà importante per riuscire a calcolare la fattorizzazione
+$LU$ di una matrice $A$. In particolare questa proprietà è necessaria per riuscire a mettere degli zeri dove
+necessario in modo da ottenere una matrice triangolare.
+
+\begin{theorem}\label{th: eliminazione_gauss}
+	Sia $x \in \R^n$ con $x_k \neq 0$ allora esiste una matrice elementare di Gauss $E$ tale che
+	\[
+		E \cdot x = \begin{bmatrix}
+			x_1 \\ \vdots \\ x_k \\ 0 \\ \vdots \\ 0
+		\end{bmatrix}
+	\]
+	\begin{proof}
+		Prendiamo
+		\[ E = I + u e_k^T \]
+		con $u_1 = \cdots = u_k = 0$. Calcoliamo quindi $E \cdot x$
+		\[
+			(I + u e_k^T) x = x + u x_k =
+			\begin{bmatrix}
+				x_1 \\ \vdots \\ x_k \\ x_{k+1} \\ \vdots \\ x_n
+			\end{bmatrix} + x_k
+			\begin{bmatrix}
+				0 \\ \vdots \\ 0 \\ u_{k+1} \\ \vdots \\ u_n
+			\end{bmatrix} =
+			\begin{bmatrix}
+				x_1 \\ \vdots \\ x_k \\ x_{k+1} + x_k u_{k+1} \\ \vdots \\ x_n + x_k u_n
+			\end{bmatrix}
+		\]
+		Dato che vogliamo le componenti dalla $(k+1)$-esima alla $n$-esima uguali a 0 basta imporre
+		\begin{align*}
+			u_{k+1} = & -\frac{x_{k+1}}{x_k} \\
+			\vdots    &                      \\
+			u_n =     & -\frac{x_n}{x_k}
+		\end{align*}
+		Le quali sono quantità ben definite dato che $x_k \neq 0$.
+	\end{proof}
+\end{theorem}
+
+\subsection{Algoritmo per l'eliminazione gaussiana}
+Passiamo ora al calcolo della fattorizzazione $LU$ tramite matrici elementari di Gauss. Supponiamo di avere una
+generica matrice $A$ così definita
+\[
+	A = A_0 = \begin{bmatrix}
+		a_{1,1}^{(0)} & \dots  & a_{1,n}^{(0)} \\
+		\vdots        & \ddots & \vdots        \\
+		a_{n,1}^{(0)} & \dots  & a_{n,n}^{(0)}
+	\end{bmatrix}
+\]
+Per questo metodo supponiamo $a_{1,1}^{(0)} \neq 0$. Allora possiamo determinare $E_1$ tale che
+\[
+	E_1 \cdot \begin{bmatrix}
+		a_{1,1}^{(0)} \\ \vdots \\ a_{n,1}^{(0)}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		a_{1,1}^{(0)} \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}
+\]
+Ricaviamo quindi che
+\[ E_1 = I + u e_1^T \]
+con
+\[
+	u = \begin{bmatrix}
+		0 \\ -\frac{a_{2,1}^{(0)}}{a_{1,1}^{(0)}} \\ \vdots \\ -\frac{a_{n,1}^{(0)}}{a_{1,1}^{(0)}}
+	\end{bmatrix}
+\]
+A questo punto, possiamo generare la matrice $A_1$ come segue
+\[ A_1 = E_1 \cdot A_0 = E_1 \cdot A \]
+La matrice $A_1$ ha la seguente forma
+\[
+	A_1 = \begin{bmatrix}
+		a_{1,1}^{(1)} & \dots         & \dots  & a_{1,n}^{(1)} \\
+		0             & a_{2,2}^{(1)} & \dots  & a_{2,n}^{(1)} \\
+		\vdots        & \vdots        & \ddots & \vdots        \\
+		0             & a_{n,2}^{(1)} & \dots  & a_{n,n}^{(1)}
+	\end{bmatrix}
+\]
+dove
+\[ a_{1,i}^{(1)} = a_{1,i}^{(0)} \]
+e con
+\[ a_{i,j}^{(1)} = a_{i,j}^{(0)} + \left( -\frac{a_{i,1}^{(0)}}{a_{1,1}^{(0)}} \right) \cdot a_{1,j}^{(0)} \]
+Questo per ogni elemento $a_{i,j}^{(1)}$ con $2 \leq i,j \leq n$.
+
+Gli elementi sulla prima colonna di $E_1$ eccetto l'1 sulla diagonale sono detti \textbf{moltiplicatori} di
+Gauss. Per riuscire a calcolarli dobbiamo fare $n-1$ divisioni. Una volta ottenuti dobbiamo fare un prodotto
+e un'addizione per $(n-1)^2$ elementi per aggiornare la matrice. Ne deduciamo che il passaggio da $A_0$ ad $A_1$
+è costato $(n-1)^2$ operazioni moltiplicative.
+
+Ora passiamo alla seconda colonna e supponiamo $a_{2,2}^{(1)} \neq 0$ allora possiamo determinare $E_2$ tale che
+\[
+	E_2 \cdot \begin{bmatrix}
+		a_{1,2}^{(1)} \\ \vdots \\ a_{n,2}^{(1)}
+	\end{bmatrix} =
+	\begin{bmatrix}
+		a_{1,2}^{(1)} \\ a_{2,2}^{(1)} \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}
+\]
+Per il teorema \ref{th: eliminazione_gauss} abbiamo che
+\[ E_2 = I + u e_2^T \]
+dove
+\[
+	u = \begin{bmatrix}
+		0 \\ 0 \\ -\frac{a_{3,2}^{(1)}}{a_{2,2}^{(1)}} \\ \vdots \\ -\frac{a_{n,2}^{(1)}}{a_{2,2}^{(1)}}
+	\end{bmatrix}
+\]
+Una volta ottenuto $u$ possiamo calcolare $A_2$ in questo modo
+\[ A_2 = E_2 \cdot A_1 = E_2 \cdot E_1 \cdot A_0 \]
+ottenendo una matrice con la seguente forma
+\[
+	A_2 = \begin{bmatrix}
+		a_{1,1}^{(2)} & \dots         & \dots         & \dots & a_{1,n}^{(2)} \\
+		0             & a_{2,2}^{(2)} & \dots         & \dots & a_{2,n}^{(2)} \\
+		\vdots        & 0             & a_{3,3}^{(2)} & \dots & a_{3,n}^{(2)} \\
+		\vdots        & \vdots        & \vdots        &       & \vdots        \\
+		0             & 0             & a_{n,3}^{(2)} & \dots & a_{n,n}^{(2)}
+	\end{bmatrix}
+\]
+A questo punto se $a_{3,3}^{(2)} \neq 0$ possiamo andare avanti fino a $a_{n,n}^{(n-1)}$ definendo così tutte
+le matrici elementari di Gauss $E_i$ con $1 \leq i \leq n-1$ e ottenendo la matrice triangolare superiore $U$
+in questo modo
+\[ E_{n-1} \dots E_1 A_0 = U \]
+Non ci rimane che calcolare $L$. Per farlo scriviamo
+\[ A = A_0 = E_1^{-1} \dots E_{n-1}^{-1} U \]
+da cui possiamo dedurre che
+\[ L = E_1^{-1} \dots E_{n-1}^{-1} \]
+Valutiamo ora il costo computazionale per il calcolo di una fattorizzazione $LU$ utilizzando il metodo appena
+descritto. In generale, il passaggio da $A_i$ ad $A_j$ ha costo $O((n-j)^2)$ operazioni. Il costo complessivo
+della computazione è quindi $O(n^3)$.
+
+\begin{example}
+	Calcoliamo la fattorizzazione $LU$ della matrice $A$ definita come segue
+	\[ A = \begin{bmatrix}
+			1 & 1 & 1 \\
+			1 & 2 & 2 \\
+			1 & 2 & 3
+		\end{bmatrix}
+	\]
+	Prima di tutto vogliamo calcolarci $E_1$ tale che
+	\[ E_1 \begin{bmatrix}
+			1 \\ 1 \\ 1
+		\end{bmatrix} = \begin{bmatrix}
+			1 \\ 0 \\ 0
+		\end{bmatrix}
+	\]
+	Per il teorema \ref{th: eliminazione_gauss} possiamo prendere $E_1$ tale che
+	\[ E_1 = I + u e_1^T \]
+	con
+	\[ u = \begin{bmatrix} 0 \\ -1 \\ -1 \end{bmatrix} \]
+	Ricaviamo quindi
+	\[
+		E_1 = \begin{bmatrix}
+			1  & 0 & 0 \\
+			-1 & 1 & 0 \\
+			-1 & 0 & 1
+		\end{bmatrix}
+	\]
+	Possiamo ora calcolare $A_1$
+	\[
+		A_1 = E_1 A = \begin{bmatrix}
+			1 & 1 & 1 \\
+			0 & 1 & 1 \\
+			0 & 1 & 2
+		\end{bmatrix}
+	\]
+	Dato che $a_{2,2}^{(1)} \neq 0$ allora procediamo con il calcolo di $E_2$ tale che
+	\[
+		E_2 = I + u e_2^T = \begin{bmatrix}
+			1 & 0  & 0 \\
+			0 & 1  & 0 \\
+			0 & -1 & 1 \\
+		\end{bmatrix}
+	\]
+	A questo punto possiamo calcolare $A_2$
+	\[
+		A_2 = E_2 A_1 = \begin{bmatrix}
+			1 & 1 & 1 \\
+			0 & 1 & 1 \\
+			0 & 0 & 1
+		\end{bmatrix} = U
+	\]
+	Non ci rimane che trovare $L$ in questo modo
+	\[
+		E_1^{-1} E_2^{-1} = \begin{bmatrix}
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+			1 & 0 & 1
+		\end{bmatrix} \begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 1 & 1
+		\end{bmatrix} = \begin{bmatrix}
+			1 & 0 & 0 \\
+			1 & 1 & 0 \\
+			1 & 1 & 1
+		\end{bmatrix} = L
+	\]
+	Facciamo il prodotto $L \cdot U$ per verificare che la fattorizzazione sia corretta.
+\end{example}
+
+\subsection{Eliminazione gaussiana con pivoting parziale}
+Supponiamo di avere ora una matrice $A$ definta come segue
+\[
+	A = \begin{bmatrix}
+		1 & 1 & 1 \\
+		1 & 1 & 2 \\
+		1 & 2 & 3
+	\end{bmatrix}
+\]
+In questo caso se provassimo ad applicare l'algoritmo appena visto otteniamo dopo il primo passaggio
+\[
+	A_1 = \begin{bmatrix}
+		1 & 1 & 1 \\
+		0 & 0 & 1 \\
+		0 & 1 & 2
+	\end{bmatrix}
+\]
+La quale non ci permette di compiere un ulteriore passo. Ma come possiamo notare, scambiando le ultime due righe
+si giunge ad una forma triangolare. Questa \textbf{non} è una fattorizzazione $LU$ di $A$, vale infatti
+\[ P_2 E_1 A = U \]
+dove $P_2$ è detta \textbf{matrice di permutazione}, la quale scambia le ultime due righe ed è definita come
+segue
+\[
+	P_2 = \begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & 0 & 1 \\
+		0 & 1 & 0
+	\end{bmatrix}
+\]
+A questo punto per ricaviamo $A$ in questo modo
+\[ A = E_1^{-1} P_2^{-1} U \]
+L'inversa di una matrice di permutazione coincide con la trasposta.
+\[ P^{-1} = P^T \]
+
+Consideriamo ora la generica matrice $A$ e supponiamo che sia invertibile. Se la matrice è invertibile allora
+sulla prima colonna c'è almeno un elemento non nullo.
+\[
+	A = \begin{bmatrix}
+		a_{1,1}^{(0)} & \dots  & a_{1,n}^{(0)} \\
+		\vdots        & \ddots & \vdots        \\
+		a_{n,1}^{(0)} & \dots  & a_{n,n}^{(0)}
+	\end{bmatrix}
+\]
+Se ci troviamo nell'ipotesi che $A$ sia invertibile l'algoritmo, all'$i$-esimo passo procede in questo modo:
+\begin{enumerate}
+	\item Per motivi di stabilità andiamo a scegliere l'elemento di modulo massimo della $i$-esima colonna.
+	      Tale elemento è detto \textbf{pivot} e si trova sulla riga $k$ con $k$ tale che
+	      \[
+		      | a_{k,i}^{(i-1)} | = \norm{
+			      \begin{bmatrix}
+				      a_{1,i}^{(i-1)} \\ \vdots \\ a_{n,i}^{(i-1)}
+			      \end{bmatrix}}_\infty
+	      \]
+	      L'elemento di modulo massimo garantisce che gli elementi di $L$ saranno più piccoli possibile. Per
+	      trovarlo si ha un costo di $O(n)$ operazioni (scansione del vettore).
+	\item Scambiamo l'$i$-esima riga con la $k$-esima determinando una matrice $P_i$ che effettua tale scambio
+	      \[ P_i \cdot A_{i-1} \]
+	\item Procediamo con l'eliminazione di gauss determinando $E_i$ e ricavando la matrice $A_i$ in questo modo
+	      \[ A_i = E_i \cdot P_i \cdot A_{i-1} \]
+\end{enumerate}
+Una volta eseguiti $n-1$ passi dell'algoritmo otteniamo $U$ calcolando
+\[ U = E_{n-1} P_{n-1} \dots E_1 P_1 A_0 \]
+che possiamo riscrivere come
+\[ A = E_{n-1} P_{n-1} \dots E_1 P_1 U = L U \]
+Dove $U$ è una triangolare superiore e $L$ non è triangolare inferiore per effetto del prodotto con le matrici
+di permutazione.
+
+Questa fattorizzazione è calcolabile per una qualsiasi matrice invertibile e ha ottime proprietà di stabilità
+numerica.
+
+Dato che i pivot sono scelti prendendo l'elemento di modulo massimo della colonna che abbiamo come
+riferimento, questa tecnica è detta \textbf{eliminazione gaussiana con pivoting parziale} che è anche l'algoritmo
+di riferimento che viene usato in MatLab tramite l'operatore \verb|\| quando vogliamo risolvere un sistema lineare
+$Ax = b$ e calcoliamo il vettore soluzione tramite
+\begin{center}
+	\verb|x = A \ b|
+\end{center}
+Se invece andassimo a scegliere l'elemento di modulo massimo su tutta la matrice dovremmo permutare sia righe
+che colonne, si parlerebbe di \textbf{eliminazione gaussiana con pivoting totale}, la quale ha stabilità ancora
+migliore ma intacca la complessità, in quanto la ricerca dell'elemento di modulo massimo dell'intera matrice ha
+costo $O(n^2)$.
+
+Per il calcolo del determinante teniamo sempre a mente che, per il teorema di Binet, vale
+\[ \det(A) = \det(L) \cdot \det(U) \]
+Per calcolare $\det(L)$ teniamo a mente che il determinante di una matrice elementare di Gauss è 1, mentre il
+determinante di una matrice di permutazione può essere $\pm 1$. Dobbiamo quindi calcolare il prodotto tra tutti
+i $\pm 1$ e moltiplicarlo per $\det(U)$. Dato che $U$ è una matrice triangolare il determinante equivale al
+prodotto di tutti gli elementi sulla diagonale.
+
+Per la risoluzione del sistema lineare $Ax = b$ non è necessario calcolare fattorizzazione di $A$. Possiamo
+applicare le matrici di eliminazione e permutazione ad $A$ e $b$ passo dopo passo, ottenendo dei sistemi
+equivalenti. Questo ci fa risparmiare memoria evitando di mantenere tutte le matrici di eliminazione e
+permutazione.

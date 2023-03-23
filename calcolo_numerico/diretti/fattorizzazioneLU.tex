@@ -1,0 +1,277 @@
+\section{Fattorizzazione LU}
+Introduciamo quindi il concetto di \textbf{fattorizzazione}, ossia scrivere una matrice come prodotto di più
+matrici.
+
+Vogliamo quindi rappresentare la matrice $A \in \R^{n \times n}$ come prodotto di due matrici $L$ ed $U$, la
+prima triangolare inferiore con elementi uguali a 1 sulla diagonale pricipale e la seconda triangolare superiore.
+\[
+	A = L \cdot U = \begin{bmatrix}
+		1       & 0      & \dots     & 0      \\
+		l_{2,1} & \ddots & \ddots    & \vdots \\
+		\vdots  & \ddots & \ddots    & 0      \\
+		l_{n,1} & \dots  & l_{n,n-1} & 1
+	\end{bmatrix} \cdot
+	\begin{bmatrix}
+		u_{1,1} & \dots  & \dots  & u_{1,n} \\
+		0       & \ddots &        & \vdots  \\
+		\vdots  & \ddots & \ddots & \vdots  \\
+		0       & \dots  & 0      & u_{n,n}
+	\end{bmatrix}
+\]
+
+Se siamo in grado di fare questo allora diciamo che $A$ è \textbf{fattorizzabile} nella forma $LU$
+(fattorizzazione di Gauss).
+
+\begin{observation}
+	Se $A$ può essere scritta in questa forma allora, per il teorema di Binet, possiamo dire che
+	\[ \det(A) = \det(L) \cdot \det(U) \]
+	Dato che $L$ ha tutti 1 sulla diagonale principale $\det(L) = 1$ quindi vale che
+	\[ \det(A) = \det(U) \neq 0 \]
+	Ne deduciamo quindi che, se tale fattorizzazione esiste, allora $L$ e $U$ sono invertibili. Vale quindi che
+	\[ A x = b \quad \Leftrightarrow \quad LU x = b \]
+	Imponendo $U x = y$ possiamo scrivere
+	\[
+		\begin{cases}
+			L y = b \\
+			U x = y
+		\end{cases}
+	\]
+	Il sistema lineare è dunque risolvibile tramite la risoluzione di due sistemi triangolari.
+\end{observation}
+
+\begin{observation}
+	In questo modo abbiamo anche un metodo veloce per il calcolo del determinante di $A$ in quanto questo equivale
+	al determinante di $U$. E dato che $U$ è triangolare il suo determinante è equivalente al prodotto degli
+	elementi sulla diagonale principale.
+\end{observation}
+
+Il problema è che, in generale, una decomposizione di questo tipo \textbf{non esiste} e se esiste
+\textbf{non è univocamente} determinata.
+
+\begin{example}
+	Prendiamo la matrice
+	\[
+		A  = \begin{bmatrix}
+			0 & 1 \\
+			1 & 0
+		\end{bmatrix}
+	\]
+	e proviamo a cercare una fattorizzazione per tale matrice in questo modo
+	\[
+		\begin{bmatrix}
+			0 & 1 \\
+			1 & 0
+		\end{bmatrix} =
+		\begin{bmatrix}
+			1 & 0 \\
+			x & 1
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
+			u_1 & u_2 \\
+			0   & u_3
+		\end{bmatrix}
+	\]
+	Vogliamo provare a trovare $x$, $u_1$, $u_2$ e $u_3$ che soddisfano questa relazione. Se facciamo prima riga
+	per prima colonna notiamo subito che $u_1$ deve essere uguale a 0, ma a questo punto, se proviamo a fare
+	seconda riga per prima colonna otteniamo come risultato 0 per qualunque valore di $x$, quando invece dovremmo
+	ottenere come risultato 1.
+\end{example}
+
+In generale, possiamo dire che una fattorizzazione di quel tipo non esiste neanche se la matrice è invertibile.
+
+\begin{example}
+	Proviamo ora a trovare una fattorizzazione per la matrice nulla
+	\[
+		\begin{bmatrix}
+			0 & 0 \\
+			0 & 0
+		\end{bmatrix} =
+		\begin{bmatrix}
+			1 & 0 \\
+			x & 1
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
+			0 & 0 \\
+			0 & 0
+		\end{bmatrix}
+	\]
+	Come possiamo vedere, la fattorizzazione in questo caso esiste ma non è univocamente determinata. Questo
+	perché, per qualsiasi valore di $x$, otteniamo una fattorizzazione $LU$.
+\end{example}
+
+Prima di proseguire introduciamo una notazione. Sia $A \in \R^{n \times n}$ la matrice ad elementi $(a_{i,j})$
+chiamiamo $A_k = (a_{i,j}) \in \R^{k \times k}$ \textbf{sottomatrici principali di testa} di $A$. Si tratta delle
+matrici formate dalle prime $k$ righe e prime $k$ colonne di $A$.
+
+\begin{theorem}
+	Sia $A \in \R^{n \times n}$, se $\det(A_k) \neq 0$ per $1 \leq k \leq n-1$ allora esiste ed è unica la
+	fattorizzazione $LU$ di $A$.
+	\begin{proof}
+		Dimostriamo per induzione su $n$. Per $n = 1$ allora $n-1 = 0$ dunque il teorema ci dice che, presa
+		una matrice $1 \times 1$ esiste ed è unica la sua fattorizzazione $LU$
+		\[ (a) = (1) \cdot (a) \]
+		Assumiamo che il teorema sia vero per una qualsiasi matrice di ordine fino a $n-1$ e consideriamo una
+		matrice $A$ di ordine $n$ che scriviamo in questo modo
+		\[
+			A = \begin{bmatrix}
+				A_{n-1} & z       \\
+				w^T     & a_{n,n}
+			\end{bmatrix} = L \cdot U =
+			\begin{bmatrix}
+				L_{n-1} & 0 \\
+				x^T     & 1
+			\end{bmatrix} \cdot
+			\begin{bmatrix}
+				U_{n-1} & y       \\
+				0       & u_{n,n}
+			\end{bmatrix}
+		\]
+		Vogliamo quindi trovare due matrici $L$ e $U$ tali che $L \cdot U = A$. Per riuscire a farlo cerchiamo
+		gli elementi dei vari partizionamenti con i quali abbiamo organizzato le matrici tali che $L \cdot U = A$.
+
+		Tenendo conto delle dimensioni è possibile fare il prodotto righe per colonne anche per interi blocchi di
+		matrice. Otteniamo quindi
+		\[
+			\begin{cases}
+				L_{n-1} \cdot U_{n-1} = A_{n-1} \\
+				L_{n-1} \cdot y = z             \\
+				x^T \cdot U_{n-1} = w^T         \\
+				x^T \cdot y + u_{n,n} = a_{n,n}
+			\end{cases}
+		\]
+		La prima equazione ci dice che $L_{n-1} \cdot U_{n-1}$ è una fattorizzazione della matrice $A_{n-1}$.
+		Dato che $A_{n-1}$ è una matrice di ordine $n-1$ e le sue sottomatrici principali di testa fino all'ordine
+		$n-2$ sono invertibili per l'ipotesi del teorema e per ipotesi induttiva il teorema è vero per tutte le
+		matrici fino all'ordine $n-1$. Quindi tale fattorizzazione esiste ed è unica.
+
+		Per trovare $y$ dobbiamo risolvere un sistema lineare e vale
+		\[ y = L_{n-1}^{-1} \cdot z \]
+		e sappiamo che $L_{n-1}$ è invertibile perché si tratta di una matrice triangolare con tutti 1 sulla
+		diagonale principale.
+
+		Anche la terza equazione è un sistema lineare e, dato che $U_{n-1}$ è invertibile per ipotesi del teorema
+		la quale ci garantisce l'invertibilità fino all'ordine $n-2$ ma anche $A_{n-1}$ è invertibile e quindi,
+		per il teorema di Binet vale che
+		\[ \det(A_{n-1}) = \det(U_{n-1}) \]
+		Possiamo quindi scrivere
+		\[ x^T = w^T \cdot U_{n-1} \]
+		Una volta ricavati $x^T$ e $y$ troviamo $u_{n,n}$ in modo univoco calcolando
+		\[ u_{n,n} = a_{n,n} - x^T \cdot y \]
+		Il sistema è quindi univocamente risolubile e quindi la fattorizzazione esiste ed è unica.
+	\end{proof}
+	Quando le ipotesi del teorema sono violate la fattorizzazione non esiste o non è univocamente determinata.
+\end{theorem}
+
+La dimostrazione del teorema appena enunciato ci dice che se siamo interessati a calcolare la fattorizzazione
+$LU$ di una matrice di ordine $n$, è possibile farlo calcolando la fattorizzazione $LU$ della sua sottomatrice
+di ordine $n-1$ per poi aggiornarla con tale costruzione.
+
+Supponendo di avere la fattorizzazione di ordine $n-1$, il costo per trovare al fattorizzazione di ordine $n$
+è dato dal costo per trovare la fattorizzazione di ordine $n-1$ sommato al costo dell'\emph{aggiornamento}.
+
+Il costo dell'aggiornamento è pari al costo della risoluzione di due sistemi triangolari di ordine $n-1$ ossia
+\[ c (n - 1)^2 \]
+Il costo complessivo dell'algoritmo per la fattorizzazione è dunque
+\[ F(n) = F(n-1) + c (n-1)^2 = c \cdot \sum_{i=1}^{n} (n - i)^2 \]
+Il costo che ne ricaviamo è di $O(n^3)$ operazioni. Il problema di questo metodo è che, implementato in macchina,
+riporta problemi di stabilità.
+
+L'algoritmo può essere comunque interessanti in alcuni casi, ad esempio per alcune classi di matrici particolari.
+
+\begin{example}
+	Prendiamo la matrice $A \in \R^{n \times n}$ così definita
+	\[
+		A = \begin{bmatrix}
+			1   &        &       & x_1    \\
+			    & \ddots &       & \vdots \\
+			    &        & 1     & \vdots \\
+			x_1 & \dots  & \dots & x_n
+		\end{bmatrix}
+	\]
+	detta \textbf{matrice a freccia}. Il problema che ci poniamo è trovare per quali $x_i$ con $1 \leq i \leq n$
+	la matrice ammette fattorizzazione $LU$ e in caso affermativo, trovare la fattorizzazione $LU$ per tali
+	valori.
+
+	\`E immediato notare che le sottomatrici principali di testa di $A$ sono tutte matrici identità e dunque vale
+	\[ A_k = I_k \]
+	quindi sono tutte invertibili. Per il teorema esiste ed è unica la sua fattorizzazione.
+
+	Per trovare tale fattorizzazione dobbiamo trovare la fattorizzazione $LU$ della matrice di ordine $n-1$. Per
+	farlo scriviamo
+	\[
+		A = \begin{bmatrix}
+			L_{n-1} & 0 \\
+			x^T     & 1
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
+			U_{n-1} & y       \\
+			0       & u_{n,n}
+		\end{bmatrix}
+	\]
+	Come abbiamo detto, abbiamo che
+	\[ A_{n-1} = I_{n-1} \]
+	L'identità di ordine $n-1$ si fattorizza come l'identità per se stessa. Possiamo quindi scrivere
+	\[
+		A = \begin{bmatrix}
+			I_{n-1} & 0 \\
+			x^T     & 1
+		\end{bmatrix} \cdot
+		\begin{bmatrix}
+			I_{n-1} & y       \\
+			0       & u_{n,n}
+		\end{bmatrix}
+	\]
+	A questo punto ricaviamo che
+	\begin{align*}
+		y =       & \begin{bmatrix} x_1 \\ \vdots \\ x_{n-1} \end{bmatrix} \\
+		x^T =     & \begin{bmatrix} x_1 & \dots & x_{n-1} \end{bmatrix}    \\
+		u_{n,n} = & x_n - \sum_{i=1}^{n-1} x_i^2
+	\end{align*}
+	Quando $u_{n,n} \neq 0$ allora la matrice è invertibile, ossia quando
+	\[ x_n - \sum_{i=1}^{n-1} x_i^2 \neq 0 \]
+	Risolvere i sistemi lineari per $L$ e $U$ appena trovate con l'eliminazione gaussiana ha un costo di $O(n)$
+	operazioni.
+\end{example}
+
+\begin{definition}
+	La matrice $A$ si dice \textbf{tridiagonale} se, per $|i - j| > 1$, l'elemento $a_{i,j}$ è uguale a 0.
+\end{definition}
+
+\begin{definition}
+	Sia $A$ una matrice di dimensione $n \times n$, $A$ si dice \textbf{predominante diagonale} se il valore
+	assoluto di ogni elemento diagonale è maggiore alla somma dei valori assoluti degli elementi sulla stessa
+	riga escluso l'elemento diagonale.
+	\[ |a_{i,i}| > \sum_{j=1, j \neq i}^{n} |a_{i,j}| \quad i = 1 \dots n \]
+	In questo caso la matrice si dice \emph{predominante diagonale per righe}. Se
+	l'operazione viene fatta effettuando la somma degli elementi di ciascuna colonna si parlerà di
+	\emph{predominanza diagonale per colonne}.
+\end{definition}
+
+\begin{proposition}
+	Se una matrice è predominante diagonale allora è invertibile.
+\end{proposition}
+
+\begin{proposition}
+	Se una matrice è predominante diagonale allora anche le sue sottomatrici principali di testa sono predominanti
+	diagonali.
+\end{proposition}
+
+\begin{proposition}
+	Se una matrice è predominante diagonale esiste ed è unica la sua fattorizzazione $LU$ in quanto le sue
+	sottomatrici principali di testa sono anch'esse predominanti diagonali e quindi invertibili.
+\end{proposition}
+
+\begin{example}
+	Prendiamo la seguente matrice \emph{tridiagonale} $A \in \R^{n \times n}$
+	\[
+		A = \begin{bmatrix}
+			3  & -1     &        &    \\
+			-1 & \ddots & \ddots &    \\
+			   & \ddots & \ddots & -1 \\
+			   &        & -1     & 3
+		\end{bmatrix}
+	\]
+	Se volessimo applicare il teorema dobbiamo andare a verificare l'invertibilità di tutte le sottomatrici fino
+	all'ordine $n-1$. Le sottomatrici sono tutte \emph{predominanti diagonali} in quanto, se $A$ è predominante
+	diagonale anche le sue sottomatrici sono predominanti diagonali e dunque invertibili.
+\end{example}

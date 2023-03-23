@@ -1,0 +1,122 @@
+\chapter{Metodi diretti}
+Trattiamo ora i cosiddetti \textbf{metodi diretti} per la risoluzione di sistemi lineari, ossia metodi che,
+nel caso il sistema sia risolubile, in un numero finito di passi, ci forniscono la soluzione per il sistema
+lineare.
+
+\section{Sistemi diagonali e triangolari}
+Vediamo ora alcuni metodi per la risoluzione di sistemi lineari e andiamo a studiare il loro condizionamento
+in macchina. Il problema che vogliamo provare a risolvere ha in input la matrice $A \in \R^{n \times n}$ e il
+vettore $b \in \R^n$ dai quali vogliamo ricavare il vettore $x \in \R^n$ tale che $A x = b$.
+
+\subsection{Sistemi diagonali}
+La prima cosa che vogliamo osservare è che per particolari classi della matrice $A$ il sistema è facilmente
+risolubile. Prendiamo ad esempio la classe delle matrici \textbf{diagonali} ossia matrici con tutti gli elementi
+fuori dalla diagonale principale nulli (per $i \neq j$ vale $a_{i,j} = 0$). Per esempio sono matrici diagonali
+\[
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & 3 & 0 \\
+		0 & 0 & 2
+	\end{bmatrix} \quad
+	\begin{bmatrix}
+		2 & 0 & 0 \\
+		0 & 5 & 0 \\
+		0 & 0 & 0
+	\end{bmatrix} \quad
+	\begin{bmatrix}
+		0 & 0 & 0 \\
+		0 & 0 & 0 \\
+		0 & 0 & 0
+	\end{bmatrix}
+\]
+Se proviamo a calcolare il determinante della matrice $A$ possiamo vedere che questo equivale al prodotto degli
+elementi sulla diagonale principale, così come possiamo dimostrare che gli autovalori sono esattamente gli
+elementi sulla diagonale principale.
+
+Segue dalle considerazioni appena fatte che una matrice diagonale è invertibile se e solo se ha tutti gli elementi
+sulla diagonale principale diversi da 0. Per risolvere un sistema diagonale possiamo scrivere ogni equazione del
+sistema nella forma
+\[ a_{i,i} x_i = b_i \]
+ottenendo facilmente che
+\[ x_i = \frac{b_i}{a_{i,i}} \]
+che è ben definito se tutti gli $a_{i,i}$ sono diversi da 0. Un semplice algoritmo che risolve un sistema diagonale
+$n \times n$ è il seguente:
+\begin{lstlisting}[language=pseudo, style=pseudo-style]
+for i = 1 to n
+	x[i] = b[i] / a[i][i]
+\end{lstlisting}
+Dunque il costo per risoluzione di un sistema diagonale è di $O(n)$ operazioni.
+
+\subsection{Sistemi triangolari}
+Prendiamo ora in esame il caso delle matrici triangolari.
+
+\begin{definition}
+	Una matrice si dice \textbf{triangolare} se ha tutti elementi nulli sopra la diagonale principale e, in
+	tal caso, si dirà \textbf{inferiore} (per $i < j$ vale $a_{i,j} = 0$). Se invece ha tutti elementi nulli
+	sotto la diagonale principale si dirà \textbf{superiore} (per $i > j$ vale $a_{i,j} = 0$).
+\end{definition}
+
+Non facciamo nessuna assunzione sugli altri elementi: la matrice nulla è sia triangolare superiore che inferiore.
+Esempi di matrici triangolari inferiori e superiori sono
+\[
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		2 & 4 & 0 \\
+		3 & 1 & 9
+	\end{bmatrix} \quad
+	\begin{bmatrix}
+		1 & 3 & 5 \\
+		0 & 2 & 7 \\
+		0 & 0 & 4
+	\end{bmatrix}
+\]
+Il determinante di una matrice triangolare, se calcolato ad esempio con lo sviluppo di Laplace secondo la prima
+colonna, risulta ancora una volta equivalente al prodotto degli elementi sulla diagonale principale.
+
+Il discorso fatto per gli autovalori di matrici diagonali vale anche qui, dato che la matrice $A - \lambda I$ è
+ancora una matrice triangolare, abbiamo anche in questo caso che gli autovalori di una matrice triangolare sono
+esattamente gli elementi sulla diagonale principale.
+
+Prendiamo un generico sistema di equazioni $A x = b$ con $A$ triangolare superiore. Otterremo qualcosa di questo
+tipo
+\[
+	\begin{cases}
+		a_{1,1} x_1 + a_{1,2} x_2 + \dots + a_{1,n} x_n = b_1 \\
+		a_{2,2} x_2 + \dots + a_{2,n} x_n = b_2               \\
+		\dots                                                 \\
+		a_{n,n} x_n = b_n
+	\end{cases}
+\]
+Per risolvere il sistema si fa ricorso al metodo di \textbf{sostituzione all'indietro}: si ricava $x_n$
+dall'ultima equazione, lo si sostituisce nella penultima trovando $x_{n-1}$ e così via fino a ricavare tutti gli
+$x_i$.
+
+Supponiamo di aver già ricavato $x_{k+1}, \dots, x_n$ e di voler determinare $x_k$. Dalla $k$-esima equazione si
+ottiene
+\[
+	a_{k,k} x_k = \sum_{j=k+1}^n a_{k,j} x_j = b_k \quad \to \quad
+	x_k = \frac{b_k - \displaystyle\sum_{j=k+1}^n a_{k,j} x_j}{a_{k,k}}
+\]
+In MatLab la \emph{sostituzione all'indietro} sarebbe così implementata:
+\begin{lstlisting}[language=matlab]
+function[x] = solve_tri(a, b)
+	n = length(b);
+	x = zeros(n, 1);
+	x(n) = b(n) / a(n, n);
+	for k = n-1 : -1 : 1
+		s = 0;
+		for j = k+1 : n
+			s = s+ a(k, j) * x(j);
+		end
+		x(k) = (b(k) - s) / a(k, k);
+	end
+end
+\end{lstlisting}
+Il costo computazionale di questo algoritmo è di $O(n^2)$ moltiplicazioni:
+\[ \sum_{k=1}^n k = \frac{n (n + 1)}{2} \]
+Se $A \in \R^{n \times n}$ si può pensare, per la risoluzione del sistema lineare $A x = b$, di \emph{ridurre}
+progressivamente $A$ in forma triangolare mediante una sequenza di trasformazioni del tipo
+\begin{align*}
+	A_0 = & A, \quad A_k \to A_{k+1}, \quad 0 \leq k \leq n - 2; \\
+	b_0 = & b, \quad b_k \to b_{k+1}, \quad 0 \leq k \leq n - 2
+\end{align*}
