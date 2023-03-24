@@ -391,8 +391,100 @@ e quindi diverso da 0. I metodi di Jacobi e di Gauss-Seidel sono dunque applicab
 				\lambda a_{n,1} & \dots   & \dots  & \lambda a_{n, n}
 			\end{bmatrix}
 		\]
-		Come prima vogliamo dimostrare la predominanza diagonale di tale matrice per $|\lambda| \geq 1$, per farlo
-		scriviamo
-		\[ |\lambda a_{i,i}| > \sum_{j=1}^{j=i-1} |\lambda a_{i,j}| + \sum_{j=i+1}^n |a_{i,j}| \]
+		Come prima vogliamo dimostrare la predominanza diagonale di tale matrice per $|\lambda| \geq 1$, per
+		farlo scriviamo
+		\[ |\lambda a_{i,i}| > \sum_{j=1}^{i-1} |\lambda a_{i,j}| + \sum_{j=i+1}^n |a_{i,j}| \]
+		Dato che la matrice $A$ è predominante diagonale allora
+		\[ |a_{i,i}| > \sum_{j=1}^{i-1} |a_{i,j}| + \sum_{j=i+1}^n |a_{i,j}| \]
+		Se moltiplichiamo ambo i membri per $|\lambda|$ otteniamo
+		\begin{align*}
+			|\lambda| |a_{i,i}| > & |\lambda| \sum_{j=1}^{i-1} |a_{i,j}| + |\lambda| \sum_{j=i+1}^n |a_{i,j}| \\
+			|\lambda a_{i,i}| >   & \sum_{j=1}^{i-1} |\lambda a_{i,j}| + \sum_{j=i+1}^n |\lambda a_{i,j}|     \\
+			\geq                  & \sum_{j=1}^{i-1} |\lambda a_{i,j}| + \sum_{j=i+1}^n |a_{i,j}|
+		\end{align*}
+		Concludiamo quindi che entrambi i metodi convergono se la matrice $A$ è predominante diagonale.
 	\end{proof}
 \end{theorem}
+
+\begin{example}
+	Consideriamo la matrice $A$ definita in questo modo
+	\[
+		A = \begin{bmatrix}
+			1      & x_2    & \dots  & x_n \\
+			x_2    & \ddots &        &     \\
+			\vdots &        & \ddots &     \\
+			x_n    &        &        & 1
+		\end{bmatrix}
+	\]
+	La matrice è predominante diagonale se
+	\[ \sum_{i=2}^n |x_i| < 1 \]
+	Vogliamo ora determinare un numero $k$ di iterazioni per il metodo di Jacobi sufficienti a garantire che
+	\[ \frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} \leq 2^{-52} \]
+	Dove $e^{(k)}$ equivale alla quantità
+	\[ P^k e^{(0)} = x^{(k)} - x \]
+	Vale quindi
+	\begin{align*}
+		\norm{e^{(k)}}  \leq                       & \norm{P^k} \cdot \norm{e^{(0)}} \\
+		\leq                                       & \norm{P}^k \cdot \norm{e^{(0)}} \\
+		\Updownarrow                               &                                 \\
+		\frac{\norm{e^{(k)}}}{\norm{e^{(0)}}} \leq & \norm{P}^k
+	\end{align*}
+	Ci basta utilizzare la norma infinito per ottenere
+	\[ \frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} \leq \norm{P}_\infty^k \]
+	Per la nostra matrice $A$, la matrice $P$ del metodo di Jacobi è la seguente
+	\[
+		P = \begin{bmatrix}
+			       & x_2 & \dots & x_n \\
+			x_2    &     &       &     \\
+			\vdots &     &       &     \\
+			x_n    &     &       &
+		\end{bmatrix}
+	\]
+	La norma infinto è quindi molto semplice da calcolare ed equivale a
+	\[ \norm{P}_\infty = \sum_{i=2}^{n} |x_i| < 1 \]
+	Se ora riuscissimo a trovare un $k$ tale che $\norm{P}^k \leq 2^{-52}$, avremmo anche trovato un $k$ che
+	soddisfa la richiesta. Proseguiamo quindi in questo modo
+	\begin{align*}
+		\norm{P}_\infty^k \leq                & 2^{-52}                              \\
+		k \cdot \log_2 (\norm{P}_\infty) \leq & -52                                  \\
+		k \geq                                & -\frac{52}{\log_2 (\norm{P}_\infty)}
+	\end{align*}
+	Possiamo quindi prendere come numero di iterazioni necessario a soddisfare la richiesta
+	\[ k = \left\lceil -\frac{52}{\log_2 (\norm{P}_\infty)} \right\rceil \]
+	Vogliamo ora determinare per quali valori $x_2, \dots, x_n$ il metodo di Jacobi converge ($\rho (P) < 1$).
+	Osserviamo che la matrice ha rango 2 dunque abbiamo 2 autovalori diversi da 0. Possiamo provare a trovare un
+	autovettore di imponendo la seguente relazione
+	\[
+		P \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix} =
+		\lambda \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}
+	\]
+	Ricaviamo quindi un sistema in questa forma
+	\[
+		\begin{cases}
+			- (x_2 v_2 + \dots + x_n v_n) = & \lambda v_1 \\
+			-x_2 v_1 =                      & \lambda v_2 \\
+			\vdots                          & \vdots      \\
+			-x_n v_1 =                      & \lambda v_n
+		\end{cases}
+	\]
+	Se dividiamo per $\lambda$ tutte le equazioni tranne la prima otteniamo
+	\[
+		\begin{cases}
+			- (x_2 v_2 + \dots + x_n v_n) = & \lambda v_1              \\
+			v_2 =                           & -\frac{x_2 v_1}{\lambda} \\
+			\vdots                          & \vdots                   \\
+			v_n =                           & -\frac{x_n v_1}{\lambda}
+		\end{cases}
+	\]
+	Se ora sostituiamo $v_2, \dots, v_n$ nella prima equazione otteniamo
+	\begin{align*}
+		\frac{x_2^2 v_1}{\lambda} + \dots + \frac{x_n^2 v_1}{\lambda} = & \lambda v_1                      \\
+		x_2^2 v_1 + \dots + x_n^2 v_1 =                                 & \lambda^2 v_1                    \\
+		\lambda^2 =                                                     & x_2^2 + \dots + x_n^2            \\
+		\lambda =                                                       & \pm \sqrt{x_2^2 + \dots + x_n^2}
+	\end{align*}
+	Possiamo quindi dire che
+	\[ \rho(P) = \sqrt{x_2^2 + \dots + x_n^2} \]
+	Il metodo di Jacobi quindi converge se e solo se
+	\[ \norm{v}_2 < 1 \]
+\end{example}
