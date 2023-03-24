@@ -301,3 +301,98 @@ convergere a divergere a seconda del vettore iniziale.
 	\[ k = \left\lceil \frac{-12}{\left( \frac{n-1}{n} \right)} \right\rceil \]
 	ossia la parte intera superiore del membro a destra della disequazione.
 \end{example}
+
+\subsection{Convergenza per matrici predominanti diagonali}
+Vogliamo ora dimostrare che se una matrice $A$ è predominante diagonale allora i metodi di Jacobi e di
+Gauss-Seidel sono convergenti. Questo ci permette di evitare qualsiasi valutazione sulla matrice di iterazione.
+
+Se una matrice è predominante diagonale allora gli elementi diagonali hanno modulo strettamente maggiore di 0
+e quindi diverso da 0. I metodi di Jacobi e di Gauss-Seidel sono dunque applicabili.
+
+\begin{theorem}
+	Se una matrice $A$ è predominante diagonale allora i metodi di Jacobi e Gauss-Seidel sono convergenti.
+	\begin{proof}
+		Ricordiamo che la condizione necessaria e sufficiente per la convergenza di un metodo è
+		\[ \rho(P) < 1 \]
+		Analizziamo quindi gli autovalori della matrice di iterazione $P = M^{-1} N$. Per farlo dobbiamo
+		calcolare il polinomio caratteristico, ossia
+		\begin{align*}
+			p(\lambda) = & \det(M^{-1} N - \lambda I)             \\
+			=            & \det(M^{-1} N - \lambda M^{-1} M)      \\
+			=            & \det(M^{-1} (N - \lambda M))           \\
+			=            & \det(M^{-1}) \cdot \det(N - \lambda M)
+		\end{align*}
+		Ricordiamo che $\lambda$ è un autovalore se e solo se la matrice $\lambda M - N$ è singolare. L'idea
+		per dimostrare il teorema sta nel dimostrare che se abbiamo un $|\lambda| \geq 1$ allora $\lambda M - N$
+		è predominante diagonale, dunque invertibile. Ecco che quindi gli autovalori devono avere tutti modulo
+		minore di 1.
+
+		Per il metodo di Jacobi la matrice $M$ è la diagonale principale di $A$
+		\[
+			M = \begin{bmatrix}
+				a_{1,1} &        &         \\
+				        & \ddots &         \\
+				        &        & a_{n,n}
+			\end{bmatrix}
+		\]
+		mentre $N = M - A$
+		\[
+			N = \begin{bmatrix}
+				         & -a_{1,2} & \dots      & -a_{1,n}   \\
+				-a_{2,1} &          & \ddots     & \vdots     \\
+				\vdots   & \ddots   &            & -a_{n-1,n} \\
+				-a_{n,1} & \dots    & -a_{n,n-1} &
+			\end{bmatrix}
+		\]
+		Ne segue che $\lambda M - N$ è definita in questo modo
+		\[
+			\lambda M - N = \begin{bmatrix}
+				\lambda a_{1,1} & a_{1,2} & \dots     & a_{1,n}         \\
+				a_{2,1}         & \ddots  & \ddots    & \vdots          \\
+				\vdots          & \ddots  & \ddots    & a_{n-1,n}       \\
+				a_{n,1}         & \dots   & a_{n,n-1} & \lambda a_{n,n}
+			\end{bmatrix}
+		\]
+		Dobbiamo quindi dimostrare che se $|\lambda| \geq 1$ allora la matrice è predominante diagonale. Che
+		equivale a dire
+		\[ |\lambda a_{i,i}| > \sum_{j=1, j \neq i}^{n} |a_{i,j}| \quad i=1, \dots, n \]
+		Osserviamo che
+		\[ |\lambda a_{i,i}| = |\lambda| \cdot |a_{i,i}| \]
+		Ma se $|\lambda| \geq 1$ allora
+		\[ |\lambda| \cdot |a_{i,i}| \geq |a_{i,i}| \]
+		Per la predominanza diagonale di $A$ abbiamo che
+		\[ |a_{i,i}| > \sum_{j=1, j \neq i}^n |a_{i,j}| \quad i=1, \dots, n \]
+		Quindi, se $A$ è predominante diagonale, anche $\lambda M - N$ lo è per $|\lambda| \geq 1$ quindi tutti
+		gli autovalori devono avere modulo inferiore a 1.
+
+		La matrice $M$ per Gauss-Seidel è la parte triangolare inferiore di $A$ ovvero
+		\[
+			M = \begin{bmatrix}
+				a_{1,1} &        &         \\
+				\vdots  & \ddots &         \\
+				a_{n,1} & \dots  & a_{n,n}
+			\end{bmatrix}
+		\]
+		La matrice $N = M - A$ è quindi definita in questo modo
+		\[
+			N = \begin{bmatrix}
+				 & -a_{1,2} & \dots  & -a_{1,n}    \\
+				 &          & \ddots & \vdots      \\
+				 &          &        & -a_{n-1, n} \\
+				 &          &        &
+			\end{bmatrix}
+		\]
+		Come prima ricaviamo la matrice $\lambda M - N$
+		\[
+			\lambda M - N = \begin{bmatrix}
+				\lambda	a_{1,1}  & a_{1,2} & \dots  & a_{1,n}          \\
+				\vdots          & \ddots  & \ddots & \vdots           \\
+				\vdots          &         & \ddots & a_{n-1,n}        \\
+				\lambda a_{n,1} & \dots   & \dots  & \lambda a_{n, n}
+			\end{bmatrix}
+		\]
+		Come prima vogliamo dimostrare la predominanza diagonale di tale matrice per $|\lambda| \geq 1$, per farlo
+		scriviamo
+		\[ |\lambda a_{i,i}| > \sum_{j=1}^{j=i-1} |\lambda a_{i,j}| + \sum_{j=i+1}^n |a_{i,j}| \]
+	\end{proof}
+\end{theorem}
