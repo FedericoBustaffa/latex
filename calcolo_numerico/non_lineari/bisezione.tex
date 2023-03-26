@@ -1,0 +1,69 @@
+\chapter{Equazioni non lineari}
+In questo capitolo andremo a trattare la risoluzione di \textbf{equazioni non lineari}, tipicamente del tipo
+\[ f : \R \to \R \quad \vee \quad f : [a, b] \to \R \]
+Risolvere un'equazione non lineare significa trovare tutti i valori della variabile $x$ tali che
+\[ f(x) = 0 \]
+Chiameremo questi valori \textbf{radici} dell'equazione o \textbf{zeri} della funzione. In generale, possiamo
+dire che una funzione non lineare è una qualsiasi funzione differente da
+\[ f(x) = a x + b \]
+ossia, dalla funzione che definisce una retta nel piano. Polinomi di grado superiore al primo nella variabile
+$x$, logaritmi, esponenziali, radici, seno e coseno sono tutte funzioni non lineari.
+
+L'obbettivo di questa parte del corso è definire dei metodi che siano in grado di risolvere equazioni non
+lineari. Mentre per la risoluzione di sistemi lineari avevamo informazioni sulla risolvibilità di del sistema
+come ad esempio l'\emph{invertibilità} della matrice stavolta non abbiamo garanzia che l'equazione abbia
+delle soluzioni né quante siano queste soluzioni.
+
+L'unico approccio che abbiamo per avere informazioni sulla funzione è di tipo grafico. Cerchiamo quindi di
+costruire il grafico della funzione per definire meglio lo locazione delle soluzioni, di modo da poter procedere
+in modo più mirato all'approssimazione di tali soluzioni.
+
+
+
+\begin{example}
+	Consideriamo la seguente funzione $f$
+	\[ f = x^3 - 2x + 3 = 0 \]
+	Tale equazione ha 3 soluzioni su $\C$ ma noi siamo interessati ad un'analisi su $\R$ e dunque possiamo dire
+	se c'è una soluzione complessa allora anche la sua coniugata è soluzione dell'equazione e in quel caso
+	avremmo una soluzione reale. Nel caso non ci siano soluzioni complesse allora ce ne sono 3 reali.
+
+	Per capire se l'equazione ha 1 o 3 soluzioni reali proviamo a tracciare un grafico approssimativo della
+	funzione. Per farlo possiamo prima di tutto fare i limiti agli estremi del campo di esistenza, che, in
+	questo caso è tutto $\R$.
+	\begin{align*}
+		\lim_{x \to +\infty} x^3 - 2x + 3 = & +\infty \\
+		\lim_{x \to -\infty} x^3 - 2x + 3 = & -\infty
+	\end{align*}
+	Altra cosa che possiamo fare è calcolare la derivata della funzione
+	\[ f'(x) = 3x^2 - 2 \]
+	Stavolta possiamo studiare facilmente il segno dato che ci troviamo davanti un'equazione di secondo grado
+	\[ 3x^2 - 2 = 0 \quad \Leftrightarrow \quad x = \pm \sqrt{\frac{2}{3}} \]
+	Ricaviamo quindi che la derivata è positiva per
+	\[ x < -\sqrt{\frac{2}{3}} \quad \vee \quad x > \sqrt{\frac{2}{3}} \]
+	mentre è negativa per
+	\[ -\sqrt{\frac{2}{3}} < x < \sqrt{\frac{2}{3}} \]
+	Ne segue che nell'intervallo di positività della derivata la funzione è crescente mentre in quello di
+	negatività la funzione è decrescente. Abbiamo inoltre un massimo locale in $-\sqrt{\frac{2}{3}}$ e un
+	minimo locale in $\sqrt{\frac{2}{3}}$.
+
+	Possiamo ora provare a tracciare un grafico approssimativo. Per prima cosa possiamo valutare la funzione in
+	$x = 0$ e vediamo che $f(0) = 3$. Dato che $-\sqrt{\frac{2}{3}} < 0 < \sqrt{\frac{2}{3}}$ possiamo dedurre
+	la funzione valutata in $-\sqrt{\frac{2}{3}}$ avrà valore positivo. Valutiamo invece la funzione in
+	$\sqrt{\frac{2}{3}}$ e otteniamo che
+	\[ f \left( \sqrt{\frac{2}{3}} \right) = \frac{2}{3} \sqrt{\frac{2}{3}} - 2 \sqrt{\frac{2}{3}} + 3 > 0 \]
+	Nel punto di minimo locale la funzione è positiva e quindi possiamo concludere che la funzione interseca
+	l'asse delle ascisse solo in un punto minore di $-\sqrt{\frac{2}{3}}$. Concludiamo che l'equazione ha una
+	sola soluzione $\alpha$ reale.
+
+	A questo dobbiamo cercare di definire un intervallo nel quale sia compreso $\alpha$. Per farlo possiamo
+	valutare la funzione in diversi punti finché non troviamo un $x$ tale che la funzione è negativa e uno
+	tale che la funzione è positiva. La nostra soluzione $\alpha$ si troverà da qualche parte in mezzo a questo
+	intervallo. Possiamo calcolare ad esempio
+	\[ f(-1) = 4 \quad \quad f(-2) = -1 \]
+	Possiamo quindi concludere che $\alpha \in [-2, -1]$. L'intervallo $[-2, -1]$ è detto
+	\textbf{intervallo di separazione}.
+\end{example}
+
+Tutti i metodi che vedremo non saranno di tipo diretto ma \emph{iterativi}, andremo quindi a generare una
+successione che, sotto le opportune ipotesi, andrà a convergere nella soluzione. Definiremo anche un criterio
+di arresto per terminare l'algoritmo una volta raggiunto un certo livello di accuratezza dell'approssimazione.
