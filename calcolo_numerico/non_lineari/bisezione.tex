@@ -67,3 +67,19 @@ in modo più mirato all'approssimazione di tali soluzioni.
 Tutti i metodi che vedremo non saranno di tipo diretto ma \emph{iterativi}, andremo quindi a generare una
 successione che, sotto le opportune ipotesi, andrà a convergere nella soluzione. Definiremo anche un criterio
 di arresto per terminare l'algoritmo una volta raggiunto un certo livello di accuratezza dell'approssimazione.
+
+\section{Metodo di bisezione}
+Vediamo ora il metodo più semplice possibile per la risoluzione di equazioni non lineari, ossia il metodo di
+\textbf{bisezione}. L'idea che sta alla base del metodo è la seguente
+\begin{enumerate}
+	\item Definire un intervallo di separazione che contiene una radice dell'equazione, quindi avente estremi
+	      tali che la funzione calcolata sui due estremi abbia segno discorde. Definiamo quindi un intervallo
+	      $[\alpha, \beta]$ tale che
+	      \[ \sign(f(\alpha)) = -\sign(f(\beta)) \]
+	\item Calcolare la funzione nel punto di mezzo $\gamma = \frac{\alpha + \beta}{2}$, ossia
+	      \[ y = f \left( \frac{\alpha + \beta}{2} \right) = f(\gamma) \]
+	\item Se $y$ è positivo allora $\gamma$ diventa il nuovo estremo tale che $f(\gamma) > 0$, viceversa se è
+	      negativo diventa $\gamma$ diventa l'estremo tale che $f(\gamma) < 0$.
+	\item Si va avanti finché l'intervallo non è talmente piccolo che uno dei due estremi non approssima alla
+	      soluzione.
+\end{enumerate}
