@@ -10,7 +10,7 @@ ossia, dalla funzione che definisce una retta nel piano. Polinomi di grado super
 $x$, logaritmi, esponenziali, radici, seno e coseno sono tutte funzioni non lineari.
 
 L'obbettivo di questa parte del corso è definire dei metodi che siano in grado di risolvere equazioni non
-lineari. Mentre per la risoluzione di sistemi lineari avevamo informazioni sulla risolvibilità di del sistema
+lineari. Mentre per la risoluzione di sistemi lineari avevamo informazioni sulla risolvibilità del sistema
 come ad esempio l'\emph{invertibilità} della matrice stavolta non abbiamo garanzia che l'equazione abbia
 delle soluzioni né quante siano queste soluzioni.
 
@@ -60,26 +60,97 @@ in modo più mirato all'approssimazione di tali soluzioni.
 	tale che la funzione è positiva. La nostra soluzione $\alpha$ si troverà da qualche parte in mezzo a questo
 	intervallo. Possiamo calcolare ad esempio
 	\[ f(-1) = 4 \quad \quad f(-2) = -1 \]
-	Possiamo quindi concludere che $\alpha \in [-2, -1]$. L'intervallo $[-2, -1]$ è detto
-	\textbf{intervallo di separazione}.
+	Possiamo quindi concludere che $\alpha \in [-2, -1]$.
 \end{example}
 
-Tutti i metodi che vedremo non saranno di tipo diretto ma \emph{iterativi}, andremo quindi a generare una
+\begin{definition}
+	Una funzione $f$ si dice di \textbf{classe} $C^k$ in $[a, b]$
+	\[ f \in C^k ([a, b]) \]
+	se è continua e derivabile $k$ volte nell'intervallo $[a, b]$ con tutte le derivate continue.
+\end{definition}
+
+Una funzione continua appartiene sicuramente alla classe $C^0$, una funzione continua e derivabile infinite volte
+con derivate continue appartiene alla classe $C^\infty$.
+
+La continuità di una funzione è un requisito minimo per la costruzione di un buon algoritmo di approssimazione
+degli zeri.
+
+\begin{theorem}[Esistenza degli zeri]
+	Sia $f : [a, b] \to \R$ e $f \in C^0 ([a, b])$. Se
+	\[ f(a) \cdot f(b) < 0 \]
+	allora esiste $\xi \in [a, b]$ tale che $f(\xi) = 0$.
+\end{theorem}
+
+Il teorema degli zeri non ci dice che esiste una sola soluzione, ma ci dice che ne esiste almeno una.
+
+\begin{definition}
+	Sia $f : [a, b] \to \R$ se esiste ed è unico $\xi \in [a, b]$ tale che $f(\xi) = 0$
+	allora definiamo $[a, b]$ \textbf{intervallo di separazione}.
+\end{definition}
+
+Tutti i metodi che vedremo non saranno di tipo diretto ma \emph{iterativi}. Andremo quindi a generare una
 successione che, sotto le opportune ipotesi, andrà a convergere nella soluzione. Definiremo anche un criterio
 di arresto per terminare l'algoritmo una volta raggiunto un certo livello di accuratezza dell'approssimazione.
 
 \section{Metodo di bisezione}
 Vediamo ora il metodo più semplice possibile per la risoluzione di equazioni non lineari, ossia il metodo di
-\textbf{bisezione}. L'idea che sta alla base del metodo è la seguente
+\textbf{bisezione}. Per poter applicare il metodo facciamo le seguenti assunzioni
+\begin{gather*}
+	f : [a,b] \to \R \\
+	f \in \C^0([a,b]) \\
+	f(a) \cdot f(b) < 0 \\
+	!\exists \xi \in [a, b] : f(\xi) = 0
+\end{gather*}
+Senza queste assunzioni il metodo potrebbe non convergere o fornirci risultati errati. Il metodo di bisezione
+si compone dei seguenti passi:
 \begin{enumerate}
 	\item Definire un intervallo di separazione che contiene una radice dell'equazione, quindi avente estremi
 	      tali che la funzione calcolata sui due estremi abbia segno discorde. Definiamo quindi un intervallo
-	      $[\alpha, \beta]$ tale che
-	      \[ \sign(f(\alpha)) = -\sign(f(\beta)) \]
-	\item Calcolare la funzione nel punto di mezzo $\gamma = \frac{\alpha + \beta}{2}$, ossia
-	      \[ y = f \left( \frac{\alpha + \beta}{2} \right) = f(\gamma) \]
-	\item Se $y$ è positivo allora $\gamma$ diventa il nuovo estremo tale che $f(\gamma) > 0$, viceversa se è
-	      negativo diventa $\gamma$ diventa l'estremo tale che $f(\gamma) < 0$.
+	      $[a, b]$ tale che
+	      \[ f(a) \cdot f(b) < 0 \]
+	\item Calcolare la funzione nel punto di mezzo $c = \frac{a + b}{2}$, ossia
+	      \[ y = f(c) \]
+	\item Se $y \cdot f(a)$ è positivo allora il nuovo intervallo diventa $[c, b]$, viceversa se è negativo
+	      il nuovo intervallo diventa $[a, c]$.
 	\item Si va avanti finché l'intervallo non è talmente piccolo che uno dei due estremi non approssima alla
 	      soluzione.
 \end{enumerate}
+
+\subsection{Valutazione dell'errore}
+Indichiamo con $a_k$ e con $b_k$ il valore dei due estremi alla $k$-esima iterazione. Osserviamo che
+\begin{itemize}
+	\item Se $f(a_k) \cdot f(b_k) < 0$ per ogni $k$ allora $\xi \in [a_k, b_k]$.
+	\item Il valore $b_k - a_k$ rappresenta l'ampiezza dell'intervallo. Tale ampiezza equivale alla metà
+	      dell'ampiezza dell'intervallo precedente
+	      \[ b_k - a_k = \sum_{i=1}^{k} \frac{b_{k-i} - a_{k-i}}{2^i} \]
+\end{itemize}
+Per poter fare una valutazione dell'errore possiamo osservare che
+\[ 0 \leq |a_k - \xi| \leq b_k - a_k \leq \frac{b_0 - a_0}{2^k} \]
+Dato che
+\[ \lim_{k \to +\infty} \frac{b_0 - a_0}{2^k} = 0 \]
+allora $a_k \to \xi$. Vale la stessa relazione anche per $b_k$
+\[ 0 \leq |a_k - \xi| \leq b_k - a_k \leq \frac{b_0 - a_0}{2^k} \]
+e come prima $b_k \to \xi$. Per $c_k$ vale invece
+\[ 0 \leq |a_k - \xi| \leq \frac{b_k - a_k}{2} \leq \frac{b_0 - a_0}{2^{k+1}} \]
+e anche in questo caso $c_k \to \xi$. Abbiamo quindi generato tre successioni che progressivamente convergono
+tutte a $\xi$.
+
+\subsection{Criterio di arresto}
+Per definire un criterio di arresto per il metodo di bisezione possiamo imporre la condizione
+\[ |x - \xi| \leq \epsilon \]
+che equivale a
+\[ \frac{b_0 - a_0}{2^k} \leq \epsilon \]
+Possiamo quindi determinare a priori il numero $k$ di iterazioni necessarie per ottenere una certa precisione
+nell'approssimazione
+\begin{align*}
+	\frac{b_0 - a_0}{2^k} \leq                            & \epsilon     \\
+	b_0 - a_0 \leq                                        & 2^k \epsilon \\
+	\frac{b_0 - a_0}{\epsilon} \leq                       & 2^k          \\
+	\log_2 \left( \frac{b_0 - a_0}{\epsilon} \right) \leq & k
+\end{align*}
+Per avere il numero di iterazioni basterà prendere
+\[ k = \left\lceil \log_2 \left( \frac{b_0 - a_0}{\epsilon} \right) \right\rceil \]
+Un altro criterio di arresto potrebbe essere
+\[ f(c_k) \leq \epsilon \]
+si va quindi a imporre che il valore della funzione calcolato nel punto di mezzo sia sufficientemente piccolo
+e quindi quanto più vicino a 0.
