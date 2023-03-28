@@ -1,0 +1,45 @@
+\section{Metodo 2}
+Per trovare altri metodi, differenti da quello di bisezione, possiamo osservare che la nostra funzione
+$f(x) = 0$ possiamo riscriverla in diversi modi:
+\begin{align*}
+	x = & x - f(x)              \\
+	x = & x - \frac{f(x)}{h(x)}
+\end{align*}
+dove $h$ è una funzione definita sugli \emph{zeri} di $f$. Questo ci dice che il problema di trovare $x$ tale
+che $f(x) = 0$ lo possiamo vedere come il problema nel trovare $x$ tale che
+\[ x = g(x) \]
+dove $g(x)$ potrebbe essere $x - f(x)$ oppure $x - \frac{f(x)}{h(x)}$. Posto in questi termini il problema non
+è più quello di trovare gli zeri di $f$ ma diventa quello di trovare i \textbf{punti fissi} di $g$, ossia quei
+punti $x$ di $g$ che si mandano in se stessi.
+
+Questa equivalenza è interessante poiché ci permette di vedere il problema in questo modo
+\[
+	\begin{cases}
+		x_0 \in [a, b] \\
+		x_{k+1} = g(x_k)
+	\end{cases}
+\]
+e possiamo dimostrare facilmente che se $g : \R \to \R$ è continua e
+\[ \lim_{k \to +\infty} x_{k} = \alpha \]
+allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero di $f$.
+
+\begin{example}
+	Consideriamo l'equazione
+	\[ \sqrt{x} - x = 0 \]
+	Prima di tutto notiamo che la funzione è definita per $x \geq 0$ e poi, sviluppando l'equazione, possiamo
+	scrivere
+	\begin{align*}
+		\sqrt{x} - x = & 0   \\
+		\sqrt{x} =     & x   \\
+		x =            & x^2 \\
+		x^2 - x =      & 0   \\
+		x (x - 1) =    & 0
+	\end{align*}
+	Ottenendo così le soluzioni $x = 0$ e $x = 1$. Notiamo però che l'equazione può essere scritta come
+	\[ x = \sqrt{x} \]
+	e quindi possiamo dire che
+	\[ g_1(x) = \sqrt{x} \]
+	Riconducendoci al sistema di prima possiamo scrivere
+	\[ x_{k+1} = g_1(x_k) = \sqrt{x_k} \]
+	prendendo un qualsiasi $x_0 \in \R^+$. Proviamo a capire a cosa converge la successione che calcoliamo.
+\end{example}
