@@ -8,8 +8,10 @@
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
-\usepackage{tikz}
+\usepackage{tikz, pgfplots}
 \usepackage{../packages/codestyle}
+
+\pgfplotsset{compat=newest}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -73,6 +75,6 @@
 \include{iterativi/convergenza}
 
 \include{non_lineari/bisezione}
-\include{non_lineari/metodo}
+\include{non_lineari/iterazione_funzionale}
 
 \end{document}
