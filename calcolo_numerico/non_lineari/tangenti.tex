@@ -1,0 +1,82 @@
+\section{Metodo delle tangenti}
+Come avevamo anticipato in precedenza, risolvere il problema di trovare gli \emph{zeri} di $f$ può essere
+riformulato andando a cercare i \emph{punti fissi} di $g$. Vale quindi la relazione
+\[ f(x) = 0 \quad \Leftrightarrow \quad x = g(x) \]
+per un'opportuna $g$. Come abbiamo visto però non c'era nessuna proprietà della funzione $g$ che ci garantisse
+la convergenza del metodo.
+
+\begin{theorem}[Punto fisso]\label{th: punto_fisso}
+	Sia $g : [a, b] \to \R$ di classe $C^1 ([a, b])$ e sia $g(\alpha) = \alpha$ con $\alpha \in [a,b]$. Se esiste
+	$\rho > 0$ tale che $|g'(x)| < 1$ per ogni $x \in [\alpha - \rho, \alpha + \rho] = I_\alpha$ allora la
+	successione generata dal metodo
+	\[ x_{k+1} = g(x_k) \]
+	a partire da $x_0 \in I_\alpha$ soddisfa queste due proprietà
+	\begin{itemize}
+		\item $x_k \in I_\alpha$ per ogni $k$.
+		\item $x_k \to \alpha$.
+	\end{itemize}
+	\begin{proof}
+		La dimostrazione procede per induzione. Iniziamo col dire che noi sappiamo per ipotesi che esiste un
+		intorno circolare dove $|g'(x)| < 1$. Dato che la derivata prima è una funzione continua, il modulo
+		della derivata prima è ancora continua.
+
+		Per il teorema di Weierstrass sappiamo che una funzione continua in un intervallo chiuso e limitato
+		ammette massimo e minimo. Esiste quindi il massimo $\lambda$ di $|g'(x)|$ per $x \in I_\alpha$.
+		Dato che $|g'(x)| < 1$ anche $\lambda < 1$.
+
+		A questo punto noi vogliamo dimostrare per induzione che gli elementi della successione soddisfano
+		questa proprietà:
+		\[ |x_k - \alpha| \leq \lambda^k \rho \quad \forall k \geq 0 \]
+		Dato che $\lambda < 1$ vale che
+		\[ |x_k - \alpha| \leq \lambda^k \rho \leq \rho \quad \Rightarrow \quad x_k \in I_\alpha \]
+		Consideriamo anche
+		\[ 0 \leq |x_k - \alpha| \leq \lambda^k \rho \]
+		Dato che
+		\[ \lim_{k \to +\infty} \lambda^k \rho = 0\]
+		allora, per il teorema dei carabinieri, anche
+		\[ \lim_{k \to +\infty} |x_k - \alpha| = 0 \]
+		e quindi $x_k \to \alpha$. Per riuscire a dimostrare la proprietà per induzione procediamo in questo modo:
+		\begin{enumerate}
+			\item Il passo base consiste nel dimostrare che
+			      \[ |x_0 - \alpha| \leq \lambda^0 \rho = \rho \]
+			      ma questo è vero per ipotesi poiché $x_0 \in I_\alpha$.
+			\item Supponiamo ora di aver dimostrato fino all'ordine $k$ e cerchiamo di dimostrare che
+			      \[ |x_{k+1} - \alpha| \leq \lambda^{k+1} \leq \rho \]
+			      Dato che $x_{k+1} = g(x_k)$ e $\alpha$ è un punto fisso di $g$ possiamo scrivere
+			      \[ |x_{k+1} - \alpha| = |g(x_k) - g(\alpha)| \]
+			      A questo punto possiamo applicare il teorema di Lagrange, il quale ci dice che esiste un punto
+			      $\xi_k$ tale che
+			      \[ |g(x_k) - g(\alpha)| = |g'(\xi_k) (x_k - \alpha)| = |g'(\xi_k)| \cdot |x_k - \alpha| \]
+			      dato che $|g'(\xi_k)| \leq \lambda$ e per ipotesi vale $|x_k - \alpha| \leq \lambda^k \rho$
+			      allora vale
+			      \[ |g'(\xi_k)| \cdot |x_k - \alpha| \leq \lambda \cdot \lambda^k \rho = \lambda^{k+1} \rho \]
+		\end{enumerate}
+	\end{proof}
+\end{theorem}
+
+Dato che la condizione $|g'(x)| < 1$ è \emph{difficile} da studiare su un intervallo, si da anche una versione
+più debole del teorema il quale si occupa di verificare la proprietà nel punto $\alpha$.
+
+\begin{corollary}
+	Sia $g : [a, b] \to \R$ di classe $C^1 ([a, b])$ e sia $g(\alpha) = \alpha$ con $\alpha \in [a,b]$. Se
+	$|g'(\alpha)| < 1$ allora esiste un intervallo $I_\alpha = [\alpha - \rho, \alpha + \rho]$ tale che per
+	ogni $x_0 \in I_\alpha$ valgono le seguenti proprietà:
+	\begin{itemize}
+		\item $x_k \in I_\alpha$ per ogni $k$.
+		\item $x_k \to \alpha$.
+	\end{itemize}
+	\begin{proof}
+		Prendiamo $h(x) = |g'(x)| - 1$ che è una funzione continua. Dato che $h(\alpha) = |g'(\alpha)| - 1$ e
+		per le ipotesi del teorema vale che
+		\[ |g'(\alpha)| - 1 < 0 \]
+		Per il teorema di permanenza del segno esiste un intervallo $I_\alpha$ tale che
+		\[ h(x) < 0 \quad \forall x \in I_\alpha \]
+		il quale ci dice che se una funzione continua è negativa in un punto possiamo trovare circolare del punto
+		in cui la funzione è negativa. Nel nostro caso dire che la funzione è negativa equivale a dire
+		\[ h(x) < 0 \quad \Leftrightarrow \quad |g'(x)| < 1 \]
+		Ecco le ipotesi del teorema \ref{th: punto_fisso} sono soddisfatte.
+	\end{proof}
+\end{corollary}
+
+Questo corollario ci dice che se $|g'(\alpha)| < 1$ allora il metodo è \textbf{localmente convergente} in $\alpha$.
+Possiamo quindi trovare un intorno sufficientemente piccolo che permetta la convergenza.
