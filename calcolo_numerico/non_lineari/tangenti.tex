@@ -98,3 +98,16 @@ locale.
 	\[ \lim_{k \to +\infty} \frac{x_0}{2^k} = 0 \]
 	qualsiasi sia $x_0$, dunque il metodo è convergente.
 \end{example}
+
+\subsection{Convergenza locale}
+Il metodo delle tangenti è ad oggi uno degli algoritmi di scelta e per capire meglio il perché, dimostriamo
+che il metodo ha condizioni di convergenza locale, anche con ipotesi molto generali.
+
+\begin{theorem}
+	Sia $f : [a, b] \to \R$, $f \in C^2([a, b])$ e sia $\alpha \in (a, b)$ tale che
+	\[ f(\alpha) = 0 \quad \wedge \quad f'(\alpha) \neq 0 \]
+	allora esiste
+	\[ I_\alpha = [\alpha - \rho, \alpha + \rho] \subseteq [a, b] \]
+	tale che ogni $x_0 \in I_\alpha$ soddisfa queste due proprietà
+	\[ x_k \in I_\alpha \quad \wedge \quad \lim_{k \to +\infty} x_k = \alpha \]
+\end{theorem}
