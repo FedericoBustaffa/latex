@@ -159,11 +159,103 @@ Per ora siamo solo in grado di dire che, sotto opportune ipotesi, esiste un into
 abbiamo convergenza locale per ogni punto iniziale. Non abbiamo però strumenti per determinare l'ampiezza di
 tale intorno e quindi non abbiamo la certezza che il punto iniziale scelto inneschi la convergenza locale.
 
-\begin{theorem}[Convergenza in largo]
+\begin{theorem}[Convergenza in largo]\label{th: convergenza_largo}
 	Sia $f : [a, b] \to \R$, $f \in C^2([a, b])$ e sia $\alpha \in (a, b)$ tale che $f(\alpha) = 0$. Se esiste
-	\[ I_\alpha = [\alpha, \alpha + \delta] \subseteq [a, b] \]
+	\[ I_\alpha = (\alpha, \alpha + \delta] \subseteq [a, b] \]
 	tale che
-	\[ f(x) f''(x) > 0 \quad \wedge \quad f'(x) \neq 0 \; \forall x \in I_\alpha \]
-	allora per ogni $x_0 \in I_\alpha$
+	\[ f(x) f''(x) > 0 \quad \wedge \quad f'(x) \neq 0 \]
+	per ogni $x \in I_\alpha$ allora per ogni $x_0 \in I_\alpha$ vale
 	\[ \lim_{k \to +\infty} x_k = \alpha \]
 \end{theorem}
+
+\paragraph{Intervallo destro}
+Di questo teorema non facciamo la dimostrazione ma proviamo a capire meglio la situazione. Stiamo dunque cercando
+di individuare un \textbf{intervallo destro} entro il quale valgono le ipotesi del teorema. Questo ci permette di
+avere vincoli più deboli rispetto a prima, dove invece dovevamo cercare un intorno circolare di $\alpha$.
+
+Consideriamo come primo caso la radice $\alpha$ dell'equazione $f(x) = 0$ e un certo $\delta$ tale che
+nell'intervallo $(\alpha, \alpha + \delta]$ sono valide le ipotesi del teorema.
+
+\paragraph{Derivata positiva} Supponiamo, più nello specifico, che $f' > 0$ nel suddetto intervallo. Dato che
+$f' > 0$ e che $\alpha$ è uno zero di $f$ significa che, nell'intervallo appena definito, questa non cambia
+segno ed è crescente.
+
+Inoltre dato che in quell'intervallo $f$ è positiva anche $f'' > 0$ e dunque la funzione, in quell'intervallo è
+convessa. Se ora proviamo a partire da un qualsiasi $x_0$ nell'intervallo avremo una successione
+\textbf{monotona decrescente} che converge ad $\alpha$.
+
+\paragraph{Derivata negativa} Se consideriamo il caso $f' < 0$ sullo stesso intervallo abbiamo che $f$ è negativa
+decrescente nell'intervallo e anche $f'' < 0$ dunque la funzione è concava. Come prima possiamo partire da un
+qualsiasi punto all'interno dell'intervallo e il metodo genera una successione \textbf{monotona decrescente} che
+converge ad $\alpha$.
+
+\paragraph{Intervallo sinistro}
+In realtà il teorema si può estendere anche agli \textbf{intervalli sinistri}, ma in questo caso la successione
+generata dal metodo sarà \textbf{monotona crescente}.
+
+\begin{example}
+	Supponiamo di voler determinare il numero di soluzioni reali dell'equazione
+	\[ f(x) = e^x + x - 2 = 0 \]
+	e di voler studiare la convergenza del metodo delle tangenti per l'approssimazione tali soluzioni.
+
+	Partiamo col dire che $f \in C^\infty (\R)$ e che
+	\[ \lim_{x \to +\infty} e^x + x - 2 = +\infty \quad \lim_{x \to -\infty} e^x + x - 2 = -\infty \]
+	Calcoliamo ora derivata prima e seconda della funzione
+	\[ f'(x) = e^x + 1 \quad f''(x) = e^x \]
+	le quali sono sempre positive per ogni $x \in \R$. Possiamo ora tracciare il grafico approssimativo della
+	funzione
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					font=\normalsize,
+					width=9cm,
+					height=7cm,
+					axis lines = center,
+					xlabel = $x$,
+					ylabel = $y$,
+					grid = both,
+					grid style = dashed,
+					legend pos = north west,
+					enlargelimits
+				]
+
+				\addplot[
+					domain=-4:4,
+					thick,
+					color=blue,
+					samples=100
+				] {exp(x) + x - 2};
+
+				\legend{$e^x + x - 2$};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	Ecco che possiamo quindi determinare che esiste ed è unica la soluzione reale $\alpha$ dell'equazione. Per
+	localizzarla valutiamo
+	\[ f(0) = -1 < 0 \quad f(1) = e - 1 > 0 \]
+	quindi possiamo prendere come intervallo $(0, 1)$. Possiamo quindi dire che, in $\alpha$, il metodo è
+	localmente convergente dato che $f \in C^\infty(\R)$ e $f'(\alpha) \neq 0$.
+
+	Supponiamo ora di voler definire un intervallo entro il quale scegliere il punto inziale. Per farlo dobbiamo
+	studiare la convergenza in largo. La funzione a destra di $\alpha$ è positiva crescente e convessa. Quindi
+	le ipotesi del teorema \ref{th: convergenza_largo} (convergenza in largo) sono soddisfatte e possiamo
+	affermare che per ogni $x_0 \geq \alpha$ il metodo converge ad $\alpha$.
+
+	Proviamo a vedere cosa succede se prendiamo un punto iniziale $x_0 < \alpha$. In tal caso abbiamo che
+	\begin{align*}
+		x_1 - \alpha = & g(x_0) - g(\alpha)                               \\
+		=              & g'(\xi) (x_0 - \alpha)                           \\
+		=              & \frac{f(\xi) f''(\xi)}{f'(\xi)^2} (x_0 - \alpha)
+	\end{align*}
+	Studiamo il segno dei vari pezzi dell'ultima espressione. Per prima cosa possiamo dire che
+	\[ x_0 - \alpha < 0 \]
+	dato che $\alpha > 0$ e che siamo nell'ipotesi che $x_0 < \alpha$. La funzione a sinistra di $\alpha$ è
+	negativa ma derivate prima e seconda sono sempre positive su tutto $\R$. Dunque possiamo affermare che
+	\[ \frac{f(\xi) f''(\xi)}{f'(\xi)^2} < 0 \]
+	Otteniamo quindi un prodotto tra due quantità negative, ne segue che
+	\[ x_1 - \alpha > 0 \]
+	In altre parole possiamo dire che possiamo prendere un qualsiasi $x_0 \in \R$, nel caso sia maggiore di
+	$\alpha$ il metodo converge ad $\alpha$ normalmente, nel caso sia minore, il metodo, dopo un passo si sposta
+	nell'intervallo destro di $\alpha$ e da lì inizia a convergere ad $\alpha$. Abbiamo quindi un caso di
+	\textbf{convergenza globale}.
+\end{example}
