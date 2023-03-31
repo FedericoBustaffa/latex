@@ -100,8 +100,8 @@ locale.
 \end{example}
 
 \subsection{Convergenza locale}
-Il metodo delle tangenti è ad oggi uno degli algoritmi di scelta e per capire meglio il perché, dimostriamo
-che il metodo ha condizioni di convergenza locale, anche con ipotesi molto generali.
+Il metodo delle tangenti è ad oggi uno degli algoritmi di scelta. Il primo motivo è legato ad una condizione di
+convergenza locale anche sotto ipotesi molto generali.
 
 \begin{theorem}
 	Sia $f : [a, b] \to \R$, $f \in C^2([a, b])$ e sia $\alpha \in (a, b)$ tale che
@@ -110,4 +110,60 @@ che il metodo ha condizioni di convergenza locale, anche con ipotesi molto gener
 	\[ I_\alpha = [\alpha - \rho, \alpha + \rho] \subseteq [a, b] \]
 	tale che ogni $x_0 \in I_\alpha$ soddisfa queste due proprietà
 	\[ x_k \in I_\alpha \quad \wedge \quad \lim_{k \to +\infty} x_k = \alpha \]
+	\begin{proof}
+		Dato che $f$ è una funzione continua con derivata prima continua possiamo dire che esiste un intorno di
+		$\alpha$ che chiamiamo $\hat{I}_\alpha$ tale che $f'(x) \neq 0$ per ogni $x \in \hat{I}_\alpha$. Questo
+		ci permette di definire in $\hat{I}_\alpha$ la funzione $g : \hat{I}_\alpha \to \R$
+		\[ g(x) = x - \frac{f(x)}{f'(x)} \]
+		Dato che $x$, $f(x)$ e $f'(x)$ sono continue e $f'(x) \neq 0$ allora possiamo dire che $g(x)$ è una
+		funzione continua con derivata prima
+		\[ g'(x) = \frac{f(x) f''(x)}{f'(x)^2} \]
+		Come abbiamo detto all'inizio $f \in C^2([a, b])$ e $f'(x) \neq 0$ quindi $g \in C^1(\hat{I}_\alpha)$.
+		Possiamo ora valutare $g'(\alpha)$ che vale
+		\[ g'(\alpha) = \frac{f(\alpha) f''(\alpha)}{f'(\alpha)^2} \]
+		Sappiamo che $\alpha$ è uno zero di $f$ e che $f'(x) \neq 0$, quindi $g'(\alpha) = 0$. Dunque per il
+		corollario \ref{coro: punto_fisso} possiamo dire che $\alpha$ è un punto \emph{attrattivo} ed esiste
+		$I_\alpha \subseteq \hat{I}_\alpha$ tale che valgono le proprietà
+		\[ x_k \in I_\alpha \quad \wedge \quad \lim_{k \to +\infty} x_k = \alpha \]
+		Questo teorema ci dice che $f'(x) \neq 0$ è condizione sufficiente affinché ci sia convergenza locale.
+	\end{proof}
+\end{theorem}
+
+\subsection{Velocità di convergenza}
+Prima di parlare della velocità di convergenza del metodo delle tangenti chiariamo meglio il concetto di
+\textbf{velocità di convergenza}. Supponiamo di avere una successione $x_k \to \alpha$ e che $x_k \neq \alpha$
+per ogni $k$. Allora possiamo dire che
+\begin{itemize}
+	\item La successione converge \textbf{linearmente} se
+	      \[ \lim_{k \to +\infty} \frac{|x_{k+1} - \alpha|}{|x_k - \alpha|} = L \]
+	      con $0 < L < 1$.
+	\item Si ha una convergenza \textbf{almeno quadratica} se
+	      \[ \lim_{k \to +\infty} \frac{|x_{k+1} - \alpha|}{|x_k - \alpha|^2} = L \]
+	      con $L \in \R$.
+\end{itemize}
+
+\paragraph{Convergenza lineare}
+Nel primo caso il valore di $L$ ci fornisce il rapporto tra l'errore al passo $k+1$ e quello al passo $k$. Questo
+si traduce in una riduzione dell'errore ad ogni passo, di un fattore $L$.
+
+Se $L$ ha valore molto vicino a $1$ significa che il metodo converge lentamente dato che la differenza tra i due
+sarà minima. Al contrario se $L \to 0$ la differenza tra i due errori è grande e il metodo converge più
+velocemente.
+
+\paragraph{Convergenza almeno quadratica}
+Se abbiamo questo tipo di convergenza possiamo dire l'errore al passo $k$ è circa il quadrato dell'errore al passo
+$k+1$. Si può dimostrare che il metodo delle tangenti ha un tipo di convergenza almeno quadratica.
+
+\subsection{Convergenza in largo}
+Per ora siamo solo in grado di dire che, sotto opportune ipotesi, esiste un intorno della soluzione entro il quale
+abbiamo convergenza locale per ogni punto iniziale. Non abbiamo però strumenti per determinare l'ampiezza di
+tale intorno e quindi non abbiamo la certezza che il punto iniziale scelto inneschi la convergenza locale.
+
+\begin{theorem}[Convergenza in largo]
+	Sia $f : [a, b] \to \R$, $f \in C^2([a, b])$ e sia $\alpha \in (a, b)$ tale che $f(\alpha) = 0$. Se esiste
+	\[ I_\alpha = [\alpha, \alpha + \delta] \subseteq [a, b] \]
+	tale che
+	\[ f(x) f''(x) > 0 \quad \wedge \quad f'(x) \neq 0 \; \forall x \in I_\alpha \]
+	allora per ogni $x_0 \in I_\alpha$
+	\[ \lim_{k \to +\infty} x_k = \alpha \]
 \end{theorem}
