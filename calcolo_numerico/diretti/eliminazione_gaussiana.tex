@@ -6,15 +6,17 @@ tramite eliminazione gaussiana.
 Fino ad ora non abbiamo parlato di fattorizzazione $LU$ ma non abbiamo un vero e proprio algoritmo per riuscire a
 calcolarla. A tal proposito dobbiamo introdurre le \textbf{matrici elementari di Gauss}, ossia matrici elementari
 espresse come
-\[ A = I + u \cdot v^T \]
-Le matrici elementari di Gauss sono particolari matrici elementari nelle quali il vettore $v$ è un vettore della
-base canonica e il vettore $u$ ha le prime $j$ componenti nulle.
-\[ A = I + u \cdot e_j^T \]
-con $u_1 = u_2 = \dots = u_j = 0$. Le matrici elementari di Gauss sono triangolari inferiori con tutti 1 sulla
-diagonale principale. Per esempio per $j=1$ abbiamo
+\[ E = I + u \cdot e_j^T \]
+Tali matrici sono particolari matrici elementari nelle quali il vettore $e_j$ è il $j$-esimo vettore della base
+canonica e il vettore $u$ ha le prime $j$ componenti nulle. Le matrici elementari di Gauss sono triangolari
+inferiori con tutti 1 sulla diagonale principale. Per esempio per $j=1$ abbiamo
 \[
-	I + u \cdot e_1^T =
+	E = I + u \cdot e_1^T = I +
 	\begin{bmatrix}
+		0 \\ u_2 \\ u_3
+	\end{bmatrix} \begin{bmatrix}
+		1 \\ 0 \\ 0
+	\end{bmatrix}^T = \begin{bmatrix}
 		1   & 0 & 0 \\
 		u_2 & 1 & 0 \\
 		u_3 & 0 & 1
@@ -23,7 +25,7 @@ diagonale principale. Per esempio per $j=1$ abbiamo
 \begin{theorem}
 	L'inversa di una matrice elementare di Gauss è equivalente alla stessa matrice dove si cambia segno agli
 	elementi del vettore $u$.
-	\[ A^{-1} = I - u \cdot e_j^T \]
+	\[ E^{-1} = I - u \cdot e_j^T \]
 	\begin{proof}
 		Per dimostrarlo è sufficiente verificare la seguente uguaglianza
 		\[ (I + u \cdot e_j^T) \cdot (I - u \cdot e_j^T) = I \]
