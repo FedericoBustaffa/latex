@@ -247,7 +247,7 @@ Supponiamo di avere ora una matrice $A$ definta come segue
 		1 & 2 & 3
 	\end{bmatrix}
 \]
-In questo caso se provassimo ad applicare l'algoritmo appena visto otteniamo dopo il primo passaggio
+In questo caso, dopo un passo di eliminazione gaussiana, otteniamo
 \[
 	A_1 = \begin{bmatrix}
 		1 & 1 & 1 \\
@@ -255,7 +255,7 @@ In questo caso se provassimo ad applicare l'algoritmo appena visto otteniamo dop
 		0 & 1 & 2
 	\end{bmatrix}
 \]
-La quale non ci permette di compiere un ulteriore passo. Ma come possiamo notare, scambiando le ultime due righe
+Non possiamo quindi compiere un ulteriore passo. Ma come possiamo notare, scambiando le ultime due righe
 si giunge ad una forma triangolare. Questa \textbf{non} è una fattorizzazione $LU$ di $A$, vale infatti
 \[ P_2 E_1 A = U \]
 dove $P_2$ è detta \textbf{matrice di permutazione}, la quale scambia le ultime due righe ed è definita come
@@ -267,7 +267,7 @@ segue
 		0 & 1 & 0
 	\end{bmatrix}
 \]
-A questo punto per ricaviamo $A$ in questo modo
+A questo punto ricaviamo $A$ in questo modo
 \[ A = E_1^{-1} P_2^{-1} U \]
 L'inversa di una matrice di permutazione coincide con la trasposta.
 \[ P^{-1} = P^T \]
