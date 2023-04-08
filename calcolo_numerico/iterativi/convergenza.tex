@@ -188,7 +188,7 @@ convergere a divergere a seconda del vettore iniziale.
 	\[ \det(\lambda I - P) = \lambda^n - \alpha \]
 	Dato che a noi interessa il modulo degli autovalori possiamo dire che
 	\[ |\lambda| = \sqrt[n]{|\alpha|} \]
-	Possiamo quindi dire che il metodi converge quando
+	e dunque il metodo converge quando
 	\[
 		\sqrt[n]{|\alpha|} < 1 \quad
 		\Leftrightarrow \quad |\alpha| < 1 \quad
@@ -268,10 +268,10 @@ convergere a divergere a seconda del vettore iniziale.
 	\[ \norm{P}_\infty = \norm{P}_1 = \frac{n-1}{n} < 1 \]
 	dunque il metodo converge.
 
-	Vogliamo ora determinare un numero $k$ di iterazioni del metodo di Jacobi sufficienti a garantire che
+	Vogliamo ora determinare un numero $k$ di iterazioni tale che l'errore al passo $k$-esimo fratto l'errore
+	al passo iniziale per il metodo di Jacobi sia minore o uguale di $10^{-12}$, ossia $k$ tale che
 	\[ \frac{\norm{e^{(k)}}_\infty}{\norm{e^{(0)}}_\infty} \leq 10^{-12} \]
-	Vogliamo quindi determinare un numero $k$ di iterazioni tale che l'errore al passo $k$-esimo fratto l'errore
-	al passo iniziale sia minore o uguale di $10^{-12}$. Ricordiamoci che l'errore al passo $k$-esimo equivale a
+	Ricordiamoci che l'errore al passo $k$-esimo equivale a
 	\[ e^{(k)} = P^k e^{(0)} \]
 	Quindi possiamo dire che
 	\begin{align*}
