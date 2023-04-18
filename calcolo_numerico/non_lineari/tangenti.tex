@@ -243,9 +243,18 @@ generata dal metodo sarà \textbf{monotona crescente}.
 
 	Proviamo a vedere cosa succede se prendiamo un punto iniziale $x_0 < \alpha$. In tal caso abbiamo che
 	\begin{align*}
-		x_1 - \alpha = & g(x_0) - g(\alpha)                               \\
-		=              & g'(\xi) (x_0 - \alpha)                           \\
-		=              & \frac{f(\xi) f''(\xi)}{f'(\xi)^2} (x_0 - \alpha)
+		x_1 =          & g(x_0)             \\
+		x_1 - \alpha = & g(x_0) - g(\alpha)
+	\end{align*}
+	Per il teorema di Lagrange sappiamo che esiste $\xi \in (-\infty, \alpha)$ tale che
+	\begin{align*}
+		g'(\xi) =                & \frac{g(x_0) - g(\alpha)}{x_0 - \alpha} \\
+		g'(\xi) (x_0 - \alpha) = & g(x_0) - g(\alpha)
+	\end{align*}
+	Se andiamo a sostituire nell'equazione otteniamo che
+	\begin{align*}
+		x_1 - \alpha = & g'(\xi) (x_0 - \alpha)                           \\
+		x_1 - \alpha = & \frac{f(\xi) f''(\xi)}{f'(\xi)^2} (x_0 - \alpha)
 	\end{align*}
 	Studiamo il segno dei vari pezzi dell'ultima espressione. Per prima cosa possiamo dire che
 	\[ x_0 - \alpha < 0 \]
@@ -253,7 +262,7 @@ generata dal metodo sarà \textbf{monotona crescente}.
 	negativa ma derivate prima e seconda sono sempre positive su tutto $\R$. Dunque possiamo affermare che
 	\[ \frac{f(\xi) f''(\xi)}{f'(\xi)^2} < 0 \]
 	Otteniamo quindi un prodotto tra due quantità negative, ne segue che
-	\[ x_1 - \alpha > 0 \]
+	\[ x_1 - \alpha > 0 \quad \Rightarrow \quad x_1 > \alpha \]
 	In altre parole possiamo dire che possiamo prendere un qualsiasi $x_0 \in \R$, nel caso sia maggiore di
 	$\alpha$ il metodo converge ad $\alpha$ normalmente, nel caso sia minore, il metodo, dopo un passo si sposta
 	nell'intervallo destro di $\alpha$ e da lì inizia a convergere ad $\alpha$. Abbiamo quindi un caso di
