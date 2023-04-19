@@ -1,0 +1,35 @@
+\section{Equazioni algebriche}
+Un problema di rilevante interesse applicativo è quello del calcolo delle radici di un'equazione algebrica
+a coefficienti reali del tipo
+\[ f(x) = p(x) = p_n x^n + p_{n-1} x^{n-1} + \dots + p_1 x + p_0 = 0 \]
+con $p_i \in \R$ e $p_n \neq 0$. \`E ben noto che l'equazione ammette $n$ radici eventualmente complesse
+contate con le loro molteplicità. Per la determinazione di alcune di queste radici reali il metodo Newton
+può essere utilizzato e richiede ad ogni iterazione una valutazione del polinomio e della sua derivata.
+Il seguente algoritmo di Horner è impiegato per il calcolo
+\begin{lstlisting}[language=matlab]
+function [px, dx] = horner(p, x0)
+	n1 = length(p);
+	n = n1 - 1;
+	px = p(n + 1);
+	dx = 0;
+	for k = n : -1 : 1
+		dx = px + x0 * dx;
+		px = p(k) + x0 * px;
+	end
+end
+\end{lstlisting}
+Se vogliamo però un'approssimazione di tutte le soluzioni reali e complesse dell'equazione ci conviene
+riformulare il problema in termini di calcolo degli autovalori di un'opportuna matrice, detta
+\emph{companion}, associata al polinomio $p(x)$. Tale matrice è formata come segue
+\[
+	F(p) = \begin{bmatrix}
+		0                & 1      &        &                        \\
+		                 & \ddots & \ddots &                        \\
+		                 &        & 0      & 1                    & \\
+		-\frac{p_0}{p_n} & \cdots & \cdots & -\frac{p_{n-1}}{p_n}
+	\end{bmatrix}
+\]
+Per calcolare gli autovalori dobbiamo calcolare il determinante di $\lambda I - F(p)$, il quale risulta
+\[ \det(\lambda I - F(p)) = \frac{p(x)}{p_n} \]
+Abbiamo dunque ricondotto il calcolo delle radici dell'equazione algebrica al caso del calcolo degli
+autovalori della matrice $F(P)$.
