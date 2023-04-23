@@ -7,20 +7,25 @@
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
-\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
 \usepackage{tikz, pgfplots, pgf-pie}
 \usepackage{caption, subcaption}
 
 \pgfplotsset{compat=newest}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definizione}
-\newtheorem{theorem}{Teorema}
-\newtheorem{proposition}{Proposizione}
-\newtheorem{corollary}{Corollario}
-\newtheorem{lemma}{Lemma}
-\newtheorem{observation}{Osservazione}
-\newtheorem{example}{Esempio}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definizione}[chapter]
+\newtheorem{proposition}{Proposizione}[chapter]
+\newtheorem{corollary}{Corollario}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{observation}{Osservazione}[chapter]
+\newtheorem{example}{Esempio}[chapter]
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
 
 \DeclareMathOperator{\Var}{Var}
 \DeclareMathOperator{\Cov}{Cov}
