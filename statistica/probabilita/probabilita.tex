@@ -1,6 +1,6 @@
 \part{Calcolo delle probabilità}
 
-\chapter{Prime definizioni}
+\chapter{Spazi di probabilità}
 Il calcolo delle \textbf{probabilità} ci serve per la costruzione di un modello
 \textbf{statico inferenziale}, il quale unisce statistica descrittiva e probabilità per descrivere la
 realtà.
@@ -20,13 +20,15 @@ Due dei problemi che andremo a trattare sono:
 	\item La \textbf{rappresentazione} degli eventi.
 	\item Quali \textbf{proprietà} devono soddisfare le probabilità.
 \end{itemize}
-Noi possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio dei campioni} o
+
+\section{Rappresentazione degli eventi}
+Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio dei campioni} o
 \textbf{universo}, che indicheremo con $\Omega$.
 \begin{itemize}
-	\item $\emptyset$, $\Omega$ sono eventi.
-	\item Se $A$ e $B$ sono eventi, lo sono anche $A \cup B$ (rappresenta un \verb|or| logico di eventi),
-	      $A \cap B$ (rappresenta un \verb|and| logico di eventi) e $A^c$ (rappresenta un \verb|not| logico
-	      di eventi). Questi possono essere sottoinsiemi di $\Omega$ o $\Omega$ stesso.
+	\item $\emptyset$, $\Omega$ sono spazi di eventi.
+	\item Se $A$ e $B$ sono spazi di eventi, lo sono anche $A \cup B$ (rappresenta un \verb|or| logico di
+	      eventi), $A \cap B$ (rappresenta un \verb|and| logico di eventi) e $A^c$ (rappresenta un
+	      \verb|not| logico di eventi). Questi possono essere sottoinsiemi di $\Omega$ o $\Omega$ stesso.
 \end{itemize}
 
 \begin{example}
@@ -115,7 +117,7 @@ singoli punti $p_i$
 e deve valere
 \[ \sum_{i=1}^\infty p_i = 1 \]
 mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
-\[ P(A) = \sum_{\omega \in A} p_i \]
+\[ P(A) = \sum_{\omega_i \in A} p_i \]
 Se invece $\Omega$ è finito e tutti i suoi punti sembrano ragionevolmente equiprobabili, allora vale
 \[ P(\omega_i) = \frac{1}{n} \]
 Questa è chiamata \textbf{distribuzione uniforme} di probabilità e vale
