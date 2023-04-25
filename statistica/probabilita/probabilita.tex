@@ -1,6 +1,6 @@
-\part{Probabilità}
+\part{Calcolo delle probabilità}
 
-\chapter{Calcolo delle probabilità}
+\chapter{Prime definizioni}
 Il calcolo delle \textbf{probabilità} ci serve per la costruzione di un modello
 \textbf{statico inferenziale}, il quale unisce statistica descrittiva e probabilità per descrivere la
 realtà.
@@ -108,3 +108,16 @@ degli eventi tale che $P(\Omega) = 1$. In particolare, quando $\Omega$ è finito
 può sempre definire su tutti i suoi sottoinsiemi, come la somma della probabilità dei punti che lo
 costituiscono
 \[ P(A) = \sum_{\omega_i \in A} P(\omega_i) = \sum_{\omega_i \in A} p_i \]
+Se invece $\Omega$ è infinito ma numerabile, per esempio $\Omega = \N$. Quando $\Omega$ è numerabile allora
+la probabilità si può definire su tutti i sottoinsiemi di $\Omega$ e basta conoscere la probabilità dei
+singoli punti $p_i$
+\[ p_i = P(\omega_i) \]
+e deve valere
+\[ \sum_{i=1}^\infty p_i = 1 \]
+mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
+\[ P(A) = \sum_{\omega \in A} p_i \]
+Se invece $\Omega$ è finito e tutti i suoi punti sembrano ragionevolmente equiprobabili, allora vale
+\[ P(\omega_i) = \frac{1}{n} \]
+Questa è chiamata \textbf{distribuzione uniforme} di probabilità e vale
+\[ P(A) = \frac{\# A}{\# \Omega} = \frac{\text{casi favorevoli}}{\text{casi possibili}} \]
+Se $\Omega$ è infinito non possiamo parlare di distribuzione uniforme.
