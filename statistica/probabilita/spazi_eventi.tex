@@ -31,62 +31,84 @@ Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio
 	questo è chiamato \textbf{algebra di parti}.
 \end{definition}
 
+\subsection{Funzione di probabilità}
 \begin{definition}[Provvisoria]
-	Definiamo la \textbf{probabilità} come una funzione
+	Definiamo la \textbf{probabilità} come la funzione
 	\[ P : \A \to [0, 1] \]
 	tale che
-	\begin{itemize}
-		\item $P (\Omega) = 1$.
-		\item $A \cap B = \emptyset$ allora $P(A \cup B) = P(A) + P(B)$.
-	\end{itemize}
-	Una funzione con queste proprietà è detta \emph{finitamente additiva}.
+	\[
+		P (\Omega) = 1 \quad \land \quad
+		A \cap B = \emptyset \Rightarrow P(A \cup B) = P(A) + P(B)
+	\]
+	Una funzione con queste proprietà è detta \textbf{finitamente additiva}.
 \end{definition}
 
-Vediamo alcune conseguenze di questa definizione
+\subsubsection{Conseguenze}
+La probabilità, così come l'abbiamo definita, comporta che
 \begin{itemize}
 	\item $P(\emptyset) = 0$
 	\item $P(A^c) = 1 - P(A)$
-	\item Se $B \subseteq A$ e consideriamo $A \backslash B = A \cap B^c$ allora
-	      \[ P(A \backslash B) = P(A) - P(B) \]
+	\item $P(A \backslash B) = P(A) - P(B)$
 	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
 \end{itemize}
-Ancora qualche definizione
-\begin{itemize}
-	\item Se $P(A) = 0$ si dice che $A$ è un evento \textbf{trascurabile}.
-	\item Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
-\end{itemize}
-Introduciamo anche un altro concetto, ossia quello di \textbf{additività numerabile} o
-$\sigma$-\textbf{additività}, necessaria per \emph{andare al limite} (sarà chiaro più avanti), senza la
-quale non si potrebbe fare calcolo statistico. Se consideriamo una successione di eventi a due a due
-disgiunti del tipo
-\[ A_1, \; A_2, \; A_3, \; \dots \]
-con $A_i \cap A_j = \emptyset$ se $i \neq j$ allora deve valere
-\[
-	P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n) =
-	\lim_{n \to \infty} \sum_{k=1}^n P(A_k) = 	\lim_{n \to \infty} P(A_1) + \dots + P(A_n)
-\]
-Questa è detta \textbf{somma infinita}.
 
+\subsection{Andare al limite}
+Introduciamo ora due definizioni che possono sembrare controintuitive ma che saranno più chiare andando
+avanti.
+
+\begin{definition}
+	Se $P(A) = 0$ si dice che $A$ è un evento \textbf{trascurabile}.
+\end{definition}
+
+\begin{definition}
+	Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
+\end{definition}
+
+Per riuscire a capire perché a questi eventi viene dato questo nome dobbiamo introdurre il concetto di
+\textbf{additività numerabile} o $\sigma$-\textbf{additività}, necessario per \emph{andare al limite},
+senza il quale non si potrebbe fare calcolo statistico.
+
+\begin{theorem}
+	Consideriamo una successione di eventi a due a due disgiunti del tipo
+	\[ A_1, \; A_2, \; A_3, \; \dots \]
+	con $A_i \cap A_j = \emptyset$ se $i \neq j$ allora deve valere
+	\[
+		P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n) =
+		\lim_{n \to \infty} \sum_{k=1}^n P(A_k) = 	\lim_{n \to \infty} P(A_1) + \dots + P(A_n)
+	\]
+	Questa è detta \textbf{somma infinita}.
+\end{theorem}
+
+Siamo ora in grado di dare una nuova definizione di probabilità, la quale ci permette, come detto poco fa,
+di \emph{andare al limite}.
 \begin{definition}
 	Definiamo la \textbf{probabilità} come la funzione $P$ definita sugli eventi
 	\[ P : eventi \to [0, 1] \]
-	dove $P(\Omega) = 1$ e
-	\[ P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n) \]
+	tale che
+	\[
+		P(\Omega) = 1 \quad \land \quad
+		P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n)
+	\]
 \end{definition}
 
-Siamo ora in grado di capire meglio cosa significa \emph{andare al limite}. Sia
-$A_1 \subseteq A_2 \subseteq A_3 \dots$ una successione di eventi, abbiamo che l'evento $A$ definito come
-l'unione infinita della successione, equivale a
+Siamo ora in grado di capire meglio cosa significa \emph{andare al limite}. Consideriamo la successione di
+eventi
+\[ A_1 \subseteq A_2 \subseteq A_3 \subseteq \dots \subseteq A_\infty \]
+abbiamo che l'evento $A$ definito come l'unione infinita della successione, equivale a
 \[ A = \cup_{n=1}^\infty A_n = \lim_{n \to \infty} A_n \]
 Vale quindi che la probabilità che $A$ si verfichi equivale a
 \[ P(A) = \lim_{n \to \infty} P(A_n) \]
-Il punto di partenza è il caso in cui $\Omega$ è finito ed è quindi definito come segue
+
+\subsubsection{Spazio degli eventi finito}
+Il punto di partenza è il caso in cui $\Omega$ è finito
 \[ \Omega = \{ \omega_1, \dots, \omega_n \} \]
 e dunque possiamo prendere come probabilità la funzione finitamente additiva definita su tutto lo spazio
 degli eventi tale che $P(\Omega) = 1$. In particolare, quando $\Omega$ è finito allora la probabilità si
 può sempre definire su tutti i suoi sottoinsiemi, come la somma della probabilità dei punti che lo
 costituiscono
 \[ P(A) = \sum_{\omega_i \in A} P(\omega_i) = \sum_{\omega_i \in A} p_i \]
+
+\subsubsection{Spazio degli eventi infinito}
 Se invece $\Omega$ è infinito ma numerabile, per esempio $\Omega = \N$. Quando $\Omega$ è numerabile allora
 la probabilità si può definire su tutti i sottoinsiemi di $\Omega$ e basta conoscere la probabilità dei
 singoli punti $p_i$
@@ -95,3 +117,56 @@ e deve valere
 \[ \sum_{i=1}^\infty p_i = 1 \]
 mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
+
+\subsubsection{Serie}
+Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad inquadrare meglio
+la situazione.
+
+\begin{definition}
+	Sia $a_1, a_2, \dots$ una successione di termini, e sia
+	\[ s_n = a_1 + \dots + a_n \]
+	la somma parziale dei primi $n$ termini. Definiamo quest'ultima come \textbf{serie} se esiste il limite
+	delle somme parziali
+	\[ \sum_{n=1}^\infty a_n = \lim_{n \to \infty} \sum_{k=1}^n a_k = \lim_{n \to \infty} s_n \]
+	Se esiste finito questo limite si dice che la serie \textbf{converge}.
+\end{definition}
+
+\begin{observation}
+	Da qui è facile osservare che
+	\[ a_n = s_n - s_{n-1} \]
+	ed è chiaro che se esiste il limite
+	\[ \lim_{n \to \infty} s_n \]
+	il valore $a_n$ tende a zero per $n \to \infty$ ma non è vero il viceversa.
+\end{observation}
+
+Supponiamo ora il caso in cui $a_n \geq 0$ per ogni $n \in \N$ allora le somme parziali crescono
+\[ s_n \leq s_{n+1} \]
+In questo caso ha sempre senso parlare di limite poiché, per una successione del genere, vale
+\[ \sum_{n=1}^\infty = \lim_{n \to \infty} \sum_{k=1}^n a_k \in [0, +\infty]  \]
+Il fatto che esista sempre il limite non significa che la serie converga. Come detto poco fa, la serie
+converge se il limite tende ad un numero reale finito.
+
+\begin{definition}
+	Consideriamo la serie
+	\[ \sum_{n=1}^\infty |a_n| \]
+	Se il limite per $n \to \infty$ tende ad un numero reale finito si dice che la serie converge
+	\emph{assolutamente}.
+\end{definition}
+
+\begin{theorem}
+	Se una serie converge assolutamente allora converge.
+\end{theorem}
+
+Per le serie di termini positivi che convergono assolutamente vale anche una sorta di proprietà
+\textbf{associativa} in cui si partizionano gli indici della serie in sottoinsiemi di $\N$
+($A_1, A_2, \dots$) e vale
+\[ \sum_{n=1}^\infty a_n = \sum_{n=1}^\infty \left( \sum_{k \in A_n} a_k \right) \]
+
+Consideriamo ora due serie fondamentali di cui non facciamo la dimostrazione ma che ci saranno molto
+utili in futuro:
+\begin{itemize}
+	\item \textbf{Serie geometrica}: se $|a| < 1$ allora vale
+	      \[ \sum_{n=0}^\infty a^n = 1 + a + a^2 + \dots = \frac{1}{1 - a} \]
+	\item \textbf{Sviluppo in serie dell'esponenziale}
+	      \[ e^x = \sum_{n=0}^\infty \frac{x^n}{n!} \]
+\end{itemize}
