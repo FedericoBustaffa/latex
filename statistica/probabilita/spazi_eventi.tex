@@ -31,7 +31,7 @@ Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio
 	questo è chiamato \textbf{algebra di parti}.
 \end{definition}
 
-\subsection{Funzione di probabilità}
+\section{Funzione di probabilità}
 \begin{definition}[Provvisoria]
 	Definiamo la \textbf{probabilità} come la funzione
 	\[ P : \A \to [0, 1] \]
@@ -43,7 +43,6 @@ Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio
 	Una funzione con queste proprietà è detta \textbf{finitamente additiva}.
 \end{definition}
 
-\subsubsection{Conseguenze}
 La probabilità, così come l'abbiamo definita, comporta che
 \begin{itemize}
 	\item $P(\emptyset) = 0$
@@ -71,7 +70,7 @@ senza il quale non si potrebbe fare calcolo statistico.
 \begin{theorem}
 	Consideriamo una successione di eventi a due a due disgiunti del tipo
 	\[ A_1, \; A_2, \; A_3, \; \dots \]
-	con $A_i \cap A_j = \emptyset$ se $i \neq j$ allora deve valere
+	con $A_i \cap A_j = \emptyset$ se $i \neq j$ allora vale
 	\[
 		P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n) =
 		\lim_{n \to \infty} \sum_{k=1}^n P(A_k) = 	\lim_{n \to \infty} P(A_1) + \dots + P(A_n)
@@ -91,12 +90,11 @@ di \emph{andare al limite}.
 	\]
 \end{definition}
 
-Siamo ora in grado di capire meglio cosa significa \emph{andare al limite}. Consideriamo la successione di
-eventi
+Consideriamo la successione di eventi
 \[ A_1 \subseteq A_2 \subseteq A_3 \subseteq \dots \subseteq A_\infty \]
-abbiamo che l'evento $A$ definito come l'unione infinita della successione, equivale a
+abbiamo che l'evento $A$, definito come l'unione infinita della successione, equivale a
 \[ A = \cup_{n=1}^\infty A_n = \lim_{n \to \infty} A_n \]
-Vale quindi che la probabilità che $A$ si verfichi equivale a
+La probabilità che $A$ si verifichi equivale quindi a
 \[ P(A) = \lim_{n \to \infty} P(A_n) \]
 
 \subsubsection{Spazio degli eventi finito}
@@ -118,7 +116,7 @@ e deve valere
 mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
 
-\subsubsection{Serie}
+\subsection{Serie}
 Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad inquadrare meglio
 la situazione.
 
@@ -146,6 +144,7 @@ In questo caso ha sempre senso parlare di limite poiché, per una successione de
 Il fatto che esista sempre il limite non significa che la serie converga. Come detto poco fa, la serie
 converge se il limite tende ad un numero reale finito.
 
+\subsubsection{Serie assolutamente convergenti}
 \begin{definition}
 	Consideriamo la serie
 	\[ \sum_{n=1}^\infty |a_n| \]
@@ -162,6 +161,7 @@ Per le serie di termini positivi che convergono assolutamente vale anche una sor
 ($A_1, A_2, \dots$) e vale
 \[ \sum_{n=1}^\infty a_n = \sum_{n=1}^\infty \left( \sum_{k \in A_n} a_k \right) \]
 
+\subsubsection{Serie fondamentali}
 Consideriamo ora due serie fondamentali di cui non facciamo la dimostrazione ma che ci saranno molto
 utili in futuro:
 \begin{itemize}
