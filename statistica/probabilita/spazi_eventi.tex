@@ -81,26 +81,6 @@ d'insieme \textbf{finitamente additiva}.
 	\end{itemize}
 \end{definition}
 
-\begin{proposition}
-	Supponiamo di avere una successione infinita $A \in \F$	allora
-	\begin{itemize}
-		\item $A$ è una successione \textbf{crescente}, cioè $A_i \subseteq A_{i+1}$, $\forall i$
-			se vale
-			\[ A = \cup_{i=1}^\infty A_i \]
-		\item $A$ è una successione \textbf{decrescente}, cioè $A_{i+1} \subseteq A_i$,
-			$\forall i$ se vale 
-			\[ A = \cap_{i=1}^\infty A_i \]
-	\end{itemize}
-\end{proposition}
-
-\begin{definition}
-	Se $P(A) = 0$ si dice che $A$ è un evento \textbf{trascurabile}.
-\end{definition}
-
-\begin{definition}
-	Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
-\end{definition}
-
 \begin{definition}
 	La terna $(\Omega, \F, P)$ formata da uno spazio campionario, una $\sigma$-algebra ed una
 	probabilità $P$ definita su $\F$ viene chiamata \textbf{spazio di probabilità}.
@@ -114,64 +94,54 @@ d'insieme \textbf{finitamente additiva}.
 	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
 \end{itemize}
 
-\subsection{Andare al limite}
-Introduciamo ora due definizioni che possono sembrare controintuitive ma che saranno più chiare
-andando avanti.
+\begin{proposition}
+	Supponiamo di avere una successione infinita $A \in \F$	allora
+	\begin{itemize}
+		\item $A$ è una successione \textbf{crescente}, cioè $A_i \subseteq A_{i+1}$, $\forall i$
+			se vale
+			\[ A = \cup_{i=1}^\infty A_i \]
+		\item $A$ è una successione \textbf{decrescente}, cioè $A_{i+1} \subseteq A_i$,
+			$\forall i$ se vale 
+			\[ A = \cap_{i=1}^\infty A_i \]
+	\end{itemize}
+	In entrambi i casi vale 
+	\[ P(A) = \lim_{i \to \infty} P(A_i) \]
+\end{proposition}
 
-
-
-Per riuscire a capire perché a questi eventi viene dato questo nome dobbiamo introdurre il
-concetto di \textbf{additività numerabile} o $\sigma$-\textbf{additività}, necessario per
-\emph{andare al limite}, senza il quale non si potrebbe fare calcolo statistico.
-
-\begin{theorem}
-	Consideriamo una successione di eventi a due a due disgiunti del tipo
-	\[ A_1, \; A_2, \; A_3, \; \dots \]
-	con $A_i \cap A_j = \emptyset$ se $i \neq j$ allora vale
-	\[
-		P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n) =
-		\lim_{n \to \infty} \sum_{k=1}^n P(A_k) = 	\lim_{n \to \infty} P(A_1) + \dots + P(A_n)
-	\]
-	Questa è detta \textbf{somma infinita}.
-\end{theorem}
-
-Siamo ora in grado di dare una nuova definizione di probabilità, la quale ci permette, come detto
-poco fa, di \emph{andare al limite}.
 \begin{definition}
-	Definiamo la \textbf{probabilità} come la funzione $P$ definita sugli eventi
-	\[ P : eventi \to [0, 1] \]
-	tale che
-	\[
-		P(\Omega) = 1 \quad \land \quad
-		P(\cup_{n=1}^\infty A_n) = \sum_{n=1}^\infty P(A_n)
-	\]
+	Se $P(A) = 0$ si dice che $A$ è un evento \textbf{trascurabile}.
 \end{definition}
 
-Consideriamo la successione di eventi
-\[ A_1 \subseteq A_2 \subseteq A_3 \subseteq \dots \subseteq A_\infty \]
-abbiamo che l'evento $A$, definito come l'unione infinita della successione, equivale a
-\[ A = \cup_{n=1}^\infty A_n = \lim_{n \to \infty} A_n \]
-La probabilità che $A$ si verifichi equivale quindi a
-\[ P(A) = \lim_{n \to \infty} P(A_n) \]
+\begin{definition}
+	Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
+\end{definition}
 
-\subsubsection{Spazio degli eventi finito}
-Il punto di partenza è il caso in cui $\Omega$ è finito
-\[ \Omega = \{ \omega_1, \dots, \omega_n \} \]
-e dunque possiamo prendere come probabilità la funzione finitamente additiva definita su tutto lo
-spazio degli eventi tale che $P(\Omega) = 1$. In particolare, quando $\Omega$ è finito allora la
-probabilità si può sempre definire su tutti i suoi sottoinsiemi, come la somma della probabilità
-dei punti che lo costituiscono
-\[ P(A) = \sum_{\omega_i \in A} P(\omega_i) = \sum_{\omega_i \in A} p_i \]
-
-\subsubsection{Spazio degli eventi infinito}
-Se invece $\Omega$ è infinito ma numerabile, per esempio $\Omega = \N$. Quando $\Omega$ è
-numerabile allora la probabilità si può definire su tutti i sottoinsiemi di $\Omega$ e basta
-conoscere la probabilità dei singoli punti $p_i$
-\[ p_i = P(\omega_i) \]
-e deve valere
-\[ \sum_{i=1}^\infty p_i = 1 \]
-mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
+Facciamo ora qualche considerazione sulla $\sigma$-algebra. Consideriamo $\Omega$ finito o
+numerabile e quindi così formato
+\[ \Omega = \{ \omega_1, \omega_2, ..., \omega_i, ... \} \]
+allora possiamo prendere $\F = \mathcal{P}(\Omega)$ e la probabilità è univocamente determinata
+da $p_i = P(\{ \omega_i \})$. Vale infatti che 
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
+Quindi, nel caso $A$ abbia un numero 
+\begin{itemize}
+	\item finito di elementi, $P(A)$ equivale alla somma dei $p_i$.
+	\item infinito di elementi, $P(A)$ equivale alla serie dei $p_i$.
+\end{itemize}
+
+\begin{example}
+	Vogliamo definire un modello di probabilità per la scelta casuale di un punto sull'intervallo
+	$[a,b]$ in modo che la scelta sia uniforme. In questo caso abbiamo che $\Omega$ è non
+	numerabile in quanto esistono infiniti punti tra $a$ e $b$. Ne segue che la probabilità di 
+	scegliere un punto in questo intervallo con una funzione di probabilità definita come in 
+	precedenza non può che essere 0.
+
+	Potrebbe venirci in mente di definire la probabilità di scegliere un punto $x$ all'interno di 
+	$[a,b]$ come la lunghezza dell'intervallo ($b-a$) ma ci si può facilmente accorgere che non
+	si riesce a definire in modo coerente la lunghezza di ogni sottoinsieme di $[a,b]$.
+
+	Per questo si introduce una $\sigma$-algebra più \emph{piccola} di $\mathcal{P}(\Omega)$, 
+	detta degli \textbf{insiemi misurabili}.
+\end{example}
 
 \subsection{Serie}
 Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad
