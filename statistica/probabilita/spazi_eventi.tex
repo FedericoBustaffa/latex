@@ -1,11 +1,24 @@
 \section{Spazi di probabilità}
-Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio campionario} o
-\textbf{spazio di probabilità}, che indicheremo con $\Omega$.
+Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio campionario}, che
+indicheremo con $\Omega$.
 \begin{itemize}
 	\item $\Omega$ rappresenta lo \textbf{spazio campionario} di tutti i possibili eventi.
 	\item I sottoinsiemi di $\Omega$ sono detti \textbf{eventi}.
 	\item I singoli esiti appartenenti ad un insieme sono detti \textbf{eventi elementari}
 \end{itemize}
+Dato che possiamo vedere gli spazi campionari come insiemi di eventi, è facile trovare una 
+correlazione tra le operazioni insiemistiche e i connettivi logici.
+\begin{itemize}
+	\item All'unione ($A \cup B$) corrisponde un \verb|or| logico.
+	\item All'intersezione ($A \cap B$) corrisponde un \verb|and| logico.
+	\item Alla complementazione ($A^c$) corrisponde un \verb|not| logico.
+	\item Alla differenza ($A \backslash B$) corrisponde $A \land \lnot B$
+	\item La relazione insiemistica di sottoinsieme ($A \subseteq B$) corrisponde 
+		all'implicazione logica.
+	\item Se $A \cap B = \emptyset$ allora si dice che gli eventi sono \textbf{disgiunti}.
+\end{itemize}
+Ora possiamo gestire gli eventi legati da connettivi logici tramite operazioni insiemistiche
+equivalenti.
 
 \begin{example}
 	Se lanciamo un dado a 6 facce abbiamo
@@ -17,42 +30,68 @@ Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio
 		\item Non pari è $A^c = \{ 1, 3, 5 \}$
 		\item Pari o maggiore di 3 è $A \cup B = \{ 2, 4, 5, 6 \}$
 		\item Pari e maggiore di 3 è $A \cap B = \{ 4, 6 \}$
+		\item Pari ma non maggiore di 3 è $A \backslash B = A \cap B^c = \{2\}$
+		\item Sia pari che dispari è $A \cap A^c = \emptyset$
 	\end{itemize}
 \end{example}
 
-\begin{definition}
-	Quando c'è un insieme di eventi $\A$ con queste proprietà:
-	\begin{itemize}
-		\item $\emptyset, \Omega \in \A$
-		\item Se $A \in \A$ allora $A^c \in \A$
-		\item Se $A, B \in \A$ allora $(A \cup B) \in \A$ e $(A \cap B) \in \A$
-	\end{itemize}
-	questo è chiamato \textbf{algebra di parti}.
-\end{definition}
-
 \section{Funzione di probabilità}
-\begin{definition}[Provvisoria]
-	Definiamo la \textbf{probabilità} come la funzione
-	\[ P : \A \to [0, 1] \]
-	tale che
-	\[
-		P (\Omega) = 1 \quad \land \quad
-		A \cap B = \emptyset \Rightarrow P(A \cup B) = P(A) + P(B)
-	\]
-	Una funzione con queste proprietà è detta \textbf{finitamente additiva}.
+Vogliamo ora definire la probabilità su una classe \emph{ammissibile} di eventi. Questo non è 
+sempre possibile. Si vuole quindi definire una classe ammissibile che sia chiusa per le operazioni
+insiemistiche viste in precedenza.
+
+\begin{definition}
+	Sia $\Omega \neq \emptyset$ e si consideri $\F \subseteq \mathcal{P}(\Omega)$ dove 
+	$\mathcal{P}(\Omega)$ è
+	un'insieme di sottoinsiemi di $\Omega$, allora $\F$ è detta $\sigma$\textbf{-algebra} se
+	valgono le seguenti proprietà:
+	\begin{itemize}
+		\item $\Omega, \emptyset \in \F$
+		\item $\F$ è stabile per la complementazione: se $A \in \F$ allora $A^c \in \F$
+		\item $\F$ è stabile per unione finita o numerabile: se $A_1, A_2, ..., A_n, ...$ è una 
+			successione finita o numerabile, allora l'unione di tutti gli $A_i$ appartiene a $\F$.
+	\end{itemize}
 \end{definition}
 
-La probabilità, così come l'abbiamo definita, comporta che
-\begin{itemize}
-	\item $P(\emptyset) = 0$
-	\item $P(A^c) = 1 - P(A)$
-	\item $P(A \backslash B) = P(A) - P(B)$
-	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
-\end{itemize}
+La $\sigma$-algebra è quindi un'operazione chiusa per tutte le operazioni insiemistiche viste
+sopra ed è la classe degli eventi \emph{ammissibili}.
 
-\subsection{Andare al limite}
-Introduciamo ora due definizioni che possono sembrare controintuitive ma che saranno più chiare andando
-avanti.
+La \textbf{probabilità} di un evento $A \in \F$ è il grado di fiducia che $A$ si realizzi ed è 
+compreso tra 0 e 1.
+
+\`E intuitivo supporre che, se due eventi $A$ e $B$ sono disgiunti, allora la probabilità che si
+realizzi $A \cup B$ è $P(A) + P(B)$. Questo equivale a dire che la probabilità è una funzione 
+d'insieme \textbf{finitamente additiva}.
+
+\begin{definition}
+	Dato $\Omega$ un insieme e $\F$ una $\sigma$-algebra di $\Omega$, la \textbf{probabilità} è
+	una funzione
+	\[ P : \F \to [0, 1] \]
+	tale che
+	\begin{itemize}
+		\item L'evento certo ha probabilità unitaria: $P(\Omega) = 1$.
+		\item Se la successione degli $A_i$ è una successione di elementi di $\F$ a due a due
+			disgiunti, si ha, nel caso in cui la successione sia finita, che
+			\[ P (\cup_{n=i}^n A_i) = \sum_{i=1}^n P(A_i) \]
+			Se invece la successione è infinita allora vale
+			\[
+				P (\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i) =
+				\lim_{n \to \infty} \sum_{i=1}^n P(A_i)
+			\]
+	\end{itemize}
+\end{definition}
+
+\begin{proposition}
+	Supponiamo di avere una successione infinita $A \in \F$	allora
+	\begin{itemize}
+		\item $A$ è una successione \textbf{crescente}, cioè $A_i \subseteq A_{i+1}$, $\forall i$
+			se vale
+			\[ A = \cup_{i=1}^\infty A_i \]
+		\item $A$ è una successione \textbf{decrescente}, cioè $A_{i+1} \subseteq A_i$,
+			$\forall i$ se vale 
+			\[ A = \cap_{i=1}^\infty A_i \]
+	\end{itemize}
+\end{proposition}
 
 \begin{definition}
 	Se $P(A) = 0$ si dice che $A$ è un evento \textbf{trascurabile}.
@@ -62,9 +101,28 @@ avanti.
 	Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
 \end{definition}
 
-Per riuscire a capire perché a questi eventi viene dato questo nome dobbiamo introdurre il concetto di
-\textbf{additività numerabile} o $\sigma$-\textbf{additività}, necessario per \emph{andare al limite},
-senza il quale non si potrebbe fare calcolo statistico.
+\begin{definition}
+	La terna $(\Omega, \F, P)$ formata da uno spazio campionario, una $\sigma$-algebra ed una
+	probabilità $P$ definita su $\F$ viene chiamata \textbf{spazio di probabilità}.
+\end{definition}
+
+\paragraph{Proprietà} La probabilità, così come l'abbiamo definita, comporta che
+\begin{itemize}
+	\item $P(\emptyset) = 0$
+	\item $P(A^c) = 1 - P(A)$
+	\item $P(A \backslash B) = P(A) - P(B)$
+	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+\end{itemize}
+
+\subsection{Andare al limite}
+Introduciamo ora due definizioni che possono sembrare controintuitive ma che saranno più chiare
+andando avanti.
+
+
+
+Per riuscire a capire perché a questi eventi viene dato questo nome dobbiamo introdurre il
+concetto di \textbf{additività numerabile} o $\sigma$-\textbf{additività}, necessario per
+\emph{andare al limite}, senza il quale non si potrebbe fare calcolo statistico.
 
 \begin{theorem}
 	Consideriamo una successione di eventi a due a due disgiunti del tipo
@@ -77,8 +135,8 @@ senza il quale non si potrebbe fare calcolo statistico.
 	Questa è detta \textbf{somma infinita}.
 \end{theorem}
 
-Siamo ora in grado di dare una nuova definizione di probabilità, la quale ci permette, come detto poco fa,
-di \emph{andare al limite}.
+Siamo ora in grado di dare una nuova definizione di probabilità, la quale ci permette, come detto
+poco fa, di \emph{andare al limite}.
 \begin{definition}
 	Definiamo la \textbf{probabilità} come la funzione $P$ definita sugli eventi
 	\[ P : eventi \to [0, 1] \]
@@ -99,16 +157,16 @@ La probabilità che $A$ si verifichi equivale quindi a
 \subsubsection{Spazio degli eventi finito}
 Il punto di partenza è il caso in cui $\Omega$ è finito
 \[ \Omega = \{ \omega_1, \dots, \omega_n \} \]
-e dunque possiamo prendere come probabilità la funzione finitamente additiva definita su tutto lo spazio
-degli eventi tale che $P(\Omega) = 1$. In particolare, quando $\Omega$ è finito allora la probabilità si
-può sempre definire su tutti i suoi sottoinsiemi, come la somma della probabilità dei punti che lo
-costituiscono
+e dunque possiamo prendere come probabilità la funzione finitamente additiva definita su tutto lo
+spazio degli eventi tale che $P(\Omega) = 1$. In particolare, quando $\Omega$ è finito allora la
+probabilità si può sempre definire su tutti i suoi sottoinsiemi, come la somma della probabilità
+dei punti che lo costituiscono
 \[ P(A) = \sum_{\omega_i \in A} P(\omega_i) = \sum_{\omega_i \in A} p_i \]
 
 \subsubsection{Spazio degli eventi infinito}
-Se invece $\Omega$ è infinito ma numerabile, per esempio $\Omega = \N$. Quando $\Omega$ è numerabile allora
-la probabilità si può definire su tutti i sottoinsiemi di $\Omega$ e basta conoscere la probabilità dei
-singoli punti $p_i$
+Se invece $\Omega$ è infinito ma numerabile, per esempio $\Omega = \N$. Quando $\Omega$ è
+numerabile allora la probabilità si può definire su tutti i sottoinsiemi di $\Omega$ e basta
+conoscere la probabilità dei singoli punti $p_i$
 \[ p_i = P(\omega_i) \]
 e deve valere
 \[ \sum_{i=1}^\infty p_i = 1 \]
@@ -116,14 +174,14 @@ mentre se consideriamo un sottoinsieme $A$ di $\Omega$ allora vale
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
 
 \subsection{Serie}
-Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad inquadrare meglio
-la situazione.
+Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad
+inquadrare meglio la situazione.
 
 \begin{definition}
 	Sia $a_1, a_2, \dots$ una successione di termini, e sia
 	\[ s_n = a_1 + \dots + a_n \]
-	la somma parziale dei primi $n$ termini. Definiamo quest'ultima come \textbf{serie} se esiste il limite
-	delle somme parziali
+	la somma parziale dei primi $n$ termini. Definiamo quest'ultima come \textbf{serie} se esiste
+	il limite delle somme parziali
 	\[ \sum_{n=1}^\infty a_n = \lim_{n \to \infty} \sum_{k=1}^n a_k = \lim_{n \to \infty} s_n \]
 	Se esiste finito questo limite si dice che la serie \textbf{converge}.
 \end{definition}
@@ -140,8 +198,8 @@ Supponiamo ora il caso in cui $a_n \geq 0$ per ogni $n \in \N$ allora le somme p
 \[ s_n \leq s_{n+1} \]
 In questo caso ha sempre senso parlare di limite poiché, per una successione del genere, vale
 \[ \sum_{n=1}^\infty = \lim_{n \to \infty} \sum_{k=1}^n a_k \in [0, +\infty]  \]
-Il fatto che esista sempre il limite non significa che la serie converga. Come detto poco fa, la serie
-converge se il limite tende ad un numero reale finito.
+Il fatto che esista sempre il limite non significa che la serie converga. Come detto poco fa, la
+serie converge se il limite tende ad un numero reale finito.
 
 \subsubsection{Serie assolutamente convergenti}
 \begin{definition}
@@ -161,8 +219,8 @@ Per le serie di termini positivi che convergono assolutamente vale anche una sor
 \[ \sum_{n=1}^\infty a_n = \sum_{n=1}^\infty \left( \sum_{k \in A_n} a_k \right) \]
 
 \subsubsection{Serie fondamentali}
-Consideriamo ora due serie fondamentali di cui non facciamo la dimostrazione ma che ci saranno molto
-utili in futuro:
+Consideriamo ora due serie fondamentali di cui non facciamo la dimostrazione ma che ci saranno
+molto utili in futuro:
 \begin{itemize}
 	\item \textbf{Serie geometrica}: se $|a| < 1$ allora vale
 	      \[ \sum_{n=0}^\infty a^n = 1 + a + a^2 + \dots = \frac{1}{1 - a} \]
