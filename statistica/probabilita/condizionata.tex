@@ -1,3 +1,80 @@
 \chapter{Probabilità condizionata}
+Per capire meglio cosa sia la \textbf{probabilità condizionata} facciamo un esempio.
 
+\begin{example}
+	Supponiamo di lanciare un dado equilibrato e supponiamo di sapere che l'esito è un numero
+	pari. Sapendo ciò vogliamo sapere quale sia la probabilità che l'esito sia maggiore o uguale
+	di 4. Consideriamo i due insiemi $A$ e $B$ così definiti. 
+	\[ A = \{ 4, 5, 6 \} \quad B = \{ 2, 4, 6 \} \]
+	Vogliamo sapere qual'è la probabilità di estrarre dall'insieme $B$ un numero maggiore o uguale
+	di 4. \`E immediato che la risposta deve essere $2/3$ dato che 
+	\[
+		\frac{2}{3} = \frac{\# (A \cap B)}{\# B} =
+		\frac{\# (A \cap B) / \# \Omega}{\# B / \# \Omega} =
+		\frac{P(A \cap B)}{P(B)}
+	\]
+\end{example}
 
+\begin{definition}
+	Dato uno spazio di probabilità $(\Omega, \F, P)$, un evento non trascurabile $B$, definiamo 
+	\textbf{probabilità condizionata} di $A$ dato $B$, con $A$ un evento, come 
+	\[ P(A | B) = \frac{P(A \cap B)}{P(B)} \]
+	Essa indica la probabilità che accada $A$ sapendo che accade $B$.
+\end{definition}
+
+Dalla formula segue che se $A$ e $B$ sono eventi e $B$ è non trascurabile, allora 
+\[ P(A \cap B) = P(A | B) \cdot P(B) \]
+e vale una formula più generale data dalla seguente proposizione.
+
+\begin{proposition}
+	Siano $A_1, A_2, ..., A_n$ eventi la cui intersezione è non trascurabile, allora
+	\[
+		P(A_1 \cap  ... \cap A_n) = P(A_1) P(A_2 | A_1) P(A_3 | A_1 \cap A_2)
+		... P(A_n | A_1 \cap ... \cap A_n)
+	\]
+\end{proposition}
+
+\begin{definition}
+	Siano $B_1, ..., B_n$ eventi che formano una partizione dello spazio campionario $\Omega$ se
+	sono a due a due disgiunti e la loro unione è $\Omega$ stesso. Deve valere quindi 
+	\[ B_i \cap B_j = \emptyset \; \forall i,j \quad \land \quad B_1 \cup ... \cup B_n = \Omega \]
+	Gli eventi $B_1, ..., B_n$ formano un \textbf{sistema di alternative} se formano una 
+	partizione e sono ciascuno non trascurabile.
+\end{definition}
+
+\begin{theorem}[Fattorizzazione]\label{th: fattorizzazione}
+	Siano $B_1, ..., B_n$ un sistema di alternative, allora vale 
+	\[ P(A) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i) \]
+	Per ogni evento $A \in \F$.
+	\begin{proof}
+		Se partizioniamo $\Omega$ in $n$ alternative e poi definiamo un insieme
+		$A \subseteq \Omega$, possiamo vedere $A$ in questo modo
+		\[ A = \cup_{i=1}^n (A \cap B_i) \]
+		ossia come l'unione disgiunta dei pezzi di $A$ che stanno nei vari $B_i$. Quindi vale che
+		\[ P(A) = \sum_{i=1}^n P(A \cap B_i) = \sum_{i=1}^n P(A | B_i) P(B_i) \]
+	\end{proof}
+\end{theorem}
+
+Generalmente questa formula si applica in casi in cui $P$ non è nota a priori ma sono note le
+probabilità condizionate a un sistema di alternative.
+
+\begin{example}
+	Ci sono 2 urne, la prima con 5 biglie rosse e 5 blu, la seconda con 8 biglie rosse e 2 blu.
+	Scegliamo casualmente una delle due urne e da questa estraiamo una biglia e ne osserviamo il
+	colore. Vogliamo calcolare la probabilità che esca una biglia rossa.
+
+	In questo esempio lo spazio campionario è il seguente 
+	\[ \Omega = \{ (\text{urna}, \text{colore biglia}) \} \]
+	dove 
+	\[ \text{urna} \in \{ 1, 2 \} \quad \text{colore biglia} \in \{ r, b \} \]
+	A questo punto noi sappiamo che la probabilità di scegliere una delle due urne è 
+	\[ P(1) = P(2) = \frac{1}{2} \]
+	La seconda informazione di cui siamo a conoscienza è che se scegliamo l'urna 1 abbiamo 5
+	biglie rosse e 5 blu e quindi 
+	\[ P(r | 1) = \frac{5}{10} = \frac{1}{2} \]
+	Se invece scegliamo l'urna 2 abbiamo 8 biglie rosse e quindi 
+	\[ P(r | 2) = \frac{8}{10} = \frac{4}{5} \]
+	A questo punto siamo in grado di calcolare la probabilità complessiva di estrarre una biglia
+	rossa ricavandola con il teorema di fattorizzazione \ref{th: fattorizzazione} in questo modo
+	\[ P(r) = P(r | 1) P(1) + P(r | 2) P(2) = \frac{13}{20} \]
+\end{example}

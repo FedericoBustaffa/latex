@@ -1,6 +1,6 @@
 \chapter{Calcolo combinatorio}
-Il calcolo combinatorio è un elemento fondamentale alla base del calcolo delle probabilità. Non ci
-soffermiamo più di tanto su questo aspetto ma cerchiamo di fare nostro qualche concetto utile.
+Il calcolo combinatorio è un elemento fondamentale alla base del calcolo delle probabilità. Non
+ci soffermiamo più di tanto su questo aspetto ma cerchiamo di fare nostro qualche concetto utile.
 
 \section{Distribuzione uniforme}
 Se $\Omega$ è finito e tutti i suoi punti sembrano ragionevolmente equiprobabili, allora vale
@@ -20,25 +20,25 @@ raggruppati oppure no. Ogni metodo ha una sua versione in cui si tiene conto del
 ripetizioni degli elementi.
 
 \subsection{Combinazioni}
-Le \textbf{combinazioni} contano il numero di sottoinsiemi di $k$ elementi estratti da un insieme di
-$n$ elementi senza tener conto dell'ordine.
+Le \textbf{combinazioni} contano il numero di sottoinsiemi di $k$ elementi estratti da un insieme
+di $n$ elementi senza tener conto dell'ordine.
 
 \begin{definition}
-	Definiamo la \textbf{combinazione senza ripetizione} come il numero di sottoinsiemi di $k$ elementi,
-	ognuno estratto una sola volta, da un insieme di $n$ elementi.
+	Definiamo la \textbf{combinazione senza ripetizione} come il numero di sottoinsiemi di $k$
+	elementi, ognuno estratto una sola volta, da un insieme di $n$ elementi.
 	\[ \binom{n}{k} = \frac{n!}{k! (n-k)!} = \frac{n (n-1) \dots (n-k+1)}{k!} \]
 	La notazione $\binom{n}{k}$ indica il \textbf{coefficiente binomiale}.
 \end{definition}
 
 \begin{definition}
-	Definiamo la \textbf{combinazione con ripetizione} come il numero di sottoinsiemi di $k$ elementi,
-	dove ogni elemento può essere estratto $k$ volte da un insieme di $n$ elementi.
+	Definiamo la \textbf{combinazione con ripetizione} come il numero di sottoinsiemi di $k$
+	elementi, dove ogni elemento può essere estratto $k$ volte da un insieme di $n$ elementi.
 	\[ \binom{n+k-1}{k} = \frac{(n + k - 1)!}{k! (n-1)!} \]
 \end{definition}
 
 \subsubsection{Binomio di Newton}
-Uno strumento interessante di cui non facciamo la dimostrazione ma che ci sarà utile più avanti è il
-\textbf{binomio di Newton}.
+Uno strumento interessante di cui non facciamo la dimostrazione ma che ci sarà utile più avanti è
+il \textbf{binomio di Newton}.
 
 \begin{definition}
 	Definiamo il \textbf{binomio di Newton} come
@@ -46,36 +46,43 @@ Uno strumento interessante di cui non facciamo la dimostrazione ma che ci sarà 
 \end{definition}
 
 \subsection{Disposizioni}
-Le \textbf{disposizioni} contano il numero di possibili sequenze ordinate di $k$ elementi estratte da 
-un insieme di $n$ elementi.
+Le \textbf{disposizioni} contano il numero di possibili sequenze ordinate di $k$ elementi estratte
+da un insieme di $n$ elementi.
 
 \begin{definition}
 	Definiamo la \textbf{disposizione senza ripetizione} come il numero di sequenze ordinate di $k$
-	elementi, estratta da un insieme di $n$ elementi. In questo caso i $k$ elementi sono tutti diversi
-	ma vengono contati tutti i possibili modi di riordinare la stessa sequenza.
+	elementi, estratta da un insieme di $n$ elementi. In questo caso i $k$ elementi sono tutti
+	diversi ma vengono contati tutti i possibili modi di riordinare la stessa sequenza.
 	\[ \frac{n!}{(n - k)!} \]
 \end{definition}
 
 \begin{definition}
 	Definiamo la \textbf{disposizione con ripetizione} come il numero di sequenze ordinate di $k$
-	elementi, estratta da un insieme di $n$ elementi. In questo caso i $k$ elementi possono ripetersi
-	fino a $k$ volte
+	elementi, estratta da un insieme di $n$ elementi. In questo caso i $k$ elementi possono
+	ripetersi fino a $k$ volte
 	\[ n^k \]
 \end{definition}
 
 \subsection{Permutazioni}
-Le \textbf{permutazioni} contano in quanti possibili modi si può riordinare un insieme di $n$ elementi.
+Le \textbf{permutazioni} contano in quanti possibili modi si può riordinare un insieme di $n$
+elementi.
 
 \begin{definition}
-	Definiamo la \textbf{permutazione senza ripetizione} come il numero di modi in cui si possono ordinare
-	$n$ elementi tutti diversi.
+	Definiamo la \textbf{permutazione senza ripetizione} come il numero di modi in cui si possono
+	ordinare $n$ elementi tutti diversi.
 	\[ n! \]
 \end{definition}
 
 \begin{definition}
-	Definiamo la \textbf{permutazione con ripetizione} come il numero di modi in cui è possibile riordinare
-	$n$ elementi nel caso in cui $k$ di essi siano ripetuti.
+	Definiamo la \textbf{permutazione con ripetizione} come il numero di modi in cui è possibile
+	riordinare $n$ elementi nel caso in cui $k$ di essi siano ripetuti.
 	\[ \frac{n!}{n_1! \cdot n_2! \cdot ... \cdot n_k!} \]
-	In questa formula $n_i$ è il numero di volte che l'elemento $i$ è ripetuto all'interno della sequenza.
+	In questa formula $n_i$ è il numero di volte che l'elemento $i$ è ripetuto all'interno della
+	sequenza.
 \end{definition}
 
+Tutti questi metodi per contare gruppi di elementi servono a sapere quanto vale la cardinalità di
+$\Omega$. Una volta che la si conosce, se ci troviamo in un caso di distribuzione uniforme di
+probabilità, allora possiamo applicare la formula 
+\[ P(A) = \frac{\# A}{\# \Omega} \]
+andando a sostituire a $\# \Omega$ il risultato di uno di questi calcoli.
