@@ -1,5 +1,6 @@
 \section{Probabilità condizionata}
-Per capire meglio cosa sia la \textbf{probabilità condizionata} facciamo un esempio.
+La \textbf{probabilità condizionata} indica la probabilità che si verfichi un evento sapendo che
+se ne verifica un altro.
 
 \begin{example}
 	Supponiamo di lanciare un dado equilibrato e supponiamo di sapere che l'esito è un numero
@@ -16,7 +17,7 @@ Per capire meglio cosa sia la \textbf{probabilità condizionata} facciamo un ese
 \end{example}
 
 \begin{definition}
-	Dato uno spazio di probabilità $(\Omega, \F, P)$, un evento non trascurabile $B$, definiamo 
+	Dato uno spazio di probabilità $(\Omega, \F, P)$ e un evento non trascurabile $B$, definiamo 
 	\textbf{probabilità condizionata} di $A$ dato $B$, con $A$ un evento, come 
 	\[ P(A | B) = \frac{P(A \cap B)}{P(B)} \]
 	Essa indica la probabilità che accada $A$ sapendo che accade $B$.
@@ -35,15 +36,15 @@ e vale una formula più generale data dalla seguente proposizione.
 \end{proposition}
 
 \begin{definition}
-	Siano $B_1, ..., B_n$ eventi che formano una partizione dello spazio campionario $\Omega$ se
-	sono a due a due disgiunti e la loro unione è $\Omega$ stesso. Deve valere quindi 
+	Siano $B_1, ..., B_n$ eventi che formano una partizione dello spazio campionario $\Omega$, se
+	sono a due a due disgiunti e la loro unione è $\Omega$ stesso
 	\[ B_i \cap B_j = \emptyset \; \forall i,j \quad \land \quad B_1 \cup ... \cup B_n = \Omega \]
-	Gli eventi $B_1, ..., B_n$ formano un \textbf{sistema di alternative} se formano una 
-	partizione e sono ciascuno non trascurabile.
+	allora sono detti \textbf{sistema di alternative} se formano una partizione e sono tutti non
+	trascurabili.
 \end{definition}
 
 \begin{theorem}[Fattorizzazione]\label{th: fattorizzazione}
-	Siano $B_1, ..., B_n$ un sistema di alternative, allora vale 
+	Sia $B_1, ..., B_n$ un sistema di alternative, allora vale 
 	\[ P(A) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i) \]
 	Per ogni evento $A \in \F$.
 	\begin{proof}
@@ -61,9 +62,8 @@ probabilità condizionate a un sistema di alternative.
 \begin{example}
 	Ci sono 2 urne, la prima con 5 biglie rosse e 5 blu, la seconda con 8 biglie rosse e 2 blu.
 	Scegliamo casualmente una delle due urne e da questa estraiamo una biglia e ne osserviamo il
-	colore. Vogliamo calcolare la probabilità che esca una biglia rossa.
-
-	In questo esempio lo spazio campionario è il seguente 
+	colore. Vogliamo calcolare la probabilità che esca una biglia rossa. In questo esempio lo
+	spazio campionario è il seguente 
 	\[ \Omega = \{ (\text{urna}, \text{colore biglia}) \} \]
 	dove 
 	\[ \text{urna} \in \{ 1, 2 \} \quad \text{colore biglia} \in \{ r, b \} \]
