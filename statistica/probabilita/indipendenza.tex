@@ -36,3 +36,67 @@ L'indipendenza è dunque stabile per la complementazione. Si può inoltre dimost
 	\[ P(A \cap B) = \frac{1}{40} = \frac{1}{10} \cdot \frac{1}{4} = P(A) P(B) \]
 	Quindi gli eventi sono indipendenti.
 \end{example}
+
+\subsection{Indipendenza per 3 o più eventi}
+Siano $A$, $B$ e $C$ degli eventi. Per riuscire a dire che sono indipendenti c'è bisogno che
+\begin{itemize}
+	\item Siano a due a due indipendenti 
+		\begin{align*}
+			P(A \cap B) = & P(A) P(B) \\
+			P(A \cap C) = & P(A) P(C) \\
+			P(B \cap C) = & P(B) P(C)
+		\end{align*}
+	\item La probabilità dell'intersezione di tutti e tre si spezzi come il prodotto delle
+		probabilità dei tre eventi.
+		\[ P(A \cap B \cap C) = P(A) P(B) P(C) \]
+\end{itemize}
+
+\begin{example}
+	Consideriamo 
+	\begin{align*}
+		\Omega = & \{ 1, 2, 3, 4 \} \\
+		A = & \{ 1, 2 \} \\
+		B = & \{ 1, 3 \} \\
+		C = & \{ 2, 3 \}
+	\end{align*}
+	con $P$ uniforme su $\Omega$. La probabilità che i singoli eventi si verifichino è di 
+	\[ P(A) = P(B) = P(C) = \frac{2}{4} = \frac{1}{2} \]
+	La probabilità dell'intersezione degli eventi presi a due a due è di
+	\[ P(A \cap B) = P(A \cap C) = P(B \cap C) = \frac{1}{4} \]
+	Dunque la prima condizione per l'indipendenza è soddisfatta. Andiamo a calcolare ora quanto 
+	vale l'intersezione dei tre eventi. Consideriamo l'intersezione in questo modo
+	\[ A \cap (B \cap C) \]
+	Dunque possiamo calcolare la probabilità dell'intersezione in questo modo 
+	\[ P(A \cap (B \cap C)) = P(A | (B \cap C)) = 0 \neq P(A) \]
+	Dunque sapere che accade $B \cap C$ cambia la probabilità che accada $A$.
+\end{example}
+
+\begin{definition}
+	Dati $A_1, A_2, ..., A_n$ eventi, questi si dicono indipendenti se $\forall k$ intero con 
+	$1 \leq k \leq n$ e $\forall \; 1 \leq i_1 < ... < i_k \leq n$ vale
+	\[ P(A_{i_1} \cap ... \cap A_{i_k}) = P(A_{i_1}) \cdot ... \cdot P(A_{i_k}) \]
+	In altre parole la probabilità dell'intersezione degli eventi si deve poter spezzare come
+	prodotto delle probabilità dei singoli eventi.
+\end{definition}
+
+\begin{observation}
+	Se $A_1, A_2, ..., A_n$ sono indipendenti allora sono indipendenti a due a due.
+\end{observation}
+
+\subsubsection{Prove ripetute}
+Un caso importante di eventi indipendenti è il caso delle \textbf{prove ripetute} in cui si ripete
+un esperimento $n$ volte nelle medesime condizioni. Possiamo dire che per gli eventi riferiti a
+ripetizioni distinte o a gruppi disgiunti di ripetizione sono indipendenti.
+
+Un sottocaso importante delle prove ripetute è lo schema di Bernoulli per $n$ prove ripetute in
+cui ciascuna prova ha esito \emph{successo} o \emph{insuccesso}. In questo specifico caso è
+possibile scrivere lo spazio campionario 
+\[ \Omega = \{ a_1, a_2, ..., a_n | \forall i \; a_i \in \{ 0, 1 \} \} = \{ 0, 1 \}^n \]
+In cui associamo tipicamente a 1 il successo e a 0 l'insuccesso. La probabilità associata ad una
+sequenza equivale a
+\[ P(\{ a_1, ... a_n \}) = p^{\# \{i | a_i = 1\}} \cdot (1 - p)^{\# \{i | a_i = 0\}}  \]
+dove $p$ è la probabilità di successo della singola prova.
+
+\begin{observation}
+	Il concetto di indipendenza non è legato al concetto di causalità.
+\end{observation}
