@@ -1,4 +1,4 @@
-\chapter{Probabilità condizionata}
+\section{Probabilità condizionata}
 Per capire meglio cosa sia la \textbf{probabilità condizionata} facciamo un esempio.
 
 \begin{example}
@@ -77,4 +77,56 @@ probabilità condizionate a un sistema di alternative.
 	A questo punto siamo in grado di calcolare la probabilità complessiva di estrarre una biglia
 	rossa ricavandola con il teorema di fattorizzazione \ref{th: fattorizzazione} in questo modo
 	\[ P(r) = P(r | 1) P(1) + P(r | 2) P(2) = \frac{13}{20} \]
+\end{example}
+
+\begin{example}
+	Un test diagnostico per una data malattia ha un indice di sensibilità di $0.99$ per una
+	persona malata, ossia, da esito positivo con probabilità $0.99$. E ha indice di specificità
+	$0.97$, ossia, da esito negativo con probabilità $0.97$ per una persona sana.
+
+	Supponendo che l'$1\%$ della popolazione soffra di tale malattia, vogliamo calcolare la
+	probabilità che il test, su un individuo a caso, dia esito positivo.
+
+	Si applica la formula di fattorizzazione al sistema di alternative
+	\[ B_1 = \{ \text{sano} \} \quad B_2 = \{ \text{malato} \} \]
+	e all'evento 
+	\[ A = \{ \text{test positivo} \} \]
+	Svolgendo i calcoli in modo analogo a prima otteniamo che
+	\[ P(A) = 0.0396 \]
+\end{example}
+
+\begin{theorem}[Bayes]\label{th: bayes}
+	Siano $A$ e $B$ eventi non trascurabile. Allora vale
+	\[ P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \]
+	In particolare se $B_1, B_2, ..., B_n$ allora vale 
+	\[ P(B_i | A) = \frac{P(A | B_i) P(B_i)}{\sum_{j=1}^n P(A | B_j) P(B_j)} \]
+	per ogni $i = 1, ..., n$.
+	\begin{proof}
+		La dimostrazione è molto semplice basta infatti notare che 
+		\[ P(A | B) = \frac{P \cap B}{P(A)} = \frac{P(A | B) P(B)}{P(A)} \]
+		La seconda formula segue dalla prima dove $B=B_i$ e dalla formula di fattorizzazione
+		per $P(A)$.
+	\end{proof}
+\end{theorem}
+
+La formula di Bayes viene usata per \emph{invertire} il condizionamento tipicamente in contesti
+in cui accade un evento $A$ riferito a un'\emph{osservabile} e vogliamo dedurre la probabilità di
+un'alternativa $B_i$ di eventi \emph{causa}.
+
+\begin{example}
+	Facendo riferimento all'esempio di prima delle biglie, supponiamo di estrarre una biglia
+	rossa e vogliamo calcolare la probabilità che questa sia stata estratta dalla prima urna.
+	\[
+		P(1 | r) = \frac{P(r | 1) P(1)}{P(r)} = 
+		\frac{\frac{5}{10} \cdot \frac{1}{2}}{\frac{13}{20}} = 0.385
+	\]
+\end{example}
+
+\begin{example}
+	Facendo riferimento al test diagnostico, supponiamo che il test dia esito positivo e vogliamo
+	calcolare la probabilità che la persona sia effettivamente malata.
+	\[
+		P(\text{malato} | \text{positivo}) = 
+		\frac{P(\text{positivo} | \text{malato}) P(\text{malato})}{P(\text{positivo})} = 0.25
+	\]
 \end{example}

@@ -1,15 +1,15 @@
-\chapter{Calcolo combinatorio}
+\section{Calcolo combinatorio}
 Il calcolo combinatorio è un elemento fondamentale alla base del calcolo delle probabilità. Non
 ci soffermiamo più di tanto su questo aspetto ma cerchiamo di fare nostro qualche concetto utile.
 
-\section{Distribuzione uniforme}
+\subsection{Distribuzione uniforme}
 Se $\Omega$ è finito e tutti i suoi punti sembrano ragionevolmente equiprobabili, allora vale
 \[ P(\omega_i) = \frac{1}{n} \]
 Questa è chiamata \textbf{distribuzione uniforme} di probabilità e vale
 \[ P(A) = \frac{\# A}{\# \Omega} = \frac{\text{casi favorevoli}}{\text{casi possibili}} \]
 Se $\Omega$ è infinito non possiamo parlare di distribuzione uniforme.
 
-\section{Calcolo combinatorio}
+\subsection{Calcolo combinatorio}
 A questo punto è necessario introdurre alcuni concetti fondamentali necessari a comprendere meglio
 ciò che andremo a fare più avanti. Il calcolo combinatorio si occupa di proporre dei metodi per
 raggruppare gruppi di elementi e, per ogni metodo, vuole contare il numero di possibili
@@ -19,7 +19,7 @@ I metodi che andiamo a trattare possono tenere conto dell'ordine con il quale gl
 raggruppati oppure no. Ogni metodo ha una sua versione in cui si tiene conto delle possibili 
 ripetizioni degli elementi.
 
-\subsection{Combinazioni}
+\subsubsection{Combinazioni}
 Le \textbf{combinazioni} contano il numero di sottoinsiemi di $k$ elementi estratti da un insieme
 di $n$ elementi senza tener conto dell'ordine.
 
@@ -36,7 +36,7 @@ di $n$ elementi senza tener conto dell'ordine.
 	\[ \binom{n+k-1}{k} = \frac{(n + k - 1)!}{k! (n-1)!} \]
 \end{definition}
 
-\subsubsection{Binomio di Newton}
+\paragraph{Binomio di Newton}
 Uno strumento interessante di cui non facciamo la dimostrazione ma che ci sarà utile più avanti è
 il \textbf{binomio di Newton}.
 
@@ -45,7 +45,7 @@ il \textbf{binomio di Newton}.
 	\[ (a + b)^n = \sum_{k=0}^n \binom{n}{k} \cdot a^k b^{n-k} \]
 \end{definition}
 
-\subsection{Disposizioni}
+\subsubsection{Disposizioni}
 Le \textbf{disposizioni} contano il numero di possibili sequenze ordinate di $k$ elementi estratte
 da un insieme di $n$ elementi.
 
@@ -63,7 +63,7 @@ da un insieme di $n$ elementi.
 	\[ n^k \]
 \end{definition}
 
-\subsection{Permutazioni}
+\subsubsection{Permutazioni}
 Le \textbf{permutazioni} contano in quanti possibili modi si può riordinare un insieme di $n$
 elementi.
 
