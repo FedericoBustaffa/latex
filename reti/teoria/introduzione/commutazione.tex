@@ -1,0 +1,44 @@
+\section{Commutazione}
+Una internet è data dall'interconnessione di reti composte da link e dispositivi capaci di
+scambiarsi informazioni. In particolare distinguiamo i dispositivi in host e dispositivi di
+interconnessione.
+
+Nel momento in cui vogliamo inviare un \textbf{pacchetto} si deve definire un percorso nella rete
+lungo il quale questo viaggia per arrivare a destinazione. Le tecniche di \textbf{commutazione}
+definiscono i metodi con il quale viene determinato tale percorso. In particolare andiamo a
+distinguere due principali metodi di commutazione: commutazione di \textbf{pacchetto} e
+commutazione di \textbf{circuito}.
+
+In generale non esiste un solo percorso per connettere due dispositivi. Ecco che i due modelli di
+commutazione entrano in gioco fornendo due possibili alternative nella scelta di tale percorso.
+Vedremo che i due tipi di commutazione non forniscono solo un metodo per determinare un percorso
+di rete ma influiscono anche sulla velocità di connessione tra dispositivi e sulla trasmissione
+dell'informazione.
+
+\subsection{Commutazione di circuito}
+La commutazione di circuito instaura un cammino dedicato tra i due dispositivi che vogliono
+comunicare tramite una serie di linee di trasmissione e dispositivi di commutazione che collegano
+sorgente e destinazione.
+\begin{enumerate}
+	\item \textbf{Inizializzazione}: In genere si ha una fase iniziale in cui si richiede di
+		aprire una connessione verso una determinata entità e una prima infrastruttura si occupa 
+		di determinare una connessione dedicata tra mittente e destinatario. I dispositivi di 
+		mezzo sono incaricati di gestire tale collegamento di modo che la connessione non si
+		interrompa.
+	\item \textbf{Risorse}: una volta determinato il percorso si dedicano le risorse necessarie 
+		a tale connessione. Una volta allocate, tali risorse, sono disponibile per tutta la durata 
+		della comunicazione.
+\end{enumerate}
+Gli svantaggi di questo tipo di commutazione sono principalmente due:
+\begin{itemize}
+	\item \`E necessaria una fase iniziale di inizializzazione prima di iniziare a comunicare.
+	\item Le risorse dedicate ad una connessione rimangono inattive se non utilizzate.
+\end{itemize}
+D'altro canto abbiamo prestazioni molto elevate in quanto, una volta stabilita la connessione,
+tutte le risorse sono allocate e non si subiscono interruzioni di alcun tipo dato che la fase 
+iniziale ha assicurato che il percorso scelto fosse in grado di sostenere la connessione richiesta.
+
+\subsection{Commutazione di pacchetto}
+Questo paradigma per la commutazione cerca di risolvere i due problemi della commutazione di
+circuito, ossia la minimizzazione del tempo speso nella fase iniziale e la minimizzazione della
+
