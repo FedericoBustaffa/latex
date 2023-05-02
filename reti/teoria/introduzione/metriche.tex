@@ -1,0 +1,45 @@
+\section{Metriche}
+Vogliamo ora capire come misurare le prestezioni della rete. Per farlo dobbiamo introdurre concetti
+come
+\begin{itemize}
+	\item Ampiezza di banda e bitrate
+	\item Throughput
+	\item Latenza
+	\item Perdita di pacchetti
+\end{itemize}
+Una volta chiariti certi concetti sarà anche più facile interpretare i risultati forniti dai famosi
+\emph{speed test} che si trovano online.
+
+\subsection{Larghezza di banda e bitrate}
+Quando si parla di \textbf{larghezza di banda} si parla della larghezza dell'intervallo delle
+frequenze utilizzato dal mezzo trasmissivo e si misura in Hertz (Hz).
+
+Il \textbf{bitrate} è invece la velocità di trasmissione del mezzo trasmissivo e indica quanti bit
+possono essere trasmessi nell'unità di tempo e si misura in bits per second (bps).
+
+\subsection{Throughput}
+Il \textbf{throughput} indica la quantità di dati che possono essere trasmessi da un nodo sorgente
+a un nodo destinazione in un certo intervallo di tempo. Da non confondere con il bitrate in quanto
+il throughput indica la velocità con cui trasferiamo i dati tenendo di conto di eventuali
+variazioni del mezzo trasmissivo, duplicazioni, protocolli ecc.
+
+Se per esempio fino a un certo nodo abbiamo un bitrate $R_1$ e da quel nodo in poi abbiamo un
+bitrate $R_2$, il throughput sarà
+\[ \text{throughput} = \min (R_1, R_2) \]
+In generale quando ci sono più connessioni i cui host interagiscono l'uno con l'altro si ha spesso
+una situazione in cui il throughput finale equivale alla capacità trasmissiva peggiore all'interno
+della rete.
+
+\subsection{Latenza}
+Con \textbf{latenza} indichiamo il tempo richiesto affinché un messaggio arrivi a destinazione dal
+momento in cui il primo bit parte dalla sorgente. La latenza si può ricavare tramite la seguente 
+formula
+\[ l = rp + rt + ra + re \]
+\\ Dove
+\begin{itemize}
+	\item $rp$ indica il ritardo di \textbf{propagazione}
+	\item $rt$ indica il ritardo di \textbf{trasmissione}
+	\item $ra$ indica il ritardo di \textbf{accodamento}
+	\item $re$ indica il ritardo di \textbf{elaborazione}
+\end{itemize}
+
