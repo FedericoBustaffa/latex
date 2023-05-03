@@ -51,13 +51,48 @@ pacchetto.
 
 \subsubsection{Trasmissione}
 Il \textbf{ritardo di trasmissione} dipende dalla velocità di trasmissione del collegamento e dalla
-lunghezza del pacchetto. Rappresenta il tempo impiegato per trasmettere il pacchetto.
+lunghezza del pacchetto. Rappresenta il tempo impiegato per immettere il pacchetto sulla linea.
 \[ rt = \frac{l}{r} \]
 dove $l$ è la lunghezza del pacchetto e $r$ è la velocità di trasmissione (rate) del mezzo
 trasmissivo.
 
 \subsubsection{Propagazione}
-Tempo impiegato da un bit per essere propagato da un nodo all'altro. Esso dipende dalla lunghezza
-del collegamento fisico e dalla velocità di propagazione nel mezzo.
+Tempo impiegato da un bit per viaggiare da un punto $A$ a un punto $B$ sul mezzo trasmissivo. Esso
+dipende dalla lunghezza del collegamento fisico e dalla velocità di propagazione nel mezzo.
 \[ rp = \frac{d}{s} \]
 dove $d$ è la lunghezza del mezzo trasmissivo e $s$ è la velocità di propagazione di tale mezzo.
+
+Proviamo ora a fare qualche esempio pratico per riuscire a comprendere meglio tutti questi
+concetti. Supponiamo di voler inviare un file di 1 Mbit su un datalink di lunghezza 4800 km. Il 
+ritardo di propagazione, in questo caso è 
+\[ rp = \frac{4800 \cdot 10^3 [\text{m}]}{3 \cdot 10^8 [\text{m/s}]} = 0.016 [\text{s}] \]
+Con una velocità di trasmissione di 64 kbps abbiamo un ritardo di trasmissione pari a
+\[ rt = \frac{10^6 [\text{b}]}{64 \cdot 10^3 [\text{bps}]} = 15.625 [\text{s}] \]
+Con una velocità di trasmissione di 1 Gbps abbiamo invece un ritardo di trasmissione pari a
+\[ rt = \frac{10^6 [\text{b}]}{10^9 [\text{bps}]} = 0.001 [\text{s}] \]
+
+\subsubsection{End-to-End}
+Il ritardo \textbf{end-to-end} è il ritardo complessivo che c'è da origine a destinazione. Per 
+calcolarlo supponiamo che ci siano $n-1$ nodi tra origine e destinazione. Per prima cosa dobbiamo
+calcolare il ritardo accumulato su ogni nodo andando a sommare tutti i tipi di ritardo visti fino
+ad ora.
+\[ R_{\text{nodo}} = re + rp + rt + ra \]
+A questo punto è facile intuire che il ritardo end-to-end sarà equivalente alla somma di tutti i
+ritardi accumulati sui singoli nodi
+\[ R_\text{end-to-end} = \sum_{i=1}^n R_i \]
+
+\subsection{Traceroute}
+Uno strumento in grado di tracciare un pacchetto dal tuo computer ad un certo host specificato
+mostrando, il numero di passaggi necessari per raggiungerlo insieme al ritardo da ogni mittente
+ad ogni passaggio.
+Su Windows si utilizza digitando il comando
+\begin{center}
+	\verb|tracert <URL>|
+\end{center}
+mentre su Linux è possibile utilizzarlo tramite il comando 
+\begin{center}
+	\verb|traceroute <URL>|
+\end{center}
+
+\subsection{Volume di trasmissione}
+Il prodotto tra il bitrate e il ritardo 
