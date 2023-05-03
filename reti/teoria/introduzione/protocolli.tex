@@ -74,9 +74,22 @@ contesto.
 			\item definiscono le azioni da intraprendere dopo la ricezione di un messaggio.
 		\end{itemize}
 \end{itemize}
-Il modello ISO/OSI si compone di 7 livelli ai quali corrisponde un protocollo ognuno. I primi 4
-protcolli sono legati al mezzo trasmissivo e si occupano di trasmettere dati da un host all'altro.
+Come vederemo, il modello ISO/OSI si compone di 7 livelli ai quali corrisponde un protocollo
+ognuno. I primi 4 protcolli sono legati al mezzo trasmissivo e si occupano di trasmettere dati da
+un host all'altro.
 
-Il livello più basso è quello \textbf{fisico} che si occupa di trasmettere un flusso di bit, il 
-secondo livello è quello del \textbf{datalink} che si occupa di inviare un unità trasmissiva
-(trama) da un host ad un altro.
+\subsubsection{Protocolli ISO/OSI}
+Definiamo brevemente di cosa si occupa ogni livello dell'ISO/OSI:
+\begin{itemize}
+	\item \textbf{Fisico}: trasmissione di un flusso di bit.
+	\item \textbf{Collegamento}: invio di un'unità trasmissiva (trama) da un host ad un altro.
+	\item \textbf{Rete}: instradamento del traffico, ossia si occupa di determinare il percorso 
+		dalla sorgente alla destinazione attraverso i nodi della rete.
+	\item \textbf{Trasporto}: trasferimento di dati da host a host in cui si possono avere servizi
+		connection-oriented o connectionless.
+	\item \textbf{Sessione}: instaurazione di una sessione di comunicazione tra due host.
+	\item \textbf{Presentazione}: codifica di dati inviati.
+	\item \textbf{Applicazione}: elaborazione dei dati.
+\end{itemize}
+Ci sono dei sistemi intermedi in cui sono presenti solo i primi 3/4 livelli del modello ISO/OSI
+nel caso non sia necessario avere tutti i protocolli.
