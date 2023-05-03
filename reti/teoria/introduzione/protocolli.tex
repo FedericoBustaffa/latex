@@ -1,0 +1,82 @@
+\section{Protocolli}
+Un \textbf{protocollo} è un insieme di regole che permettono a due entità di comunicare. Per far 
+si che le comunicazioni avvengano correttamente si devono stabilire una serie di step e controlli 
+che le rendano omologate ad uno standard. Questi step, organizzati secondo un modello stratificato,
+sono i protocolli.
+
+\subsection{Modello stratificato}
+La scomposizione di un sistema complesso in strati permette di definire le relazioni tra le entità
+di tale sistema. Per esempio è possibile distinguere funzioni e attori.
+
+Altro vantaggio nello stratificare il sistema è una maggiore facilità nel mantenerlo e aggiornarlo
+dato che ogni modulo svolge un insieme delimitato di compiti e nel sistema appare come una 
+\emph{black box} che riceve un input e genera un output.
+
+Ogni livello offre servizi allo strato superiore
+\begin{itemize}
+	\item Implementando funzionalità all'interno del livello stesso.
+	\item Utilizzando servizi forniti dal livello inferiore.
+\end{itemize}
+
+\subsubsection{Principi di stratificazione}
+Per riuscire a stratificare correttamente il sistema è buona norma seguire questi principi che 
+ci forniscono una buona linea guida:
+\begin{itemize}
+	\item \textbf{Separation of Concern}: Separazione di interessi e responsabilità ogni strato
+		dovrebbe fare solo ciò che gli compete e delegare ad altri strati tutto ciò che è
+		delegabile.
+	\item \textbf{Information Hiding}: Nascondere tutte le informazioni non indispensabili al 
+		committente.
+\end{itemize}
+In sintesi per una buona stratificazione si lascia completamente libera l'implementazione interna
+dello strato. L'unica cosa che deve sottostare alle specifiche è l'interfaccia sugli strati
+adiacenti.
+
+\subsubsection{Modello ISO/OSI}
+Il modello \textbf{ISO/OSI} è modello di riferimento che regola le comunicazioni di rete. Prima di
+tutto dobbiamo fare differenza tra sistemi chiusi e aperti.
+
+In un \textbf{sistema chiuso} tutte le componenti della rete devono essere dello stesso costruttore
+e la è specializzata per specifici servizi. Ovviamente questo crea un grosso problema di
+\textbf{interoperabilità} in quanto gli apparati non riescono ad interpretare i segnali degli altri
+in altre reti e sono quindi impossibilitati a lavorare in ambiente distribuito.
+
+In un \textbf{sistema aperto} si cerca di risolvere questi problemi per garantire 
+l'interoperabilità tra reti diverse. Per riuscire a fare questo è stato definito un modello
+standard, ossia l'ISO/OSI.
+
+In un sistema aperto le specifiche del protocollo sono disponibili pubblicamente e i cambiamenti 
+sono gestiti da un'organizzazione la cui partecipazione è aperta al pubblico.
+
+Un sistema che implementa protocolli aperti è un sistema aperto e l'ISO (International Security
+Interconnection) ha specificato uno standard per l'interconnessione di sistemi aperti, ossia l'OSI.
+
+Ogni strato fornisce servizi allo strato superiore e comunica con lo stesso strato di un'altra 
+entità secondo un protocollo assegnato.
+
+\subsubsection{Definizioni}
+Introduciamo delle definizioni più specifiche per i termini che andiamo a utilizzare in questo 
+contesto.
+\begin{itemize}
+	\item \textbf{Strato}: modulo interamente definito attraverso i servizi, i protocolli e le 
+		interfacce che lo caratterizzano.
+	\item \textbf{Servizio}: insieme di operazioni che uno strato fornisce ad uno strato superiore.
+	\item \textbf{Interfaccia}: insieme di regole che governano il formato e il significato delle 
+		unità di dati che vengono scambiati tra due strati adiacenti della stessa entità.
+	\item \textbf{Protocollo}: insieme di regole che
+		\begin{itemize}
+			\item permettono a due entità \textbf{omologhe} (stesso strato) di scambiare
+				informazioni.
+			\item definiscono il formato e l'ordine dei messaggi inviati e ricevuti tra entità
+				omologhe e le azioni che vengono fatte per la trasmissione e la ricezione di 
+				tali messaggi.
+			\item definiscono \textbf{sintassi} e \textbf{semantica} dei messaggi.
+			\item definiscono le azioni da intraprendere dopo la ricezione di un messaggio.
+		\end{itemize}
+\end{itemize}
+Il modello ISO/OSI si compone di 7 livelli ai quali corrisponde un protocollo ognuno. I primi 4
+protcolli sono legati al mezzo trasmissivo e si occupano di trasmettere dati da un host all'altro.
+
+Il livello più basso è quello \textbf{fisico} che si occupa di trasmettere un flusso di bit, il 
+secondo livello è quello del \textbf{datalink} che si occupa di inviare un unità trasmissiva
+(trama) da un host ad un altro.
