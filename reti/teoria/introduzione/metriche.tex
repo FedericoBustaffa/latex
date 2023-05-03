@@ -30,16 +30,34 @@ In generale quando ci sono più connessioni i cui host interagiscono l'uno con l
 una situazione in cui il throughput finale equivale alla capacità trasmissiva peggiore all'interno
 della rete.
 
-\subsection{Latenza}
+\subsection{Latenza e perdite}
 Con \textbf{latenza} indichiamo il tempo richiesto affinché un messaggio arrivi a destinazione dal
 momento in cui il primo bit parte dalla sorgente. La latenza si può ricavare tramite la seguente 
 formula
 \[ l = rp + rt + ra + re \]
-\\ Dove
-\begin{itemize}
-	\item $rp$ indica il ritardo di \textbf{propagazione}
-	\item $rt$ indica il ritardo di \textbf{trasmissione}
-	\item $ra$ indica il ritardo di \textbf{accodamento}
-	\item $re$ indica il ritardo di \textbf{elaborazione}
-\end{itemize}
+dove gli elementi a secondo membro indicano rispettivamente i ritardi di propagazione, trasmissione
+accodamento ed elaborazione.
 
+\subsubsection{Accodamento}
+Come abbiamo già visto, i pacchetti che non possono essere elaborati dal router vengono messi in
+attesa in un buffer. Questo ovviamente genera ritardo, ossia il \textbf{ritardo di accodamento},
+che equivale al tempo di permanenza del pacchetto nel buffer. Quando il buffer del router è pieno,
+tutti i pacchetti in arrivo vengono scartati.
+
+\subsubsection{Elaborazione}
+Altro ritardo introdotto dalla commutazione di pacchetto è il \textbf{ritardo di elaborazione}
+dovuto a controllo di errori sui bit e all'elaborazione di una scelta del canale d'uscita del
+pacchetto.
+
+\subsubsection{Trasmissione}
+Il \textbf{ritardo di trasmissione} dipende dalla velocità di trasmissione del collegamento e dalla
+lunghezza del pacchetto. Rappresenta il tempo impiegato per trasmettere il pacchetto.
+\[ rt = \frac{l}{r} \]
+dove $l$ è la lunghezza del pacchetto e $r$ è la velocità di trasmissione (rate) del mezzo
+trasmissivo.
+
+\subsubsection{Propagazione}
+Tempo impiegato da un bit per essere propagato da un nodo all'altro. Esso dipende dalla lunghezza
+del collegamento fisico e dalla velocità di propagazione nel mezzo.
+\[ rp = \frac{d}{s} \]
+dove $d$ è la lunghezza del mezzo trasmissivo e $s$ è la velocità di propagazione di tale mezzo.
