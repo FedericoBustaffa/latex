@@ -61,6 +61,33 @@ l'interoperabilità tra reti diverse.
 In un sistema aperto le specifiche del protocollo sono disponibili pubblicamente e i cambiamenti 
 sono gestiti da un'organizzazione la cui partecipazione è aperta al pubblico.
 
+\subsection{Modalità di servizio}
+Il tipo di servizio fornito da uno strato allo strato adiacente superiore può essere di due tipi:
+\begin{itemize}
+	\item \textbf{Connection-oriented}: si instaura un'associazione logica tra due componenti al 
+		fine di trasferire dei dati. Abbiamo anche la possibilità di gestire la connessione
+		dividendola in tre fasi:
+		\begin{itemize}
+			\item Instaurazione
+			\item Trasferimento dati
+			\item Chiusura
+		\end{itemize}
+	\item \textbf{Connectionless}: in questo caso i dati vengono trasferiti senza stabilire una
+		connessione.
+\end{itemize}
+
+\subsection{Flusso dell'informazione}
+Per la rete, l'informazione ha origine a livello applicativo (per esempio la richiesta di un
+browser a un server) e prima di essere inoltrata, questa discende i vari livelli fino alla
+trasmissione su canale fisico.
+
+Ogni livello aggiunge all'informazione del livello superiore, una propria sezione informativa
+(intestazione) che contiene informazioni riguardanti esclusivamente quel livello.
+
+Abbiamo quindi \textbf{incapsulato} la nostra informazione e una volta arrivata al primo livello 
+viene inoltrata sulla rete. Una volta arrivata a destinazione, l'informazione segue il percorso
+inverso sulla macchina destinataria di modo da poter essere letta.
+
 \subsection{Modello ISO/OSI}
 Il modello \textbf{ISO/OSI} è modello di riferimento che regola le comunicazioni di rete. L'ISO
 (International Security Interconnection) ha specificato uno standard per l'interconnessione di
@@ -84,3 +111,21 @@ Come vedremo tra poco il modello IOS/OSI è definito come uno stack di protcolli
 \end{itemize}
 Ci sono dei sistemi intermedi in cui sono presenti solo i primi 3/4 livelli del modello ISO/OSI
 nel caso non sia necessario avere tutti i protocolli.
+
+\subsection{Modello TCP/IP}
+Il modello \textbf{TCP/IP} è lo standard attualmente usato in Internet. A differenza del modello 
+ISO/OSI abbiamo cinque strati, anche se, come vedremo, i due strati mancanti sono stati
+sostanzialmente inglobati in un solo strato.
+
+\subsubsection{Stack protocollare TCP/IP}
+Come abbiamo detto, in questo caso abbiamo solo cinque livelli ma che non differiscono poi così 
+tanto da quello proposti nel modello ISO/OSI:
+\begin{itemize}
+	\item \textbf{Fisico}: trasferimento dei bit sul mezzo trasmissivo.
+	\item \textbf{Collegamento}: trasferimento dati in frame attraverso collegamenti tra elementi
+		di rete vicini (ethernet).
+	\item \textbf{Rete}: instradamento dei datagrammi da sorgente a destinazione (ip, ICMP).
+	\item \textbf{Trasporto}: trasferimento dati end-to-end (tcp, udp).
+	\item \textbf{Applicazione}: supporta le applicazioni di rete e instaura un collegamento
+		logico end-to-end tra due processi (smtp, ftp, http).
+\end{itemize}
