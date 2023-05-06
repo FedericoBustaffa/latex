@@ -1,0 +1,30 @@
+\section{HTTP}
+L'\textbf{HTTP} (Hyper Text Transfer Protocol) è il protocollo generalmente usato per navigare in
+rete e dunque per fare richieste di contenuti sul web. Si tratta di un protocollo
+\textbf{stateless}, ossia senza memoria di stato, in quanto le coppie richiesta/risposta sono
+indipendenti.
+
+Il protocollo non è limitato all'ipertesto ma supporta lo scambio di informazioni di qualsiasi 
+genere. Questo grazie un sistema di tipizzazione e negoziazione sulla rappresentazione dei dati.
+
+Il protocollo utilizza TCP come servizio di trasporto in quanto non può permettersi la perdita di
+dati.
+
+Per il protocollo HTTP possiamo andare ad aggiungere un ulteriore parametro alle URL, ossia la
+\verb|query|, una stringa di informazioni che deve essere interpretata dal server.
+\begin{center} \verb|http://<host>:<port>/<path>?<query>| \end{center}
+In questo modo possiamo andare a manipolare la risorsa richiesta (sempre nei limiti di ciò che il
+server ci rende disponibile).
+
+\subsection{Connessioni}
+Una \textbf{connessione} è un circuito logico di livello trasporto stabilito tra due programmi
+applicativi per comunicare. Le connessioni possono essere
+\begin{itemize}
+	\item \textbf{Non persistenti}: ad ogni richiesta del client viene aperta una nuova connessione
+		TCP.
+	\item \textbf{Persistenti}: la connessione TCP non viene chiusa fin quando non viene conclusa 
+		la sessione di scambio delle informazioni.
+\end{itemize}
+Ad oggi HTTP implementa un tipo di connessione persistente che è diventato uno standard de facto.
+
+\subsubsection{Pipelining}
