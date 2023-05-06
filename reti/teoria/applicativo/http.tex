@@ -28,3 +28,27 @@ applicativi per comunicare. Le connessioni possono essere
 Ad oggi HTTP implementa un tipo di connessione persistente che è diventato uno standard de facto.
 
 \subsubsection{Pipelining}
+Il \textbf{pipelining} serve per migliorare ulteriormente le prestazioni. Nella pratica consiste 
+nell'invio, da parte del client, di molteplici richieste senza aspettare la ricezioni di nessuna
+risposta. Il server deve inviare le risposte nello stesso ordine in cui sono arrivate le richieste.
+
+Il client non può inviare in pipeline richieste che usano metodi HTTP non \emph{idempotenti}, ossia
+operazioni che, anche se fatte più volte, non variano il risultato finale.
+
+Il problema principale di questo sistema è il vincolo sull'ordine di risposta, in quanto si
+rischiano rallentamenti pesanti nel caso in cui una richiesta che necessita un tempo lungo di 
+elaborazione è la prima da soddisfare.
+
+\subsection{Messaggi HTTP}
+Un \textbf{messaggio} HTTP può essere di due tipi: \textbf{request} o \textbf{response} ed è la
+riga iniziale che distingue la richiesta dalla risposta. Seguono una serie di \textbf{header},
+ossia coppie nome/valore. Infine (anche se opzionale) c'è il corpo del messaggio. In realtà
+la risposta può essere anche solo la pagina html richiesta. La \textbf{request line} è composta da
+tre parti principali:
+\begin{itemize}
+	\item \textbf{Metodo}: l'operazione che il client richiede venga eseguita.
+	\item \textbf{Request URI}: l'oggetto dell'operazione specificata con il metodo.
+	\item \textbf{Version HTTP}: formato del messaggio e capacità di comprendere ulteriori
+		comunicazioni.
+\end{itemize}
+
