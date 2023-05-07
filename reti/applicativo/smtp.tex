@@ -1,0 +1,69 @@
+\section{SMTP}
+Il protocollo \textbf{SMTP} (Simple Mail Transfer Protocol) serve ad inviare un messaggio da un
+utente \emph{mittente} ad un utente \emph{destinatario} in modo \textbf{asincrono}. Non è infatti
+necessario che i due utenti siano contemporaneamente connessi alla rete.
+
+Questo protocollo di fatto implementa un servizio di \textbf{posta elettronica} che si appoggia su
+componenti \emph{intermediari} per trasferire i messaggi. Gli intermediari, in questo caso, sono i
+\textbf{mail server} che archiviano le mail sul server.
+
+Per comunicare con il mail server si utilizzano user agent come Outlook o Thunderbird, i quali ci
+permettono di inviare, editare e leggere le varie mail.
+
+Il server si compone di tante \textbf{mailbox} quanti sono gli utenti connessi a quel mail server,
+contenenti messaggi da leggere e di una coda di  messaggi in uscita, contenente messaggi che devono
+ancora essere inviati.
+
+Se due utenti sono connessi a due mail server differenti, questi comunicano tra di loro
+scambiandosi le email.
+
+La comunicazione tra mail server non utilizza il protocollo SMTP, è il client che per richiedere
+di inviare una mail al mail server, deve usare tale protocollo.
+
+\subsection{Funzionamento}
+Un mail server, per sapere a quale server deve inviare la mail, ha bisogno dell'\textbf{indirizzo
+email} composto in questo modo
+\begin{center} \verb|local-part@domain-name| \end{center}
+dove \verb|domain-name| specifica un mail server determinando il nome di dominio di una
+destinazione a cui la mail dovrebbe essere recapitata. La \verb|local-part| specifica la mailbox
+nel mail server. I passaggi compiuti dal protocollo sono i seguenti:
+\begin{enumerate}
+	\item L'utente, tramite uno user agent fa una richiesta al suo mail server di inviare una mail
+		specificando un destinatario tramite un indirizzo.
+	\item Il mail server prende in carico la mail e ne salva una copia in locale. A questo punto
+		si presentano due scenari:
+		\begin{itemize}
+			\item Il dominio specificato nell'indirizzo non è quello del server e quindi la mail
+				viene inoltrata ad un altro mail server.
+			\item Il dominio specificato è quello del mail server e dunque la mail viene inserita
+				nella mailbox del destinatario.
+		\end{itemize}
+	\item Il destinatario, tramite uno user agent, accede al suo server di mail che gli fornisce
+		la mail.
+\end{enumerate}
+Ogni volta che una mail viene inoltrata da un server, questo ne tiene una copia in locale fin
+quando non riceve una notifica di avvenuta ricezione dal destinatario.
+
+\subsubsection{Alias}
+L'\textbf{alias} è una cassetta di posta \emph{virtuale} che serve a ridistribuire i messaggi
+verso uno o più indirizzi di posta elettronica personali. L'alias permette
+\begin{itemize}
+	\item Ad un singolo utente di avere identificatori multipli, assegnando un set di
+		identificatori ad una singola persona.
+	\item Di associare un gruppo di destinatari ad un singolo identificatore.
+\end{itemize}
+Per riuscire a fare questo serve un \textbf{espansore degli alias}, ossia un componente che, una 
+volta arrivata una mail, verifica consultando un \textbf{database degli alias} se deve espandere
+gli alias.
+
+Supponiamo che venga inviata una mail ad un gruppo di utenti. L'espansore non fa altro che
+espandere l'indirizzo mail (arrivato sotto forma di alias) negli indirizzi veri e propri di tutti
+gli utenti ottenuti tramite l'espansione.
+
+Nell'altro caso è ad esempio possibile definire un alias per l'indirizzo mail di un certo utente.
+L'espansore non fa altro che riscrivere l'indirizzo mail associato a quell'alias.
+
+\subsection{Trasferimento}
+Il protocollo di trasferimento di SMTP è di tipo \textbf{push}, si cerca infatti di inserire un 
+messaggio in una coda (all'interno dei vari server). L'obbiettivo di SMTP è affidabilità ed
+efficienza, ecco perché il protocollo di trasporto utilizzato è TCP.
