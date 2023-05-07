@@ -51,4 +51,44 @@ tre parti principali:
 	\item \textbf{Version HTTP}: formato del messaggio e capacità di comprendere ulteriori
 		comunicazioni.
 \end{itemize}
+Come abbiamo detto, nei messaggi HTTP possono essere specificati anche una serie di \emph{header},
+i quali servono a specificare alcuni parametri del messaggio trasmesso o ricevuto. Possiamo avere 
+header di vario tipo:
+\begin{itemize}
+	\item \textbf{Generali}: contengono informazioni sulla trasmissione come data, codifica o
+		connessione
+	\item \textbf{Entità}: relativi all'entità trasmessa come la lunghezza e il tipo del contenuto
+		trasmesso.
+	\item \textbf{Richiesta}: relativi alla richiesta come informazioni su chi fa la richiesta, a 
+		chi viene fatta la richiesta, autorizzazioni ecc.
+	\item \textbf{Risposta}: si trova nel messaggio di risposta e contiene informazioni sul server
+		come ad esempio l'autorizzazione richiesta.
+\end{itemize}
+La \textbf{response line} è invece composta in questo modo:
+\begin{itemize}
+	\item \textbf{Status line}: contiene tre informazioni:
+		\begin{itemize}
+			\item Versione HTTP.
+			\item Lo \emph{status code} (codice di 3 cifre).
+			\item Una descrizione testuale del codice di stato.
+		\end{itemize}
+	\item \textbf{headers}: header informativi sulla risposta che non possono essere inseriti
+		nella status line.
+\end{itemize}
+Gli status codes si dividono in 5 categorie:
+\begin{itemize}
+	\item 1xx: informativi.
+	\item 2xx: successo.
+	\item 3xx: redirezione ad azioni necessarie per completare correttamente la richiesta.
+	\item 4xx: errori del client nella richiesta.
+	\item 5xx: errori del server nel gestire una richiesta apparentemente corretta.
+\end{itemize}
+Sono i codici informativi che vengono inseriti nel messaggio di risposta dal server.
 
+\subsubsection{Metodi di richiesta}
+Nel messaggio di richiesta, come detto in precedenza, dobbiamo inserire un metodo, a seconda del 
+metodo, il messaggio di risposta sarà differente:
+\begin{itemize}
+	\item \verb|OPTIONS|: la risposta conterrà i metodi disponibili per l'URI corrente.
+	\item \verb|GET|: 
+\end{itemize}
