@@ -67,3 +67,33 @@ L'espansore non fa altro che riscrivere l'indirizzo mail associato a quell'alias
 Il protocollo di trasferimento di SMTP è di tipo \textbf{push}, si cerca infatti di inserire un 
 messaggio in una coda (all'interno dei vari server). L'obbiettivo di SMTP è affidabilità ed
 efficienza, ecco perché il protocollo di trasporto utilizzato è TCP.
+
+\subsubsection{Protocollo}
+Nella pratica SMTP usa il protocollo TCP per consegnare in modo affidabile messaggi dal client al
+server. Il trasferimento si divide in tre fasi:
+\begin{enumerate}
+	\item \textbf{Handshaking}: il client stabilisce la connessione con il server e attende il
+		codice \verb|220 READY FOR MAIL|. Il client risponde con il comando \verb|HELO| e il server
+		risponde identificandosi. A questo punto il client può trasmettere il messaggio.
+	\item \textbf{Trasferimento messaggio}
+	\item \textbf{Chiusura della connessione}
+\end{enumerate}
+L'interazione è di tipo comando/risposta. Il comando è un testo ASCII mentre la risposta è un
+codice di stato e descrizione. Il messaggio vero e proprio è del testo con caratteri ASCII a 7 bit.
+
+\subsubsection{Comandi}
+Tra i comandi che il protocollo SMTP mette a disposizione abbiamo:
+\begin{itemize}
+	\item \verb|HELO <client identifier>|: identificativo del client.
+	\item \verb|MAIL FROM:<reverse-path><CRLF>|: identificativo di chi invia la mail.
+	\item \verb|RCPT TO:<forward-path><CRLF>|: identificativo di chi riceve la mail.
+	\item \verb|DATA|: inizio del trasferimento del messaggio.
+	\item \verb|QUIT|: chiusura della sessione.
+\end{itemize}
+Per determinare la fine del messaggio si usa \verb|<CRLF>|. Uno degli standard di formato per
+messaggi SMTP è il RFC 2822 che prevede
+\begin{itemize}
+	\item \textbf{Intestazione}: nella quale specificare a chi si vuole inviare il messaggio, chi
+		sta inviando il messaggio e il soggetto del messaggio.
+	\item \textbf{Corpo}: in cui è presente il messaggio vero e proprio.
+\end{itemize}
