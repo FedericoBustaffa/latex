@@ -90,5 +90,44 @@ Nel messaggio di richiesta, come detto in precedenza, dobbiamo inserire un metod
 metodo, il messaggio di risposta sarà differente:
 \begin{itemize}
 	\item \verb|OPTIONS|: la risposta conterrà i metodi disponibili per l'URI corrente.
-	\item \verb|GET|: 
+	\item \verb|GET|: richiede il trasferimento di una risorsa identificata da una URL e operazioni
+		associate alla URL stessa. Sono possibili anche delle \emph{conditional get} in cui si
+		aggiungono delle condizioni sulla risorsa richiesta.
+	\item \verb|HEAD|: simile a \verb|GET| restituisce solo l'intestazione del messaggio.
+	\item \verb|POST|: metodo usato dal client per inviare contenuti (nel corpo del messaggio) al
+		server.
+	\item \verb|PUT|: richiesta di creare o modificare una risorsa (sono necessari i permessi).
+	\item \verb|DELETE|: si chiede di eliminare qualcosa nella risorsa.
 \end{itemize}
+I metodi si dividono in \textbf{safe} e \textbf{idempotenti}. I metodi safe non hanno effetti
+collaterali, ossia non si modifica in alcun modo la risorsa. I metodi idempotenti sono metodi che
+possono avere effetti collaterali ma, anche se eseguite diverse volte hanno lo stesso effetto di
+una richiesta singola.
+
+\subsection{Web Caching}
+L'obbiettivo del \textbf{web caching} è quello di soddisfare le richieste del client senza
+contattare il server. Per farlo, il client può mantenere delle copie locali delle risorse che aveva
+ottenuto in precedenza da altre richieste.
+In alternativa è possibile utilizzare un \textbf{proxy} che intercetta il traffico e lo inoltra al 
+server. Una volta ricevuta una risposta ne mantiene una copia e sarà quindi lui a fornire la
+risorsa al client.
+
+\subsection{Cookies}
+Come abbiamo detto HTTP è stateless, ossia non mantiene informazioni sul client. Con questo tipo
+di implementazione del protocollo nasce però un problema, che è quello di riconoscere un utente
+di un'applicazione Web. Si devono quindi creare applicazioni web con stato tenendo di conto che 
+ogni utente si connette ogni volta con indirizzo IP e porta differenti.
+
+Ecco che viene creato il meccanismo dei \textbf{cookie}, il quale permette di creare delle sessioni
+sopra un protocollo stateless:
+\begin{enumerate}
+	\item Il client invia una richiesta al server.
+	\item Il server manda un messaggio di risposta con una linea
+		\begin{center} \verb|Set-cookie : <id>| \end{center}
+	\item Il client memorizza il cookie in un file associandolo al server e lo aggiunge con una 
+		linea
+		\begin{center} \verb|cookie : <id>| \end{center}
+		a tutte le sue successive richieste a quel sito.
+	\item Il server confronta il cookie presentato con l'informazione associata ad esso.
+\end{enumerate}
+I cookie vengono utilizzati per autenticazione, ricordare il profilo utente, scelte precedenti ecc.
