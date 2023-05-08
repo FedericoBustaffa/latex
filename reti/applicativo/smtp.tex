@@ -104,10 +104,39 @@ tagliava fuori caratteri accentati, caratteri provenienti da alfabeti differenti
 di lingue senza alfabeto (come il cinese). Inoltre non era possibile inviare contenuti multimediali
 che richiedevano un formato binario.
 
-Nasce quindi il \textbf{MIME} la cui idea era quella di continuare a usare il formato specificato
-dallo standard RFC 822 ma aggiungendo una struttura al corpo del messaggio e definendo regole di 
-codifica (\textbf{encoding}) per il trasferimento del testo in ASCII.
+Nasce quindi il \textbf{MIME} (Multipurpose Internet Mail Extension) la cui idea era quella di
+continuare a usare il formato specificato dallo standard RFC 822 ma aggiungendo una struttura al
+corpo del messaggio e definendo regole di  codifica (\textbf{encoding}) per il trasferimento del
+testo in ASCII.
 
-In questo modo si è riusciti ad inviare messaggi MIME usando protocolli e mail server già esistenti
-andando a definire un insieme di metodi per rappresentare i dati binari in formato ASCII nel
-messaggio inviato.
+In questo modo si è riusciti ad inviare messaggi MIME usando protocolli e mail server già
+esistenti andando a definire un insieme di metodi per rappresentare i dati binari in formato ASCII
+nel messaggio inviato. Quello che viene fatto nella pratica è questo:
+\begin{enumerate}
+	\item Il messaggio viene scritto con la codifica desiderata.
+	\item Si specifica la versione MIME utilizzata.
+	\item Vengono specificati i parametri che definiscono come il messaggio è stato codificato e
+		il tipo di messaggio che si desidera inviare.
+	\item Il modulo MIME codifica il messaggio in formato ASCII a 7 bit e lo invia al mail server.
+	\item Una volta che il messaggio è stato recapitato, il destinatario utilizza il proprio modulo
+		MIME e, tramite la codifica specificata, decodifica il messaggio riportandolo nel formato
+		corretto.
+\end{enumerate}
+
+\subsection{Protocolli di accesso alla mail}
+Una volta che la mail viene inserita nella mailbox del destinatario questa non gli viene inoltrata
+ma rimane lì finché non è lui a richiederla.
+
+Il motivo risiede nell'idea che sta dietro al protocollo SMTP, ossia poter accedere la mailbox in
+un secondo momento rispetto all'invio senza dover stare sempre in ascolto.
+
+Ecco che vi è la necessità di definire un nuovo protocollo che permette al destinatario di
+richiedere la mail nella mailbox del server. I protocolli messi a disposizione sono 3:
+\begin{itemize}
+	\item \textbf{POP3}: si apre una connessione TCP con il server, seguono fasi di autorizzazione,
+		scambio e aggiornamento.
+	\item \textbf{IMAP}: più evoluto di POP3, offre più funzionalità per la gestione della posta.
+	\item \textbf{HTTP}: se lo user agent è un browser.
+\end{itemize}
+Non di particolare interesse, semplicemente sono definiti comandi specifici per poter interagire
+con il server e gestire la propria posta.
