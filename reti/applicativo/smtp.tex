@@ -97,3 +97,17 @@ messaggi SMTP è il RFC 2822 che prevede
 		sta inviando il messaggio e il soggetto del messaggio.
 	\item \textbf{Corpo}: in cui è presente il messaggio vero e proprio.
 \end{itemize}
+
+\subsection{MIME}
+Il protocollo appena descritto permetteva di inviare messaggi con caratteri ASCII a 7 bit e quindi
+tagliava fuori caratteri accentati, caratteri provenienti da alfabeti differenti o simboli tipici
+di lingue senza alfabeto (come il cinese). Inoltre non era possibile inviare contenuti multimediali
+che richiedevano un formato binario.
+
+Nasce quindi il \textbf{MIME} la cui idea era quella di continuare a usare il formato specificato
+dallo standard RFC 822 ma aggiungendo una struttura al corpo del messaggio e definendo regole di 
+codifica (\textbf{encoding}) per il trasferimento del testo in ASCII.
+
+In questo modo si è riusciti ad inviare messaggi MIME usando protocolli e mail server già esistenti
+andando a definire un insieme di metodi per rappresentare i dati binari in formato ASCII nel
+messaggio inviato.
