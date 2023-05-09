@@ -14,7 +14,7 @@ una fase iniziale tutti i nomi host e relativi IP erano contenuti in un file acc
 richiesta ad un server. Periodicamente gli host prelevavano una nuova versione aggiornata del file
 dal server.
 
-Ovviamente questo metodo è ad oggi inutilizzabile ed è così che è nato il DNS, il quale gira a 
+Ovviamente questo metodo è ad oggi inutilizzabile ed è così che è nato il DNS, il quale gira a
 livello applicativo e sui sistemi terminali e adotta un paradigma di tipo client server e si affida
 al protocollo di trasporto sottostante per trasferire messaggi tra i sistemi terminali.
 
@@ -33,9 +33,9 @@ Il DNS è quindi un meccanismo che deve:
 \begin{itemize}
 	\item Uno \textbf{schema di assegnazione} dei nomi gerarchico e basato su domini.
 	\item Un \textbf{database distribuito} contenente i nomi e le corrispondenze con gli indirizzi
-		IP implementato con una gerarchia di \textbf{name server}.
+	      IP implementato con una gerarchia di \textbf{name server}.
 	\item Un \textbf{protocollo} per la distribuzione delle informazioni sui nomi tra name server.
-		Host, router e name server comunicano per la risoluzione dei nomi.
+	      Host, router e name server comunicano per la risoluzione dei nomi.
 \end{itemize}
 
 \subsection{Spazio dei nomi}
@@ -43,7 +43,7 @@ Lo \textbf{spazio dei nomi} deve permettere di identificare in modo univoco un h
 di struttura \textbf{gerarchica}:
 \begin{itemize}
 	\item Un nome è costituito da più parti.
-		\begin{center} \verb|lab3.di.unipi.it| \end{center}
+	      \begin{center} \verb|lab3.di.unipi.it| \end{center}
 	\item L'assegnazione dei nomi è delegabile.
 	\item C'è una delega dell'autorità per l'assegnazione delle varie parti dello spazio dei nomi.
 	\item La responsabilità della conversione tra nomi e indirizzi e distribuita.
