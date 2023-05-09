@@ -100,13 +100,81 @@ Le query DNS possono essere gestite in modo due modi:
 		all'indirizzo IP. Una volta ottenuto l'indirizzo IP questo percorre il cammino inverso fino
 		all'host che ha effettuato la richiesta:
 		\begin{enumerate}
-			\item Quando un host cerca un certo indirizzo IP tramite un nome contatta il suo DNS
-				locale.
+			\item L'host contatta il DNS locale per la risoluzione del nome cercato.
 			\item Se necessario, il DNS locale contatta il name server radice.
 			\item Se necessario, il name server radice ripercorre tutta la gerarchia, dal name
 				server di primo livello fino al name server di competenza.
 			\item Il name server di competenza a questo punto fornisce l'indirizzo IP cercato.
 		\end{enumerate}
-	\item \textbf{Iterativo}:
+	\item \textbf{Iterativo}: Il name server locale diventa centrale nel processo di risoluzione 
+		del nome, in quanto non si percorre un cammino verso il name server in grado di fornire
+		l'indirizzo IP ma si torna, ad ogni passo, al DNS locale:
+		\begin{enumerate}
+			\item L'host contatta il DNS locale per la risoluzione del nome cercato.
+			\item Se necessario, il DNS locale contatta il name server radice.
+			\item Il name server radice, se necessario, ritorna l'indirizzo di un name server di 
+				primo livello.
+			\item Il DNS locale interroga il name server di primo livello.
+			\item Il name server di primo livello, se necessario, fornisce al DNS locale
+				l'indirizzo IP di un name server di competenza per un sottodominio.
+			\item Il processo si ripete finché un name server non è in grado di fornire l'indirizzo
+				IP direttamente al DNS locale.
+		\end{enumerate}
+\end{itemize}
+Per entrambi i metodi, quando diciamo "se necessario", si intende il caso in cui il name server
+interrogato non è in grado di fornire l'IP desiderato ma solo l'IP di un altro name server. Se un
+name server è in possesso dell'associazione cercata la restituisce immediatamente senza andare a
+ripercorrere tutta la gerarchia.
+
+Il metodo ricorsivo permette di ripartire meglio il carico computazionale tra i vari name server
+ma tiene tutti i name server "occupati" fino a quando non arriva una risposta. Il metodo iterativo
+genera maggiore carico computazionale sul DNS locale ma libera in poco tempo i name server
+coinvolti.
+
+\subsubsection{Cache DNS}
+Per rendere più veloce il meccanismo di risoluzione dei nomi viene introdotta una \textbf{cache}
+nella quale, un name server memorizza un'associazione che apprende durante il processo. Dopo un
+certo periodo di tempo TTL (Time To Live) l'associazione viene cancellata dalla cache.
+
+\subsubsection{Record DNS}
+Essendo il DNS un database distribuito, possiede dei record contenenti delle associazioni.
+La forma di un record DNS ha tipicamente quattro campi: \verb|NAME|, \verb|VALUE|, \verb|TYPE|,
+\verb|TTL|:
+\begin{itemize}
+	\item \verb|TTL|: indica il tempo di mantenimento del record nella cache del server.
+	\item \verb|TYPE|: indica il tipo dei campi \verb|NAME| e \verb|VALUE|:
+		\begin{itemize}
+			\item \verb|A|: il nome è il nome associato ad un host e il valore è
+				il suo indirizzo IP.
+			\item \verb|CNAME|: il nome è un alias e il valore è l'alias espanso.
+			\item \verb|NS|: il nome è un nome di dominio e il valore è il nome del name server
+				competente per quel dominio.
+			\item \verb|MX|: il nome è il nome di dominio e il valore è il nome del server di
+				posta associato.
+		\end{itemize}
+\end{itemize}
+Il campo \verb|TYPE| può avere anche altri valori anche se quelli indicati sono i principali e
+quelli relativi ai protocolli visti fino ad ora.
+
+\subsection{Messaggi DNS}
+La comunicazione tra i vari name server avviene mediante il protocollo UDP.  La scelta di UDP è
+dovuta ad un'esigenza di abbassare il tempo di ritardo per delle risposte.
+
+Essendo UDP un protocollo senza garanzia di ricezione del messaggio, la possibile assenza di un
+messaggio di risposta viene gestita direttamente dall'applicazione che, dopo un certo timeout, 
+prova e inviare nuovamente la richiesta.
+
+La richiesta DNS ha tipicamente dimensioni che permettono l'invio di un solo pacchetto UDP, in
+modo da non dover spezzare la richiesta in più pacchetti che potrebbero andare in parte perduti.
+
+I messaggi DNS si dividono in \textbf{query} e \textbf{reply}, entrambi con lo stesso formato:
+\begin{itemize}
+	\item \textbf{ID}: un identificativo a 16 bit per ogni query (la reply uso lo stesso ID).
+	\item \textbf{Flags}: indicano se il messaggio è una query o una reply e se la reply è
+		autorevole.
+	\item \textbf{Domande}: campi per il nome richiesto e il tipo di query.
+	\item \textbf{Risposte}: record di risposta alla query.
+	\item \textbf{Competenza}: record relativi ai server competenti.
+	\item \textbf{Informazioni aggiuntive}: record aggiuntivi di vario genere.
 \end{itemize}
 
