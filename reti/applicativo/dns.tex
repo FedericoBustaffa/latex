@@ -51,3 +51,35 @@ di struttura \textbf{gerarchica}:
 Vista la struttura gerarchica, è possibile strutturare lo spazio dei nomi come un albero i cui
 nodi individuano un nome di dominio. Il \textbf{dominio} è il sottoalbero nello spazio dei nomi di
 dominio che viene identificato dal nome di dominio del nodo in cima al sottoalbero.
+
+\subsubsection{Nomi di dominio}
+In Internet i nomi gerarchici delle macchine sono assegnati in base alla struttura delle
+organizzazioni che ottengono l'autorità per porzioni dello spazio dei nomi.
+
+La struttura gerarchica permette autonomia nella scelta dei nomi all'interno di un dominio.
+
+\subsection{Name Server}
+Il DNS, di fatto, è un database distribuito, implementato in una gerarchia di più name server. Il
+name server invece è il programma che gestisce la conversione da nome a indirizzo IP. Grazie alla
+gerarchia dei domini possiamo distribuire le informazioni su più name server.
+
+Una \textbf{zona} è una parte (tipicamente contigua) dell'albero, di cui è responsabile un name
+server. Zona e dominio non necessariamente coincidono.
+
+\subsubsection{Tipologie di name server}
+I name server, in base a quali domini gestiscono nella gerarchia, hanno caratteristiche differenti:
+\begin{itemize}
+	\item \textbf{Radice}: si trovano alla radice dell'albero e sono responsabili dei record della
+	      zona radice. Tali server mantengono le informazioni sui name server di primo livello
+	      (top-level domain).
+	\item \textbf{Server di top-level domain}: mantengono le informazioni di un certo dominio di
+	      top-level e restituiscono informazioni sui name server di competenza dei sottodomini.
+	\item \textbf{Server di competenza}: sono i server di \textbf{autorità} per una certa zona che
+	      memorizzano nome e indirizzo IP di un insieme di host (di cui possono effettuare la
+	      traduzione nome/indirizzo). Per una certa zona ci possono essere server di competenza
+	      \begin{itemize}
+		      \item \textbf{Primari}: mantengono il file di zona.
+		      \item \textbf{Secondari}: ricevono il file di zona e offrono il servizio di
+		            risoluzione. Sono utilizzati per la scalabilità del sistema.
+	      \end{itemize}
+\end{itemize}
