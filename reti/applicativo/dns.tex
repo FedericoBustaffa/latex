@@ -82,4 +82,31 @@ I name server, in base a quali domini gestiscono nella gerarchia, hanno caratter
 		      \item \textbf{Secondari}: ricevono il file di zona e offrono il servizio di
 		            risoluzione. Sono utilizzati per la scalabilità del sistema.
 	      \end{itemize}
+	  \item \textbf{Locali}: un server che non appartiene strettamente alla gerarchia dei server.
+		  Ogni ISP ha il suo name server locale al quale vengono rivolte le query DNS. Sarà poi il
+		  name server locale ad inoltrare la richiesta in una gerarchia di name server DNS. Quando
+		  un programma deve tradurre un nome in un indirizzo IP esegue un programma, detto 
+		  \textbf{resolver}, passando il nome come parametro di ingresso. Il resolver interroga il
+		  name server locale che cerca il nome nelle sue tabelle e, se presente, restituisce 
+		  l'indirizzo al resolver. Se invece non trova alcuna corrispondenza inoltra la query ad
+		  una gerarchia DNS.
 \end{itemize}
+
+\subsection{Query DNS}
+Le query DNS possono essere gestite in modo due modi:
+\begin{itemize}
+	\item \textbf{Ricorsivo}:
+		La richiesta viene inoltrata tra i name server finché non si ottiene la traduzione dal nome
+		all'indirizzo IP. Una volta ottenuto l'indirizzo IP questo percorre il cammino inverso fino
+		all'host che ha effettuato la richiesta:
+		\begin{enumerate}
+			\item Quando un host cerca un certo indirizzo IP tramite un nome contatta il suo DNS
+				locale.
+			\item Se necessario, il DNS locale contatta il name server radice.
+			\item Se necessario, il name server radice ripercorre tutta la gerarchia, dal name
+				server di primo livello fino al name server di competenza.
+			\item Il name server di competenza a questo punto fornisce l'indirizzo IP cercato.
+		\end{enumerate}
+	\item \textbf{Iterativo}:
+\end{itemize}
+
