@@ -1,35 +1,35 @@
-\chapter{Protocollo applicativo}
-In questo corso vedremo i quattro principali protocolli del modello TCP/IP andando dal livello 
-applicativo a quello di collegamento. Iniziamo dall'alto, ossia con il livello applicativo, che 
+\chapter{Livello applicativo}
+In questo corso vedremo i quattro principali protocolli del modello TCP/IP andando dal livello
+applicativo a quello di collegamento. Iniziamo dall'alto, ossia con il livello applicativo, che
 è quello che più ci è familiare ed è di uso comune per molti utenti di Internet.
 
-Un'\textbf{applicazione di rete} è formata da processi distribuiti e comunicanti. Un processo è 
+Un'\textbf{applicazione di rete} è formata da processi distribuiti e comunicanti. Un processo è
 programma eseguito dagli host di una rete e, all'interno dello stesso host, due processi possono
 comunicare attraverso la comunicazione \textbf{inter-processo} definita dal sistema operativo.
 
-Nella comunicazione a livello applicativo fra due dispositivi terminali diversi, all'interno della 
+Nella comunicazione a livello applicativo fra due dispositivi terminali diversi, all'interno della
 stessa rete, due o più processi girano su ciascuno degli host comunicanti e si scambiano messaggi.
 
 I livelli applicazione nei due lati della comunicazione agiscono come se esistesse un collegamento
 diretto attraverso il quale poter comunicare.
 
-Il protocollo definisce i tipi di messaggi scambiati a livello applicativo andando a definire la 
-\emph{sintassi} dei vari tipi di messaggio (campi del messaggio), la \emph{semantica} dei campi 
-(significato di ogni campo) e le \emph{regole} per determinare quando e come un processo invia 
+Il protocollo definisce i tipi di messaggi scambiati a livello applicativo andando a definire la
+\emph{sintassi} dei vari tipi di messaggio (campi del messaggio), la \emph{semantica} dei campi
+(significato di ogni campo) e le \emph{regole} per determinare quando e come un processo invia
 messaggi o risponde ai messaggi.
 
-I \textbf{paradigmi} del livello applicativo sono sostanzialmente due: 
+I \textbf{paradigmi} del livello applicativo sono sostanzialmente due:
 \begin{itemize}
 	\item \textbf{Client-Server}: in cui ci sono dei processi \textbf{server} che forniscono un
-		servizio e dei processi \textbf{client} che ne fanno richiesta.
-	\item \textbf{Peer-To-Peer}: in un paradigma Peer-To-Peer tutti i processi sono in grado di 
-		richiedere servizi e di fornirli agli altri utenti della rete.
+	      servizio e dei processi \textbf{client} che ne fanno richiesta.
+	\item \textbf{Peer-To-Peer}: in un paradigma Peer-To-Peer tutti i processi sono in grado di
+	      richiedere servizi e di fornirli agli altri utenti della rete.
 \end{itemize}
 Esistono anche delle implementazione miste dei due paradigmi.
 
 \section{Comunicazione tra processi}
 Per riuscire a comunicare, viene fornita ai programmatori, una \textbf{API}, ossia il
-\textbf{Socket}, che, altro non è che un'astrazione di un endpoint. Tramite il Socket è possibile 
+\textbf{Socket}, che, altro non è che un'astrazione di un endpoint. Tramite il Socket è possibile
 instaurare connessioni di tipo client-server per riuscire a scambiarsi messaggi.
 
 Per ricevere messaggi, un processo deve avere un identificatore. La macchina host ha un indirizzo
@@ -42,27 +42,27 @@ Se volessimo mettere a confronto i due servizi di trasporto \textbf{TCP} e \text
 notare che TCP offre molte più garanzie e si comporta anche in modo più \emph{intelligente}
 rispetto a UDP.
 
-TCP infatti è un servizio \emph{connection-oriented}, viene quindi richiesto un 
+TCP infatti è un servizio \emph{connection-oriented}, viene quindi richiesto un
 setup iniziale tra client e server, ha un trasporto affidabile e compie controlli sul flusso
 dati e sulla congestione della rete.
 
-UDP invece ha dalla sua il fatto di essere un servizio \emph{connectionless} e che non richiede 
-quindi un fase iniziale di setup. Per il resto non offre alcuna garanzia sulla buona riuscita 
+UDP invece ha dalla sua il fatto di essere un servizio \emph{connectionless} e che non richiede
+quindi un fase iniziale di setup. Per il resto non offre alcuna garanzia sulla buona riuscita
 della comunicazione tanto meno sulla qualità di essa. Ma UDP è ad oggi molto usato per vari
 motivi
 \begin{itemize}
 	\item \textbf{Throughput}: Alcune applicazioni hanno bisogno di un certo throughput per poter
-		offrire un buon servizio all'utente. Per esempio se dobbiamo riprodurre un video online,
-		abbiamo bisogno di un alto throughput di modo che il video non si blocchi di continuo o ci
-		costringa ad abbassare la qualità. Se invece dobbiamo inviare del testo non ce ne facciamo
-		niente di un alto throughput, esso influirà solo sulla velocità del trasferimento, ma sarà
-		comunque necessario che l'intero pacchetto sia arrivato e ricompattato prima di poterne 
-		leggere il contenuto.
+	      offrire un buon servizio all'utente. Per esempio se dobbiamo riprodurre un video online,
+	      abbiamo bisogno di un alto throughput di modo che il video non si blocchi di continuo o ci
+	      costringa ad abbassare la qualità. Se invece dobbiamo inviare del testo non ce ne facciamo
+	      niente di un alto throughput, esso influirà solo sulla velocità del trasferimento, ma sarà
+	      comunque necessario che l'intero pacchetto sia arrivato e ricompattato prima di poterne
+	      leggere il contenuto.
 	\item \textbf{Perdita dati}: Come nell'esempio di prima, quando riproduciamo un video online,
-		non importa se qualche frame va perso. Mentre se stiamo inviando una mail e perdiamo 
-		qualche byte, l'intera mail potrebbe risultare corrotta.
+	      non importa se qualche frame va perso. Mentre se stiamo inviando una mail e perdiamo
+	      qualche byte, l'intera mail potrebbe risultare corrotta.
 	\item \textbf{Sensibilità ai ritardi}: alcune applicazioni come ad esempio giochi online hanno
-		bisogno di un basso ritardo per avere un'interazione fluida.
+	      bisogno di un basso ritardo per avere un'interazione fluida.
 \end{itemize}
-In generale UDP offre maggiori garanzie al livello di utilizzo e di esperienza per tutte quelle 
+In generale UDP offre maggiori garanzie al livello di utilizzo e di esperienza per tutte quelle
 applicazioni che richiedono un tipo di interazione con la rete molto veloce e responsivo.
