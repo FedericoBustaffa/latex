@@ -1,0 +1,99 @@
+\section{FTP}
+Ultimo protocollo che vediamo per lo strato applicativo è \textbf{FTP}. Questo protocollo nasce
+dalla necessità di trasferire file a/da un host remoto.
+
+Adotta un paradigma di tipo client/server in cui il client richiede il trasferimento la server
+remoto. Si tratta di un servizio diverso dall'accesso condiviso on-line. In questo caso si ottiene
+una copia locale ed eventualmente si ha un trasferimento del file modificato sul server remoto.
+
+Il servizio fornisce funzionalità aggiuntive rispetto al semplice trasferimento file:
+\begin{itemize}
+	\item Navigazione e modifica del filesystem remoto.
+	\item Specifica del formato dei dati da trasferire.
+	\item Il client può specificare login e password.
+\end{itemize}
+
+\subsection{Modello FTP}
+Il modello FTP si compone di due tipi di connessione diversi:
+\begin{itemize}
+	\item \textbf{Control connection}: scambio di comandi e risposte tra client e server (TELNET).
+	\item \textbf{Data connection}: connessione su cui i dati sono trasferiti con modi e tipi
+		specificati. I dati trasferiti possono essere parte di un file o un set di file.
+\end{itemize}
+Per entrambe le connessioni il protocollo di trasporto usato è TCP e, a differenza di HTTP, FTP è
+protocollo di tipo \textbf{stateful}, in quanto il server deve tenere traccia dello stato in cui
+si trova l'utente.
+
+\subsubsection{Connessione di controllo}
+La connessione di controllo avviene nel seguente modo:
+\begin{enumerate}
+	\item Il client contatta il server FTP alla porta 21.
+	\item Il client ottiene l'autorizzazione sulla connessione di controllo.
+	\item Il client invia i comandi sulla connessione di controllo.
+\end{enumerate}
+La connessione di controllo è \textbf{persistente}.
+
+\subsubsection{Connessioni dati}
+Quando il server riceve un comando per trasferire un file (da o verso il client) sulla connessione
+di controllo
+\begin{enumerate}
+	\item Il server apre una connessione dati TCP con il client sulla porta 20
+		(\textbf{Active Mode}).
+	\item Il server trasferisce il file sulla connessione dati.
+	\item Dopo il trasferimento di un file, il server chiude la connessione.
+\end{enumerate}
+La connessione dati non \textbf{non è persistente}.
+
+\subsubsection{Active vs Passive Mode}
+La Active Mode è quella descritta in precedenza, in cui è il serve ad aprire la connessione TCP
+verso il client. Per riuscire a farlo il server deve essere a conoscenza della porta su cui il 
+client è in ascolto. Ed è proprio il client che gliela comunica con la connessione di controllo.
+
+In alternativa è possibile stabilire la connessione dati in \textbf{Passive Mode}:
+\begin{enumerate}
+	\item Il client chiede al server di di mettersi in ascolto su una qualche porta (non 
+		specificata).
+	\item Il server fornisce il numero di porta al client che lo usa per aprire la connessione.
+\end{enumerate}
+Questo metodo può essere più solido dal punto di vista della sicurezza ma per ora non ce ne
+preoccupiamo.
+
+\subsubsection{Conclusioni}
+I dipositivi dove risiedono client e server FTP sono diversi, ecco che il client, per risolvere
+i problemi di eterogeneità tra lui e il server, deve definire il tipo di file, la struttura dati
+e la modalità di trasmissione.
+
+Tutto questo viene preparato attraverso uno scambio di informazioni lungo la connessione di 
+controllo. Tra le modalità di trasmissione dati disponibili abbiamo diverse opzioni:
+\begin{itemize}
+	\item \textbf{Stream}: flusso di bit continuo.
+	\item \textbf{Block}: dati suddivisi in blocchi, ognuno dei quali preceduto da un header.
+	\item \textbf{Compressed}: trasmissione di un file compresso.
+\end{itemize}
+
+\subsection{Comandi FTP}
+Come ogni protocollo visto fino ad ora abbiamo una serie di comandi FTP che si dividono in
+\textbf{comandi di controllo}:
+\begin{itemize}
+	\item \verb|USER <username>|
+	\item \verb|PASS <password>|
+	\item \verb|LIST|: elenco file nella directory corrente.
+	\item \verb|NLST|: elenco file e directory nella directory corrente.
+	\item \verb|RETR <filename>|: recupera un file dalla directory corrente.
+	\item \verb|STOR <filename>|: memorizza un file nell'host remoto.
+	\item \verb|ABOR|: interrompe l'ultimo comando ed i trasferimenti in corso.
+	\item \verb|PORT|: indirizzo e numero di porta del client.
+	\item \verb|SYST|: tipologia di sistema server.
+	\item \verb|QUIT|: chiude la connessione.
+\end{itemize}
+Il server risponde a questi comandi tramite \textbf{codici} di risposta che non staremo ad
+elencare ma tra i codici vi è anche il 227 che indica che il server è entrato in Passive Mode.
+
+\subsection{Conclusioni}
+Il trasferimento può essere anonimo se il server FTP supporta connessioni senza autenticazione.
+Tipicamente si restringe la porzione di filesystem accessibile per questi utenti e si limitano
+i comandi utilizzabili.
+
+Il servizio FTP, di per sé, non offre un sistema di sicurezza, ecco che viene utilizzato spesso
+in coppia con il protocollo TLS andando a definire un protocollo a tutti gli effetti che è il 
+protocollo FTPS.
