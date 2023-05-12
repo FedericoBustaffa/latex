@@ -34,10 +34,33 @@ di conseguenza il traffico. Permette inoltre di ritrasmettere eventuali segmenti
 Il flusso di byte viene quindi partizionato in \textbf{segmenti}, ognuno con il proprio header, e
 ognuno consegnato a livello IP.
 
-Il protocollo per garantire che i segmenti siano composti da byte ordinati, numera i byte stessi
-con \textbf{numeri di sequenza} e \textbf{numeri di riscontro}:
+Il protocollo, per garantire che i segmenti siano composti da byte ordinati, numera i byte stessi
+con \textbf{numeri di sequenza} e \textbf{numeri di riscontro}.
+
+Ogni segmento possiede un campo che indica il numero di sequenza, ossia il numero del primo byte in
+tale segmento.
+
+Il numero di riscontro è il numero dell'ultimo byte correttamente ricevuto più 1. Il numero di
+riscontro indica quindi quanti byte sono giunti a destinazione e qual'è il prossimo byte che si è
+in attesa di ricevere.
+
+\subsubsection{Formato dei segmenti}
+Il formato dei segmenti TCP comprende un \emph{header} e i dati che vogliano inviare. L'header del
+segmento, con una lunghezza variabile tra i 20 e i 60 byte contiene:
 \begin{itemize}
-	\item Ogni segmento possiede un campo che indica il numero di sequenza, ossia il numero del 
-		primo byte in tale segmento.
-	\item Il numero di riscontro è il numero dell'ultimo byte correttamente ricevuto +1.
+	\item Porta del sorgente e del destinatario.
+	\item Numero di sequenza e di riscontro.
+	\item Lunghezza dell'header.
+	\item Campi riservati.
+	\item Flag: \verb|URG|, \verb|ACK|, \verb|PSH|, \verb|RST|, \verb|SYN| e \verb|FIN|. Di
+	      particolare rilevanza sono i flag
+	      \begin{itemize}
+		      \item \verb|ACK|: se settato a 1 indica che nel campo di riscontro è presente
+		            un'informazione significativa.
+		      \item \verb|SYN|: sincronizza il numero di sequenza.
+		      \item \verb|FIN|: Indica che non ci sono altri dati in arrivo dal mittente e quindi
+		            la connessione può essere chiusa.
+	      \end{itemize}
+	\item Dimensione della finestra: spazio disponibile nella finestra di ricezione.
+	\item Checksum per la verifica dell'integrità.
 \end{itemize}
