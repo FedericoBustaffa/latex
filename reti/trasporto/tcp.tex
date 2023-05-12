@@ -1,0 +1,31 @@
+\section{TCP}
+Il protocollo \textbf{TCP} è un tipo di protocollo orientato allo \textbf{stream}. Uno stream è
+un flusso di byte la cui lunghezza non si può definire a priori. Le caratteristiche principali di
+questo tipo di comunicazione sono:
+\begin{itemize}
+	\item I byte ricevuti dal destinatario sono esattamente gli stessi che ha inviato il mittente.
+	      Senza perdite ne modifiche.
+	\item Il protocollo vede il flusso di byte come una sequenza ordinata ma non strutturata di
+	      byte.
+\end{itemize}
+Come già detto si tratta di un servizio connection-oriented con le seguenti caratteristiche:
+\begin{itemize}
+	\item I processi effetuano un \emph{handshake} prima dello scambio dei dati.
+	\item Si dice \textbf{orientato} poiché lo stato della connessione risiede sui nodi terminali
+	      e non sui nodi intermedi (router).
+	\item La connessione è vista dagli applicativi come un circuito fisico dedicato.
+	\item La connessione è di tipo \textbf{full-duplex}: a prescindere da chi invia il messaggio
+	      di richiesta per la connessione, una volta instaurata la connessione, questa è
+	      bidirezionale.
+	\item La connessione è di tipo \textbf{punto-punto} in quanto si vuole connettere solo due
+	      sistemi terminali l'un con l'altro.
+\end{itemize}
+Il trasferimento è inoltre \textbf{bufferizzato}, il software TCP può infatti suddividere il flusso
+di byte in segmenti indipendentemente da come gli vengono inviati dal programma applicativo.
+
+Per farlo è necessario un \textbf{buffer} dove immagazzinare le sequenze di byte. Non appena i dati
+sono sufficienti per riempire un segmento ragionevolmente grande, questo viene trasmesso attraverso
+la rete.
+
+Questo metodo permette di "ottimizzare" il numero di segmenti spediti sulla rete andando a ridurre
+di conseguenza il traffico. Permette inoltre di ritrasmettere eventuali segmenti andati persi.
