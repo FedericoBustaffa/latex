@@ -29,3 +29,15 @@ la rete.
 
 Questo metodo permette di "ottimizzare" il numero di segmenti spediti sulla rete andando a ridurre
 di conseguenza il traffico. Permette inoltre di ritrasmettere eventuali segmenti andati persi.
+
+\subsection{Segmenti TCP}
+Il flusso di byte viene quindi partizionato in \textbf{segmenti}, ognuno con il proprio header, e
+ognuno consegnato a livello IP.
+
+Il protocollo per garantire che i segmenti siano composti da byte ordinati, numera i byte stessi
+con \textbf{numeri di sequenza} e \textbf{numeri di riscontro}:
+\begin{itemize}
+	\item Ogni segmento possiede un campo che indica il numero di sequenza, ossia il numero del 
+		primo byte in tale segmento.
+	\item Il numero di riscontro è il numero dell'ultimo byte correttamente ricevuto +1.
+\end{itemize}
