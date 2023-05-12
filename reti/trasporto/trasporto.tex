@@ -1,1 +1,101 @@
 \chapter{Livello di trasporto}
+Come abbiamo visto, il livello applicativo, genera messsaggi che poi vengono consegnati al
+\textbf{livello di trasporto}. Nel livello di trasporto vengono specificati indirizzo IP e porta
+del processo remoto verso il quale devono essere inviati tali messaggi.
+
+Il livello di trasporto realizza una \textbf{comunicazione logica} fra processi residenti in host
+diversi comportandosi come se gli host fossero direttamente collegati. Non si preoccupa quindi dei
+dettagli dell'infrastruttura fisica usata per la comunicazione.
+
+Lo strato applicativo interagisce con il livello di trasporto per trasmettere o ricevere dati
+scegliendo la \emph{modalità} di trasporto. Deve quindi fornire al livello di trasporto i dati
+nella forma richiesta perché questo riesca a consegnarli.
+
+Affinché la comunicazione avvenga, il livello di trasporto si appoggia allo strato di rete che si
+occupa della comunicazione tra host consegnando il datagramma all'host destinatario (non al
+processo).
+
+Il livello di trasporto è implementato solo nei sistemi terminali per l'invio e la consegna di dati
+fra processi. Tutti i sistemi intermedi arrivano ad implementare solo il livello di rete.
+
+\section{Servizi}
+A livello di trasporto abbiamo due tipi di servizio:
+\begin{itemize}
+	\item \textbf{Connectionless}: il processo mittente consegna i messaggi al livello di trasporto
+	      uno per uno. Il livello di trasporto tratta ogni messaggio come entità singole senza
+	      mantenere alcuna relazione fra di essi. Non c'è né garanzia sull'arrivo del segmento né
+	      che l'ordine di invio sia preservato anche in fase di consegna.
+	\item \textbf{Connection-oriented}: viene stabilita una connessione logica fra il processo
+	      client e il processo server.
+\end{itemize}
+In entrambi i casi questi servizi forniscono:
+\begin{itemize}
+	\item \textbf{Multiplexing/Demultiplexing}: incapsulano il messaggio del livello applicativo in
+	      modo che sia possibile inviarlo sulla rete e, in fase di consegna, lo decapsulano per
+	      consegnarlo al processo destinatario.
+	\item \textbf{Controllo degli errori}: nel caso di TCP è obbligatorio mentre UDP lo implementa
+	      solamente.
+\end{itemize}
+I due servizi principalmente usati sono \textbf{TCP} e \textbf{UDP}. Il servizio TCP, come già
+anticipato in precedenza offre una serie di garanzie tra cui:
+\begin{itemize}
+	\item Gestione della connessione.
+	\item Consegna affidabile.
+	\item Controllo del flusso dati.
+	\item Controlli sulla congestione del traffico internet.
+\end{itemize}
+Il servizio UDP invece non garantisce niente di tutto ciò ma ha come vantaggio principale la
+velocità di trasmissione in quanto non paga la fase iniziale di connessione.
+
+\subsection{Multiplexing/Demultiplexing}
+Come abbiamo appena detto, sia TCP che UDP, fanno \textbf{Multiplexing} e \textbf{Demultiplexing}.
+
+Il Demultiplexing è un'operazione che viene eseguita in seguito all'arrivo del pacchetto dalla
+rete. In questa fase infatti il pacchetto è arrivato all'host destinatario e non al processo
+destinatario. Ecco che l'operazione di Demultiplexing si occupa proprio di recapitare il pacchetto
+al processo giusto.
+
+L'operazione di Multiplexing si occupa invece di gestire il messaggio in arrivo dallo strato
+applicativo, inserire la giusta \emph{intestazione} e infine inviarlo al protocollo di rete.
+
+Queste due operazioni si basano sui \textbf{socket address} dei processi, identificati dalla coppia
+indirizzo IP e porta.
+
+\section{Indirizzo IP e porta}
+Abbiamo già parlato di porte ma ora andiamo a chiarire meglio il concetto. Una \textbf{porta} è
+un numero di 16 bit che viene assegnato a un processo, o più precisamente a un punto di
+Demultiplexing dei protocolli TCP o UDP.
+
+L'\textbf{indirizzo IP} è invece un numero a 32 bit presente nello stack TCP/IP. La coppia formata
+da indirizzo IP e porta identifica in modo univoco la connessione TCP o UDP.
+
+Il range di porte (da 0 a 65535) è organizzato in tre diverse categorie come segue:
+\begin{itemize}
+	\item \textbf{Porte di sistema}: da 0 a 1023 e identificano i processi server.
+	\item \textbf{Porte utente}: da 1024 a 49151 utilizzabili .
+	\item \textbf{Porte dinamiche}: da 49152 a 65535.
+\end{itemize}
+Il sistema operativo assegna dinamicamente le porte ai processi che ne fanno richiesta.
+
+\subsection{Demultiplexing per UDP}
+Con UDP, la coppia IP e porta è sono sufficienti per l'operazione di Demultiplexing. Quello che
+viene fatto nello specifico è andare a controllare indirizzo IP e porta del destinatario per
+recapitare il messaggio.
+
+Da tenere di conto anche il fatto che datagrammi con IP e/o porta differenti ma stessi IP e porta
+destinatari vengono consegnati alla stessa socket. In questa situazione è possibile distinguere
+processi o host mittenti differenti tramite indirizzo IP e porta del mittente, presenti
+nell'intestazione del pacchetto.
+
+\subsection{Demultiplexing per TCP}
+In questo caso i processi comunicano tramite una connessione logica instaurata dal livello di
+trasporto e la socket TCP è identificata da quattro parametri:
+\begin{itemize}
+	\item Indirizzo IP di origine.
+	\item Numero di porta di origine.
+	\item Indirizzo IP di destinazione.
+	\item Numero di porta di destinazione.
+\end{itemize}
+L'host ricevente usa tutti e quattro i per inviare il segmento alla socket appropriata. Un host può
+inoltre supportare più socket contemporaneamente ma ogni socket è specificata per una sola coppia
+mittente destinatario.
