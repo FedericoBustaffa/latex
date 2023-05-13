@@ -57,10 +57,81 @@ segmento, con una lunghezza variabile tra i 20 e i 60 byte contiene:
 	      \begin{itemize}
 		      \item \verb|ACK|: se settato a 1 indica che nel campo di riscontro è presente
 		            un'informazione significativa.
-		      \item \verb|SYN|: sincronizza il numero di sequenza.
+		      \item \verb|SYN|: sincronizza il numero di sequenza in fase di instaurazione della
+				  connessione.
 		      \item \verb|FIN|: Indica che non ci sono altri dati in arrivo dal mittente e quindi
 		            la connessione può essere chiusa.
 	      \end{itemize}
 	\item Dimensione della finestra: spazio disponibile nella finestra di ricezione.
 	\item Checksum per la verifica dell'integrità.
 \end{itemize}
+
+\subsection{Gestione della connessione}
+Come già detto, il servizio TCP è un servizio orientato alla connessione. Tale connessione viene 
+gestita in tre passi principali:
+\begin{itemize}
+	\item \textbf{Handshake}: instaurazione della connessione.
+	\item \textbf{Trasferimento dati}: gestione del flusso di trasferimento.
+	\item \textbf{Chiusura}: come la connessione viene chiusa da entrambi i lati.
+\end{itemize}
+
+\subsubsection{Handshake a tre vie}
+L'\textbf{handshake} è la fase di instaurazione della connessione. Dopo questa fase non si fa più
+distinzione tra client e server in quanto la comunicazione avviene in maniera bidirezionale. In 
+questa fase
+\begin{enumerate}
+	\item Il client invia una richiesta di connessione settando a 1 il flag \verb|SYN| e con un 
+		numero di sequenza $n$ generato casualmente.
+	\item Se la richiesta di connessione viene accettata il server invia al client un segmento di
+		autorizzazione con il flag di \verb|ACK| settato a 1 e con il numero di riscontro uguale
+		a $n+1$. Nel segmento inviato sarà inoltre presente il flag \verb|SYN| settato a 1 e un
+		nuovo numero di sequenza $m$.
+	\item Il client a questo punto invia un messaggio di risposta al messaggio di autorizzazione
+		settando il flag di \verb|SYN| a 0, il numero di sequenza a $n+1$ e il campo di riscontro
+		a $m+1$.
+\end{enumerate}
+Questi tre passaggio servono a impostare un tipo di connessione bidirezionale e paritaria tra
+client e server. Se svolgessimo solo i primi due passaggi, il client non avrebbe la possibilità
+di notificare la disponibilità a ricevere messaggi dal server.
+
+\subsubsection{Chiusura della connessione}
+La chiusura della connessione deve avvenire da entrambi i lati, i quali devono essere a conoscenza
+del fatto che l'altro sta per chiudere la connessione. Per farlo i due processi si inviano un
+segmento con il flag di \verb|FIN| settato a 1 secondo la seguente modalità:
+\begin{itemize}
+	\item Il client invia un segmento al server con il flag di \verb|FIN| settato a 1 e un numero
+		di sequenza $x$.
+	\item Il server risponde tramite un segmento con il flag di \verb|ACK| settato a 1 e con il
+		campo di riscontro a $x+1$.
+	\item Il server può continuare a inviare dati.
+	\item Il server invia un segmento con il flag di \verb|FIN| settato a 1 e con un numero di 
+		sequenza $y$.
+	\item Il client risponde con un segmento di \verb|ACK| e con il campo di riscontro impostato
+		a $y+1$.
+	\item Il client entra in uno stato di \verb|TIME_WAIT| dalla durata variabile prima di 
+		chiudere definitivamente la connessione.
+	\item Se il server riceve l'ultimo segmento di \verb|ACK| allora chiude la connessione, 
+		altrimenti, dopo un certo timeout, invia di nuovo un segmento con il flag di \verb|FIN|.
+	\item Il client, se dopo il timeout, non ha ricevuto ulteriori richieste chiude la
+		connessione.
+\end{itemize}
+Lo stato di \verb|TIME_WAIT| dipende da un altro parametro, ossia il \textbf{MSL} (Maximum Segment
+Lifetime). Questo può variare tra le varie implementazioni TCP e indica il tempo massimo che un
+pacchetto TCP può rimanere in rete. Dopo quel tempo o è arrivato a destinazione o è stato 
+cancellato.
+
+Lo stato di \verb|TIME_WAIT| ha un durata che tipicamente viene calcolata come il doppio del MSL.
+
+Nel caso in cui il client invii il segmento di \verb|FIN| mentre il server sta continuando a 
+inviare dati siamo in un stato \textbf{half-close}.
+
+\subsection{Trasferimento dati affidabile}
+Un segmento può essere perso o corrotto e TCP implementa un servizio di trasferimento dati 
+affidabile per riuscire a contenere queste problematiche.
+
+Per verficare l'integrità del pacchetto esiste un meccanismo di checksum, mentre per stabilire se
+qualche pacchetto è andato perso c'è il meccanismo dei \textbf{riscontri} implementato tramite 
+numeri di sequenza e di riscontro.
+
+In particolari casi, per esempio con il meccanismo di \textbf{pipeline}, possiamo inviare più 
+segmenti senza attendere un loro riscontro.
