@@ -144,7 +144,7 @@ Inziamo a vedere cosa succede dal lato del mittente e proviamo a individuare pos
 	\item Il protocollo TCP riceve i dati dall'applicazione.
 	\item I dati ricevuti vengono incapsulati in uno o più segmenti e si assegnano i numeri di
 		sequenza.
-	\item A questo punto il mittente avvia un \textbf{timer di ritrasmissione}.
+	\item A questo punto il mittente avvia un \textbf{timer di ritrasmissione} (RTO).
 	\item Il mittente ritrasmette il segmento in due casi:
 		\begin{itemize}
 			\item Timeout.
@@ -170,8 +170,8 @@ Le varie casistiche possono verificarsi o meno anche a seconda dell'implementazi
 può variare da host a host.
 
 \subsubsection{Calcolo del timeout}
-Il timeout di ritrasmissione è fondamentale per il corretto funzionamento del TCP che, se troppo
-breve potrebbe causare ritrasmissioni indesiderate e se troppo lungo potrebbe causare
+Il timeout di ritrasmissione RTO è fondamentale per il corretto funzionamento del TCP che, se
+troppo breve potrebbe causare ritrasmissioni indesiderate e se troppo lungo potrebbe causare
 rallentamenti.
 
 Questo timeout deve essere sicuramente superiore all'\textbf{RTT} (Round Trip Time), ossia il
@@ -182,4 +182,162 @@ la seguente formula
 	\text{RTT}_\text{stimato} = (1 - \alpha) \cdot \text{RTT}_\text{stimato} +
 	\alpha \cdot \text{RTT}_\text{misurato}
 \]
+La stima dell'RTT viene compiuta periodicamente e viene definita come un'aggiornamento dell'ultimo
+RTT calcolato. La prima volta la stima dell'RTT corrisponderà alla misura esatta dell'RTT campione
+amplificato di un fattore $\alpha$.
 
+Il valore che in genere viene dato ad $\alpha$ è $1/8$ in modo da rendere via via meno importanti 
+gli RTT dei pacchetti più vecchi.
+
+La sola stima dell'RTT non è sufficiente a calcolare l'RTO. \`E infatti necessaria anche una stima
+della variabilità dell'RTT, calcolabile come segue
+\[
+	\text{RTT}_\text{dev} = (1 - \beta) \cdot \text{RTT}_\text{dev} + 
+	\beta \cdot |\text{RTT}_\text{misurato} - \text{RTT}_\text{stimato}|
+\]
+Con $\beta$ generalmente settato a $1/4$ questo calcolo ci dice quanto l'RTT misurato si discosta
+dall'RTT stimato.
+
+Una volta calcolati questi valori si calcola l'RTO semplicemente svolgendo la somma 
+\[ \text{RTO} = \text{RTT}_\text{stimato} + 4 \cdot \text{RTT}_\text{dev} \]
+In molte implementazioni, dopo un errore, si raddoppia il timeout in modo da avere in primo
+meccanismo di controllo della congestione.
+
+\subsubsection{Finestra di trasmissione}
+I dati inviati dal processo applicativo sono mantenuti nel \textbf{buffer di invio}, la cui
+dimensione e organizzazione decreta la frequenza con cui TCP riesce ad inviare segmenti. In questo
+buffer, i segmenti si dividono in 4 sezioni:
+\begin{itemize}
+	\item Trasmessi e riscontrati.
+	\item Trasmessi e non riscontrati.
+	\item Trasmissibili.
+	\item Non trasmissibili.
+\end{itemize}
+La \textbf{finestra di trasmissione} è composta dalla somma delle due sezioni del buffer di invio
+in cui risiedono i dati trasmessi ma non riscontrati e quelli trasmissibili. Questa finestra ha 
+dimensione variabile e può \emph{scorrere} man mano che alcuni byte vengono riscontrati andando a
+eliminare questi ultimi e includendo tra i byte trasmissibili altri byte in attesa di essere
+trasmessi.
+
+La sezione dei byte trasmessi ma non riscontrati avrà come primo elemento il byte con numero di
+sequenza $S_f$ (Send first), ossia il primo byte in attesa di essere riscontrato. La sezione dei
+byte trasmissibili avrà invece come primo elemento il prossimo byte da inviare con numero di 
+sequenza $S_n$ (Send next).
+
+La dimensione della finestra varia in base ad altri due meccanismi che vedremo più avanti, ossia
+il controllo di flusso e il controllo di congestione.
+
+\subsubsection{Finestra di ricezione}
+I dati ricevuti dal destinatario vengono memorizzati su un \textbf{buffer di ricezione} definito
+dalle seguenti sezioni:
+\begin{itemize}
+	\item I byte che sono già stati consumati dal processo.
+	\item I byte ricevuti in attesa di essere consumati.
+	\item I byte che possono essere ricevuti.
+	\item I byte che non possono essere ricevuti.
+\end{itemize}
+La dimensione \textbf{finestra di ricezione} equivale alla dimensione della sezione del buffer di 
+ricezione in cui risiedono i byte che possono essere ricevuti. Tale dimensione rappresenta un
+limite per l'invio di dati da parte del mittente.
+
+\subsubsection{Controllo di flusso}
+Per evitare di inondare il destinatario di dati entra in gioco il meccanismo di \textbf{controllo
+di flusso}, che permette di regolare l'invio dei pacchetti, per adattarsi alla capacità del
+mittente di riceverli.
+
+Per implementare questo meccanismo, il mittente tiene una variabile $rwnd$, che da un'idea di
+quanto spazio sia ancora disponibile nel buffer del destinatario. Tale valore viene comunicato
+nel campo \verb|window| dell'header TCP ogni volta che il destinatario invia un messaggio al
+mittente (anche solo di \verb|ACK|). Il valore di $rwnd$ viene calcolato sottraendo alla dimensione
+totale del buffer di ricezione la differenza tra i numeri di sequenza dell'ultimo byte ricevuto e 
+l'ultimo byte letto
+\[ rwnd = \text{RcvBuffer} - (\text{LastReceived} - \text{LastRead}) \]
+Il mittente si assicura ad ogni invio che
+\[ \text{LastSent} - \text{LastAcked} \leq rwnd \]
+Nel caso in cui $rwnd$ sia uguale a 0 il mittente può inviare dei segmenti \textbf{sonda} di 1 byte
+per ricevere dal destinatario nuovi aggiornamenti sulla dimensione della finestra.
+
+\subsubsection{Controllo di congestione}
+Il \textbf{controllo di congestione} serve a regolare la quantità di dati inviati in funzione del
+traffico presente sulla rete. Il fenomeno di congestione è originato dal tentativo delle sorgenti
+di richiedere più banda di quella disponibile sul percorso.
+
+Il protocollo TCP impone un limite a ciascun mittente sulla frequenza dei pacchetti inviati sulla
+connessione, andando a definire una \textbf{finestra di congestione}, in funzione della
+congestione percepita.
+
+Il controllo di congestione TCP è di tipo punto-punto in quanto non vi è alcun supporto esplicito
+della rete e la congestione è dedotta dai sistemi terminali.
+
+\subsubsection{Regolazione della frequenza di invio}
+Il protocollo TCP, per regolare la frequenza di invio dei dati, combina i due tipi di controllo
+andando a ridimensionare la finestra di invio prendendo il minimo tra la dimensione della finestra
+di ricezione e la dimensione della finestra di congestione.
+
+Il meccanismo con cui TCP regola la propria frequenza di invio in funzione della congestione 
+rilevata è composto di tre punti:
+\begin{enumerate}
+	\item Partenza lenta.
+	\item Incremento additivo e decremento moltiplicativo (AIMD).
+	\item Ripresa veloce e reazione ai timeout.
+\end{enumerate}
+Il valore della finestra di congestione influisce sulla frequenza di invio dei dati in quanto 
+questa è sempre inferiore a
+\[ cwnd / RTT \]
+La dimensione della finestra di congestione si misura tipicamente in MSS (Maximum Segment Size),
+ossia la massima quantità di dati trasportabile da un segmento. Questa misura varia a seconda del
+collegamento, il quale fornisce una misura per la lunghezza massima del payload del frame di 
+collegamento inviabile dall'host mittente e si misura in MTU (Maximum Transmissive Unit).
+
+Nel meccanismo AIMD il TCP del mittente aumenta proporzionalmente la propria finestra di 
+congestione ad ogni \verb|ACK| ricevuto in modo che si abbia un crescita pari ad 1 MSS per ogni 
+RTT
+\[ cwnd = cwnd + \frac{1}{cwnd} \]
+Nel caso in cui si verifichi invece una perdita la finestra di congestione viene dimezzata.
+
+Tipicamente, all'inizio della connessione, la finestra di congestione ha dimensione pari a 1MSS.
+Stavolta però incrementiamo la sua dimensione di 1MSS ad ogni \verb|ACK| non duplicato si ottiene
+un raddoppiamento della finestra ad ogni RTT.
+
+Questo meccanismo prende il nome di \textbf{slow start} che punta ad una partenza lenta per 
+riuscire ad evitare il dimezzamento della dimensione della finestra per più tempo possibile e
+avere una crescita più rapida man mano che si va avanti.
+
+C'è da tenere di conto che gli \verb|ACK| ritardati rallentano la velocità di incremento della
+finestra.
+
+\subsection{TCP Reno}
+Questa implementazione di TCP prevede di definire una variabile \textbf{soglia} alla quale è 
+assegnato un valore alto. Tale variabile determina la fine della fase di partenza lenta e quindi 
+l'inizio della \emph{congestion avoidance} (AI).
+
+Nel caso in cui si ricevano tre \verb|ACK| duplicati si pone la soglia a metà della $cwnd$ e poi
+si ridimensiona la finestra di congestione dandole il valore della soglia più 3MSS. In questo modo
+si ha un meccanismo di \textbf{fast recovery}.
+
+Nel caso invece si raggiunga un timeout si pone la soglia a metà della $cwnd$ e ridimensioniamo la
+$cwnd$ a 1MSS in modo da ricominciare con un approccio \emph{slow start}.
+
+\subsection{TCP Tahoe}
+Altra implementazione del controllo di congestione antecedente a TCP Reno è \textbf{TCP Tahoe} la
+quale non prevede la fase \emph{fast recovery}. I casi di perdita di pacchetti sono gestiti allo 
+stesso modo andando a dimezzare la soglia e tornando nella fase di \emph{slow start}.
+
+\subsection{Throughput TCP}
+Per stimare il throughput medio della connessione TCP possiamo indicare con $W$ il valore massimo
+in byte della finestra di congestione e ricavandolo tramite la seguente formula
+\[ T = \frac{0.75 \cdot W}{RTT} \]
+Questo risultato si ottiene considerando che quando la finestra ha dimensione $W$ il throughput 
+equivale a $\frac{W}{RTT}$ ma quando c'è una perdita la finestra va a $\frac{W}{2}$ modificando il
+valore di throughput a $\frac{W}{2 \cdot RTT}$.
+
+\subsection{Equità}
+Poniamoci nell'ipotesi che ci siano $K$ connessioni TCP che insistono su un unico link di capacità
+$R$ bit/s, ognuna con gli stessi valori di MSS e RTT e senza nessun altro protocollo che insiste
+sullo stesso link.
+
+Come risultato avremo che ogni connessione TCP tende a trasmettere $\frac{R}{K}$ bit/s andando
+quindi a dividersi equamente le risorse di rete.
+
+Nella pratica le connessioni con RTT più basso, variano più velocemente la loro finestra di
+congestione e raggiungono throughput superiori a connessioni con RTT maggiore.
