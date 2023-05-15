@@ -78,7 +78,7 @@ gestita in tre passi principali:
 \subsubsection{Handshake a tre vie}
 L'\textbf{handshake} è la fase di instaurazione della connessione. Dopo questa fase non si fa più
 distinzione tra client e server in quanto la comunicazione avviene in maniera bidirezionale. In
-questa fase
+questa fase ogni messaggio è di 1 byte:
 \begin{enumerate}
 	\item Il client invia una richiesta di connessione settando a 1 il flag \verb|SYN| e con un
 	      numero di sequenza $n$ generato casualmente.
@@ -135,3 +135,51 @@ numeri di sequenza e di riscontro.
 
 In particolari casi, per esempio con il meccanismo di \textbf{pipeline}, possiamo inviare più
 segmenti senza attendere un loro riscontro.
+
+Gli eventi che portano alla corruzione o perdita di segmenti TCP possono essere molteplici e
+possono avvenire sia da parte del mittente che da parte del destinatario.
+
+Inziamo a vedere cosa succede dal lato del mittente e proviamo a individuare possibili criticità:
+\begin{enumerate}
+	\item Il protocollo TCP riceve i dati dall'applicazione.
+	\item I dati ricevuti vengono incapsulati in uno o più segmenti e si assegnano i numeri di
+		sequenza.
+	\item A questo punto il mittente avvia un \textbf{timer di ritrasmissione}.
+	\item Il mittente ritrasmette il segmento in due casi:
+		\begin{itemize}
+			\item Timeout.
+			\item Ricezione di tre \verb|ACK| duplicati.
+		\end{itemize}
+\end{enumerate}
+I segmenti possono anche arrivare fuori sequenza e quindi memorizzati temporaneamente dal 
+destinatario. Il TCP non implementa la gestione di tali pacchetti, questo dipende dal destinatario.
+
+Il destinatario, per applicare i riscontri in modo efficiente, implementa diversi metodi:
+\begin{itemize}
+	\item Nel caso in cui il destinatario debba inviare dati, include nel messaggio da inviare
+		il numero di riscontro per evitare di inviare due segmenti separati.
+	\item Se il destinatario non ha dati da inviare e riceve un segmento in ordine ritarda l'invio
+		dell'\verb|ACK| di 500ms a meno che non riceva un nuovo segmento. Questo serve a 
+		riscontrare più segmenti in una sola volta.
+	\item Se il destinatario riceve un segmento atteso e il precedente non è stato riscontrato,
+		allora invia immediatamente l'\verb|ACK|.
+	\item Nei casi in cui il destinatario riceva un segmento fuori sequenza, mancante oppure 
+		duplicato invia immediatamente l'\verb|ACK| indicando il prossimo numero atteso.
+\end{itemize}
+Le varie casistiche possono verificarsi o meno anche a seconda dell'implementazione del TCP, che
+può variare da host a host.
+
+\subsubsection{Calcolo del timeout}
+Il timeout di ritrasmissione è fondamentale per il corretto funzionamento del TCP che, se troppo
+breve potrebbe causare ritrasmissioni indesiderate e se troppo lungo potrebbe causare
+rallentamenti.
+
+Questo timeout deve essere sicuramente superiore all'\textbf{RTT} (Round Trip Time), ossia il
+tempo che intercorre tra l'invio di un pacchetto e la ricezione del riscontro. Viene calcolato
+analizzando gli RTT dei segmenti non ritrasmessi andando in primo luogo a misurare l'RTT tramite 
+la seguente formula
+\[
+	\text{RTT}_\text{stimato} = (1 - \alpha) \cdot \text{RTT}_\text{stimato} +
+	\alpha \cdot \text{RTT}_\text{misurato}
+\]
+
