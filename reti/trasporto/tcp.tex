@@ -318,7 +318,7 @@ si ha un meccanismo di \textbf{fast recovery}.
 Nel caso invece si raggiunga un timeout si pone la soglia a metà della $cwnd$ e ridimensioniamo la
 $cwnd$ a 1MSS in modo da ricominciare con un approccio \emph{slow start}.
 
-\subsection{TCP Tahoe}
+\subsubsection{TCP Tahoe}
 Altra implementazione del controllo di congestione antecedente a TCP Reno è \textbf{TCP Tahoe} la
 quale non prevede la fase \emph{fast recovery}. I casi di perdita di pacchetti sono gestiti allo 
 stesso modo andando a dimezzare la soglia e tornando nella fase di \emph{slow start}.
@@ -331,7 +331,7 @@ Questo risultato si ottiene considerando che quando la finestra ha dimensione $W
 equivale a $\frac{W}{RTT}$ ma quando c'è una perdita la finestra va a $\frac{W}{2}$ modificando il
 valore di throughput a $\frac{W}{2 \cdot RTT}$.
 
-\subsection{Equità}
+\subsubsection{Equità}
 Poniamoci nell'ipotesi che ci siano $K$ connessioni TCP che insistono su un unico link di capacità
 $R$ bit/s, ognuna con gli stessi valori di MSS e RTT e senza nessun altro protocollo che insiste
 sullo stesso link.
