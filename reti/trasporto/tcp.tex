@@ -296,8 +296,8 @@ RTT
 Nel caso in cui si verifichi invece una perdita la finestra di congestione viene dimezzata.
 
 Tipicamente, all'inizio della connessione, la finestra di congestione ha dimensione pari a 1MSS.
-Stavolta però incrementiamo la sua dimensione di 1MSS ad ogni \verb|ACK| non duplicato si ottiene
-un raddoppiamento della finestra ad ogni RTT.
+Stavolta però incrementiamo la sua dimensione di 1MSS ad ogni \verb|ACK| non duplicato, ottenendo
+così un raddoppiamento della finestra ad ogni RTT.
 
 Questo meccanismo prende il nome di \textbf{slow start} che punta ad una partenza lenta per 
 riuscire ad evitare il dimezzamento della dimensione della finestra per più tempo possibile e
