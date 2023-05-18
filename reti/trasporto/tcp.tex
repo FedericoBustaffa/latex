@@ -309,14 +309,18 @@ finestra.
 \subsection{TCP Reno}
 Questa implementazione di TCP prevede di definire una variabile \textbf{soglia} alla quale è 
 assegnato un valore alto. Tale variabile determina la fine della fase di partenza lenta e quindi 
-l'inizio della \emph{congestion avoidance} (AI).
-
-Nel caso in cui si ricevano tre \verb|ACK| duplicati si pone la soglia a metà della $cwnd$ e poi
-si ridimensiona la finestra di congestione dandole il valore della soglia più 3MSS. In questo modo
-si ha un meccanismo di \textbf{fast recovery}.
+l'inizio della \emph{congestion avoidance}.
 
 Nel caso invece si raggiunga un timeout si pone la soglia a metà della $cwnd$ e ridimensioniamo la
 $cwnd$ a 1MSS in modo da ricominciare con un approccio \emph{slow start}.
+
+\subsubsection{Fast recovery}
+Nel caso in cui si ricevano tre \verb|ACK| duplicati si pone la soglia a metà della $cwnd$ e poi
+si ridimensiona la finestra di congestione dandole il valore della soglia più 3MSS. In questo modo
+si ha un meccanismo di \textbf{fast recovery}. In questa fase, se avviene un timeout si torna in 
+slow start e se si riceve un \verb|ACK| non duplicato si ridimensiona la finestra di congestione
+con il valore soglia. Finché si continuano a ricevere \verb|ACK| duplicati si rimane in fast 
+recovery incrementando la finestra di congestione di 1MSS.
 
 \subsubsection{TCP Tahoe}
 Altra implementazione del controllo di congestione antecedente a TCP Reno è \textbf{TCP Tahoe} la
