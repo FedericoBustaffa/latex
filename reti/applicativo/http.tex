@@ -35,9 +35,10 @@ risposta. Il server deve inviare le risposte nello stesso ordine in cui sono arr
 Il client non può inviare in pipeline richieste che usano metodi HTTP non \emph{idempotenti}, ossia
 operazioni che, anche se fatte più volte, non variano il risultato finale.
 
-Il problema principale di questo sistema è il vincolo sull'ordine di risposta, in quanto si
-rischiano rallentamenti pesanti nel caso in cui una richiesta che necessita un tempo lungo di 
-elaborazione è la prima da soddisfare.
+Il problema principale di questo sistema è che il server deve rispondere alle richieste nello
+stesso ordine in cui gli sono arrivate e nel caso ci sia una richiesta particolarmente elaborata,
+questa blocca tutte le altre. Aggiungiamo poi che il ripristino di segmenti persi introduce
+ulteriore ritardo.
 
 \subsection{Messaggi HTTP}
 Un \textbf{messaggio} HTTP può essere di due tipi: \textbf{request} o \textbf{response} ed è la
@@ -131,3 +132,54 @@ sopra un protocollo stateless:
 	\item Il server confronta il cookie presentato con l'informazione associata ad esso.
 \end{enumerate}
 I cookie vengono utilizzati per autenticazione, ricordare il profilo utente, scelte precedenti ecc.
+
+\subsection{Prestazioni}
+In precedenza abbiamo parlato del tentativo di migliorare le prestazioni per il caricamento delle
+pagine introducendo il meccanismo di pipeline. Il problema principale di quel meccanismo è che il
+server è vincolato nel servire le richieste una per una e in ordine di arrivo.
+
+Un altro metodo, attualmente usato dai server HTTP/1.1 è quello della gestione di richieste in 
+parallelo. I browser instaurano più connessioni in parallelo (massimo 6) per fare richieste. Questo
+però intacca l'equità del protocollo TCP in quanto un singolo processo richiede più risorse di 
+altri e inoltre introduce un cattivo controllo della congestione.
+
+\subsubsection{HTTP/2}
+Con HTTP/2 si cerca di dare maggiore flessibilità lato server per l'invio di oggetti al client.
+Rispetto ad HTTP/1.1 non ci sono grosse variazioni per quanto riguarda metodi, codici di stato e
+campi d'intestazione.
+
+Con questa versione del protocollo il server può servire il client gestendo le richieste in ordine
+di priorità e può inviare al client anche oggetti non richiesti.
+
+Per riuscire a farlo si dividono gli oggetti in \textbf{frame} i quali vengono gestiti da un 
+meccanismo di \textbf{scheduling} per riuscire a servire prima le richieste ad alta priorità. La
+connessione TCP è sempre unica ma viene usata per inviare più richieste.
+
+In HTTP/2 il frame è l'unità di comunicazione che compone parte del messaggio HTTP ed è suddiviso
+in header e dati.
+
+Si introduce anche il concetto di \textbf{stream} come un flusso bidirezionale di frame all'interno
+di un'unica connessione TCP. Mediante l'astrazione dello stream è possibile effettuare richieste 
+multiple sulla stessa connessione TCP.
+
+Queste meccanismo permette di definire una priorità per ogni stream e eventuali dipendenze da altri
+stream tramite un albero delle dipendenze.
+
+\`E inoltre possibile avere un compressione delle intestazioni di modo che un messaggio di 
+richiesta o risposta comprenda tutte le intestazioni necessarie omettendo le informazioni non 
+necessarie e facendo la compressione.
+
+Si ha comunque il problema che, nel caso di perdita di pacchetti, tutta la connessione viene
+rallentata per riuscire a ripristinare il pacchetto perso.
+
+\subsubsection{HTTP/3}
+Ultima versione del protocollo ancora in via di sviluppo che propone l'utilizzo di UDP e di un 
+ulteriore protocollo, chiamato \textbf{QUIC}, che si frappone tra UDP e HTTP.
+
+Il protocollo QUIC comprende meccanismi di sicurezza, controllo degli errori e controllo della
+congestione. La differenza sostanziale che introduce QUIC è la possibilità di gestire più flussi
+su una singola connessione astraendo lo stream a livello di trasporto.
+
+Gli stream sono indipendenti l'uno dall'altro permettendo così, in caso di perdita di pacchetti
+su uno di essi, di rallentare la connessione solo per quel flusso di dati e non per tutta la 
+connessione.
