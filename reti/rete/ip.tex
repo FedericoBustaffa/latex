@@ -1,0 +1,51 @@
+\section{IP}
+Il \textbf{protocollo IP} (Internet Protocol) è un servizio di tipo connectionless in quanto non
+c'è un circuito né logico né fisico tra i due sistemi terminali.
+
+Il servizio offerto non da alcuna garanzia (un po' come UDP) in quanto non vi è alcuna certezza 
+che i datagrammi arrivino a destinazione, che siano nello stesso ordine di invio e non vi è alcun
+meccanismo di recupero di eventuali datagrammi andati persi.
+
+Quello che fa IP quando riceve un segmento TCP o un datagramma UDP è aggiungere una sua 
+intestazione a supporto dell'implementazione dei servizi.
+
+\subsection{Forwarding}
+Una delle funzioni principali di IP è l'\textbf{inoltro} (forwarding), ossia il trasferimento del
+pacchetto sull'appropriato collegamento in uscita.
+
+Per riuscire a farlo, il router, legge  dall'intestazione, presente all'inizio del datagramma,
+l'indirizzo di destinazione. Per riuscire a prendere una decisione sul collegamento di uscita fa 
+riferimento ad una \textbf{tabella di inoltro} nella quale è specificata \textbf{ l'interfaccia di
+output}.
+
+La tabella di inoltro viene costruita servendosi di una \textbf{funzione di instradamento}, la
+quale fa uso di informazioni raccolte attraverso comunicazioni con altri router, per risolvere
+un problema decisionale, ossia la scelta di un percorso verso una certa destinazione.
+
+Anche a livello rete si fa Multiplexing e Demultiplexing in quanto nell'header del datagramma
+viene codificato il valore del protocollo al quale viene consegnato il payload.
+
+\subsection{Formato del datagramma IP}
+Il formato del datagramma IP prevede due parti, l'header e il payload. L'header ha una dimensione
+variabile tra 20 e 60 byte e l'intero datagramma può avere una dimensione totale di 65535 byte.
+L'header si compone dei seguenti campi:
+\begin{itemize}
+	\item Versione IP.
+	\item Lunghezza header.
+	\item Tipo di servizio.
+	\item Lunghezza totale del datagram.
+	\item Identificativo a 16 bit.
+	\item TTL: massimo numero \emph{hop} rimanenti (decrementato ogni volta che passa da un 
+		router).
+	\item Flag per la frammentazione.
+	\item Checksum.
+	\item Demultiplexing.
+	\item IP mittente e destinatario.
+	\item Opzioni.
+\end{itemize}
+I bit indicati nel campo "tipo di servizio" vanno a supporto del protocollo per indicare le 
+caratteristiche del datagramma in base alla \emph{classe} del servizio (telefonata, streaming, 
+dati a bassa priorità ecc.) in modo da poter implementare politiche di accodamento diverse.
+
+Alcuni dei bit in questo campo servono a notificare eventi di congestione a livello rete e 
+trasporto.
