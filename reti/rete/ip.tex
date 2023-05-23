@@ -101,19 +101,91 @@ collegamento su cui vengono inviati i dati. Ad ogni interfaccia è assegnato un
 \textbf{indirizzo IP}.
 
 Per IPv4 abbiamo 4 byte (32 bit) per la composizione dell'IP. I primi $n$ bit identificano la rete
-su internet, mentre i restanti identificano l'host all'interno di tale rete.
+su internet (\textbf{prefisso}), mentre i restanti identificano l'host all'interno di tale rete
+(\textbf{suffisso}).
 
 \subsubsection{Assegnamento indirizzi}
 Si pone il problema di assegnare gli indirizzi IP in modo che non ci siano due host connessi alla
 stessa rete con lo stesso IP pubblico.
 
-Si è quindi deciso di suddividere gli indirizzi IP di rete in 5 classi: A, B, C, D, E. Queste 
-classi differiscono nel numero di bit che dedicano all'identificativo di rete. La classe A ha meno
-bit per l'identificazione delle reti ma ne ha molti per l'identificazione dei vari host.
+Un primo metodo prevede la suddivisione degli indirizzi IP di rete in 5 classi: A, B, C, D, E.
+Queste classi differiscono nel numero di bit (assegnato in modo statico) che dedicano 
+all'identificativo di rete. La classe A ha meno bit per l'identificazione delle reti ma ne ha molti
+per l'identificazione dei vari host le successive hanno più bit per l'identificazione della rete
+e meno per l'identificazione degli host.
 
 Questo metodo però è poco flessibile per via dello scarso range di indirizzi disponibili, si è
 quindi deciso di rimuovere le classi e passare ad un meccanismo di tipo \textbf{classless 
 addressing}.
 
-Questo metodo prevede l'aggiunta di un valore che indica quanti, dei 32 bit disponibili, sono stati
-utilizzati per il prefisso.
+Si è quindi aggiunto un valore $n$ all'indirizzo IP che indica quanti bit sono stati utilizzati 
+per il prefisso. Si ha quindi un identificativo di rete composto da 32 bit dei quali solo i primi
+$n$ sono significativi e gli altri sono messi a 0.
+
+Per l'assegnamento dell'indirizzo host rimangono $2^{32-n}$ indirizzi da cui dobbiamo togliere 
+l'indirizzo di rete e l'indirizzo di broadcast (suffisso con tutti i bit a 1). Ecco che rimaniamo
+con $2^{32-n}-2$ indirizzi disponibili per gli host.
+
+L'indirizzo dell'host non è identificato solo dal suffisso ma da tutti e 32 i bit dell'indirizzo,
+ovvero dall'unione di indirizzo di rete e host.
+
+Un altro modo per indicare l'indirizzo della sottorete è con la \textbf{maschera di sottorete}
+(subnet mask), un numero di 32 bit con i primi $n$ bit messi a 1 e con i rimanenti a 0. Per 
+riuscire ad ottenere l'indirizzo di rete tramite la subnet mask e l'indirizzo IP completo basta
+mettere in \verb|AND| bit a bit questi due.
+
+Gli indirizzi IP sono gestiti dall'ICANN che a sua volta assegna dei blocchi di indirizzi ai vari
+ISP, i quali assegnano sottoblocchi ai vari client che ne fanno richiesta. Quando un ISP deve 
+assegnare sottoblocchi di indirizzi a delle sottoreti:
+\begin{itemize}
+	\item Il numero di $N$ degli indirizzi in ogni sottorete sia una potenza di 2.
+	\item La lunghezza del prefisso di ogni sottorete si calcola tramite la formula
+		\[ n = 32 - \log_2 N \]
+		dove $N$ è il numero di indirizzi della sottorete.
+\end{itemize}
+L'ISP "\emph{annuncia}" poi su Internet la possibilità di raggiungere un certo blocco di indirizzi
+da lui distribuito ai client.
+
+\subsubsection{Indirizzi speciali}
+Esistono alcuni indirizzi speciali come ad esempio come:
+\begin{itemize}
+	\item \verb|0.0.0.0|: che viene utilizzato quando un host ha necessità di inviare un 
+		datagramma ma non conosce ancora il suo indirizzo IP.
+	\item \verb|255.255.255.255|: usato quando un router o un host devono inviare un datagramma a
+		tutti i dispositivi presenti nella rete.
+	\item \verb|127.0.0.1|: il datagramma con questo indirizzo destinazione non lascia l'host 
+		locale.
+	\item Abbiamo infine 4 blocchi:
+		\begin{itemize}
+			\item \verb|10.0.0.0/8|
+			\item \verb|172.16.0.0/12|
+			\item \verb|192.168.0.0/16|
+			\item \verb|169.254.0.0/16|
+		\end{itemize}
+		riservati per reti private locali.
+	\item \verb|224.0.0.0/4|: indirizzi multicast.
+\end{itemize}
+
+\subsection{DHCP}
+L'assegnazione di indirizzi IP può avvenire i due modi:
+\begin{itemize}
+	\item \textbf{Configurazione manuale}: l'amministratore configura direttamente l'IP dell'host
+		e aggiunge eventuali informazioni di servizio.
+	\item \textbf{DHCP}: l'host ottiene il proprio indirizzo IP in modo automatico.
+\end{itemize}
+Il DHCP (Dynamic Host Configuration Protocol) ha come obbiettivo l'assegnazione dinamica di 
+indirizzi IP all'interno di una rete ogni qual volta un dispositivo si \emph{aggiunge} ad essa 
+tramite un programma server presente in rete.
+
+Questo metodo è nato per evitare che indirizzi IP appartenenti a dispostivi non connessi alla rete
+non andassero sprecati.
+
+Si tratta di fatto di un protocollo client-server in cui
+\begin{enumerate}
+	\item L'host invia in \emph{broadcast} un messaggio \verb|DHCP discover|.
+	\item Il server DHCP risponde con un messaggio \verb|DHCP offer|.
+	\item L'host richiede un indirizzo IP con un messaggio \verb|DHCP request|.
+	\item Il server risponde con un messaggio \verb|DHCP ack| se la richiesta va a buon fine.
+\end{enumerate}
+In questa fase, dato che non è possibile stabilire una connessione verso un IP non ancora 
+assegnato, si utilizza il protocollo UDP per il trasporto.
