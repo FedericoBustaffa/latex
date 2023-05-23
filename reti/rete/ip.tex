@@ -107,3 +107,13 @@ su internet, mentre i restanti identificano l'host all'interno di tale rete.
 Si pone il problema di assegnare gli indirizzi IP in modo che non ci siano due host connessi alla
 stessa rete con lo stesso IP pubblico.
 
+Si è quindi deciso di suddividere gli indirizzi IP di rete in 5 classi: A, B, C, D, E. Queste 
+classi differiscono nel numero di bit che dedicano all'identificativo di rete. La classe A ha meno
+bit per l'identificazione delle reti ma ne ha molti per l'identificazione dei vari host.
+
+Questo metodo però è poco flessibile per via dello scarso range di indirizzi disponibili, si è
+quindi deciso di rimuovere le classi e passare ad un meccanismo di tipo \textbf{classless 
+addressing}.
+
+Questo metodo prevede l'aggiunta di un valore che indica quanti, dei 32 bit disponibili, sono stati
+utilizzati per il prefisso.
