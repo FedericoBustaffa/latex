@@ -1,160 +1,193 @@
 \section{IP}
-Il \textbf{protocollo IP} (Internet Protocol) è un servizio di tipo connectionless in quanto non
-c'è un circuito né logico né fisico tra i due sistemi terminali.
+Il \textbf{protocollo IP} (Internet Protocol) è un servizio di tipo 
+connectionless in quanto non c'è un circuito né logico né fisico tra i
+due sistemi terminali.
 
-Il servizio offerto non da alcuna garanzia (un po' come UDP) in quanto non vi è alcuna certezza 
-che i datagrammi arrivino a destinazione, che siano nello stesso ordine di invio e non vi è alcun
-meccanismo di recupero di eventuali datagrammi andati persi.
+Il servizio offerto non da alcuna garanzia (un po' come UDP) in quanto 
+non vi è alcuna certezza che i datagrammi arrivino a destinazione, che
+siano nello stesso ordine di invio e non vi è alcun meccanismo di 
+recupero di eventuali datagrammi andati persi.
 
-Quello che fa IP quando riceve un segmento TCP o un datagramma UDP è aggiungere una sua 
-intestazione a supporto dell'implementazione dei servizi.
+Quello che fa IP quando riceve un segmento TCP o un datagramma UDP è
+aggiungere una sua intestazione a supporto dell'implementazione dei
+servizi.
 
 \subsection{Forwarding}
-Una delle funzioni principali di IP è l'\textbf{inoltro} (forwarding), ossia il trasferimento del
-pacchetto sull'appropriato collegamento in uscita.
+Una delle funzioni principali di IP è l'\textbf{inoltro} (forwarding), 
+ossia il trasferimento del pacchetto sull'appropriato collegamento in
+uscita.
 
-Per riuscire a farlo, il router, legge  dall'intestazione, presente all'inizio del datagramma,
-l'indirizzo di destinazione. Per riuscire a prendere una decisione sul collegamento di uscita fa 
-riferimento ad una \textbf{tabella di inoltro} nella quale è specificata \textbf{ l'interfaccia di
-output}.
+Per riuscire a farlo, il router, legge  dall'intestazione, presente 
+all'inizio del datagramma, l'indirizzo di destinazione. Per riuscire 
+a prendere una decisione sul collegamento di uscita fa riferimento ad 
+una \textbf{tabella di inoltro} nella quale è specificata 
+l'\textbf{interfaccia di output}.
 
-La tabella di inoltro viene costruita servendosi di una \textbf{funzione di instradamento}, la
-quale fa uso di informazioni raccolte attraverso comunicazioni con altri router, per risolvere
-un problema decisionale, ossia la scelta di un percorso verso una certa destinazione.
+La tabella di inoltro viene costruita servendosi di una
+\textbf{funzione di instradamento}, la quale fa uso di informazioni
+raccolte attraverso comunicazioni con altri router, per risolvere un
+problema decisionale, ossia la scelta di un percorso verso una certa
+destinazione.
 
-Anche a livello rete si fa Multiplexing e Demultiplexing in quanto nell'header del datagramma
-viene codificato il valore del protocollo al quale viene consegnato il payload.
+Anche a livello rete si fa Multiplexing e Demultiplexing in quanto
+nell'header del datagramma viene codificato il valore del protocollo 
+al quale viene consegnato il payload.
 
 \subsection{Formato del datagramma IP}
-Il formato del datagramma IP prevede due parti, l'header e il payload. L'header ha una dimensione
-variabile tra 20 e 60 byte e l'intero datagramma può avere una dimensione totale di 65535 byte.
-L'header si compone dei seguenti campi:
+Il formato del datagramma IP prevede due parti, l'header e il payload. 
+L'header ha una dimensione variabile tra 20 e 60 byte e l'intero
+datagramma può avere una dimensione totale di 65535 byte. L'header si
+compone dei seguenti campi:
 \begin{itemize}
 	\item Versione IP.
 	\item Lunghezza header.
 	\item Tipo di servizio.
 	\item Lunghezza totale del datagram.
 	\item Identificativo a 16 bit.
-	\item TTL: massimo numero \emph{hop} rimanenti (decrementato ogni volta che passa da un 
-		router).
+	\item TTL: massimo numero \emph{hop} rimanenti (decrementato ogni
+		volta che passa da un router).
 	\item Flag per la frammentazione.
 	\item Checksum.
 	\item Demultiplexing.
 	\item IP mittente e destinatario.
 	\item Opzioni.
 \end{itemize}
-I bit indicati nel campo "tipo di servizio" vanno a supporto del protocollo per indicare le 
-caratteristiche del datagramma in base alla \emph{classe} del servizio (telefonata, streaming, 
-dati a bassa priorità ecc.) in modo da poter implementare politiche di accodamento diverse.
+I bit indicati nel campo "tipo di servizio" vanno a supporto del 
+protocollo per indicare le caratteristiche del datagramma in base alla 
+\emph{classe} del servizio (telefonata, streaming, dati a bassa
+priorità ecc.) in modo da poter implementare politiche di accodamento
+diverse.
 
-Alcuni dei bit in questo campo servono a notificare eventi di congestione a livello rete e 
-trasporto.
+Alcuni dei bit in questo campo servono a notificare eventi di
+congestione a livello rete e trasporto.
 
 \subsection{Frammentazione}
-L'operazione di \textbf{frammentazione} consiste nella suddivisione dei datagrammi IP in 
-datagrammi più piccoli, ognuno con la propria intestazione e payload.
+L'operazione di \textbf{frammentazione} consiste nella suddivisione dei
+datagrammi IP in datagrammi più piccoli, ognuno con la propria
+intestazione e payload.
 
-Il motivo per cui si ricorre alla frammentazione risiede in un problema dovuto alla capacità del
-metodo di collegamento. Quando abbiamo parlato del TCP abbiamo introdotto la Maximum Segment Size,
-come la dimensione massima di un segmento TCP tale che possa stare dentro un frame che rispetta il
-vincolo di Maximum Transfer Unit, il quale dipende a sua volta dalla tecnologia di collegamento 
-che viene utilizzata.
+Il motivo per cui si ricorre alla frammentazione risiede in un problem 
+dovuto alla capacità del metodo di collegamento. Quando abbiamo parlato
+del TCP abbiamo introdotto la Maximum Segment Size, come la dimensione 
+massima di un segmento TCP tale che possa stare dentro un frame che
+rispetta il vincolo di Maximum Transfer Unit, il quale dipende a sua
+volta dalla tecnologia di collegamento che viene utilizzata.
 
-Quando un datagramma IP viaggia sulla rete potrebbe attraverso diversi mezzi di collegamento,
-ognuno con un valore di Maximum Transfer Unit differente. Ecco che, se durante il viaggio, il 
-datagramma passa da un valore più alto a un più basso di MTU si è costretti a frammentare il 
+Quando un datagramma IP viaggia sulla rete potrebbe attraverso diversi 
+mezzi di collegamento, ognuno con un valore di Maximum Transfer Unit
+differente. Ecco che, se durante il viaggio, il datagramma passa da un
+valore più alto a un più basso di MTU si è costretti a frammentare il
 pacchetto.
 
-Ciascun frammento è a tutti gli effetti un datagramma IP indipendente dagli altri in grado di 
-viaggiare su reti fisiche differenti.
+Ciascun frammento è a tutti gli effetti un datagramma IP indipendente
+dagli altri in grado di viaggiare su reti fisiche differenti.
 
-I \textbf{campi di frammentazione} nell'header del datagramma IP danno indicazioni su come
-frammentare e ricomporre il messaggio. Per ricomporre i frammenti infatti il protocollo IP fa uso
-dei campi \textbf{identifactore}, \textbf{flag} e \textbf{offset}:
+I \textbf{campi di frammentazione} nell'header del datagramma IP danno 
+indicazioni su come frammentare e ricomporre il messaggio. Per
+ricomporre i frammenti infatti il protocollo IP fa uso dei campi 
+\textbf{identifactore}, \textbf{flag} e \textbf{offset}:
 \begin{itemize}
-	\item \textbf{Identificatore}: l'identifactore non dipende dal frammento analizzato ma dal 
-		datagramma a cui appartiene tale frammento. In questo modo il frammento è possibile sapere
-		quali sono i frammenti che devono essere ricomposti.
-	\item \textbf{Offset}: indica la posizione relativa come multiplo di 8 byte in modo da 
-		riordinare i frammenti quando necessario.
-	\item \textbf{Flag}: campo di 3 bit, ognuno con un significato diverso:
+	\item \textbf{Identificatore}: l'identifactore non dipende dal 
+		frammento analizzato ma dal datagramma a cui appartiene tale
+		frammento. In questo modo il frammento è possibile sapere quali
+		sono i frammenti che devono essere ricomposti.
+	\item \textbf{Offset}: indica la posizione relativa come multiplo 
+		di 8 byte in modo da riordinare i frammenti quando necessario.
+	\item \textbf{Flag}: campo di 3 bit, ognuno con un significato
+		diverso:
 		\begin{itemize}
 			\item \emph{Reserved}: sempre a 0 per ora.
-			\item \emph{Do not fragment}: vale 0 se il datagramma può essere frammentato, 1 se il
-				datagramma non deve essere frammentato.
-			\item \emph{More fragments}: vale 0 se il pacchetto è l'ultimo frammento, 1 altrimenti.
+			\item \emph{Do not fragment}: vale 0 se il datagramma può 
+				essere frammentato, 1 se il datagramma non deve essere
+				frammentato.
+			\item \emph{More fragments}: vale 0 se il pacchetto è
+				l'ultimo frammento, 1 altrimenti.
 		\end{itemize}
 \end{itemize}
-Visto che la frammentazione è un processo critico, in quanto aumenta la probabilità di perdita di
-pacchetta, si è deciso di evitarla. In IPv4 si fa utilizzo del flag \emph{do not fragment} e in
-IPv6 non è proprio disponibile.
+Visto che la frammentazione è un processo critico, in quanto aumenta 
+la probabilità di perdita di pacchetta, si è deciso di evitarla. In
+IPv4 si fa utilizzo del flag \emph{do not fragment} e in IPv6 non è
+proprio disponibile.
 
-Nella pratica, quando un router non riesce più ad inoltrare un datagramma, lo comunica al sorgente
-che ne invierà uno più piccolo.
+Nella pratica, quando un router non riesce più ad inoltrare un 
+datagramma, lo comunica al sorgente che ne invierà uno più piccolo.
 
-In questo modo si aggiunge un po' di carico sui nodi sorgente ma si riesce ad alleggerire di molto
-il carico sui vari router e si evita la frammentazione a meno che non sia strettamente necessaria.
+In questo modo si aggiunge un po' di carico sui nodi sorgente ma si
+riesce ad alleggerire di molto il carico sui vari router e si evita 
+la frammentazione a meno che non sia strettamente necessaria.
 
 \subsection{Indirizzo IPv4}
-Ogni host è connesso alla rete tramite un'interfaccia di rete che è il confine tra l'host e il 
-collegamento su cui vengono inviati i dati. Ad ogni interfaccia è assegnato un 
-\textbf{indirizzo IP}.
+Ogni host è connesso alla rete tramite un'interfaccia di rete che è il 
+confine tra l'host e il collegamento su cui vengono inviati i dati. 
+Ad ogni interfaccia è assegnato un \textbf{indirizzo IP}.
 
-Per IPv4 abbiamo 4 byte (32 bit) per la composizione dell'IP. I primi $n$ bit identificano la rete
-su internet (\textbf{prefisso}), mentre i restanti identificano l'host all'interno di tale rete
+Per IPv4 abbiamo 4 byte (32 bit) per la composizione dell'IP. I primi 
+$n$ bit identificano la rete su internet (\textbf{prefisso}), mentre 
+i restanti identificano l'host all'interno di tale rete 
 (\textbf{suffisso}).
 
 \subsubsection{Assegnamento indirizzi}
-Si pone il problema di assegnare gli indirizzi IP in modo che non ci siano due host connessi alla
-stessa rete con lo stesso IP pubblico.
+Si pone il problema di assegnare gli indirizzi IP in modo che non ci
+siano due host connessi alla stessa rete con lo stesso IP pubblico.
 
-Un primo metodo prevede la suddivisione degli indirizzi IP di rete in 5 classi: A, B, C, D, E.
-Queste classi differiscono nel numero di bit (assegnato in modo statico) che dedicano 
-all'identificativo di rete. La classe A ha meno bit per l'identificazione delle reti ma ne ha molti
-per l'identificazione dei vari host le successive hanno più bit per l'identificazione della rete
-e meno per l'identificazione degli host.
+Un primo metodo prevede la suddivisione degli indirizzi IP di rete in 
+5 classi: A, B, C, D, E. Queste classi differiscono nel numero di bit
+(assegnato in modo statico) che dedicano all'identificativo di rete.
+La classe A ha meno bit per l'identificazione delle reti ma ne ha
+molti per l'identificazione dei vari host le successive hanno più bit 
+per l'identificazione della rete e meno per l'identificazione degli
+host.
 
-Questo metodo però è poco flessibile per via dello scarso range di indirizzi disponibili, si è
-quindi deciso di rimuovere le classi e passare ad un meccanismo di tipo \textbf{classless 
-addressing}.
+Questo metodo però è poco flessibile per via dello scarso range di 
+indirizzi disponibili, si è quindi deciso di rimuovere le classi e
+passare ad un meccanismo di tipo \textbf{classless addressing}.
 
-Si è quindi aggiunto un valore $n$ all'indirizzo IP che indica quanti bit sono stati utilizzati 
-per il prefisso. Si ha quindi un identificativo di rete composto da 32 bit dei quali solo i primi
-$n$ sono significativi e gli altri sono messi a 0.
+Si è quindi aggiunto un valore $n$ all'indirizzo IP che indica quanti 
+bit sono stati utilizzati per il prefisso. Si ha quindi un
+identificativo di rete composto da 32 bit dei quali solo i primi $n$
+sono significativi e gli altri sono messi a 0.
 
-Per l'assegnamento dell'indirizzo host rimangono $2^{32-n}$ indirizzi da cui dobbiamo togliere 
-l'indirizzo di rete e l'indirizzo di broadcast (suffisso con tutti i bit a 1). Ecco che rimaniamo
-con $2^{32-n}-2$ indirizzi disponibili per gli host.
+Per l'assegnamento dell'indirizzo host rimangono $2^{32-n}$ indirizzi 
+da cui dobbiamo togliere l'indirizzo di rete e l'indirizzo di broadcast
+(suffisso con tutti i bit a 1). Ecco che rimaniamo con $2^{32-n}-2$
+indirizzi disponibili per gli host.
 
-L'indirizzo dell'host non è identificato solo dal suffisso ma da tutti e 32 i bit dell'indirizzo,
-ovvero dall'unione di indirizzo di rete e host.
+L'indirizzo dell'host non è identificato solo dal suffisso ma da tutti 
+e 32 i bit dell'indirizzo, ovvero dall'unione di indirizzo di rete e 
+host.
 
-Un altro modo per indicare l'indirizzo della sottorete è con la \textbf{maschera di sottorete}
-(subnet mask), un numero di 32 bit con i primi $n$ bit messi a 1 e con i rimanenti a 0. Per 
-riuscire ad ottenere l'indirizzo di rete tramite la subnet mask e l'indirizzo IP completo basta
-mettere in \verb|AND| bit a bit questi due.
+Un altro modo per indicare l'indirizzo della sottorete è con la 
+\textbf{maschera di sottorete} (subnet mask), un numero di 32 bit con
+i primi $n$ bit messi a 1 e con i rimanenti a 0. Per riuscire ad
+ottenere l'indirizzo di rete tramite la subnet mask e l'indirizzo IP
+completo basta mettere in \verb|AND| bit a bit questi due.
 
-Gli indirizzi IP sono gestiti dall'ICANN che a sua volta assegna dei blocchi di indirizzi ai vari
-ISP, i quali assegnano sottoblocchi ai vari client che ne fanno richiesta. Quando un ISP deve 
-assegnare sottoblocchi di indirizzi a delle sottoreti:
+Gli indirizzi IP sono gestiti dall'ICANN che a sua volta assegna dei 
+blocchi di indirizzi ai vari ISP, i quali assegnano sottoblocchi ai 
+vari client che ne fanno richiesta. Quando un ISP deve assegnare 
+sottoblocchi di indirizzi a delle sottoreti:
 \begin{itemize}
-	\item Il numero di $N$ degli indirizzi in ogni sottorete sia una potenza di 2.
-	\item La lunghezza del prefisso di ogni sottorete si calcola tramite la formula
+	\item Il numero di $N$ degli indirizzi in ogni sottorete sia una 
+		potenza di 2.
+	\item La lunghezza del prefisso di ogni sottorete si calcola 
+		tramite la formula
 		\[ n = 32 - \log_2 N \]
 		dove $N$ è il numero di indirizzi della sottorete.
 \end{itemize}
-L'ISP "\emph{annuncia}" poi su Internet la possibilità di raggiungere un certo blocco di indirizzi
-da lui distribuito ai client.
+L'ISP "\emph{annuncia}" poi su Internet la possibilità di raggiungere 
+un certo blocco di indirizzi da lui distribuito ai client.
 
 \subsubsection{Indirizzi speciali}
 Esistono alcuni indirizzi speciali come ad esempio come:
 \begin{itemize}
-	\item \verb|0.0.0.0|: che viene utilizzato quando un host ha necessità di inviare un 
-		datagramma ma non conosce ancora il suo indirizzo IP.
-	\item \verb|255.255.255.255|: usato quando un router o un host devono inviare un datagramma a
-		tutti i dispositivi presenti nella rete.
-	\item \verb|127.0.0.1|: il datagramma con questo indirizzo destinazione non lascia l'host 
-		locale.
+	\item \verb|0.0.0.0|: che viene utilizzato quando un host ha 
+		necessità di inviare un datagramma ma non conosce ancora il 
+		suo indirizzo IP.
+	\item \verb|255.255.255.255|: usato quando un router o un host 
+		devono inviare un datagramma a tutti i dispositivi presenti 
+		nella rete.
+	\item \verb|127.0.0.1|: il datagramma con questo indirizzo 
+		destinazione non lascia l'host locale.
 	\item Abbiamo infine 4 blocchi:
 		\begin{itemize}
 			\item \verb|10.0.0.0/8|
@@ -169,26 +202,32 @@ Esistono alcuni indirizzi speciali come ad esempio come:
 \subsection{DHCP}
 L'assegnazione di indirizzi IP può avvenire i due modi:
 \begin{itemize}
-	\item \textbf{Configurazione manuale}: l'amministratore configura direttamente l'IP dell'host
-		e aggiunge eventuali informazioni di servizio.
-	\item \textbf{DHCP}: l'host ottiene il proprio indirizzo IP in modo automatico.
+	\item \textbf{Configurazione manuale}: l'amministratore configura 
+		direttamente l'IP dell'host e aggiunge eventuali informazioni 
+		di servizio.
+	\item \textbf{DHCP}: l'host ottiene il proprio indirizzo IP in 
+		modo automatico.
 \end{itemize}
-Il DHCP (Dynamic Host Configuration Protocol) ha come obbiettivo l'assegnazione dinamica di 
-indirizzi IP all'interno di una rete ogni qual volta un dispositivo si \emph{aggiunge} ad essa 
-tramite un programma server presente in rete.
+Il DHCP (Dynamic Host Configuration Protocol) ha come obbiettivo 
+l'assegnazione dinamica di indirizzi IP all'interno di una rete ogni
+qual volta un dispositivo si \emph{aggiunge} ad essa tramite un 
+programma server presente in rete.
 
-Questo metodo è nato per evitare che indirizzi IP appartenenti a dispostivi non connessi alla rete
-non andassero sprecati.
-
-Si tratta di fatto di un protocollo client-server in cui
+Questo metodo è nato per evitare che indirizzi IP appartenenti a 
+dispostivi non connessi alla rete non andassero sprecati. Si tratta 
+di fatto di un protocollo client-server in cui
 \begin{enumerate}
-	\item L'host invia in \emph{broadcast} un messaggio \verb|DHCP discover|.
+	\item L'host invia in \emph{broadcast} un messaggio 
+		\verb|DHCP discover|.
 	\item Il server DHCP risponde con un messaggio \verb|DHCP offer|.
-	\item L'host richiede un indirizzo IP con un messaggio \verb|DHCP request|.
-	\item Il server risponde con un messaggio \verb|DHCP ack| se la richiesta va a buon fine.
+	\item L'host richiede un indirizzo IP con un messaggio 
+		\verb|DHCP request|.
+	\item Il server risponde con un messaggio \verb|DHCP ack| se la 
+		richiesta va a buon fine.
 \end{enumerate}
-In questa fase, dato che non è possibile stabilire una connessione verso un IP non ancora 
-assegnato, si utilizza il protocollo UDP per il trasporto.
+In questa fase, dato che non è possibile stabilire una connessione 
+verso un IP non ancora assegnato, si utilizza il protocollo UDP per 
+il trasporto.
 
 \subsection{IP forwarding}
 
