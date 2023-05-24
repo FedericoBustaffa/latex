@@ -1,0 +1,43 @@
+\section{NAT}
+Il servizio \textbf{NAT} (Network Address Translation) permette di 
+abilitare il traffico verso/dalla rete Internet pubblica per una rete
+privata.
+
+Permette cioè di trasmettere su Internet traffico proveniente da 
+sistemi attestati su sottoreti private, in cui sono assegnati indirizzi
+IP privati.
+
+L'accesso di una rete privata su Internet è realizzato attraverso un 
+router abilitato alla NAT, il quale deve avere almeno un indirizzo IP
+pubblico.
+
+\subsection{Tabella NAT}
+Tutto il traffico in uscita/ingresso da/verso la sottorete ha come
+indirizzo IP sorgente/destinazione l'indirizzo IP pubblico del router.
+Questo crea qualche problema soprattutto in fase di ricezione di
+messaggi in quanto il router non sa a quale host inoltrare il
+pacchetto.
+
+Per risolvere questo problema il router implementa una tabella NAT la
+quale contiene delle associazioni che permettono la traduzione. Nello
+specifico, i campi della tabella contengono una corrispondenza tra
+l'IP privato dell'host e l'IP pubblico del router e tra la porta
+utilizzata dall'host e la porta scelta dal router.
+
+Questa tabella traduce in un modo o nell'altro a seconda che il
+pacchetto sia in ingresso o in uscita:
+\begin{itemize}
+	\item Nel caso in cui si voglia inviare un pacchetto, il router
+		cambierà l'indirizzo IP privato dell'host sorgente con il
+		proprio indirizzo IP pubblico e cambierà la porta utilizzata
+		dall'host con una sua porta utilizzata per l'inoltro.
+	\item Nel caso in cui si riceva un pacchetto questo avrà come
+		indirizzo destinazione l'indirizzo IP pubblico del router 
+		e una porta. Sfruttando l'associazione IP porta, tramite la
+		tabella NAT è possibile inoltrare il pacchetto su una porta
+		usata dall'host che aspetta il pacchetto.
+\end{itemize}
+Il router gestisce la tabella in modo che le corrispondenze tra
+indirizzi IP e porte sia univoci di modo che più host della stessa
+sottorete possano usare il servizio di NAT senza entrare in conflitto
+tra loro.

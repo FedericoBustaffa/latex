@@ -230,4 +230,96 @@ verso un IP non ancora assegnato, si utilizza il protocollo UDP per
 il trasporto.
 
 \subsection{IP forwarding}
+Noi sappiamo che ogni datagramma IP che è soggetto a
+\textbf{forwarding} da parte dell'host origine e del router che sta
+attraversando. L'inoltro può essere \textbf{diretto} o 
+\textbf{indiretto}:
+\begin{itemize}
+	\item \textbf{Diretto}: il pacchetto IP ha come destinazione un
+		host nella propria rete (o sottorete) IP. In questo caso 
+		l'indirizzo di destinazione a livello di collegamento è proprio
+		quello del destinatario in quanto l'invio è diretto su di esso
+		e non viene interpellata nessun'altra entità.
+	\item \textbf{Indiretto}: in questo caso il datagramma IP ha come 
+		destinazione un nodo di un'altra rete IP. L'invio in questo
+		caso viene delegato ad un router e l'indirizzo di destinazione
+		stavolta sarà quello del router.
+\end{itemize}
+In generale, le condizioni necessarie affinché la comunicazione avvenga
+sono due:
+\begin{itemize}
+	\item Deve esistere un cammino a livello collegamento tra tutti gli
+		gli host appartenenti alla stessa sottorete.
+	\item Ogni host deve avere un indirizzo IP di rete uguale ma con
+		ID host univoco all'interno della stessa sottorete.
+\end{itemize}
+Ad ogni interfaccia verso la rete IP viene assegnato un indirizzo IP 
+distinto. Il router è un apparato che consulta la propria tabella di
+inoltro e decide dove mandare il datagramma.
+
+\subsubsection{Inoltro diretto}
+Quando il datagramma deve essere inoltrato ad un host della stessa 
+sottorete del mittente, il mittente è a conoscenza dell'indirizzo IP
+della propria interfaccia di rete, della propria subnet mask e 
+dell'indirizzo IP di destinazione.
+
+Con tutte queste informazioni a disposizione il mittente è in grado di
+capire se il destinatario si trova nella stessa sottorete. Se così
+fosse può effettuare un inoltro di tipo diretto.
+
+A questo punto il mittente fa riferimento ad una tabella in cui poter
+trovare l'indirizzo \textbf{MAC} del destinatario e passa il pacchetto
+a livello inferiore che incapsula il pacchetto con destinazione il 
+MAC del destinatario.
+
+\subsubsection{Inoltro indiretto}
+Supponiamo ora che l'indirizzo di destinazione del pacchetto non 
+appartenga alla stessa sottorete.
+
+Come prima il mittente è a conoscenza delle informazioni necessarie a
+capire se il destinatario si trova sulla stessa sottorete o meno.
+
+Se si trovano su reti differenti, l'host delega l'inoltro del pacchetto
+al router della propria sottorete ma indica come IP destinazione sempre
+il solito indirizzo IP del destinatario.
+
+A livello collegamento il frame inviato avrà come indirizzo sorgente
+l'indirizzo MAC dell'host e come indirizzo destinazione l'indirizzo MAC
+del router.
+
+\subsubsection{Tabella di inoltro}
+Nella tabella di inoltro sono presenti diverse informazioni tra cui
+\begin{itemize}
+	\item Indirizzi IP delle reti raggiungibili.
+	\item L'interfaccia per effettuare l'inoltro verso una specifica
+		rete.
+	\item Un campo che, nel caso ci sia bisogno di effettuare un 
+		inoltro indiretto, conterrà il nome o l'indirizzo IP delegato
+		a fare l'inoltro. In caso si tratti di inoltro diretto il campo
+		viene lasciato vuoto.
+\end{itemize}
+Nel caso in cui ci sia ad esempio un router che gestisce delle 
+sottoreti, la sua tabella di inoltro avrà una una serie di entry con
+il campo dell'indirizzo di inoltro nullo (inoltro diretto) e ad esempio
+con una o più entry che indicano l'indirizzo di inoltro di un router
+esterno.
+
+Il router esterno avrà anch'esso lo stesso tipo di tabella solo che 
+non conterrà l'indirizzo di tutte le sottoreti raggiungibili tramite
+il primo router. Si terrà invece solamente un indirizzo IP di rete in
+grado di includere tutte le sottoreti raggiungibili attraverso il primo
+router (\textbf{aggregazione degli indirizzi}).
+
+Supponiamo ora di avere due router che si possono raggiungere l'un
+l'altro e tramite questi due router si possono raggiungere delle
+sottoreti.
+
+Nella tabella di inoltro possono essere presenti indirizzi di rete che
+sono uno più specifico dell'altro. Nel momento in cui arriva un
+pacchetto, per decidere su quale rete inoltrarlo si deve fare un match
+tra gli indirizzi di rete presenti nella tabella di inoltro e 
+l'indirizzo IP di destinazione del pacchetto. L'indirizzo di rete 
+scelto per l'inoltro è quello più specifico, ovvero quello che tra i
+possibili match ha la maschera più lunga 
+(\textbf{longer mask matching}).
 

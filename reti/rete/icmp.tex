@@ -1,0 +1,82 @@
+\section{ICMP}
+Quando si verificano degli errori come ad esempio perdita di pacchetti
+o vi sono dei nodi non raggiungibili, il protocollo IP non ha 
+meccanismi integrati per renderlo noto all'host mittente entra in gioco
+il protocollo \textbf{ICMP} (Internet Control Message Protocol).
+
+Il protocollo ICMP permette inoltre di effettuare richieste sullo stato
+di un sistema remoto.
+
+Il protocollo può essere usato sia da host che da router per scambiarsi
+messaggi di errore o per segnalare altre situazioni che richiedono
+intervento.
+
+I messaggi ICMP vengono incapsulati all'interno di datagrammi IP ma
+viene considerato parte integrante dello strato di rete in quanto chi
+implementa IP deve implementare anche ICMP.
+
+\subsection{Casi d'uso}
+Uno dei casi tipici in cui entra in gioco ICMP è quello in cui un host
+di destinazione o un router devono informare il mittente di qualche
+errore che si è verificato all'inoltro di un pacchetto.
+
+I pacchetti ICMP vengono in genere instradati prima dei pacchetti IP
+ma ne viene generato solo uno per ogni frammento con offset a 0 per
+evitarne la proliferazione.
+
+I messaggi ICMP non sono mai inviati in risposta a pacchetti IP con 
+indirizzo mittente che non rappresenta in modo univoco un host.
+
+Inoltre non sono mai inviati in risposta IP con destinazione IP 
+broadcast o multicast.
+
+Infine non possono essere inviati in risposta a messaggi ICMP di errore
+ma solo a messaggi ICMP di interrogazione.
+
+\subsection{Tipologie di messaggi ICMP}
+Non andiamo a vedere nel dettaglio il formato dei messaggi ICMP, ci
+basti sapere che si dividono in messaggi di errore e messaggi di 
+richiesta/risposta.
+
+Nell'header ICMP i campi \verb|TIPO| e \verb|CODICE|, entrambi di 8
+bit, indicano tipo e significato dei messaggi che stiamo inviando.
+
+\subsection{Ping}
+Uno dei programmi utilizzabili da un host per verificare il 
+funzionamento di un altro host è il programma \textbf{ping}.
+
+Tale programma ping si basa su una serie di messaggi di richiesta
+e risposta eco dell'ICMP:
+\begin{enumerate}
+	\item Un host invia una richiesta eco ad un altro host.
+	\item Se tale host è disponibile invia un messaggio di risposta
+		eco.
+\end{enumerate}
+Possiamo inviare questa richiesta più volte per calcolare un RTT,
+facendo una stima.
+
+\subsection{Traceroute}
+Il programma \textbf{traceroute} può essere usato per individuare
+il percorso di un datagramma da una sorgente ad una destinazione
+tramite l'identificazione dell'indirizzo IP di tutti i router che
+vengono visitati lungo il percorso.
+
+Solitamente il programma è impostato con un numero di limite di 30
+salti (solitamente sufficienti per raggiungere la destinazione).
+
+\subsubsection{Implementazione}
+A seconda delle implementazioni, che possono variare tra i vari sistemi
+operativi, traceroute può fare uso del protocollo UDP inviando un 
+datagramma ad una porta su cui è improbabile che ci sia un processo in 
+ascolto, oppure inviando pacchetti ICMP.
+
+I datagrammi sono configurati per scatenare l'invio di messaggi di 
+errore di due tipi:
+\begin{itemize}
+	\item Tempo scaduto.
+	\item Porta destinazione non raggiungibile.
+\end{itemize}
+In generale traceroute per tracciare il percorso invia diversi messaggi
+ognuno con TTL diverso e progressivamente maggiore in modo da ricevere
+messaggi di errore ogni volta che si incontra un nodo lungo il percorso
+così da poterlo tracciare.
