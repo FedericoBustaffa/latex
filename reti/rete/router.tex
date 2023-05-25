@@ -1,0 +1,54 @@
+\section{Architettura di un router}
+Fino ad ora abbiamo parlato di \emph{inoltro} e \emph{instradamento},
+rissumiamo brevemente le differenze tra i due:
+\begin{itemize}
+	\item \emph{Inoltro}: meccanismo che si occupa di trasferire i
+		pacchetti sull'appropriato collegamento in uscita. Per farlo
+		si fa uso di una \textbf{tabella di inoltro}
+	\item \emph{Instradamento}: processo decisionale di scelta del
+		percorso verso una destinazione. In questo caso si determinano
+		i valori da inserire nella tabella di inoltro attraverso 
+		\textbf{algoritmi di routing}.
+\end{itemize}
+A noi interessano per ora solo un tipo di routing 
+\textbf{decentralizzato}, in cui su ogni router gira indipendentemente
+un un algortimo di routing. Esistono tuttavia approcci di routing
+\textbf{centralizzato} in cui un controller remoto si occupa
+dell'esecuzione degli algoritmi di routing e poi fornisce i valori da
+inserire nelle varie tabelle di inoltro dei router.
+
+\subsection{Struttura}
+Un router è composto sostanzialmente da quattro componenti di nostro
+interesse:
+\begin{itemize}
+	\item \textbf{Porte di input}
+	\item \textbf{Porte di output}
+	\item \textbf{Processore}: per l'esecuzione degli algoritmi di
+		routing.
+	\item \textbf{Struttura di commutazione}: trasferimento del 
+		pacchetto dalle porte di input alle porte di output.
+\end{itemize}
+Il router mantiene una copia della tabella di inoltro per velocizzare
+tale processo ma nel caso in cui la velocità con cui arrivano i 
+datagrammi supera la velocità con di inoltro della struttura, questi
+vengono messi in attesa in una coda.
+
+\subsubsection{Struttura di commutazione}
+L'implementazione della struttura di inoltro può essere di vario tipo
+\begin{itemize}
+	\item Attraverso la \textbf{memoria} della macchina.
+	\item Attraverso un \textbf{bus} condiviso.
+	\item Attraverso una \textbf{matrice di commutazione}.
+\end{itemize}
+La matrice di commutazione è quella più performante in quanto fa uso
+di più bus per il trasferimento dei datagrammi dalle porte di input a
+quelle di output.
+
+Una volta che il pacchetto ha attraversato la struttura di commutazione
+lo si trasferisce sul collegamento fisico. Anche in questa fase abbiamo
+un buffer in cui è possibile accodare i datagrammi, nel caso in cui 
+la velocità di uscita dalla struttura di commutazione superi quella 
+di trasmissione sul collegamento di uscita.
+
+Vi è anche un meccanismo di \textbf{scheduling} che permette di 
+definire politiche per l'ordine di instradamento dei datagrammi.
