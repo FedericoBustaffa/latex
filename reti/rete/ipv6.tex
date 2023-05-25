@@ -1,0 +1,29 @@
+\section{IPv6}
+Si tratta di una nuova versione di indirizzi IP che implementa nuova
+funzionalità e che cerca di risolvere alcuni problemi tra cui la 
+carenza di indirizzi IPv4.
+
+Si passa infatti da indirizzi a 32 bit a indirizzi a 128 bit e si cerca
+di minimizzare il tempo di elaborazione e inoltro dei pacchetti nei
+nodi.
+
+Vi è infatti una lunghezza fissa dell'header, viene eliminato il
+campo di checksum e non si supporta più la frammentazione che viene 
+invece delegata al nodo sorgente.
+
+Si applicano inoltre delle etichette che permettono di identificare 
+dei particolari \emph{flussi}, andando così ad implementare politiche
+diverse per pacchetti appartenenti a flussi differenti.
+
+\subsection{Tunneling}
+Al momento IPv4 e IPv6 convivono e infatti non è raro imbattersi in
+dispositivi che implementano entrambi i protocolli.
+
+Nel momento in cui si incontrino però dei nodi che supportano solo 
+traffico di tipo IPv4 si ha un problema in quanto si ha un tipo di 
+instradamento ed inoltro differente.
+
+Per ovviare al problema si utilizza un meccanismo di \textbf{tunneling}
+che va di fatto a incapsulare il datagramma IPv6 aggiungendo un header
+IPv4 finché non si esce dalla sottorete IPv4.
+

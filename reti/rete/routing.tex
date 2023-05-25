@@ -36,10 +36,151 @@ si dividono in base a
 			\item \textbf{Globale}: ogni router acquisisce informazioni
 				sullo stato di tutti i collegamenti ottenendo una
 				vista completa della topologia di rete.
-			\item \textbf{Decentralizzata}: 
+			\item \textbf{Decentralizzata}: Ogni router acquisisce
+				informazioni mediante lo scambio di messaggi con 
+				router vicini.
 		\end{itemize}
-	\item sdsa
+	\item Vista nel tempo, che può essere
 		\begin{itemize}
-			\item 
+			\item \textbf{Statica}: quando le rotte vengono gestite
+				manualmente dagli amministratori di reti piccole.
+			\item \textbf{Dinamica}: i router si scambiano informazioni
+				per riuscire ad aggiornare dinamicamente i percorsi.
 		\end{itemize}
 \end{itemize}
+Per quanto ci riguarda il routing di tipo statico non è particolarmente
+interessante. Andremo quindi a trattare algoritmi di tipo dinamico.
+
+\subsection{Distance Vector}
+Si tratta di un algortimo con modalità di acquisizione dei dati
+decentralizzata e quindi \textbf{distribuito}. Ciascun nodo riceve
+infatti delle informazioni da un o più nodi vicini per effettuare
+i calcoli e comunicarli agli altri nodi.
+
+Si tratta di un tipo di algoritmo \textbf{iterativo} in quanto ci
+servono più iterazioni per convergere ad una soluzione e di costo
+minimo e \textbf{asincrono} poiché ogni nodo può fare dei calcoli in
+modo indipendente.
+
+\subsubsection{Implementazione}
+Si base sull'equazione di \textbf{Bellman-Ford} per il calcolo di un
+cammino di costo minimo tra un nodo sorgente $x$ ad un nodo 
+destinazione $y$, tramite dei nodi intermedi supponendo che:
+\begin{itemize}
+	\item Il costo $c(x,z)$ tra nodo sorgente $x$ e il vicino $z$ sia
+		noto.
+	\item La distanza minima tra il vicino $z$ e la destinazione sia
+		nota.
+\end{itemize}
+Nella pratica il router $x$ conosce la distanza tra lui e i suoi vicini
+mentre i suoi vicini (non tutti) conoscono la distanza tra loro e il
+nodo destinazione $y$.
+
+Il router a questo punto calcola il percorso migliore scegliendo quello
+quello a distanza minima sommando alla distanza tra lui e un certo
+nodo $v$, la distanza che c'è tra $v$ e la destinazione $y$.
+\[ d_{xy} = \min \{ c(x, v) + d_{vy} \} \]
+Tale informazione viene poi comunicata ad eventuali altri router vicini
+precedentemente interpellati nel calcolo del percorso.
+
+L'iterazione è causata da un cambio nel costo di uno dei collegamenti
+locali oppure dalla ricezione di un \emph{vettore distanza} aggiornato.
+
+Ogni nodo aggiorna i suoi vicini solo quando il proprio \emph{distance
+vector} cambia e i vicini avvisano i rispettivi vicini solo se 
+necessario.
+
+\subsubsection{Problematiche}
+Il problema di questo algoritmo è il cosiddetto \textbf{count to
+infinity}, che si presenta nel momento in cui un nodo si accorge che
+il costo verso uno dei suoi vicini è aumentato ma non riesce a
+comunicarlo agli altri suoi vicini poiché avviene uno scambio di
+informazioni errato dovuto all'asincronia del metodo.
+
+Per aggirare il problema, il nodo che notifica l'avvenuta degradazione
+del collegamento, non riceve informazioni dagli altri nodi sui relativi
+percorsi. In questo modo in nodi che devono ricevere la notifica
+possono farlo correttamente e, se necessario, aggiornare i propri
+vettori distanza (\textbf{Split to Horizon}).
+
+\subsection{Link state}
+Questo algoritmo sfrutta l'acquisizione centralizzata e globale delle 
+informazioni da tutti i nodi di una certa rete.
+
+In questo modo è possibile acquisire una vista globale della topologia
+di rete tramite messaggi (\textbf{link state broadcast}) per ogni nodo
+nella rete.
+
+Si tratta di un algoritmo iterativo che usa l'algoritmo di Dijkstra
+per calcolare il cammino a costo minimo da un nodo origine a tutti gli
+altri nodi della rete.
+
+\subsection{Sistemi autonomi}
+I router sono organizzati in \textbf{sistemi autonomi}, i quali sono
+gruppi di router sotto lo stesso controllo amministrativo che può
+decidere in modo autonomo i protocolli e le politiche di routing che
+intendono adottare al loro interno.
+
+Andiamo quindi a distinguere i protocolli che vengono usati all'interno
+di sistemi autonomi, detti IGP (Interior Gateway Protocol) e protocolli
+usati all'esterno dei sistemi autonomi, detti EGP (Exterior Gateway
+Protocol).
+
+\`E quindi necessario che all'interno dello stesso sistema autonomo
+ci sia un unico protocollo.
+
+\subsubsection{RIP}
+Il protocollo di interesse usato internamente da un sistema autonomo
+è il \textbf{RIP} (Routing Information Protocol).
+
+Questo protocollo fa uso dell'algoritmo \emph{distance vector} nella 
+sua versione in grado di prevenire scambio di informazioni errate che
+andrebbero ad aumentare il tempo di instradamento.
+
+In questo caso abbiamo che il costo da un nodo all'altro è sempre 1.
+Di conseguenza il cammino di costo minimo è il cammino più breve, ossia
+quello che ci permette di compiere il minor numero di salti.
+
+Gli aggiornamenti sono inviati ogni 30 secondi tramite UDP da un 
+processo demone che si occupa di inviare tali aggiornamenti.
+
+\subsubsection{OSPF}
+L'altro algoritmo intra sistema autonomo che invece implementa 
+l'algoritmo \emph{link state} è l'\textbf{OSPF} (Open Shortest Path
+First). In questo caso è l'amministratore di rete a decidere la metrica
+per il calcolo del percorso.
+
+Il problema è che questo metodo invia messaggi, in broadcast a tutti i
+router della rete andandola a caricare di messaggi di controllo.
+
+Per alleggerire il carico si divide la rete in modo gerarchico andando così suddividere il traffico.
+
+\subsubsection{BGP}
+I sistemi autonomi possiedono dei router di frontiera che li mettono
+in comunicazione con altri sistemi autonomi.
+Tali router si scambiano informazioni, basate sulla conoscenza che
+hanno del proprio sistema autonomo, per riuscire a comunicare ad altri
+sistemi autonomi che attraverso di loro è possibile raggiungere
+\begin{itemize}
+	\item Altri sistemi autonomi.
+	\item Router all'interno del sistema autonomo.
+\end{itemize}
+I router di frontiera avranno quindi un algoritmo per il calcolo dei
+percorsi intra sistema autonomo e uno per il calcolo dei percorsi 
+inter sistema autonomo.
+
+I router di frontiera ovviamente comunicano a tutti i router del 
+proprio sistema autonomo, la raggiungibilità di nodi appartenenti ad
+altri sistemi autonomi.
+
+Nella pratica, coppie di router si scambiano informazioni tramite
+connessioni TCP in sessioni BGP \textbf{esterne} ed \textbf{interne}.
+Gli attributi più importanti sono due:
+\begin{itemize}
+	\item \verb|AS_PATH|: sequenza dei sistemi autonomi.
+	\item \verb|NEXT_HOP|: indirizzo IP del primo router lungo un
+		percorso annunciato a un dato prefisso di rete.
+\end{itemize}
+Il protocollo è di per se molto complesso e fa una scelta dei percorsi
+anche in base a scelte amministrative e accordi tra paesi e/o 
+compagnie.
