@@ -3,5 +3,43 @@ I \textbf{protocolli di routing} si occupa di determinare un percorso
 \emph{buono} da mittente a destinatario passando per nodi intermedi.
 
 In altri termini vogliamo trovare il cammino più veloce basandoci
-su congestione e latenze da un nodo sorgente ad un nodo destinazione,
-utilizzando le informazioni fornite dai vari router sulla rete.
+su congestione, latenze e numero di nodi intermedi da un nodo sorgente 
+ad un nodo destinazione, utilizzando le informazioni fornite dai vari
+router sulla rete.
+
+Il problema del calcolo del percorso da sorgente a destinazione è 
+rappresentabile come il calcolo del percorso ottimale in un grafo.
+
+Gli host e i router sono rappresentati come nodi del grafo mentre i
+collegamenti sono gli archi che collegano tali nodi. In generale avremo
+un grafo \textbf{pesato} che rappresenta il costo per arrivare da un
+nodo all'altro.
+
+Il costo può tenere di conto dei fattori sopra citati come ad esempio
+congestione o distanza da un router all'altro.
+
+Ovviamente è possibile impostare degli \emph{obbiettivi di traffico},
+vogliamo quindi gestire il traffico per riuscire ad arrivare in un
+certo stato di quest'ultimo (per esempio vogliamo minimizzare la 
+congestione su certi archi).
+
+\subsection{Algoritmi di routing}
+In generale però a noi interessano principalmente gli algoritmi che
+calcolano il percorso di costo minimo da un nodo sorgente ad un nodo
+destinazione.
+
+Non esiste una sola implementazione di tali algoritmi, essi si infatti
+si dividono in base a
+\begin{itemize}
+	\item Modalità di acquisizione dei dati, che può essere
+		\begin{itemize}
+			\item \textbf{Globale}: ogni router acquisisce informazioni
+				sullo stato di tutti i collegamenti ottenendo una
+				vista completa della topologia di rete.
+			\item \textbf{Decentralizzata}: 
+		\end{itemize}
+	\item sdsa
+		\begin{itemize}
+			\item 
+		\end{itemize}
+\end{itemize}
