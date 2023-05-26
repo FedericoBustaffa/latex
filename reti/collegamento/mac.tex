@@ -1,0 +1,141 @@
+\section{Protocolli MAC}
+Il tipo di collegamento \textbf{broadcast} è \emph{condiviso}. Questo
+crea un problema di \textbf{collisioni} quando avvengono due o più 
+trasmissioni simultanee tra i nodi creando \emph{interferenza}.
+
+Più nello specifico, un nodo che sta in ascolto sul canale condiviso,
+non riesce a distinguere messaggi in arrivo da un nodo piuttosto che
+da un altro. \`E quindi necessario definire dei protocolli che 
+gestiscano l'accesso multiplo alla risorsa.
+
+Un tipo di soluzione \emph{ideale} prevede l'utilizzo di un canale 
+broadcast con rate $R$ bps e la gestione di tale canale dovrebbe 
+avvenire in questo modo:
+\begin{enumerate}
+	\item Quando un solo nodo trasmette può inviare dati con un rate 
+		di $R$ bps.
+	\item Quando $M$ nodi vogliono trasmettere, ciascuno trasmette ad
+		un rate medio di $R / M$ bps.
+	\item Deve essere \textbf{decentralizzato}, ossia non ci deve
+		essere un nodo che coordina gli altri ma ogni nodo trasmette
+		senza che ci siano fasi preliminari.
+	\item Semplice.
+\end{enumerate}
+Questo modello non è tuttavia attuabile e si è pensato ad altro per
+riuscire ad avvicinarsi quanto più possibile a questo modello ideale.
+Si è dunque suddiviso i \textbf{protocolli MAC} in tre classi 
+principali:
+\begin{itemize}
+	\item \textbf{Suddivisione del canale}: si suddivide il canale
+		in \emph{pezzi} più piccoli e la risorsa (che può essere 
+		diversa da caso a caso) è allocata in modo esclusivo tra le
+		entità trasmittenti.
+	\item \textbf{Accesso random}: il canale è condiviso e possono 
+		esserci collissioni. Esistono tuttavia del meccanismi per
+		recuperare dati in seguito ad una collisione.
+	\item \textbf{Rotazione}: i nodi possono trasmettere a rotazione.
+\end{itemize}
+
+\subsection{Suddivisione del canale}
+Come vedremo tra poco parleremo di diversi protocolli che permettono
+di \textbf{partizionare} il canale in base a diverse tipologia di
+risorsa.
+
+\subsubsection{TDMA}
+Il protocollo \textbf{TDMA} (Time Division Multiple Access) fornisce
+l'accesso al canale ad intervalli di tempo. Ciascuno di questi 
+intervalli è suddiviso a sua volta in \textbf{slot}.
+
+Ogni stazione ha a disposizione uno slot di lunghezza fissa in ogni
+intervallo e quelli non utilizzati sono sprecati.
+
+In questo caso non abbiamo collisioni dato che ogni stazione trasmette
+quando le altre non possono e dunque la trasmissione avviene la massimo
+delle capacità del canale.
+
+\subsubsection{FDMA}
+Il protocollo \textbf{FDMA} (Frequency Division Multiple Access)
+suddivide il canale in base allo spettro delle frequenze utilizzate 
+dalle varie stazioni.
+
+Possiamo infatti suddividere il canale in più \textbf{bande} ed 
+assegnare ad ogni stazione un banda per la trasmissione.
+
+Se delle stazioni non trasmettono le bande non utilizzate vanno 
+sprecate.
+
+\subsection{Accesso random}
+Passiamo ora ai protocolli ad accesso \textbf{random} al canale. In
+questo caso, quando un nodo deve trasmettere, lo fa al massimo rate
+del canale e non c'è un coordinamento a priori tra i nodi.
+
+Se però due o più nodi trasmettono simultaneamente avviene una 
+collisione. Un protocollo MAC ad accesso random specifica però come
+\textbf{rilevare} le collisioni e come \textbf{recuperare} dopo una
+collisione.	
+
+\subsubsection{Slotted ALOHA}
+Anche in questo caso abbiamo intervalli di tempo suddivisi in slot
+uguali e fissi. I nodi iniziano a trasmettere all'inizio dello slot 
+in modo sincronizzato.
+
+Se due o più nodi trasmettono simultaneamente sono in grado di 
+rilevare la collisione e gestirla.
+
+Quando il nodo deve trasmettere un frame, comincia a trasmetterlo
+all'inizio dello slot successivo:
+\begin{itemize}
+	\item Se non ci sono collisioni il nodo può inviare un nuovo
+		frame nello slot successivo.
+	\item Se ci sono collisioni il nodo rileva la connessione e 
+		ritrasmette il frame con probabilità $p$ nello slot successivo
+		finché non ha successo.
+\end{itemize}
+Lo slotted ALOHA è un'evoluzione dell'ALOHA, che invece non prevedeva
+gli slot andando ad aumentare la probabilità di collisioni, anche 
+parziali.
+
+\subsubsection{CSMA}
+Il protocollo CSMA (Carrier Sense Multiple Access) prevede una fase di
+\emph{ascolto} preliminare del traffico sul canale di modo da 
+implementare un politica più \emph{educata} di accesso alla risorsa.
+
+In linea generale, attuando un ascolto sul canale, questo protocollo è
+in grado di capire quando trasmettere e quando no. Se il canale risulta
+occupato ritarda la trasmissione, se invece è libero trasmette il 
+frame.
+
+Questo non evita affatto il problema delle collisioni in quanto due
+nodi potrebbero iniziare a parlare nello stesso momento avendo rilevato
+il canale come libero.
+
+Il meccanismo di rilevamento delle collisioni sta in ascolto sul
+canale e interrompe subito la comunicazione non appena rileva una
+collisione.
+
+Il tempo che intercorre tra una ritrasmissione e l'altra dipende dal
+numero di collisioni rilevate. Se vengono rilevate tante collisioni 
+si sceglie un intervallo in maniera random alla fine del quale si può
+ricominciare a trasmettere.
+
+\subsection{Rotazione}
+Come detto in precedenza, i protocolli a rotazione permettono ai nodi
+di comunicare uno dopo l'altro.
+
+\subsubsection{Polling}
+Questo protocollo prevede la presenza di un nodo \textbf{master} che 
+va a gestire gli altri nodi \textbf{slave}, \emph{invitandoli} ad uno
+ad uno a comunicare.
+
+Se il nodo non deve comunicare niente si passa la successivo altrimenti
+comunica il messaggio entro il tempo che il master gli fornisce.
+
+\subsubsection{Token passing}
+Questo protocollo non prevede la presenza di un nodo master ma il 
+funzionamento è comunque molto simile in quanto un nodo può comunicare
+solo quando è in possesso di un messaggio particolare, ossia il 
+\textbf{token}.
+
+Una volta che comunica il messaggio invia il token ad un altro nodo
+che a quel punto può comunicare.
+

@@ -72,39 +72,3 @@ degli errori, gestire un eventuale ritrasmissione ed effettuare
 controllo di flusso. Si estrae infine il datagramma e lo si passa al
 livello superiore.
 
-\subsection{Collegamenti ad accesso multiplo}
-Il tipo di collegamento \textbf{broadcast} è \emph{condiviso}. Questo
-crea un problema di \textbf{collisioni} quando avvengono due o più 
-trasmissioni simultanee tra i nodi creando \emph{interferenza}.
-
-Più nello specifico, un nodo che sta in ascolto sul canale condiviso,
-non riesce a distinguere messaggi in arrivo da un nodo piuttosto che
-da un altro. \`E quindi necessario definire dei protocolli che 
-gestiscano l'accesso multiplo alla risorsa.
-
-Un tipo di soluzione \emph{ideale} prevede l'utilizzo di un canale 
-broadcast con rate $R$ bps e la gestione di tale canale dovrebbe 
-avvenire in questo modo:
-\begin{enumerate}
-	\item Quando un solo nodo trasmette può inviare dati con un rate 
-		di $R$ bps.
-	\item Quando $M$ nodi vogliono trasmettere, ciascuno trasmette ad
-		un rate medio di $R / M$ bps.
-	\item Deve essere \textbf{decentralizzato}, ossia non ci deve
-		essere un nodo che coordina gli altri ma ogni nodo trasmette
-		senza che ci siano fasi preliminari.
-	\item Semplice.
-\end{enumerate}
-Questo modello non è tuttavia attuabile e si è pensato ad altro per
-riuscire ad avvicinarsi quanto più possibile a questo modello ideale.
-Si è dunque suddiviso i protocolli in tre classi principali:
-\begin{itemize}
-	\item \textbf{Suddivisione del canale}: si suddivide il canale
-		in \emph{pezzi} più piccoli e la risorsa (che può essere 
-		diversa da caso a caso) è allocata in modo esclusivo tra le
-		entità trasmittenti.
-	\item \textbf{Accesso random}: il canale è condiviso e possono 
-		esserci collissioni. Esistono tuttavia del meccanismi per
-		recuperare dati in seguito ad una collisione.
-	\item \textbf{Rotazione}: i nodi possono trasmettere a rotazione.
-\end{itemize}
