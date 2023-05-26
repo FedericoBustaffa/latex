@@ -1,0 +1,73 @@
+\chapter{Livello di collegamento}
+Il livello di collegamento si occupa di muovere i datagrammi da un
+nodo al nodo adiacente su un singolo link di comunicazione.
+
+Un datagramma può essere gestito da più protocolli su collegamenti 
+diversi poiché i link che connettono i nodi della rete possono essere
+eterogenei.
+
+Anche i servizi erogati dai protocolli del livello di collegamento 
+possono essere differenti, per esempio nell'affidabilità. I 
+collegamenti si possono inoltre dividere in due categorie principali:
+\begin{itemize}
+	\item \textbf{Punto-punto}: collegamento dedicato a due soli 
+		dispositivi.
+	\item \textbf{Broadcast}: collegamento condiviso tra più nodi che,
+		nel momento in cui un nodo trasmette un frame, il canale lo
+		diffonde e tutti i nodi ne ricevono una copia.
+\end{itemize}
+Il livello collegamento si potrebbe in realtà suddividere in due 
+sottolivelli:
+\begin{itemize}
+	\item \textbf{Data-Link Control}: incapsulamento del datagramma in
+		un frame, controllo e correzione errori.
+	\item \textbf{Medium Access Control}: più comunemente detto MAC, 
+		definisce il protocollo per accedere al mezzo.
+\end{itemize}
+
+\section{Servizi}
+I servizi offerti a livello collegamento sono molteplici e dipendono
+anche dal tipo di collegamento che si utilizza:
+\begin{itemize}
+	\item \textbf{Framing}: i protocolli incapsulano i datagrammi del
+		livello rete in un frame al livello collegamento. Un frame è
+		composto dal payload, un'intestazione ed eventuale trailer
+		(usato per rilevazione e controllo errori).
+
+		Il servizio di framing serve a separare i messaggi durante la
+		trasmissione da un nodo sorgente ad un nodo destinazione. Per
+		identificare sorgente e destinazione vengono utilizzati gli
+		indirizzi MAC.
+	\item \textbf{Consegna affidabile}: in alcuni protocolli, nel caso
+		ci sia una perdita si effettua la ritrasmissione.
+	\item \textbf{Controllo del flusso}: evita che il nodo trasmittente
+		saturi quello ricevente.
+	\item \textbf{Rilevazione degli errori}: permette, tramite bit 
+		di errore, di rilevare errori e perdite dovuti ad attenuazione
+		del segnale o da rumore elettromagnetico.
+	\item \textbf{Correzione errori}: il nodo ricevente determina il
+		punto in cui si è verificato l'errore e lo corregge.
+\end{itemize}
+
+\section{Implementazione}
+Il livello di collegamento è implementato in una combinazione di 
+hardware, software e firmware tramite la \textbf{scheda di rete} o 
+\textbf{adaptor}.
+
+La scheda di rete possiede una componente chiamata \textbf{controller},
+che si occupa di implementare gran parte dei servizi citati in 
+precedenza. Si occupa infatti dell'operazione di framing, controllo
+dei bit di errore e della gestione di accesso al mezzo.
+
+La parte software si occupa invece di interfacciarsi con il livello di
+rete e gestire eventuali errori.
+
+\subsection{Comunicazione adaptor}
+Lato mittente il datagramma viene incapsulato in un frame, si 
+aggiungono bit di controllo errori e, se necessario, si implementano
+trasmissione affidabile e controllo del flusso.
+
+Lato destinatario si usa l'intestazione del frame per fare controllo
+degli errori, gestire un eventuale ritrasmissione ed effettuare 
+controllo di flusso. Si estrae infine il datagramma e lo si passa al
+livello superiore.
