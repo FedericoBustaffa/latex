@@ -76,8 +76,27 @@ quali porte sono collegati i dispositivi.
 		una trasmissione, lo switch avrà completato la tabella.
 	\item Nel caso in cui un dispositivo non comunichi per molto 
 		tempo, il riferimento nella tabella verrà cancellato.
-\end{itemize}
+\end{enumerate}
 Lo switch permette soprattutto di evitare collisioni e di effettuare
 trasmissioni multiple simultanee in quanto gli host hanno connessioni
 dedicate verso lo switch.
 
+\subsection{VLAN}
+Una rete aziendale può avere una topologia molto semplice, la quale 
+comprende un'unica sottorete, un mail server, un web server, degli 
+switch e un router per le comunicazione da e verso l'esterno.
+
+La differenza principale tra router e switch è che il router può 
+lavorare anche a livello rete andando a svolgere le funzioni di inoltro
+a più alto livello.
+
+Questo tipo di topologia implementa un unico dominio di broadcast. Se
+infatti un host invia un messaggio di broadcast (per esempio tramite 
+protocollo ARP), questo viene ricevuto da tutti i componenti della 
+sottorete. Questo potrebbe creare problemi di sicurezza e/o di privacy
+poiché andiamo a propagare un messaggio su tutta la sottorete anche 
+dove non è necessario.
+
+Il nostro obbiettivo è quindi andare a creare più domini di broadcast
+per andare ad evitare questa situazione. Uno dei metodi che implementa
+questa strategia è la \textbf{VLAN}.
