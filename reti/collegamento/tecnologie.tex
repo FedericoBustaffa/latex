@@ -99,4 +99,27 @@ dove non è necessario.
 
 Il nostro obbiettivo è quindi andare a creare più domini di broadcast
 per andare ad evitare questa situazione. Uno dei metodi che implementa
-questa strategia è la \textbf{VLAN}.
+questa strategia è la \textbf{VLAN} (Virtual Local Area Network).
+
+\subsubsection{Implementazione}
+Quello che implementa VLAN è una \textbf{frammentazione} del dominio di
+broadcast indipendente dalla topologia. Vogliamo quindi definire un
+sottodominio di broadcast che non sia legato a come le macchine si
+\emph{dispongono} fisicamente sulla rete inizialmente.
+
+Vogliamo infatti definire i domini di broadcast in base agli indirizzi
+MAC dei dispositivi. In questo modo, da qualunque punto si connetta un
+certo host, il suo dominio di broadcast corrisponde solo ai dispositivi
+con un determinato indirizzo MAC.
+
+Se però deve avvenire una comunicazione all'esterno del dominio di
+broadcast interviene un router che si pone ad un livello superiore e
+interconnette gli switch. In genere, diverse VLAN possiedono diversi
+indirizzi di rete.
+
+Nel caso si debbano interconnettere switch diversi, ognuno dei quali
+responsabile di più VLAN, si fa utilizzo di porte riservate al
+passaggio del traffico da uno switch all'altro.
+
+\`E inoltre necessario aggiungere delle etichette nell'intestazione del
+frame che specifichino a quale VLAN è destinato un certo frame.
