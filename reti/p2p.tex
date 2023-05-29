@@ -13,4 +13,101 @@ blockchain (Bitcoin).
 In una rete P2P tutti i nodi hanno la stessa importanza, si trovano
 nella periferia della rete e sono indipendenti l'uno dall'altro.
 
+Il vantaggio delle reti P2P sta nella loro grande dinamicità e 
+nell'assenza di un sistema centralizzato. Quest'ultimo punto però è
+un'arma a doppio taglio in quanto
+\begin{itemize}
+	\item Un sistema centralizzato nel caso subisse malfunzionamenti
+		non riuscirebbe più a fornire servizi. D'altro canto, in 
+		assenza di tali malfunzionamenti, riesce a fornire i servizi
+		con più \emph{solidità}.
+	\item Una rete P2P ha il vantaggio di essere distribuita e dunque,
+		nel caso si richieda un servizio, è probabile che il nodo in
+		grado di fornircelo sia vicino al nostro. \`E anche vero che
+		quel nodo appartiene ad un utente che potrebbe disconettersi
+		dalla rete in ogni momento (anche durante l'erogazione del
+		servizio).
+\end{itemize}
+Ecco che quest'ultima casistica deve essere gestita e può avere un 
+costo variabile a seconda dei casi.
+
+\section{Contattare altri peer}
+Altro problema della rete peer to peer è quello di riuscire a 
+contattare altri peer. Si pone infatti il problema di riuscire a
+instaurare una connessione con altri nodi non sapendo però il loro
+nome o indirizzo IP (che cambia ogni volta che il nodo accede alla 
+rete).
+
+Ogni peer offre poi servizi differenti e quindi, anche se fossimo in
+grado di raggiungere un certo numero di nodi, dobbiamo essere in grado
+di filtrarli per quali offrono i servizi che ci interessano.
+
+\subsection{Directory centralizzata}
+Il metodo più semplice sta nel creare una directory centralizzata in
+cui ogni peer, quando si collega alla rete, scrive il proprio indirizzo
+IP e i servizi o file di cui è in possesso e che vuole condividere con
+gli altri peer.
+
+Questo modello è molto semplice ma ha il problema di avere un unico 
+punto di fallimento (directory centralizzata). Punto che può anche 
+creare colli di bottiglia per le prestazioni.
+
+\subsection{Reti decentralizzate}
+Per risolvere queste problematiche si è passati ad un tipo di rete
+decentralizzato in cui i peer si organizzano in un \textbf{overlay 
+network}, ossia un rete logica in cui abbiamo delle particolari 
+connessioni e in cui si possono evidenziare dei ruoli tra i peer.
+
+\subsubsection{Reti non strutturate}
+Uno dei primi approcci prevede l'uso di reti non strutturate in cui
+non ci sono particolari modelli di organizzazione tra i nodi. Questo
+implica l'assenza di un'organizzazione nella locazione delle risorse.
+
+Sebbene questo approccio risolva il problema della centralizzazione,
+rende l'accesso alle risorse molto difficoltoso per via dell'assenza
+di struttura. 
+
+Uno dei vantaggi è che la rimozione/aggiunta di nodi alla rete è poco
+costosa. Questo permette di gestire reti i cui nodi hanno un 
+comportamento fortemente transiente.
+
+Si va ad aumentare anche il traffico in quanto, non avendo una
+struttura, la ricerca delle risorse avviene "\emph{alla cieca}"
+coinvolgendo molti nodi.
+
+\subsubsection{Copertura gerarchica}
+In questo modello vengono \emph{eletti} dei peer come \textbf{group
+leader} di altri peer in base a quanto sono "potenti" in banda o in
+risorse.
+
+La rete è poi organizzata con una topologia che prevede connessioni TCP
+dirette tra i peer e il loro group leader e tra alcune coppie di group
+leader.
+
+Ogni group leader mantiene una lista dei contenuti appartenenti ai peer
+che sono a lui collegati.
+
+\section{BitTorrent}
+Il protocollo BitTorrent viene utilizzato per la distribuzione di file.
+Esso si basa sulla suddivisione del file in pezzi da 256 KB che poi 
+verranno ridistribuiti dai vari peer ai destinatari in questo modo:
+\begin{enumerate}
+	\item Si riduce il carico di ogni sorgente.
+	\item Si riduce la dipendenza dal distributore originale.
+	\item Si fornisce \emph{ridondanza}.
+\end{enumerate}
+Quando avviene una condivisione, un insieme di peer (\textbf{swarm})
+partecipa alla distribuzione scambiandosi pezzi (\textbf{chunk}) di 
+tale file. Ognuno dei peer preleva e trasmette allo stesso tempo più
+chunk.
+
+Esiste un nodo particolare, chiamato \textbf{tracker}, che ha il
+compito di coordinare la distribuzione del file tramite dei file (con
+estensione .torrent) contenenti metadati sul file condiviso. Questi
+file .torrent sono vengono forniti al tracker dai nodi che vogliono
+condividere un file o un chunk.
+
+Quando un nuovo peer si collega e richiede un file, il tracker gli 
+fornisce gli indirizzi IP di alcuni nodi dello swarm che possiedono
+il file o alcuni chunk di quest'ultimo.
 

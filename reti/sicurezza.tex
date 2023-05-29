@@ -1,0 +1,128 @@
+\chapter{Sicurezza}
+Come possiamo notare, il modello stratificato non comprende protocolli
+di sicurezza in maniera nativa. La sicurezza è infatti una sorta di 
+strato aggiuntivo i cui obbiettivi sono:
+\begin{itemize}
+	\item \textbf{Riservatezza e segretezza}: solo mittente e 
+		destinatario devono essere in grado di comprendere il contenuto
+		del messaggio trasmesso.
+	\item \textbf{Integrità}: il contenuto del messaggio deve essere
+		\textbf{integro} e quindi non deve essere stato manomesso.
+	\item \textbf{Disponibilità}: deve essere garantita la 
+		disponibilità di informazioni e servizi.
+\end{itemize}
+A minare questi punti cardine delle comunicazioni di rete ci sono 
+diversi attacchi come l'intercettazione, lo spoofing e DDoS.
+
+\section{Crittografia}
+Il meccanismo fondamentale per garantire la riservatezza di una
+comunicazione è la \textbf{crittografia}. La quale usa sistemi di
+cifratura a chiave \textbf{simmetrica} o \textbf{asimmetrica}.
+
+Nel primo caso i due utenti in comunicazione utilizzano la stessa 
+chiave per cifrare e decifrare i messaggi. Il problema è quello di 
+riuscire a scambiarsi tale chiave tra sistemi remoti.
+
+Per risolvere questo problema è nata la crittografia a chiave 
+asimmetrica. Questo modello prevede l'utilizzo di una coppia di chiavi:
+\begin{itemize}
+	\item \textbf{Pubblica}: conosciuta da entrambi i nodi.
+	\item \textbf{Privata}: mittente e destinatario possiedono una
+		chiave privata diversa l'una dall'altra.
+\end{itemize}
+Il messaggio viene cifrato con la chiave pubblica ma viene decifrato
+con quella privata. Ogni nodo, attraverso la chiave pubblica e un 
+altro dato che varia da cifrario a cifrario è in grado di costruirsi
+una sua chiave privata.
+
+Il problema della cifratura asimmetrica è l'efficienza in quanto le 
+computazioni coinvolte sono molto pesanti. Ecco che spesso si usa la
+cifratura asimmetrica per lo scambio delle chiavi simmetriche (usate
+per il resto della comunicazione).
+
+\section{Hash}
+Le funzioni \textbf{hash} hanno il compito di produrre un \emph{hash}
+del messaggio scambiato. Questo hash equivale ad una sorta di impronta
+digitale del messaggio.
+
+Ecco che, quando è richiesta integrità, si calcola l'hash del messaggio
+insieme al messaggio stesso. Una volta arrivato a destinazione viene
+ricalcolato l'hash e si confronta con l'hash inviato. Se i due hash
+corrispondono allora il messaggio è integro.
+
+\subsection{MAC}
+Per aggiungere un ulteriore strato al controllo dell'integrità del
+messaggio si fa uso di un \textbf{MAC}, che non ha niente a che fare
+con l'indirizzo MAC di cui abbiamo parlato in precedenza.
+
+Il MAC (Message Authentication Code) altro non è che il risultato della
+funzione hash applicata ad una concatenazione di una chiave (condivisa 
+e segreta tra i due utenti) e del messaggio inviato.
+
+In questo modo, quando si ricalcola il MAC in fase di ricezione, nel
+caso ci sia una corrispondonza, si ha la conferma che il messaggio 
+proviene dall'utente con cui abbiamo scambiato la chiave segreta.
+
+\subsection{Firma digitale}
+Il MAC non risolve il problema della \textbf{non ripudiabilità}. Ecco
+che viene introdotta la \textbf{firma digitale}, la quale genera un
+codice tramite la chiave privata dell'utente mittente.
+
+Tale chiave è conosciuta solo dall'utente mittente e questo fa sì che
+questo si identifichi e non possa negare di aver inviato il messaggio.
+
+\section{TLS e SSL}
+I protocolli di sicurezza \textbf{TLS} (Transport Layer Security) ed
+\textbf{SSL} (Secure Sockets Layer) sono implementati a livello di
+trasporto che forniscono riservatezza, integrità e autenticazione.
+
+Il protocollo SSL è visto come un sottostrato che si frappone tra lo
+strato di trasporto e lo strato applicativo ed è composto da tre fasi
+principali:
+\begin{enumerate}
+	\item \textbf{Handshake}: fase iniziale in cui mittente e 
+		destinatario si autenticano e si scambiano dati sensibili.
+	\item \textbf{Derivazione delle chiavi}: mittente e destinatario
+		utilizzano i dati condivisi per generare le chiavi.
+	\item \textbf{Trasferimento dati}: i dati da trasferire sono 
+		scomposti in serie di record.
+\end{enumerate}
+Se questo protocollo viene utilizzato correttamente. l'unica cosa che
+un attaccante è in grado di vedere in chiaro è indirizzo IP e porta e
+quanti dati vengono approssimativamente inviati.
+
+Potrebbero essere in grado di terminare la connessione ma sia mittente
+che destinatario sarebbero in grado di capire che questo è stato fatto
+da una terza parte.
+
+\section{IPSec}
+Si tratta di un insieme di protocolli in grado di fornire sicurezza a 
+livello rete tramite l'autenticazione la confidenzialità dei pacchetti
+IP tramite
+\begin{itemize}
+	\item \textbf{Modalità trasporto}: vengono aggiunti un header e un
+		trailer IPSec, rispettivamente all'inizio e alla fine del frame
+		in arrivo dal livello di trasporto. Viene poi aggiunta la 
+		solita intestazione IP. Viene dunque protetto il payload ma non
+		l'intestazione IP.
+	\item \textbf{Modalità tunnel}: si protegge l'intero pacchetto IP
+		andando ad aggiungere header e trailer rispettivamente 
+		all'inizio e alla fine dell'intero pacchetto IP. In seguito
+		si andrà ad aggiungere una ulteriore intestazione IP.
+\end{itemize}
+Questo è molto utilizzato nel caso in cui si voglia proteggere la 
+comunicazione tra due router.
+
+\subsection{ESP}
+Il protocollo \textbf{ESP} è una delle versioni più usate di IPSec, il
+quale aggiunge un trailer ESP al datagramma che viene cifrato insieme
+al payload.
+
+Aggiunge anche un'intestazione ESP che viene autenticato tramite un 
+MAC e infine si aggiunge la solita intestazione IP con un flag in 
+grado di segnalare che il pacchetto IP trasportato è protetto da IPSec.
+
+\subsection{VPN}
+Una \textbf{VPN} (Virtual Private Network) utilizza la modalità di 
+tunnel di IPSec per andare a creare una rete \emph{privata} sulla rete
+pubblica incapsulando il contenuto dei datagrammi IP.
