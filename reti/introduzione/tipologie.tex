@@ -1,61 +1,77 @@
 \chapter{Introduzione}
-In questo corso andremo a trattare gli aspetti fondamentali delle reti come \textbf{Internet}, 
-\textbf{protcolli di rete} e \textbf{interconnessioni di rete}.
+In questo corso andremo a trattare gli aspetti fondamentali delle reti 
+come \textbf{Internet}, \textbf{protocolli di rete} e
+\textbf{interconnessioni di rete}.
 
-Quando parliamo di \textbf{Internet} facciamo riferimento alla rete pubblica che utilizziamo per 
-scambiare informazioni in rete. Per riuscire a interagire con Internet dobbiamo aderire a certe
-specifiche ben definite tramite protocolli. Internet è un sistema complesso composto da
+Quando parliamo di \textbf{Internet} facciamo riferimento alla rete 
+pubblica che utilizziamo per scambiare informazioni in rete. Per
+riuscire a interagire con Internet dobbiamo aderire a certe specifiche 
+ben definite tramite protocolli. Internet è un sistema complesso
+composto da
 \begin{itemize}
 	\item \textbf{Host}: dispositivi utente come computer e smartphone.
-	\item \textbf{Link di comunicazione}: mezzi trasmissivi sui quali viaggiano le informazioni
-		come cavi in rame, fibra ottica e onde radio.
-	\item \textbf{Dispositivi di interconnessione}: elementi intermedi come router o switch che 
-		permettono di condividere i link di comunicazione.
+	\item \textbf{Link di comunicazione}: mezzi trasmissivi sui quali
+		viaggiano le informazioni come cavi in rame, fibra ottica e
+		onde radio.
+	\item \textbf{Dispositivi di interconnessione}: elementi intermedi
+		come router o switch che permettono di condividere i link di
+		comunicazione.
 \end{itemize}
-Passiamo ora a qualche definizione preliminare utile per orientarci nei prossimi argomenti:
+Passiamo ora a qualche definizione preliminare utile per orientarci
+nei prossimi argomenti:
 \begin{itemize}
-	\item \textbf{Rete}: interconnessione di dispositivi, come host, router e switch , in grado di
-		scambiarsi informazioni.
-	\item \textbf{Host}: si dividono in macchine utente e server. I primi tipicamente dedicati
-		all'esecuzione di applicazioni mentre gli altri sono tipicamente adibiti all'erogazione 
-		di servizi per le macchine utente.
-	\item \textbf{Dispositivi di interconnessione}: sono tipicamente router (interconnessione di 
-		reti) e switch (interconnessione di host).
+	\item \textbf{Rete}: interconnessione di dispositivi, come host, 
+		router e switch , in grado di scambiarsi informazioni.
+	\item \textbf{Host}: si dividono in macchine utente e server. I
+		primi tipicamente dedicati all'esecuzione di applicazioni
+		mentre gli altri sono tipicamente adibiti all'erogazione di
+		servizi per le macchine utente.
+	\item \textbf{Dispositivi di interconnessione}: sono tipicamente 
+		router (interconnessione di reti) e switch (interconnessione 
+		di host).
 	\item \textbf{Collegamenti}: sono i mezzi trasmissivi.
 \end{itemize}
 
 \section{Tipologie di reti}
-Andiamo ora a trattare brevemente le due tipologie di rete principali e le loro caratteristiche:
+Andiamo ora a trattare brevemente le due tipologie di rete principali 
+e le loro caratteristiche:
 \begin{itemize}
 	\item \textbf{LAN}: rete locale
 	\item \textbf{WAN}: rete geografica
 \end{itemize}
-Le due tipologie di rete differiscono sia per dimensione che per impiego.
+Le due tipologie di rete differiscono sia per dimensione che per 
+impiego.
 
 \subsection{LAN}
-Come prima tipologia di rete trattiamo la rete \textbf{LAN} (Local Area Network), ossia una rete
-\emph{locale} e quindi circoscritta ad un'area limitata. Sono reti \emph{private} e quindi di
-proprietà di un'organizazzione utilizzate per interconnetere degli host fra di loro e si estendono
-tipicamente fino a qualche chilometro.
+Come prima tipologia di rete trattiamo la rete \textbf{LAN} (Local
+Area Network), ossia una rete \emph{locale} e quindi circoscritta ad
+un'area limitata. Sono reti \emph{private} e quindi di proprietà di 
+un'organizazzione utilizzate per interconnetere degli host fra di loro 
+e si estendono tipicamente fino a qualche chilometro.
 
-All'inizio le reti LAN erano implementate tramite un cavo condiviso tra gli host. Questo metodo 
-risulta molto lento nel momento in cui il traffico cresce in quanto il pacchetto viaggia sul cavo
-e arriva ad ogni host che controlla se tale pacchetto è destinato a lui oppure no.
+All'inizio le reti LAN erano implementate tramite un cavo condiviso
+tra gli host. Questo metodo risulta molto lento nel momento in cui il
+traffico cresce in quanto il pacchetto viaggia sul cavo e arriva ad
+ogni host che controlla se tale pacchetto è destinato a lui oppure no.
 
-La struttura moderna prevede l'utilizzo di uno switch al quale si connettono i vari host in modo 
-indipendente. Lo switch si occupa di reindirizzare i pacchetti che gli arrivano solo verso gli 
-host destinatari di tali pacchetti.
+La struttura moderna prevede l'utilizzo di uno switch al quale si 
+connettono i vari host in modo indipendente. Lo switch si occupa di
+reindirizzare i pacchetti che gli arrivano solo verso gli host
+destinatari di tali pacchetti.
 
 \subsection{WAN}
-La seconda tipologia di rete è la rete \textbf{WAN} (Wide Area Network), ossia una rete
-\emph{geografica} il scopo è interconnetere LAN o host separati da distanze geografiche. \`E
-gestita da un operatore di rete che fornisce servizi ai clienti. Esistono due tipi di WAN:
+La seconda tipologia di rete è la rete \textbf{WAN} (Wide Area 
+Network), ossia una rete \emph{geografica} il scopo è interconnetere
+LAN o host separati da distanze geografiche. \`E gestita da un 
+operatore di rete che fornisce servizi ai clienti. Esistono due tipi 
+di WAN:
 \begin{itemize}
-	\item \textbf{Punto-punto}: collega due dispositivi in modo diretto tramite un mezzo
-		trasmissivo.
-	\item \textbf{A commutazione}: collega due dispositivi o due reti distinte tramite dispositivi
-		di interconnessione intermedi che effettuano la \emph{commutazione}.
+	\item \textbf{Punto-punto}: collega due dispositivi in modo
+		diretto tramite un mezzo trasmissivo.
+	\item \textbf{A commutazione}: collega due dispositivi o due reti
+		distinte tramite dispositivi di interconnessione intermedi che
+		effettuano la \emph{commutazione}.
 \end{itemize}
-Parleremo di commutazione nel prossimo paragrafo. Per il momento prendiamo per buona la
-definizione così com'è.
+Parleremo di commutazione nel prossimo paragrafo. Per il momento
+prendiamo per buona la definizione così com'è.
 
