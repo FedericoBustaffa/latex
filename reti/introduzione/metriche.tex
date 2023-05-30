@@ -1,91 +1,110 @@
 \section{Metriche}
-Vogliamo ora capire come misurare le prestezioni della rete. Per farlo dobbiamo introdurre concetti
-come
+Vogliamo ora capire come misurare le prestezioni della rete. Per farlo 
+dobbiamo introdurre concetti come
 \begin{itemize}
 	\item Ampiezza di banda e bitrate
 	\item Throughput
 	\item Latenza
 	\item Perdita di pacchetti
 \end{itemize}
-Una volta chiariti certi concetti sarà anche più facile interpretare i risultati forniti dai famosi
-\emph{speed test} che si trovano online.
+Una volta chiariti certi concetti sarà anche più facile interpretare 
+i risultati forniti dai famosi \emph{speed test} che si trovano online.
 
 \subsection{Larghezza di banda e bitrate}
-Quando si parla di \textbf{larghezza di banda} si parla della larghezza dell'intervallo delle
-frequenze utilizzato dal mezzo trasmissivo e si misura in Hertz (Hz).
+Quando si parla di \textbf{larghezza di banda} si parla della larghezza
+dell'intervallo delle frequenze utilizzato dal mezzo trasmissivo e si 
+misura in Hertz (Hz).
 
-Il \textbf{bitrate} è invece la velocità di trasmissione del mezzo trasmissivo e indica quanti bit
-possono essere trasmessi nell'unità di tempo e si misura in bits per second (bps).
+Il \textbf{bitrate} è invece la velocità di trasmissione del mezzo 
+trasmissivo e indica quanti bit possono essere trasmessi nell'unità 
+di tempo e si misura in bits per second (bps).
 
 \subsection{Throughput}
-Il \textbf{throughput} indica la quantità di dati che possono essere trasmessi da un nodo sorgente
-a un nodo destinazione in un certo intervallo di tempo. Da non confondere con il bitrate in quanto
-il throughput indica la velocità con cui trasferiamo i dati tenendo di conto di eventuali
-variazioni del mezzo trasmissivo, duplicazioni, protocolli ecc.
+Il \textbf{throughput} indica la quantità di dati che possono essere 
+trasmessi da un nodo sorgente a un nodo destinazione in un certo 
+intervallo di tempo. Da non confondere con il bitrate in quanto il 
+throughput indica la velocità con cui trasferiamo i dati tenendo di 
+conto di eventuali variazioni del mezzo trasmissivo, duplicazioni, 
+protocolli ecc.
 
-Se per esempio fino a un certo nodo abbiamo un bitrate $R_1$ e da quel nodo in poi abbiamo un
-bitrate $R_2$, il throughput sarà
+Se per esempio fino a un certo nodo abbiamo un bitrate $R_1$ e da quel 
+nodo in poi abbiamo un bitrate $R_2$, il throughput sarà
 \[ \text{throughput} = \min (R_1, R_2) \]
-In generale quando ci sono più connessioni i cui host interagiscono l'uno con l'altro si ha spesso
-una situazione in cui il throughput finale equivale alla capacità trasmissiva peggiore all'interno
-della rete.
+In generale quando ci sono più connessioni i cui host interagiscono 
+l'uno con l'altro si ha spesso una situazione in cui il throughput 
+finale equivale alla capacità trasmissiva peggiore all'interno della 
+rete.
 
 \subsection{Latenza e perdite}
-Con \textbf{latenza} indichiamo il tempo richiesto affinché un messaggio arrivi a destinazione dal
-momento in cui il primo bit parte dalla sorgente. La latenza si può ricavare tramite la seguente 
-formula
+Con \textbf{latenza} indichiamo il tempo richiesto affinché un 
+messaggio arrivi a destinazione dal momento in cui il primo bit parte 
+dalla sorgente. La latenza si può ricavare tramite la seguente formula
 \[ l = rp + rt + ra + re \]
-dove gli elementi a secondo membro indicano rispettivamente i ritardi di propagazione, trasmissione
-accodamento ed elaborazione.
+dove gli elementi a secondo membro indicano rispettivamente i ritardi 
+di propagazione, trasmissione accodamento ed elaborazione.
 
 \subsubsection{Accodamento}
-Come abbiamo già visto, i pacchetti che non possono essere elaborati dal router vengono messi in
-attesa in un buffer. Questo ovviamente genera ritardo, ossia il \textbf{ritardo di accodamento},
-che equivale al tempo di permanenza del pacchetto nel buffer. Quando il buffer del router è pieno,
-tutti i pacchetti in arrivo vengono scartati.
+Come abbiamo già visto, i pacchetti che non possono essere elaborati 
+dal router vengono messi in attesa in un buffer. Questo ovviamente 
+genera ritardo, ossia il \textbf{ritardo di accodamento}, che equivale 
+al tempo di permanenza del pacchetto nel buffer. Quando il buffer del 
+router è pieno, tutti i pacchetti in arrivo vengono scartati.
 
 \subsubsection{Elaborazione}
-Altro ritardo introdotto dalla commutazione di pacchetto è il \textbf{ritardo di elaborazione}
-dovuto a controllo di errori sui bit e all'elaborazione di una scelta del canale d'uscita del
-pacchetto.
+Altro ritardo introdotto dalla commutazione di pacchetto è il 
+\textbf{ritardo di elaborazione} dovuto a controllo di errori sui bit 
+e all'elaborazione di una scelta del canale d'uscita del pacchetto.
 
 \subsubsection{Trasmissione}
-Il \textbf{ritardo di trasmissione} dipende dalla velocità di trasmissione del collegamento e dalla
-lunghezza del pacchetto. Rappresenta il tempo impiegato per immettere il pacchetto sulla linea.
+Il \textbf{ritardo di trasmissione} dipende dalla velocità di 
+trasmissione del collegamento e dalla lunghezza del pacchetto. 
+Rappresenta il tempo impiegato per immettere il pacchetto sulla linea.
 \[ rt = \frac{l}{r} \]
-dove $l$ è la lunghezza del pacchetto e $r$ è la velocità di trasmissione (rate) del mezzo
-trasmissivo.
+dove $l$ è la lunghezza del pacchetto e $r$ è la velocità di 
+trasmissione (rate) del mezzo trasmissivo.
 
 \subsubsection{Propagazione}
-Tempo impiegato da un bit per viaggiare da un punto $A$ a un punto $B$ sul mezzo trasmissivo. Esso
-dipende dalla lunghezza del collegamento fisico e dalla velocità di propagazione nel mezzo.
+Tempo impiegato da un bit per viaggiare da un punto $A$ a un punto $B$
+sul mezzo trasmissivo. Esso dipende dalla lunghezza del collegamento 
+fisico e dalla velocità di propagazione nel mezzo.
 \[ rp = \frac{d}{s} \]
-dove $d$ è la lunghezza del mezzo trasmissivo e $s$ è la velocità di propagazione di tale mezzo.
+dove $d$ è la lunghezza del mezzo trasmissivo e $s$ è la velocità di 
+propagazione di tale mezzo.
 
-Proviamo ora a fare qualche esempio pratico per riuscire a comprendere meglio tutti questi
-concetti. Supponiamo di voler inviare un file di 1 Mbit su un datalink di lunghezza 4800 km. Il 
-ritardo di propagazione, in questo caso è 
-\[ rp = \frac{4800 \cdot 10^3 [\text{m}]}{3 \cdot 10^8 [\text{m/s}]} = 0.016 [\text{s}] \]
-Con una velocità di trasmissione di 64 kbps abbiamo un ritardo di trasmissione pari a
-\[ rt = \frac{10^6 [\text{b}]}{64 \cdot 10^3 [\text{bps}]} = 15.625 [\text{s}] \]
-Con una velocità di trasmissione di 1 Gbps abbiamo invece un ritardo di trasmissione pari a
+Proviamo ora a fare qualche esempio pratico per riuscire a comprendere 
+meglio tutti questi concetti. Supponiamo di voler inviare un file di 
+1 Mbit su un datalink di lunghezza 4800 km. Il ritardo di propagazione,
+in questo caso è
+\[
+	rp = \frac{4800 \cdot 10^3 [\text{m}]}{3 \cdot 
+	10^8 [\text{m/s}]} = 0.016 [\text{s}]
+\]
+Con una velocità di trasmissione di 64 kbps abbiamo un ritardo di
+trasmissione pari a
+\[ 
+	rt = \frac{10^6 [\text{b}]}{64 \cdot 10^3 [\text{bps}]} = 
+	15.625 [\text{s}]
+\]
+Con una velocità di trasmissione di 1 Gbps abbiamo invece un ritardo di
+trasmissione pari a
 \[ rt = \frac{10^6 [\text{b}]}{10^9 [\text{bps}]} = 0.001 [\text{s}] \]
 
 \subsubsection{End-to-End}
-Il ritardo \textbf{end-to-end} è il ritardo complessivo che c'è da origine a destinazione. Per 
-calcolarlo supponiamo che ci siano $n-1$ nodi tra origine e destinazione. Per prima cosa dobbiamo
-calcolare il ritardo accumulato su ogni nodo andando a sommare tutti i tipi di ritardo visti fino
-ad ora.
+Il ritardo \textbf{end-to-end} è il ritardo complessivo che c'è da 
+origine a destinazione. Per calcolarlo supponiamo che ci siano $n-1$
+nodi tra origine e destinazione. Per prima cosa dobbiamo calcolare il 
+ritardo accumulato su ogni nodo andando a sommare tutti i tipi di 
+ritardo visti fino ad ora.
 \[ R_{\text{nodo}} = re + rp + rt + ra \]
-A questo punto è facile intuire che il ritardo end-to-end sarà equivalente alla somma di tutti i
-ritardi accumulati sui singoli nodi
+A questo punto è facile intuire che il ritardo end-to-end sarà 
+equivalente alla somma di tutti i ritardi accumulati sui singoli nodi
 \[ R_\text{end-to-end} = \sum_{i=1}^n R_i \]
 
 \subsubsection{Traceroute}
-Uno strumento in grado di tracciare un pacchetto dal tuo computer ad un certo host specificato
-mostrando, il numero di passaggi necessari per raggiungerlo insieme al ritardo da ogni mittente
-ad ogni passaggio.
-Su Windows si utilizza digitando il comando
+Uno strumento in grado di tracciare un pacchetto dal tuo computer ad un
+certo host specificato mostrando, il numero di passaggi necessari per 
+raggiungerlo insieme al ritardo da ogni mittente ad ogni passaggio. Su
+Windows si utilizza digitando il comando
 \begin{center}
 	\verb|tracert <URL>|
 \end{center}
@@ -95,7 +114,7 @@ mentre su Linux è possibile utilizzarlo tramite il comando
 \end{center}
 
 \subsection{Volume di trasmissione}
-Il prodotto tra il bitrate e il ritardo ci fornisce un \textbf{volume} di trasmissione che indica
-quanti possono essere contenuti nel mezzo trasmissivo in una certa unità di tempo. In un certo
-senso indica la \textbf{capacità} del mezzo trasmissivo.
-
+Il prodotto tra il bitrate e il ritardo ci fornisce un \textbf{volume} 
+di trasmissione che indica quanti possono essere contenuti nel mezzo 
+trasmissivo in una certa unità di tempo. In un certo senso indica la 
+\textbf{capacità} del mezzo trasmissivo.
