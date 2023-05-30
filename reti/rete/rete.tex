@@ -1,12 +1,11 @@
 \chapter{Livello di rete}
-Il livello di \textbf{rete} offre servizi al livello di trasporto ed è responsabile della consegna
+Il livello di \textbf{rete} offre servizi al livello di trasporto e si occupa della consegna
 dei datagrammi tra gli host appoggiandosi a servizi offerti dallo strato di collegamento.
-
 I passi compiuti da una comunicazione a livello di rete sono tipicamente quattro:
 \begin{enumerate}
 	\item L'entità a livello rete riceve i segmenti dal livello di trasporto nell'host mittente e
 		li incapsula in \textbf{datagrammi}.
-	\item I datagrammi sono inoltrati al nodo successivo sulla rete (host o router).
+	\item I datagrammi sono inoltrati al nodo successivo sulla rete.
 	\item Il router esamina i campi d'intenstazione presenti in tutti i datagrammi IP che lo 
 		attraversano e li inoltra da un collegamento di ingresso ad uno di uscita.
 	\item Consegna i segmenti al livello di trasporto dopo averli decapsulati.
