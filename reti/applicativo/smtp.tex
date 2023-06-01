@@ -1,142 +1,180 @@
 \section{SMTP}
-Il protocollo \textbf{SMTP} (Simple Mail Transfer Protocol) serve ad inviare un messaggio da un
-utente \emph{mittente} ad un utente \emph{destinatario} in modo \textbf{asincrono}. Non è infatti
-necessario che i due utenti siano contemporaneamente connessi alla rete.
+Il protocollo \textbf{SMTP} (Simple Mail Transfer Protocol) serve ad 
+inviare un messaggio da un utente \emph{mittente} ad un utente 
+\emph{destinatario} in modo \textbf{asincrono}. Non è infatti 
+necessario che i due utenti siano contemporaneamente connessi alla 
+rete.
 
-Questo protocollo di fatto implementa un servizio di \textbf{posta elettronica} che si appoggia su
-componenti \emph{intermediari} per trasferire i messaggi. Gli intermediari, in questo caso, sono i
+Questo protocollo di fatto implementa un servizio di \textbf{posta
+elettronica} che si appoggia su componenti \emph{intermediari} per 
+trasferire i messaggi. Gli intermediari, in questo caso, sono i
 \textbf{mail server} che archiviano le mail sul server.
 
-Per comunicare con il mail server si utilizzano user agent come Outlook o Thunderbird, i quali ci
-permettono di inviare, editare e leggere le varie mail.
+Per comunicare con il mail server si utilizzano user agent come Outlook
+o Thunderbird, i quali ci permettono di inviare, editare e leggere le 
+varie mail.
 
-Il server si compone di tante \textbf{mailbox} quanti sono gli utenti connessi a quel mail server,
-contenenti messaggi da leggere e di una coda di  messaggi in uscita, contenente messaggi che devono
-ancora essere inviati.
+Il server si compone di tante \textbf{mailbox} quanti sono gli utenti 
+connessi a quel mail server, contenenti messaggi da leggere e di una 
+coda di  messaggi in uscita, contenente messaggi che devono ancora
+essere inviati.
 
-Se due utenti sono connessi a due mail server differenti, questi comunicano tra di loro
-scambiandosi le email.
+Se due utenti sono connessi a due mail server differenti, questi 
+comunicano tra di loro scambiandosi le email.
 
-La comunicazione tra mail server non utilizza il protocollo SMTP, è il client che per richiedere
-di inviare una mail al mail server, deve usare tale protocollo.
+La comunicazione tra mail server non utilizza il protocollo SMTP, è il 
+client che per richiedere di inviare una mail al mail server, deve 
+usare tale protocollo.
 
 \subsection{Funzionamento}
-Un mail server, per sapere a quale server deve inviare la mail, ha bisogno dell'\textbf{indirizzo
-email} composto in questo modo
-\begin{center} \verb|local-part@domain-name| \end{center}
-dove \verb|domain-name| specifica un mail server determinando il nome di dominio di una
-destinazione a cui la mail dovrebbe essere recapitata. La \verb|local-part| specifica la mailbox
-nel mail server. I passaggi compiuti dal protocollo sono i seguenti:
+Un mail server, per sapere a quale server deve inviare la mail, ha 
+bisogno dell'\textbf{indirizzo email} composto in questo modo
+\begin{center}
+	\verb|local-part@domain-name|
+\end{center}
+dove \verb|domain-name| specifica un mail server determinando il nome 
+di dominio di una destinazione a cui la mail dovrebbe essere 
+recapitata. La \verb|local-part| specifica la mailbox nel mail server. 
+I passaggi compiuti dal protocollo sono i seguenti:
 \begin{enumerate}
-	\item L'utente, tramite uno user agent fa una richiesta al suo mail server di inviare una mail
-		specificando un destinatario tramite un indirizzo.
-	\item Il mail server prende in carico la mail e ne salva una copia in locale. A questo punto
-		si presentano due scenari:
+	\item L'utente, tramite uno user agent fa una richiesta al suo 
+		mail server di inviare una mail specificando un destinatario 
+		tramite un indirizzo.
+	\item Il mail server prende in carico la mail e ne salva una copia 
+		in locale. A questo punto si presentano due scenari:
 		\begin{itemize}
-			\item Il dominio specificato nell'indirizzo non è quello del server e quindi la mail
-				viene inoltrata ad un altro mail server.
-			\item Il dominio specificato è quello del mail server e dunque la mail viene inserita
-				nella mailbox del destinatario.
+			\item Il dominio specificato nell'indirizzo non è quello 
+				del server e quindi la mail viene inoltrata ad un altro
+				mail server.
+			\item Il dominio specificato è quello del mail server e 
+				dunque la mail viene inserita nella mailbox del 
+				destinatario.
 		\end{itemize}
-	\item Il destinatario, tramite uno user agent, accede al suo server di mail che gli fornisce
-		la mail.
+	\item Il destinatario, tramite uno user agent, accede al suo server
+		di mail che gli fornisce la mail.
 \end{enumerate}
-Ogni volta che una mail viene inoltrata da un server, questo ne tiene una copia in locale fin
-quando non riceve una notifica di avvenuta ricezione dal destinatario.
+Ogni volta che una mail viene inoltrata da un server, questo ne tiene 
+una copia in locale fin quando non riceve una notifica di avvenuta 
+ricezione dal destinatario.
 
 \subsubsection{Alias}
-L'\textbf{alias} è una cassetta di posta \emph{virtuale} che serve a ridistribuire i messaggi
-verso uno o più indirizzi di posta elettronica personali. L'alias permette
+L'\textbf{alias} è una cassetta di posta \emph{virtuale} che serve a 
+ridistribuire i messaggi verso uno o più indirizzi di posta elettronica
+personali. L'alias permette
 \begin{itemize}
-	\item Ad un singolo utente di avere identificatori multipli, assegnando un set di
-		identificatori ad una singola persona.
-	\item Di associare un gruppo di destinatari ad un singolo identificatore.
+	\item Ad un singolo utente di avere identificatori multipli, 
+		assegnando un set di identificatori ad una singola persona.
+	\item Di associare un gruppo di destinatari ad un singolo 
+		identificatore.
 \end{itemize}
-Per riuscire a fare questo serve un \textbf{espansore degli alias}, ossia un componente che, una 
-volta arrivata una mail, verifica consultando un \textbf{database degli alias} se deve espandere
-gli alias.
+Per riuscire a fare questo serve un \textbf{espansore degli alias}, 
+ossia un componente che, una volta arrivata una mail, verifica
+consultando un \textbf{database degli alias} se deve espandere gli 
+alias.
 
-Supponiamo che venga inviata una mail ad un gruppo di utenti. L'espansore non fa altro che
-espandere l'indirizzo mail (arrivato sotto forma di alias) negli indirizzi veri e propri di tutti
-gli utenti ottenuti tramite l'espansione.
+Supponiamo che venga inviata una mail ad un gruppo di utenti. 
+L'espansore non fa altro che espandere l'indirizzo mail (arrivato sotto
+forma di alias) negli indirizzi veri e propri di tutti gli utenti
+ottenuti tramite l'espansione.
 
-Nell'altro caso è ad esempio possibile definire un alias per l'indirizzo mail di un certo utente.
-L'espansore non fa altro che riscrivere l'indirizzo mail associato a quell'alias.
+Nell'altro caso è ad esempio possibile definire un alias per 
+l'indirizzo mail di un certo utente. L'espansore non fa altro che
+riscrivere l'indirizzo mail associato a quell'alias.
 
 \subsection{Trasferimento}
-Il protocollo di trasferimento di SMTP è di tipo \textbf{push}, si cerca infatti di inserire un 
-messaggio in una coda (all'interno dei vari server). L'obbiettivo di SMTP è affidabilità ed
-efficienza, ecco perché il protocollo di trasporto utilizzato è TCP.
+Il protocollo di trasferimento di SMTP è di tipo \textbf{push}, si 
+cerca infatti di inserire un messaggio in una coda (all'interno dei 
+vari server). L'obbiettivo di SMTP è affidabilità ed efficienza, ecco 
+perché il protocollo di trasporto utilizzato è TCP.
 
 \subsubsection{Protocollo}
-Nella pratica SMTP usa il protocollo TCP per consegnare in modo affidabile messaggi dal client al
-server. Il trasferimento si divide in tre fasi:
+Nella pratica SMTP usa il protocollo TCP per consegnare in modo 
+affidabile messaggi dal client al server. Il trasferimento si divide in
+tre fasi:
 \begin{enumerate}
-	\item \textbf{Handshaking}: il client stabilisce la connessione con il server e attende il
-		codice \verb|220 READY FOR MAIL|. Il client risponde con il comando \verb|HELO| e il server
-		risponde identificandosi. A questo punto il client può trasmettere il messaggio.
+	\item \textbf{Handshaking}: il client stabilisce la connessione 
+		con il server e attende il codice \verb|220 READY FOR MAIL|. Il
+		client risponde con il comando \verb|HELO| e il server risponde
+		identificandosi. A questo punto il client può trasmettere il 
+		messaggio.
 	\item \textbf{Trasferimento messaggio}
 	\item \textbf{Chiusura della connessione}
 \end{enumerate}
-L'interazione è di tipo comando/risposta. Il comando è un testo ASCII mentre la risposta è un
-codice di stato e descrizione. Il messaggio vero e proprio è del testo con caratteri ASCII a 7 bit.
+L'interazione è di tipo comando/risposta. Il comando è un testo ASCII 
+mentre la risposta è un codice di stato e descrizione. Il messaggio
+vero e proprio è del testo con caratteri ASCII a 7 bit.
 
 \subsubsection{Comandi}
 Tra i comandi che il protocollo SMTP mette a disposizione abbiamo:
 \begin{itemize}
 	\item \verb|HELO <client identifier>|: identificativo del client.
-	\item \verb|MAIL FROM:<reverse-path><CRLF>|: identificativo di chi invia la mail.
-	\item \verb|RCPT TO:<forward-path><CRLF>|: identificativo di chi riceve la mail.
+	\item \verb|MAIL FROM:<reverse-path><CRLF>|: identificativo di 
+		chi invia la mail.
+	\item \verb|RCPT TO:<forward-path><CRLF>|: identificativo di chi 
+		riceve la mail.
 	\item \verb|DATA|: inizio del trasferimento del messaggio.
 	\item \verb|QUIT|: chiusura della sessione.
 \end{itemize}
-Per determinare la fine del messaggio si usa \verb|<CRLF>|. Uno degli standard di formato per
-messaggi SMTP è il RFC 2822 che prevede
+Per determinare la fine del messaggio si usa \verb|<CRLF>|. Uno degli 
+standard di formato per messaggi SMTP è il RFC 2822 che prevede
 \begin{itemize}
-	\item \textbf{Intestazione}: nella quale specificare a chi si vuole inviare il messaggio, chi
-		sta inviando il messaggio e il soggetto del messaggio.
-	\item \textbf{Corpo}: in cui è presente il messaggio vero e proprio.
+	\item \textbf{Intestazione}: nella quale specificare a chi si vuole
+		inviare il messaggio, chi sta inviando il messaggio e il 
+		soggetto del messaggio.
+	\item \textbf{Corpo}: in cui è presente il messaggio vero e 
+		proprio.
 \end{itemize}
 
 \subsection{MIME}
-Il protocollo appena descritto permetteva di inviare messaggi con caratteri ASCII a 7 bit e quindi
-tagliava fuori caratteri accentati, caratteri provenienti da alfabeti differenti o simboli tipici
-di lingue senza alfabeto (come il cinese). Inoltre non era possibile inviare contenuti multimediali
-che richiedevano un formato binario.
+Il protocollo appena descritto permetteva di inviare messaggi con 
+caratteri ASCII a 7 bit e quindi tagliava fuori caratteri accentati,
+caratteri provenienti da alfabeti differenti o simboli tipici di lingue
+senza alfabeto (come il cinese). Inoltre non era possibile inviare 
+contenuti multimediali che richiedevano un formato binario.
 
-Nasce quindi il \textbf{MIME} (Multipurpose Internet Mail Extension) la cui idea era quella di
-continuare a usare il formato specificato dallo standard RFC 822 ma aggiungendo una struttura al
-corpo del messaggio e definendo regole di  codifica (\textbf{encoding}) per il trasferimento del
-testo in ASCII.
+Nasce quindi il \textbf{MIME} (Multipurpose Internet Mail Extension) la
+cui idea era quella di continuare a usare il formato specificato dallo 
+standard RFC 822 ma aggiungendo una struttura al corpo del messaggio e 
+definendo regole di  codifica (\textbf{encoding}) per il trasferimento 
+del testo in ASCII.
 
-In questo modo si è riusciti ad inviare messaggi MIME usando protocolli e mail server già
-esistenti andando a definire un insieme di metodi per rappresentare i dati binari in formato ASCII
-nel messaggio inviato. Quello che viene fatto nella pratica è questo:
+In questo modo si è riusciti ad inviare messaggi MIME usando protocolli
+e mail server già esistenti andando a definire un insieme di metodi per
+rappresentare i dati binari in formato ASCII nel messaggio inviato. 
+Quello che viene fatto nella pratica è questo:
 \begin{enumerate}
 	\item Il messaggio viene scritto con la codifica desiderata.
 	\item Si specifica la versione MIME utilizzata.
-	\item Vengono specificati i parametri che definiscono come il messaggio è stato codificato e
-		il tipo di messaggio che si desidera inviare.
-	\item Il modulo MIME codifica il messaggio in formato ASCII a 7 bit e lo invia al mail server.
-	\item Una volta che il messaggio è stato recapitato, il destinatario utilizza il proprio modulo
-		MIME e, tramite la codifica specificata, decodifica il messaggio riportandolo nel formato
-		corretto.
+	\item Vengono specificati i parametri che definiscono come il 
+		messaggio è stato codificato e il tipo di messaggio che si 
+		desidera inviare.
+	\item Il modulo MIME codifica il messaggio in formato ASCII a 7 
+		bit e lo invia al mail server.
+	\item Una volta che il messaggio è stato recapitato, il 
+		destinatario utilizza il proprio modulo MIME e, tramite la 
+		codifica specificata, decodifica il messaggio riportandolo 
+		nel formato corretto.
 \end{enumerate}
 
 \subsection{Protocolli di accesso alla mail}
-Una volta che la mail viene inserita nella mailbox del destinatario questa non gli viene inoltrata
-ma rimane lì finché non è lui a richiederla.
+Una volta che la mail viene inserita nella mailbox del destinatario 
+questa non gli viene inoltrata ma rimane lì finché non è lui a 
+richiederla.
 
-Il motivo risiede nell'idea che sta dietro al protocollo SMTP, ossia poter accedere la mailbox in
-un secondo momento rispetto all'invio senza dover stare sempre in ascolto.
+Il motivo risiede nell'idea che sta dietro al protocollo SMTP, ossia 
+poter accedere la mailbox in un secondo momento rispetto all'invio 
+senza dover stare sempre in ascolto.
 
-Ecco che vi è la necessità di definire un nuovo protocollo che permette al destinatario di
-richiedere la mail nella mailbox del server. I protocolli messi a disposizione sono 3:
+Ecco che vi è la necessità di definire un nuovo protocollo che permette
+al destinatario di richiedere la mail nella mailbox del server. I 
+protocolli messi a disposizione sono 3:
 \begin{itemize}
-	\item \textbf{POP3}: si apre una connessione TCP con il server, seguono fasi di autorizzazione,
-		scambio e aggiornamento.
-	\item \textbf{IMAP}: più evoluto di POP3, offre più funzionalità per la gestione della posta.
+	\item \textbf{POP3}: si apre una connessione TCP con il server,
+		seguono fasi di autorizzazione, scambio e aggiornamento.
+	\item \textbf{IMAP}: più evoluto di POP3, offre più funzionalità 
+		per la gestione della posta.
 	\item \textbf{HTTP}: se lo user agent è un browser.
 \end{itemize}
-Non di particolare interesse, semplicemente sono definiti comandi specifici per poter interagire
-con il server e gestire la propria posta.
+Non di particolare interesse, semplicemente sono definiti comandi 
+specifici per poter interagire con il server e gestire la propria 
+posta.

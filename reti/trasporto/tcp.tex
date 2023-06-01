@@ -1,347 +1,426 @@
 \section{TCP}
-Il protocollo \textbf{TCP} è un tipo di protocollo orientato allo \textbf{stream}. Uno stream è
-un flusso di byte la cui lunghezza non si può definire a priori. Le caratteristiche principali di
-questo tipo di comunicazione sono:
+Il protocollo \textbf{TCP} è un tipo di protocollo orientato allo 
+\textbf{stream}. Uno stream è un flusso di byte la cui lunghezza non si
+può definire a priori. Le caratteristiche principali di questo tipo di 
+comunicazione sono:
 \begin{itemize}
-	\item I byte ricevuti dal destinatario sono esattamente gli stessi che ha inviato il mittente.
-	      Senza perdite ne modifiche.
-	\item Il protocollo vede il flusso di byte come una sequenza ordinata ma non strutturata di
-	      byte.
+	\item I byte ricevuti dal destinatario sono esattamente gli stessi
+		che ha inviato il mittente, senza perdite ne modifiche.
+	\item Il protocollo vede il flusso di byte come una sequenza 
+		ordinata ma non strutturata di byte.
 \end{itemize}
-Come già detto si tratta di un servizio connection-oriented con le seguenti caratteristiche:
+Come già detto si tratta di un servizio connection-oriented con le 
+seguenti caratteristiche:
 \begin{itemize}
-	\item I processi effetuano un \emph{handshake} prima dello scambio dei dati.
-	\item Si dice \textbf{orientato} poiché lo stato della connessione risiede sui nodi terminali
-	      e non sui nodi intermedi (router).
-	\item La connessione è vista dagli applicativi come un circuito fisico dedicato.
-	\item La connessione è di tipo \textbf{full-duplex}: a prescindere da chi invia il messaggio
-	      di richiesta per la connessione, una volta instaurata la connessione, questa è
-	      bidirezionale.
-	\item La connessione è di tipo \textbf{punto-punto} in quanto si vuole connettere solo due
-	      sistemi terminali l'un con l'altro.
+	\item I processi effetuano un \emph{handshake} prima dello 
+		scambio dei dati.
+	\item Si dice \textbf{orientato} poiché lo stato della connessione 
+		risiede sui nodi terminali e non sui nodi intermedi (router).
+	\item La connessione è vista dagli applicativi come un circuito 
+		fisico dedicato.
+	\item La connessione è di tipo \textbf{full-duplex}: a prescindere 
+		da chi invia il messaggio di richiesta per la connessione, una 
+		volta instaurata la connessione, questa è bidirezionale.
+	\item La connessione è di tipo \textbf{punto-punto} in quanto si 
+		vuole connettere solo due sistemi terminali l'un con l'altro.
 \end{itemize}
-Il trasferimento è inoltre \textbf{bufferizzato}, il software TCP può infatti suddividere il flusso
-di byte in segmenti indipendentemente da come gli vengono inviati dal programma applicativo.
+Il trasferimento è inoltre \textbf{bufferizzato}, il software TCP può 
+infatti suddividere il flusso di byte in segmenti indipendentemente da 
+come gli vengono inviati dal programma applicativo.
 
-Per farlo è necessario un \textbf{buffer} dove immagazzinare le sequenze di byte. Non appena i dati
-sono sufficienti per riempire un segmento ragionevolmente grande, questo viene trasmesso attraverso
-la rete.
+Per farlo è necessario un \textbf{buffer} dove immagazzinare le 
+sequenze di byte. Non appena i dati sono sufficienti per riempire un 
+segmento ragionevolmente grande, questo viene trasmesso attraverso la
+rete.
 
-Questo metodo permette di "ottimizzare" il numero di segmenti spediti sulla rete andando a ridurre
-di conseguenza il traffico. Permette inoltre di ritrasmettere eventuali segmenti andati persi.
+Questo metodo permette di "ottimizzare" il numero di segmenti spediti 
+sulla rete andando a ridurre di conseguenza il traffico. Permette 
+inoltre di ritrasmettere eventuali segmenti andati persi.
 
 \subsection{Segmenti TCP}
-Il flusso di byte viene quindi partizionato in \textbf{segmenti}, ognuno con il proprio header, e
-ognuno consegnato a livello IP.
+Il flusso di byte viene quindi partizionato in \textbf{segmenti}, 
+ognuno con il proprio header, e ognuno consegnato a livello IP.
 
-Il protocollo, per garantire che i segmenti siano composti da byte ordinati, numera i byte stessi
-con \textbf{numeri di sequenza} e \textbf{numeri di riscontro}.
+Il protocollo, per garantire che i segmenti siano composti da byte 
+ordinati, numera i byte stessi con \textbf{numeri di sequenza} e 
+\textbf{numeri di riscontro}.
 
-Ogni segmento possiede un campo che indica il numero di sequenza, ossia il numero del primo byte in
-tale segmento.
+Ogni segmento possiede un campo che indica il numero di sequenza, ossia
+il numero del primo byte in tale segmento.
 
-Il numero di riscontro è il numero dell'ultimo byte correttamente ricevuto più 1. Il numero di
-riscontro indica quindi quanti byte sono giunti a destinazione e qual'è il prossimo byte che si è
-in attesa di ricevere.
+Il numero di riscontro è il numero dell'ultimo byte correttamente 
+ricevuto più 1. Il numero di riscontro indica quindi quanti byte sono
+giunti a destinazione e qual'è il prossimo byte che si è in attesa di 
+ricevere.
 
 \subsubsection{Formato dei segmenti}
-Il formato dei segmenti TCP comprende un \emph{header} e i dati che vogliano inviare. L'header del
-segmento, con una lunghezza variabile tra i 20 e i 60 byte contiene:
+Il formato dei segmenti TCP comprende un \emph{header} e i dati che 
+vogliano inviare. L'header del segmento, con una lunghezza variabile 
+tra i 20 e i 60 byte contiene:
 \begin{itemize}
 	\item Porta del sorgente e del destinatario.
 	\item Numero di sequenza e di riscontro.
 	\item Lunghezza dell'header.
 	\item Campi riservati.
-	\item Flag: \verb|URG|, \verb|ACK|, \verb|PSH|, \verb|RST|, \verb|SYN| e \verb|FIN|. Di
-	      particolare rilevanza sono i flag
+	\item Flag: \verb|URG|, \verb|ACK|, \verb|PSH|, \verb|RST|, 
+		\verb|SYN| e \verb|FIN|. Di particolare rilevanza sono i flag
 	      \begin{itemize}
-		      \item \verb|ACK|: se settato a 1 indica che nel campo di riscontro è presente
-		            un'informazione significativa.
-		      \item \verb|SYN|: sincronizza il numero di sequenza in fase di instaurazione della
-		            connessione.
-		      \item \verb|FIN|: Indica che non ci sono altri dati in arrivo dal mittente e quindi
-		            la connessione può essere chiusa.
+		      \item \verb|ACK|: se settato a 1 indica che nel campo di
+				  riscontro è presente un'informazione significativa.
+		      \item \verb|SYN|: sincronizza il numero di sequenza in 
+				  fase di instaurazione della connessione.
+		      \item \verb|FIN|: Indica che non ci sono altri dati in 
+				  arrivo dal mittente e quindi la connessione può 
+				  essere chiusa.
 	      \end{itemize}
-	\item Dimensione della finestra: spazio disponibile nella finestra di ricezione.
+	\item Dimensione della finestra: spazio disponibile nella finestra
+		di ricezione.
 	\item Checksum per la verifica dell'integrità.
 \end{itemize}
 
 \subsection{Gestione della connessione}
-Come già detto, il servizio TCP è un servizio orientato alla connessione. Tale connessione viene
-gestita in tre passi principali:
+Come già detto, il servizio TCP è un servizio orientato alla 
+connessione. Tale connessione viene gestita in tre passi principali:
 \begin{itemize}
 	\item \textbf{Handshake}: instaurazione della connessione.
-	\item \textbf{Trasferimento dati}: gestione del flusso di trasferimento.
-	\item \textbf{Chiusura}: come la connessione viene chiusa da entrambi i lati.
+	\item \textbf{Trasferimento dati}: gestione del flusso di 
+		trasferimento.
+	\item \textbf{Chiusura}: come la connessione viene chiusa da 
+		entrambi i lati.
 \end{itemize}
 
 \subsubsection{Handshake a tre vie}
-L'\textbf{handshake} è la fase di instaurazione della connessione. Dopo questa fase non si fa più
-distinzione tra client e server in quanto la comunicazione avviene in maniera bidirezionale. In
-questa fase ogni messaggio è di 1 byte:
+L'\textbf{handshake} è la fase di instaurazione della connessione. Dopo
+questa fase non si fa più distinzione tra client e server in quanto la 
+comunicazione avviene in maniera bidirezionale. In questa fase ogni 
+messaggio è di 1 byte:
 \begin{enumerate}
-	\item Il client invia una richiesta di connessione settando a 1 il flag \verb|SYN| e con un
-	      numero di sequenza $n$ generato casualmente.
-	\item Se la richiesta di connessione viene accettata il server invia al client un segmento di
-	      autorizzazione con il flag di \verb|ACK| settato a 1 e con il numero di riscontro uguale
-	      a $n+1$. Nel segmento inviato sarà inoltre presente il flag \verb|SYN| settato a 1 e un
-	      nuovo numero di sequenza $m$.
-	\item Il client a questo punto invia un messaggio di risposta al messaggio di autorizzazione
-	      settando il flag di \verb|SYN| a 0, il numero di sequenza a $n+1$ e il campo di riscontro
-	      a $m+1$.
+	\item Il client invia una richiesta di connessione settando a 1 il 
+		flag \verb|SYN| e con un numero di sequenza $n$ generato 
+		casualmente.
+	\item Se la richiesta di connessione viene accettata il server 
+		invia al client un segmento di autorizzazione con il flag di 
+		\verb|ACK| settato a 1 e con il numero di riscontro uguale a 
+		$n+1$. Nel segmento inviato sarà inoltre presente il flag 
+		\verb|SYN| settato a 1 e un nuovo numero di sequenza $m$.
+	\item Il client a questo punto invia un messaggio di risposta al 
+		messaggio di autorizzazione settando il flag di \verb|SYN| a 0,
+		il numero di sequenza a $n+1$ e il campo di riscontro a $m+1$.
 \end{enumerate}
-Questi tre passaggio servono a impostare un tipo di connessione bidirezionale e paritaria tra
-client e server. Se svolgessimo solo i primi due passaggi, il client non avrebbe la possibilità
-di notificare la disponibilità a ricevere messaggi dal server.
+Questi tre passaggio servono a impostare un tipo di connessione 
+bidirezionale e paritaria tra client e server. Se svolgessimo solo i 
+primi due passaggi, il client non avrebbe la possibilità di notificare 
+la disponibilità a ricevere messaggi dal server.
 
 \subsubsection{Chiusura della connessione}
-La chiusura della connessione deve avvenire da entrambi i lati, i quali devono essere a conoscenza
-del fatto che l'altro sta per chiudere la connessione. Per farlo i due processi si inviano un
-segmento con il flag di \verb|FIN| settato a 1 secondo la seguente modalità:
+La chiusura della connessione deve avvenire da entrambi i lati, i quali
+devono essere a conoscenza del fatto che l'altro sta per chiudere la 
+connessione. Per farlo i due processi si inviano un segmento con il 
+flag di \verb|FIN| settato a 1 secondo la seguente modalità:
 \begin{itemize}
-	\item Il client invia un segmento al server con il flag di \verb|FIN| settato a 1 e un numero
-	      di sequenza $x$.
-	\item Il server risponde tramite un segmento con il flag di \verb|ACK| settato a 1 e con il
-	      campo di riscontro a $x+1$.
+	\item Il client invia un segmento al server con il flag di 
+		\verb|FIN| settato a 1 e un numero di sequenza $x$.
+	\item Il server risponde tramite un segmento con il flag di 
+		\verb|ACK| settato a 1 e con il campo di riscontro a $x+1$.
 	\item Il server può continuare a inviare dati.
-	\item Il server invia un segmento con il flag di \verb|FIN| settato a 1 e con un numero di
-	      sequenza $y$.
-	\item Il client risponde con un segmento di \verb|ACK| e con il campo di riscontro impostato
-	      a $y+1$.
-	\item Il client entra in uno stato di \verb|TIME_WAIT| dalla durata variabile prima di
-	      chiudere definitivamente la connessione.
-	\item Se il server riceve l'ultimo segmento di \verb|ACK| allora chiude la connessione,
-	      altrimenti, dopo un certo timeout, invia di nuovo un segmento con il flag di \verb|FIN|.
-	\item Il client, se dopo il timeout, non ha ricevuto ulteriori richieste chiude la
-	      connessione.
+	\item Il server invia un segmento con il flag di \verb|FIN| settato
+		a 1 e con un numero di sequenza $y$.
+	\item Il client risponde con un segmento di \verb|ACK| e con il 
+		campo di riscontro impostato a $y+1$.
+	\item Il client entra in uno stato di \verb|TIME_WAIT| dalla durata
+		variabile prima di chiudere definitivamente la connessione.
+	\item Se il server riceve l'ultimo segmento di \verb|ACK| allora 
+		chiude la connessione, altrimenti, dopo un certo timeout, invia
+		di nuovo un segmento con il flag di \verb|FIN|.
+	\item Il client, se dopo il timeout, non ha ricevuto ulteriori 
+		richieste chiude la connessione.
 \end{itemize}
-Lo stato di \verb|TIME_WAIT| dipende da un altro parametro, ossia il \textbf{MSL} (Maximum Segment
-Lifetime). Questo può variare tra le varie implementazioni TCP e indica il tempo massimo che un
-pacchetto TCP può rimanere in rete. Dopo quel tempo o è arrivato a destinazione o è stato
-cancellato.
+Lo stato di \verb|TIME_WAIT| dipende da un altro parametro, ossia il 
+\textbf{MSL} (Maximum Segment Lifetime). Questo può variare tra le 
+varie implementazioni TCP e indica il tempo massimo che un pacchetto 
+TCP può rimanere in rete. Dopo quel tempo o è arrivato a destinazione o
+è stato cancellato.
 
-Lo stato di \verb|TIME_WAIT| ha un durata che tipicamente viene calcolata come il doppio del MSL.
+Lo stato di \verb|TIME_WAIT| ha un durata che tipicamente viene 
+calcolata come il doppio del MSL.
 
-Nel caso in cui il client invii il segmento di \verb|FIN| mentre il server sta continuando a
-inviare dati siamo in un stato \textbf{half-close}.
+Nel caso in cui il client invii il segmento di \verb|FIN| mentre il 
+server sta continuando a inviare dati siamo in un stato 
+\textbf{half-close}.
 
 \subsection{Trasferimento dati affidabile}
-Un segmento può essere perso o corrotto e TCP implementa un servizio di trasferimento dati
-affidabile per riuscire a contenere queste problematiche.
+Un segmento può essere perso o corrotto e TCP implementa un servizio di
+trasferimento dati affidabile per riuscire a contenere queste 
+problematiche.
 
-Per verficare l'integrità del pacchetto esiste un meccanismo di checksum, mentre per stabilire se
-qualche pacchetto è andato perso c'è il meccanismo dei \textbf{riscontri} implementato tramite
-numeri di sequenza e di riscontro.
+Per verficare l'integrità del pacchetto esiste un meccanismo di 
+checksum, mentre per stabilire se qualche pacchetto è andato perso c'è 
+il meccanismo dei \textbf{riscontri} implementato tramite numeri di 
+sequenza e di riscontro.
 
-In particolari casi, per esempio con il meccanismo di \textbf{pipeline}, possiamo inviare più
-segmenti senza attendere un loro riscontro.
+In particolari casi, per esempio con il meccanismo di 
+\textbf{pipeline}, possiamo inviare più segmenti senza attendere un 
+loro riscontro.
 
-Gli eventi che portano alla corruzione o perdita di segmenti TCP possono essere molteplici e
-possono avvenire sia da parte del mittente che da parte del destinatario.
+Gli eventi che portano alla corruzione o perdita di segmenti TCP 
+possono essere molteplici e possono avvenire sia da parte del mittente 
+che da parte del destinatario.
 
-Inziamo a vedere cosa succede dal lato del mittente e proviamo a individuare possibili criticità:
+Inziamo a vedere cosa succede dal lato del mittente e proviamo a 
+individuare possibili criticità:
 \begin{enumerate}
 	\item Il protocollo TCP riceve i dati dall'applicazione.
-	\item I dati ricevuti vengono incapsulati in uno o più segmenti e si assegnano i numeri di
-		sequenza.
-	\item A questo punto il mittente avvia un \textbf{timer di ritrasmissione} (RTO).
+	\item I dati ricevuti vengono incapsulati in uno o più segmenti e 
+		si assegnano i numeri di sequenza.
+	\item A questo punto il mittente avvia un \textbf{timer di 
+		ritrasmissione} (RTO).
 	\item Il mittente ritrasmette il segmento in due casi:
 		\begin{itemize}
 			\item Timeout.
 			\item Ricezione di tre \verb|ACK| duplicati.
 		\end{itemize}
 \end{enumerate}
-I segmenti possono anche arrivare fuori sequenza e quindi memorizzati temporaneamente dal 
-destinatario. Il TCP non implementa la gestione di tali pacchetti, questo dipende dal destinatario.
+I segmenti possono anche arrivare fuori sequenza e quindi memorizzati 
+temporaneamente dal destinatario. Il TCP non implementa la gestione di 
+tali pacchetti, questo dipende dal destinatario.
 
-Il destinatario, per applicare i riscontri in modo efficiente, implementa diversi metodi:
+Il destinatario, per applicare i riscontri in modo efficiente, 
+implementa diversi metodi:
 \begin{itemize}
-	\item Nel caso in cui il destinatario debba inviare dati, include nel messaggio da inviare
-		il numero di riscontro per evitare di inviare due segmenti separati.
-	\item Se il destinatario non ha dati da inviare e riceve un segmento in ordine ritarda l'invio
-		dell'\verb|ACK| di 500ms a meno che non riceva un nuovo segmento. Questo serve a 
+	\item Nel caso in cui il destinatario debba inviare dati, include 
+		nel messaggio da inviare il numero di riscontro per evitare di 
+		inviare due segmenti separati.
+	\item Se il destinatario non ha dati da inviare e riceve un 
+		segmento in ordine ritarda l'invio dell'\verb|ACK| di 500ms a 
+		meno che non riceva un nuovo segmento. Questo serve a 
 		riscontrare più segmenti in una sola volta.
-	\item Se il destinatario riceve un segmento atteso e il precedente non è stato riscontrato,
-		allora invia immediatamente l'\verb|ACK|.
-	\item Nei casi in cui il destinatario riceva un segmento fuori sequenza, mancante oppure 
-		duplicato invia immediatamente l'\verb|ACK| indicando il prossimo numero atteso.
+	\item Se il destinatario riceve un segmento atteso e il precedente 
+		non è stato riscontrato, allora invia immediatamente 
+		l'\verb|ACK|.
+	\item Nei casi in cui il destinatario riceva un segmento fuori 
+		sequenza, mancante oppure duplicato invia immediatamente 
+		l'\verb|ACK| indicando il prossimo numero atteso.
 \end{itemize}
-Le varie casistiche possono verificarsi o meno anche a seconda dell'implementazione del TCP, che
-può variare da host a host.
+Le varie casistiche possono verificarsi o meno anche a seconda 
+dell'implementazione del TCP, che può variare da host a host.
 
 \subsubsection{Calcolo del timeout}
-Il timeout di ritrasmissione RTO è fondamentale per il corretto funzionamento del TCP che, se
-troppo breve potrebbe causare ritrasmissioni indesiderate e se troppo lungo potrebbe causare
+Il timeout di ritrasmissione RTO è fondamentale per il corretto 
+funzionamento del TCP che, se troppo breve potrebbe causare 
+ritrasmissioni indesiderate e se troppo lungo potrebbe causare 
 rallentamenti.
 
-Questo timeout deve essere sicuramente superiore all'\textbf{RTT} (Round Trip Time), ossia il
-tempo che intercorre tra l'invio di un pacchetto e la ricezione del riscontro. Viene calcolato
-analizzando gli RTT dei segmenti non ritrasmessi andando in primo luogo a misurare l'RTT tramite 
-la seguente formula
+Questo timeout deve essere sicuramente superiore all'\textbf{RTT} 
+(Round Trip Time), ossia il tempo che intercorre tra l'invio di un 
+pacchetto e la ricezione del riscontro. Viene calcolato analizzando 
+gli RTT dei segmenti non ritrasmessi andando in primo luogo a misurare 
+l'RTT tramite la seguente formula
 \[
-	\text{RTT}_\text{stimato} = (1 - \alpha) \cdot \text{RTT}_\text{stimato} +
+	\text{RTT}_\text{stimato} = 
+	(1 - \alpha) \cdot \text{RTT}_\text{stimato} +
 	\alpha \cdot \text{RTT}_\text{misurato}
 \]
-La stima dell'RTT viene compiuta periodicamente e viene definita come un'aggiornamento dell'ultimo
-RTT calcolato. La prima volta la stima dell'RTT corrisponderà alla misura esatta dell'RTT campione
-amplificato di un fattore $\alpha$.
+La stima dell'RTT viene compiuta periodicamente e viene definita come 
+un'aggiornamento dell'ultimo RTT calcolato. La prima volta la stima del
+l'RTT corrisponderà alla misura esatta dell'RTT campione amplificato 
+di un fattore $\alpha$.
 
-Il valore che in genere viene dato ad $\alpha$ è $1/8$ in modo da rendere via via meno importanti 
-gli RTT dei pacchetti più vecchi.
+Il valore che in genere viene dato ad $\alpha$ è $1/8$ in modo da 
+rendere via via meno importanti gli RTT dei pacchetti più vecchi.
 
-La sola stima dell'RTT non è sufficiente a calcolare l'RTO. \`E infatti necessaria anche una stima
-della variabilità dell'RTT, calcolabile come segue
+La sola stima dell'RTT non è sufficiente a calcolare l'RTO. \`E infatti
+necessaria anche una stima della variabilità dell'RTT, calcolabile come
+segue
 \[
-	\text{RTT}_\text{dev} = (1 - \beta) \cdot \text{RTT}_\text{dev} + 
-	\beta \cdot |\text{RTT}_\text{misurato} - \text{RTT}_\text{stimato}|
+	\text{RTT}_\text{dev} = 
+	(1 - \beta) \cdot \text{RTT}_\text{dev} + 
+	\beta \cdot |\text{RTT}_\text{misurato} - 
+	\text{RTT}_\text{stimato}|
 \]
-Con $\beta$ generalmente settato a $1/4$ questo calcolo ci dice quanto l'RTT misurato si discosta
-dall'RTT stimato.
+Con $\beta$ generalmente settato a $1/4$ questo calcolo ci dice quanto 
+l'RTT misurato si discosta dall'RTT stimato.
 
-Una volta calcolati questi valori si calcola l'RTO semplicemente svolgendo la somma 
-\[ \text{RTO} = \text{RTT}_\text{stimato} + 4 \cdot \text{RTT}_\text{dev} \]
-In molte implementazioni, dopo un errore, si raddoppia il timeout in modo da avere in primo
-meccanismo di controllo della congestione.
+Una volta calcolati questi valori si calcola l'RTO semplicemente 
+svolgendo la somma 
+\[
+	\text{RTO} = 
+	\text{RTT}_\text{stimato} + 
+	4 \cdot \text{RTT}_\text{dev}
+\]
+In molte implementazioni, dopo un errore, si raddoppia il timeout in 
+modo da avere in primo meccanismo di controllo della congestione.
 
 \subsubsection{Finestra di trasmissione}
-I dati inviati dal processo applicativo sono mantenuti nel \textbf{buffer di invio}, la cui
-dimensione e organizzazione decreta la frequenza con cui TCP riesce ad inviare segmenti. In questo
-buffer, i segmenti si dividono in 4 sezioni:
+I dati inviati dal processo applicativo sono mantenuti nel 
+\textbf{buffer di invio}, la cui dimensione e organizzazione decreta
+la frequenza con cui TCP riesce ad inviare segmenti. In questo buffer,
+i segmenti si dividono in 4 sezioni:
 \begin{itemize}
 	\item Trasmessi e riscontrati.
 	\item Trasmessi e non riscontrati.
 	\item Trasmissibili.
 	\item Non trasmissibili.
 \end{itemize}
-La \textbf{finestra di trasmissione} è composta dalla somma delle due sezioni del buffer di invio
-in cui risiedono i dati trasmessi ma non riscontrati e quelli trasmissibili. Questa finestra ha 
-dimensione variabile e può \emph{scorrere} man mano che alcuni byte vengono riscontrati andando a
-eliminare questi ultimi e includendo tra i byte trasmissibili altri byte in attesa di essere
-trasmessi.
+La \textbf{finestra di trasmissione} è composta dalla somma delle due 
+sezioni del buffer di invio in cui risiedono i dati trasmessi ma non 
+riscontrati e quelli trasmissibili. Questa finestra ha dimensione 
+variabile e può \emph{scorrere} man mano che alcuni byte vengono 
+riscontrati andando a eliminare questi ultimi e includendo tra i byte 
+trasmissibili altri byte in attesa di essere trasmessi.
 
-La sezione dei byte trasmessi ma non riscontrati avrà come primo elemento il byte con numero di
-sequenza $S_f$ (Send first), ossia il primo byte in attesa di essere riscontrato. La sezione dei
-byte trasmissibili avrà invece come primo elemento il prossimo byte da inviare con numero di 
-sequenza $S_n$ (Send next).
+La sezione dei byte trasmessi ma non riscontrati avrà come primo 
+elemento il byte con numero di sequenza $S_f$ (Send first), ossia il 
+primo byte in attesa di essere riscontrato. La sezione dei byte 
+trasmissibili avrà invece come primo elemento il prossimo byte da 
+inviare con numero di sequenza $S_n$ (Send next).
 
-La dimensione della finestra varia in base ad altri due meccanismi che vedremo più avanti, ossia
-il controllo di flusso e il controllo di congestione.
+La dimensione della finestra varia in base ad altri due meccanismi che 
+vedremo più avanti, ossia il controllo di flusso e il controllo di 
+congestione.
 
 \subsubsection{Finestra di ricezione}
-I dati ricevuti dal destinatario vengono memorizzati su un \textbf{buffer di ricezione} definito
-dalle seguenti sezioni:
+I dati ricevuti dal destinatario vengono memorizzati su un 
+\textbf{buffer di ricezione} definito dalle seguenti sezioni:
 \begin{itemize}
 	\item I byte che sono già stati consumati dal processo.
 	\item I byte ricevuti in attesa di essere consumati.
 	\item I byte che possono essere ricevuti.
 	\item I byte che non possono essere ricevuti.
 \end{itemize}
-La dimensione \textbf{finestra di ricezione} equivale alla dimensione della sezione del buffer di 
-ricezione in cui risiedono i byte che possono essere ricevuti. Tale dimensione rappresenta un
-limite per l'invio di dati da parte del mittente.
+La dimensione \textbf{finestra di ricezione} equivale alla dimensione 
+della sezione del buffer di ricezione in cui risiedono i byte che 
+possono essere ricevuti. Tale dimensione rappresenta un limite per 
+l'invio di dati da parte del mittente.
 
 \subsubsection{Controllo di flusso}
-Per evitare di inondare il destinatario di dati entra in gioco il meccanismo di \textbf{controllo
-di flusso}, che permette di regolare l'invio dei pacchetti, per adattarsi alla capacità del
-mittente di riceverli.
+Per evitare di inondare il destinatario di dati entra in gioco il 
+meccanismo di \textbf{controllo di flusso}, che permette di regolare 
+l'invio dei pacchetti, per adattarsi alla capacità del mittente di 
+riceverli.
 
-Per implementare questo meccanismo, il mittente tiene una variabile $rwnd$, che da un'idea di
-quanto spazio sia ancora disponibile nel buffer del destinatario. Tale valore viene comunicato
-nel campo \verb|window| dell'header TCP ogni volta che il destinatario invia un messaggio al
-mittente (anche solo di \verb|ACK|). Il valore di $rwnd$ viene calcolato sottraendo alla dimensione
-totale del buffer di ricezione la differenza tra i numeri di sequenza dell'ultimo byte ricevuto e 
-l'ultimo byte letto
-\[ rwnd = \text{RcvBuffer} - (\text{LastReceived} - \text{LastRead}) \]
+Per implementare questo meccanismo, il mittente tiene una variabile 
+$rwnd$, che da un'idea di quanto spazio sia ancora disponibile nel 
+buffer del destinatario. Tale valore viene comunicato nel campo 
+\verb|window| dell'header TCP ogni volta che il destinatario invia un
+messaggio al mittente (anche solo di \verb|ACK|). Il valore di $rwnd$ 
+viene calcolato sottraendo alla dimensione totale del buffer di 
+ricezione la differenza tra i numeri di sequenza dell'ultimo byte 
+ricevuto e l'ultimo byte letto
+\[
+	rwnd = \text{RcvBuffer} - (\text{LastReceived} - \text{LastRead})
+\]
 Il mittente si assicura ad ogni invio che
 \[ \text{LastSent} - \text{LastAcked} \leq rwnd \]
-Nel caso in cui $rwnd$ sia uguale a 0 il mittente può inviare dei segmenti \textbf{sonda} di 1 byte
-per ricevere dal destinatario nuovi aggiornamenti sulla dimensione della finestra.
+Nel caso in cui $rwnd$ sia uguale a 0 il mittente può inviare dei 
+segmenti \textbf{sonda} di 1 byte per ricevere dal destinatario nuovi 
+aggiornamenti sulla dimensione della finestra.
 
 \subsubsection{Controllo di congestione}
-Il \textbf{controllo di congestione} serve a regolare la quantità di dati inviati in funzione del
-traffico presente sulla rete. Il fenomeno di congestione è originato dal tentativo delle sorgenti
-di richiedere più banda di quella disponibile sul percorso.
+Il \textbf{controllo di congestione} serve a regolare la quantità di 
+dati inviati in funzione del traffico presente sulla rete. Il fenomeno
+di congestione è originato dal tentativo delle sorgenti di richiedere 
+più banda di quella disponibile sul percorso.
 
-Il protocollo TCP impone un limite a ciascun mittente sulla frequenza dei pacchetti inviati sulla
-connessione, andando a definire una \textbf{finestra di congestione}, in funzione della
-congestione percepita.
+Il protocollo TCP impone un limite a ciascun mittente sulla frequenza 
+dei pacchetti inviati sulla connessione, andando a definire una 
+\textbf{finestra di congestione}, in funzione della congestione 
+percepita.
 
-Il controllo di congestione TCP è di tipo punto-punto in quanto non vi è alcun supporto esplicito
-della rete e la congestione è dedotta dai sistemi terminali.
+Il controllo di congestione TCP è di tipo punto-punto in quanto non 
+vi è alcun supporto esplicito della rete e la congestione è dedotta dai
+sistemi terminali.
 
 \subsubsection{Regolazione della frequenza di invio}
-Il protocollo TCP, per regolare la frequenza di invio dei dati, combina i due tipi di controllo
-andando a ridimensionare la finestra di invio prendendo il minimo tra la dimensione della finestra
-di ricezione e la dimensione della finestra di congestione.
+Il protocollo TCP, per regolare la frequenza di invio dei dati, combina
+i due tipi di controllo andando a ridimensionare la finestra di invio 
+prendendo il minimo tra la dimensione della finestra di ricezione e la 
+dimensione della finestra di congestione.
 
-Il meccanismo con cui TCP regola la propria frequenza di invio in funzione della congestione 
-rilevata è composto di tre punti:
+Il meccanismo con cui TCP regola la propria frequenza di invio in 
+funzione della congestione rilevata è composto di tre punti:
 \begin{enumerate}
 	\item Partenza lenta.
 	\item Incremento additivo e decremento moltiplicativo (AIMD).
 	\item Ripresa veloce e reazione ai timeout.
 \end{enumerate}
-Il valore della finestra di congestione influisce sulla frequenza di invio dei dati in quanto 
-questa è sempre inferiore a
+Il valore della finestra di congestione influisce sulla frequenza di 
+invio dei dati in quanto questa è sempre inferiore a
 \[ cwnd / RTT \]
-La dimensione della finestra di congestione si misura tipicamente in MSS (Maximum Segment Size),
-ossia la massima quantità di dati trasportabile da un segmento. Questa misura varia a seconda del
-collegamento, il quale fornisce una misura per la lunghezza massima del payload del frame di 
-collegamento inviabile dall'host mittente e si misura in MTU (Maximum Transmissive Unit).
+La dimensione della finestra di congestione si misura tipicamente in 
+MSS (Maximum Segment Size), ossia la massima quantità di dati 
+trasportabile da un segmento. Questa misura varia a seconda del
+collegamento, il quale fornisce una misura per la lunghezza massima del
+payload del frame di collegamento inviabile dall'host mittente e si 
+misura in MTU (Maximum Transmissive Unit).
 
-Nel meccanismo AIMD il TCP del mittente aumenta proporzionalmente la propria finestra di 
-congestione ad ogni \verb|ACK| ricevuto in modo che si abbia un crescita pari ad 1 MSS per ogni 
-RTT
+Nel meccanismo AIMD il TCP del mittente aumenta proporzionalmente la 
+propria finestra di congestione ad ogni \verb|ACK| ricevuto in modo che
+si abbia un crescita pari ad 1 MSS per ogni RTT
 \[ cwnd = cwnd + \frac{1}{cwnd} \]
-Nel caso in cui si verifichi invece una perdita la finestra di congestione viene dimezzata.
+Nel caso in cui si verifichi invece una perdita la finestra di 
+congestione viene dimezzata.
 
-Tipicamente, all'inizio della connessione, la finestra di congestione ha dimensione pari a 1MSS.
-Stavolta però incrementiamo la sua dimensione di 1MSS ad ogni \verb|ACK| non duplicato, ottenendo
-così un raddoppiamento della finestra ad ogni RTT.
+Tipicamente, all'inizio della connessione, la finestra di congestione 
+ha dimensione pari a 1MSS. Stavolta però incrementiamo la sua 
+dimensione di 1MSS ad ogni \verb|ACK| non duplicato, ottenendo così un
+raddoppiamento della finestra ad ogni RTT.
 
-Questo meccanismo prende il nome di \textbf{slow start} che punta ad una partenza lenta per 
-riuscire ad evitare il dimezzamento della dimensione della finestra per più tempo possibile e
-avere una crescita più rapida man mano che si va avanti.
+Questo meccanismo prende il nome di \textbf{slow start} che punta ad 
+una partenza lenta per riuscire ad evitare il dimezzamento della 
+dimensione della finestra per più tempo possibile e avere una crescita 
+più rapida man mano che si va avanti.
 
-C'è da tenere di conto che gli \verb|ACK| ritardati rallentano la velocità di incremento della
-finestra.
+C'è da tenere di conto che gli \verb|ACK| ritardati rallentano la 
+velocità di incremento della finestra.
 
 \subsection{TCP Reno}
-Questa implementazione di TCP prevede di definire una variabile \textbf{soglia} alla quale è 
-assegnato un valore alto. Tale variabile determina la fine della fase di partenza lenta e quindi 
-l'inizio della \emph{congestion avoidance}.
+Questa implementazione di TCP prevede di definire una variabile 
+\textbf{soglia} alla quale è assegnato un valore alto. Tale variabile
+determina la fine della fase di partenza lenta e quindi l'inizio della
+\emph{congestion avoidance}.
 
-Nel caso invece si raggiunga un timeout si pone la soglia a metà della $cwnd$ e ridimensioniamo la
-$cwnd$ a 1MSS in modo da ricominciare con un approccio \emph{slow start}.
+Nel caso invece si raggiunga un timeout si pone la soglia a metà della 
+$cwnd$ e ridimensioniamo la $cwnd$ a 1MSS in modo da ricominciare con 
+un approccio \emph{slow start}.
 
 \subsubsection{Fast recovery}
-Nel caso in cui si ricevano tre \verb|ACK| duplicati si pone la soglia a metà della $cwnd$ e poi
-si ridimensiona la finestra di congestione dandole il valore della soglia più 3MSS. In questo modo
-si ha un meccanismo di \textbf{fast recovery}. In questa fase, se avviene un timeout si torna in 
-slow start e se si riceve un \verb|ACK| non duplicato si ridimensiona la finestra di congestione
-con il valore soglia. Finché si continuano a ricevere \verb|ACK| duplicati si rimane in fast 
-recovery incrementando la finestra di congestione di 1MSS.
+Nel caso in cui si ricevano tre \verb|ACK| duplicati si pone la soglia 
+a metà della $cwnd$ e poi si ridimensiona la finestra di congestione 
+dandole il valore della soglia più 3MSS. In questo modo si ha un 
+meccanismo di \textbf{fast recovery}. In questa fase, se avviene un 
+timeout si torna in slow start e se si riceve un \verb|ACK| non 
+duplicato si ridimensiona la finestra di congestione con il valore 
+soglia. Finché si continuano a ricevere \verb|ACK| duplicati si 
+rimane in fast recovery incrementando la finestra di congestione di 
+1MSS.
 
 \subsubsection{TCP Tahoe}
-Altra implementazione del controllo di congestione antecedente a TCP Reno è \textbf{TCP Tahoe} la
-quale non prevede la fase \emph{fast recovery}. I casi di perdita di pacchetti sono gestiti allo 
-stesso modo andando a dimezzare la soglia e tornando nella fase di \emph{slow start}.
+Altra implementazione del controllo di congestione antecedente a TCP 
+Reno è \textbf{TCP Tahoe} la quale non prevede la fase 
+\emph{fast recovery}. I casi di perdita di pacchetti sono gestiti allo
+stesso modo andando a dimezzare la soglia e tornando nella fase di 
+\emph{slow start}.
 
 \subsection{Throughput TCP}
-Per stimare il throughput medio della connessione TCP possiamo indicare con $W$ il valore massimo
-in byte della finestra di congestione e ricavandolo tramite la seguente formula
+Per stimare il throughput medio della connessione TCP possiamo indicare
+con $W$ il valore massimo in byte della finestra di congestione e 
+ricavandolo tramite la seguente formula
 \[ T = \frac{0.75 \cdot W}{RTT} \]
-Questo risultato si ottiene considerando che quando la finestra ha dimensione $W$ il throughput 
-equivale a $\frac{W}{RTT}$ ma quando c'è una perdita la finestra va a $\frac{W}{2}$ modificando il
-valore di throughput a $\frac{W}{2 \cdot RTT}$.
+Questo risultato si ottiene considerando che quando la finestra ha 
+dimensione $W$ il throughput equivale a $\frac{W}{RTT}$ ma quando c'è 
+una perdita la finestra va a $\frac{W}{2}$ modificando il valore di 
+throughput a $\frac{W}{2 \cdot RTT}$.
 
 \subsubsection{Equità}
-Poniamoci nell'ipotesi che ci siano $K$ connessioni TCP che insistono su un unico link di capacità
-$R$ bit/s, ognuna con gli stessi valori di MSS e RTT e senza nessun altro protocollo che insiste
-sullo stesso link.
+Poniamoci nell'ipotesi che ci siano $K$ connessioni TCP che insistono 
+su un unico link di capacità $R$ bit/s, ognuna con gli stessi valori di
+MSS e RTT e senza nessun altro protocollo che insiste sullo stesso 
+link.
 
-Come risultato avremo che ogni connessione TCP tende a trasmettere $\frac{R}{K}$ bit/s andando
-quindi a dividersi equamente le risorse di rete.
+Come risultato avremo che ogni connessione TCP tende a trasmettere 
+$\frac{R}{K}$ bit/s andando quindi a dividersi equamente le risorse 
+di rete.
 
-Nella pratica le connessioni con RTT più basso, variano più velocemente la loro finestra di
-congestione e raggiungono throughput superiori a connessioni con RTT maggiore.
+Nella pratica le connessioni con RTT più basso, variano più velocemente
+la loro finestra di congestione e raggiungono throughput superiori a 
+connessioni con RTT maggiore.
