@@ -2,36 +2,40 @@
 I \textbf{protocolli di routing} si occupa di determinare un percorso
 \emph{buono} da mittente a destinatario passando per nodi intermedi.
 
-In altri termini vogliamo trovare il cammino più veloce basandoci
+In altri termini, vogliamo trovare il cammino più veloce basandoci
 su congestione, latenze e numero di nodi intermedi da un nodo sorgente 
 ad un nodo destinazione, utilizzando le informazioni fornite dai vari
-router sulla rete.
+router.
 
 Il problema del calcolo del percorso da sorgente a destinazione è 
 rappresentabile come il calcolo del percorso ottimale in un grafo.
 
 Gli host e i router sono rappresentati come nodi del grafo mentre i
 collegamenti sono gli archi che collegano tali nodi. In generale avremo
-un grafo \textbf{pesato} che rappresenta il costo per arrivare da un
-nodo all'altro.
+un grafo \textbf{pesato} con il valore su ogni arco che rappresenta il 
+costo per arrivare da un nodo all'altro.
 
-Il costo può tenere di conto dei fattori sopra citati come ad esempio
-congestione o distanza da un router all'altro.
+A seconda della metrica che scegliamo per i pesi del nostro grafo è
+possibile avere una rappresentazione dinamica di quest'ultimo. 
 
-Ovviamente è possibile impostare degli \emph{obbiettivi di traffico},
-vogliamo quindi gestire il traffico per riuscire ad arrivare in un
-certo stato di quest'ultimo (per esempio vogliamo minimizzare la 
-congestione su certi archi).
+Supponiamo di voler misurare il costo di un certo cammino in base al 
+grado di congestione della rete. Questo non è un valore fisso come ad
+esempio la distanza da un nodo all'altro ma può variare nel tempo.
+
+Dato che l'immissione di nuovi pacchetti sulla rete modifica questi 
+valori, è anche possibile andare impostare degli \emph{obbiettivi di 
+traffico}. In altre parole vogliamo immettere datagrammi in rete in modo
+da raggiungere un certo stato (di congestione ad esempio).
 
 \subsection{Algoritmi di routing}
-In generale però a noi interessano principalmente gli algoritmi che
-calcolano il percorso di costo minimo da un nodo sorgente ad un nodo
-destinazione.
+Gli algoritmi di routing che trattiamo non si occupano di raggiungere
+degli obbiettivi di traffico, bensì calcolano il percorso di costo 
+minimo da un nodo sorgente ad un nodo destinazione.
 
-Non esiste una sola implementazione di tali algoritmi, essi si infatti
-si dividono in base a
+Non esiste una sola implementazione di tali algoritmi, essi infatti si 
+dividono in base a:
 \begin{itemize}
-	\item Modalità di acquisizione dei dati, che può essere
+	\item Modalità di \textbf{acquisizione dei dati}, che può essere
 		\begin{itemize}
 			\item \textbf{Globale}: ogni router acquisisce informazioni
 				sullo stato di tutti i collegamenti ottenendo una
@@ -40,12 +44,14 @@ si dividono in base a
 				informazioni mediante lo scambio di messaggi con 
 				router vicini.
 		\end{itemize}
-	\item Vista nel tempo, che può essere
+	\item \textbf{Vista nel tempo}, che può essere
 		\begin{itemize}
 			\item \textbf{Statica}: quando le rotte vengono gestite
-				manualmente dagli amministratori di reti piccole.
-			\item \textbf{Dinamica}: i router si scambiano informazioni
-				per riuscire ad aggiornare dinamicamente i percorsi.
+				manualmente dagli amministratori (generalmente nel caso
+				di reti piccole).
+			\item \textbf{Dinamica}: quando i router si scambiano 
+				informazioni per riuscire ad aggiornare dinamicamente 
+				i percorsi.
 		\end{itemize}
 \end{itemize}
 Per quanto ci riguarda il routing di tipo statico non è particolarmente
@@ -63,9 +69,10 @@ minimo e \textbf{asincrono} poiché ogni nodo può fare dei calcoli in
 modo indipendente.
 
 \subsubsection{Implementazione}
-Si base sull'equazione di \textbf{Bellman-Ford} per il calcolo di un
+Si basa sull'equazione di \textbf{Bellman-Ford} per il calcolo di un
 cammino di costo minimo tra un nodo sorgente $x$ ad un nodo 
-destinazione $y$, tramite dei nodi intermedi supponendo che:
+destinazione $y$, passando per nodi intermedi. Questo algoritmo assume
+che:
 \begin{itemize}
 	\item Il costo $c(x,z)$ tra nodo sorgente $x$ e il vicino $z$ sia
 		noto.
@@ -74,17 +81,22 @@ destinazione $y$, tramite dei nodi intermedi supponendo che:
 \end{itemize}
 Nella pratica il router $x$ conosce la distanza tra lui e i suoi vicini
 mentre i suoi vicini (non tutti) conoscono la distanza tra loro e il
-nodo destinazione $y$.
+nodo destinazione.
 
-Il router a questo punto calcola il percorso migliore scegliendo quello
-quello a distanza minima sommando alla distanza tra lui e un certo
-nodo $v$, la distanza che c'è tra $v$ e la destinazione $y$.
+Il router a questo punto calcola il percorso migliore basandosi su un 
+insieme di distanze fornitegli dai nodi adiacenti e sulla distanza tra
+lui e tali nodi adiacenti.
+
+La scelta ricade ovviamente sul cammino minimo da lui alla destinazione
+anche se il router non conosce effettivamente il percorso ma solo il 
+suo costo.
 \[ d_{xy} = \min \{ c(x, v) + d_{vy} \} \]
 Tale informazione viene poi comunicata ad eventuali altri router vicini
 precedentemente interpellati nel calcolo del percorso.
 
-L'iterazione è causata da un cambio nel costo di uno dei collegamenti
-locali oppure dalla ricezione di un \emph{vettore distanza} aggiornato.
+Un'iterazione viene scatenata da un cambio nel costo di uno dei 
+collegamenti locali oppure dalla ricezione di un \emph{vettore distanza}
+aggiornato.
 
 Ogni nodo aggiorna i suoi vicini solo quando il proprio \emph{distance
 vector} cambia e i vicini avvisano i rispettivi vicini solo se 
@@ -99,9 +111,11 @@ informazioni errato dovuto all'asincronia del metodo.
 
 Per aggirare il problema, il nodo che notifica l'avvenuta degradazione
 del collegamento, non riceve informazioni dagli altri nodi sui relativi
-percorsi. In questo modo in nodi che devono ricevere la notifica
-possono farlo correttamente e, se necessario, aggiornare i propri
-vettori distanza (\textbf{Split to Horizon}).
+percorsi.
+
+In questo modo i nodi che devono ricevere la notifica possono farlo 
+correttamente e, se necessario, possono aggiornare i propri vettori 
+distanza (\textbf{Split to Horizon}).
 
 \subsection{Link state}
 Questo algoritmo sfrutta l'acquisizione centralizzata e globale delle 
@@ -116,26 +130,26 @@ per calcolare il cammino a costo minimo da un nodo origine a tutti gli
 altri nodi della rete.
 
 \subsection{Sistemi autonomi}
-I router sono organizzati in \textbf{sistemi autonomi}, i quali sono
-gruppi di router sotto lo stesso controllo amministrativo che può
-decidere in modo autonomo i protocolli e le politiche di routing che
-intendono adottare al loro interno.
-
-Andiamo quindi a distinguere i protocolli che vengono usati all'interno
-di sistemi autonomi, detti IGP (Interior Gateway Protocol) e protocolli
-usati all'esterno dei sistemi autonomi, detti EGP (Exterior Gateway
-Protocol).
-
-\`E quindi necessario che all'interno dello stesso sistema autonomo
-ci sia un unico protocollo.
+I router sono organizzati in \textbf{sistemi autonomi}, ossia gruppi di
+router sotto lo stesso controllo amministrativo, il quale si occupa di
+decidere in modo autonomo i protocolli e le politiche di routing.
+Andiamo quindi a distinguere i protocolli di routing in due categorie:
+\begin{itemize}
+	\item \textbf{IGP}: usati all'interno di sistemi autonomi 
+		(Interior Gateway Protocol).
+	\item \textbf{EGP}: usati all'esterno di sistemi autonomi 
+		(Exterior Gateway Protocol).
+\end{itemize}
+All'interno dello stesso sistema autonomo è necessario che ci sia un 
+unico protocollo.
 
 \subsubsection{RIP}
 Il protocollo di interesse usato internamente da un sistema autonomo
 è il \textbf{RIP} (Routing Information Protocol).
 
 Questo protocollo fa uso dell'algoritmo \emph{distance vector} nella 
-sua versione in grado di prevenire scambio di informazioni errate che
-andrebbero ad aumentare il tempo di instradamento.
+sua versione in grado di prevenire scambio di informazioni errate, così
+da evitare inutili ritardi per l'instradamento.
 
 In questo caso abbiamo che il costo da un nodo all'altro è sempre 1.
 Di conseguenza il cammino di costo minimo è il cammino più breve, ossia
@@ -145,15 +159,16 @@ Gli aggiornamenti sono inviati ogni 30 secondi tramite UDP da un
 processo demone che si occupa di inviare tali aggiornamenti.
 
 \subsubsection{OSPF}
-L'altro algoritmo intra sistema autonomo che invece implementa 
-l'algoritmo \emph{link state} è l'\textbf{OSPF} (Open Shortest Path
+L'altro protocollo interno al sistema autonomo, che invece implementa 
+l'algoritmo \emph{link state}, è l'\textbf{OSPF} (Open Shortest Path
 First). In questo caso è l'amministratore di rete a decidere la metrica
 per il calcolo del percorso.
 
-Il problema è che questo metodo invia messaggi, in broadcast a tutti i
+Il problema è che questo metodo invia messaggi in broadcast a tutti i
 router della rete andandola a caricare di messaggi di controllo.
 
-Per alleggerire il carico si divide la rete in modo gerarchico andando così suddividere il traffico.
+Per alleggerire il carico si divide la rete in modo gerarchico andando 
+così suddividere il traffico.
 
 \subsubsection{BGP}
 I sistemi autonomi possiedono dei router di frontiera che li mettono
@@ -166,12 +181,12 @@ sistemi autonomi che attraverso di loro è possibile raggiungere
 	\item Router all'interno del sistema autonomo.
 \end{itemize}
 I router di frontiera avranno quindi un algoritmo per il calcolo dei
-percorsi intra sistema autonomo e uno per il calcolo dei percorsi 
-inter sistema autonomo.
+percorsi interni al sistema autonomo e uno per il calcolo dei percorsi 
+da un sistema autonomo all'altro.
 
-I router di frontiera ovviamente comunicano a tutti i router del 
-proprio sistema autonomo, la raggiungibilità di nodi appartenenti ad
-altri sistemi autonomi.
+I router di frontiera comunicano in broadcast a tutti i router del 
+proprio sistema autonomo la possibilità di raggiungere nodi 
+appartenenti ad altri sistemi autonomi.
 
 Nella pratica, coppie di router si scambiano informazioni tramite
 connessioni TCP in sessioni BGP \textbf{esterne} ed \textbf{interne}.
