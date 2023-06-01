@@ -1,56 +1,68 @@
 \section{UDP}
-Il protocollo \textbf{UDP} si dice un servizio a \emph{massimo sforzo} poiché i datagrammi UDP
-possono essere perduti o consegnati fuori sequenza e l'affidabilità può essere aggiunta ma solo a 
-livello applicativo.
+Il protocollo \textbf{UDP} si dice un servizio a \emph{massimo sforzo} 
+poiché i datagrammi UDP possono essere perduti o consegnati fuori 
+sequenza e l'affidabilità può essere aggiunta ma solo a livello 
+applicativo.
 
-Si tratta inoltre di un servizio \textbf{orientato al messaggio} dato che ogni datagramma è 
-indipendente dall'altro e i processi devono inviare messaggi di dimensioni limitate, che possono
-essere incapsulati in un datagramma UDP.
+Si tratta inoltre di un servizio \textbf{orientato al messaggio} dato 
+che ogni datagramma è indipendente dall'altro e i processi devono 
+inviare messaggi di dimensioni limitate, che possono essere incapsulati 
+in un datagramma UDP.
 
-In generale UDP è meno complesso di TCP e offre meno servizi ma è più indicato in contesti in cui
-è necessaria un completo controllo della temporizzazione.
+In generale UDP è meno complesso di TCP e offre meno servizi ma è più 
+indicato in contesti in cui è necessaria un completo controllo della 
+temporizzazione.
 
-Si tratta infatti di un tipo di servizio \textbf{connectionless}, che evita quindi i ritardi 
-dovuti alla gestione della connessione come ad esempio la fase di instaurazione e i vari controlli
-di flusso e congestione. Questo fa sì che l'intestazione del datagramma sia anche molto più breve
-(8 byte).
+Si tratta infatti di un tipo di servizio \textbf{connectionless}, che 
+evita quindi i ritardi dovuti alla gestione della connessione come ad 
+esempio la fase di instaurazione e i vari controlli di flusso e 
+congestione. Questo fa sì che l'intestazione del datagramma sia anche 
+molto più breve (8 byte).
 
-Anche l'operazione per il controllo dell'integrità dei pacchetti, ossia la \textbf{checksum}, è 
-facoltativa.
+Anche l'operazione per il controllo dell'integrità dei pacchetti, ossia 
+la \textbf{checksum}, è facoltativa.
 
 \subsection{Intestazione UDP}
-Come anticipato, l'intestazione di un datagramma UDP ha una dimensione di 8 byte in cui sono
-riportati
+Come anticipato, l'intestazione di un datagramma UDP ha una dimensione 
+di 8 byte in cui sono riportati
 \begin{itemize}
-	\item \textbf{Porta sorgente}: la porta utilizzata dal mittente per trasmettere il messaggio.
-	\item \textbf{Porta destinatario}: la porta utilizzata dal destinatario in fase di 
-		Demultiplexing.
-	\item \textbf{Lunghezza messaggio}: lunghezza totale (header + dati) del messaggio in byte.
-	\item \textbf{Checksum}: valore per il controllo dell'integrità del messaggio.
+	\item \textbf{Porta sorgente}: la porta utilizzata dal mittente 
+		per trasmettere il messaggio.
+	\item \textbf{Porta destinatario}: la porta utilizzata dal 
+		destinatario in fase di Demultiplexing.
+	\item \textbf{Lunghezza messaggio}: lunghezza totale (header + 
+		dati) del messaggio in byte.
+	\item \textbf{Checksum}: valore per il controllo dell'integrità 
+		del messaggio.
 \end{itemize}
 Fuori dall'intestazione troviamo il corpo del messaggio.
 
 \subsubsection{Checksum}
-Il valore di checksum viene calcolato sull'intero datagramma con una parte dello 
-\emph{pseudo-header}, ossia dell'header IP (livello rete) composto dagli IP di mittente e 
-destinatario, un campo di 8 zeri, il campo che indica il protocollo di trasporto e infine la 
-lunghezza del datagramma.
+Il valore di checksum viene calcolato sull'intero datagramma con una 
+parte dello \emph{pseudo-header}, ossia dell'header IP (livello rete) 
+composto dagli IP di mittente e destinatario, un campo di 8 zeri, il 
+campo che indica il protocollo di trasporto e infine la lunghezza del 
+datagramma.
 
 Per calcolare la checksum il mittente
 \begin{enumerate}
 	\item Setta il campo checksum a 0.
-	\item Tratta il contenuto del datagramma come una sequenza di parole da 16 bit.
+	\item Tratta il contenuto del datagramma come una sequenza di parole
+		da 16 bit.
 	\item Somma le parole di 16 bit in complemento a 1.
 	\item Complemento a 1 del risultato.
 \end{enumerate}
-Il risultato finale viene messo nel campo checksum del datagramma. Una volta che il destinatario
-riceve il datagramma calcola la checksum del segmento ricevuto senza settare il campo checksum del
-datagramma a 0. Se il valore calcolato è 0 allora il pacchetto è integro.
+Il risultato finale viene messo nel campo checksum del datagramma. Una 
+volta che il destinatario riceve il datagramma calcola la checksum del 
+segmento ricevuto senza settare il campo checksum del datagramma a 0. Se
+il valore calcolato è 0 allora il pacchetto è integro.
 
 \subsection{Conclusioni}
-In conclusione possiamo dire che UDP offre maggiore velocità a discapito dell'affidabilità. \`E
-però molto utile in tutti i contesti in cui c'è una certa tolleranza alla perdita dei dati come 
-ad esempio streaming multimediali (ad esempio perdita di qualche frame di un video).
+In conclusione possiamo dire che UDP offre maggiore velocità a discapito
+dell'affidabilità. \`E però molto utile in tutti i contesti in cui c'è 
+una certa tolleranza alla perdita dei dati come ad esempio streaming 
+multimediali (ad esempio perdita di qualche frame di un video).
 
-Se necessario, è possibile implementare controlli a livello applicativo specifici e rigorsi tanto
-quanto viene richiesto dall'applicazione.
+Se necessario, è possibile implementare controlli a livello applicativo 
+specifici e rigorsi tanto quanto viene richiesto dall'applicazione.
+

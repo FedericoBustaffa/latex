@@ -1,25 +1,34 @@
 \chapter{Livello di rete}
-Il livello di \textbf{rete} offre servizi al livello di trasporto e si occupa della consegna
-dei datagrammi tra gli host appoggiandosi a servizi offerti dallo strato di collegamento.
-I passi compiuti da una comunicazione a livello di rete sono tipicamente quattro:
+Il livello di \textbf{rete} offre servizi al livello di trasporto e si 
+occupa della consegna dei datagrammi tra gli host appoggiandosi a 
+servizi offerti dallo strato di collegamento.
+I passi compiuti da una comunicazione a livello di rete sono tipicamente
+quattro:
 \begin{enumerate}
-	\item L'entità a livello rete riceve i segmenti dal livello di trasporto nell'host mittente e
-		li incapsula in \textbf{datagrammi}.
+	\item L'entità a livello rete riceve i segmenti dal livello di 
+		trasporto nell'host mittente e li incapsula in 
+		\textbf{datagrammi}.
 	\item I datagrammi sono inoltrati al nodo successivo sulla rete.
-	\item Il router esamina i campi d'intenstazione presenti in tutti i datagrammi IP che lo 
-		attraversano e li inoltra da un collegamento di ingresso ad uno di uscita.
-	\item Consegna i segmenti al livello di trasporto dopo averli decapsulati.
+	\item Il router esamina i campi d'intenstazione presenti in tutti i
+		datagrammi IP che lo attraversano e li inoltra da un 
+		collegamento di ingresso ad uno di uscita.
+	\item Consegna i segmenti al livello di trasporto dopo averli 
+		decapsulati.
 \end{enumerate}
-Come possiamo intuire, a differenza dei livelli applicativo e di trasporto, il livello di rete è
-implementato anche nei nodi intermedi e riesce a interconnettere reti \emph{eterogenee}.
+Come possiamo intuire, a differenza dei livelli applicativo e di 
+trasporto, il livello di rete è implementato anche nei nodi intermedi e 
+riesce a interconnettere reti \emph{eterogenee}.
 
-I servizi offerti dal livello di rete sono molti ma per il momento ci concentreremo solo su quelli
-di maggiore importanza per capire meglio il funzionamento di questo strato, ossia:
+I servizi offerti dal livello di rete sono molti ma per il momento ci 
+concentreremo solo su quelli di maggiore importanza per capire meglio il
+funzionamento di questo strato, ossia:
 \begin{itemize}
 	\item Suddivisione in pacchetti.
 	\item Instradamento (routing).
 	\item Inoltro (forwarding).
 \end{itemize}
-Il primo e fondamentale protocollo che trattiamo è il \textbf{protocollo IP}, molto semplice ma 
-andremo anche a toccare altri protocolli definiti via via nel tempo per riuscire a tenere il passo
-con l'evoluzione della tecnologia.
+Il primo e fondamentale protocollo che trattiamo è il \textbf{protocollo
+IP}, molto semplice ma andremo anche a toccare altri protocolli definiti
+via via nel tempo per riuscire a tenere il passo con l'evoluzione della
+tecnologia.
+
