@@ -1,32 +1,41 @@
 \section{TELNET}
-Il protocollo \textbf{TELNET} (TErminal NETwork) fornisce la possibilità di controllare un
-terminale da remoto. Si tratta di un protocollo non specifico per un'applicazione, è infatti
-possibile collegarsi da remoto ad una macchina e poi eseguire le applicazioni che preferisco.
+Il protocollo \textbf{TELNET} (TErminal NETwork) fornisce la 
+possibilità di controllare un terminale da remoto. Si tratta di un 
+protocollo non specifico per un'applicazione, è infatti possibile 
+collegarsi da remoto ad una macchina e poi eseguire le applicazioni 
+che preferiamo.
 
 \subsection{Funzionamento}
-Per riuscire a fare tutto questo, TELNET maschera sia la rete che i sistemi operativi e utilizza
-un'interfaccia semplice (a caratteri) ma veloce. Abbiamo quindi la possibilità di
+Per riuscire a fare tutto questo, TELNET maschera sia la rete che i 
+sistemi operativi e utilizza un'interfaccia semplice (a caratteri) ma 
+veloce. Abbiamo quindi la possibilità di
 \begin{enumerate}
-	\item Connetterci ad un server remoto, interagendo con il terminale.
+	\item Connetterci ad un server remoto, interagendo con il 
+		terminale.
 	\item Inviare comandi alla macchina server.
-	\item L'output della macchina remota viene trasportato al terminale dell'utente.
+	\item L'output della macchina remota viene trasportato al terminale
+		dell'utente.
 \end{enumerate}
-In generale il protocollo stabilisce una connessione TCP con il server remoto, in seguito accetta
-l'output prodotto dalla macchina server e lo visualizza sul terminale utente. Dall'altro lato il 
-server accetta la connessione TCP e trasmette i dati al sistema operativo locale. La connessione 
-persiste per tutta la durata della sessione di login.
+In generale il protocollo stabilisce una connessione TCP con il server 
+remoto, in seguito accetta l'output prodotto dalla macchina server e lo
+visualizza sul terminale utente. Dall'altro lato il server accetta la 
+connessione TCP e trasmette i dati al sistema operativo locale. La 
+connessione persiste per tutta la durata della sessione di login.
 
 \subsection{Problematiche}
-Per poter funzionare, TELNET, deve poter operare con il numero massimo di sistemi e quindi gestire
-dettagli di sistemi operativi eterogenei. I terminali possono differire gli uni dagli altri per 
-codifica dei caratteri, larghezza della linea e lunghezza della pagina e per i tasti funzione
-individuati da diverse sequenze di caratteri.
+Per poter funzionare, TELNET, deve poter operare con il numero massimo 
+di sistemi e quindi gestire dettagli di sistemi operativi eterogenei.
+I terminali possono differire gli uni dagli altri per codifica dei 
+caratteri, larghezza della linea e lunghezza della pagina e per i tasti
+funzione individuati da diverse sequenze di caratteri.
 
-Per risolvere questo problema è stato definito uno standard comune, ossia un
-\textbf{terminale virtuale} (NVT), con delle regole per la codifica dei caratteri e dei comandi.
-Il terminale virtuale definisce un set di caratteri e comandi universale che permette di
-trasformare il set localmente in uso in un set universale.
+Per risolvere questo problema è stato definito uno standard comune, 
+ossia un \textbf{terminale virtuale} (NVT), con delle regole per la
+codifica dei caratteri e dei comandi.
+Il terminale virtuale definisce un set di caratteri e comandi 
+universale che permette di trasformare il set localmente in uso in un 
+set universale.
 
-TELNET non è un protocollo sicuro in quanto fa viaggiare tutte le informazioni in chiaro. Ad oggi
-esiste un protocollo che agisce in modo molto simile ma cifra la comunicazione, ossia SSH Secure 
-Shell.
+TELNET non è un protocollo sicuro in quanto fa viaggiare tutte le 
+informazioni in chiaro. Ad oggi esiste un protocollo che agisce in modo
+molto simile ma cifra la comunicazione, ossia SSH Secure Shell.

@@ -1,43 +1,56 @@
 \section{World Wide Web}
-Possiamo definire il \textbf{Web} come un sistema di condivisione di informazioni tramite
-collegamenti in rete.
+Possiamo definire il \textbf{Web} come un sistema di condivisione di 
+informazioni tramite collegamenti in rete.
 
-Una pagine web, tipicamente è formata da un file HTML di base, da diversi oggetti referenziati
-(altre pagine, file multimediali ecc.) e ciascuno di questi oggetti è \emph{indirizzabile} tramite
-una \textbf{URL} (Uniform Resource Locator).
+Una pagine web, tipicamente è formata da un file HTML di base, da 
+diversi oggetti referenziati (altre pagine, file multimediali ecc.) e 
+ciascuno di questi oggetti è \emph{indirizzabile} tramite una 
+\textbf{URL} (Uniform Resource Locator).
 
 \subsection{URI, URL e URN}
-Quando si parla di \textbf{URI} (Uniform Resource Identifier) si fa riferimento all'identificativo
-di una risorsa sulla rete. Cerchiamo di capire meglio perché si chiama così:
+Quando si parla di \textbf{URI} (Uniform Resource Identifier) si fa 
+riferimento all'identificativo di una risorsa sulla rete. Cerchiamo 
+di capire meglio perché si chiama così:
 \begin{itemize}
-	\item \textbf{Uniform}: uniformità della sintassi dell'identificatore anche se i meccanismi
-		per accedere alle risorse possono variare.
+	\item \textbf{Uniform}: uniformità della sintassi 
+		dell'identificatore anche se i meccanismi per accedere alle 
+		risorse possono variare.
 	\item \textbf{Resource}: qualsiasi cosa abbia un'\emph{identità}.
-	\item \textbf{Identifier}: informazioni che permettono di distinguere un oggetto dall'altro.
+	\item \textbf{Identifier}: informazioni che permettono di 
+		distinguere un oggetto dall'altro.
 \end{itemize}
-Un tipo di URI è la \textbf{URN}, ossia un sottoinsieme di URI che devono rimanere globalmente
-unici e persistenti anche quando la risorsa cessa di esistere.
+Un tipo di URI è la \textbf{URN}, ossia un sottoinsieme di URI che 
+devono rimanere globalmente unici e persistenti anche quando la 
+risorsa cessa di esistere.
 
-Il tipo di URI che invece ci interessa trattare per andare a comprendere meglio il protocollo HTTP
-è la \textbf{URL}, ossia un sottoinsieme di URI che identifica le risorse attraverso il loro
-meccanismo di accesso. La sintassi di una URL è la seguente
-\begin{center} \verb|<scheme>://<user>/<password>@<host>:<port>/<path>| \end{center}
+Il tipo di URI che invece ci interessa trattare per andare a 
+comprendere meglio il protocollo HTTP è la \textbf{URL}, ossia un sotto
+insieme di URI che identifica le risorse attraverso il loro meccanismo 
+di accesso. La sintassi di una URL è la seguente
+\begin{center}
+	\verb|<scheme>://<user>/<password>@<host>:<port>/<path>| 
+\end{center}
 Vediamo a cosa corrispondono ognuno di questi nomi:
 \begin{itemize}
-	\item \textbf{Schema}: indica il meccanismo di accesso alla risorsa (HTTP, FTP).
-	\item \textbf{Utente} e \textbf{password}: sono opzionali e ad oggi deprecati.
-	\item \textbf{Host}: indica il nome di un dominio o l'indirizzo IP (www.google.it).
-	\item \textbf{Porta}: numero di porta opzionale in quanto ad ogni servizio è associata una
-		porta di default (HTTP sulla porta 80).
-	\item \textbf{Path}: percorso per accedere alla risorsa sulla macchina host in cui risiede la
-		risorsa.
+	\item \textbf{Schema}: indica il meccanismo di accesso alla risorsa
+		(HTTP, FTP).
+	\item \textbf{Utente} e \textbf{password}: sono opzionali e ad 
+		oggi deprecati.
+	\item \textbf{Host}: indica il nome di un dominio o l'indirizzo IP 
+		(www.google.it).
+	\item \textbf{Porta}: numero di porta opzionale in quanto ad ogni 
+		servizio è associata una porta di default (HTTP sulla porta 
+		80).
+	\item \textbf{Path}: percorso per accedere alla risorsa sulla 
+		macchina host in cui risiede la risorsa.
 \end{itemize}
 Una URL può essere \textbf{assoluta} o \textbf{relativa}:
 \begin{itemize}
-	\item \textbf{Assoluta}: identifica una risorsa indipendetemente dal contesto in cui si viene
-		usata.
-	\item \textbf{Relativa}: informazioni per identificare una risorsa in relazione ad un'altra 
-		URL (è priva di schema e di authority).
+	\item \textbf{Assoluta}: identifica una risorsa indipendetemente 
+		dal contesto in cui si viene usata.
+	\item \textbf{Relativa}: informazioni per identificare una risorsa
+		in relazione ad un'altra URL (è priva di schema e di 
+		authority).
 \end{itemize}
-Le URL relative non viaggiano in rete ma sono interpretate dal browser in relazione al documento
-di partenza.
+Le URL relative non viaggiano in rete ma sono interpretate dal browser 
+in relazione al documento di partenza.
