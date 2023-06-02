@@ -7,17 +7,19 @@ dobbiamo introdurre concetti come
 	\item Latenza
 	\item Perdita di pacchetti
 \end{itemize}
-Una volta chiariti certi concetti sarà anche più facile interpretare 
-i risultati forniti dai famosi \emph{speed test} che si trovano online.
+Tali concetti saranno utili più avanti quando andremo a trattare la
+gestione della congestione del traffico o del flusso di dati 
+trasmessi.
 
 \subsection{Larghezza di banda e bitrate}
 Quando si parla di \textbf{larghezza di banda} si parla della larghezza
 dell'intervallo delle frequenze utilizzato dal mezzo trasmissivo e si 
-misura in Hertz (Hz).
+misura in Hertz. Questa indica, in un certo senso, la "\emph{capacità}"
+del mezzo trasmissivo.
 
 Il \textbf{bitrate} è invece la velocità di trasmissione del mezzo 
 trasmissivo e indica quanti bit possono essere trasmessi nell'unità 
-di tempo e si misura in bits per second (bps).
+di tempo e si misura in bit al secondo (bps).
 
 \subsection{Throughput}
 Il \textbf{throughput} indica la quantità di dati che possono essere 
@@ -58,7 +60,8 @@ e all'elaborazione di una scelta del canale d'uscita del pacchetto.
 \subsubsection{Trasmissione}
 Il \textbf{ritardo di trasmissione} dipende dalla velocità di 
 trasmissione del collegamento e dalla lunghezza del pacchetto. 
-Rappresenta il tempo impiegato per immettere il pacchetto sulla linea.
+Rappresenta il tempo impiegato per immettere completamente il 
+pacchetto sulla linea.
 \[ rt = \frac{l}{r} \]
 dove $l$ è la lunghezza del pacchetto e $r$ è la velocità di 
 trasmissione (rate) del mezzo trasmissivo.
@@ -71,6 +74,7 @@ fisico e dalla velocità di propagazione nel mezzo.
 dove $d$ è la lunghezza del mezzo trasmissivo e $s$ è la velocità di 
 propagazione di tale mezzo.
 
+\subsubsection{End-to-End}
 Proviamo ora a fare qualche esempio pratico per riuscire a comprendere 
 meglio tutti questi concetti. Supponiamo di voler inviare un file di 
 1 Mbit su un datalink di lunghezza 4800 km. Il ritardo di propagazione,
@@ -88,8 +92,6 @@ trasmissione pari a
 Con una velocità di trasmissione di 1 Gbps abbiamo invece un ritardo di
 trasmissione pari a
 \[ rt = \frac{10^6 [\text{b}]}{10^9 [\text{bps}]} = 0.001 [\text{s}] \]
-
-\subsubsection{End-to-End}
 Il ritardo \textbf{end-to-end} è il ritardo complessivo che c'è da 
 origine a destinazione. Per calcolarlo supponiamo che ci siano $n-1$
 nodi tra origine e destinazione. Per prima cosa dobbiamo calcolare il 
@@ -101,10 +103,11 @@ equivalente alla somma di tutti i ritardi accumulati sui singoli nodi
 \[ R_\text{end-to-end} = \sum_{i=1}^n R_i \]
 
 \subsubsection{Traceroute}
-Uno strumento in grado di tracciare un pacchetto dal tuo computer ad un
-certo host specificato mostrando, il numero di passaggi necessari per 
-raggiungerlo insieme al ritardo da ogni mittente ad ogni passaggio. Su
-Windows si utilizza digitando il comando
+Uno strumento in grado di tracciare il percorso compiuto da un 
+pacchetto da un nodo sorgente ad un nodo destinazione, mostrando il 
+numero di passaggi necessari per raggiungerlo insieme al ritardo 
+sperimentato da un nodo all'altro. Su Windows si utilizza digitando 
+il comando
 \begin{center}
 	\verb|tracert <URL>|
 \end{center}
@@ -113,8 +116,8 @@ mentre su Linux è possibile utilizzarlo tramite il comando
 	\verb|traceroute <URL>|
 \end{center}
 
-\subsection{Volume di trasmissione}
+\subsubsection{Volume di trasmissione}
 Il prodotto tra il bitrate e il ritardo ci fornisce un \textbf{volume} 
 di trasmissione che indica quanti possono essere contenuti nel mezzo 
-trasmissivo in una certa unità di tempo. In un certo senso indica la 
-\textbf{capacità} del mezzo trasmissivo.
+trasmissivo in una certa unità di tempo.
+

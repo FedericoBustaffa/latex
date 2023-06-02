@@ -21,9 +21,9 @@ allo strato superiore
 Per riuscire a stratificare correttamente il sistema è buona norma 
 seguire questi principi che ci forniscono una buona linea guida:
 \begin{itemize}
-	\item \textbf{Separation of Concern}: Separazione di interessi e 
-		responsabilità ogni strato dovrebbe fare solo ciò che gli 
-		compete e delegare ad altri strati tutto ciò che è delegabile.
+	\item \textbf{Separation of Concern}: ogni strato dovrebbe fare 
+		solo ciò che gli compete e delegare ad altri strati tutto ciò
+		che è delegabile.
 	\item \textbf{Information Hiding}: Nascondere tutte le informazioni
 		non indispensabili al committente.
 \end{itemize}
@@ -59,16 +59,18 @@ a utilizzare in questo contesto.
 
 \subsubsection{Sistemi aperti e chiusi}
 In un \textbf{sistema chiuso} tutte le componenti della rete devono 
-essere dello stesso costruttore e la è specializzata per specifici 
-servizi. Ovviamente questo crea un grosso problema di 
-\textbf{interoperabilità} in quanto gli apparati non riescono ad 
-interpretare i segnali degli altri in altre reti e sono quindi 
-impossibilitati a lavorare in ambiente distribuito.
+essere dello stesso costruttore ed è specializzata per specifici 
+servizi.
+
+Ovviamente questo crea un grosso problema di \textbf{interoperabilità} 
+poiché gli apparati non riescono ad interpretare i segnali 
+provenienti da altre reti e sono quindi impossibilitati a lavorare in 
+ambiente distribuito.
 
 In un \textbf{sistema aperto} si cerca di risolvere questi problemi 
 per garantire l'interoperabilità tra reti diverse.
 
-In un sistema aperto le specifiche del protocollo sono disponibili 
+In questo caso le specifiche del protocollo sono disponibili 
 pubblicamente e i cambiamenti sono gestiti da un'organizzazione la cui 
 partecipazione è aperta al pubblico.
 
@@ -86,7 +88,10 @@ superiore può essere di due tipi:
 			\item Chiusura
 		\end{itemize}
 	\item \textbf{Connectionless}: in questo caso i dati vengono 
-		trasferiti senza stabilire una connessione.
+		trasferiti senza stabilire una connessione. In altre parole
+		si conosce solo l'indirizzo di destinazione ma non si alloca
+		alcuna risorsa in grado di garantire l'arrivo a destinazione
+		del messaggio.
 \end{itemize}
 
 \subsection{Flusso dell'informazione}
@@ -114,15 +119,15 @@ Ogni strato fornisce servizi allo strato superiore e comunica con lo
 stesso strato di un'altra entità secondo un protocollo assegnato.
 
 \subsubsection{Stack protocollare ISO/OSI}
-Come vedremo tra poco il modello IOS/OSI è definito come uno stack di
+Come vedremo tra poco, il modello ISO/OSI è definito come uno stack di
 protcolli:
 \begin{itemize}
 	\item \textbf{Fisico}: trasmissione di un flusso di bit.
-	\item \textbf{Collegamento}: invio di un'unità trasmissiva (trama)
+	\item \textbf{Collegamento}: invio di un'unità trasmissiva (frame)
 		da un host ad un altro.
-	\item \textbf{Rete}: instradamento del traffico, ossia si occupa 
-		di determinare il percorso dalla sorgente alla destinazione 
-		attraverso i nodi della rete.
+	\item \textbf{Rete}: si occupa dell'instradamento del traffico, 
+		ossia di determinare il percorso dalla sorgente alla 
+		destinazione attraverso i nodi della rete.
 	\item \textbf{Trasporto}: trasferimento di dati da host a host in 
 		cui si possono avere servizi connection-oriented o 
 		connectionless.
@@ -149,10 +154,10 @@ non differiscono poi così tanto da quello proposti nel modello ISO/OSI:
 	\item \textbf{Collegamento}: trasferimento dati in frame attraverso
 		collegamenti tra elementi di rete vicini (ethernet).
 	\item \textbf{Rete}: instradamento dei datagrammi da sorgente a
-		destinazione (ip, ICMP).
-	\item \textbf{Trasporto}: trasferimento dati end-to-end (tcp, 
-		udp).
+		destinazione (IP, ICMP).
+	\item \textbf{Trasporto}: trasferimento dati end-to-end (TCP, 
+		UDP).
 	\item \textbf{Applicazione}: supporta le applicazioni di rete e
 		instaura un collegamento logico end-to-end tra due processi
-		(smtp, ftp, http).
+		(SMTP, FTP, HTTP).
 \end{itemize}
