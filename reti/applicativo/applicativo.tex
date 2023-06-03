@@ -1,12 +1,15 @@
 \chapter{Livello applicativo}
-In questo corso vedremo i quattro principali protocolli del modello 
+In questo corso vedremo i quattro strati principali del modello 
 TCP/IP andando dal livello applicativo a quello di collegamento. 
-Iniziamo dall'alto, ossia con il livello applicativo, che è quello che
+
+Iniziamo dall'alto con il livello applicativo, che è quello che
 più ci è familiare ed è di uso comune per molti utenti di Internet.
 
 Un'\textbf{applicazione di rete} è formata da processi distribuiti e 
-comunicanti. Un processo è programma eseguito dagli host di una rete 
-e, all'interno dello stesso host, due processi possono comunicare 
+comunicanti dove, per \textbf{processo}, intendiamo un programma 
+eseguito dagli host di una rete.
+
+All'interno dello stesso host, due processi possono comunicare 
 attraverso la comunicazione \textbf{inter-processo} definita dal 
 sistema operativo.
 
@@ -24,16 +27,19 @@ messaggio (campi del messaggio), la \emph{semantica} dei campi
 (significato di ogni campo) e le \emph{regole} per determinare quando 
 e come un processo invia messaggi o risponde ai messaggi.
 
-I \textbf{paradigmi} del livello applicativo sono sostanzialmente due:
+I \textbf{paradigmi} utilizzati dalle applicazioni a questo livello
+sono sostanzialmente due:
 \begin{itemize}
 	\item \textbf{Client-Server}: in cui ci sono dei processi 
 		\textbf{server} che forniscono un servizio e dei processi 
 		\textbf{client} che ne fanno richiesta.
-	\item \textbf{Peer-To-Peer}: in un paradigma Peer-To-Peer tutti i 
-		processi sono in grado di richiedere servizi e di fornirli 
-		agli altri utenti della rete.
+	\item \textbf{Peer-To-Peer}: tutti i processi fungono sia da 
+		client che da server.
 \end{itemize}
-Esistono anche delle implementazione miste dei due paradigmi.
+Noi ci interesseremo principalmente di protocolli di tipo client-server
+anche se a fine corso spenderemo qualche parola per alcuni sistemi
+peer-to-peer più famosi. Esistono anche delle implementazione miste 
+dei due paradigmi.
 
 \section{Comunicazione tra processi}
 Per riuscire a comunicare, viene fornita ai programmatori, una
@@ -61,9 +67,9 @@ della rete.
 
 UDP invece ha dalla sua il fatto di essere un servizio 
 \emph{connectionless} e che non richiede quindi un fase iniziale di 
-setup. Per il resto non offre alcuna garanzia sulla buona riuscita
-della comunicazione tanto meno sulla qualità di essa. Ma UDP è ad oggi 
-molto usato per vari motivi
+setup. Per il resto non offre alcuna garanzia né sulla buona riuscita
+né sulla qualità della comunicazione. \`E tuttavia molto usato per 
+vari motivi
 \begin{itemize}
 	\item \textbf{Throughput}: Alcune applicazioni hanno bisogno di un 
 		certo throughput per poter offrire un buon servizio all'utente.
