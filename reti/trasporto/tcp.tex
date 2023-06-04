@@ -12,7 +12,7 @@ comunicazione sono:
 Come già detto si tratta di un servizio connection-oriented con le 
 seguenti caratteristiche:
 \begin{itemize}
-	\item I processi effetuano un \emph{handshake} prima dello 
+	\item I processi effettuano un \emph{handshake} prima dello 
 		scambio dei dati.
 	\item Si dice \textbf{orientato} poiché lo stato della connessione 
 		risiede sui nodi terminali e non sui nodi intermedi (router).
@@ -20,9 +20,10 @@ seguenti caratteristiche:
 		fisico dedicato.
 	\item La connessione è di tipo \textbf{full-duplex}: a prescindere 
 		da chi invia il messaggio di richiesta per la connessione, una 
-		volta instaurata la connessione, questa è bidirezionale.
+		volta instaurata, questa è bidirezionale.
 	\item La connessione è di tipo \textbf{punto-punto} in quanto si 
-		vuole connettere solo due sistemi terminali l'un con l'altro.
+		vogliono connettere solo due sistemi terminali l'un con 
+		l'altro.
 \end{itemize}
 Il trasferimento è inoltre \textbf{bufferizzato}, il software TCP può 
 infatti suddividere il flusso di byte in segmenti indipendentemente da 
@@ -55,7 +56,7 @@ ricevere.
 
 \subsubsection{Formato dei segmenti}
 Il formato dei segmenti TCP comprende un \emph{header} e i dati che 
-vogliano inviare. L'header del segmento, con una lunghezza variabile 
+vogliamo inviare. L'header del segmento, con una lunghezza variabile 
 tra i 20 e i 60 byte contiene:
 \begin{itemize}
 	\item Porta del sorgente e del destinatario.
@@ -149,14 +150,13 @@ server sta continuando a inviare dati siamo in un stato
 \textbf{half-close}.
 
 \subsection{Trasferimento dati affidabile}
-Un segmento può essere perso o corrotto e TCP implementa un servizio di
-trasferimento dati affidabile per riuscire a contenere queste 
-problematiche.
+Un segmento può essere perso o corrotto, per questo TCP implementa un
+servizio di trasferimento dati affidabile.
 
-Per verficare l'integrità del pacchetto esiste un meccanismo di 
-checksum, mentre per stabilire se qualche pacchetto è andato perso c'è 
-il meccanismo dei \textbf{riscontri} implementato tramite numeri di 
-sequenza e di riscontro.
+Per verificare l'integrità del pacchetto esiste un meccanismo di 
+checksum, mentre per stabilire se qualche pacchetto è andato perso
+si fa uso del meccanismo dei \textbf{riscontri} implementato tramite
+numeri di sequenza e di riscontro.
 
 In particolari casi, per esempio con il meccanismo di 
 \textbf{pipeline}, possiamo inviare più segmenti senza attendere un 
@@ -180,16 +180,16 @@ individuare possibili criticità:
 			\item Ricezione di tre \verb|ACK| duplicati.
 		\end{itemize}
 \end{enumerate}
-I segmenti possono anche arrivare fuori sequenza e quindi memorizzati 
-temporaneamente dal destinatario. Il TCP non implementa la gestione di 
-tali pacchetti, questo dipende dal destinatario.
+I segmenti possono anche arrivare fuori sequenza, in tal caso vengono
+memorizzati temporaneamente dal destinatario. TCP non implementa però
+la gestione di tali pacchetti, della quale si occupa il destinatario.
 
 Il destinatario, per applicare i riscontri in modo efficiente, 
 implementa diversi metodi:
 \begin{itemize}
-	\item Nel caso in cui il destinatario debba inviare dati, include 
-		nel messaggio da inviare il numero di riscontro per evitare di 
-		inviare due segmenti separati.
+	\item Nel caso in cui debba inviare dati, include nel messaggio 
+		da inviare il numero di riscontro per evitare di inviare due 
+		segmenti separati.
 	\item Se il destinatario non ha dati da inviare e riceve un 
 		segmento in ordine ritarda l'invio dell'\verb|ACK| di 500ms a 
 		meno che non riceva un nuovo segmento. Questo serve a 
@@ -197,8 +197,8 @@ implementa diversi metodi:
 	\item Se il destinatario riceve un segmento atteso e il precedente 
 		non è stato riscontrato, allora invia immediatamente 
 		l'\verb|ACK|.
-	\item Nei casi in cui il destinatario riceva un segmento fuori 
-		sequenza, mancante oppure duplicato invia immediatamente 
+	\item Nel caso in cui il destinatario riceva un segmento fuori 
+		sequenza, mancante oppure duplicato, invia immediatamente 
 		l'\verb|ACK| indicando il prossimo numero atteso.
 \end{itemize}
 Le varie casistiche possono verificarsi o meno anche a seconda 
@@ -206,15 +206,15 @@ dell'implementazione del TCP, che può variare da host a host.
 
 \subsubsection{Calcolo del timeout}
 Il timeout di ritrasmissione RTO è fondamentale per il corretto 
-funzionamento del TCP che, se troppo breve potrebbe causare 
-ritrasmissioni indesiderate e se troppo lungo potrebbe causare 
+funzionamento del TCP. Se troppo breve potrebbe causare 
+ritrasmissioni indesiderate, se troppo lungo potrebbe causare 
 rallentamenti.
 
 Questo timeout deve essere sicuramente superiore all'\textbf{RTT} 
 (Round Trip Time), ossia il tempo che intercorre tra l'invio di un 
-pacchetto e la ricezione del riscontro. Viene calcolato analizzando 
-gli RTT dei segmenti non ritrasmessi andando in primo luogo a misurare 
-l'RTT tramite la seguente formula
+pacchetto e la ricezione del riscontro. Questo viene calcolato 
+analizzando gli RTT dei segmenti non ritrasmessi andando in primo 
+luogo a misurare l'RTT tramite la seguente formula
 \[
 	\text{RTT}_\text{stimato} = 
 	(1 - \alpha) \cdot \text{RTT}_\text{stimato} +
@@ -248,11 +248,11 @@ svolgendo la somma
 	4 \cdot \text{RTT}_\text{dev}
 \]
 In molte implementazioni, dopo un errore, si raddoppia il timeout in 
-modo da avere in primo meccanismo di controllo della congestione.
+modo da avere un primo meccanismo di controllo della congestione.
 
 \subsubsection{Finestra di trasmissione}
 I dati inviati dal processo applicativo sono mantenuti nel 
-\textbf{buffer di invio}, la cui dimensione e organizzazione decreta
+\textbf{buffer di invio}, la cui dimensione e organizzazione, decreta
 la frequenza con cui TCP riesce ad inviare segmenti. In questo buffer,
 i segmenti si dividono in 4 sezioni:
 \begin{itemize}
@@ -295,17 +295,18 @@ l'invio di dati da parte del mittente.
 \subsubsection{Controllo di flusso}
 Per evitare di inondare il destinatario di dati entra in gioco il 
 meccanismo di \textbf{controllo di flusso}, che permette di regolare 
-l'invio dei pacchetti, per adattarsi alla capacità del mittente di 
+l'invio dei pacchetti per adattarsi alla capacità del mittente di 
 riceverli.
 
 Per implementare questo meccanismo, il mittente tiene una variabile 
-$rwnd$, che da un'idea di quanto spazio sia ancora disponibile nel 
-buffer del destinatario. Tale valore viene comunicato nel campo 
+$rwnd$, che rappresenta una stima della dimensione della finestra di
+ricezione del destinatario. Tale valore viene comunicato nel campo 
 \verb|window| dell'header TCP ogni volta che il destinatario invia un
-messaggio al mittente (anche solo di \verb|ACK|). Il valore di $rwnd$ 
-viene calcolato sottraendo alla dimensione totale del buffer di 
-ricezione la differenza tra i numeri di sequenza dell'ultimo byte 
-ricevuto e l'ultimo byte letto
+messaggio al mittente (anche solo di \verb|ACK|).
+
+Il valore di $rwnd$ viene calcolato sottraendo alla dimensione totale 
+del buffer di ricezione, la differenza tra i numeri di sequenza 
+dell'ultimo byte ricevuto e l'ultimo byte letto
 \[
 	rwnd = \text{RcvBuffer} - (\text{LastReceived} - \text{LastRead})
 \]
@@ -402,9 +403,9 @@ stesso modo andando a dimezzare la soglia e tornando nella fase di
 \emph{slow start}.
 
 \subsection{Throughput TCP}
-Per stimare il throughput medio della connessione TCP possiamo indicare
-con $W$ il valore massimo in byte della finestra di congestione e 
-ricavandolo tramite la seguente formula
+Se indichiamo con $W$ il valore massimo della finestra di congestione
+possiamo ricavare il valore di \textbf{throughput medio} della 
+connessione TCP tramite la seguente formula
 \[ T = \frac{0.75 \cdot W}{RTT} \]
 Questo risultato si ottiene considerando che quando la finestra ha 
 dimensione $W$ il throughput equivale a $\frac{W}{RTT}$ ma quando c'è 

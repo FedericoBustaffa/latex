@@ -1,13 +1,13 @@
 \section{FTP}
 Ultimo protocollo che vediamo per lo strato applicativo è \textbf{FTP}.
-Questo protocollo nasce dalla necessità di trasferire file a/da un host
-remoto.
+Questo protocollo nasce dalla necessità di trasferire file da/verso un
+host remoto.
 
-Adotta un paradigma di tipo client/server in cui il client richiede il 
-trasferimento la server remoto. Si tratta di un servizio diverso 
-dall'accesso condiviso on-line. In questo caso si ottiene una copia 
-locale ed eventualmente si ha un trasferimento del file modificato sul 
-server remoto.
+Adotta un paradigma di tipo client/server in cui il client richiede
+il trasferimento al server remoto. Si tratta di un servizio diverso
+dall'accesso condiviso on-line. In questo caso si ottiene una copia
+locale ed eventualmente si ha un trasferimento del file modificato
+sul server remoto.
 
 Il servizio fornisce funzionalità aggiuntive rispetto al semplice 
 trasferimento file:
@@ -45,7 +45,7 @@ La connessione di controllo è \textbf{persistente}.
 Quando il server riceve un comando per trasferire un file (da o verso 
 il client) sulla connessione di controllo
 \begin{enumerate}
-	\item Il server apre una connessione dati TCP con il client sulla 
+	\item Il server apre una connessione TCP con il client sulla 
 		porta 20 (\textbf{Active Mode}).
 	\item Il server trasferisce il file sulla connessione dati.
 	\item Dopo il trasferimento di un file, il server chiude la 
@@ -54,13 +54,11 @@ il client) sulla connessione di controllo
 La connessione dati non \textbf{non è persistente}.
 
 \subsubsection{Active vs Passive Mode}
-La Active Mode è quella descritta in precedenza, in cui è il serve ad 
-aprire la connessione TCP verso il client. Per riuscire a farlo il 
-server deve essere a conoscenza della porta su cui il client è in 
-ascolto. Ed è proprio il client che gliela comunica con la connessione 
-di controllo.
-
-In alternativa è possibile stabilire la connessione dati in 
+Nella modalità attiva appena descritta è il server ad aprire la 
+connessione TCP verso il client. Per riuscire a farlo deve essere a 
+conoscenza della porta su cui il client è in ascolto, ed è proprio 
+quest'ultimo a comunicargliela con la connessione di controllo. In
+alternativa è possibile stabilire la connessione dati in 
 \textbf{Passive Mode}:
 \begin{enumerate}
 	\item Il client chiede al server di di mettersi in ascolto su una
@@ -68,8 +66,7 @@ In alternativa è possibile stabilire la connessione dati in
 	\item Il server fornisce il numero di porta al client che lo usa 
 		per aprire la connessione.
 \end{enumerate}
-Questo metodo può essere più solido dal punto di vista della sicurezza 
-ma per ora non ce ne preoccupiamo.
+Questo metodo può essere più solido dal punto di vista della sicurezza.
 
 \subsubsection{Conclusioni}
 I dipositivi dove risiedono client e server FTP sono diversi, ecco che 
@@ -105,9 +102,9 @@ che si dividono in \textbf{comandi di controllo}:
 	\item \verb|SYST|: tipologia di sistema server.
 	\item \verb|QUIT|: chiude la connessione.
 \end{itemize}
-Il server risponde a questi comandi tramite \textbf{codici} di risposta
-che non staremo ad elencare ma tra i codici vi è anche il 227 che 
-indica che il server è entrato in Passive Mode.
+Il server risponde a questi comandi tramite \textbf{codici} di 
+risposta che non staremo ad elencare ma tra i quali è presente anche 
+il 227 che indica che il server è entrato in Passive Mode.
 
 \subsection{Conclusioni}
 Il trasferimento può essere anonimo se il server FTP supporta 

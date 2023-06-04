@@ -63,10 +63,9 @@ personali. L'alias permette
 	\item Di associare un gruppo di destinatari ad un singolo 
 		identificatore.
 \end{itemize}
-Per riuscire a fare questo serve un \textbf{espansore degli alias}, 
-ossia un componente che, una volta arrivata una mail, verifica
-consultando un \textbf{database degli alias} se deve espandere gli 
-alias.
+Per riuscire a fare questo serve un \textbf{espansore degli alias},
+un componente che verifica, consultando un \textbf{database degli 
+alias}, se espandere gli alias.
 
 Supponiamo che venga inviata una mail ad un gruppo di utenti. 
 L'espansore non fa altro che espandere l'indirizzo mail (arrivato sotto
@@ -93,8 +92,8 @@ tre fasi:
 		client risponde con il comando \verb|HELO| e il server risponde
 		identificandosi. A questo punto il client può trasmettere il 
 		messaggio.
-	\item \textbf{Trasferimento messaggio}
-	\item \textbf{Chiusura della connessione}
+	\item \textbf{Trasferimento} messaggio.
+	\item \textbf{Chiusura} della connessione.
 \end{enumerate}
 L'interazione è di tipo comando/risposta. Il comando è un testo ASCII 
 mentre la risposta è un codice di stato e descrizione. Il messaggio
@@ -137,7 +136,8 @@ del testo in ASCII.
 In questo modo si è riusciti ad inviare messaggi MIME usando protocolli
 e mail server già esistenti andando a definire un insieme di metodi per
 rappresentare i dati binari in formato ASCII nel messaggio inviato. 
-Quello che viene fatto nella pratica è questo:
+Il procedimento per il corretto invio di un messaggio MIME è il
+seguente:
 \begin{enumerate}
 	\item Il messaggio viene scritto con la codifica desiderata.
 	\item Si specifica la versione MIME utilizzata.

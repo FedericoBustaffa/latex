@@ -7,7 +7,7 @@ verso il quale devono essere inviati tali messaggi.
 Il livello di trasporto realizza una \textbf{comunicazione logica} fra 
 processi residenti in host diversi comportandosi come se gli host 
 fossero direttamente collegati. Non si preoccupa quindi dei dettagli 
-dell'infrastruttura fisica usata per la comunicazione.
+implementativi dell'infrastruttura fisica usata per la comunicazione.
 
 Lo strato applicativo interagisce con il livello di trasporto per 
 trasmettere o ricevere dati scegliendo la \emph{modalità} di trasporto.
@@ -44,7 +44,7 @@ In entrambi i casi questi servizi forniscono:
 		obbligatorio mentre UDP lo implementa solamente.
 \end{itemize}
 I due servizi principalmente usati sono \textbf{TCP} e \textbf{UDP}. Il
-servizio TCP, come già anticipato in precedenza offre una serie di 
+servizio TCP, come già anticipato in precedenza, offre una serie di 
 garanzie tra cui:
 \begin{itemize}
 	\item Gestione della connessione.
@@ -79,9 +79,9 @@ concetto. Una \textbf{porta} è un numero di 16 bit che viene assegnato
 a un processo, o più precisamente a un punto di Demultiplexing dei 
 protocolli TCP o UDP.
 
-L'\textbf{indirizzo IP} è invece un numero a 32 bit presente nello 
-stack TCP/IP. La coppia formata da indirizzo IP e porta identifica in 
-modo univoco la connessione TCP o UDP.
+L'\textbf{indirizzo IP} è invece un numero a 32 bit che identifica la
+un dispositivo connesso alla rete. La coppia formata da indirizzo IP 
+e porta identifica in modo univoco la connessione TCP o UDP.
 
 Il range di porte (da 0 a 65535) è organizzato in tre diverse categorie
 come segue:
@@ -95,17 +95,16 @@ Il sistema operativo assegna dinamicamente le porte ai processi che ne
 fanno richiesta.
 
 \subsection{Demultiplexing per UDP}
-Con UDP, la coppia IP e porta è sono sufficienti per l'operazione di 
+Con UDP la coppia IP e porta è sufficiente per l'operazione di 
 Demultiplexing. Quello che viene fatto nello specifico è andare a 
 controllare indirizzo IP e porta del destinatario per recapitare il 
 messaggio.
 
 Da tenere di conto anche il fatto che datagrammi con IP e/o porta 
-differenti ma stessi IP e porta destinatari vengono consegnati alla 
-stessa socket. In questa situazione è possibile distinguere processi o 
-host mittenti differenti tramite indirizzo IP e porta del mittente, 
-presenti
-nell'intestazione del pacchetto.
+sorgente differenti ma stessi IP e porta destinatari vengono 
+consegnati alla stessa socket. In questa situazione è possibile
+distinguere processi o host mittenti differenti tramite indirizzo IP 
+e porta del mittente, presenti nell'intestazione del pacchetto.
 
 \subsection{Demultiplexing per TCP}
 In questo caso i processi comunicano tramite una connessione logica 
@@ -117,7 +116,7 @@ quattro parametri:
 	\item Indirizzo IP di destinazione.
 	\item Numero di porta di destinazione.
 \end{itemize}
-L'host ricevente usa tutti e quattro i per inviare il segmento alla 
+L'host ricevente li usa tutti e quattro per inviare il segmento alla 
 socket appropriata. Un host può inoltre supportare più socket 
-contemporaneamente ma ogni socket è specificata per una sola coppia
+contemporaneamente ma ogni socket è specifica per una sola coppia
 mittente destinatario.
