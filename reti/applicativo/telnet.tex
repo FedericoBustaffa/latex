@@ -1,5 +1,5 @@
 \section{TELNET}
-Il protocollo \textbf{TELNET} (TErminal NETwork) fornisce la 
+Il protocollo \textbf{TELNET} (TErminaL NETwork) fornisce la 
 possibilità di controllare un terminale da remoto. Si tratta di un 
 protocollo non specifico per un'applicazione, è infatti possibile 
 collegarsi da remoto ad una macchina e poi eseguire le applicazioni 
@@ -18,13 +18,16 @@ veloce. Abbiamo quindi la possibilità di
 \end{enumerate}
 In generale il protocollo stabilisce una connessione TCP con il server 
 remoto, in seguito accetta l'output prodotto dalla macchina server e lo
-visualizza sul terminale utente. Dall'altro lato il server accetta la 
-connessione TCP e trasmette i dati al sistema operativo locale. La 
-connessione persiste per tutta la durata della sessione di login.
+visualizza sul terminale utente.
+
+Dall'altro lato il server accetta la connessione TCP e trasmette i 
+dati al sistema operativo locale. La connessione persiste per tutta 
+la durata della sessione di login.
 
 \subsection{Problematiche}
-Per poter funzionare, TELNET, deve poter operare con il numero massimo 
+Per poter funzionare, TELNET deve poter operare con il massimo numero
 di sistemi e quindi gestire dettagli di sistemi operativi eterogenei.
+
 I terminali possono differire gli uni dagli altri per codifica dei 
 caratteri, larghezza della linea e lunghezza della pagina e per i tasti
 funzione individuati da diverse sequenze di caratteri.
@@ -38,4 +41,5 @@ set universale.
 
 TELNET non è un protocollo sicuro in quanto fa viaggiare tutte le 
 informazioni in chiaro. Ad oggi esiste un protocollo che agisce in modo
-molto simile ma cifra la comunicazione, ossia SSH Secure Shell.
+molto simile ma cifra la comunicazione, ossia \textbf{SSH} (Secure 
+SHell).

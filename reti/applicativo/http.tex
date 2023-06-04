@@ -10,7 +10,7 @@ informazioni di qualsiasi genere. Questo grazie un sistema di
 tipizzazione e negoziazione sulla rappresentazione dei dati.
 
 Il protocollo utilizza TCP come servizio di trasporto in quanto non può
-permettersi la perdita di dati.
+permettersi perdita di dati.
 
 Per il protocollo HTTP possiamo andare ad aggiungere un ulteriore 
 parametro alle URL, ossia la \verb|query|, una stringa di informazioni 
@@ -39,32 +39,33 @@ diventato uno standard de facto.
 Il \textbf{pipelining} serve per migliorare ulteriormente le 
 prestazioni. Nella pratica consiste nell'invio, da parte del client,
 di molteplici richieste senza aspettare la ricezioni di nessuna 
-risposta. Il server deve inviare le risposte nello stesso ordine in cui
-sono arrivate le richieste.
+risposta con il limite che il server deve inviare le risposte nello 
+stesso ordine in cui sono arrivate le richieste.
 
-Il client non può inviare in pipeline richieste che usano metodi HTTP 
-non \emph{idempotenti}, ossia operazioni che, anche se fatte più volte,
+Il client può inviare in pipeline solo richieste che usano metodi HTTP 
+\emph{idempotenti}, ossia operazioni che, anche se fatte più volte,
 non variano il risultato finale.
 
 Il problema principale di questo sistema è che il server deve 
 rispondere alle richieste nello stesso ordine in cui gli sono arrivate 
 e nel caso ci sia una richiesta particolarmente elaborata, questa 
-blocca tutte le altre. Aggiungiamo poi che il ripristino di segmenti 
-persi introduce ulteriore ritardo.
+blocca tutte le altre. Tutto questo senza contare il ritardo dovuto
+al ripristino di segmenti persi.
 
 \subsection{Messaggi HTTP}
 Un \textbf{messaggio} HTTP può essere di due tipi: \textbf{request} o 
 \textbf{response} ed è la riga iniziale che distingue la richiesta 
 dalla risposta. Seguono una serie di \textbf{header}, ossia coppie 
-nome/valore. Infine (anche se opzionale) c'è il corpo del messaggio. In
-realtà la risposta può essere anche solo la pagina html richiesta. La 
-\textbf{request line} è composta da tre parti principali:
+nome/valore che forniscono informazioni in più sul messaggio. Infine
+(anche se opzionale) c'è il corpo del messaggio. In realtà la risposta 
+può essere anche solo la pagina html richiesta. La \textbf{request 
+line} è composta da tre parti principali:
 \begin{itemize}
 	\item \textbf{Metodo}: l'operazione che il client richiede venga 
 		eseguita.
 	\item \textbf{Request URI}: l'oggetto dell'operazione specificata 
 		con il metodo.
-	\item \textbf{Version HTTP}: formato del messaggio e capacità di 
+	\item \textbf{Versione HTTP}: formato del messaggio e capacità di 
 		comprendere ulteriori comunicazioni.
 \end{itemize}
 Come abbiamo detto, nei messaggi HTTP possono essere specificati anche 
@@ -76,9 +77,9 @@ vario tipo:
 		come data, codifica o connessione.
 	\item \textbf{Entità}: relativi all'entità trasmessa come la 
 		lunghezza e il tipo del contenuto trasmesso.
-	\item \textbf{Richiesta}: relativi alla richiesta come informazioni
-		su chi fa la richiesta, a chi viene fatta la richiesta,
-		autorizzazioni ecc.
+	\item \textbf{Richiesta}: relativi alla richiesta, come ad esempio
+		informazioni su chi fa la richiesta, a chi viene fatta la 
+		richiesta, autorizzazioni ecc.
 	\item \textbf{Risposta}: si trova nel messaggio di risposta e 
 		contiene informazioni sul server come ad esempio 
 		l'autorizzazione richiesta.
@@ -91,7 +92,7 @@ La \textbf{response line} è invece composta in questo modo:
 			\item Lo \emph{status code} (codice di 3 cifre).
 			\item Una descrizione testuale del codice di stato.
 		\end{itemize}
-	\item \textbf{headers}: header informativi sulla risposta che non 
+	\item \textbf{Headers}: header informativi sulla risposta che non 
 		possono essere inseriti nella status line.
 \end{itemize}
 Gli status codes si dividono in 5 categorie:
@@ -108,9 +109,9 @@ Sono i codici informativi che vengono inseriti nel messaggio di
 risposta dal server.
 
 \subsubsection{Metodi di richiesta}
-Nel messaggio di richiesta, come detto in precedenza, dobbiamo inserire
-un metodo, a seconda del metodo, il messaggio di risposta sarà 
-differente:
+Nel messaggio di richiesta, come detto in precedenza, dobbiamo 
+specificare un metodo che andrà ad influire anche sulla risposta che 
+andremo a ricevere:
 \begin{itemize}
 	\item \verb|OPTIONS|: la risposta conterrà i metodi disponibili 
 		per l'URI corrente.
@@ -127,16 +128,19 @@ differente:
 	\item \verb|DELETE|: si chiede di eliminare qualcosa nella risorsa.
 \end{itemize}
 I metodi si dividono in \textbf{safe} e \textbf{idempotenti}. I metodi 
-safe non hanno effetti collaterali, ossia non si modifica in alcun modo
-la risorsa. I metodi idempotenti sono metodi che possono avere effetti 
-collaterali ma, anche se eseguite diverse volte hanno lo stesso effetto
-di una richiesta singola.
+safe non hanno effetti collaterali in quanto non modificano in alcun 
+modo la risorsa.
+
+I metodi idempotenti possono avere effetti collaterali ma, anche se 
+eseguiti diverse volte, hanno lo stesso effetto di una richiesta 
+singola.
 
 \subsection{Web Caching}
 L'obbiettivo del \textbf{web caching} è quello di soddisfare le 
-richieste del client senza contattare il server. Per farlo, il client 
-può mantenere delle copie locali delle risorse che aveva ottenuto in 
-precedenza da altre richieste.
+richieste del client senza contattare il server. Per riuscirci il 
+client può mantenere delle copie locali delle risorse che aveva 
+ottenuto in precedenza da altre richieste.
+
 In alternativa è possibile utilizzare un \textbf{proxy} che intercetta 
 il traffico e lo inoltra al server. Una volta ricevuta una risposta ne 
 mantiene una copia e sarà quindi lui a fornire la risorsa al client.
@@ -144,13 +148,16 @@ mantiene una copia e sarà quindi lui a fornire la risorsa al client.
 \subsection{Cookies}
 Come abbiamo detto HTTP è stateless, ossia non mantiene informazioni 
 sul client. Con questo tipo di implementazione del protocollo nasce 
-però un problema, che è quello di riconoscere un utente di 
-un'applicazione Web. Si devono quindi creare applicazioni web con stato
-tenendo di conto che ogni utente si connette ogni volta con indirizzo 
-IP e porta differenti.
+però un problema, che è quello di \emph{riconoscere} un utente di 
+un'applicazione Web.
 
-Ecco che viene creato il meccanismo dei \textbf{cookie}, il quale 
-permette di creare delle sessioni sopra un protocollo stateless:
+Si devono quindi creare applicazioni web \emph{con stato} tenendo di 
+conto che ogni utente si connette ogni volta con indirizzo IP e porta 
+differenti.
+
+Ecco che viene creato il meccanismo dei \textbf{cookie}, con il quale 
+è possibile creare delle \textbf{sessioni} sopra un protocollo 
+stateless:
 \begin{enumerate}
 	\item Il client invia una richiesta al server.
 	\item Il server manda un messaggio di risposta con una linea
@@ -209,8 +216,7 @@ dipendenze.
 
 \`E inoltre possibile avere un compressione delle intestazioni di modo 
 che un messaggio di richiesta o risposta comprenda tutte le 
-intestazioni necessarie omettendo le informazioni non necessarie e 
-facendo la compressione.
+intestazioni necessarie omettendo le informazioni non necessarie.
 
 Si ha comunque il problema che, nel caso di perdita di pacchetti, tutta
 la connessione viene rallentata per riuscire a ripristinare il 
