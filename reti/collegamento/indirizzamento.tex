@@ -1,16 +1,15 @@
 \section{Indirizzi MAC}
 Un indirizzo a livello collegamento, detto \textbf{MAC}, è associato
-alla scheda di rete dal fornitore e non al nodo, tipicamente 
+alla scheda di rete dal fornitore e non al nodo ed è tipicamente 
 permanente.
 
 All'interno di una stessa rete locale l'indirizzo MAC di ogni 
-dispositivo deve essere univoco.
-
-L'indirizzo MAC ha una struttura piatta che identifica in modo univoco
-una scheda di rete tramite un codice a 48 bit.
+dispositivo deve essere univoco e possiede una struttura piatta che 
+identifica in modo univoco una scheda di rete tramite un codice a 48 
+bit.
 
 \subsection{Indirizzi LAN}
-In una LAN un adattatore inserisce l'indirizzo MAC di destinazione per
+In una LAN l'adattatore inserisce l'indirizzo MAC di destinazione per
 inviare un frame. Ogni scheda controlla se l'indirizzo MAC corrisponde
 al proprio e in caso negativo deve scartare il frame, in caso 
 affermativo lo decapsula e passa al livello superiore.
@@ -18,7 +17,8 @@ affermativo lo decapsula e passa al livello superiore.
 \subsection{ARP}
 All'accensione di una macchina, questa conosce il proprio indirizzo 
 MAC, l'indirizzo IP (e la rete locale cui appartiene) e il suo 
-indirizzo alfanumerico. Non conosce però le macchine che ha attorno.
+indirizzo alfanumerico. Non conosce però gli indirizzi delle macchine
+che ha attorno.
 
 Entra quindi in gioco il protocollo \textbf{ARP} (Address Resolution
 Protocol), che si pone a livello di rete producendo un payload di

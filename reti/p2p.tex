@@ -39,8 +39,8 @@ nome o indirizzo IP (che cambia ogni volta che il nodo accede alla
 rete).
 
 Ogni peer offre poi servizi differenti e quindi, anche se fossimo in
-grado di raggiungere un certo numero di nodi, dobbiamo essere in grado
-di filtrarli per quali offrono i servizi che ci interessano.
+grado di raggiungere un certo numero di nodi, dovremo essere in grado
+di filtrarli in base a quali offrono i servizi che ci interessano.
 
 \subsection{Directory centralizzata}
 Il metodo più semplice sta nel creare una directory centralizzata in
@@ -56,16 +56,16 @@ creare colli di bottiglia per le prestazioni.
 Per risolvere queste problematiche si è passati ad un tipo di rete
 decentralizzato in cui i peer si organizzano in un \textbf{overlay 
 network}, ossia un rete logica in cui abbiamo delle particolari 
-connessioni e in cui si possono evidenziare dei ruoli tra i peer.
+connessioni e in cui si possono evidenziare dei \textbf{ruoli} tra i
+peer.
 
 \subsubsection{Reti non strutturate}
-Uno dei primi approcci prevede l'uso di reti non strutturate in cui
-non ci sono particolari modelli di organizzazione tra i nodi. Questo
-implica l'assenza di un'organizzazione nella locazione delle risorse.
+Uno dei primi approcci prevede l'uso di reti \textbf{non strutturate}
+che non implementano particolari modelli di organizzazione tra i nodi.
 
 Sebbene questo approccio risolva il problema della centralizzazione,
-rende l'accesso alle risorse molto difficoltoso per via dell'assenza
-di struttura. 
+la mancata organizzazione delle risorse rende l'accesso a queste 
+ultime molto difficoltoso. 
 
 Uno dei vantaggi è che la rimozione/aggiunta di nodi alla rete è poco
 costosa. Questo permette di gestire reti i cui nodi hanno un 
@@ -77,7 +77,7 @@ coinvolgendo molti nodi.
 
 \subsubsection{Copertura gerarchica}
 In questo modello vengono \emph{eletti} dei peer come \textbf{group
-leader} di altri peer in base a quanto sono "potenti" in banda o in
+leader} di altri peer in base a quanto sono "potenti" in banda o
 risorse.
 
 La rete è poi organizzata con una topologia che prevede connessioni TCP
@@ -88,9 +88,10 @@ Ogni group leader mantiene una lista dei contenuti appartenenti ai peer
 che sono a lui collegati.
 
 \section{BitTorrent}
-Il protocollo BitTorrent viene utilizzato per la distribuzione di file.
-Esso si basa sulla suddivisione del file in pezzi da 256 KB che poi 
-verranno ridistribuiti dai vari peer ai destinatari in questo modo:
+Il protocollo \textbf{BitTorrent} viene utilizzato per la 
+distribuzione di file. Esso si basa sulla suddivisione del file in
+pezzi da 256 KB che poi verranno ridistribuiti dai vari peer ai 
+destinatari apportando i seguenti vantaggi:
 \begin{enumerate}
 	\item Si riduce il carico di ogni sorgente.
 	\item Si riduce la dipendenza dal distributore originale.

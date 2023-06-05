@@ -4,8 +4,8 @@ tecnologie più usate a livello collegamento come ad esempio
 \textbf{ethernet}, \textbf{switch} e \textbf{VLAN}.
 
 \subsection{Ethernet}
-La tecnologia \textbf{ethernet} detiene una posizione nel mercato delle
-LAN cablate poiché:
+La tecnologia \textbf{ethernet} detiene una posizione di monopolio
+nel mercato delle LAN cablate poiché:
 \begin{itemize}
 	\item \`E stata la prima LAN cablata ad alta velocità con vasta
 		diffusione.
@@ -14,7 +14,7 @@ LAN cablate poiché:
 	\item Sta sempre al passo con i tempi tramite un tasso trasmissivo
 		sempre più elevato.
 \end{itemize}
-Il tasso trasmissivo dipende anche dalla tecnologia usata: cavo 
+Il tasso trasmissivo dipende anche dalla tecnologia usata: cavo
 coassiale, cavo di rame e fibra ottica.
 
 \subsubsection{Topologia fisica}
@@ -22,9 +22,9 @@ In principio la topologia di rete era a \textbf{bus}, tutti i
 dispositivi si collegavano quindi sul collegamento (condiviso). Questo
 aveva il grosso problema delle collisioni.
 
-La topologia moderna prevede una topologia a \textbf{stella}: al centro
-della stella è presente uno switch al quale si collegano tutti i 
-dispositivi sulla rete. Sarà poi compito dello switch gestire le
+La topologia moderna prevede una topologia a \textbf{stella}: al 
+centro della quale è presente uno switch a cui si collegano tutti
+i dispositivi sulla rete. Sarà poi compito dello switch gestire le
 collisioni.
 
 \subsubsection{Pacchetti Ethernet}
@@ -44,14 +44,14 @@ Ethernet costituito da
 \end{itemize}
 La tecnologia Ethernet è di tipo connectionless in quanto non avviene
 alcun \emph{handshake} e non è neanche affidabile in quanto la 
-ricezione non scatena nessun \verb|ACK| di risposta. Implementa il 
+ricezione non scatena nessun \verb|ACK| di risposta ma implementa il 
 protocollo MAC con rilevamento delle collisioni.
 
 \subsection{Switch}
-La topologia a stella a cui abbiamo accennato in poco fa si poteva
+La topologia a stella a cui abbiamo accennato poco fa si poteva
 già ottenere tramite un \textbf{hub}. Un hub altro non è che un 
 \textbf{ripetitore} multiporta. Mentre il ripetitore si occupa di 
-rogenerare il segnale lungo il mezzo fisico in un collegamento di tipo
+rigenerare il segnale lungo il mezzo fisico in un collegamento di tipo
 punto-punto, l'hub ha lo stesso compito ma propaga il segnale su più
 porte in uscita.
 
@@ -67,7 +67,7 @@ frame che gli arrivano.
 Tale tabella viene costruita mediante un meccanismo di 
 \textbf{autoapprendimento}: all'inizio è vuota e man mano che i vari
 dispositivi si collegano e comunicano, lo switch riesce a capire su
-quali porte sono collegati i dispositivi.
+quali porte sono collegati i dispositivi:
 \begin{enumerate}
 	\item Quando la tabella è vuota lo switch inoltra il datagramma su
 		tutte le porte in uscita e si salva il MAC del mittente e la
@@ -104,7 +104,7 @@ questa strategia è la \textbf{VLAN} (Virtual Local Area Network).
 \subsubsection{Implementazione}
 Quello che implementa VLAN è una \textbf{frammentazione} del dominio di
 broadcast indipendente dalla topologia. Vogliamo quindi definire un
-sottodominio di broadcast che non sia legato a come le macchine si
+sottodominio di broadcast che non sia legato al come le macchine si
 \emph{dispongono} fisicamente sulla rete inizialmente.
 
 Vogliamo infatti definire i domini di broadcast in base agli indirizzi
