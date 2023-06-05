@@ -1,5 +1,5 @@
 \section{Protocolli di routing}
-I \textbf{protocolli di routing} si occupa di determinare un percorso
+I \textbf{protocolli di routing} si occupano di determinare un percorso
 \emph{buono} da mittente a destinatario passando per nodi intermedi.
 
 In altri termini, vogliamo trovare il cammino più veloce basandoci
@@ -24,8 +24,8 @@ esempio la distanza da un nodo all'altro ma può variare nel tempo.
 
 Dato che l'immissione di nuovi pacchetti sulla rete modifica questi 
 valori, è anche possibile andare impostare degli \emph{obbiettivi di 
-traffico}. In altre parole vogliamo immettere datagrammi in rete in modo
-da raggiungere un certo stato (di congestione ad esempio).
+traffico}. In altre parole vogliamo immettere datagrammi in rete in 
+modo da raggiungere un certo stato (di congestione ad esempio).
 
 \subsection{Algoritmi di routing}
 Gli algoritmi di routing che trattiamo non si occupano di raggiungere
@@ -60,13 +60,14 @@ interessante. Andremo quindi a trattare algoritmi di tipo dinamico.
 \subsection{Distance Vector}
 Si tratta di un algortimo con modalità di acquisizione dei dati
 decentralizzata e quindi \textbf{distribuito}. Ciascun nodo riceve
-infatti delle informazioni da un o più nodi vicini per effettuare
+infatti delle informazioni da uno o più nodi vicini per effettuare
 i calcoli e comunicarli agli altri nodi.
 
 Si tratta di un tipo di algoritmo \textbf{iterativo} in quanto ci
-servono più iterazioni per convergere ad una soluzione e di costo
-minimo e \textbf{asincrono} poiché ogni nodo può fare dei calcoli in
-modo indipendente.
+servono più iterazioni per convergere ad una soluzione ed è un 
+algoritmo \textbf{asincrono} per il calcolo del cammino costo minimo 
+\textbf{asincrono} poiché ogni nodo può fare dei calcoli in modo
+indipendente.
 
 \subsubsection{Implementazione}
 Si basa sull'equazione di \textbf{Bellman-Ford} per il calcolo di un
@@ -95,11 +96,11 @@ Tale informazione viene poi comunicata ad eventuali altri router vicini
 precedentemente interpellati nel calcolo del percorso.
 
 Un'iterazione viene scatenata da un cambio nel costo di uno dei 
-collegamenti locali oppure dalla ricezione di un \emph{vettore distanza}
-aggiornato.
+collegamenti locali oppure dalla ricezione di un \emph{vettore 
+distanza} aggiornato.
 
 Ogni nodo aggiorna i suoi vicini solo quando il proprio \emph{distance
-vector} cambia e i vicini avvisano i rispettivi vicini solo se 
+vector} cambia e i vicini avvisano i rispettivi vicini solo se
 necessario.
 
 \subsubsection{Problematiche}
@@ -165,17 +166,16 @@ First). In questo caso è l'amministratore di rete a decidere la metrica
 per il calcolo del percorso.
 
 Il problema è che questo metodo invia messaggi in broadcast a tutti i
-router della rete andandola a caricare di messaggi di controllo.
-
-Per alleggerire il carico si divide la rete in modo gerarchico andando 
-così suddividere il traffico.
+router della rete andandola a caricare di messaggi di controllo. \`E
+dunque necessario alleggerire il carico dividendo la rete in modo
+gerarchico.
 
 \subsubsection{BGP}
-I sistemi autonomi possiedono dei router di frontiera che li mettono
-in comunicazione con altri sistemi autonomi.
-Tali router si scambiano informazioni, basate sulla conoscenza che
-hanno del proprio sistema autonomo, per riuscire a comunicare ad altri
-sistemi autonomi che attraverso di loro è possibile raggiungere
+I sistemi autonomi possiedono dei \textbf{router di frontiera} che li
+mettono in comunicazione con altri sistemi autonomi. Tali router si 
+scambiano informazioni, basate sulla conoscenza che hanno del proprio 
+sistema autonomo. In questo modo possono comunicare ad altri sistemi 
+autonomi che attraverso di loro è possibile raggiungere
 \begin{itemize}
 	\item Altri sistemi autonomi.
 	\item Router all'interno del sistema autonomo.

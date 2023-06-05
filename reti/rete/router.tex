@@ -10,12 +10,16 @@ rissumiamo brevemente le differenze tra i due:
 		i valori da inserire nella tabella di inoltro attraverso 
 		\textbf{algoritmi di routing}.
 \end{itemize}
-A noi interessano per ora solo un tipo di routing 
-\textbf{decentralizzato}, in cui su ogni router gira indipendentemente
-un un algortimo di routing. Esistono tuttavia approcci di routing
-\textbf{centralizzato} in cui un controller remoto si occupa
-dell'esecuzione degli algoritmi di routing e poi fornisce i valori da
-inserire nelle varie tabelle di inoltro dei router.
+Gli algoritmi di routing si possono suddividere in due categorie:
+\begin{itemize}
+	\item \textbf{Decentralizzato}: su ogni router gira 
+		indipendentemente un un algortimo di routing.
+	\item \textbf{Centralizzato}: un controller remoto si occupa
+		dell'esecuzione degli algoritmi di routing e poi fornisce i 
+		valori da inserire nelle varie tabelle di inoltro dei router.
+\end{itemize}
+In questo corso trattaremo solamente algoritmi di routing 
+decentralizzati.
 
 \subsection{Struttura}
 Un router è composto sostanzialmente da quattro componenti di nostro
@@ -30,11 +34,12 @@ interesse:
 \end{itemize}
 Il router mantiene una copia della tabella di inoltro per velocizzare
 tale processo ma nel caso in cui la velocità con cui arrivano i 
-datagrammi supera la velocità con di inoltro della struttura, questi
+datagrammi superi la velocità di inoltro della struttura, questi
 vengono messi in attesa in una coda.
 
 \subsubsection{Struttura di commutazione}
-L'implementazione della struttura di inoltro può essere di vario tipo
+L'implementazione della struttura di commutazione può essere di vario
+tipo
 \begin{itemize}
 	\item Attraverso la \textbf{memoria} della macchina.
 	\item Attraverso un \textbf{bus} condiviso.
