@@ -1,7 +1,7 @@
 \section{Protocolli MAC}
-Il tipo di collegamento \textbf{broadcast} è \emph{condiviso}. Questo
-crea un problema di \textbf{collisioni} quando avvengono due o più 
-trasmissioni simultanee tra i nodi creando \emph{interferenza}.
+Nel caso di \textbf{broadcast} il collegamento è \emph{condiviso} e
+questo genera \textbf{collisioni} quando avvengono due o più 
+trasmissioni simultanee tra i nodi, creando \emph{interferenza}.
 
 Più nello specifico, un nodo che sta in ascolto sul canale condiviso,
 non riesce a distinguere messaggi in arrivo da un nodo piuttosto che
@@ -21,10 +21,9 @@ avvenire in questo modo:
 		senza che ci siano fasi preliminari.
 	\item Semplice.
 \end{enumerate}
-Questo modello non è tuttavia attuabile e si è pensato ad altro per
-riuscire ad avvicinarsi quanto più possibile a questo modello ideale.
-Si è dunque suddiviso i \textbf{protocolli MAC} in tre classi 
-principali:
+Nella pratica si è cercato di costruire un modello quanto più simile
+a quello appena descritto. Si è dunque suddiviso i \textbf{protocolli
+MAC} in tre classi principali:
 \begin{itemize}
 	\item \textbf{Suddivisione del canale}: si suddivide il canale
 		in \emph{pezzi} più piccoli e la risorsa (che può essere 
