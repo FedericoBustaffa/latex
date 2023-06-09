@@ -43,14 +43,15 @@ L'operazione di \textbf{frammentazione} consiste nella suddivisione dei
 datagrammi IP in datagrammi più piccoli, ognuno con la propria
 intestazione e payload.
 
-Il motivo per cui si ricorre alla frammentazione risiede in un problem 
-dovuto alla capacità del metodo di collegamento. Quando abbiamo parlato
-del TCP abbiamo introdotto la Maximum Segment Size, come la dimensione 
-massima di un segmento TCP tale che possa stare dentro un frame che
-rispetta il vincolo di Maximum Transfer Unit, il quale dipende a sua
-volta dalla tecnologia di collegamento che viene utilizzata.
+Il motivo per cui si ricorre alla frammentazione risiede in un 
+problema dovuto alla capacità del metodo di collegamento. Quando 
+abbiamo parlato del TCP abbiamo introdotto la Maximum Segment Size,
+come la dimensione massima di un segmento TCP tale che possa stare
+dentro un frame che rispetta il vincolo di Maximum Transfer Unit, il
+quale dipende a sua volta dalla tecnologia di collegamento che viene
+utilizzata.
 
-Quando un datagramma IP viaggia sulla rete potrebbe attraverso diversi 
+Quando un datagramma IP viaggia sulla rete potrebbe attraverso diversi
 mezzi di collegamento, ognuno con un valore di Maximum Transfer Unit
 differente. Ecco che, se durante il viaggio, il datagramma passa da un
 valore più alto a un più basso di MTU si è costretti a frammentare il
@@ -59,8 +60,8 @@ pacchetto.
 Ciascun frammento è a tutti gli effetti un datagramma IP indipendente
 dagli altri in grado di viaggiare su reti fisiche differenti.
 
-I \textbf{campi di frammentazione} nell'header del datagramma IP danno 
-indicazioni su come frammentare e ricomporre il messaggio. Per
+I \textbf{campi di frammentazione} nell'header del datagramma IP
+danno indicazioni su come frammentare e ricomporre il messaggio. Per
 ricomporre i frammenti infatti il protocollo IP fa uso dei campi 
 \textbf{identificatore}, \textbf{flag} e \textbf{offset}:
 \begin{itemize}
@@ -97,7 +98,7 @@ riesce ad alleggerire di molto il carico sui vari router evitando
 la frammentazione, a meno che non sia strettamente necessaria.
 
 \subsection{Indirizzo IPv4}
-Ogni host è connesso alla rete tramite un'interfaccia di rete che è il 
+Ogni host è connesso alla rete tramite un'interfaccia di rete che è il
 confine tra l'host e il collegamento su cui vengono inviati i dati. 
 Ad ogni interfaccia è assegnato un \textbf{indirizzo IP}.
 
@@ -115,7 +116,7 @@ Un primo metodo prevede la suddivisione degli indirizzi IP di rete in
 (assegnato in modo statico) che dedicano all'identificativo di rete.
 
 La classe A ha meno bit per l'identificazione delle reti ma ne ha
-molti per l'identificazione dei vari host, le successive hanno più bit 
+molti per l'identificazione dei vari host, le successive hanno più bit
 per l'identificazione della rete e meno per l'identificazione degli
 host.
 
@@ -124,13 +125,13 @@ indirizzi disponibili, si è quindi deciso di rimuovere le classi e
 passare ad un meccanismo di tipo \textbf{classless addressing}.
 
 Si è quindi aggiunto un valore $n$ all'indirizzo IP che indica quanti 
-bit sono stati utilizzati per il prefisso, ottenendo un identificativo 
+bit sono stati utilizzati per il prefisso, ottenendo un identificativo
 di rete composto da 32 bit dei quali, solo i primi $n$ sono 
 significativi e gli altri sono messi a 0.
 
 Per l'assegnamento dell'indirizzo host rimangono $2^{32-n}$ indirizzi 
-da cui dobbiamo togliere l'indirizzo di rete e l'indirizzo di broadcast
-(suffisso con tutti i bit a 1). Ecco che rimaniamo con
+da cui dobbiamo togliere l'indirizzo di rete e l'indirizzo di
+broadcast (suffisso con tutti i bit a 1). Ecco che rimaniamo con
 \[ 2^{32-n}-2 \]
 indirizzi disponibili per gli host. Tali indirizzi non sono 
 identificati solo dal suffisso ma da tutti e 32 i bit, ovvero 
@@ -236,9 +237,9 @@ essere \textbf{diretto} o \textbf{indiretto}:
 \begin{itemize}
 	\item \textbf{Diretto}: il pacchetto IP ha come destinazione un
 		host nella propria rete (o sottorete) IP. In questo caso 
-		l'indirizzo di destinazione a livello di collegamento è proprio
-		quello del destinatario in quanto l'invio è diretto su di esso
-		e non viene interpellata nessun'altra entità.
+		l'indirizzo di destinazione a livello di collegamento è 
+		proprio quello del destinatario in quanto l'invio è diretto 
+		su di esso e non viene interpellata nessun'altra entità.
 	\item \textbf{Indiretto}: in questo caso il datagramma IP ha come 
 		destinazione un nodo di un'altra rete IP. L'invio in questo
 		caso viene delegato ad un router e l'indirizzo di destinazione
@@ -247,7 +248,7 @@ essere \textbf{diretto} o \textbf{indiretto}:
 In generale, le condizioni necessarie affinché la comunicazione 
 avvenga con successo sono due:
 \begin{itemize}
-	\item Deve esistere un cammino a livello collegamento tra tutti gli
+	\item Deve esistere un cammino a livello collegamento tra tutti 
 		gli host appartenenti alla stessa sottorete.
 	\item Ogni host deve avere un indirizzo IP di rete uguale ma con
 		ID host univoco all'interno della stessa sottorete.
@@ -277,13 +278,13 @@ appartenga alla stessa sottorete.
 Come prima il mittente è a conoscenza delle informazioni necessarie a
 capire se il destinatario si trova sulla stessa sottorete o meno.
 
-Se si trovano su reti differenti, l'host delega l'inoltro del pacchetto
-al router della propria sottorete ma indica come IP destinazione sempre
-il solito indirizzo IP del destinatario.
+Se si trovano su reti differenti, l'host delega l'inoltro del 
+pacchetto al router della propria sottorete ma indica come IP
+destinazione sempre il solito indirizzo IP del destinatario.
 
 A livello collegamento il frame inviato avrà come indirizzo sorgente
-l'indirizzo MAC dell'host e come indirizzo destinazione l'indirizzo MAC
-del router.
+l'indirizzo MAC dell'host e come indirizzo destinazione l'indirizzo 
+MAC del router.
 
 \subsubsection{Tabella di inoltro}
 Nella tabella di inoltro sono presenti diverse informazioni tra cui
@@ -293,20 +294,21 @@ Nella tabella di inoltro sono presenti diverse informazioni tra cui
 		rete.
 	\item Un campo che, nel caso ci sia bisogno di effettuare un 
 		inoltro indiretto, conterrà il nome o l'indirizzo IP delegato
-		a fare l'inoltro. In caso si tratti di inoltro diretto il campo
-		viene lasciato vuoto.
+		a fare l'inoltro. In caso si tratti di inoltro diretto il 
+		campo viene lasciato vuoto.
 \end{itemize}
 Nel caso in cui ci sia ad esempio un router che gestisce delle 
 sottoreti, la sua tabella di inoltro avrà una una serie di entry con
-il campo dell'indirizzo di inoltro nullo (inoltro diretto) e ad esempio
-con una o più entry che indicano l'indirizzo di inoltro di un router
+il campo dell'indirizzo di inoltro nullo (inoltro diretto) e ad 
+esempio con una o più entry che indicano l'indirizzo di inoltro di 
+un router
 esterno.
 
 Il router esterno avrà anch'esso lo stesso tipo di tabella solo che 
 non conterrà l'indirizzo di tutte le sottoreti raggiungibili tramite
 il primo router. Si terrà invece solamente un indirizzo IP di rete in
-grado di includere tutte le sottoreti raggiungibili attraverso il primo
-router (\textbf{aggregazione degli indirizzi}).
+grado di includere tutte le sottoreti raggiungibili attraverso il 
+primo router (\textbf{aggregazione degli indirizzi}).
 
 Supponiamo ora di avere due router che si possono raggiungere l'un
 l'altro e tramite questi due router si possono raggiungere delle
@@ -318,7 +320,7 @@ pacchetto, per decidere su quale rete inoltrarlo si deve fare un match
 tra gli indirizzi di rete presenti nella tabella di inoltro e 
 l'indirizzo IP di destinazione del pacchetto.
 
-L'indirizzo di rete scelto per l'inoltro è quello più specifico, ovvero
-quello che tra i possibili match ha la maschera più lunga
+L'indirizzo di rete scelto per l'inoltro è quello più specifico, 
+ovvero quello che tra i possibili match ha la maschera più lunga
 (\textbf{longer mask matching}).
 
