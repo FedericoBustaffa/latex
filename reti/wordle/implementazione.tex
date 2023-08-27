@@ -1,0 +1,85 @@
+\section{Implementazione}
+La versione di WORDLE che ho deciso di implementare fa uso di varie tecniche di comunicazione
+e di gestione dei canali, per riuscire ad avere il minor impatto possibile sulle risorse del
+sistema (quando possibile).
+
+In alcuni casi, per rendere il codice più compatto e leggibile, ho deciso di incapsulare alcune
+funzionalità in oggetti che garantissero un'interfaccia più comoda e semplice da usare.
+
+\subsection{Server}
+Il \textbf{server}, dopo l'avvio si occupa di creare leggere il file json di configurazione
+\verb|server_config.json| e di inizializzare le strutture necessarie per la connessione da parte
+dei client:
+\begin{enumerate}
+	\item Ripristina la lista degli utenti tramite il file \verb|users.json|.
+	\item Tramite tale lista crea una classifica degli utenti in ordine di punteggio.
+	\item Crea un'istanza di un oggetto \verb|Wordle| che si occupa di gestire le interazioni
+	      dell'utente prettamente relative al gioco.
+	\item Crea un thread "\verb|estrattore|" che si occupa di estrarre una parola dal vocabolario
+	      ogni qual volta scade un timeout.
+	\item Pubblica l'oggetto remoto accessibile tramite RMI dai client per effettuare l'operazione
+	      di registrazione.
+	\item Inizializzazione di un server TCP tramite Java NIO.
+	\item Inizializzazione di un socket multicast per inviare messaggi sul gruppo sociale.
+\end{enumerate}
+
+\subsubsection{Strutture dati}
+Dato che il server fa uso di \textbf{multi-threading} per una maggiore efficienza nell'esecuzione
+delle richieste dei vari client, sono necessarie strutture dati che garantiscano l'accesso in
+mutua esclusione ai diversi thread.
+
+\paragraph{Utenti}
+Prima fra tutti è la \textbf{tabella hash} che gestisce gli utenti. Ho deciso di implementarla
+tramite una \verb|ConcurrentHashMap| le cui chiavi fossero gli \verb|username| degli utenti (poiché
+univoci per ogni utente) e i relativi valori fossero istanze della classe \verb|User| contenente
+tutti i vari dati relativi allo stato dell'utente e al punteggio di quest'ultimo.
+
+\paragraph{Classifica}
+La seconda struttura dati è la classifica degli utenti in base al loro punteggio, implementata
+tramite una \verb|LinkedList| e sincronizzata con il metodo \verb|synchronizedList| della
+classe \verb|Collections|.
+
+\paragraph{Lista delle parole}
+Il server crea anche un'istanza della class \verb|Wordle| la quale contiene due strutture dati
+principali. La prima è una semplice lista contenente tutte le parole del vocabolario ed è
+implementata tramite una \verb|LinkedList| per garantire una migliore gestione dello spazio
+occupato in memoria.
+
+\paragraph{Sessioni}
+L'altra struttura dati utilizzata è una \verb|ConcurrentHashMap| che mette in correlazione un
+utente con un'istanza della class \verb|Session|, la quale incapsula la parola che l'utente sta
+cercando di indovinare, il numero di tentativi che questo ha fatto per indovinarla e altre
+informzioni relative allo stato della sessione. I motivi dietro a questa scelta sono molteplici:
+\begin{itemize}
+	\item In primo luogo ho deciso di gestire la casistica in cui un utente si ritrovi a giocare
+	      con una certa parola e nel frattempo il server ne estrae una nuova. In quel caso la
+	      vecchia parola andrebbe persa e quindi l'utente non potrebbe terminare la partita. Ecco
+	      che nasce quindi la necessità di creare delle \emph{sessioni} in grado di tenere
+	      traccia della partite ancora in corso in modo che ogni utente sia in grado di
+	      terminarle a prescindere da nuove parole estratte.
+	\item Altra casistica d'interesse è quella in cui un utente voglia condividere il risultato
+	      finale di una partita appena fatta. Avendo a disposizione una struttura dati simile è
+	      possibile, tramite il proprio nome utente, accedere all'ultima sessione presente e
+	      condividerla senza che vada persa in seguito ad una successiva estrazione da parte del
+	      server.
+\end{itemize}
+Per alleggerire il carico del server avrei potuto creare la sessione e inviarla al client come
+messaggio di risposta. Sarebbe stato poi compito del client aggiornarla man mano che inviava le
+\verb|guessed words|. Questo implica però l'invio della parola segreta al client andando così ad
+aprire la strada a possibili violazioni.
+
+\paragraph{Risultati partite}
+Unica struttura dati di rilievo presente lato client è quella in cui vengono memorizzati i
+messaggi in arrivo sul gruppo sociale. Tale lista è gestita dal thread che si occupa di stare in
+ascolto sul gruppo e ogni qual volta arriva un nuovo messaggio contente la partita di un altro
+utente lo salva in una coda implementata tramite una \verb|LinkedList|.
+
+\subsubsection{Receiver}
+\subsubsection{Sender}
+\subsubsection{Wordle}
+
+\subsection{Client}
+\subsection{Utente}
+\subsubsection{Servizio di notifica}
+
+\subsection{JsonWrapper}
