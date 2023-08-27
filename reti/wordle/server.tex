@@ -86,12 +86,12 @@ thread principalmente coinvolti nella modifica delle strutture dati sono di tre 
 	\item \textbf{Thread RMI}: quando più client interagiscono contemporaneamente con l'oggetto
 	      remoto per effettuare una registrazione, vengono avviati più thread per gestire le varie
 	      richieste.
-	\item \textbf{Receiver TCP}: quando il server deve ricevere dati su di una connessione TCP,
+	\item \textbf{Receiver}: quando il server deve ricevere dati su di una connessione TCP,
 	      avvia un thread \verb|Receiver| in grado di leggere il messaggio inviato sulla
 	      connessione TCP e svolgere le operazioni richieste dal client.
-	\item \textbf{Sender TCP}: quando il server deve inviare dati sulla connessione TCP, avvia un
-	      thread \verb|Sender| in grado di rispondere ai client non solo tramite TCP ma anche
-	      tramite altri protocolli di comunicazione, a seconda dei casi.
+	\item \textbf{Sender}: quando il server deve inviare dati sulla connessione TCP (e non solo),
+	      avvia un thread \verb|Sender| in grado di rispondere ai client non solo tramite TCP ma
+	      anche tramite altri protocolli di comunicazione, a seconda dei casi.
 \end{itemize}
 Tutti questi thread possono modificare attivamente le strutture dati precedentemente elencate
 oppure possono essere soltanto interessati a leggere i dati al loro interno. In ogni caso è
@@ -99,6 +99,9 @@ necessario che i dati all'interno di tali strutture siano sempre consistenti.
 
 \subsection{Comunicazioni}
 Lato server abbiamo diversi protocolli di comunicazione in grado di fornire servizi agli utenti.
+Per quanto possibile ho provato ad affidare le operazioni di lettura solo al thread \verb|Receiver|,
+mentre il thread \verb|Sender| si occupa di tutto ciò che il server deve inviare (a prescindere
+dal protocollo).
 
 \subsubsection{RMI}
 Tramite \verb|RMI| il server pubblica un oggetto remoto implementato dalla classe
@@ -111,8 +114,37 @@ tre posizioni. Questi due metodi non fanno altro che aggiungere o rimuovere un o
 implementato dalla classe \verb|NotifyService|, dalla list dei \emph{notificatori} di cui ho
 parlato nel paragrafo relativo alle strutture dati.
 
-\paragraph{Receiver}
-Il server si compone di due
+\subsubsection{TCP}
+Per quanto riguarda le connessioni TCP il server fa uso dei \verb|Channel| per comunicare e sfrutta
+il meccanismo del \verb|Selector| alleggerire l'impiego di risorse necessarie alla gestione delle
+varie connessioni TCP con i client.
 
-\paragraph{Sender}
+Il modo in cui ho deciso di implementare la gestione delle connessioni TCP da parte del server
+prevede che, in seguito alla possibilità di inviare o ricevere dati, questo avvii o un
+\verb|Receiver| o un \verb|Sender|.
 
+Per evitare errori è necessario, ogni qual volta si avvia un thread, azzerare le operazioni di
+interesse per quel \verb|channel| registrato sul \verb|selector|. Sarà il thread, una volta
+terminate le operazioni, a resettare l'operazione di interesse (lettura o scrittura) e a svegliare
+il \verb|selector| tramite il metodo \verb|wakeup|.
+
+Questo è necessario poiché il \verb|selector| continua a vedere il \verb|channel| come pronto a
+leggere o scrivere dato che è possibile che venga invocata nuovamente il metotodo \verb|select|
+prima che il thread abbia terminato il suo compito.
+
+\subsubsection{UDP}
+Il server fa anche utilizzo di socket multicast usato semplicemente per inviare le partite che gli
+utenti vogliono condividere tramite messaggi UDP.
+
+\paragraph{Attachment}
+Ogni volta che un canale viene registrato sul \verb|selector|, gli viene allegato un oggetto di
+tipo \verb|Attachment| contenente tutte le strutture dati necessarie a svolgere i propri compiti
+e un \verb|ByteBuffer| necessario alla lettura e scrittura da e sui canali.
+
+Il \verb|ByteBuffer| è anche usato come mezzo di comunicazione tra \verb|Receiver| e
+\verb|Sender|. Ogni qual volta \verb|Receiver| riceve un comando elabora una risposta ma si limita
+soltanto a scriverla sul \verb|ByteBuffer|.
+
+Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP ma prima analizza il suo
+contenuto e nel caso sia necessario utilizza RMI per inviare notifiche o invia un messaggio UDP al
+gruppo di multicast.
