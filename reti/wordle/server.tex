@@ -148,3 +148,16 @@ soltanto a scriverla sul \verb|ByteBuffer|.
 Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP ma prima analizza il suo
 contenuto e nel caso sia necessario utilizza RMI per inviare notifiche o invia un messaggio UDP al
 gruppo di multicast.
+
+\subsection{Spegnimento}
+In avvio il server genera un thread in attesa di un input da tastiera. Per spegnere il server è
+sufficiente recarsi nel terminale su cui questo è in esecuzione e premere \verb|INVIO|. In questo
+modo il thread avviato in precedenza setterà la variabile booleana \verb|running| a \verb|false|.
+
+Se ci sono ancora client connessi il server continuerà fornire i soliti servizi ma non permetterà
+ad ulteriori client di connettersi.
+
+Una volta che tutti i client si saranno disconnessi, il server terminerà la usa esecuzione tramite
+il metodo \verb|shutdown| il quale si occuperà di chiudere tutte le strutture di comunicazione
+in funzione e si occuperà di scrivere sul file json \verb|users.json| un backup degli utenti con
+relative statistiche.
