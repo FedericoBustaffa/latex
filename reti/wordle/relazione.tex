@@ -18,8 +18,18 @@
 \maketitle
 \tableofcontents
 
-\include{implementazione.tex}
-\include{concorrenza.tex}
+\newpage
+\begin{abstract}
+	La versione di WORDLE che ho deciso di implementare fa uso di varie tecniche di comunicazione
+	e di gestione dei canali, per riuscire ad avere il minor impatto possibile sulle risorse del
+	sistema (quando possibile).
+
+	In alcuni casi, per rendere il codice più compatto e leggibile, ho deciso di incapsulare alcune
+	funzionalità in oggetti che garantissero un'interfaccia più comoda e semplice da usare.
+\end{abstract}
+
+\include{server.tex}
+\include{client.tex}
 \include{compilazione.tex}
 
 \end{document}

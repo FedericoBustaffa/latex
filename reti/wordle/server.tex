@@ -1,0 +1,118 @@
+\section{Server}
+Il \textbf{server}, dopo l'avvio si occupa di leggere il file json di configurazione
+\verb|server_config.json| e di inizializzare le strutture necessarie per la connessione da parte
+dei client:
+\begin{enumerate}
+	\item Ripristina la lista degli utenti tramite il file \verb|users.json|.
+	\item Tramite tale lista crea una classifica degli utenti in ordine di punteggio.
+	\item Crea un'istanza di un oggetto \verb|Wordle| che si occupa di gestire le interazioni
+	      dell'utente prettamente relative al gioco.
+	\item Crea un thread \emph{estrattore} che si occupa di estrarre una parola dal vocabolario
+	      ogni qual volta scade un timeout.
+	\item Pubblica l'oggetto remoto accessibile tramite RMI dai client per effettuare l'operazione
+	      di registrazione.
+	\item Inizializzazione di un server TCP tramite Java NIO.
+	\item Inizializzazione di un socket multicast per inviare messaggi sul gruppo sociale.
+\end{enumerate}
+
+\subsection{Strutture dati}
+Dato che il server fa uso di \textbf{multi-threading} per una maggiore efficienza nell'esecuzione
+delle richieste dei vari client, sono necessarie strutture dati che garantiscano l'accesso in
+mutua esclusione ai diversi thread.
+
+\subsubsection{Utenti}
+Prima fra tutti è la \textbf{tabella hash} che gestisce gli utenti. Ho deciso di implementarla
+tramite una \verb|ConcurrentHashMap| le cui chiavi fossero gli \verb|username| degli utenti (poiché
+univoci per ogni utente) e i relativi valori fossero istanze della classe \verb|User| contenente
+tutti i vari dati relativi allo stato dell'utente e al punteggio di quest'ultimo.
+
+\subsubsection{Classifica}
+La seconda struttura dati è la classifica degli utenti in base al loro punteggio, implementata
+tramite una \verb|LinkedList| e sincronizzata con il metodo \verb|synchronizedList| della
+classe \verb|Collections|.
+
+\subsubsection{Notificatori}
+Si tratta di una lista sincronizzata di oggetti remoti, i quali implementano la classe
+\verb|NotifyService|, passati dai client durante la fase di login. Ogni qual volta c'è un
+cambiamento nelle prima tre posizioni della classifica il server scorre tutta la lista notificando
+i client tramite tali oggetti.
+
+In fase di logout l'utente invoca un metodo che si occupa di rimuovere il \emph{notificatore}
+a esso associato.
+
+\subsubsection{Sessioni}
+L'altra struttura dati utilizzata è una \verb|ConcurrentHashMap| che mette in correlazione un
+utente con un'istanza della class \verb|Session|, la quale incapsula la parola che l'utente sta
+cercando di indovinare, il numero di tentativi che questo ha fatto per indovinarla e altre
+informzioni relative allo stato della sessione. I motivi dietro a questa scelta sono molteplici:
+\begin{itemize}
+	\item In primo luogo ho deciso di gestire la casistica in cui un utente si ritrovi a giocare
+	      con una certa parola e nel frattempo il server ne estrae una nuova. In quel caso la
+	      vecchia parola andrebbe persa e quindi l'utente non potrebbe terminare la partita. Ecco
+	      che nasce quindi la necessità di creare delle \emph{sessioni} in grado di tenere
+	      traccia della partite ancora in corso in modo che ogni utente sia in grado di
+	      terminarle a prescindere da nuove parole estratte.
+	\item Altra casistica d'interesse è quella in cui un utente voglia condividere il risultato
+	      finale di una partita appena fatta. Avendo a disposizione una struttura dati simile è
+	      possibile, tramite il proprio nome utente, accedere all'ultima sessione presente e
+	      condividerla senza che vada persa in seguito ad una successiva estrazione da parte del
+	      server.
+\end{itemize}
+Per alleggerire il carico del server avrei potuto creare la sessione e inviarla al client come
+messaggio di risposta. Sarebbe stato poi compito del client aggiornarla man mano che inviava le
+\verb|guessed words|. Questo implica però l'invio della parola segreta al client andando così ad
+aprire la strada a possibili violazioni.
+
+\subsection{Wordle}
+Una delle entità principali lato server cuore del gioco è la classe \verb|Wordle| la cui istanza
+contiene strutture dati e metodi fondamentali per la corretta interazione tra utente e server
+quando si compiono azioni prettamente di gioco.
+
+In particolare è la classe \verb|Wordle| che si occupa di gestire le sessioni di gioco nel modo
+corretto e qualora un utente fare dei tentativi per indovinare la parole segreta si occupa di
+verificare se il tentativo è corretto o, in caso contrario, di fornire i suggerimenti all'utente.
+
+Tutto questo è affiancato da un thread \emph{estrattore}, il quale si occupa di estrarre una nuova
+parola casuale ogni qual volta scade il timeout.
+
+\subsection{Concorrenza}
+Lato server si fa uso di multi-threading per riuscire a gestire contemporaneamente molteplici
+richieste utente. Diventa quindi necessario proteggere le strutture dati soggette a conflitti
+tramite meccanismi di concorrenza.
+
+Come è possibile notare, tutte le strutture dati coinvolte, sono sincronizzate o concorrenti. I
+thread principalmente coinvolti nella modifica delle strutture dati sono di tre tipi:
+\begin{itemize}
+	\item \textbf{Thread RMI}: quando più client interagiscono contemporaneamente con l'oggetto
+	      remoto per effettuare una registrazione, vengono avviati più thread per gestire le varie
+	      richieste.
+	\item \textbf{Receiver TCP}: quando il server deve ricevere dati su di una connessione TCP,
+	      avvia un thread \verb|Receiver| in grado di leggere il messaggio inviato sulla
+	      connessione TCP e svolgere le operazioni richieste dal client.
+	\item \textbf{Sender TCP}: quando il server deve inviare dati sulla connessione TCP, avvia un
+	      thread \verb|Sender| in grado di rispondere ai client non solo tramite TCP ma anche
+	      tramite altri protocolli di comunicazione, a seconda dei casi.
+\end{itemize}
+Tutti questi thread possono modificare attivamente le strutture dati precedentemente elencate
+oppure possono essere soltanto interessati a leggere i dati al loro interno. In ogni caso è
+necessario che i dati all'interno di tali strutture siano sempre consistenti.
+
+\subsection{Comunicazioni}
+Lato server abbiamo diversi protocolli di comunicazione in grado di fornire servizi agli utenti.
+
+\subsubsection{RMI}
+Tramite \verb|RMI| il server pubblica un oggetto remoto implementato dalla classe
+\verb|RegistrationService|, la quale mette a disposizione dell'utente un metodo (\verb|register|)
+che va ad aggiungere nuovi utenti alla tabella hash degli utenti mantenuta dal server.
+
+Tale oggetto contiene altri due metodi per la registrazione o la cancellazione di un utente dal
+servizio di notifica che si occupa di notificare all'utente cambiamenti in classifica nelle prime
+tre posizioni. Questi due metodi non fanno altro che aggiungere o rimuovere un oggetto remoto,
+implementato dalla classe \verb|NotifyService|, dalla list dei \emph{notificatori} di cui ho
+parlato nel paragrafo relativo alle strutture dati.
+
+\paragraph{Receiver}
+Il server si compone di due
+
+\paragraph{Sender}
+
