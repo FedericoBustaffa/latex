@@ -3,19 +3,44 @@ Per snellire il codice e renderlo più leggibile ho deciso di incapsulare alcune
 oggetti specifici.
 
 \subsection{Utente}
-La classe \verb|User| incapsula tutto ciò che identifica lo stato di un utente come:
-\begin{itemize}
-	\item \verb|username|
-	\item \verb|password|
-	\item \verb|online|: indica se un utente è loggato o meno.
-\end{itemize}
-Oltre alle informazioni di stato sono presenti anche le statistiche dell'utente come:
-\begin{itemize}
-	\item \verb|score|
-	\item \verb|games|
-	\item \verb|wins|
-	\item \verb|streaks|
-	\item \verb|guess distribution|
-\end{itemize}
+La classe \verb|User| incapsula tutto ciò che identifica lo stato di un utente e tutte le
+statistiche relative alle partite giocate.
 
 \subsubsection{Calcolo del punteggio}
+Per calcolare il punteggio si tiene di conto del numero e della qualità di ogni vittoria. Le
+partite perse per un motivo o per un altro non vengono contate al livello di punteggio.
+
+Ogni utente possiede infatti un vettore di interi di lunghezza 12, dove in prima posizione troviamo
+il numero di partite vinte al primo tentativo, in seconda posizione il numero di partite vinte al
+secondo tentativo e così via fino alla dodicesima posizione.
+
+Ogni volta che si termina una partita con successo il punteggio viene aggiornato tramite una sorta
+di media pesata. Si fa infatti la somma di tutte le vittorie, ognuna moltiplicata per un peso in
+base al numero di tentativi effettuati per raggiungerla.
+
+Una vittoria ottenuta al primo tentativo avrà il peso massimo, ossia 12, mentre una vittoria
+ottenuta al dodicesimo tentativo avrà il peso minimo, ossia 1.
+
+\subsection{JsonWrapper}
+Vorrei soffermarmi infine sulla classe \verb|JsonWrapper| in quanto mi è risultata molto utile per
+semplificare la sintassi (troppo verbosa) della libreria \verb|Jackson| per la gestione dei file
+json.
+
+Ovviamente la mia intenzione non era quella di implementare uno strumento per la completa gestione
+dei file json, ma un tool dall'interfaccia comoda, che tramite semplici metodi, mi permettesse di
+effettuare operazioni complesse.
+
+\subsubsection{Implementazione}
+Il \verb|JsonWrapper| contiene due costruttori uno a cui è possibile passare un file e uno senza
+argomenti.
+
+Nel caso in cui si passi un file è possibile leggere o scrivere un array di \verb|User| in formato
+json. Come possiamo vedere l'argomento passato al metodo \verb|writeArray| è in realtà la tabella
+hash degli utenti, così come lo è il valore di ritorno del metodo \verb|readArray|.
+
+Altri metodi come \verb|getContent| sono stati utili per leggere i file di configurazione in
+formato json e salvarli sottoforma di stringa.
+
+Una volta convertito il file in stringa è possibile usare i metodi \verb|getString|,
+\verb|getInteger| e \verb|getLong| per reperire il valore associato ad uno dei campi dell'oggetto
+json.

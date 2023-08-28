@@ -1,1 +1,26 @@
 \section{Compilazione ed esecuzione}
+Per compilare i sorgenti sarà sufficiente digitare il comando
+\begin{center}
+	\verb|$ javac -cp <libs> *.java|
+\end{center}
+dove al posto di \verb|libs| è necessario inserire una stringa (quindi delimitata da doppi apici)
+contenente i percorsi dei file \verb|.jar| della libreria \verb|Jackson|. Nel mio caso sono tre:
+\begin{itemize}
+	\item \verb|jackson-core-2.9.7.jar|
+	\item \verb|jackson-databind-2.9.7.jar|
+	\item \verb|jackson-annotations-2.9.7.jar|
+\end{itemize}
+Per permettere al compilatore correttamente tutti i file \verb|jar| presenti nella stringa è
+necessario separarli con dei doppi punti (\verb|:|).
+
+Il risultato della compilazione sarà una serie di file \verb|.class| di cui due eseguibili:
+\begin{itemize}
+	\item \verb|ServerMain.class|
+	\item \verb|ClientMain.class|
+\end{itemize}
+Per eseguire i due file sarà sufficiente invocare l'interprete Java passando come argomento (sia
+per client che per server) il relativo file di configurazione. Per esempio se volessimo avviare il
+server basterà digitare
+\begin{center}
+	\verb|$ java ServerMain server_config.json|
+\end{center}
