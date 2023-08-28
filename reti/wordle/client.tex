@@ -1,10 +1,44 @@
 \section{Client}
+Per quanto riguarda il client ho deciso di mantenerlo più semplice possibile.
+
 \subsection{Strutture dati}
+Il client non mantiene molte strutture dati in quanto tutto ciò di cui necessita gli viene fornito
+dal server tramite richieste.
+
 \subsubsection{Risultati partite}
 Unica struttura dati di rilievo presente lato client è quella in cui vengono memorizzati i
 messaggi in arrivo sul gruppo sociale. Tale lista è gestita dal thread che si occupa di stare in
 ascolto sul gruppo e ogni qual volta arriva un nuovo messaggio contente la partita di un altro
-utente lo salva in una coda implementata tramite una \verb|LinkedList|.
-\subsection{Servizio di notifica}
+utente lo salva in una coda implementata tramite una \verb|LinkedList| sincronizzata.
+
+\subsection{Concorrenza}
+La concorrenza in questo caso è minima poiché l'unico thread avviato in aggiunta a quello
+principale è il \verb|MulticastReceiver| che si occupa di stare in ascolto sul gruppo di multicast
+e, in caso riceva risultati di partite condivisi da altri utenti li aggiunge alla lista dei
+risultati di cui abbiamo parlato nel paragrafo dedicato alle strutture dati.
+
+Nel caso in cui ci siano utenti che condividono i loro risultanti mentre l'utente richiede di
+visionare il contenuto della lista, potrebbero verificarsi conflitti e/o inconsistenze. \`E quindi
+necessario rendere la lista sincronizzata per avere un accesso in mutua esclusione alla struttura.
+
 \subsection{Comunicazioni}
-\subsection{Utente}
+I protocolli di comunicazione, come per il server, sono molteplici, ognuno necessario ad assolvere
+compiti.
+
+\subsubsection{RMI}
+Il client quando avviato accede al servizio remoto pubblicato dal server per essere in grado di
+registrarsi tramite l'interfaccia \verb|Registration|.
+
+Se si effettua il login utilizza la medesima interfaccia per registrarsi al servizio di notifica
+inviando un'istanza della class \verb|NotifyService|. Dato che più thread lato server potrebbero
+usare tale oggetto per inviare notifiche al client è necessario rendere i suoi metodi
+sincronizzati.
+
+\subsubsection{TCP}
+Il client non utilizza Java NIO per le connessioni TCP ma dei semplici \verb|Socket| con i quali
+si connette al server ed è in grado di inviare e ricevere messaggi in forma testuale tramite i
+metodi \verb|send| e \verb|receive|.
+
+\subsubsection{UDP}
+Come ribadito in precedenza, il client avvia un thread \verb|MulticastReceiver| in grado di
+mettersi in attesa di messaggi UDP in arrivo sul gruppo di multicast.

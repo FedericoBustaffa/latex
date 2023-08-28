@@ -133,10 +133,14 @@ leggere o scrivere dato che è possibile che venga invocata nuovamente il metoto
 prima che il thread abbia terminato il suo compito.
 
 \subsubsection{UDP}
-Il server fa anche utilizzo di socket multicast usato semplicemente per inviare le partite che gli
-utenti vogliono condividere tramite messaggi UDP.
+Il server fa anche utilizzo di socket multicast usato per inviare i risultati delle partite che
+gli utenti vogliono condividere tramite messaggi UDP.
 
-\paragraph{Attachment}
+Inoltre, in caso l'utente effettui il logout o la disconnessione dal server, quest'ultimo invia
+un messaggio sul gruppo multicast che segnali all'utente in questione che può terminare la
+connessione su tale gruppo.
+
+\subsubsection{Attachment}
 Ogni volta che un canale viene registrato sul \verb|selector|, gli viene allegato un oggetto di
 tipo \verb|Attachment| contenente tutte le strutture dati necessarie a svolgere i propri compiti
 e un \verb|ByteBuffer| necessario alla lettura e scrittura da e sui canali.
@@ -145,9 +149,9 @@ Il \verb|ByteBuffer| è anche usato come mezzo di comunicazione tra \verb|Receiv
 \verb|Sender|. Ogni qual volta \verb|Receiver| riceve un comando elabora una risposta ma si limita
 soltanto a scriverla sul \verb|ByteBuffer|.
 
-Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP ma prima analizza il suo
-contenuto e nel caso sia necessario utilizza RMI per inviare notifiche o invia un messaggio UDP al
-gruppo di multicast.
+Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP, analizzando prima il suo
+contenuto e nel caso sia necessario, utilizzando RMI per inviare notifiche o invia un messaggio
+UDP al gruppo di multicast.
 
 \subsection{Spegnimento}
 In avvio il server genera un thread in attesa di un input da tastiera. Per spegnere il server è
@@ -157,7 +161,7 @@ modo il thread avviato in precedenza setterà la variabile booleana \verb|runnin
 Se ci sono ancora client connessi il server continuerà fornire i soliti servizi ma non permetterà
 ad ulteriori client di connettersi.
 
-Una volta che tutti i client si saranno disconnessi, il server terminerà la usa esecuzione tramite
+Una volta che tutti i client si saranno disconnessi, il server terminerà la sua esecuzione tramite
 il metodo \verb|shutdown| il quale si occuperà di chiudere tutte le strutture di comunicazione
 in funzione e si occuperà di scrivere sul file json \verb|users.json| un backup degli utenti con
 relative statistiche.
