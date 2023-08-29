@@ -1,50 +1,50 @@
 \section{Server}
-Il \textbf{server}, dopo l'avvio si occupa di leggere il file json di configurazione
-\verb|server_config.json| e di inizializzare le strutture necessarie per la connessione da parte
-dei client:
+Il server, implementato dalla classe \verb|Server|, dopo l'avvio si occupa di leggere il file json
+di configurazione che viene passato come parametro da riga di comando e di inizializzare le
+strutture necessarie per la connessione da parte dei client. Le operazioni principali svolte dal
+server in fase di avvio sono:
 \begin{enumerate}
-	\item Ripristina la lista degli utenti tramite il file \verb|users.json|.
-	\item Tramite tale lista crea una classifica degli utenti in ordine di punteggio.
-	\item Crea un'istanza di un oggetto \verb|Wordle| che si occupa di gestire le interazioni
+	\item Ripristinare la lista degli utenti tramite il file \verb|users.json|.
+	\item Tramite tale lista creare una classifica degli utenti in ordine di punteggio decresente.
+	\item Creare un'istanza di un oggetto \verb|Wordle| che si occupa di gestire le interazioni
 	      dell'utente prettamente relative al gioco.
-	\item Crea un thread \emph{estrattore} che si occupa di estrarre una parola dal vocabolario
-	      ogni qual volta scade un timeout.
-	\item Pubblica l'oggetto remoto accessibile tramite RMI dai client per effettuare l'operazione
-	      di registrazione.
-	\item Inizializzazione di un server TCP tramite Java NIO.
+	\item Creare un thread \verb|Extractor| che si occupa di estrarre una parola dal vocabolario
+	      ogni volta che scade un timeout.
+	\item Pubblicare un oggetto remoto di tipo \verb|RegistrationService|, accessibile tramite RMI,
+	      per permettere ai client di effettuare l'operazione di registrazione.
+	\item Inizializzare di un server TCP tramite Java NIO (\verb|Selector| e \verb|Channel|).
 	\item Inizializzazione di un socket multicast per inviare messaggi sul gruppo sociale.
 \end{enumerate}
 
 \subsection{Strutture dati}
-Dato che il server fa uso di \textbf{multi-threading} per una maggiore efficienza nell'esecuzione
-delle richieste dei vari client, sono necessarie strutture dati che garantiscano l'accesso in
-mutua esclusione ai diversi thread.
+Dato che il server potrebbe avviare più thread in contemporanea, sono necessarie strutture dati che
+garantiscano che ogni thread acceda in modo esclusivo alla struttura.
 
 \subsubsection{Utenti}
-Prima fra tutti è la \textbf{tabella hash} che gestisce gli utenti. Ho deciso di implementarla
-tramite una \verb|ConcurrentHashMap| le cui chiavi fossero gli \verb|username| degli utenti (poiché
-univoci per ogni utente) e i relativi valori fossero istanze della classe \verb|User| contenente
-tutti i vari dati relativi allo stato dell'utente e al punteggio di quest'ultimo.
+Prima fra tutti è la \verb|ConcurrentHashMap|, le cui chiavi sono gli \verb|username| degli utenti
+(poiché univoci per ogni utente) e il valore associato ad ognuna delle chiavi è l'istanza della
+classe \verb|User| relativa a quello \verb|username|.
 
 \subsubsection{Classifica}
-La seconda struttura dati è la classifica degli utenti in base al loro punteggio, implementata
-tramite una \verb|LinkedList| e sincronizzata con il metodo \verb|synchronizedList| della
-classe \verb|Collections|.
+La seconda struttura dati è la classifica degli utenti, ordinata in ordine decrescente in base al
+loro punteggio e implementata tramite una \verb|LinkedList| sincronizzata.
 
 \subsubsection{Notificatori}
-Si tratta di una lista sincronizzata di oggetti remoti, i quali implementano la classe
-\verb|NotifyService|, passati dai client durante la fase di login. Ogni qual volta c'è un
-cambiamento nelle prima tre posizioni della classifica il server scorre tutta la lista notificando
-i client tramite tali oggetti.
+Si tratta di una \verb|LinkedList| sincronizzata di oggetti di tipo \verb|Notify|, passati dai
+client durante la fase di login.
+
+Ogni qual volta c'è un cambiamento nelle prime tre posizioni della classifica il server scorre
+tutta la lista notificando i client tramite tali oggetti.
 
 In fase di logout l'utente invoca un metodo che si occupa di rimuovere il \emph{notificatore}
 a esso associato.
 
 \subsubsection{Sessioni}
 L'altra struttura dati utilizzata è una \verb|ConcurrentHashMap| che mette in correlazione un
-utente con un'istanza della class \verb|Session|, la quale incapsula la parola che l'utente sta
-cercando di indovinare, il numero di tentativi che questo ha fatto per indovinarla e altre
-informzioni relative allo stato della sessione. I motivi dietro a questa scelta sono molteplici:
+utente con una \verb|Session|. Una \verb|Session| incapsula la parola che l'utente sta cercando di
+indovinare, il numero di tentativi che questo ha fatto per indovinarla e altre informzioni relative
+allo stato della sessione (chiusa/aperta oppure se la parola è stata indovinata o meno). I motivi
+dietro a questa scelta sono molteplici:
 \begin{itemize}
 	\item In primo luogo ho deciso di gestire la casistica in cui un utente si ritrovi a giocare
 	      con una certa parola e nel frattempo il server ne estrae una nuova. In quel caso la
@@ -64,22 +64,23 @@ messaggio di risposta. Sarebbe stato poi compito del client aggiornarla man mano
 aprire la strada a possibili violazioni.
 
 \subsection{Wordle}
-Una delle entità principali lato server cuore del gioco è la classe \verb|Wordle| la cui istanza
-contiene strutture dati e metodi fondamentali per la corretta interazione tra utente e server
-quando si compiono azioni prettamente di gioco.
+Il server mantiene un'istanza della classe \verb|Wordle| la quale contiene strutture dati e metodi
+fondamentali per la corretta interazione tra utente e server quando si compiono azioni prettamente
+di gioco.
 
-In particolare è la classe \verb|Wordle| che si occupa di gestire le sessioni di gioco nel modo
-corretto e qualora un utente fare dei tentativi per indovinare la parole segreta si occupa di
-verificare se il tentativo è corretto o, in caso contrario, di fornire i suggerimenti all'utente.
+In particolare si occupa di gestire le sessioni di gioco nel modo corretto e qualora un utente
+faccia dei tentativi per indovinare la parole segreta, si occupa di verificare se il tentativo è
+corretto o, in caso contrario, di fornire i suggerimenti all'utente.
 
-Tutto questo è affiancato da un thread \emph{estrattore}, il quale si occupa di estrarre una nuova
+Tutto questo è affiancato da un thread \verb|Extractor|, il quale si occupa di estrarre una nuova
 parola casuale ogni qual volta scade il timeout.
 
 \subsection{Concorrenza}
-Lato server si fa uso di multi-threading per riuscire a gestire contemporaneamente molteplici
-richieste utente. Diventa quindi necessario proteggere le strutture dati soggette a conflitti
-tramite meccanismi di concorrenza.
+Il server sfrutta più thread per riuscire a gestire contemporaneamente molteplici richieste utente.
+Diventa quindi necessario proteggere le strutture dati soggette a conflitti tramite meccanismi di
+concorrenza.
 
+\subsubsection{Thread avviati lato server}
 Come è possibile notare, tutte le strutture dati coinvolte, sono sincronizzate o concorrenti. I
 thread principalmente coinvolti nella modifica delle strutture dati sono di tre tipi:
 \begin{itemize}
@@ -87,11 +88,11 @@ thread principalmente coinvolti nella modifica delle strutture dati sono di tre 
 	      remoto per effettuare una registrazione, vengono avviati più thread per gestire le varie
 	      richieste.
 	\item \textbf{Receiver}: quando il server deve ricevere dati su di una connessione TCP,
-	      avvia un thread \verb|Receiver| in grado di leggere il messaggio inviato sulla
-	      connessione TCP e svolgere le operazioni richieste dal client.
-	\item \textbf{Sender}: quando il server deve inviare dati sulla connessione TCP (e non solo),
-	      avvia un thread \verb|Sender| in grado di rispondere ai client non solo tramite TCP ma
-	      anche tramite altri protocolli di comunicazione, a seconda dei casi.
+	      avvia un thread \verb|Receiver| in grado di leggere il messaggio ricevuto e svolgere le
+	      operazioni richieste dal client.
+	\item \textbf{Sender}: quando il server deve inviare dati, avvia un thread \verb|Sender| in
+	      grado di rispondere ai client non solo tramite TCP ma anche tramite altri protocolli di
+	      comunicazione, a seconda dei casi.
 \end{itemize}
 Tutti questi thread possono modificare attivamente le strutture dati precedentemente elencate
 oppure possono essere soltanto interessati a leggere i dati al loro interno. In ogni caso è
@@ -110,14 +111,14 @@ che va ad aggiungere nuovi utenti alla tabella hash degli utenti mantenuta dal s
 
 Tale oggetto contiene altri due metodi per la registrazione o la cancellazione di un utente dal
 servizio di notifica che si occupa di notificare all'utente cambiamenti in classifica nelle prime
-tre posizioni. Questi due metodi non fanno altro che aggiungere o rimuovere un oggetto remoto,
-implementato dalla classe \verb|NotifyService|, dalla list dei \emph{notificatori} di cui ho
-parlato nel paragrafo relativo alle strutture dati.
+tre posizioni. Questi due metodi non fanno altro che aggiungere o rimuovere un oggetto remoto
+\verb|Notify|, dalla lista \verb|notifiers| di cui ho parlato nel paragrafo relativo alle strutture
+dati.
 
 \subsubsection{TCP}
-Per quanto riguarda le connessioni TCP il server fa uso dei \verb|Channel| per comunicare e sfrutta
-il meccanismo del \verb|Selector| alleggerire l'impiego di risorse necessarie alla gestione delle
-varie connessioni TCP con i client.
+Per quanto riguarda le connessioni TCP, il server fa uso dei \verb|Channel| per comunicare e
+sfrutta il meccanismo del \verb|Selector| per alleggerire l'impiego di risorse necessarie alla
+gestione delle varie connessioni TCP con i client.
 
 Il modo in cui ho deciso di implementare la gestione delle connessioni TCP da parte del server
 prevede che, in seguito alla possibilità di inviare o ricevere dati, questo avvii o un
@@ -125,33 +126,33 @@ prevede che, in seguito alla possibilità di inviare o ricevere dati, questo avv
 
 Per evitare errori è necessario, ogni qual volta si avvia un thread, azzerare le operazioni di
 interesse per quel \verb|channel| registrato sul \verb|selector|. Sarà il thread, una volta
-terminate le operazioni, a resettare l'operazione di interesse (lettura o scrittura) e a svegliare
-il \verb|selector| tramite il metodo \verb|wakeup|.
+terminate le operazioni, a impostare una nuova operazione di interesse (lettura o scrittura) e a
+\emph{svegliare} il \verb|selector| tramite il metodo \verb|wakeup|.
 
 Questo è necessario poiché il \verb|selector| continua a vedere il \verb|channel| come pronto a
-leggere o scrivere dato che è possibile che venga invocata nuovamente il metotodo \verb|select|
+leggere o scrivere dato che è possibile che venga invocato nuovamente il metodo \verb|select|
 prima che il thread abbia terminato il suo compito.
 
 \subsubsection{UDP}
 Il server fa anche utilizzo di socket multicast usato per inviare i risultati delle partite che
-gli utenti vogliono condividere tramite messaggi UDP.
+gli utenti vogliono condividere, tramite messaggi UDP.
 
 Inoltre, in caso l'utente effettui il logout o la disconnessione dal server, quest'ultimo invia
-un messaggio sul gruppo multicast che segnali all'utente in questione che può terminare la
-connessione su tale gruppo.
+un messaggio sul gruppo multicast che segnali all'utente in questione che può chiudere la
+connessione sul gruppo.
 
 \subsubsection{Attachment}
 Ogni volta che un canale viene registrato sul \verb|selector|, gli viene allegato un oggetto di
 tipo \verb|Attachment| contenente tutte le strutture dati necessarie a svolgere i propri compiti
-e un \verb|ByteBuffer| necessario alla lettura e scrittura da e sui canali.
+e un \verb|ByteBuffer|, necessario alla lettura e scrittura da e sui canali.
 
 Il \verb|ByteBuffer| è anche usato come mezzo di comunicazione tra \verb|Receiver| e
 \verb|Sender|. Ogni qual volta \verb|Receiver| riceve un comando elabora una risposta ma si limita
 soltanto a scriverla sul \verb|ByteBuffer|.
 
 Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP, analizzando prima il suo
-contenuto e nel caso sia necessario, utilizzando RMI per inviare notifiche o invia un messaggio
-UDP al gruppo di multicast.
+contenuto e nel caso sia necessario, utilizzando RMI per inviare notifiche o UDP per inviare un
+messaggio al gruppo di multicast.
 
 \subsection{Spegnimento}
 In avvio il server genera un thread in attesa di un input da tastiera. Per spegnere il server è
@@ -162,6 +163,6 @@ Se ci sono ancora client connessi il server continuerà fornire i soliti servizi
 ad ulteriori client di connettersi.
 
 Una volta che tutti i client si saranno disconnessi, il server terminerà la sua esecuzione tramite
-il metodo \verb|shutdown| il quale si occuperà di chiudere tutte le strutture di comunicazione
-in funzione e si occuperà di scrivere sul file json \verb|users.json| un backup degli utenti con
-relative statistiche.
+il metodo \verb|shutdown|, il quale si occuperà di chiudere tutte le strutture di comunicazione
+in funzione e di scrivere sul file json \verb|users.json| un backup degli utenti con relative
+statistiche.

@@ -15,8 +15,8 @@ il numero di partite vinte al primo tentativo, in seconda posizione il numero di
 secondo tentativo e così via fino alla dodicesima posizione.
 
 Ogni volta che si termina una partita con successo il punteggio viene aggiornato tramite una sorta
-di media pesata. Si fa infatti la somma di tutte le vittorie, ognuna moltiplicata per un peso in
-base al numero di tentativi effettuati per raggiungerla.
+di media pesata. Si effettua infatti la somma di tutte le vittorie, ognuna moltiplicata per un peso
+che varia in base al numero di tentativi effettuati per raggiungerla.
 
 Una vittoria ottenuta al primo tentativo avrà il peso massimo, ossia 12, mentre una vittoria
 ottenuta al dodicesimo tentativo avrà il peso minimo, ossia 1.
@@ -26,21 +26,22 @@ Vorrei soffermarmi infine sulla classe \verb|JsonWrapper| in quanto mi è risult
 semplificare la sintassi (troppo verbosa) della libreria \verb|Jackson| per la gestione dei file
 json.
 
-Ovviamente la mia intenzione non era quella di implementare uno strumento per la completa gestione
-dei file json, ma un tool dall'interfaccia comoda, che tramite semplici metodi, mi permettesse di
-effettuare operazioni complesse.
+La mia intenzione non è quella di implementare uno strumento per la completa gestione dei file
+json, ma un tool dall'interfaccia comoda, che tramite semplici metodi, mi permetta di effettuare
+operazioni più complesse.
 
 \subsubsection{Implementazione}
 Il \verb|JsonWrapper| contiene due costruttori uno a cui è possibile passare un file e uno senza
 argomenti.
 
 Nel caso in cui si passi un file è possibile leggere o scrivere un array di \verb|User| in formato
-json. Come possiamo vedere l'argomento passato al metodo \verb|writeArray| è in realtà la tabella
+json. Come possiamo vedere, l'argomento passato al metodo \verb|writeArray| è in realtà la tabella
 hash degli utenti, così come lo è il valore di ritorno del metodo \verb|readArray|.
 
-Altri metodi come \verb|getContent| sono stati utili per leggere i file di configurazione in
-formato json e salvarli sottoforma di stringa.
+Altri metodi come \verb|getContent| sono stati utili per leggere i file di configurazione e le
+risposte HTTP ricevute in fase di traduzione delle parole (entrambi in formato json) e salvarli
+sottoforma di stringa.
 
 Una volta convertito il file in stringa è possibile usare i metodi \verb|getString|,
 \verb|getInteger| e \verb|getLong| per reperire il valore associato ad uno dei campi dell'oggetto
-json.
+json. Se il campo cercato non è presente si solleva una \verb|NoSuchElementException|.
