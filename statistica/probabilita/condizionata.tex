@@ -5,10 +5,10 @@ se ne verifica un altro.
 \begin{example}
 	Supponiamo di lanciare un dado equilibrato e supponiamo di sapere che l'esito è un numero
 	pari. Sapendo ciò vogliamo sapere quale sia la probabilità che l'esito sia maggiore o uguale
-	di 4. Consideriamo i due insiemi $A$ e $B$ così definiti. 
+	di 4. Consideriamo i due insiemi $A$ e $B$ così definiti.
 	\[ A = \{ 4, 5, 6 \} \quad B = \{ 2, 4, 6 \} \]
 	Vogliamo sapere qual'è la probabilità di estrarre dall'insieme $B$ un numero maggiore o uguale
-	di 4. \`E immediato che la risposta deve essere $2/3$ dato che 
+	di 4. \`E immediato che la risposta deve essere $2/3$ dato che
 	\[
 		\frac{2}{3} = \frac{\# (A \cap B)}{\# B} =
 		\frac{\# (A \cap B) / \# \Omega}{\# B / \# \Omega} =
@@ -17,13 +17,13 @@ se ne verifica un altro.
 \end{example}
 
 \begin{definition}
-	Dato uno spazio di probabilità $(\Omega, \F, P)$ e un evento non trascurabile $B$, definiamo 
-	\textbf{probabilità condizionata} di $A$ dato $B$, con $A$ un evento, come 
+	Dato uno spazio di probabilità $(\Omega, \F, P)$ e un evento non trascurabile $B$, definiamo
+	\textbf{probabilità condizionata} di $A$ dato $B$, con $A$ un evento, come
 	\[ P(A | B) = \frac{P(A \cap B)}{P(B)} \]
 	Essa indica la probabilità che accada $A$ sapendo che accade $B$.
 \end{definition}
 
-Dalla formula segue che se $A$ e $B$ sono eventi e $B$ è non trascurabile, allora 
+Dalla formula segue che se $A$ e $B$ sono eventi e $B$ è non trascurabile, allora
 \[ P(A \cap B) = P(A | B) \cdot P(B) \]
 e vale una formula più generale data dalla seguente proposizione.
 
@@ -44,7 +44,7 @@ e vale una formula più generale data dalla seguente proposizione.
 \end{definition}
 
 \begin{theorem}[Fattorizzazione]\label{th: fattorizzazione}
-	Sia $B_1, ..., B_n$ un sistema di alternative, allora vale 
+	Sia $B_1, ..., B_n$ un sistema di alternative, allora vale
 	\[ P(A) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i) \]
 	Per ogni evento $A \in \F$.
 	\begin{proof}
@@ -63,16 +63,16 @@ probabilità condizionate a un sistema di alternative.
 	Ci sono 2 urne, la prima con 5 biglie rosse e 5 blu, la seconda con 8 biglie rosse e 2 blu.
 	Scegliamo casualmente una delle due urne e da questa estraiamo una biglia e ne osserviamo il
 	colore. Vogliamo calcolare la probabilità che esca una biglia rossa. In questo esempio lo
-	spazio campionario è il seguente 
+	spazio campionario è il seguente
 	\[ \Omega = \{ (\text{urna}, \text{colore biglia}) \} \]
-	dove 
+	dove
 	\[ \text{urna} \in \{ 1, 2 \} \quad \text{colore biglia} \in \{ r, b \} \]
-	A questo punto noi sappiamo che la probabilità di scegliere una delle due urne è 
+	A questo punto noi sappiamo che la probabilità di scegliere una delle due urne è
 	\[ P(1) = P(2) = \frac{1}{2} \]
 	La seconda informazione di cui siamo a conoscienza è che se scegliamo l'urna 1 abbiamo 5
-	biglie rosse e 5 blu e quindi 
+	biglie rosse e 5 blu e quindi
 	\[ P(r | 1) = \frac{5}{10} = \frac{1}{2} \]
-	Se invece scegliamo l'urna 2 abbiamo 8 biglie rosse e quindi 
+	Se invece scegliamo l'urna 2 abbiamo 8 biglie rosse e quindi
 	\[ P(r | 2) = \frac{8}{10} = \frac{4}{5} \]
 	A questo punto siamo in grado di calcolare la probabilità complessiva di estrarre una biglia
 	rossa ricavandola con il teorema di fattorizzazione \ref{th: fattorizzazione} in questo modo
@@ -89,7 +89,7 @@ probabilità condizionate a un sistema di alternative.
 
 	Si applica la formula di fattorizzazione al sistema di alternative
 	\[ B_1 = \{ \text{sano} \} \quad B_2 = \{ \text{malato} \} \]
-	e all'evento 
+	e all'evento
 	\[ A = \{ \text{test positivo} \} \]
 	Svolgendo i calcoli in modo analogo a prima otteniamo che
 	\[ P(A) = 0.0396 \]
@@ -98,11 +98,11 @@ probabilità condizionate a un sistema di alternative.
 \begin{theorem}[Bayes]\label{th: bayes}
 	Siano $A$ e $B$ eventi non trascurabili. Allora vale
 	\[ P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \]
-	In particolare se $B_1, B_2, ..., B_n$ allora vale 
+	In particolare se $B_1, B_2, ..., B_n$ allora vale
 	\[ P(B_i | A) = \frac{P(A | B_i) P(B_i)}{\sum_{j=1}^n P(A | B_j) P(B_j)} \]
 	per ogni $i = 1, ..., n$.
 	\begin{proof}
-		La dimostrazione è molto semplice basta infatti notare che 
+		La dimostrazione è molto semplice basta infatti notare che
 		\[ P(A | B) = \frac{P \cap B}{P(A)} = \frac{P(A | B) P(B)}{P(A)} \]
 		La seconda formula segue dalla prima dove $B=B_i$ e dalla formula di fattorizzazione
 		per $P(A)$.
@@ -117,7 +117,7 @@ un'alternativa $B_i$ di eventi \emph{causa}.
 	Facendo riferimento all'esempio di prima delle biglie, supponiamo di estrarre una biglia
 	rossa e vogliamo calcolare la probabilità che questa sia stata estratta dalla prima urna.
 	\[
-		P(1 | r) = \frac{P(r | 1) P(1)}{P(r)} = 
+		P(1 | r) = \frac{P(r | 1) P(1)}{P(r)} =
 		\frac{\frac{5}{10} \cdot \frac{1}{2}}{\frac{13}{20}} = 0.385
 	\]
 \end{example}
@@ -126,7 +126,7 @@ un'alternativa $B_i$ di eventi \emph{causa}.
 	Facendo riferimento al test diagnostico, supponiamo che il test dia esito positivo e vogliamo
 	calcolare la probabilità che la persona sia effettivamente malata.
 	\[
-		P(\text{malato} | \text{positivo}) = 
+		P(\text{malato} | \text{positivo}) =
 		\frac{P(\text{positivo} | \text{malato}) P(\text{malato})}{P(\text{positivo})} = 0.25
 	\]
 \end{example}

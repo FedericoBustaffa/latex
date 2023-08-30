@@ -6,15 +6,15 @@ indicheremo con $\Omega$.
 	\item I sottoinsiemi di $\Omega$ sono detti \textbf{eventi}.
 	\item I singoli esiti appartenenti ad un insieme sono detti \textbf{eventi elementari}
 \end{itemize}
-Dato che possiamo vedere gli spazi campionari come insiemi di eventi, è facile trovare una 
+Dato che possiamo vedere gli spazi campionari come insiemi di eventi, è facile trovare una
 correlazione tra le operazioni insiemistiche e i connettivi logici.
 \begin{itemize}
 	\item All'unione ($A \cup B$) corrisponde un \verb|or| logico.
 	\item All'intersezione ($A \cap B$) corrisponde un \verb|and| logico.
 	\item Alla complementazione ($A^c$) corrisponde un \verb|not| logico.
 	\item Alla differenza ($A \backslash B$) corrisponde $A \land \lnot B$
-	\item La relazione insiemistica di sottoinsieme ($A \subseteq B$) corrisponde 
-		all'implicazione logica. Se accade $A$ allora accade $B$.
+	\item La relazione insiemistica di sottoinsieme ($A \subseteq B$) corrisponde
+	      all'implicazione logica. Se accade $A$ allora accade $B$.
 	\item Se $A \cap B = \emptyset$ allora si dice che gli eventi sono \textbf{disgiunti}.
 \end{itemize}
 Ora possiamo gestire gli eventi legati da connettivi logici tramite operazioni insiemistiche
@@ -36,31 +36,31 @@ equivalenti.
 \end{example}
 
 \subsection{Funzione di probabilità}
-Vogliamo ora definire la probabilità su una classe \emph{ammissibile} di eventi. Questo non è 
+Vogliamo ora definire la probabilità su una classe \emph{ammissibile} di eventi. Questo non è
 sempre possibile. Si vuole quindi definire una classe ammissibile che sia chiusa per le operazioni
 insiemistiche viste in precedenza.
 
 \begin{definition}
-	Sia $\Omega \neq \emptyset$ e si consideri $\F \subseteq \mathcal{P}(\Omega)$ dove 
+	Sia $\Omega \neq \emptyset$ e si consideri $\F \subseteq \mathcal{P}(\Omega)$ dove
 	$\mathcal{P}(\Omega)$ è
 	un'insieme di sottoinsiemi di $\Omega$, allora $\F$ è detta $\sigma$\textbf{-algebra} se
 	valgono le seguenti proprietà:
 	\begin{itemize}
 		\item $\Omega, \emptyset \in \F$
 		\item $\F$ è stabile per la complementazione: se $A \in \F$ allora $A^c \in \F$
-		\item $\F$ è stabile per unione finita o numerabile: se $A_1, A_2, ..., A_n, ...$ è una 
-			successione finita o numerabile, allora l'unione di tutti gli $A_i$ appartiene a $\F$.
+		\item $\F$ è stabile per unione finita o numerabile: se $A_1, A_2, ..., A_n, ...$ è una
+		      successione finita o numerabile, allora l'unione di tutti gli $A_i$ appartiene a $\F$.
 	\end{itemize}
 \end{definition}
 
 La $\sigma$-algebra è quindi un'operazione chiusa per tutte le operazioni insiemistiche viste
 sopra ed è la classe degli eventi \emph{ammissibili}.
 
-La \textbf{probabilità} di un evento $A \in \F$ è il grado di fiducia che $A$ si realizzi ed è 
+La \textbf{probabilità} di un evento $A \in \F$ è il grado di fiducia che $A$ si realizzi ed è
 compreso tra 0 e 1.
 
 \`E intuitivo supporre che, se due eventi $A$ e $B$ sono disgiunti, allora la probabilità che si
-realizzi $A \cup B$ è $P(A) + P(B)$. Questo equivale a dire che la probabilità è una funzione 
+realizzi $A \cup B$ è $P(A) + P(B)$. Questo equivale a dire che la probabilità è una funzione
 d'insieme \textbf{finitamente additiva}.
 
 \begin{definition}
@@ -71,13 +71,13 @@ d'insieme \textbf{finitamente additiva}.
 	\begin{itemize}
 		\item L'evento certo ha probabilità unitaria: $P(\Omega) = 1$.
 		\item Se la successione degli $A_i$ è una successione di elementi di $\F$ a due a due
-			disgiunti, si ha, nel caso in cui la successione sia finita, che
-			\[ P (\cup_{n=i}^n A_i) = \sum_{i=1}^n P(A_i) \]
-			Se invece la successione è infinita allora vale
-			\[
-				P (\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i) =
-				\lim_{n \to \infty} \sum_{i=1}^n P(A_i)
-			\]
+		      disgiunti, si ha, nel caso in cui la successione sia finita, che
+		      \[ P (\cup_{n=i}^n A_i) = \sum_{i=1}^n P(A_i) \]
+		      Se invece la successione è infinita allora vale
+		      \[
+			      P (\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i) =
+			      \lim_{n \to \infty} \sum_{i=1}^n P(A_i)
+		      \]
 	\end{itemize}
 \end{definition}
 
@@ -98,13 +98,13 @@ d'insieme \textbf{finitamente additiva}.
 	Supponiamo di avere una successione infinita $A \in \F$	allora
 	\begin{itemize}
 		\item $A$ è una successione \textbf{crescente}, cioè $A_i \subseteq A_{i+1}$, $\forall i$
-			se vale
-			\[ A = \cup_{i=1}^\infty A_i \]
+		      se vale
+		      \[ A = \cup_{i=1}^\infty A_i \]
 		\item $A$ è una successione \textbf{decrescente}, cioè $A_{i+1} \subseteq A_i$,
-			$\forall i$ se vale 
-			\[ A = \cap_{i=1}^\infty A_i \]
+		      $\forall i$ se vale
+		      \[ A = \cap_{i=1}^\infty A_i \]
 	\end{itemize}
-	In entrambi i casi vale 
+	In entrambi i casi vale
 	\[ P(A) = \lim_{i \to \infty} P(A_i) \]
 \end{proposition}
 
@@ -120,9 +120,9 @@ Facciamo ora qualche considerazione sulla $\sigma$-algebra. Consideriamo $\Omega
 numerabile e quindi così formato
 \[ \Omega = \{ \omega_1, \omega_2, ..., \omega_i, ... \} \]
 allora possiamo prendere $\F = \mathcal{P}(\Omega)$ e la probabilità è univocamente determinata
-da $p_i = P(\{ \omega_i \})$. Vale infatti che 
+da $p_i = P(\{ \omega_i \})$. Vale infatti che
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
-Quindi, nel caso $A$ abbia un numero 
+Quindi, nel caso $A$ abbia un numero
 \begin{itemize}
 	\item finito di elementi, $P(A)$ equivale alla somma dei $p_i$.
 	\item infinito di elementi, $P(A)$ equivale alla serie dei $p_i$.
@@ -131,15 +131,15 @@ Quindi, nel caso $A$ abbia un numero
 \begin{example}
 	Vogliamo definire un modello di probabilità per la scelta casuale di un punto sull'intervallo
 	$[a,b]$ in modo che la scelta sia uniforme. In questo caso abbiamo che $\Omega$ è non
-	numerabile in quanto esistono infiniti punti tra $a$ e $b$. Ne segue che la probabilità di 
-	scegliere un punto in questo intervallo con una funzione di probabilità definita come in 
+	numerabile in quanto esistono infiniti punti tra $a$ e $b$. Ne segue che la probabilità di
+	scegliere un punto in questo intervallo con una funzione di probabilità definita come in
 	precedenza non può che essere 0.
 
-	Potrebbe venirci in mente di definire la probabilità di scegliere un punto $x$ all'interno di 
+	Potrebbe venirci in mente di definire la probabilità di scegliere un punto $x$ all'interno di
 	$[a,b]$ come la lunghezza dell'intervallo ($b-a$) ma ci si può facilmente accorgere che non
 	si riesce a definire in modo coerente la lunghezza di ogni sottoinsieme di $[a,b]$.
 
-	Per questo si introduce una $\sigma$-algebra più \emph{piccola} di $\mathcal{P}(\Omega)$, 
+	Per questo si introduce una $\sigma$-algebra più \emph{piccola} di $\mathcal{P}(\Omega)$,
 	detta degli \textbf{insiemi misurabili}.
 \end{example}
 

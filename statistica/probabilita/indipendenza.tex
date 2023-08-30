@@ -1,7 +1,7 @@
 \section{Indipendenza}
 Il concetto di \textbf{indipendenza} nasce dalla necessità di esprimere in modo rigoroso che la
 probabilità di un evento $A$ non cambia sapendo che accade $B$ e viceversa. Per $A$ e $B$ non
-trascurabili vale quindi 
+trascurabili vale quindi
 \[ P(A) = P(A | B) \quad \Leftrightarrow \quad P(A) P(B) = P(A \cap B) \]
 Lo stesso vale per $P(B)$.
 
@@ -16,23 +16,23 @@ Si può dimostrare per esercizio che, se $A$ e $B$ sono indipendenti allora lo s
 	\item $A$ e $B^c$
 	\item $A^c$ e $B^c$
 \end{itemize}
-L'indipendenza è dunque stabile per la complementazione. Si può inoltre dimostrare che 
+L'indipendenza è dunque stabile per la complementazione. Si può inoltre dimostrare che
 \begin{itemize}
 	\item Se $P(A) \in \{ 0, 1 \}$ allora $A$ è indipendente da ogni altro evento.
 	\item Se $A \cap B = \emptyset$ allora $A$ e $B$ non sono indipendente a meno che $P(A)$ o
-		$P(B)$ siano 0.
+	      $P(B)$ siano 0.
 \end{itemize}
 
 \begin{example}
 	Si vuole estrarre una carta da un mazzo di 40 carte napoletane
 	\[ \Omega = \{ \text{carte} \} \]
-	Ci chiediamo se i due eventi 
+	Ci chiediamo se i due eventi
 	\[ A = \{ \text{asso} \} \quad B = \{ \text{denari} \} \]
 	sono indipendenti. La probabilità di estrarre un asso equivale a
 	\[ P(A) = \frac{4}{40} = \frac{1}{10} \]
 	La probabilità di estrarre una carta di denari è invece
 	\[ P(B) = \frac{10}{40} = \frac{1}{4} \]
-	La probabilità di estrarre l'asso di denari equivale a 
+	La probabilità di estrarre l'asso di denari equivale a
 	\[ P(A \cap B) = \frac{1}{40} = \frac{1}{10} \cdot \frac{1}{4} = P(A) P(B) \]
 	Quindi gli eventi sono indipendenti.
 \end{example}
@@ -40,39 +40,39 @@ L'indipendenza è dunque stabile per la complementazione. Si può inoltre dimost
 \subsection{Indipendenza per 3 o più eventi}
 Siano $A$, $B$ e $C$ degli eventi. Per riuscire a dire che sono indipendenti c'è bisogno che
 \begin{itemize}
-	\item Siano a due a due indipendenti 
-		\begin{align*}
-			P(A \cap B) = & P(A) P(B) \\
-			P(A \cap C) = & P(A) P(C) \\
-			P(B \cap C) = & P(B) P(C)
-		\end{align*}
+	\item Siano a due a due indipendenti
+	      \begin{align*}
+		      P(A \cap B) = & P(A) P(B) \\
+		      P(A \cap C) = & P(A) P(C) \\
+		      P(B \cap C) = & P(B) P(C)
+	      \end{align*}
 	\item La probabilità dell'intersezione di tutti e tre si spezzi come il prodotto delle
-		probabilità dei tre eventi.
-		\[ P(A \cap B \cap C) = P(A) P(B) P(C) \]
+	      probabilità dei tre eventi.
+	      \[ P(A \cap B \cap C) = P(A) P(B) P(C) \]
 \end{itemize}
 
 \begin{example}
-	Consideriamo 
+	Consideriamo
 	\begin{align*}
 		\Omega = & \{ 1, 2, 3, 4 \} \\
-		A = & \{ 1, 2 \} \\
-		B = & \{ 1, 3 \} \\
-		C = & \{ 2, 3 \}
+		A =      & \{ 1, 2 \}       \\
+		B =      & \{ 1, 3 \}       \\
+		C =      & \{ 2, 3 \}
 	\end{align*}
-	con $P$ uniforme su $\Omega$. La probabilità che i singoli eventi si verifichino è di 
+	con $P$ uniforme su $\Omega$. La probabilità che i singoli eventi si verifichino è di
 	\[ P(A) = P(B) = P(C) = \frac{2}{4} = \frac{1}{2} \]
 	La probabilità dell'intersezione degli eventi presi a due a due è di
 	\[ P(A \cap B) = P(A \cap C) = P(B \cap C) = \frac{1}{4} \]
-	Dunque la prima condizione per l'indipendenza è soddisfatta. Andiamo a calcolare ora quanto 
+	Dunque la prima condizione per l'indipendenza è soddisfatta. Andiamo a calcolare ora quanto
 	vale l'intersezione dei tre eventi. Consideriamo l'intersezione in questo modo
 	\[ A \cap (B \cap C) \]
-	Dunque possiamo calcolare la probabilità dell'intersezione in questo modo 
+	Dunque possiamo calcolare la probabilità dell'intersezione in questo modo
 	\[ P(A \cap (B \cap C)) = P(A | (B \cap C)) = 0 \neq P(A) \]
 	Dunque sapere che accade $B \cap C$ cambia la probabilità che accada $A$.
 \end{example}
 
 \begin{definition}
-	Dati $A_1, A_2, ..., A_n$ eventi, questi si dicono indipendenti se $\forall k$ intero con 
+	Dati $A_1, A_2, ..., A_n$ eventi, questi si dicono indipendenti se $\forall k$ intero con
 	$1 \leq k \leq n$ e $\forall \; 1 \leq i_1 < ... < i_k \leq n$ vale
 	\[ P(A_{i_1} \cap ... \cap A_{i_k}) = P(A_{i_1}) \cdot ... \cdot P(A_{i_k}) \]
 	In altre parole la probabilità dell'intersezione degli eventi si deve poter spezzare come
@@ -90,7 +90,7 @@ ripetizioni distinte o a gruppi disgiunti di ripetizione sono indipendenti.
 
 Un sottocaso importante delle prove ripetute è lo schema di Bernoulli per $n$ prove ripetute in
 cui ciascuna prova ha esito \emph{successo} o \emph{insuccesso}. In questo specifico caso è
-possibile scrivere lo spazio campionario 
+possibile scrivere lo spazio campionario
 \[ \Omega = \{ a_1, a_2, ..., a_n | \forall i \; a_i \in \{ 0, 1 \} \} = \{ 0, 1 \}^n \]
 In cui associamo tipicamente a 1 il successo e a 0 l'insuccesso. La probabilità associata ad una
 sequenza equivale a
