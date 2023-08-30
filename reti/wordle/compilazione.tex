@@ -4,11 +4,13 @@ della libreria \verb|Jackson| utilizzate:
 \begin{lstlisting}
 $ javac -cp .:jackson-core-2.9.7.jar:jackson-databind-2.9.7.jar:jackson-annotations-2.9.7.jar *.java
 \end{lstlisting}
-Per permettere al compilatore correttamente tutti i file \verb|jar| presenti nella stringa è
-necessario separarli con dei doppi punti (\verb|:|).
+Per permettere al compilatore di distinguere correttamente tutti i file \verb|jar| presenti nella
+stringa è necessario separarli con dei doppi punti (\verb|:|).
 
 Similmente alla compilazione, anche per l'esecuzione è necessario notificare all'interprete Java
 che stiamo usando dei file \verb|.jar| della libreria \verb|Jackson|:
 \begin{lstlisting}
 $ java -cp .:jackson-core-2.9.7.jar:jackson-databind-2.9.7.jar:jackson-annotations-2.9.7.jar ServerMain server_config.json
 \end{lstlisting}
+In questo caso ho fatto l'esempio dell'esecuzione del \verb|Server| ma il discorso è analogo per il
+client in quanto anch'esso utilizza componenti della libreria \verb|Jackson|.
