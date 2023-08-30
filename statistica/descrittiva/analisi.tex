@@ -7,14 +7,15 @@ Procediamo con alcune definizioni fondamentali per l'analisi statistica dei dati
 \end{definition}
 
 \begin{definition}
-	Definiamo la \textbf{media empirica} o il \textbf{valore medio} come la media aritmetica dei valori in un
-	certo vettore di dati.
+	Definiamo la \textbf{media empirica} o il \textbf{valore medio} come la media aritmetica dei
+	valori in un certo vettore di dati.
 	\[ \overline{x} = \frac{x_1 + x_2 + \dots + x_n}{n} \]
 \end{definition}
 
 \section{Varianza}
-La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un campione o meglio è una misura di
-\emph{dispersione} dei dati. Andremo a vedere due tipi di varianza: campionaria ed empirica.
+La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un campione o meglio è una
+misura di \emph{dispersione} dei dati. Andremo a vedere due tipi di varianza: campionaria ed
+empirica.
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza campionaria} come
@@ -29,40 +30,38 @@ La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un cam
 \end{definition}
 
 \begin{observation}
-	Se andiamo ad analizzare entrambe le formule possiamo facilmente accorgerci che la varianza, essendo una
-	somma di quadrati, ha valore 0, quando questi sono tutti 0. Perché questo avvenga, tutti i valori in $x$
-	devono essere uguali fra di loro.
+	Se andiamo ad analizzare entrambe le formule possiamo facilmente accorgerci che la varianza,
+	essendo una somma di quadrati, ha valore 0, quando questi sono tutti 0. Perché questo avvenga,
+	tutti i valori in $x$ devono essere uguali fra di loro.
 
-	Ecco che possiamo dire che un valore basso di varianza corrisponde ad un vettore di dati con valori molto
-	simili fra loro. Al contrario, un alto valore di varianza corrisponde ad un vettore di dati con valori molto
-	diversi fra loro.
+	Ecco che possiamo dire che un valore basso di varianza corrisponde ad un vettore di dati con
+	valori molto simili fra loro. Al contrario, un alto valore di varianza corrisponde ad un
+	vettore di dati con valori molto diversi fra loro.
 
-	Presi due vettori di dati differenti, uno con valori molto simili fra loro e uno con valori molto diversi. La
-	media potrebbe essere molto simile se non uguale ma la varianza per i due vettori sarà differente.
+	Presi due vettori di dati differenti, uno con valori molto simili fra loro e uno con valori
+	molto diversi. La media potrebbe essere molto simile se non uguale ma la varianza per i due
+	vettori sarà differente.
 \end{observation}
 
 \begin{definition}
-	Definiamo anche un'uguaglianza di base che, per il momento non andremo a spiegare, ma che in seguito ci
-	tornerà utile:
+	Definiamo anche un'uguaglianza di base che, per il momento non andremo a spiegare, ma che in
+	seguito ci tornerà utile:
 	\[ \sum_{i=1}^n (x_i - \overline{x})^2 = \sum_{i=1}^n x_i^2 - n \overline{x}^2 \]
 	\begin{proof}
 		Sviluppando il quadrato possiamo facilmente convincerci che l'uguaglianza sia vera:
-		\[
-			\begin{array}{ l l l l }
-				  & \displaystyle\sum_{i=1}^n (x_i - \overline{x})^2                                     & = &
-				\displaystyle\sum_{i=1}^n (x_i^2 - 2x_i \overline{x} + \overline{x}^2)                         \\
-				\\
-				= & \displaystyle\sum_{i=1}^n x_i^2 - 2 \overline{x} \sum_{i=1}^n x_i + n \overline{x}^2 &
-				= & \displaystyle\sum_{i=1}^n x_i^2 - 2 n \overline{x}^2 + n \overline{x}^2                    \\
-				\\
-				= & \displaystyle\sum_{i=1}^n x_i^2 - n \overline{x}^2
-			\end{array}
-		\]
+		\begin{align*}
+			\sum_{i=1}^n (x_i - \overline{x})^2 =                                     \\
+			\sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2) =              \\
+			\sum_{i=1}^n x_i^2 - 2 \overline{x} \sum_{i=1}^n x_i + n \overline{x}^2 = \\
+			\sum_{i=1}^n x_i^2 - 2 n \overline{x}^2 + n \overline{x}^2 =              \\
+			\sum_{i=1}^n x_i^2 - n \overline{x}^2
+		\end{align*}
 	\end{proof}
 \end{definition}
 
 \begin{definition}
-	Definiamo lo \textbf{scarto quadratico medio} come la radice quadrata della varianza campionaria:
+	Definiamo lo \textbf{scarto quadratico medio} come la radice quadrata della varianza
+	campionaria:
 	\[ \sigma (x) = \sqrt{\Var (x)} \]
 \end{definition}
 
@@ -71,27 +70,27 @@ La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un cam
 	\[ \sigma_e (x) = \sqrt{\Var_e (x)} \]
 \end{definition}
 
-Come già detto in precendenza, la varianza è nulla se e solo se tutti i valori nel vettore $x$ sono uguali tra
-di loro, vale quindi
+Come già detto in precendenza, la varianza è nulla se e solo se tutti i valori nel vettore $x$
+sono uguali tra di loro, vale quindi
 \[ \Var(x) = 0 \Leftrightarrow x_1 = x_2 = \dots = x_n \]
-Abbiamo anche già specificato che il valore della varianza indica il grado di \emph{dispersione} dei dati, per
-fissare meglio il concetto analizziamo questa espressione:
+Abbiamo anche già specificato che il valore della varianza indica il grado di \emph{dispersione}
+dei dati, per fissare meglio il concetto analizziamo questa espressione:
 \[ \# \{ x_i : |x_i - \overline{x}| > d  \} \leq \frac{\sum_{i=1}^n (x_i - \overline{x})}{d^2} \]
 Da qui possiamo dedurre che
 \[ \frac{\# \{ x_i : |x_i - \overline{x}| > d \}}{n} \leq \frac{\Var_e(x)}{d^2} \]
-La disequazione appena descritta è detta \textbf{disuguaglianza di Chebyshev}, anche se, come vedremo più avanti,
-si tratta di un caso particolare della vera disuguaglianza di Chebyshev. Essa indica la percentuale di dati che
-differiscono da $\overline{x}$ per almeno un fattore $d$.
+La disequazione appena descritta è detta \textbf{disuguaglianza di Chebyshev}, anche se, come
+vedremo più avanti, si tratta di un caso particolare della vera disuguaglianza di Chebyshev. Essa
+indica la percentuale di dati che differiscono da $\overline{x}$ per almeno un fattore $d$.
 
 \begin{observation}
-	Questo ci dice che più la varianza è piccola, più il numero di dati che differiscono dalla media per almeno
-	un fattore $d$ diminuisce.
+	Questo ci dice che più la varianza è piccola, più il numero di dati che differiscono dalla
+	media per almeno un fattore $d$ diminuisce.
 \end{observation}
 
 \section{Concentrazione dei dati}
 \begin{definition}
-	Definiamo ora una \textbf{regola empirica sulla concentrazione dei dati}: supponendo che l'istogramma sia
-	normale abbiamo che
+	Definiamo ora una \textbf{regola empirica sulla concentrazione dei dati}: supponendo che
+	l'istogramma sia normale abbiamo che
 	\begin{itemize}
 		\item Circa il 68\% dei dati appartiene a
 		      \[ [ \overline{x} - \sigma(x),\; \overline{x} + \sigma(x) ] \]
@@ -100,22 +99,24 @@ differiscono da $\overline{x}$ per almeno un fattore $d$.
 		\item Circa il 99.7\% dei dati appartiene a
 		      \[ [ \overline{x} - 3 \sigma(x),\; \overline{x} + 3 \sigma(x) ] \]
 	\end{itemize}
-	Questi intervalli si allargano tanto più velocemente quanto più grande è lo scarto quadratico medio (o la
-	varianza).
+	Questi intervalli si allargano tanto più velocemente quanto più grande è lo scarto quadratico
+	medio (o la varianza).
 \end{definition}
 
 \begin{definition}
 	Definiamo la \textbf{funzione di ripartizione empirica} come
 	\[ F_e(t) = \frac{\{ x_i : x_i \leq t \}}{n} \]
-	Quello che la funzione fa in pratica è prendere la percentuale dei dati che vengono prima di $t$.
+	Quello che la funzione fa in pratica è prendere la percentuale dei dati che vengono prima di
+	$t$.
 \end{definition}
 
-Supponendo di avere un certo insieme di dati, il procedimento per calcolare la funzione appena definita è il
-seguente:
+Supponendo di avere un certo insieme di dati, il procedimento per calcolare la funzione appena
+definita è il seguente:
 \begin{enumerate}
 	\item Disporre i dati in ordine crescente:
-	\item Si parte da 0 e si compie un \emph{salto} di ampiezza $1 / n$ sull'asse $y$ in corrispondenza di uno
-	      dei dati. Nel caso in cui ci siano $m$ dati coincidenti, il salto in quel punto sarà di $m / n$.
+	\item Si parte da 0 e si compie un \emph{salto} di ampiezza $1 / n$ sull'asse $y$ in
+	      corrispondenza di uno dei dati. Nel caso in cui ci siano $m$ dati coincidenti, il salto
+	      in quel punto sarà di $m / n$.
 \end{enumerate}
 
 \begin{example}
@@ -123,7 +124,8 @@ seguente:
 	\[ x = (1.2, \; -0.7, \; 3.4, \; 1.6, \; 2.1) \]
 	Ordiniamoli in ordine crescente:
 	\[ x = (-0.7, \; 1.2, \; 1.6, \; 2.1, \; 3.4) \]
-	Dato che $n = 5$ abbiamo un salto verticale di $1/5 = 0.2$ in corrispondenza di ognuno dei dati.
+	Dato che $n = 5$ abbiamo un salto verticale di $1/5 = 0.2$ in corrispondenza di ognuno dei
+	dati.
 	\begin{center}
 		\begin{tikzpicture}
 			\begin{axis}[
@@ -156,11 +158,12 @@ seguente:
 \end{example}
 
 \subsection{Percentili e quantili}
-Definiamo ora \textbf{percentili} e \textbf{quantili}, i primi usati più nel linguaggio comune, gli altri usati
-più spesso nel linguaggio statistico.
+Definiamo ora \textbf{percentili} e \textbf{quantili}, i primi usati più nel linguaggio comune,
+gli altri usati più spesso nel linguaggio statistico.
 
 \begin{definition}
-	Sia $k$ un numero (non necessariamente intero) compreso tra 0 e 100, diciamo che l'intero $t$ è il $k$-esimo
+	Sia $k$ un numero (non necessariamente intero) compreso tra 0 e 100, diciamo che l'intero $t$
+	è il $k$-esimo
 	\textbf{percentile}, se
 	\begin{itemize}
 		\item Almeno $k / 100$ dati sono inferiori o uguali di $t$.
@@ -170,8 +173,9 @@ più spesso nel linguaggio statistico.
 \end{definition}
 
 \begin{definition}
-	Sia $\beta$ un numero compreso tra 0 e 1, diciamo che $t$ è quel valore dell'insieme tale che almeno
-	$\beta \cdot n$ dati sono inferiori o uguali a $t$, e almeno $(1-\beta) \cdot n$ dati sono superiori a $t$.
+	Sia $\beta$ un numero compreso tra 0 e 1, diciamo che $t$ è quel valore dell'insieme tale che
+	almeno $\beta \cdot n$ dati sono inferiori o uguali a $t$, e almeno $(1-\beta) \cdot n$ dati
+	sono superiori a $t$.
 \end{definition}
 
 \begin{definition}
@@ -184,8 +188,8 @@ più spesso nel linguaggio statistico.
 \end{definition}
 
 \section{Dati multipli}
-Fino ad ora abbiamo sempre preso in considerazione vettori di dati monodimensionali, ma supponiamo di dover
-lavorare con vettori contenenti $n$-uple di valori, per esempio
+Fino ad ora abbiamo sempre preso in considerazione vettori di dati monodimensionali, ma supponiamo
+di dover lavorare con vettori contenenti $n$-uple di valori, per esempio
 \[ (x, y) = ((x_1, \; y_1), \; (x_2, \; y_2), \; \dots, \; (x_n, \; y_n)) \]
 Ecco che dobbiamo introdurre degli strumenti necessari a lavorare anche con questi vettori.
 
@@ -206,15 +210,16 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 \end{definition}
 
 \begin{definition}
-	Supponiamo $\sigma (x) \neq 0$ e $\sigma (y) \neq 0$, allora chiamiamo \textbf{coefficiente di correlazione}
-	tra $x$ e $y$ il numero
+	Supponiamo $\sigma (x) \neq 0$ e $\sigma (y) \neq 0$, allora chiamiamo
+	\textbf{coefficiente di correlazione} tra $x$ e $y$ il numero
 	\[
 		r(x, y) = \frac{\Cov (x, y)}{\sigma (x) \cdot \sigma (y)} =
-		\frac{\displaystyle\sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})}
-		{\sqrt{\displaystyle\sum_{i=1}^n (x_i - \overline{x})^2} \cdot
-			\sqrt{\displaystyle\sum_{i=1}^n (y_i - \overline{y})^2}}
+		\frac{\sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})}
+		{\sqrt{\sum_{i=1}^n (x_i - \overline{x})^2} \cdot
+			\sqrt{\sum_{i=1}^n (y_i - \overline{y})^2}}
 	\]
-	Sia che si scelga la covarianza campionaria sia che si scelga quella empirica il risultato non cambia.
+	Sia che si scelga la covarianza campionaria sia che si scelga quella empirica il risultato
+	non cambia.
 \end{definition}
 
 \begin{definition}
@@ -226,27 +231,31 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 	e di conseguenza vale \[ |r(x, y)| \leq 1 \]
 \end{definition}
 
-Intuitivamente il \emph{coefficiente di correlazione} misura il \emph{legame lineare} che c'è tra i dati $x$ e
-$y$ ma per comprendere meglio il concetto dobbiamo introdurre la \textbf{retta di regressione}.
+Intuitivamente il \emph{coefficiente di correlazione} misura il \emph{legame lineare} che c'è tra
+i dati $x$ e $y$ ma per comprendere meglio il concetto dobbiamo introdurre la
+\textbf{retta di regressione}.
 
 \subsection{Rette di regressione}
-Per calcolare una \textbf{retta di regressione} facciamo ovviamente riferimento all'equazione generica di una
-retta
+Per calcolare una \textbf{retta di regressione} facciamo ovviamente riferimento all'equazione
+generica di una retta
 \[ y = a x + b \]
-Per calcolare la retta di regressione su un certo insieme di dati dobbiamo trovare $a$ e $b$ tali che la distanza
-fra la retta e i punti sia minima.
+Per calcolare la retta di regressione su un certo insieme di dati dobbiamo trovare $a$ e $b$ tali
+che la distanza fra la retta e i punti sia minima.
 
-In altre parole stiamo cercando di \emph{approssimare} al meglio i dati un insieme di dati calcolando la retta
-che lo fa con il minor errore di approssimazione possibile.
+In altre parole stiamo cercando di \emph{approssimare} al meglio i dati un insieme di dati
+calcolando la retta che lo fa con il minor errore di approssimazione possibile.
 
-Di seguito troviamo l'equazione che ci fornisce l'\textbf{errore quadratico medio} di una retta di regressione
+Di seguito troviamo l'equazione che ci fornisce l'\textbf{errore quadratico medio} di una retta di
+regressione
 \[ Q(a, b) = \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
-Come possiamo vedere, l'\emph{errore quadratico medio}, si calcola facendo la differenza tra $y_i$, ossia uno
-dei dati nel vettore $y$ e $a x_i + b$, ossia il valore della retta con $x_i$ come valore sulle ascisse.
+Come possiamo vedere, l'\emph{errore quadratico medio}, si calcola facendo la differenza tra
+$y_i$, ossia uno dei dati nel vettore $y$ e $a x_i + b$, ossia il valore della retta con $x_i$
+come valore sulle ascisse.
 
-Dato che l'\emph{errore quadratico medio} della retta è la somma degli errori di approssimazione su tutti i
-punti della retta, e questi possono essere anche negativi, non si fa una pura di tutti gli errori, ma del loro
-quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio la funzione.
+Dato che l'\emph{errore quadratico medio} della retta è la somma degli errori di approssimazione
+su tutti i punti della retta, e questi possono essere anche negativi, non si fa una pura di tutti
+gli errori, ma del loro quadrato, di modo da averli tutti positivi e di modo da poter minimizzare
+meglio la funzione.
 
 \begin{theorem}
 	Il minimo, al variare di $(a, b) \in \mathbb{R}^2$, della quantità
@@ -264,11 +273,12 @@ quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio
 		\[ Q(a, b) = \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
 		al variare di $a$ e $b$. Come è possibile notare dal calcolo del limite
 		\[ \lim_{|a|, |b| \to +\infty} Q(a, b) = +\infty \]
-		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$ tendono a
+		si tratta di una funzione a valori positivi che tende a $+\infty$ quando $a$ e $b$
+		tendono a
 		$\pm\infty$.
 
-		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali rispetto a
-		$a$ e $b$
+		Per trovare il minimo di una funzione a due variabili si annullano le derivate parziali
+		rispetto a $a$ e $b$
 		\[ \frac{\partial Q}{\partial a} = 0 \quad \frac{\partial Q}{\partial b} = 0 \]
 		Dobbiamo quindi andare a risolvere un sistema a due equazioni di questo tipo
 		\[
@@ -280,15 +290,16 @@ quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio
 		Dividendo per $n$ entrambe le equazioni si arriva a
 		\[
 			\begin{cases}
-				\frac{1}{n} \sum_{i=1}^n x_i y_i - \frac{a}{n} \sum_{i=1}^n x_i^2 + b \overline{x} & = 0 \\
-				\overline{y} - a \overline{x} - b                                                  & = 0
+				\frac{1}{n} \sum_{i=1}^n x_i y_i - \frac{a}{n} \sum_{i=1}^n x_i^2 +
+				b \overline{x}                    & = 0 \\
+				\overline{y} - a \overline{x} - b & = 0
 			\end{cases}
 		\]
 		Risolvendo il sistema si ricavano $a$ e $b$ come segue
 		\[
 			\begin{cases}
-				b = & \overline{y} - a \overline{x}                         \\
-				a = & \displaystyle\frac{\frac{1}{n} \sum_{i=1}^n x_i y_i -
+				b = & \overline{y} - a \overline{x}            \\
+				a = & \frac{\frac{1}{n} \sum_{i=1}^n x_i y_i -
 					\overline{x} \cdot \overline{y}}
 				{\frac{1}{n} \sum_{i=1}^n x_i^2 - \overline{x}^2} =
 				\frac{\Cov_e(x, y)}{\Var_e(x)}
@@ -300,15 +311,15 @@ quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio
 \end{theorem}
 
 \begin{observation}
-	Il \textbf{valore assoluto} del coefficiente di correlazione ci fornisce quindi delle informazioni
-	interessanti sui dati:
+	Il \textbf{valore assoluto} del coefficiente di correlazione ci fornisce quindi delle
+	informazioni interessanti sui dati:
 	\begin{itemize}
 		\item $|r(x, y)| = 1$ se e solo se i dati sono tutti sulla stessa retta.
 		\item $|r(x, y)| \approx 1$ se i dati sono molto allineati.
 		\item $|r(x, y)| \approx 0$ se i dati sono dispersi.
 	\end{itemize}
-	Possiamo anche notare che il \textbf{segno} del coefficiente di correlazione ci fornisce un'altra
-	informazione interessante:
+	Possiamo anche notare che il \textbf{segno} del coefficiente di correlazione ci fornisce
+	un'altra informazione interessante:
 	\begin{itemize}
 		\item Se $r(x, y) < 0$ allora la retta decresce al crescere di $x$.
 		\item Se $r(x, y) > 0$ allora la retta cresce al crescere di $x$.
@@ -316,8 +327,8 @@ quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio
 \end{observation}
 
 \begin{example}
-	Proviamo ora a calcolare la retta di regressione su un insieme di dati contenuto. Supponiamo di avere 5
-	maschi e 5 femmine della stessa età e, per ognuno di essi, sappiamo altezza e peso.
+	Proviamo ora a calcolare la retta di regressione su un insieme di dati contenuto. Supponiamo
+	di avere 5 maschi e 5 femmine della stessa età e, per ognuno di essi, sappiamo altezza e peso.
 	\begin{center}
 		\begin{tikzpicture}
 			\begin{axis}[
@@ -353,10 +364,10 @@ quadrato, di modo da averli tutti positivi e di modo da poter minimizzare meglio
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
-	Come possiamo notare abbiamo due rette che passano molto vicine ai dati, ma hanno coefficiente angolare
-	differente.
+	Come possiamo notare abbiamo due rette che passano molto vicine ai dati, ma hanno coefficiente
+	angolare differente.
 
-	Sia per maschi che per femmine possiamo dire che, più un ragazzo è alto, più è pesante. Il fatto che però
-	le due rette crescano in modo differente ci dice che le ragazze hanno un rapporto peso-altezza più basso
-	dei maschi.
+	Sia per maschi che per femmine possiamo dire che, più un ragazzo è alto, più è pesante. Il
+	fatto che però le due rette crescano in modo differente ci dice che le ragazze hanno un
+	rapporto peso-altezza più basso dei maschi.
 \end{example}
