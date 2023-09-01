@@ -41,10 +41,6 @@ Il client non utilizza Java NIO per le connessioni TCP ma dei semplici \verb|Soc
 si connette al server ed è in grado di inviare e ricevere messaggi in forma testuale tramite i
 metodi \verb|send| e \verb|receive|.
 
-\subsubsection{UDP}
-Come ribadito in precedenza, il client avvia un thread \verb|MulticastReceiver| in grado di
-mettersi in attesa di messaggi UDP in arrivo sul gruppo di multicast.
-
 \subsection{Spegnimento}
 Ci sono due metodi per riuscire ad chiudere l'applicazione correttamente:
 \begin{itemize}
