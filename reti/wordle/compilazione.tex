@@ -14,3 +14,9 @@ $ java -cp .:jackson-core-2.9.7.jar:jackson-databind-2.9.7.jar:jackson-annotatio
 \end{lstlisting}
 In questo caso ho fatto l'esempio dell'esecuzione del \verb|Server| ma il discorso è analogo per il
 client in quanto anch'esso utilizza componenti della libreria \verb|Jackson|.
+
+Nel caso si vogliano eseguire direttamente i file \verb|.jar| basterà digitare il comando
+\begin{lstlisting}
+$ java -jar Server.jar server_config.json
+\end{lstlisting}
+Discorso analogo per il client, basterà solamente cambiare i parametri adeguatamente.

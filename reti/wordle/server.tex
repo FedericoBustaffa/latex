@@ -30,15 +30,18 @@ classe \verb|User| relativa a quello \verb|username|.
 La seconda struttura dati è la classifica degli utenti, ordinata in ordine decrescente in base al
 loro punteggio e implementata tramite una \verb|LinkedList| sincronizzata.
 
-\subsubsection{Notificatori}
-Si tratta di una \verb|LinkedList| sincronizzata di oggetti di tipo \verb|Notify|, passati dai
-client durante la fase di login.
+\subsection{Wordle}
+Il server mantiene un'istanza della classe \verb|Wordle| la quale contiene strutture dati e metodi
+fondamentali per la corretta interazione tra utente e server quando si compiono azioni prettamente
+di gioco.
 
-Ogni qual volta c'è un cambiamento nelle prime tre posizioni della classifica il server scorre
-tutta la lista notificando i client tramite tali oggetti.
+In particolare si occupa di gestire le sessioni di gioco nel modo corretto e qualora un utente
+faccia dei tentativi per indovinare la parole segreta, si occupa di verificare se il tentativo è
+corretto o, in caso contrario, di fornire i suggerimenti all'utente.
 
-In fase di logout l'utente invoca un metodo che si occupa di rimuovere il \emph{notificatore}
-a esso associato.
+Tutto questo è affiancato da un thread \emph{estrattore}, implementato dalla stessa classe
+\verb|Wordle|, il quale si occupa di estrarre una nuova parola casuale ogni qual volta scade il
+timeout.
 
 \subsubsection{Sessioni}
 L'altra struttura dati utilizzata è una \verb|ConcurrentHashMap| che mette in correlazione un
@@ -64,18 +67,15 @@ messaggio di risposta. Sarebbe stato poi compito del client aggiornarla man mano
 \verb|guessed words|. Questo implica però l'invio della parola segreta al client andando così ad
 aprire la strada a possibili violazioni.
 
-\subsection{Wordle}
-Il server mantiene un'istanza della classe \verb|Wordle| la quale contiene strutture dati e metodi
-fondamentali per la corretta interazione tra utente e server quando si compiono azioni prettamente
-di gioco.
+\subsubsection{Notificatori}
+Si tratta di una \verb|LinkedList| sincronizzata di oggetti di tipo \verb|Notify|, passati dai
+client durante la fase di login.
 
-In particolare si occupa di gestire le sessioni di gioco nel modo corretto e qualora un utente
-faccia dei tentativi per indovinare la parole segreta, si occupa di verificare se il tentativo è
-corretto o, in caso contrario, di fornire i suggerimenti all'utente.
+Ogni qual volta c'è un cambiamento nelle prime tre posizioni della classifica il server scorre
+tutta la lista notificando i client tramite tali oggetti.
 
-Tutto questo è affiancato da un thread \emph{estrattore} implementato dalla stessa class
-\verb|Wordle|, il quale si occupa di estrarre una nuova parola casuale ogni qual volta scade il
-timeout.
+In fase di logout l'utente invoca un metodo che si occupa di rimuovere il \emph{notificatore}
+a esso associato.
 
 \subsection{Concorrenza}
 Il server sfrutta più thread per riuscire a gestire contemporaneamente molteplici richieste utente.
@@ -116,6 +116,9 @@ tre posizioni. Questi due metodi non fanno altro che aggiungere o rimuovere un o
 \verb|Notify|, dalla lista \verb|notifiers| di cui ho parlato nel paragrafo relativo alle strutture
 dati.
 
+Nel caso in cui un utente compia il login, gli vengono anche comunicati gli \verb|username| degli
+utenti che occupano le prime tre posizioni della classifica.
+
 \subsubsection{TCP}
 Per quanto riguarda le connessioni TCP, il server fa uso dei \verb|Channel| per comunicare e
 sfrutta il meccanismo del \verb|Selector| per alleggerire l'impiego di risorse necessarie alla
@@ -134,14 +137,6 @@ Questo è necessario poiché il \verb|selector| continua a vedere il \verb|chann
 leggere o scrivere dato che è possibile che venga invocato nuovamente il metodo \verb|select|
 prima che il thread abbia terminato il suo compito.
 
-\subsubsection{UDP}
-Il server fa anche utilizzo di socket multicast usato per inviare i risultati delle partite che
-gli utenti vogliono condividere, tramite messaggi UDP.
-
-Inoltre, in caso l'utente effettui il logout o la disconnessione dal server, quest'ultimo invia
-un messaggio sul gruppo multicast che segnali all'utente in questione che può chiudere la
-connessione sul gruppo.
-
 \subsubsection{Attachment}
 Ogni volta che un canale viene registrato sul \verb|selector|, gli viene allegato un oggetto di
 tipo \verb|Attachment| contenente tutte le strutture dati necessarie a svolgere i propri compiti
@@ -154,6 +149,14 @@ soltanto a scriverla sul \verb|ByteBuffer|.
 Il \verb|Sender| si occupa di inviare la risposta sulla connessione TCP, analizzando prima il suo
 contenuto e nel caso sia necessario, utilizzando RMI per inviare notifiche o UDP per inviare un
 messaggio al gruppo di multicast.
+
+\subsubsection{UDP}
+Il server fa anche utilizzo di socket multicast usato per inviare i risultati delle partite che
+gli utenti vogliono condividere, tramite messaggi UDP.
+
+Inoltre, in caso l'utente effettui il logout o la disconnessione dal server, quest'ultimo invia
+un messaggio sul gruppo multicast che segnali all'utente in questione che può chiudere la
+connessione sul gruppo.
 
 \subsection{Spegnimento}
 In avvio il server genera un thread in attesa di un input da tastiera. Per spegnere il server è
