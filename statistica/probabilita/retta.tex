@@ -2,3 +2,73 @@
 In questo paragrafo vedremo due classi principali di esempi di probabilità su $\Omega = \R$.
 Queste due classi non esauriscono i possibili esempi di probabilità su $\R$ ma saranno l'oggetto
 delle applicazioni che vedremo.
+
+\subsection{Probabilità discrete}
+Una \textbf{probabilità discreta} su $\Omega = \R$ è una probabilità su $\Omega = \R$, prendendo
+come $\sigma$-algebra le parti di $\R$ ($\F (P(\R))$), che sia concentrata su una successione
+finita o numerabile $x_1, x_2, \dots$ di punti.
+
+Ad esempio la probabilità associata al numero di volte che esce testa in due lanci di moneta è
+una probabilità discreta, concentrata su $\{0,1,2\}$. Chiamiamo $p_i = p(x_i) = P(x_i)$, allora
+vale che
+\begin{equation}\label{eq: 3.1} P(A) = \sum_{x_i \in A} p(x_i) \end{equation}
+
+\begin{definition}
+	La funzione
+	\[ p : \{ x_1, x_2, \dots \} \to \R \]
+	con $p(x_i) = P(\{x_i\})$ si dice \textbf{funzione di massa} o \textbf{densità discreta} di $P$.
+\end{definition}
+
+\begin{observation}
+	Facciamo ora alcune osservazioni:
+	\begin{itemize}
+		\item $p$ soddisfa
+		      \[ p(x_i) \geq 0 \quad \land \quad \sum_i p(x_i) = P(\R) = 1\]
+		\item Viceversa, data una successione $x_1, x_2, \dots$ finita o numerabile e una funzione
+		      $p$ con le proprietà descritte sopra, allora esiste un'unica probabilità $P$ su $\R$
+		      avente $p$ come funzione di massa.
+		\item Dalla formula \ref{eq: 3.1}, è possibile calcolare $P(A)$ partendo dalla successione
+		      degli $x_i$ e dalla funzione di massa.
+		\item Si definisce $p$ su tutto $\R$, ponendo $p(x) = 0$ per $x \neq x_i$.
+	\end{itemize}
+\end{observation}
+
+\subsection{Probabilità con densità}
+Prima di parlare di questa classe di probabilità dobbiamo enunciare il seguente teorema:
+\begin{theorem}
+	Esiste una $\sigma$-algebra $\F \subseteq P(\R) \neq P(\R)$ tale che
+	\[ (a, b) \in \F \]
+	tali che $-\infty \leq a < b \leq +\infty$ ed esiste $\lambda : \F \to [0, +\infty]$ che sia
+	$\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$,
+	\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
+\end{theorem}
+
+Chiameremo gli elementi di $\F$ \textbf{insiemi misurabili}. Intersecando tutti gli elementi di
+$\F$ con l'intervallo $[0,1]$ otteniamo i sottoinsiemi misurabili di quest'ultimo, che sono una
+$\sigma$-algebra sulla quale possiamo definire la probabilità
+\[ P (A) = \lambda (A) \]
+per ogni $A \subset [0,1]$ misurabile, in modo che
+\[ P((a, b)) = |b-a|, \quad \forall a,b \in [0,1] \]
+
+\begin{observation}
+	Osserviamo che $\lambda$ assegna lunghezza nulla ai singoli punti, ovvero
+	\[ \lambda(x) = \lambda([x,x]) = x - x = 0 \]
+	e lo stesso vale per ogni sottoinsieme $A \subset \R$ con al più numerabili elementi.
+\end{observation}
+
+\begin{definition}
+	Si chiama \textbf{densità di probabilità} sulla retta reale, una funzione non negativa
+	$f : \R \to [0, +\infty)$, integrabile e tale che
+	\[ \int_{-\infty}^{+\infty} f(x) dx = 1 \]
+	Ad ogni densità di probabilità si associa un'unica probabilità sulla $\sigma$-algebra degli
+	insiemi misurabili di $\R$ definita da:
+	\[ \forall A \in \F, \quad P(A) = \int_A f(x) dx \]
+\end{definition}
+
+Perché questa sia una buona definizione si deve controllare che $P$, così definita, soddisfi
+\[ P(\R) = \int_\R f(x) dx = 1 \]
+per ipotesi, ed inoltre se $A \cap B = \emptyset$ si ha che
+\[ P(A \cup B) = \int_{A \cup B} f(x) dx = \int_A f(x) dx + \int_B f(x) dx = P(A) + P(B) \]
+Se $X$ ha densità $f$, allora vale
+\[ P(X = t) = P_X (t) = \int_{\{t\}} f(x) dx = 0 \]
+per ogni $t \in \R$.
