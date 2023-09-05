@@ -1,1 +1,57 @@
 \section{Variabili aleatorie}
+Introduciamo ora le variabili aleatorie. Esse sono, di fatto sono
+\textbf{caratteristiche quantitative} dell'esperimento in esame. In questa prima parte seguiranno
+qualche definizione ed esempi utili alla comprensione.
+
+\begin{example}
+	Si effettuano $n$ lanci di una moneta equilibrata ed essere interessati solo alle volte che
+	esce testa. Per riuscire a farlo potremmo assegnare a testa il valore 1 e a croce il valore 0.
+	Di conseguenza otteniamo che il numero di volte che esce croce è
+	\[ X(a_1, a_2, \dots, a_n) = \sum_{i=1}^n a_i \]
+	dove gli $a_i$ sono gli esisti di ogni lancio.
+\end{example}
+
+\begin{definition}
+	Dato uno spazio di probabilità $(\Omega, \F, P)$, si dice \textbf{variabile aleatoria} una
+	funzione
+	\[ X : \Omega \to \R \]
+	tale che, per ogni $A \subseteq \R$ misurabile, allora vale
+	\[ X^{-1}(A) \in \F \]
+\end{definition}
+
+\begin{example}
+	Si effettuano $n$ lanci di una moneta equilibrata e otteniamo:
+	\[ A = (a_1, \dots, a_n) \]
+	Vogliamo ora considerare
+	\begin{itemize}
+		\item numero di teste: $X(A) = \sum_{i=1}^n a_i$
+		\item numero di croci: $Y(A) = n - X(A)$
+		\item coppie consecutive testa: $Z(A) = \sum_{i=1}^{n-1} a_i \cdot a_{i+1}$
+	\end{itemize}
+\end{example}
+
+\begin{definition}
+	Per ogni $A \subseteq \R$ misurabile, definiamo
+	\[ \{ X \in A \} = X^{-1}(A) = \{\omega \in \Omega | X(\omega) \in A \} \]
+	la controimmagine di $A$ tramite $X$.
+\end{definition}
+
+\begin{definition}
+	Definiamo la \textbf{legge di probabilità} o \textbf{distribuzione}, come
+	\[ P_X (A) = P(\{ X \in A\}) \]
+	con $A \subseteq \R$ misurabile.
+\end{definition}
+
+Più informalmente, $P_X$ esprime la distribuzione del carattere $X$ nell'esperimento.
+
+\begin{example}
+	Si effettuano 2 lanci di una moneta equilibrata
+	\[ \Omega = \{ 0, 1 \}^2 \]
+	e consideriamo $X$ come il numero di volte che esce testa. Quanto vale $P_X$?
+	Come possiamo notare, $P_X$ è concentrata su $\{ 0, 1, 2 \}$.
+	\[
+		P_X (0) = \frac{1}{4} \quad \quad
+		P_X (1) = \frac{1}{2} \quad \quad
+		P_X (2) = \frac{1}{4}
+	\]
+\end{example}
