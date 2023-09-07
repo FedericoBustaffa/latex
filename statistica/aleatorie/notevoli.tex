@@ -1,0 +1,30 @@
+\section{Variabili aleatorie notevoli}
+In questa sezione trattiamo le distribuzione di probabilità su $\R$ indispensabili per trattare
+ogni applicazione. Si tratta sempre di variabili discrete o definite tramite densità.
+
+\subsection{Variabili binomiali}
+Consideriamo come primo caso le \textbf{variabili binomiali} prendendo $n$ prove ripetute, con
+esito (per ciascuna prova) successo o insuccesso (schema di Bernoulli) e sia $p$ la probabilità di
+successo (nella singola prova).
+\[ P(a_1, \dots, a_n) p^{\# \{i | a_i=1\}} \cdot (1-p)^{\# \{ i | a_i=0 \}} \]
+Sia $X$ la variabile aleatoria che conta il numero di successi, ossia
+\[ X(a_1, \dots, a_n) = \sum_{i=1}^n a_i \]
+Come possiamo notare $X$ è discreta a valori in $\{0,1,2,\dots,n\}$ e ha funzione di massa
+\begin{equation}\label{eq: binom}
+	P_X(h) = P(X = h) = \binom{n}{h} \cdot p^h \cdot (1-p)^{n-h}
+\end{equation}
+con $h \in \{ 0, 1, \dots, n \}$. Possiamo tradurre tutto questo nella probabilità che abbiamo di
+avere $h$ successi.
+
+Una variabile binomiale di parametri $n \in \N^+$ e $p \in (0,1)$ è una variabile aleatoria avente
+come funzione di massa \ref{eq: binom}
+
+\begin{observation}
+	Per $n=1$ si parla di variabile aleatoria di Bernoulli e si indica con $B(1,p) = B(p)$.
+\end{observation}
+
+\begin{example}
+	Su 5 lanci di un dado equilibrato, qual è la probabilita che il 6 appaia almeno 2 volte?
+\end{example}
+
+\subsection{Variabili geometriche}
