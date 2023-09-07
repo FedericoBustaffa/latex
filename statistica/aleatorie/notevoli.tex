@@ -16,15 +16,46 @@ Come possiamo notare $X$ è discreta a valori in $\{0,1,2,\dots,n\}$ e ha funzio
 con $h \in \{ 0, 1, \dots, n \}$. Possiamo tradurre tutto questo nella probabilità che abbiamo di
 avere $h$ successi.
 
-Una variabile binomiale di parametri $n \in \N^+$ e $p \in (0,1)$ è una variabile aleatoria avente
-come funzione di massa \ref{eq: binom}
+Una variabile aleatoria avente come funzione di massa \ref{eq: binom} è detta
+\textbf{variabile aleatoria binomiale} di parametri $n \in \N^+$ e $p \in (0,1)$ e la si indica
+con $B(n, p)$.
 
 \begin{observation}
-	Per $n=1$ si parla di variabile aleatoria di Bernoulli e si indica con $B(1,p) = B(p)$.
+	Per $n=1$ si parla di variabile aleatoria di Bernoulli e si indica con $B(p)$.
 \end{observation}
 
 \begin{example}
 	Su 5 lanci di un dado equilibrato, qual è la probabilita che il 6 appaia almeno 2 volte?
+
+	Per prima cosa definiamo $X$ come il numero di volte esce 6 nelle 5 prove. Vogliamo calcolare
+	la probabilità che il 6 esca almeno 2 volte in 5 lanci:
+	\begin{align*}
+		P(X \geq 2) = & 1 - (P(X = 0) + P(X = 1))                               \\
+		=             & 1 - \binom{5}{0} \cdot \left(\frac{1}{6}\right)^0 \cdot
+		\left(1 - \frac{1}{6}\right)^{6} - \binom{5}{1} \left(\frac{1}{6}\right)^1 \cdot
+		\left(1 - \frac{1}{6}\right)^5                                          \\
+		=             & 1 - \left( \frac{5}{6} \right)^6 - 5 = \dots
+	\end{align*}
 \end{example}
 
 \subsection{Variabili geometriche}
+Rimaniamo nel contesto delle prove ripetute indipendenti con esito successo o insuccesso. Sia $X$
+la variabile aleatoria che rappresenta l'istante del primo successo (l'istante è il numero della
+prova) del primo successo.
+
+Come possiamo notare, $X$ è discreta a valori in $\N^+ = \{ 1, 2, \dots \}$ e la sua funzione di
+massa vale
+\begin{equation}\label{eq: geom}
+	P(X = h) = (1-p)^{h-1} \cdot p
+\end{equation}
+Questo ci dice la probabilità che abbiamo di ottenere il primo successo dopo $h$ tentativi.
+
+Una variabile aleatoria avente \ref{eq: geom} come funzione di massa è detta
+\textbf{variabile aleatoria geometrica} di parametro $p \in (0,1)$ e la si indica con $G(p)$.
+
+\begin{proposition}[Assenza di memoria]
+	Data una variabile geometrica di parametro $p$, per ogni $n,h \in \N^+$, vale
+	\[ P(X = n + h | X > n) = P(X = h) \]
+	La probabilità di successo dopo $h$ prove non cambia sapendo che il successo non si è
+	verificato nelle prime $n$ prove.
+\end{proposition}
