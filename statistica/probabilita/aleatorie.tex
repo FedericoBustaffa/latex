@@ -36,13 +36,32 @@ qualche definizione ed esempi utili alla comprensione.
 	la controimmagine di $A$ tramite $X$.
 \end{definition}
 
+Più informalmente, $P_X$ esprime la distribuzione del carattere $X$ nell'esperimento.
+
+\begin{example}
+	Si effettuano $n$ lanci di moneta e consideriamo $X$ come il numero di volte che esce testa.
+	\[ X(A) = a_1 + \dots + a_n \]
+	L'insieme $\{ X \in \{ 0, 1 \} \}$ è l'insieme di casi in cui, per $n$ lanci di moneta,
+	otteniamo al massimo una testa. La probabilità di avere al massimo una testa
+	la esprimiamo come
+	\[ P_X (\{0,1\}) = P (\{X \in \{0,1\}\}) \]
+\end{example}
+
+\begin{proposition}
+	Dalle considerazioni fatte segue che $P_X : \F \to \R$ è una probabilità su $(\R, \F)$, dove
+	$\F$ è l'insieme dei misurabili, verifica quindi
+	\begin{itemize}
+		\item $P_X (\R) = 1$
+		\item $P_X(\cup_{i=1} A_i) = \sum_{i=1} P_X(A_i)$ con $A_1, A_2, ... \subseteq \R$
+		      misurabili a due a due disgiunti.
+	\end{itemize}
+\end{proposition}
+
 \begin{definition}
-	Definiamo la \textbf{legge di probabilità} o \textbf{distribuzione}, come
+	Definiamo \textbf{legge di probabilità} o \textbf{distribuzione} di $X$, come
 	\[ P_X (A) = P(\{ X \in A\}) \]
 	con $A \subseteq \R$ misurabile.
 \end{definition}
-
-Più informalmente, $P_X$ esprime la distribuzione del carattere $X$ nell'esperimento.
 
 \begin{example}
 	Si effettuano 2 lanci di una moneta equilibrata
