@@ -1,4 +1,4 @@
-\section{Variabili aleatorie}
+\chapter{Variabili aleatorie}
 Introduciamo ora le variabili aleatorie. Esse sono, di fatto sono
 \textbf{caratteristiche quantitative} dell'esperimento in esame. In questa prima parte seguiranno
 qualche definizione ed esempi utili alla comprensione.
@@ -10,6 +10,10 @@ qualche definizione ed esempi utili alla comprensione.
 	\[ X(a_1, a_2, \dots, a_n) = \sum_{i=1}^n a_i \]
 	dove gli $a_i$ sono gli esisti di ogni lancio.
 \end{example}
+
+\section{Legge di una variabile aleatoria}
+Iniziamo ora a dare qualche definizione per formalizzare meglio il concetto di variabile aleatoria
+e perché sono state introdotte.
 
 \begin{definition}
 	Dato uno spazio di probabilità $(\Omega, \F, P)$, si dice \textbf{variabile aleatoria} una
@@ -73,4 +77,66 @@ Più informalmente, $P_X$ esprime la distribuzione del carattere $X$ nell'esperi
 		P_X (1) = \frac{1}{2} \quad \quad
 		P_X (2) = \frac{1}{4}
 	\]
+	Possiamo quindi dire che $P_X$ è la distribuzione del carattere $X$ all'interno
+	dell'esperimento.
+\end{example}
+
+\begin{definition}
+	Diciamo che $X$ e $Y$ sono \textbf{equidistribuite} se hanno la stessa legge, ovvero se
+	\[ P_X = P_Y \]
+\end{definition}
+
+Le variabili aleatorie altro non sono che una notazione, che diventa conveniente nel momento in cui
+vogliamo considerare più caratteri di un esperimento (e quindi più variabili aleatorie).
+
+E nel momento in cui è necessario svolgere operazioni matematiche tra variabili aleatorie (ad
+esempio sommandole).
+
+\begin{observation}
+	Data $\tilde{P}$, probabilità su $(\R, \F)$, allora esiste uno spazio $\Omega$ e una variabile
+	aleatoria $X : \Omega \to \R$ avente $\tilde{P}$ come legge ($P_X = \tilde{P})$.
+\end{observation}
+
+\begin{observation}
+	Se c'è un'unica variabile aleatoria $X$, è equivalente considerare $X$ oppure $P_X$.
+\end{observation}
+
+\subsection{Tipi di variabili aleatorie}
+Possiamo distinguere due classi di variabili aleatorie a seconda della loro legge.
+
+\begin{definition}
+	Una variabile aleatoria $X$ è detta \textbf{discreta} se $X(\Omega)$ è finita o numerabile, o
+	in modo equivalente, se la sua legge $P_X$ è discreta.
+\end{definition}
+
+Per quanto visto sulle probabilità discrete, $P_X$ è determinata dalla sua funzione di massa,
+ovvero
+\[ P_X (x_i) = P(X = x_i) \]
+vale infatti che
+\[ P(\{X \in A\}) = P_X (A) = \sum_{x_i \in A} P_X (x_i) \]
+
+\begin{definition}
+	Una variabile aleatoria $X$ è detta \textbf{con densità} o \textbf{assolutamente continua} se
+	$P_X$ ammette densità di probabilità $f$, ossia
+	\[ P(\{X \in A\}) = P_X (A) = \int_A f(x) dx \]
+\end{definition}
+
+\begin{example}
+	Consideriamo il caso dell'estrazione di un individuo $\omega$ da una popolazione. Supponiamo
+	quindi che $\Omega$ rappresenti la popolazione italiana e che
+	\begin{itemize}
+		\item $X(\omega)$ equivale al numero di figli di $\omega$ (carattere discreto).
+		\item $Y(\omega)$ equivale all'altezza di $\omega$ (carattere continuo).
+	\end{itemize}
+	Abbiamo che
+	\[ P_X(x_i) = P(X = x_i) = \frac{\# \{ w | X(w) = x_i\} }{\# \Omega} \]
+	ossia la frequenza relativa di $X = x_i$ su tutta la popolazione. $P_X(2)$ è quindi la
+	frequenza relativa, sulla popolazione italiana, delle persone con 2 figli.
+
+	Per quanto riguarda $Y$, l'area sottesa da $f$ nell'intervallo $[a,b]$ equivale a
+	\[
+		\int_a^b f(x) dx = P (a \leq X \leq b)
+		= \frac{\# \{ \omega | X(\omega) \in [a,b] \}}{\# \Omega}
+	\]
+	ossia la frequenza relativa di $X \in [a,b]$ su tutta la popolazione.
 \end{example}
