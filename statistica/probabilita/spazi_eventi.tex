@@ -41,16 +41,20 @@ sempre possibile. Si vuole quindi definire una classe ammissibile che sia chiusa
 insiemistiche viste in precedenza.
 
 \begin{definition}
-	Sia $\Omega \neq \emptyset$ e si consideri $\F \subseteq \mathcal{P}(\Omega)$ dove
-	$\mathcal{P}(\Omega)$ è
-	un'insieme di sottoinsiemi di $\Omega$, allora $\F$ è detta $\sigma$\textbf{-algebra} se
-	valgono le seguenti proprietà:
+	Sia $\Omega \neq \emptyset$ e $\F \subseteq \mathcal{P}(\Omega)$ una famiglia di sottoinsiemi
+	di $\Omega$. Diciamo che $\F$ è un'\textbf{algebra di parti} se
 	\begin{itemize}
 		\item $\Omega, \emptyset \in \F$
 		\item $\F$ è stabile per la complementazione: se $A \in \F$ allora $A^c \in \F$
-		\item $\F$ è stabile per unione finita o numerabile: se $A_1, A_2, ..., A_n, ...$ è una
-		      successione finita o numerabile, allora l'unione di tutti gli $A_i$ appartiene a
-		      $\F$.
+		\item $\F$ è stabile per unione finita, ovvero se $A_1, A_2, ..., A_n \in \F$ allora
+		      anche la loro unione $\cup_{i=1}^n A_i$ appartiene a $\F$.
+	\end{itemize}
+	Se inoltre $\Omega$ e una sua algebra di parti $\F$ hanno infiniti elementi, diciamo che $\F$
+	è una $\sigma$\textbf{-algebra} se soddisfa l'ipotesi addizionale:
+	\begin{itemize}
+		\item $\F$ è stabile per unione numerabile, ovvero se esiste una successione di
+		      sottoinsiemi $A_1, A_2, ...$ appartiene a $\F$ anche la loro unione
+		      $\cup_{i=1}^\infty A_i$ appartiene a $\F$.
 	\end{itemize}
 \end{definition}
 
@@ -73,12 +77,13 @@ d'insieme \textbf{finitamente additiva}.
 		\item L'evento certo ha probabilità unitaria: $P(\Omega) = 1$.
 		\item Se la successione degli $A_i$ è una successione di elementi di $\F$ a due a due
 		      disgiunti, si ha, nel caso in cui la successione sia finita, che
-		      \[ P (\cup_{n=i}^n A_i) = \sum_{i=1}^n P(A_i) \]
+		      \[ P \left( \bigcup_{i=1}^n A_i \right) = \sum_{i=1}^n P(A_i) \]
 		      Se invece la successione è infinita allora vale
 		      \[
-			      P (\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i) =
-			      \lim_{n \to \infty} \sum_{i=1}^n P(A_i)
+			      P \left( \bigcup_{i=1}^{+\infty} A_i \right) = \sum_{i=1}^{+\infty} P(A_i) =
+			      \lim_{n \to +\infty} \sum_{i=1}^n P(A_i)
 		      \]
+		      Questa proprietà è detta $\sigma$\textbf{-additività}.
 	\end{itemize}
 \end{definition}
 
@@ -93,6 +98,8 @@ d'insieme \textbf{finitamente additiva}.
 	\item $P(A^c) = 1 - P(A)$
 	\item $P(A \backslash B) = P(A) - P(B)$
 	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+	\item $P(A \cup B \cup C) = P(A) + P(B) + P(C) -
+		      P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
 \end{itemize}
 
 \begin{proposition}
