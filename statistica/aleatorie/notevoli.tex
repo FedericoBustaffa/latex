@@ -147,7 +147,7 @@ abbia densità e se sì, come calcolarla. In generale $Y$ può non avere densit�
 è costante, allora $Y$ è costante, in particolare è discreta (e quindi non ammette densità).
 
 Anche nel caso in cui $Y$ ammette densità non esiste una formula generale (cioè valida per ogni
-$h$). In generale, si può sempre provare a calcolare la funzione di massa di $Y$
+$h$). In generale, si può sempre provare a calcolare la funzione di ripartizione di $Y$
 \[ F_Y (y) = P(Y \leq y) = P(h(X) \leq y) \]
 in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette densità
 \[ f_Y = \frac{d}{dy} F_Y \]
@@ -164,4 +164,54 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 			0                                                       & y \notin B
 		\end{cases}
 	\]
+	Per ricordare meglio la formula possiamo tenere a mente che
+	\[ y = h(x) \quad \Rightarrow \quad x = h^{-1}(y) \]
+	e quindi
+	\[ dx = \frac{d h^{-1}}{dy} (y) dy \]
 \end{proposition}
+
+\begin{example}
+	Sia $X = U([-1, 2])$ e sia $Z = X^2$. Vogliamo sapere se $Z$ ha densità e se sì come calcolarla.
+
+	Possiamo pensare di usare la formula del cambio di variabile, ma non possiamo poiché
+	$h(x) = x^2$ non è biunivoca nell'intervallo considerato. Cerchiamo quindi di calcolare la
+	funzione di ripartizione di $Z$.
+
+	Per prima cosa ci conviene capire dove prende valori la variabile $Z$. Poiché $X$ sta in
+	$(-1, 2)$, possiamo dire che $Z$ sta in $(0,4)$. Questo ci dice che
+	\begin{gather*}
+		F_Z(z) = P(Z \leq z) = 0 \quad z \leq 0 \\
+		F_Z(z) = P(Z \leq z) = 1 \quad z \geq 4
+	\end{gather*}
+	Ci interessa quindi calcolare la funzione di ripartizione per valori $0 < z < 4$.
+	\[ F_Z(z) = P(X^2 \leq z) = P(|X| \leq \sqrt{z}) \]
+	Distinguiamo due ulteriori casi, per valori $0 < z < 1$ abbiamo che
+	\[
+		P(|X| \leq \sqrt{z}) = P(-\sqrt{z} \leq X \leq \sqrt{z}) =
+		\frac{|-\sqrt{z} - \sqrt{z}|}{|-1 - 2|} = \frac{2 \sqrt{z}}{3}
+	\]
+	Per valori $1 \leq z < 4$ abbiamo che
+	\[
+		P(|X| \leq \sqrt{z}) = P(-1 \leq X \leq \sqrt{z}) =
+		\frac{|-1 - \sqrt{z}|}{|-1 - 2|} = \frac{\sqrt{z} + 1}{3}
+	\]
+	Si può verificare che $F_Z$ è continua su $\R$ e $C^1$ a tratti quindi $Z$ ammette densità data
+	dalla formula
+	\[
+		f_Z (z) = \frac{d}{dz} F_Z(z) = \begin{cases}
+			0                     & z \notin (0,4) \\[2ex]
+			\dfrac{1}{3 \sqrt{z}} & z \in (0,1)    \\[2ex]
+			\dfrac{1}{6 \sqrt{z}} & z \in (1, 4)
+		\end{cases}
+	\]
+\end{example}
+
+\begin{example}
+	Sia $Y \simeq E(2)$ e sia $W = Y^2$, ci chiediamo se $W$ abbia densità e se sì come calcolarla.
+
+	In questo caso si può applicare la formula del cambio di variabili dato che la funzione
+	\[ h : (0, +\infty) \to (0, +\infty) \quad h(x) = x^2 \]
+	è biunivoca, $C^1$ con inversa $C^1$.
+\end{example}
+
+\subsection{Variabili Gaussiane}
