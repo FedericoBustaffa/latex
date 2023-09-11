@@ -215,3 +215,39 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 \end{example}
 
 \subsection{Variabili Gaussiane}
+La funzione $f(x) = e^{-x^2 / 2}$ è regolarissima (infinitamente derivabile), tende a 0 molto
+velocemente per $|x| \to \infty$ e quindi è integrabile, ma non è possibile scrivere la sua
+primitiva in termini di funzioni elementari. In sintesi significa che l'unico modo di rappresentare
+il valore di
+\[ \int_0^t e^{-x^2 / 2} dx \]
+per un generico $t$ è ricorrere ad approssimazioni numeriche. Tuttavia, per alcuni particolari
+valori di $t$ tale integrale assume valori semplici, ad esempio
+\[ \int_{-\infty}^{+\infty} e^{-x^2 / 2} dx = \sqrt{2 \pi} \]
+Di conseguenza, dividendo la funzione $e^{-x^2/2}$ per $\sqrt{2 \pi}$ si ottiene una densità di
+probabilità espressa da
+\[ \varphi (x) = \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2 / 2} \]
+che prende il nome di \textbf{densità Gaussiana} (o \textbf{normale}) \textbf{standard} e che viene
+indicata con $N(0,1)$. La sua funzione di ripartizione (di cui non possiamo dare una
+rappresentazione diversa) è
+\[ \Phi(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-t^2 / 2} dt \]
+Un altro valore importante è detto $\alpha$-quantile della variabile $N(0,1)$ ed indicato con la
+notazione $q_\alpha$.
+
+Data $X$ Gaussiana standard, siano $\sigma > 0$ e $\mu \in \R$ e sia $Y = \sigma X + \mu$ una
+variabile aleatoria. La funzione di ripartizione di $Y$ è data da
+\[
+	F_Y(t) = P(Y \leq t) = P(\sigma X + \mu \leq t) = P\left(X \leq \frac{t-m}{\sigma}\right) =
+	\Phi \left(\frac{t-m}{\sigma}\right)
+\]
+e la sua densità (ottenuta derivando $F_Y$ o applicando la formula di cambio di variabile) è
+\[
+	f_Y(t) = \frac{1}{\sigma} \cdot f_X\left(\frac{t-m}{ \sigma}\right) =
+	\frac{1}{\sqrt{2 \pi} \sigma} \cdot e^{-\frac{(t-m)^2}{2 \sigma^2}}
+\]
+Quest'ultima funzione è detta \textbf{densità Gaussiana} (o \textbf{normale}) $N(\mu, \sigma^2)$,
+ovvero diciamo che $Y$ è Gaussiana $N(\mu, \sigma^2)$.
+
+In generale è sempre possibile ricondurre tutti i calcoli relativi alla funzione di ripartizione
+di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$: è sufficiente sostituire
+a $Y$ Gaussiana $N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$, con $X$ Gaussiana
+standard.
