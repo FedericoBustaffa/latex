@@ -233,6 +233,17 @@ rappresentazione diversa) è
 Un altro valore importante è detto $\alpha$-quantile della variabile $N(0,1)$ ed indicato con la
 notazione $q_\alpha$.
 
+Come detto in precedenza, data una variabile Gaussiana standard, non è possibile (tranne in pochi
+casi particolari) rappresentare l'integrale
+\[ P(a < X < b) = \int_a^b \varphi(x) dx = \Phi(b) - \Phi(a) \]
+tramite funzioni più semplici, e quindi ricorriamo direttamente ad approssimazioni numeriche. Di
+seguito alcune delle più significative
+\begin{gather*}
+	P(-1 \leq X \leq 1) \simeq 0.68 \\
+	P(-2 \leq X \leq 2) \simeq 0.94 \\
+	P(-3 \leq X \leq 3) \simeq 0.997
+\end{gather*}
+
 Data $X$ Gaussiana standard, siano $\sigma > 0$ e $\mu \in \R$ e sia $Y = \sigma X + \mu$ una
 variabile aleatoria. La funzione di ripartizione di $Y$ è data da
 \[
