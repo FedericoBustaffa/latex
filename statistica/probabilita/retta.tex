@@ -5,42 +5,55 @@ delle applicazioni che vedremo.
 
 \subsection{Probabilità discreta}
 Una \textbf{probabilità discreta} su $\Omega = \R$ è una probabilità su $\Omega = \R$, prendendo
-come $\sigma$-algebra le parti di $\R$ ($\F (\mathcal{P}(\R))$), che sia concentrata su una
-successione finita o numerabile $x_1, x_2, \dots$ di punti.
+come $\sigma$-algebra le parti di $\R$ ($\F (\mathcal{P}(\R))$), che sia \textbf{concentrata} su
+una successione finita o numerabile $x_1, x_2, \dots$ di punti.
 
 Ad esempio la probabilità associata al numero di volte che esce testa in due lanci di moneta è
-una probabilità discreta, concentrata su $\{0,1,2\}$. Chiamiamo $p_i = p(x_i) = P(x_i)$, allora
-vale che
-\begin{equation}\label{eq: 3.1} P(A) = \sum_{x_i \in A} p(x_i) \end{equation}
+una probabilità discreta, concentrata su $\{0,1,2\}$.
+
+Sia $p_i = p(x_i) = P(x_i)$ la probabilità che $x_i$ si verifichi e sia $A \subseteq \Omega$
+il sottoinsieme di eventi $x_i$, allora vale che
+\begin{equation}\label{eq: 3.1}
+	P(A) = \sum_{x_i \in A} p(x_i)
+\end{equation}
+Per adesso non stiamo dicendo nulla di diverso rispetto a quanto detto fin ora riguardo la
+probabilità e le sue proprietà.
 
 \begin{definition}
 	La funzione
-	\[ p : \{ x_1, x_2, \dots \} \to [0,1] \]
-	con $p(x_i) = P(\{x_i\})$ si dice \textbf{funzione di massa} o \textbf{densità discreta} di $P$.
+	\[ p : \R \to [0,1] \]
+	si dice \textbf{funzione di massa} o \textbf{densità discreta} di $P$. Essa è definita in modo
+	da assumere valore 0 per eventi non presenti all'interno di $\Omega$. Vale infatti
+	\[
+		p(x) = \begin{cases}
+			P(\{ x \}) & x \in \Omega    \\[1ex]
+			0          & x \notin \Omega
+		\end{cases}
+	\]
 \end{definition}
 
 \begin{observation}
 	Facciamo ora alcune osservazioni:
 	\begin{itemize}
-		\item $p$ soddisfa
-		      \[ p(x_i) \geq 0 \quad \land \quad \sum_i p(x_i) = P(\R) = 1\]
+		\item La probabilità $p$ soddisfa
+		      \[ p(x_i) \geq 0 \quad \land \quad \sum_i p(x_i) = P(\R) = 1 \]
 		\item Viceversa, data una successione $x_1, x_2, \dots$ finita o numerabile e una funzione
 		      $p$ con le proprietà descritte sopra, allora esiste un'unica probabilità $P$ su $\R$
 		      avente $p$ come funzione di massa.
 		\item Dalla formula \ref{eq: 3.1}, è possibile calcolare $P(A)$ partendo dalla successione
 		      degli $x_i$ e dalla funzione di massa.
-		\item Si definisce $p$ su tutto $\R$, ponendo $p(x) = 0$ per $x \neq x_i$.
 	\end{itemize}
 \end{observation}
 
 \subsection{Probabilità con densità}
 Prima di parlare di questa classe di probabilità dobbiamo enunciare il seguente teorema:
 \begin{theorem}
-	Esiste una $\sigma$-algebra $\F \subseteq P(\R) \neq P(\R)$ tale che
+	Esiste una $\sigma$-algebra $\F \subset \mathcal{P}(\R)$ tale che
 	\[ (a, b) \in \F \]
-	con $-\infty \leq a < b \leq +\infty$ ed esiste $\lambda : \F \to [0, +\infty]$ che sia
-	$\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$ vale
-	\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
+	con $-\infty \leq a < b \leq +\infty$ ed esiste
+	\[ \lambda : \F \to [0, +\infty) \]
+			che sia $\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$ vale
+			\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
 \end{theorem}
 
 Chiameremo gli elementi di $\F$ \textbf{insiemi misurabili}. Intersecando tutti gli elementi di
@@ -48,7 +61,8 @@ $\F$ con l'intervallo $[0,1]$ otteniamo i sottoinsiemi misurabili di quest'ultim
 $\sigma$-algebra sulla quale possiamo definire la probabilità
 \[ P (A) = \lambda (A) \]
 per ogni $A \subset [0,1]$ misurabile, in modo che
-\[ P((a, b)) = |b - a|, \quad \forall a,b \in [0,1] \]
+\[ P((a, b)) = |b - a| \]
+per ogni $a,b \in [0,1]$.
 
 \begin{observation}
 	Osserviamo che $\lambda$ assegna lunghezza nulla ai singoli punti, ovvero
