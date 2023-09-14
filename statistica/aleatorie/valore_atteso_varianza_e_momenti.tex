@@ -7,3 +7,61 @@ dei concetti di \textbf{valore atteso} e \textbf{varianza} di una variabile alea
 inteso come oggetto matematico che si propone di descrivere la \emph{casualità} dell'esito di un
 esperimento.
 
+\subsection{Valore atteso}
+Possiamo vedere il valore atteso come la quantità che indica attorno al quale valore la variabile
+aleatoria è centrata.
+
+Per una variabile aleatoria discreta che assume valori $x_1, x_2, \dots$ consideriamo come valore
+atteso una media pesata di tali valori, dando come peso ad ogni valore la probabilità a questo
+associata. Nel caso di variabile discrete che assumono infiniti valori, la media pesata diventa
+una serie, di cui bisogna controllare la convergenza.
+
+Per una variabile aleatoria con densità, rimpiazziamo la somma pesata della funzione di massa con
+un integrale pesato della densità. Le considerazioni fatte per variabili discrete che possono
+assumere infiniti valori sono analoghe per variabili con densità, per le quali dobbiamo effettuare
+un controllo sui valori assumibili dall'integrale che definisce il valore atteso della variabile.
+
+\begin{definition}
+	Sia $X$ una variabile discreta con funzione di massa $p$, si dice che $X$ ha
+	\textbf{valore atteso} se $\sum_i |x_i| p(x_i) < +\infty$, e in tal caso si chiama valore
+	atteso il numero
+	\[ \E[X] = \sum_i x_i \cdot p(x_i) \]
+	Sia poi $X$ con densità $f$, essa ha valore atteso se
+	$\int_{-\infty}^{+\infty} |x| \cdot f(x) dx < +\infty$ e in tal caso si chiama valore atteso
+	il numero
+	\[ \E[X] = \int_{-\infty}^{+\infty} x \cdot f(x) dx \]
+\end{definition}
+
+Notiamo che il valore atteso dipende solo dalla funzione di massa (nel caso discreto) o dalla
+densità (nel caso con densità), quindi il valore atteso di $X$ dipende solo dalla legge $P_X$
+di $X$.
+
+\begin{example}
+	Lanciamo un dado equilibrato e supponiamo di ricevere 2 euro se esce 6 e 1 euro se esce 4 o 5,
+	0 altrimenti. Qual è il valore atteso del denaro che riceviamo?
+
+	Prima di tutto definiamo una variabile aleatoria $X$ che può assumere come valori la quantità
+	di denaro ricevuto in corrispondenza all'esito del lancio del dado. Dato che $X$ è concentrata
+	su $\{ 0, 1, 2 \}$ dobbiamo calcolare la probabilità associata ad ognuno di questi valori
+	\begin{gather*}
+		P_X(0) = 1 / 2 \\[1ex]
+		P_X(1) = 1 / 3 \\[1ex]
+		P_X(2) = 1 / 6
+	\end{gather*}
+	A questo punto possiamo applicare la formula per il calcolo del valore atteso dalla quale
+	otteniamo
+	\[ \E[X] = 0 \cdot \frac{1}{2} + 1 \cdot \frac{1}{3} + 2 \cdot \frac{1}{6} = \frac{2}{3} \]
+	ossia 0,67 euro vinti in media ad ogni lancio ripetuto del dado.
+\end{example}
+
+Vediamo ora come calcolare il valore atteso di una trasformazione di una variabile aleatoria $X$,
+ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
+
+\begin{proposition}
+	Sia $X$ discreta, la variabile $g(X)$ ammette valore atteso se
+	$\sum_i |g(x_i)| \cdot p(x_i) < +\infty$, e in tal caso
+	\[ \E[g(X)] = \sum_i g(x_i) \cdot p(x_i) \]
+	Sia $X$ con densità $f$, la variabile $g(X)$ ha valore atteso se
+	$\int_{-\infty}^{+\infty} |g(x)| \cdot f(x) dx < +\infty$, e in tal caso
+	\[ \E[g(X)] = \int_{-\infty}^{+\infty} g(x) \cdot f(x) dx \]
+\end{proposition}

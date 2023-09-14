@@ -243,12 +243,34 @@ seguito alcune delle più significative
 	P(-2 \leq X \leq 2) \simeq 0.94 \\
 	P(-3 \leq X \leq 3) \simeq 0.997
 \end{gather*}
+La Gaussiana standard ha anche alcune proprietà utili:
+\begin{itemize}
+	\item La sua densità $\varphi$ è pari, cioè $\varphi(x) = \varphi(-x)$, quindi la funzione è
+	      simmetrica rispetto all'asse $y$.
+	\item La funzione di ripartizione $\Phi$ gode della seguente proprietà
+	      \[ \Phi(-x) = 1 - \Phi(x) \]
+	      infatti vale
+	      \begin{align*}
+		      \Phi(-x) = & \int_{-\infty}^{-x} \varphi(y) dy           \\
+		      =          & \int_x^{+\infty} \varphi(-y') dy'           \\
+		      =          & \int_x^{+\infty} \varphi(y') dy'            \\
+		      =          & \int_{-\infty}^{+\infty} \varphi (y') dy' -
+		      \int_{-\infty}^x \varphi (y') dy'                        \\
+		      =          & 1 - \Phi(x)
+	      \end{align*}
+	      dove $y' = -y$ e vale in generale per densità $\varphi$ pari.
+	\item Data $X$ Gaussiana standard vale che
+	      \[ P(-t \leq X \leq t) = \Phi (t) - \Phi (-t) = 2 \Phi (t) - 1 \]
+	\item $P(X \leq 0) = \Phi (0) = 1 / 2$
+\end{itemize}
 
-Data $X$ Gaussiana standard, siano $\sigma > 0$ e $\mu \in \R$ e sia $Y = \sigma X + \mu$ una
-variabile aleatoria. La funzione di ripartizione di $Y$ è data da
+Passiamo ora al caso più generale di Gaussiana: data $X$ Gaussiana standard, siano $\sigma > 0$ e
+$\mu \in \R$ e sia $Y = \sigma X + \mu$ una variabile aleatoria. La funzione di ripartizione di
+$Y$ è data da
 \[
-	F_Y(t) = P(Y \leq t) = P(\sigma X + \mu \leq t) = P\left(X \leq \frac{t-m}{\sigma}\right) =
-	\Phi \left(\frac{t-m}{\sigma}\right)
+	F_Y(t) = P(Y \leq t) = P(\sigma X + \mu \leq t)
+	= P\left(X \leq \frac{t-m}{\sigma}\right)
+	= \Phi \left(\frac{t-m}{\sigma}\right)
 \]
 e la sua densità (ottenuta derivando $F_Y$ o applicando la formula di cambio di variabile) è
 \[
