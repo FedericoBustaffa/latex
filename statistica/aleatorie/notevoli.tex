@@ -293,4 +293,9 @@ di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$: è suf
 a $Y$ Gaussiana $N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$, con $X$ Gaussiana
 standard. Ad esempio, in particolare
 \[ P(a < Y < b) = P \left( \frac{a-m}{\sigma} < X < \frac{b-m}{\sigma} \right) \]
-Concludiamo con la proprietà di \textbf{riproducibilità} di una Gaussiana
+
+\begin{theorem}[Riproducibilità]
+	Sia $Y$ una Gaussiana $N(\mu, \sigma^2)$, sia $V = \alpha Y + \beta$, con
+	$\alpha, \beta \in \R$ e $\alpha \neq 0$. Allora $V$ è una Gaussiana
+	$N(\alpha \mu + \beta, \alpha^2 \sigma^2)$.
+\end{theorem}
