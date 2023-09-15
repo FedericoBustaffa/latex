@@ -101,13 +101,57 @@ che invece è codificata da $P_{(X,Y)}$.
 	Data $(X, Y)$ con funzione di massa $p(x_i, y_j)$ le sue componenti $X$ e $Y$ sono variabili
 	aleatorie discrete con funzione di massa
 	\begin{gather*}
-		p_X(x_i) = \sum_{y_j} p_Y (x_i, y_j) \quad \forall x_i \\
-		p_Y(y_j) = \sum_{x_i} p_X (x_i, y_j) \quad \forall y_j
+		p_X(x_i) = \sum_{y_j} p (x_i, y_j) \quad \forall x_i \\
+		p_Y(y_j) = \sum_{x_i} p (x_i, y_j) \quad \forall y_j
 	\end{gather*}
 	\begin{proof}
 		Notiamo che
 		\[ (X = x_i) = \cup_{y_j} (\{ X = x_i, Y = y_j \}) \]
 		quindi
 		\[ P_X(x_i) = P(X = x_i) = \sum_{y_j} P(X = x_i, Y = y_j) = \sum_{y_j} p(x_i, y_j) \]
+		Ragionamento analogo vale per $Y$.
 	\end{proof}
 \end{proposition}
+
+\begin{definition}
+	Si dice che la variabile aleatoria doppia $(X,Y)$ ammette \textbf{densità} se esiste
+	$f : \R^2 \to [0, +\infty)$ integrabile e con
+	\[ \iint_{\R^2} f(x,y) dx dy = 1 \]
+	tale che vale, per $A \subseteq \R^2$
+	\[ P_{(X,Y)} (A) = P((X,Y) \in A) = \iint_A f(x,y) dx dy \]
+\end{definition}
+
+Intuitivamente, si può pensare all'integrale doppio di $f$ su $A \subseteq \R^2$ come al volume
+sotteso da $f$ su $A$.
+
+\begin{theorem}[Fubini-Tonelli]
+	Se $A = A_1 \times A_2$, allora
+	\begin{align*}
+		\iint_A f(x,y) dx dy = & \int_{A_1} \left( \int_{A_2} f(x,y) dy \right) dx \\
+		=                      & \int_{A_2} \left( \int_{A_1} f(x,y) dx \right) dy
+	\end{align*}
+\end{theorem}
+
+\begin{proposition}
+	Data una variabile aleatoria doppia $(X, Y)$ con densità $f$, anche $X$ e $Y$ hanno densità
+	date da
+	\begin{align*}
+		f_X(x) = \int_{-\infty}^{+\infty} f(x,y) dy & \forall x \in \R \\
+		f_Y(y) = \int_{-\infty}^{+\infty} f(x,y) dx & \forall y \in \R
+	\end{align*}
+	\begin{proof}
+		Dobbiamo dimostrare che $P(X \in A) = \int_A f_X(x) dx$ con $f_X$ data dalla formula sopra.
+		\begin{align*}
+			P(X \in A) = & P(X \in A, Y \in \R)                       \\
+			=            & P((X, Y) \in A \times \R)                  \\
+			=            & \iint_{A \times \R} f(x,y) dx dy           \\
+			=            & \int_A \left( \int_\R f(x,y) dy \right) dx \\
+			=            & \int_A f_X (x) dx
+		\end{align*}
+		Ragionamento analogo vale per $Y$.
+	\end{proof}
+\end{proposition}
+
+\begin{observation}
+	Il fatto $X$ e $Y$ abbiano densità non implica che $(X,Y)$ abbia densità.
+\end{observation}
