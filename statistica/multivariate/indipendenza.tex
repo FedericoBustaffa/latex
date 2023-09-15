@@ -44,3 +44,88 @@ Se avessimo indipendenza, potremmo scrivere
 \[ P(X \in A)^2 = P(X \in A) \]
 per ogni $A \in \R$, cioè $P(X \in A) = 0$ oppure $P(X \in A) = 1$ che equivale a dire che $X$ è
 costante.
+
+\begin{observation}
+	Se $X_1, X_2, \dots, X_n$ sono variabili aleatorie indipendenti, allora sono indipendenti a 2
+	a 2 ($X_i, X_j$ sono indipendenti per ogni $i \neq j$). Il viceversa non vale.
+\end{observation}
+
+\begin{proposition}
+	Siano $X$ e $Y$ due variabili aleatorie discrete, con immagine rispettivamente nei punti $x_i$
+	e $y_j$, allora $X$ e $Y$ sono indipendenti se e solo se
+	\[ p(x_i, y_j) = p_X (x_i) \cdot p_Y (y_j) \]
+	per ogni $x_i, y_j$ e con $p(x,y)$ funzione di massa di $(X, Y)$ e $p_X$ e $p_Y$ funzioni di
+	massa rispettivamente di $X$ e $Y$.
+	\begin{proof}
+		Per dimostrare questo basta notare che
+		\begin{align*}
+			p_{(X,Y)} (x_i, y_j) = & P(X = x_i, Y = y_j)         \\
+			=                      & P(X = x_i) \cdot P(Y = y_j) \\
+			=                      & p_X (x_i) \cdot p_Y (y_j)
+		\end{align*}
+	\end{proof}
+
+	Data una variabile aleatoria doppia $(X, Y)$ con densità, $X$ e $Y$ sono indipendenti se e
+	solo se
+	\[ f_{X,Y} (x,y) = f_X (x) \cdot f_Y (y) \]
+	per ogni $(x, y) \in \R^2$. Con $f_{(X,Y)}$, $f_X$, e $f_Y$ densità rispettivamente di
+	$(X,Y)$, $X$ e $Y$.
+	\begin{proof}
+		In questo caso supponiamo di avere $A, B \subseteq \R$ e vogliamo dimostrare che
+		\begin{align*}
+			P(X \in A, Y \in B) = & P((X,Y) \in A \times B)                                    \\
+			=                     & \sum_{(x_i, y_j) \in A \times B} p_{(x,y)} (x_i, y_j)      \\
+			=                     & \sum_{x_i \in A, y_j \in B} p_X(x_i) \cdot p_Y(y_j)        \\
+			=                     & \sum_{x_i \in A} \left( \sum_{y_j \in B} p_Y(y_j) \right)
+			p_X(x_i)                                                                           \\
+			=                     & \sum_{y_j \in B} p_Y(y_j) \cdot \sum_{x_i \in A} p_X (x_i) \\
+			=                     & P(Y \in B) \cdot P(X \in A)
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+\begin{observation}
+	Se $X$ e $Y$ sono indipendenti allora la funzione di massa/densità congiunta si ricava dalle
+	funzioni di massa/densità marginali.
+
+	L'indipendenza è una proprietà della legge congiunta perché
+	\[ P_{(X,Y)} (A \times B) = P_X(A) \cdot P_Y(B) \]
+	per ogni $A, B \subseteq \R$.
+\end{observation}
+
+\begin{example}
+	Riprendiamo l'esempio fatto in precedenza in cui abbiamo 4 punti, ciascuno con probabilità
+	$1/4$. In questo caso la densità congiunta di $i$ e $j$ è uguale a
+	\[ p_{(X,Y)} (i,j) = \frac{1}{4} \]
+	per ogni $i,j \in \{ -1, 1 \}^2$. Le densità marginali sono
+	\begin{align*}
+		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
+		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1
+	\end{align*}
+	A questo punto si può verificare che
+	\[ p_{(X,Y)} (i,j) = \frac{1}{4} = p_X(i) \cdot p_Y(j) \]
+	quindi $X$ e $Y$ sono indipendenti
+\end{example}
+
+\begin{example}
+	Riprendendo anche il secondo esempio in cui avevamo la densità congiunta che valeva
+	\[ P_{(x,y)} (i,j) = \frac{1}{2} \]
+	se $(i,j) = (1,1)$ o se $(i,j) = (-1,-1)$ e abbiamo le densità marginali che valgono
+	\begin{align*}
+		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
+		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1 \\
+	\end{align*}
+	A questo punto possiamo constatare che se conosciamo $X$ allora conosciamo anche $Y$, per
+	esempio
+	\[ p_{(x,y)} (1,-1) = 0 \neq p_x(1) \cdot p_y(-1) \]
+	dunque $X$ e $Y$ non sono indipendenti.
+\end{example}
+
+\begin{proposition}[Stabilità dell'indipendenza per composizione]
+	Se $X$ e $Y$ sono indipendenti, date $h, k : \R \to \R$, allora $h(X)$ e $k(Y)$ sono
+	indipendenti.
+
+	Più in generale se $X_1, \dots, X_n$ e $Y_1, \dots, Y_m$ sono variabili indipendenti e
+	$h : \R^n \to \R$ e $k : \R^m \to \R$, allora $h(X_1, \dots, X_n)$ e $k(Y_1, \dots, Y_m)$ sono
+	indipendenti.
+\end{proposition}
