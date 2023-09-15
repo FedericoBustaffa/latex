@@ -1,0 +1,46 @@
+\section{Variabili aleatorie indipendenti}
+Passiamo ora a parlare di indipendenza di variabili aleatorie partendo dalla definizione di
+indipendenza
+
+\begin{definition}
+	Due variabili aleatorie $X$ e $Y$ su uno spazio di probabilità $(\Omega, \F, P)$ sono dette
+	\textbf{indipendenti} se $\forall A, B \subseteq \R$ (misurabili), gli eventi $X \in A$ e
+	$Y \in B$ sono indipendenti. Cioè se
+	\[ P(X \in A, Y \in B) = P(X \in A) \cdot P(Y \in B) \]
+	Più in generale un insieme di variabili aleatorie $X_1, X_2, \dots, X_n$ su uno spazio di
+	probabilità $(\Omega, \F, P)$ sono dette indipendenti se per ogni
+	$A_1, A_2, \dots, A_n \subseteq \R$ (misurabili), allora vale
+	\[ P(X_1 \in A_1, X_2 \in A_2, \dots, X_n \in A_n) = \prod_{i=1}^n P(X_i \in A_i) \]
+\end{definition}
+
+Dire che $X$ e $Y$ sono indipendenti, significa che ogni informazione legata ad $X$ non modifica
+le probabilità relative ad $Y$.
+
+\begin{example}
+	Se lanciamo 2 volte una moneta, le variabile aleatorie $X$ e $Y$ definite come segue
+	\begin{align*}
+		X = & \begin{cases}
+			      1 & \text{testa al primo lancio} \\
+			      0 & \text{croce al primo lancio}
+		      \end{cases}   \\[1ex]
+		Y = & \begin{cases}
+			      1 & \text{testa al secondo lancio} \\
+			      0 & \text{croce al secondo lancio}
+		      \end{cases}
+	\end{align*}
+	sono indipendenti.
+\end{example}
+
+\begin{example}
+	Data $X$ variabile aleatoria non costante, allora $X$ e $-X$ non sono indipendenti.
+\end{example}
+
+Più rigorosamente se volessi dimostrare la correttezza di quest'ultimo esempio dovremmo considerare
+$A \subseteq \R$ e $B = -A = \{ -x | x \in A \}$, allora
+\[ P(X \in A, -X \in B) = P(X \in A, X \in A) = P(X \in A) \]
+possiamo anche dimostrare che
+\[ P(X \in A) \cdot P(X \in B) = P(X \in A) \cdot P(X \in A) = P(X \in A)^2 \]
+Se avessimo indipendenza, potremmo scrivere
+\[ P(X \in A)^2 = P(X \in A) \]
+per ogni $A \in \R$, cioè $P(X \in A) = 0$ oppure $P(X \in A) = 1$ che equivale a dire che $X$ è
+costante.
