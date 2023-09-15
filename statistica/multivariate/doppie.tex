@@ -4,3 +4,110 @@ multiple. Per semplicità, in molti casi tratteremo solo variabili doppie tenend
 l'estensione al caso generale non comporta complicazioni aggiuntive.
 
 \section{Variabili doppie}
+Sia $(\Omega, \F, P)$ uno spazio di probabilità e siano $X : \Omega \to \R$ e $Y : \Omega \to \R$
+due variabili aleatorie. La variabile aleatoria doppia è la funzione $(X, Y) : \Omega \to \R^2$
+tale che
+\[ (X, Y)(\omega) = (X(\omega), Y(\omega)) \]
+Possiamo dire che se $X$ e $Y$ sono due caratteri di un dato esperimento, la variabile aleatoria
+doppia $(X, Y)$ rappresenta la coppia dei due caratteri.
+
+\begin{example}
+	Se consideriamo l'estrazione di un individuo dalla popolazione italiana e definiamo $X(\omega)$
+	come l'altezza dell'individuo $\omega$ e $Y(\omega)$ il suo peso, allora la coppia
+	$(X, Y)(\omega)$ rappresenta la coppia (altezza, peso) di $\omega$.
+\end{example}
+
+L'insieme $\{ (X, Y) \in A \}$ è uguale a
+\[ (X, Y)^{-1} (A) = \{ \omega \in \Omega | (X(\omega), Y(\omega)) \in A \} \]
+per $A \subseteq \R^2$ misurabile. In particolare se $A$ è nella forma $A_1 \times A_2$ con
+$A_1, A_2 \subseteq \R$ allora
+\[
+	\{ (X, Y) \in A_1 \times A_2 \} = \{ X \in A_1, Y \in A_2 \} =
+	\{ X \in A_1 \} \cap \{ Y \in A_2 \}
+\]
+Possiamo quindi dire che si verificano \emph{congiuntamente} $X \in A_1$ e $Y \in A_2$.
+
+\begin{example}
+	Riprendendo l'esempio fatto prima con altezza e peso e considerando $A_1 = [1.70, 1.80]$ e
+	$A_2 = [80, 90]$ allora
+	\[ \{ (X, Y) \in [1.70, 1.80] \times [80, 90] \} = \{ X \in [1.70, 1.80], Y \in [80, 90] \} \]
+	significa che abbiamo scelto gli individui con altezza compresa tra 1.70 e 1.80 e con peso
+	80 e 90. Non stiamo quindi considerando tutti gli individui con altezza compresa in $A_1$ e
+	tutti gli individui con peso compreso in $A_2$ ma solo gli individui che soddisfano
+	contemporaneamente queste due condizioni.
+\end{example}
+
+\begin{definition}
+	Data $(X, Y) : \Omega \to \R^2$ una variabile aleatoria doppia, definiamo
+	\[ P_{(X, Y)} (A) = P((X, Y) \in A) \]
+	la probabilità che il vettore $(X, Y)$ stia in $A$.
+\end{definition}
+
+Si può dimostrare che $P_{(X,Y)}$ è una probabilità su $\R^2$ e rappresenta la distribuzione dei
+valori di $(X, Y)$. Possiamo anche dire che $P_{(X, Y)}$ si chiama legge (o distribuzione) di
+probabilità di $(X,Y)$ o anche \textbf{legge congiunta} di $X$ e $Y$.
+
+Data $(X, Y)$, possiamo considerare separatamente la legge $P_X$ di $X$ e la legge $P_Y$ di $Y$ e
+gli diamo il nome di leggi (o distribuzioni) \textbf{marginali} della coppia $(X,Y)$.
+
+\begin{observation}
+	La legge congiunta $P_{(X,Y)}$ determina univocamente $P_X$ e $P_Y$ (marginali) infatti, per
+	ogni $A \subseteq \R$ vale che
+	\[ P_X(A) = P(X \in A) = P(X \in A, Y \in \R) = P_{(X,Y)} (A \times \R) \]
+	Analogamente si può dimostrare che
+	\[ P_Y(A) = P_{(X,Y)} (\R \times A) \]
+\end{observation}
+
+Un'altra osservazione che possiamo fare è che le leggi marginali non determinano univocamente la
+legge congiunta. In altre parole $P_X$ e $P_Y$ non ci dicono nulla della relazione tra $X$ e $Y$,
+che invece è codificata da $P_{(X,Y)}$.
+
+\begin{example}
+	Consideriamo la variabile aleatoria doppia discreta $(X, Y)$ tale che
+	\[ P_{(X, Y)} (i,j) = \frac{1}{4} \]
+	per ogni $(i,j) \in \{ (1,1), (1,-1), (-1,1), (-1,-1) \}$. Allora possiamo dire che
+	\begin{align*}
+		P_X(1) = & P_{(X, Y)} (\{ 1 \} \times \{-1, 1\})   \\
+		=        & P_{(X,Y)} (1,1) + P_{(X,Y)} (1,-1)      \\
+		=        & \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
+	\end{align*}
+	Analogamente possiamo dire che $P_X(-1) = P_Y(1) = P_Y(-1) = 1/2$.
+\end{example}
+
+\begin{example}
+	Consideriamo la variabile aleatoria doppia $(X, Y)$ tale che
+	\[ P_{(X,Y)} (1,1) = P_{(X, Y)} (-1, -1) = \frac{1}{2} \]
+	Calcolando le leggi marginali abbiamo che
+	\begin{gather*}
+		P_X (1) = P_{(X, Y)} (1, 1) = \frac{1}{2} \\
+		P_X (-1) = P_{(X, Y)} (-1, -1) = \frac{1}{2}
+	\end{gather*}
+	Analogamente abbiamo che $P_Y(1) = P_Y(-1) = 1/2$. Come possiamo notare le leggi marginali sono
+	le stesse dell'esempio precedente.
+\end{example}
+
+\begin{definition}
+	La variabile aleatoria doppia $(X,Y)$ è detta \textbf{discreta} se l'immagine di $(X,Y)$ è
+	concentrata in un insieme finito o numerabile di punti $(x_i, y_j)$ con $i = 1,2,\dots$ e
+	$j = 1,2,\dots$ (cioè se $P_{(X,Y)}$ è concentrata su un insieme finito o numerabile). In
+	questo caso, come per variabili aleatorie discrete, $P_{(X,Y)}$ è identificata univocamente
+	dalla sua funzione di massa
+	\[ p(x_i, y_j) = P_{(X,Y)} (x_i, y_j) = P(X = x_i, Y = y_j) \]
+	per ogni $(x_i, y_j)$. Infatti, per ogni $A \subseteq \R^2$ vale che
+	\[ P_{(X,Y)} (A) = P((X,Y) \in A) = \sum_{(x_i, y_j) \in A} p(x_i, y_j) \]
+\end{definition}
+
+\begin{proposition}
+	Data $(X, Y)$ con funzione di massa $p(x_i, y_j)$ le sue componenti $X$ e $Y$ sono variabili
+	aleatorie discrete con funzione di massa
+	\begin{gather*}
+		p_X(x_i) = \sum_{y_j} p_Y (x_i, y_j) \quad \forall x_i \\
+		p_Y(y_j) = \sum_{x_i} p_X (x_i, y_j) \quad \forall y_j
+	\end{gather*}
+	\begin{proof}
+		Notiamo che
+		\[ (X = x_i) = \cup_{y_j} (\{ X = x_i, Y = y_j \}) \]
+		quindi
+		\[ P_X(x_i) = P(X = x_i) = \sum_{y_j} P(X = x_i, Y = y_j) = \sum_{y_j} p(x_i, y_j) \]
+	\end{proof}
+\end{proposition}
