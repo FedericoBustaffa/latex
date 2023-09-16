@@ -129,3 +129,92 @@ costante.
 	$h : \R^n \to \R$ e $k : \R^m \to \R$, allora $h(X_1, \dots, X_n)$ e $k(Y_1, \dots, Y_m)$ sono
 	indipendenti.
 \end{proposition}
+
+Come per gli eventi, un caso rilevante di variabili aleatorie indipendenti, è dato dalle prove
+ripetute. In un esperimento ripetute più volte nelle medesime condizioni, variabili aleatorie
+associate a ripetizioni distinte o anche a gruppi disgiunti di ripetizioni, sono indipendenti.
+
+\begin{example}
+	Consideriamo $n$ prove ripetute, ciascuna con probabilità di successo $p$ (e di insuccesso
+	$1-p$). Abbiamo quindi $\Omega = \{0,1\}^n$ e la probabilità è definita come
+	\[ P(a_1, \dots, a_n) = p^{\# \{i | a_i = 1\}} \cdot (1-p)^{\# \{i | a_i = 0\}} \]
+	Consideriamo ora $X_i$ con $i = 1, \dots, n$ la variabile aleatoria che modellizza l'esito
+	dell'$i$-esimo esperimento e definita in come segue
+	\[ X_i (a_1, \dots, a_n) = a_i \]
+	Possiamo dubito dire che le varie $X_i$ sono indipendenti, inoltre, ciascun $X_i$ è una
+	variabile binomiale di parametro $p$ ($B(p)$). Se inoltre consideriamo la variabile aleatoria
+	\[ X = X_i + \dots + X_n \]
+	possiamo dire che $X$ conta il numero di successi nelle $n$ prove e sarà quindi una binomiale
+	$B(n,p)$.
+\end{example}
+
+\begin{example}
+	Sia $S$ una popolazione e sia $X : S \to \R$ una variabile aleatoria che rappresenta un
+	carattere (ad esempio $X(\omega)$ è il numero di figli di $\omega$).
+
+	Consideriamo ora l'estrazione di un campione di $n$ elementi da $S$ e sia $X_i$ l'esito della
+	misurazione del carattere dell'$i$-esimo elemento del campione.
+
+	Supponiamo che ogni elemento del campione sia scelto in modo casuale indipendentemente dalla
+	scelta di altri elementi.
+
+	In questo caso abbiamo $\Omega = S^n$, $P$ uniforme su $\Omega$ e il carattere dell'$i$-esimo
+	elemento definito come $X_i(\omega_1, \dots, \omega_n) = X (\omega_i)$. In questo caso si può
+	dimostrare che le $X_i$ sono indipendenti e hanno la stessa legge $P_X$ di $X$.
+\end{example}
+
+Data una coppia di variabili aleatorie $(X, Y)$ e $h : \R^2 \to \R$, vogliamo determinare la legge
+di $h(X, Y) : \Omega \to \R$. Non esiste una formula generale, ma si possono dare alcuni fatti e
+regole
+
+\begin{proposition}[Riproducibilità delle binomiali]
+	Siano $X \sim B(n, p)$, $Y \sim B(m, p)$, $X$ e $Y$ indipendenti, allora la variabile
+	\[ Z := X + Y \sim B(n + m, p) \]
+	\begin{proof}
+		Dobbiamo considerare due casi:
+		\begin{itemize}
+			\item \textbf{Caso (m = 1)}: in questo caso abbiamo $Y \sim B(p)$ quindi
+			      \[
+				      Y = \begin{cases}
+					      1 & \text{con probabilità } 1 \\
+					      0 & \text{con probabilità } 0
+				      \end{cases}
+			      \]
+			      e la probabilità che $Z = h$ è
+			      \begin{align*}
+				      P(Z = h) = & P(X = h, Y = 0) + P(X = h-1, Y = 1)                          \\
+				      =          & P(X = h) \cdot P(Y = 0) + P(X = h-1) \cdot P(Y = 1)          \\
+				      =          & \binom{n}{h} p^h (1-p)^{n-h} (1-p) +
+				      \binom{n}{h-1} p^{h-1} (1-p)^{n-h+1} p                                    \\
+				      =          & p^h (1-p)^{n-h+1} \left(\binom{n}{h} + \binom{n}{h-1}\right) \\
+				      =          & \binom{n+1}{h} p^h (1-p)^{n-h+1}
+			      \end{align*}
+			      che infatti è la funzione di massa di una binomiale $B(n+1 = m, p)$.
+			\item Il caso generale si ricava tramite induzione su $m$.
+		\end{itemize}
+	\end{proof}
+\end{proposition}
+
+\begin{proposition}
+	Siano $X$ e $Y$ discrete e indipendenti e sia $Z = X + Y$, allora
+	\[ P_Z(n) = P(Z = n) = \sum_{h=0}^n P_X(h) \cdot P_Y(n-h) \]
+\end{proposition}
+
+\begin{proposition}[Riproducibilità delle Poisson]
+	Siano $X \sim P(\lambda)$ e $Y \sim P(\nu)$ due variabili aleatorie indipendenti, allora
+	$X+Y \sim P(\lambda + \nu)$.
+\end{proposition}
+
+\begin{proposition}[Convoluzione]
+	Siano $X$ e $Y$ due variabili aleatorie con densità rispettivamente $f_X$ e $f_Y$ e
+	indipendenti, allora la variabile aleatoria $Z = X + Y$ ha densità
+	\[
+		f_Z (z) = \int_{-\infty}^{+\infty} f_X (x) f_Y (z - x) dx =
+		\int_{-\infty}^{+\infty} f_Y (y) f_X (z - y) dy
+	\]
+\end{proposition}
+
+\begin{proposition}[Riproducibilità delle Gaussiane]
+	Siano $X \sim N(\mu, \sigma^2)$ e $Y \sim N(\alpha, \beta^2)$ indipendenti, allora
+	\[ X + Y \sim N(\mu + \alpha, \sigma^2 + \beta^2) \]
+\end{proposition}
