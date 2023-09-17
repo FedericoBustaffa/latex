@@ -1,14 +1,15 @@
 \section{Valore atteso, varianza e momenti}
 Abbiamo definito la media campionaria di un insieme di dati come la loro media aritmetica
-\[ \tilde{x} = \sum_{i=1}^n \frac{x_i}{n} \]
+\[ \tilde{x} = \frac{1}{n} \sum_{i=1}^n x_i \]
 per dare una misura del \emph{centro} della distribuzione dei dati. Abbiamo poi definito la
-varianza campionaria come misura della \emph{dispersione} dei dati. Le stesse idee sono alla base
-dei concetti di \textbf{valore atteso} e \textbf{varianza} di una variabile aleatoria, quest'ultimo
-inteso come oggetto matematico che si propone di descrivere la \emph{casualità} dell'esito di un
-esperimento.
+varianza campionaria
+\[ \Var(x) = \frac{1}{n-1} \sum_{i=1}^n (x_i - \tilde{x})^2 \]
+come misura della \emph{dispersione} dei dati. Le stesse idee sono alla base dei concetti di
+\textbf{valore atteso} e \textbf{varianza} di una variabile aleatoria, quest'ultimo inteso come
+oggetto matematico che si propone di descrivere la \emph{casualità} dell'esito di un esperimento.
 
 \subsection{Valore atteso}
-Possiamo vedere il valore atteso come la quantità che indica attorno al quale valore la variabile
+Possiamo vedere il valore atteso come la quantità che indica attorno a quale valore la variabile
 aleatoria è centrata.
 
 Per una variabile aleatoria discreta che assume valori $x_1, x_2, \dots$ consideriamo come valore
@@ -26,7 +27,7 @@ un controllo sui valori assumibili dall'integrale che definisce il valore atteso
 	\textbf{valore atteso} se $\sum_i |x_i| p(x_i) < +\infty$, e in tal caso si chiama valore
 	atteso il numero
 	\[ \E[X] = \sum_i x_i \cdot p(x_i) \]
-	Sia poi $X$ con densità $f$, essa ha valore atteso se
+	Sia poi $X$ con densità $f$, essa ha \textbf{valore atteso} se
 	$\int_{-\infty}^{+\infty} |x| \cdot f(x) dx < +\infty$ e in tal caso si chiama valore atteso
 	il numero
 	\[ \E[X] = \int_{-\infty}^{+\infty} x \cdot f(x) dx \]
@@ -64,4 +65,77 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 	Sia $X$ con densità $f$, la variabile $g(X)$ ha valore atteso se
 	$\int_{-\infty}^{+\infty} |g(x)| \cdot f(x) dx < +\infty$, e in tal caso
 	\[ \E[g(X)] = \int_{-\infty}^{+\infty} g(x) \cdot f(x) dx \]
+	\begin{proof}
+		Forniamo la dimostrazione per il caso discreto partendo da un caso particolare, ossia il
+		caso in cui $g(x_i)$ sono tutti valori distinti. Allora la variabile aleatoria $g(X)$ ha
+		come valori $g(x_1), g(x_2), \dots$ con probabilità rispettivamente $p(x_1), p(x_2), \dots$
+		e quindi
+		\[ \E[g(x)] = \sum_i g(x_i) \cdot p(x_i) \]
+		Per dimostrare il caso generale partiamo da un sottocaso, ossia quello in cui $g \geq 0$.
+		Abbiamo che $Y = g(x)$ assume valori $y_1, y_2, \dots$. Consideriamo ora gli insiemi
+		\[ A_i = \{ j | g(x_j) = y_i \} \]
+		e osserviamo che
+		\[ P_Y(y_i) = P(g(X) = y_i) = P(X = x_j) \]
+		per qualche $j \in A_i$. Questa probabilità la si riscrive come
+		\[ P(X = x_j) = \sum_{j \in A_i} P_X (x_j) \]
+		quindi
+		\begin{multline*}
+			\E[Y] = \sum_i y_i p_Y(y_i) = \sum_i y_i \left( \sum_{j \in A_i} p_X(x_j) \right) \\
+			= \sum_i \left( \sum_{j \in A_i} g(x_j) p_X (x_j) \right) = \sum_j g(x_j) p_X (x_j)
+		\end{multline*}
+		Dato che $A_i$ è una partizione di tutti gli indici $j$. Il caso più generale si ottiene
+		osservando che $g = g^+ - g^-$ dove
+		\begin{align*}
+			g^+ = & \max \{g,0\} \\
+			g^- = & \max\{-g,0\}
+		\end{align*}
+	\end{proof}
 \end{proposition}
+
+\begin{example}
+	Calcolare il valore atteso del quadrato dell'esito del lancio di un dado equilibrato. Prima di
+	tutto definiamo la variabile aleatoria $X$ che definisce l'esito del lancio del dado. Abbiamo
+	quindi $P_X(k) = 1/6$ per ogni $k \in \{1, \dots, 6\}$. Dobbiamo calcolare quindi $\E[X^2]$.
+	\[
+		\E[X^2] = \sum_i x_i^2 P(X = x_i) = \sum_{k=1}^6 k^2 \cdot \frac{1}{6}
+		= \frac{91}{6} = 15.16
+	\]
+\end{example}
+
+\begin{example}
+	Sia $X \sim U([0,1])$ e $Y = X^2$, calcolare la densità $f_Y$ di $Y$ e $\E[Y]$. Notiamo che
+	$Y = g(X)$ con $g(x) = x^2$ e $X$ ha densità
+	\[
+		f_X(x) = \begin{cases}
+			\dfrac{1}{1-0} = 1 & x \in (0,1)    \\
+			0                  & x \notin (0,1)
+		\end{cases}
+	\]
+	In particolare $g : (0,1) \to (0,1)$ è $C^1$ invertibile con inversa
+	\[ h(y) = \sqrt{y} \]
+	che è $C^1$ e la sua derivata è $h'(x) = \frac{1}{2 \sqrt{y}}$ con $y \in (0,1)$. Quindi
+	applicando la formula del cambio di variabile ottenendo che $Y$ ha densità
+	\begin{align*}
+		f_Y (y) = & \begin{cases}
+			            f_X (h(y)) |h'(y)| & y \in (0,1)    \\
+			            0                  & y \notin (0,1)
+		            \end{cases}                  \\
+		=         & \begin{cases}
+			            \dfrac{1}{2 \sqrt{y}} & y \in (0,1)    \\
+			            0                     & y \notin (0,1)
+		            \end{cases}
+	\end{align*}
+	Calcoliamo quindi il valore atteso di $Y$. Il primo metodo è il seguente
+	\[ \E[Y] = \int_{-\infty}^{+\infty} x^2 f_X (x) dx = \int_0^1 x^2 dx = \frac{1}{3} x^3 \]
+	da valutare tra 1 e 0 e che quindi fa $1/3$.
+\end{example}
+
+\begin{observation}
+	Quando $X \geq 0$, allora si può sempre definire $\E[X] \in [0, +\infty)$ come
+	\[
+		\E[X] = \begin{cases}
+			\displaystyle\sum_i x_i \cdot p(x_i)            & X \text{ discreta}    \\[3ex]
+			\displaystyle\int_{-\infty}^{+\infty} x f(x) dx & X \text{ con densità}
+		\end{cases}
+	\]
+\end{observation}
