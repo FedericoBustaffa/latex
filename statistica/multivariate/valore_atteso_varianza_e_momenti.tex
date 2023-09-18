@@ -139,3 +139,200 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 		\end{cases}
 	\]
 \end{observation}
+
+\begin{observation}
+	Formule analoghe valgono per $\E[g(X,Y)]$, nel caso discreto abbiamo quindi che $g(X, Y)$
+	ammette valore atteso se
+	\[ \sum_{i,j} |g(x_i, y_j)| \cdot P_{(X,Y)} (x_i, y_j) < \infty \]
+	e, in tal caso
+	\[ \E[g(X,Y)] = \sum_{i,j} g(x_i, y_j) \cdot P_{(X,Y)} (x_i, y_j) \]
+	Nel caso con densità abbiamo invece che $g(X,Y)$ ammette valore atteso se
+	\[ \iint |g(X,Y)| \cdot f (X,Y) dx dy < \infty \]
+	e in tal caso
+	\[ \E[g(X, Y)] = \iint g(X, Y) \cdot f(X,Y) dx \]
+\end{observation}
+
+\begin{proposition}
+	Siano $X$ e $Y$ variabili aleatorie che ammettono valore atteso, allora $X+Y$ ha valore atteso
+	e valgono le seguenti proprietà
+	\begin{align*}
+		\E[X+Y] =         & \E[X] + \E[Y]                 \\
+		\E[aX + b] =      & a \E[X] + b      & a,b \in \R \\
+		|\E[X]| \leq      & \E[|X|]                       \\
+		X \geq 0 \implies & \E[X] \geq 0                  \\
+		X \geq Y \implies & \E[X] \geq \E[Y]
+	\end{align*}
+	\begin{proof}
+		Dimostriamo la prima formula nel caso discreto assumendo che $X+Y$ abbia valore atteso
+		senza verificarlo. Per farlo usiamo la formula per il valore atteso di $g(X,Y)$ con
+		$g(X,Y) = X+Y$
+		\begin{align*}
+			\E[X+Y] = & \sum_{i,j} g(x_i, y_j) \cdot P_{(X, Y)} (x_i, y_j)                    \\
+			=         & \sum_{i,j} (x_i + y_j) \cdot P_{(X,Y)} (x_i, y_j)                     \\
+			=         & \sum_{i,j} x_i P_{(X,Y)} (x_i, y_j) +
+			\sum_{i,j} y_j P_{(X,Y)} (x_i, y_j)                                               \\
+			=         & \sum_i x_i \sum_j P_{(X,Y)} (x_i, y_j) +
+			\sum_j y_j \sum_i P_{(X,Y)} (x_i, y_j)                                            \\
+			=         & \sum_i x_i \cdot P_X(x_i) + \sum_j y_j \cdot P_Y(y_j) = \E[X] + \E[Y]
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+Consideriamo ora due variabili aleatorie $X$ e $Y$, non è detto che $X \cdot Y$ abbia valore
+atteso.
+
+\begin{proposition}
+	Siano $X$ e $Y$ due variabili indipendenti che ammettono valore atteso, allora anche $X\cdot Y$
+	ammette valore atteso e vale
+	\[ \E[X \cdot Y] = \E[X] \cdot \E[Y] \]
+	\begin{proof}
+		Anche in questo caso svolgiamo la dimostrazione per quanto riguarda il caso discreto. Per
+		prima cosa si verifica che $X \cdot Y$ ammette valore atteso. Assumendo che il primo passo
+		sia verificato, proviamo a calcolare il valore atteso di $\E[g(X,Y)]$ dove $g(X,Y)=xy$
+		\begin{align*}
+			\E[X \cdot Y] = & \sum_{i,j} x_i \cdot y_j \cdot P_{(X,Y)} (x_i, y_j)    \\
+			=               & \sum_{i,j} x_i \cdot y_j \cdot P_X(x_i) \cdot P_Y(y_j) \\
+			=               & \sum_i x_i P_X (x_i) \cdot \sum_j y_j P_Y(y_j)         \\
+			=               & \E[X] \cdot \E[Y]
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+\begin{corollary}
+	Siano $X$ e $Y$ indipendenti e $h,k : \R \to \R$, con $h(X)$ e $k(Y)$ che ammettono valore
+	atteso. Allora anche $h(X) \cdot k(Y)$ ha valore atteso e vale
+	\[ \E[h(X) \cdot k(Y)] = \E[h(X)] \cdot \E[(k(Y))] \]
+	\begin{proof}
+		Se $X$ e $Y$ sono indipendenti, allora $h(X)$ e $k(Y)$ sono indipendenti e quindi si usa
+		il risultato precedente.
+	\end{proof}
+\end{corollary}
+
+\subsection{Momenti}
+Un'altra proprietà delle variabili aleatorie è il momento, il quale si basa sul calcolo del valore
+atteso.
+
+\begin{definition}
+	Diciamo che $X$ ammette \textbf{momento} di ordine $n$ se vale
+	\[ \E[|X|^n] < \infty \]
+	e, in tal caso, chiamiamo momento di ordine $n$ la quantità
+	\[ \E[X^n] \]
+\end{definition}
+
+Se $n=1$ troviamo quello che si chiama \textbf{momento primo} che equivale al valore atteso. Il
+momento, in generale è un indice di quanto le \textbf{code} della distribuzioni sono \emph{pesanti}.
+
+\begin{example}
+	Sia $\beta > 1$ un parametro e sia $X$ variabile aleatoria con densità
+	\[
+		f(x) = \begin{cases}
+			(\beta - 1) \cdot x^{-\beta} & x > 1    \\
+			0                            & x \leq 1
+		\end{cases}
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+					font=\footnotesize,
+					width=10cm,
+					height=5cm,
+					axis lines = center,
+					xlabel = $x$,
+					ylabel = $y$,
+					xtick = {-5, -3, -1, 1, 3, 5},
+					ytick = {0.5, 1},
+					ymin = -0.2, ymax = 1.2,
+					xmin = -5, xmax = 5,
+					grid = both,
+					grid style = dashed,
+					legend pos = north west,
+					enlargelimits
+				]
+
+				\addplot [
+					domain=-5:1,
+					samples=100,
+					thick,
+					color=red
+				]
+				{0};
+
+				\addplot [
+					name path=f,
+					domain=1:5,
+					samples=100,
+					thick,
+					color=red
+				]
+				{x^(-3)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	Nel grafico $\beta = 3$ ma, in generale, più $\beta$ è grande, più la funzione va velocemente
+	a 0. Ecco che il parametro $\beta$ determina quanto la coda della distribuzione sia
+	\emph{pesante} (valori bassi di $\beta$) o \emph{leggera} (valori alti di $\beta$).
+
+	Verifichiamo ora il momento di ordine $n$ considerando $g(x) = |x|^n \geq 0$ e dunque
+	\begin{align*}
+		\E[g(x)] = & \int g(x) f(x) dx                                    \\
+		=          & \int_1^{+\infty} x^n \cdot (\beta - 1) x^{-\beta} dx \\
+		=          & \int_{1}^{+\infty} (\beta-1) \cdot x^{-\beta+n} dx
+	\end{align*}
+	Ecco che qui abbiamo due possibili casi
+	\[
+		\E[g(x)] = \begin{cases}
+			-\frac{\beta-1}{\beta-n-1} \cdot x^{-\beta+n+1} \Big|_1^{+\infty}
+			                                          & -\beta+n+1 \neq 0 \\[2ex]
+			(\beta-1) \cdot \log(x) \Big|_1^{+\infty} & -\beta+n+1=0
+		\end{cases}
+	\]
+	Ecco che nel caso in cui $-\beta+n+1 < 0$ abbiamo che il valore atteso vale
+	\[ \frac{\beta-1}{\beta-n-1} \]
+	nel caso $-\beta+n+1 = 0$ abbiamo che $\log(+\infty) = +\infty$ e quindi il valore atteso è
+	$+\infty$, nel caso di $-\beta+n+1 > 0$ abbiamo che l'esponente di $x$ nella della prima
+	equazione e positivo e dunque, per $x \to +\infty$, il valore atteso è $+\infty$.
+
+	Concludiamo che $X$ ammette momento di ordine $n$ se e solo se $-\beta+n+1 < 0$ ovvero se e
+	solo se
+	\[ n < \beta - 1 \]
+	Deduciamo quindi che, quanto più grande è $\beta$ (e quindi quanto più sono leggere le code)
+	tanti di più sono i momenti che possiamo ammettere.
+\end{example}
+
+\begin{proposition}
+	Se $X$ ammette momento di ordine $n$, allora ammette momento di ordine $m$ per ogni $m \leq n$.
+\end{proposition}
+
+\begin{proposition}[Disuguaglianza di Markov]
+	Sia $X$ una variabile aleatoria a valori non negativi e sia $a>0$, allora
+	\[ P(X > a) \leq \frac{\E[X]}{a} \]
+	\begin{proof}
+		Introduciamo la seguente variabile aleatoria $Z : \Omega \to \R$
+		\[
+			Z = \begin{cases}
+				a & \text{su } \{ X > a \} \subseteq \Omega    \\
+				0 & \text{su } \{ X \leq a \} \subseteq \Omega
+			\end{cases}
+		\]
+		Vediamo che sull'insieme $\{ X > a \}$ abbiamo che $Z = a$ e, in particolare $Z \leq X$.
+		Sull'altro insieme abbiamo che $Z = 0$ ma $X \geq 0$ e quindi $Z \leq X$ su $\Omega$.
+		Vale quindi che
+		\begin{align*}
+			\E[X] \geq \E[Z] = & a \cdot P(Z = a) + 0 \cdot P(Z = 0) \\
+			=                  & a \cdot P(X \geq a)
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+\begin{corollary}
+	Se $X$ ammette momento di ordine $n$, allora
+	\[ P(|X| > a) \leq \frac{\E[|X|^n]}{a^n} \]
+	per ogni $a > 0$.
+\end{corollary}
+
+\begin{proposition}[Disuguaglianza di Schwartz]
+	Siano $X$ e $Y$ due variabili aleatorie, allora
+	\[ \E[|XY|] \leq \sqrt{\E[|X|^2]} \cdot \sqrt{\E[|Y|^2]} \]
+	In questo caso possiamo dire che $XY$ ammette valore atteso se $X$ e $Y$ ammettono momento
+	secondo.
+\end{proposition}
