@@ -336,3 +336,84 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	In questo caso possiamo dire che $XY$ ammette valore atteso se $X$ e $Y$ ammettono momento
 	secondo.
 \end{proposition}
+
+\begin{example}
+	Consideriamo 2 lanci di un dado equilibrato e vogliamo calcolare i valori attesi di somma e
+	prodotto. Chiamiamo $X$ l'esito del primo lancio e $Y$ l'esito del secondo lancio. Iniziamo
+	con il calcolare il valore atteso della somma
+	\[ \E[X + Y] = \E[X] + \E[Y] = \frac{7}{2} + \frac{7}{2} = 7 \]
+	Calcoliamo ora il valore atteso del prodotto, assumendo che i lanci del dado siano prove
+	ripetute indipendenti
+	\[ \E[X \cdot Y] = \E[X] \cdot \E[Y] = \frac{7}{2} \cdot \frac{7}{2} = \frac{49}{4} \]
+	Quando $X$ assume un numero finito di valori ammette momento di ogni ordine.
+\end{example}
+
+\begin{example}
+	Sia $S$ una popolazione e sia $X : S \to \R$ una variabile che rappresenta un carattere
+	discreto di un certo individuo della popolazione. L'estrazione di un individuo da $S$ è
+	modellizzata dal modello uniforme, $\Omega = S$, $\F = \mathcal{P}(\Omega)$ e $P$ è uniforme.
+	Abbiamo quindi che
+	\[
+		\E[X] = \sum_i x_i P(X = x_i) =
+		\sum_i x_i \cdot \frac{\# \{\omega \in S | X(\omega) = x_i\}}{\# S}
+	\]
+	Questo equivale alla \textbf{frequenza relativa} di $X = x_i$ su tutta la popolazione e quindi
+	$\E[X]$ è la media campionaria su tutta la popolazione e non su un singolo campione.
+\end{example}
+
+\subsection{Varianza}
+D'ora in poi supporremo che le variabili aleatorie che trattiamo abbiano momento secondo. A questo
+punto definiamo la \textbf{varianza} di una variabile aleatoria. Analogamente al caso della
+varianza in statistica descrittiva, la varianza di una variabile aleatoria $X$ misura la
+\emph{dispersione} di $X$ attorno al valore atteso $\E[X]$. La varianza di $X$ è la media pesata
+del quadrato degli scarti di $X$ da $\E[X]$.
+
+\begin{definition}
+	Data $X$ con momento secondo, si chiama \textbf{varianza} di $X$ la quantità
+	\[ \Var(X) = \E[(X - E[X])^2] \]
+	Si chiama \textbf{scarto quadratico medio} o \textbf{deviazione standard} la quantità
+	\[ \sigma(X) = \sqrt{\Var(X)} \]
+\end{definition}
+
+\begin{observation}
+	Come per il valore atteso, la varianza di $X$ dipende solo dalla legge $P_X$.
+\end{observation}
+
+Sviluppando il quadrato
+\[ (X - \E[X])^2 = X^2 + \E[X]^2 - 2 X \E[X] \]
+otteniamo
+\[ \Var(X) = \E[X^2] - \E[X]^2 \]
+Inoltre
+\[ \Var(aX + b) = a^2 \Var(X) \]
+
+\begin{example}
+	Calcoliamo ora la varianza del lancio di un dado data la variabile $X$ che rappresenta l'esito
+	di un lancio.
+	\[ \Var(X) = \E[X^2] - \E[X]^2 = \frac{91}{6} - \left(\frac{7}{2}\right)^2 = \frac{35}{12} \]
+\end{example}
+
+\begin{proposition}[Disuguaglianza di Chebyshev]
+	Sia $X$ con momento secondo e sia $d > 0$, allora
+	\[ P(|X - \E[X]| \geq d) \leq \frac{\Var(X)}{d^2} \]
+	possiamo vedere questo come una stima quantitativa della dispersione tramite la varianza.
+	\begin{proof}
+		Possiamo riscrivere il termine a sinistra dell'equazione precedente come
+		\[ P(|X - \E[X]|) \geq d = P((X - \E[X]^2) \geq d^2) \]
+		A questo punto, applicando la disuguaglianza di Markov otteniamo che
+		\[ P((X - \E[X]^2) \geq d^2) \leq \frac{\E[(X - \E[X])^2]}{d^2} \]
+		che, se notiamo equivale a
+		\[ \frac{\E[(X - \E[X])^2]}{d^2} = \frac{\Var(X)}{d^2} \]
+	\end{proof}
+\end{proposition}
+
+In particolare, quest'ultimo risultato ci dice che se la varianza è nulla allora la variabile
+aleatoria è costante a meno di un insieme trascurabile. Vale quindi
+\[ \Var(X) = 0 \Longleftrightarrow X = k \]
+dove $k$ è una costante e quindi vale anche
+\[ \Var(X) = 0 \Longleftrightarrow P(X - \E[X] \neq 0) = 1 \]
+
+\begin{example}
+	Consideriamo una popolazione $S$ e $X : S \to \R$ (discreta) che rappresenta il carattere di un
+	individuo della popolazione. In questo caso $\Var(X)$ è la varianza empirica ma su tutta la
+	popolazione.
+\end{example}

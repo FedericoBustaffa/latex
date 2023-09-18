@@ -1,0 +1,64 @@
+\section{Covarianza}
+La covarianza entra in gioco quando si ha a che fare con variabili aleatorie doppie o, più in
+generale, variabili aleatorie multiple.
+
+\begin{definition}
+	Date $X$ e $Y$ due variabili aleatorie con momento secondo, si chiama \textbf{covarianza} tra
+	$X$ e $Y$ la quantità
+	\begin{align*}
+		\Cov(X, Y) = & \E[(X - \E[X]) \cdot (Y - \E[Y])] \\
+		=            & \E[X \cdot Y] - \E[X] \cdot \E[Y]
+	\end{align*}
+\end{definition}
+
+\begin{definition}
+	Se $\Var(X) \neq 0$ e $\Var(Y) \neq 0$, si chiama \textbf{coefficiente di correlazione} la
+	quantità
+	\[
+		\rho(X,Y) = \frac{\Cov(X, Y)}{\sigma(X) \cdot \sigma(Y)}
+		= \frac{\Cov(X, Y)}{\sqrt{\Var(X) \cdot \Var(Y)}}
+	\]
+	Possiamo dire che quando $\rho(X,Y) = 0$ le due variabili $X$ e $Y$ sono \emph{scorrelate}.
+\end{definition}
+
+Di seguito elenchiamo alcune proprietà molto utili per la covarianza
+\begin{itemize}
+	\item $\Cov(aX + bY + c, Z) = a \cdot \Cov(X, Z) + b \cdot \Cov(Y, Z)$
+	\item $\Cov(X,Y) = \Cov(Y,X)$ e $\Var(X) = \Cov(X, X)$
+	\item $\Var(X+Y) = \Var(X) + \Var(Y) + 2 \cdot \Cov(X, Y)$
+	\item $\rho(X,Y) = 0 \implies \Var(X + Y) = \Var(X) + \Var(Y)$
+\end{itemize}
+
+\begin{proposition}
+	Date $X$ e $Y$ con momento secondo e tali che $\Var(X) \neq 0$ e $\Var(Y) \neq 0$, allora
+	\begin{itemize}
+		\item $|\rho(X,Y)| \leq 1$
+		\item $\min_{(a,b) \in \R^2} (\E[(Y - a - bX)^2]) = \Var(Y) \cdot (1 - \rho(X,Y)^2)$
+	\end{itemize}
+\end{proposition}
+
+Per capire meglio il secondo punto dobbiamo considerare $(a^*,b^*)$ che realizzano il minimo
+nella seconda equazione, la retta $y = a^* + b^* X$ è la migliore approssimazione lineare tra
+$X$ e $Y$. Stiamo cioè minimizzando la distanza tra $Y$ e $a+bX$. Il valore del minimo è
+proporzionale a $1 - \rho(X,Y)^2$.
+
+In altre parole, la relazione tra $X$ e $Y$ è tanto meglio approssimata dalla retta $y=a^*+b^*X$
+quanto più $\rho$ è vicino a 1. In questo senso $rho$ è una misura della \textbf{dipendenza lineare}
+tra $X$ e $Y$.
+
+A questo punto dobbiamo stare attenti a non confonderci con l'indipendenza: se due variabili sono
+indipendenti allora avranno una dipendenza lineare nulla $\rho=0$, ma in generale non è vero che
+se $\rho=0$ allora le due variabili sono indipendenti (potrebbe esserci un'altra forma di
+dipendenza).
+
+\begin{proposition}
+	Se $X$ e $Y$ sono indipendenti e hanno momento secondo, allora sono scorrelate. Il viceversa è
+	in generale falso.
+	\begin{proof}
+		Se $X$ e $Y$ sono indipendenti vale
+		\[ \Cov(X,Y) = \E[X \cdot Y] - \E[X] \cdot \E[Y] = 0 \]
+		Per il viceversa serve un controesempio e nel nostro caso possiamo considerare
+		$X \sim U([0,1])$ e $Y = X^2$. Si può verificare che $X$ e $Y$ sono scorrelate ma non sono
+		indipendenti.
+	\end{proof}
+\end{proposition}
