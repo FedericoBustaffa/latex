@@ -25,13 +25,28 @@ Per riuscire a capire meglio tutti questi concetti sarà necessario anche conosc
 di base sulle serie.
 
 \section{Spazi di probabilità}
-Possiamo vedere tutti gli eventi possibili come un insieme, detto \textbf{spazio campionario}, che
-indicheremo con $\Omega$.
-\begin{itemize}
-	\item $\Omega$ rappresenta lo \textbf{spazio campionario} di tutti i possibili eventi.
-	\item I sottoinsiemi di $\Omega$ sono detti \textbf{eventi}.
-	\item I singoli esiti appartenenti ad un insieme sono detti \textbf{eventi elementari}
-\end{itemize}
+Possiamo vedere tutti gli esiti possibili di un esperimento come un insieme, detto
+\textbf{spazio campionario}, che indicheremo con $\Omega$.
+
+Quando facciamo delle invece \emph{affermazioni} su tali eventi stiamo (in linea generale)
+restringendo lo spazio di campionario e ne stiamo considerando quindi dei sottoinsiemi, detti
+\textbf{eventi}.
+
+Se invece facciamo riferimento a singoli eventi appartenenti ad un insieme si parla di
+\textbf{eventi elementari} e sono sia gli elementi $\omega$ in $\Omega$ sia gli insiemi singoletto
+$\{\omega\}$.
+
+\begin{example}
+	Consideriamo ad esempio 2 lanci di moneta, e assegnamo il valore 1 a testa e 0 a croce. Abbiamo
+	che
+	\[ \Omega = \{ (0,0), (0,1), (1,0), (1,1) \} \]
+	rappresenta tutti possibili esiti di 2 lanci di moneta. E un evento elementare è per esempio
+	$(0,1)$. Se siamo interessati ad esempio a tutti casi in cui esce testa stiamo considerando un
+	sottoinsieme $A$ di $\Omega$ definito come segue
+	\[ A = \{ (0,1), (1,0), (1,1) \} \]
+	definendo quindi un sottoinsieme di eventi.
+\end{example}
+
 Dato che possiamo vedere gli spazi campionari come insiemi di eventi, è facile trovare una
 correlazione tra le operazioni insiemistiche e i connettivi logici.
 \begin{itemize}
@@ -65,6 +80,9 @@ equivalenti.
 Vogliamo ora definire la probabilità su una classe \emph{ammissibile} di eventi. Questo non è
 sempre possibile. Si vuole quindi definire una classe ammissibile che sia chiusa per le operazioni
 insiemistiche viste in precedenza.
+
+Per farlo introduciamo brevemente la notazione $\mathcal{P}(\Omega)$ per indicare tutti i
+sottoinsiemi di $\Omega$.
 
 \begin{definition}
 	Sia $\Omega \neq \emptyset$ e $\F \subseteq \mathcal{P}(\Omega)$ una famiglia di sottoinsiemi
