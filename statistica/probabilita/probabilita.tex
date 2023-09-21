@@ -41,7 +41,7 @@ $\{\omega\}$.
 	che
 	\[ \Omega = \{ (0,0), (0,1), (1,0), (1,1) \} \]
 	rappresenta tutti possibili esiti di 2 lanci di moneta. E un evento elementare è per esempio
-	$(0,1)$. Se siamo interessati ad esempio a tutti casi in cui esce testa stiamo considerando un
+	$(0,1)$. Con l'affermazione "\emph{è uscita almeno una testa}" stiamo considerando un
 	sottoinsieme $A$ di $\Omega$ definito come segue
 	\[ A = \{ (0,1), (1,0), (1,1) \} \]
 	definendo quindi un sottoinsieme di eventi.
@@ -50,16 +50,14 @@ $\{\omega\}$.
 Dato che possiamo vedere gli spazi campionari come insiemi di eventi, è facile trovare una
 correlazione tra le operazioni insiemistiche e i connettivi logici.
 \begin{itemize}
-	\item All'unione ($A \cup B$) corrisponde un \verb|or| logico.
-	\item All'intersezione ($A \cap B$) corrisponde un \verb|and| logico.
-	\item Alla complementazione ($A^c$) corrisponde un \verb|not| logico.
-	\item Alla differenza ($A \backslash B$) corrisponde $A \land \lnot B$
-	\item La relazione insiemistica di sottoinsieme ($A \subseteq B$) corrisponde
-	      all'implicazione logica. Se accade $A$ allora accade $B$.
-	\item Se $A \cap B = \emptyset$ allora si dice che gli eventi sono \textbf{disgiunti}.
+	\item $A \cup B =$ \verb|A OR B|
+	\item $A \cap B =$ \verb|A AND B|
+	\item $A^c = $ \verb|NOT A|
+	\item $A \backslash B =$ \verb|A AND NOT B|
+	\item $A \subseteq B =$ \verb|A implica B|
 \end{itemize}
-Ora possiamo gestire gli eventi legati da connettivi logici tramite operazioni insiemistiche
-equivalenti.
+Aggiungiamo inoltre che se $A \cap B = \emptyset$ allora si dice che $A$ e $B$ sono
+\textbf{disgiunti}.
 
 \begin{example}
 	Se lanciamo un dado a 6 facce abbiamo
@@ -67,22 +65,20 @@ equivalenti.
 	L'insieme degli eventi tali che il numero uscito sia
 	\begin{itemize}
 		\item Pari è $A = \{ 2, 4, 6 \}$
-		\item Maggiore di 3 è $B = \{ 4, 5, 6 \}$
-		\item Non pari è $A^c = \{ 1, 3, 5 \}$
-		\item Pari o maggiore di 3 è $A \cup B = \{ 2, 4, 5, 6 \}$
 		\item Pari e maggiore di 3 è $A \cap B = \{ 4, 6 \}$
 		\item Pari ma non maggiore di 3 è $A \backslash B = A \cap B^c = \{2\}$
 		\item Sia pari che dispari è $A \cap A^c = \emptyset$
 	\end{itemize}
 \end{example}
 
-\subsection{Funzione di probabilità}
-Vogliamo ora definire la probabilità su una classe \emph{ammissibile} di eventi. Questo non è
-sempre possibile. Si vuole quindi definire una classe ammissibile che sia chiusa per le operazioni
-insiemistiche viste in precedenza.
+Ora possiamo gestire gli eventi legati da connettivi logici tramite operazioni insiemistiche
+equivalenti.
 
-Per farlo introduciamo brevemente la notazione $\mathcal{P}(\Omega)$ per indicare tutti i
-sottoinsiemi di $\Omega$.
+Vogliamo quindi definire una classe di eventi che sia chiusa per le operazioni insiemistiche
+appena menzionate, ovvero vogliamo che le operazioni insiemistiche tra eventi producano ancora
+degli eventi. Questo è banale se consideriamo tutti i sottoinsiemi di $\Omega$, ossia le
+\textbf{parti} di $\Omega$, indicati con $\mathcal{P}(\Omega)$, ma in generale non è sempre
+possibile.
 
 \begin{definition}
 	Sia $\Omega \neq \emptyset$ e $\F \subseteq \mathcal{P}(\Omega)$ una famiglia di sottoinsiemi
@@ -102,15 +98,19 @@ sottoinsiemi di $\Omega$.
 	\end{itemize}
 \end{definition}
 
-La $\sigma$-algebra è quindi un'operazione chiusa per tutte le operazioni insiemistiche viste
+La $\sigma$-algebra $\F$ è quindi un insieme chiuso per tutte le operazioni insiemistiche viste
 sopra ed è la classe degli eventi \emph{ammissibili}.
 
-La \textbf{probabilità} di un evento $A \in \F$ è il grado di fiducia che $A$ si realizzi ed è
+\subsection{Funzione di probabilità}
+La \textbf{probabilità} $P$ di un evento $A \in \F$ è il grado di fiducia che $A$ si realizzi ed è
 compreso tra 0 e 1.
 
-\`E intuitivo supporre che, se due eventi $A$ e $B$ sono disgiunti, allora la probabilità che si
-realizzi $A \cup B$ è $P(A) + P(B)$. Questo equivale a dire che la probabilità è una funzione
-d'insieme \textbf{finitamente additiva}.
+\`E intuitivo che, se due eventi $A$ e $B$ sono disgiunti, allora la probabilità che si realizzi
+$A \cup B$ è $P(A) + P(B)$. Questo significa che la probabilità è una funzione d'insieme
+\textbf{finitamente additiva}.
+
+Queste prime nozioni servono per dare una definizione più generale e più rigorosa della probabilità
+considerando anche i casi in cui dobbiamo trattare infiniti eventi.
 
 \begin{definition}
 	Dato $\Omega$ un insieme e $\F$ una $\sigma$-algebra di $\Omega$, la \textbf{probabilità} è
@@ -142,12 +142,15 @@ d'insieme \textbf{finitamente additiva}.
 	\item $P(A^c) = 1 - P(A)$
 	\item $P(A \backslash B) = P(A) - P(B)$
 	\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
-	\item $P(A \cup B \cup C) = P(A) + P(B) + P(C) -
-		      P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
+	\item Caso non banale è quello di $P(A \cup B \cup C)$ in cui abbiamo che
+	      \begin{multline*}
+		      P(A \cup B \cup C) = P(A) + P(B) + P(C) - \\
+		      P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)
+	      \end{multline*}
 \end{itemize}
 
 \begin{proposition}
-	Supponiamo di avere una successione infinita $A \in \F$	allora
+	Sia $A \in \F$ una successione infinita, allora si dice che
 	\begin{itemize}
 		\item $A$ è una successione \textbf{crescente}, cioè $A_i \subseteq A_{i+1}$, $\forall i$
 		      se vale
@@ -168,32 +171,28 @@ d'insieme \textbf{finitamente additiva}.
 	Se $P(A) = 1$ si dice che $A$ è un evento \textbf{quasi certo}.
 \end{definition}
 
-Facciamo ora qualche considerazione sulla $\sigma$-algebra. Consideriamo $\Omega$ finito o
-numerabile e quindi così formato
+Facciamo ora qualche considerazione sulla $\sigma$-algebra per capire meglio il perché la abbiamo
+definita e perché in precedenza abbiamo detto che non sempre possiamo considerare l'insieme di
+tutti gli esiti possibili. Consideriamo $\Omega$ finito o numerabile
 \[ \Omega = \{ \omega_1, \omega_2, ..., \omega_i, ... \} \]
 allora possiamo prendere $\F = \mathcal{P}(\Omega)$ e la probabilità è univocamente determinata
 da $p_i = P(\{ \omega_i \})$. Vale infatti che
 \[ P(A) = \sum_{\omega_i \in A} p_i \]
-Quindi, nel caso $A$ abbia un numero
-\begin{itemize}
-	\item finito di elementi, $P(A)$ equivale alla somma dei $p_i$.
-	\item infinito di elementi, $P(A)$ equivale alla serie dei $p_i$.
-\end{itemize}
+Quindi, nel caso $A$ abbia un numero finito di elementi, $P(A)$ equivale alla somma dei $p_i$, se
+invece $A$ ha un numero infinito di elementi, $P(A)$ equivale alla serie dei $p_i$.
 
-\begin{example}
-	Vogliamo definire un modello di probabilità per la scelta casuale di un punto sull'intervallo
-	$[a,b]$ in modo che la scelta sia uniforme. In questo caso abbiamo che $\Omega$ è non
-	numerabile in quanto esistono infiniti punti tra $a$ e $b$. Ne segue che la probabilità di
-	scegliere un punto in questo intervallo con una funzione di probabilità definita come in
-	precedenza non può che essere 0.
+Proviamo ora a definire un modello di probabilità per la scelta casuale di un punto sull'intervallo
+$[a,b]$ in modo che la scelta sia uniforme. In questo caso abbiamo che $\Omega$ è non
+numerabile in quanto esistono infiniti punti tra $a$ e $b$. Ne segue che la probabilità di
+scegliere un punto in questo intervallo con una funzione di probabilità definita come in
+precedenza non può che essere 0 poiché abbiamo infiniti casi possibili e un solo caso favorevole.
 
-	Potrebbe venirci in mente di definire la probabilità di scegliere un punto $x$ all'interno di
-	$[a,b]$ come la lunghezza dell'intervallo ($b-a$) ma ci si può facilmente accorgere che non
-	si riesce a definire in modo coerente la lunghezza di ogni sottoinsieme di $[a,b]$.
+Potrebbe venirci in mente di definire la probabilità di scegliere un punto $x$ all'interno di
+$[a,b]$ come la lunghezza dell'intervallo ($b-a$) ma ci si può facilmente accorgere che non
+si riesce a definire in modo coerente la lunghezza di ogni sottoinsieme di $[a,b]$.
 
-	Per questo si introduce una $\sigma$-algebra più \emph{piccola} di $\mathcal{P}(\Omega)$,
-	detta degli \textbf{insiemi misurabili}.
-\end{example}
+Per questo si introduce una $\sigma$-algebra più \emph{piccola} di $\mathcal{P}(\Omega)$,
+detta degli \textbf{insiemi misurabili} che tratteremo più avanti.
 
 \subsubsection{Serie}
 Andiamo ora a capire trattare alcuni concetti di base, relativi alle serie, necessarie ad
