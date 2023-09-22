@@ -2,12 +2,12 @@
 Il concetto di \textbf{indipendenza} nasce dalla necessità di esprimere in modo rigoroso che la
 probabilità di un evento $A$ non cambia sapendo che accade $B$ e viceversa. Per $A$ e $B$ non
 trascurabili vale quindi
-\[ P(A) = P(A | B) \quad \Leftrightarrow \quad P(A) P(B) = P(A \cap B) \]
+\[ P(A) = P(A | B) \quad \Leftrightarrow \quad P(A) \cdot P(B) = P(A \cap B) \]
 Lo stesso vale per $P(B)$.
 
 \begin{definition}
 	Due eventi $A$ e $B$ sono \textbf{indipendenti} se
-	\[ P(A \cap B) = P(A) P(B) \]
+	\[ P(A \cap B) = P(A) \cdot P(B) \]
 \end{definition}
 
 Si può dimostrare per esercizio che, se $A$ e $B$ sono indipendenti allora lo sono anche
@@ -25,8 +25,8 @@ L'indipendenza è dunque stabile per la complementazione. Si può inoltre dimost
 
 \begin{example}
 	Si vuole estrarre una carta da un mazzo di 40 carte napoletane
-	\[ \Omega = \{ \text{carte} \} \]
-	Ci chiediamo se i due eventi
+	\[ \Omega = \{ \text{tutte le carte} \} \]
+	e ci chiediamo se i due eventi
 	\[ A = \{ \text{asso} \} \quad B = \{ \text{denari} \} \]
 	sono indipendenti. La probabilità di estrarre un asso equivale a
 	\[ P(A) = \frac{4}{40} = \frac{1}{10} \]

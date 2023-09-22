@@ -28,23 +28,22 @@ Dalla formula segue che se $A$ e $B$ sono eventi e $B$ è non trascurabile, allo
 e vale una formula più generale data dalla seguente proposizione.
 
 \begin{proposition}
-	Siano $A_1, A_2, ..., A_n$ eventi la cui intersezione è non trascurabile, allora
+	Siano $A_1, A_2, \dots, A_n$ eventi la cui intersezione è non trascurabile, allora
 	\[
-		P(A_1 \cap  ... \cap A_n) = P(A_1) P(A_2 | A_1) P(A_3 | A_1 \cap A_2)
-		... P(A_n | A_1 \cap ... \cap A_n)
+		P(A_1 \cap  \dots \cap A_n) = P(A_1) P(A_2 | A_1) P(A_3 | A_1 \cap A_2)
+		\dots P(A_n | A_1 \cap \dots \cap A_{n-1})
 	\]
 \end{proposition}
 
 \begin{definition}
-	Siano $B_1, ..., B_n$ eventi che formano una partizione dello spazio campionario $\Omega$, se
-	sono a due a due disgiunti e la loro unione è $\Omega$ stesso
-	\[ B_i \cap B_j = \emptyset \; \forall i,j \quad \land \quad B_1 \cup ... \cup B_n = \Omega \]
-	allora sono detti \textbf{sistema di alternative} se formano una partizione e sono tutti non
-	trascurabili.
+	Siano $B_1, \dots, B_n$ eventi non trascurabili che formano una partizione dello spazio
+	campionario $\Omega$, se
+	\[ B_i \cap B_j = \emptyset \quad \land \quad B_1 \cup \dots \cup B_n = \Omega \]
+	per ogni $i,j$ con $i \neq j$, allora sono detti \textbf{sistema di alternative}.
 \end{definition}
 
 \begin{theorem}[Fattorizzazione]\label{th: fattorizzazione}
-	Sia $B_1, ..., B_n$ un sistema di alternative, allora vale
+	Sia $B_1, \dots, B_n$ un sistema di alternative, allora vale
 	\[ P(A) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i) \]
 	Per ogni evento $A \in \F$.
 	\begin{proof}
@@ -76,7 +75,7 @@ probabilità condizionate a un sistema di alternative.
 	\[ P(r | 2) = \frac{8}{10} = \frac{4}{5} \]
 	A questo punto siamo in grado di calcolare la probabilità complessiva di estrarre una biglia
 	rossa ricavandola con il teorema di fattorizzazione \ref{th: fattorizzazione} in questo modo
-	\[ P(r) = P(r | 1) P(1) + P(r | 2) P(2) = \frac{13}{20} \]
+	\[ P(r) = P(r | 1) \cdot P(1) + P(r | 2) \cdot P(2) = \frac{13}{20} \]
 \end{example}
 
 \begin{example}
@@ -96,11 +95,17 @@ probabilità condizionate a un sistema di alternative.
 	Siano $A$ e $B$ eventi non trascurabili. Allora vale
 	\[ P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \]
 	In particolare se $B_1, B_2, ..., B_n$ allora vale
-	\[ P(B_i | A) = \frac{P(A | B_i) P(B_i)}{\sum_{j=1}^n P(A | B_j) P(B_j)} \]
-	per ogni $i = 1, ..., n$.
+	\[
+		P(B_i | A) = \frac{P(A | B_i) \cdot P(B_i)}{\displaystyle\sum_{j=1}^n P(A | B_j)
+			\cdot P(B_j)}
+	\]
+	per ogni $i = 1, \dots, n$.
 	\begin{proof}
 		La dimostrazione è molto semplice basta infatti notare che
-		\[ P(A | B) = \frac{P \cap B}{P(A)} = \frac{P(A | B) P(B)}{P(A)} \]
+		\[
+			P(B | A) = \frac{P(B \cap A)}{P(A)} =
+			\frac{P(A \cap B)}{P(A)} = \frac{P(A | B) \cdot P(B)}{P(A)}
+		\]
 		La seconda formula segue dalla prima dove $B=B_i$ e dalla formula di fattorizzazione
 		per $P(A)$.
 	\end{proof}
