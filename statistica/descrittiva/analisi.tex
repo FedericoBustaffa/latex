@@ -15,11 +15,12 @@ Procediamo con alcune definizioni fondamentali per l'analisi statistica dei dati
 \section{Varianza}
 La \textbf{varianza} è il valore che definisce la \emph{variabilità} di un campione o meglio è una
 misura di \emph{dispersione} dei dati. Andremo a vedere due tipi di varianza: campionaria ed
-empirica.
+empirica anche se ora non siamo ancora in grado di riusciamo a cogliere il motivo di questa
+doppia definizione.
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza campionaria} come
-	\[ \Var(x) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \overline{x})^2 \]
+	\[ \Var(x) = \frac{1}{n - 1} \cdot \sum_{i=1}^n (x_i - \overline{x})^2 \]
 	La varianza campionaria si applica meglio su campioni di dati.
 \end{definition}
 
@@ -43,21 +44,19 @@ empirica.
 	vettori sarà differente.
 \end{observation}
 
-\begin{definition}
-	Definiamo anche un'uguaglianza di base che, per il momento non andremo a spiegare, ma che in
-	seguito ci tornerà utile:
-	\[ \sum_{i=1}^n (x_i - \overline{x})^2 = \sum_{i=1}^n x_i^2 - n \overline{x}^2 \]
-	\begin{proof}
-		Sviluppando il quadrato possiamo facilmente convincerci che l'uguaglianza sia vera:
-		\begin{align*}
-			\sum_{i=1}^n (x_i - \overline{x})^2 =                                     \\
-			\sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2) =              \\
-			\sum_{i=1}^n x_i^2 - 2 \overline{x} \sum_{i=1}^n x_i + n \overline{x}^2 = \\
-			\sum_{i=1}^n x_i^2 - 2 n \overline{x}^2 + n \overline{x}^2 =              \\
-			\sum_{i=1}^n x_i^2 - n \overline{x}^2
-		\end{align*}
-	\end{proof}
-\end{definition}
+Definiamo anche un'uguaglianza di base che, per il momento non andremo a spiegare, ma che in
+seguito ci tornerà utile:
+\[ \sum_{i=1}^n (x_i - \overline{x})^2 = \sum_{i=1}^n x_i^2 - n \overline{x}^2 \]
+\begin{proof}
+	Sviluppando il quadrato possiamo facilmente convincerci che l'uguaglianza sia vera:
+	\begin{align*}
+		\sum_{i=1}^n (x_i - \overline{x})^2 =                                     \\
+		\sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2) =              \\
+		\sum_{i=1}^n x_i^2 - 2 \overline{x} \sum_{i=1}^n x_i + n \overline{x}^2 = \\
+		\sum_{i=1}^n x_i^2 - 2 n \overline{x}^2 + n \overline{x}^2 =              \\
+		\sum_{i=1}^n x_i^2 - n \overline{x}^2
+	\end{align*}
+\end{proof}
 
 \begin{definition}
 	Definiamo lo \textbf{scarto quadratico medio} come la radice quadrata della varianza

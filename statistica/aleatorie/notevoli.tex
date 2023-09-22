@@ -24,20 +24,17 @@ possiede la funzione di massa appena descritta ed è indicata con $B(n, p)$.
 \begin{example}
 	Su 5 lanci di un dado equilibrato, qual è la probabilità che il 6 appaia almeno 2 volte?
 
-	Per prima cosa definiamo $X$ come il numero di volte esce 6 nelle 5 prove. Vogliamo calcolare
-	la probabilità che il 6 esca almeno 2 volte in 5 lanci. Per farlo ci conviene passare al
-	complementare:
+	Per prima cosa definiamo $X$ come il numero di volte che esce 6 nelle 5 prove. Vogliamo
+	quindi calcolare la probabilità che il 6 esca almeno 2 volte in 5 lanci. Per farlo ci conviene
+	passare al problema complementare:
 	\[ P(X \geq 2) = 1 - (P(X = 0) + P(X = 1)) \]
-	Calcoliamo quindi $P(X=0)$:
-	\[
+	Calcoliamo quindi $P(X=0)$ e $P(X=1)$:
+	\begin{gather*}
 		P(X = 0) = \binom{5}{0} \cdot \left(\frac{1}{6}\right)^0 \cdot
-		\left(1 - \frac{1}{6}\right)^5 = \left(\frac{5}{6}\right)^5
-	\]
-	E ora calcoliamo $P(X=1)$:
-	\[
+		\left(1 - \frac{1}{6}\right)^5 = \left(\frac{5}{6}\right)^5 \\
 		P(X = 1) = \binom{5}{1} \cdot \left(\frac{1}{6}\right)^1 \cdot
 		\left(1 - \frac{1}{6}\right)^4 = \left(\frac{5}{6}\right)^4
-	\]
+	\end{gather*}
 	Siamo ora in grado di calcolare $P(X \geq 2)$ come
 	\[ P(X \geq 2) = 1 - \left( \left(\frac{5}{6}\right)^5 + \left(\frac{5}{6}\right)^4 \right) \]
 \end{example}

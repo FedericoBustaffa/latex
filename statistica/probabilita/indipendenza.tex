@@ -52,13 +52,8 @@ Siano $A$, $B$ e $C$ degli eventi. Per riuscire a dire che sono indipendenti c'�
 \end{itemize}
 
 \begin{example}
-	Consideriamo
-	\begin{align*}
-		\Omega = & \{ 1, 2, 3, 4 \} \\
-		A =      & \{ 1, 2 \}       \\
-		B =      & \{ 1, 3 \}       \\
-		C =      & \{ 2, 3 \}
-	\end{align*}
+	Consideriamo lo spazio campionario $\Omega=\{ 1,2,3,4 \}$ e i relativi sottoinsiemi
+	\[ A=\{ 1, 2 \} \quad B=\{ 1, 3 \} \quad C=\{ 2, 3 \} \]
 	con $P$ uniforme su $\Omega$. La probabilità che i singoli eventi si verifichino è di
 	\[ P(A) = P(B) = P(C) = \frac{2}{4} = \frac{1}{2} \]
 	La probabilità dell'intersezione degli eventi presi a due a due è di
@@ -72,12 +67,12 @@ Siano $A$, $B$ e $C$ degli eventi. Per riuscire a dire che sono indipendenti c'�
 \end{example}
 
 \begin{definition}
-	Dati $A_1, A_2, ..., A_n$ eventi, questi si dicono indipendenti se $\forall k$ intero con
-	$1 \leq k \leq n$ e $\forall \; 1 \leq i_1 < ... < i_k \leq n$ vale
+	Dati $A_1, A_2, ..., A_n$ eventi, questi si dicono \textbf{indipendenti} se $\forall k$ intero
+	con $1 \leq k \leq n$ e $\forall \; 1 \leq i_1 < ... < i_k \leq n$ vale
 	\[ P(A_{i_1} \cap ... \cap A_{i_k}) = P(A_{i_1}) \cdot ... \cdot P(A_{i_k}) \]
-	In altre parole la probabilità dell'intersezione degli eventi si deve poter spezzare come
-	prodotto delle probabilità dei singoli eventi.
 \end{definition}
+In altre parole la probabilità dell'intersezione degli eventi si deve poter spezzare come
+prodotto delle probabilità dei singoli eventi.
 
 \begin{observation}
 	Se $A_1, A_2, ..., A_n$ sono indipendenti allora sono indipendenti a due a due.

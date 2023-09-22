@@ -191,6 +191,7 @@
 {0.25em}% Space after theorem head
 {\small\sffamily\color{ocre}\thmname{#1}\nobreakspace\thmnumber{\@ifnotempty{#1}{}\@upn{#2}}% Theorem text (e.g. Theorem 2.1)
 	\thmnote{\nobreakspace\the\thm@notefont\sffamily\bfseries\color{black}---\nobreakspace#3.}} % Optional theorem note
+
 \renewcommand{\qedsymbol}{$\blacksquare$}% Optional qed square
 
 \newtheoremstyle{blacknumex}% Theorem style name
@@ -232,16 +233,20 @@
 % Defines the theorem text style for each type of theorem to one of the three styles above
 \newcounter{dummy}
 \numberwithin{dummy}{section}
+
 \theoremstyle{ocrenumbox}
 \newtheorem{theoremeT}[dummy]{Theorem}
 \newtheorem{problem}{Problem}[chapter]
 \newtheorem{exerciseT}{Exercise}[chapter]
+
 \theoremstyle{blacknumex}
 \newtheorem{exampleT}{Example}[chapter]
+
 \theoremstyle{blacknumbox}
 \newtheorem{vocabulary}{Vocabulary}[chapter]
 \newtheorem{definitionT}{Definition}[section]
 \newtheorem{corollaryT}[dummy]{Corollary}
+
 \theoremstyle{ocrenum}
 \newtheorem{proposition}[dummy]{Proposition}
 
