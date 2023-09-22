@@ -186,12 +186,10 @@ Sia cifratura che decifrazione hanno costo polinomiale con l'algoritmo di \emph{
 	l'algoritmo di Euclide esteso
 	\[ d = 7^{-1} \mod{40} = 23 \]
 	Adesso non ci rimane che cifrare o decifrare con le funzioni di cifratura e decifrazione descritte sopra
-	\[
-		\begin{matrix}
-			c = m^7 \mod{55} \\
-			m = c^{23} \mod{55}
-		\end{matrix}
-	\]
+	\begin{align*}
+		c = & m^7 \mod{55}    \\
+		m = & c^{23} \mod{55}
+	\end{align*}
 \end{example}
 
 \subsection{Correttezza}

@@ -1,0 +1,74 @@
+% --------------- STYLE ---------------
+\usepackage[margin=1.25in]{geometry}
+\usepackage{xcolor}
+
+\usepackage{fancyhdr}
+\usepackage[Sonny]{fncychap}
+\usepackage[most]{tcolorbox}
+
+% Font
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{sansmath}
+\sansmath
+
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+\rhead{\thepage}
+
+
+% --------------- MATH ---------------
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
+
+\usepackage{mdframed}
+\newtheoremstyle{th_style}
+{0pt}{0pt}
+{\normalfont}
+{}
+{\color{green!40!black}}
+{\;}{0.25em}
+{\thmname{\textbf{#1}}\thmnumber{ \textbf{#2}}{\color{black}\thmnote{\textbf{ -- #3}}}}
+
+\newmdenv[
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=green!40!black,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=0pt,
+	innerbottommargin=0pt,
+	leftmargin=0cm,
+	rightmargin=0cm,
+	linewidth=4pt
+]{dBox}
+
+\newmdenv[
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=green!40!black,
+	backgroundcolor=black!5,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=5pt,
+	leftmargin=0cm,
+	rightmargin=0cm,
+	linewidth=4pt
+]{pBox}
+
+\theoremstyle{th_style}
+\newtheorem{theoremeT}{Teorema}[chapter]
+\newtheorem{definitionT}{Definizione}[chapter]
+\newtheorem{propositionT}{Proposizione}[chapter]
+\newtheorem{corollary}{Corollario}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{observation}{Osservazione}[chapter]
+\newtheorem{exampleT}{Esempio}[section]
+
+\newenvironment{theorem}{\begin{pBox}\begin{theoremeT}}{\end{theoremeT}\end{pBox}}
+\newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}
+\newenvironment{proposition}{\begin{pBox}\begin{propositionT}}{\end{propositionT}\end{pBox}}
+\newenvironment{example}{\begin{dBox}\begin{exampleT}}{\end{exampleT}\end{dBox}}
