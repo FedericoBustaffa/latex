@@ -1,27 +1,12 @@
-% --------------- STYLE ---------------
-\usepackage[margin=1.25in]{geometry}
-\usepackage{xcolor}
-
-\usepackage{fancyhdr}
-\usepackage[Sonny]{fncychap}
-\usepackage[most]{tcolorbox}
-
-% Font
-\renewcommand{\familydefault}{\sfdefault}
-\usepackage{sansmath}
-\sansmath
-
-\pagestyle{fancy}
-\setlength{\headheight}{15pt}
-\rhead{\thepage}
-\cfoot{\thepage}
-
-
 % --------------- MATH ---------------
-\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
-
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathtools}
 \usepackage{mdframed}
-\newtheoremstyle{th_style}
+
+\newtheoremstyle{math_box}
 {0pt}{0pt}
 {\normalfont}
 {}
@@ -60,7 +45,7 @@
 	linewidth=4pt
 ]{pBox}
 
-\theoremstyle{th_style}
+\theoremstyle{math_box}
 \newtheorem{theoremeT}{Teorema}[chapter]
 \newtheorem{definitionT}{Definizione}[chapter]
 \newtheorem{propositionT}{Proposizione}[chapter]
