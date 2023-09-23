@@ -90,14 +90,18 @@ farlo dobbiamo definire gli strumenti necessari ad operare su tali spazi campion
 	Esiste una $\sigma$-algebra $\F \subset \mathcal{P}(\R)$ tale che
 	\[ (a, b) \in \F \]
 	con $-\infty \leq a < b \leq +\infty$ ed esiste
-	\[ \lambda : \F \to [0, +\infty) \]
-			che sia $\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$ vale
-			\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
+	\[ \lambda : \F \to \R \cup \{ +\infty \} \]
+	che sia $\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$ vale
+	\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
+	Chiamiamo $\lambda$ \textbf{misura di Lebesgue} gli elementi di $\F$
+	\textbf{insiemi misurabili}.
 \end{theorem}
 
-Chiameremo gli elementi di $\F$ \textbf{insiemi misurabili}. Intersecando tutti gli elementi di
-$\F$ con l'intervallo $[0,1]$ otteniamo i sottoinsiemi misurabili di quest'ultimo, che sono una
-$\sigma$-algebra sulla quale possiamo definire la probabilità
+Se ad esempio volessimo definire $\F_{[0,1]}$ come l'insieme dei misurabili nell'intervallo $[0,1]$
+\[ \F_{[0,1]} = \{ A \in \F | A \subseteq [0,1] \} \]
+dovremmo intersecare tutti gli elementi di $\F$ con l'intervallo $[0,1]$ otteniamo i sottoinsiemi
+misurabili di quest'ultimo, che sono una $\sigma$-algebra sulla quale possiamo definire la
+probabilità
 \[ P (A) = \lambda (A) \]
 per ogni $A \subset [0,1]$ misurabile, in modo che
 \[ P((a, b)) = |b - a| \]
