@@ -9,15 +9,46 @@ come $\sigma$-algebra le parti di $\R$ ($\F (\mathcal{P}(\R))$), che sia \textbf
 una successione finita o numerabile $x_1, x_2, \dots$ di punti.
 
 Ad esempio la probabilità associata al numero di volte che esce testa in due lanci di moneta è
-una probabilità discreta, concentrata su $\{0,1,2\}$.
+una probabilità discreta, concentrata su $\{0,1,2\}$. Infatti abbiamo che per due lanci di moneta
+i possibili esisti sono
+\[ \Omega = \{ (0,0), (0,1), (1,0), (1,1) \} \]
+Come possiamo vedere in un solo caso non esce testa, in due casi esce solo una testa e in un solo
+caso esce due volte testa.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				font=\footnotesize,
+				width=7.5cm,
+				height=4cm,
+				axis lines = left,
+				xlabel = numero di teste,
+				ylabel = probabilità,
+				xtick = {0, 1, 2},
+				ytick = {0, 1, 2},
+				ymin = 0, ymax = 2,
+				xmin = 0, xmax = 2,
+				grid = both,
+				grid style = dashed,
+				legend pos = north west,
+				enlargelimits
+			]
+
+			\draw [thick, blue] {(0, 0) -- (0, 1)};
+			\draw [thick, blue] {(1, 0) -- (1, 2)};
+			\draw [thick, blue] {(2, 0) -- (2, 1)};
+			\filldraw[blue] (0, 1) circle (1.5pt);
+			\filldraw[blue] (1, 2) circle (1.5pt);
+			\filldraw[blue] (2, 1) circle (1.5pt);
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
 
 Sia $p_i = p(x_i) = P(x_i)$ la probabilità che $x_i$ si verifichi e sia $A \subseteq \Omega$
 il sottoinsieme di eventi $x_i$, allora vale che
 \begin{equation}\label{eq: 3.1}
 	P(A) = \sum_{x_i \in A} p(x_i)
 \end{equation}
-Per adesso non stiamo dicendo nulla di diverso rispetto a quanto detto fin ora riguardo la
-probabilità e le sue proprietà.
 
 \begin{definition}
 	La funzione
@@ -31,6 +62,12 @@ probabilità e le sue proprietà.
 		\end{cases}
 	\]
 \end{definition}
+
+Per adesso non stiamo dicendo nulla di molto diverso rispetto a quanto detto sulla probabilità e
+le sue proprietà. Stiamo però fornendo un modo per modo per visualizzare la probabilità e come
+essa è distribuita sulla retta reale $\R$. La funzione di massa non fa altro che associare ad
+ogni evento dello spazio campionario una probabilità, associa invece probabilità nulla ad eventi
+non presenti nello spazio campionario.
 
 \begin{observation}
 	Facciamo ora alcune osservazioni:
@@ -46,8 +83,8 @@ probabilità e le sue proprietà.
 \end{observation}
 
 \subsection{Probabilità con densità}
-Prima di tutto dobbiamo definire gli strumenti necessari ad operare su spazi di probabilità
-continui.
+Vogliamo ora descrivere come la probabilità viene distribuita in spazi campionari continui. Per
+farlo dobbiamo definire gli strumenti necessari ad operare su tali spazi campionari.
 
 \begin{theorem}
 	Esiste una $\sigma$-algebra $\F \subset \mathcal{P}(\R)$ tale che

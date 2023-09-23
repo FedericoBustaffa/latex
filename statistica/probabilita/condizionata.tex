@@ -56,7 +56,7 @@ e vale una formula più generale data dalla seguente proposizione.
 \end{theorem}
 
 Generalmente questa formula si applica in casi in cui $P$ non è nota a priori ma sono note le
-probabilità condizionate a un sistema di alternative.
+probabilità condizionate relative ad un sistema di alternative.
 
 \begin{example}
 	Ci sono 2 urne, la prima con 5 biglie rosse e 5 blu, la seconda con 8 biglie rosse e 2 blu.
@@ -94,10 +94,10 @@ probabilità condizionate a un sistema di alternative.
 \begin{theorem}[Bayes]\label{th: bayes}
 	Siano $A$ e $B$ eventi non trascurabili. Allora vale
 	\[ P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \]
-	In particolare se $B_1, B_2, ..., B_n$ allora vale
+	In particolare se $B_1, B_2, \dots, B_n$ allora vale
 	\[
-		P(B_i | A) = \frac{P(A | B_i) \cdot P(B_i)}{\displaystyle\sum_{j=1}^n P(A | B_j)
-			\cdot P(B_j)}
+		P(B_i | A) = \frac{P(A | B_i) \cdot
+			P(B_i)}{\displaystyle\sum_{j=1}^n P(A | B_j) \cdot P(B_j)}
 	\]
 	per ogni $i = 1, \dots, n$.
 	\begin{proof}
@@ -129,6 +129,10 @@ un'alternativa $B_i$ di eventi \emph{causa}.
 	calcolare la probabilità che la persona sia effettivamente malata.
 	\[
 		P(\text{malato} | \text{positivo}) =
-		\frac{P(\text{positivo} | \text{malato}) P(\text{malato})}{P(\text{positivo})} = 0.25
+		\frac{P(\text{positivo} | \text{malato}) \cdot
+			P(\text{malato})}{P(\text{positivo})} = 0.25
 	\]
 \end{example}
+
+Come possiamo notare, si fa riferimento a casi in cui la probabilità condizionata nel membro di
+destra dell'equazione è già nota.
