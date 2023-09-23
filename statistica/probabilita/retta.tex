@@ -90,28 +90,34 @@ farlo dobbiamo definire gli strumenti necessari ad operare su tali spazi campion
 	Esiste una $\sigma$-algebra $\F \subset \mathcal{P}(\R)$ tale che
 	\[ (a, b) \in \F \]
 	con $-\infty \leq a < b \leq +\infty$ ed esiste
-	\[ \lambda : \F \to \R \cup \{ +\infty \} \]
+	\[ \lambda : \F \to \R^+ \]
 	che sia $\sigma$-additiva e tale che, per ogni $-\infty \leq a < b \leq +\infty$ vale
 	\[ \lambda((a,b)) = \lambda((a,b]) = \lambda ([a,b)) = \lambda([a,b]) = b - a \]
-	Chiamiamo $\lambda$ \textbf{misura di Lebesgue} gli elementi di $\F$
+	Chiamiamo $\lambda$ \textbf{misura di Lebesgue} e gli elementi di $\F$
 	\textbf{insiemi misurabili}.
 \end{theorem}
 
-Se ad esempio volessimo definire $\F_{[0,1]}$ come l'insieme dei misurabili nell'intervallo $[0,1]$
+Se ad esempio volessimo definire una $\sigma$-algebra per l'intervallo $[0,1]$, ossia l'insieme dei
+misurabili di tale intervallo, dovremmo intersecare tutti gli elementi di
+$\F \subset \mathcal{P}(\R)$ con l'intervallo $[0,1]$ ottenendo così
 \[ \F_{[0,1]} = \{ A \in \F | A \subseteq [0,1] \} \]
-dovremmo intersecare tutti gli elementi di $\F$ con l'intervallo $[0,1]$ otteniamo i sottoinsiemi
-misurabili di quest'ultimo, che sono una $\sigma$-algebra sulla quale possiamo definire la
-probabilità
+sulla quale possiamo definire la probabilità
 \[ P (A) = \lambda (A) \]
 per ogni $A \subset [0,1]$ misurabile, in modo che
 \[ P((a, b)) = |b - a| \]
-per ogni $a,b \in [0,1]$.
+per ogni $a,b \in [0,1]$. Questo è un caso particolare, poiché la lunghezza dell'intervallo, in
+generale, non corrisponde alla probabilità di ritrovarci all'interno di tale intervallo poiché si
+potrebbero considerare segmenti di lunghezza maggiore o minore di 1.
 
 \begin{observation}
 	Osserviamo che $\lambda$ assegna lunghezza nulla ai singoli punti, ovvero
 	\[ \lambda(x) = \lambda([x,x]) = x - x = 0 \]
 	e lo stesso vale per ogni sottoinsieme $A \subset \R$ con al più numerabili elementi.
 \end{observation}
+
+Quando abbiamo a che fare con spazi continui non possiamo calcolare la probabilità di
+\emph{scegliere} un punto a caso in un intervallo, ma possiamo calcolare la probabilità di trovarci
+all'interno di un certo intervallo.
 
 \begin{definition}
 	Si chiama \textbf{densità di probabilità} sulla retta reale, una funzione non negativa
@@ -123,10 +129,53 @@ per ogni $a,b \in [0,1]$.
 	per ogni $A \in \F$.
 \end{definition}
 
-Perché questa sia una buona definizione si deve controllare che $P$, così definita, soddisfi
+Perché questa sia una buona definizione si deve controllare che $P$, così definita, soddisfi la
+proprietà
 \[ P(\R) = \int_\R f(x) dx = 1 \]
-per ipotesi, ed inoltre se $A \cap B = \emptyset$ si ha che
+e che presi $A$ e $B$ tali che $A \cap B = \emptyset$, allora deve valere
 \[ P(A \cup B) = \int_{A \cup B} f(x) dx = \int_A f(x) dx + \int_B f(x) dx = P(A) + P(B) \]
-Se $X$ ha densità $f$, allora vale
-\[ P(X = t) = P_X (t) = \int_{\{t\}} f(x) dx = 0 \]
-per ogni $t \in \R$.
+Stiamo quindi dicendo che la probabilità di ritrovarci all'interno di un certo intervallo equivale
+all'area sottesa dal grafico in quell'intervallo. Se consideriamo due o più intervalli abbiamo
+invece che la probabilità di cadere all'interno di uno di questi due intervalli equivale alla
+somma delle due o più aree sottese dal grafico negli intervalli di interesse.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				font=\footnotesize,
+				width=8cm, height=5cm,
+				axis lines = center,
+				xtick={-2, -1, 1, 2},
+				ytick={0.5, 1},
+				xmin=-2, xmax=2,
+				ymin=0, ymax=1,
+				grid = both, grid style = dashed,
+				enlargelimits
+			]
+
+			\addplot[
+				name path=f,
+				domain=-3:3,
+				color=blue,
+				thick,
+				samples=100
+			]
+			{exp(-x^2 / 2)};
+
+			\addplot[
+				name path=x,
+				ultra thin
+			]{ 0 };
+
+			\addplot[
+				fill=blue,
+				fill opacity=0.3
+			] fill between [of=f and x, soft clip={domain=0:1}];
+
+			\addplot[
+				fill=blue,
+				fill opacity=0.3
+			] fill between [of=f and x, soft clip={domain=-2:-1}];
+		\end{axis}
+	\end{tikzpicture}
+\end{center}

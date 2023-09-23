@@ -19,7 +19,7 @@
 				enlargelimits
 			]
 
-			\addplot [
+			\addplot[
 				name path=f,
 				domain=0:5,
 				samples=100,
@@ -28,7 +28,7 @@
 			]
 			{log2(x)};
 
-			\addplot [
+			\addplot[
 				name path=g,
 				domain=0:5,
 				samples=100,
@@ -37,7 +37,7 @@
 			]
 			{sqrt(x)};
 
-			\addplot [
+			\addplot[
 				domain=-5:5,
 				samples=100,
 				thick,
@@ -45,7 +45,7 @@
 			]
 			{2^x};
 
-			\addplot [
+			\addplot[
 				domain=-5:5,
 				samples=100,
 				thick,
@@ -67,22 +67,22 @@
 	\begin{tikzpicture}
 		\begin{axis}[
 				title={Data},
-				font=\normalsize,
-				width=12cm,
+				font=\footnotesize,
+				width=10cm,
 				axis lines = center,
 				xlabel = $x$,
 				ylabel = $y$,
 				xtick = {-8, -4, 4, 8},
 				ytick = {-8, -4, 4, 8},
-				ymin = -10, ymax = 10,
-				xmin = -10, xmax = 10,
+				ymin = -8, ymax = 8,
+				xmin = -8, xmax = 8,
 				grid = both,
 				grid style = dotted,
 				legend pos = north west,
 				enlargelimits
 			]
 
-			\addplot [
+			\addplot[
 				domain=-10:10,
 				samples=100,
 				thick,
@@ -90,7 +90,8 @@
 				mark=*
 			]
 			coordinates { (-8, -8) (-4, -4) (0, 0) (4, 4) (8, 8) };
-			\addlegendentry{$x$};
+
+			\addlegendentry{$x$}
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
@@ -99,22 +100,32 @@
 	\begin{tikzpicture}
 		\begin{axis}[
 				axis lines = center,
-				axis line style = thick,
 				xtick={-2, -1, 1, 2},
-				xticklabels={-2, -1, 1, 2},
 				ytick={-2, -1, 1, 2},
-				yticklabels={-2, -1, 1, 2},
-				samples=100,
-				xmin=-2, xmax=2, ymin=-2, ymax=2
+				xmin=-2,
+				xmax=2,
+				ymin=-2,
+				ymax=2,
+				enlargelimits
 			]
 
 			\node[anchor=north east] at (0, 0) {$O$};
 
-			\addplot[name path=f, domain={-2:2}, thick, blue] {x^3 + x^2 - x - 0.5};
+			\addplot[
+				name path=f,
+				domain=-2:2,
+				samples=100,
+				thick,
+				color=blue
+			] {x^3 + x^2 - x - 0.5};
 
-			\addplot[name path=x, ultra thin] { 0 };
+			\addplot[name path=x, domain=-2:2, ultra thin, samples=10] { 0 };
 
-			\addplot[fill=blue, fill opacity=0.2] fill between [of=f and x, soft clip={domain=-1.45:0.85}];
+			\addplot[
+				fill=blue,
+				fill opacity=0.2,
+			]
+			fill between [of=f and x, soft clip={domain=-1.45:0.85}];
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
