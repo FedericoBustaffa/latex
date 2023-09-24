@@ -1,7 +1,7 @@
 \chapter{Variabili aleatorie}
-Introduciamo ora le variabili aleatorie. Esse sono, di fatto sono
-\textbf{caratteristiche quantitative} dell'esperimento in esame. In questa prima parte seguiranno
-qualche definizione ed esempi utili alla comprensione.
+Le variabili aleatorie sono, di fatto, \textbf{caratteristiche quantitative} dell'esperimento
+preso in esame. Non si tratta di altro che di una notazione per descrivere gli eventi ma sarà
+chiaro più avanti il loro significato e la loro utilità.
 
 \begin{example}
 	Si effettuano $n$ lanci di una moneta equilibrata ed essere interessati solo alle volte che
@@ -35,9 +35,9 @@ e perché sono state introdotte.
 \end{example}
 
 \begin{definition}
-	Per ogni $A \subseteq \R$ misurabile, definiamo
+	Per ogni $A \subseteq \R$ misurabile, definiamo l'insieme
 	\[ \{ X \in A \} = X^{-1}(A) = \{\omega \in \Omega | X(\omega) \in A \} \]
-	la \textbf{controimmagine} di $A$ tramite $X$.
+	come la \textbf{controimmagine} di $A$ tramite $X$.
 \end{definition}
 
 In altre parole possiamo dire che $P_X$ esprime come il carattere $X$ è distribuito
@@ -54,7 +54,7 @@ nell'esperimento.
 
 \begin{proposition}
 	Dalle considerazioni fatte segue che $P_X : \F \to \R$ è una probabilità su $(\R, \F)$, dove
-	$\F$ è l'insieme dei misurabili, verifica quindi
+	$\F$ è l'insieme dei misurabili e verifica quindi
 	\begin{itemize}
 		\item $P_X (\R) = 1$
 		\item $P_X(\cup_{i=1} A_i) = \sum_{i=1} P_X(A_i)$ con $A_1, A_2, ... \subseteq \R$
@@ -89,8 +89,8 @@ nell'esperimento.
 Le variabili aleatorie altro non sono che una notazione, che diventa conveniente nel momento in cui
 vogliamo considerare più caratteri di un esperimento (e quindi più variabili aleatorie).
 
-E nel momento in cui è necessario svolgere operazioni matematiche tra variabili aleatorie (ad
-esempio sommandole).
+Sono molto utili anche nel momento in cui è necessario svolgere operazioni matematiche tra
+variabili aleatorie (ad esempio sommandole).
 
 \begin{observation}
 	Data $\tilde{P}$, probabilità su $(\R, \F)$, allora esiste uno spazio $\Omega$ e una variabile
@@ -120,6 +120,11 @@ vale infatti che
 	$P_X$ ammette densità di probabilità $f$, ossia
 	\[ P(\{X \in A\}) = P_X (A) = \int_A f(x) dx \]
 \end{definition}
+
+Teniamo a mente che, in questo caso, $P_X$ non è determinata dalla sua densità ma dall'integrale
+della densità. In generale la funzione di densità ci fornisce solo un'idea di come il carattere sia
+distribuito nell'esperimento e non ci deve stupire se assume valori anche maggiori di 1 in quanto
+la densità \textbf{non} è una probabilità.
 
 \begin{example}
 	Consideriamo il caso dell'estrazione di un individuo $\omega$ da una popolazione. Supponiamo

@@ -5,8 +5,8 @@ ripartizione.
 
 \subsection{Funzione di ripartizione}
 \begin{definition}
-	Si chiama \textbf{funzione di ripartizione} di $X$ la funzione $F_X : \R \to [0,1]$, e ha
-	valore
+	Si chiama \textbf{funzione di ripartizione} di $X$ la funzione $F_X : \R \to [0,1]$ definita
+	come segue
 	\[ F_X(x) = P (X \leq x) = P_X ((-\infty, x]) \]
 	In altre parole, la funzione di ripartizione di $X$ indica la probabilità che tale variabile
 	aleatoria assuma valori inferiori ad un un certo valore $x$.
@@ -19,10 +19,7 @@ di ripartizione. Vediamo ora alcune proprietà della funzione di ripartizione:
 	\item $F_X$ è non decrescente, ossia se $x \leq y$ allora
 	      \[ F_X(x) = P(X \leq x) \leq P(X \leq y) = F_X(y) \]
 	\item Esistono i limiti
-	      \begin{gather*}
-		      \lim_{x \to -\infty} F_X(x) = 0 \\
-		      \lim_{x \to +\infty} F_X(x) = 1
-	      \end{gather*}
+	      \[ \lim_{x \to -\infty} F_X(x) = 0 \quad \quad \lim_{x \to +\infty} F_X(x) = 1 \]
 	\item $F$ è continua a destra, ossia se $x_n$ è una successione che converge ad $x$ con
 	      $x_n \geq x$, allora $F_X(x_n)$ converge ad $F(x)$.
 \end{itemize}
@@ -68,34 +65,32 @@ Graficamente una generica funzione di ripartizione appare in questo modo
 	\begin{tikzpicture}
 		\begin{axis}[
 				axis lines = center,
-				width = 10cm,
+				width = 8cm,
 				height = 5cm,
-				font = \small,
-				ymin=-0.2, ymax=1.2,
-				xmin=-1.3, xmax=4,
-				ytick=\empty
+				font = \footnotesize,
+				ymin=0, ymax=1,
+				xmin=-1, xmax=2,
+				xtick={-1, 1, 2},
+				ytick={0.5, 1},
+				enlargelimits
 			]
-			\addplot [thick, red, domain={-2 : -0.7}] {0};
-			\draw [thick, red] {(-0.7, 0) -- (-0.7, 0.2)};
-			\addplot [thick, red, domain={-0.7 : 1.2}] {0.2};
-			\draw [thick, red] {(1.2, 0.2) -- (1.2, 0.4)};
-			\addplot [thick, red, domain={1.2 : 1.6}] {0.4};
-			\draw [thick, red] {(1.6, 0.4) -- (1.6, 0.6)};
-			\addplot [thick, red, domain={1.6 : 2.1}] {0.6};
-			\draw [thick, red] {(2.1, 0.6) -- (2.1, 0.8)};
-			\addplot [thick, red, domain={2.1 : 3.4}] {0.8};
-			\draw [thick, red] {(3.4, 0.8) -- (3.4, 1)};
-			\addplot [thick, red, domain={3.4 : 4}] {1};
+			\addplot [thick, red, domain={-2 : 0}] {0};
+			\addplot [thick, red, domain={0 : 1}] {0.5};
+			\addplot [thick, red, domain={1 : 3}] {1};
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
 Per quanto riguarda invece le variabili aleatorie con densità $f$, abbiamo che la loro funzione di
 ripartizione soddisfa
 \[ F_X(x) = P(X \leq x) = \int_{-\infty}^x f(y) dy \]
-In particolare $F_X$ è continua (senza salti). Notiamo anche che se $f$ è continua a tratti, cioè
-se $F_X$ è di classe $C^1$ a tratti, allora $f$ si ottiene derivando $F_X$
-\[ f(x) = \frac{d}{dx} F_X (x) \]
-per ogni $x$ in cui $F_X$ è derivabile.
+In particolare $F_X$ è continua (senza salti).
+
+\begin{observation}
+	Notiamo anche che se $f$ è continua a tratti, cioè
+	se $F_X$ è di classe $C^1$ a tratti, allora $f$ si ottiene derivando $F_X$
+	\[ f(x) = \frac{d}{dx} F_X (x) \]
+	per ogni $x$ in cui $F_X$ è derivabile.
+\end{observation}
 
 \begin{observation}
 	Esistono variabili aleatorie con funzione di ripartizione continua ma che comunque non
