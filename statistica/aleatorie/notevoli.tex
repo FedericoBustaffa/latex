@@ -41,10 +41,8 @@ possiede la funzione di massa appena descritta ed è indicata con $B(n, p)$.
 \subsection{Variabili geometriche}
 Rimaniamo nel contesto delle prove ripetute indipendenti con esito successo o insuccesso. Sia $X$
 la variabile aleatoria che rappresenta l'istante del primo successo (l'istante è il numero della
-prova).
-
-Come possiamo notare, $X$ è discreta a valori in $\N^+ = \{ 1, 2, \dots \}$ e la sua funzione di
-massa vale
+prova). Come possiamo notare, $X$ è discreta a valori in $\N^+ = \{ 1, 2, \dots \}$ e la sua
+funzione di massa vale
 \[ P(X = h) = (1-p)^{h-1} \cdot p \]
 Questo ci dice la probabilità che abbiamo di ottenere il primo successo dopo $h$ tentativi.
 
@@ -62,15 +60,11 @@ funzione di massa appena descritta ed è indicata con $G(p)$.
 Una variabile aleatoria $X$ si dice \textbf{variabile aleatoria di Poisson} di parametro
 $\lambda > 0$ se è una variabile aleatoria discreta a valori in $\N$, con funzione di massa
 \[ P(X = h) = \frac{\lambda^h}{h!} \cdot e^{-\lambda} \]
-con $h \in \N$ e si indica con $P(\lambda)$.
-
-La variabile di Poisson conta il numero di \emph{eventi rari}, infatti, tale variabile aleatoria,
-approssima una binomiale di parametri $n$ e $p$ quando $n$ è grande, $p$ è piccola e
-$\lambda \simeq np$. Si può dimostrare infatti che, detta
+con $h \in \N$ e si indica con $P(\lambda)$. La variabile di Poisson conta il numero di
+\emph{eventi rari}, infatti, tale variabile aleatoria, approssima una binomiale di parametri $n$ e
+$p$ quando $n$ è grande, $p$ è piccola e $\lambda \approx np$. Si può dimostrare infatti che, detta
 \[ p^{(n)} (h) = \binom{n}{h} \cdot p_n^h \cdot \left( 1-p_n \right)^{n-h} \]
-la funzione di massa di $B(n, p_n)$, con
-\[ p_n = \frac{\lambda}{n} \]
-allora
+la funzione di massa di $B(n, p_n)$, con $p_n = \lambda / n$, allora
 \[ \lim_{n \to +\infty} p^{(n)} (h) = P_\lambda (h) = \frac{\lambda^h}{h!} \cdot e^{-\lambda} \]
 per ogni $h \in \N$.
 
@@ -80,8 +74,7 @@ per ogni $h \in \N$.
 	\begin{align*}
 		P(X \leq 2) = & P(X = 0) + P(X = 1) + P(X = 2)                          \\
 		=             & \frac{2.3^0}{0!} e^{-2.3} + \frac{2.3^1}{1!} e^{-2.3} +
-		\frac{2.3^2}{2!} e^{-2.3}                                               \\
-		=             & e^{-2.3} \left( 1 + 2.3 + \frac{2.3^2}{2} \right)
+		\frac{2.3^2}{2!} e^{-2.3}
 	\end{align*}
 \end{example}
 
@@ -109,11 +102,10 @@ in primo luogo che $f \geq 0$ e poi che
 \[
 	\int_{-\infty}^{+\infty} f(x) dx =
 	\int_0^{+\infty} \lambda \cdot e^{-\lambda x} dx =
-	-e^{\lambda x}
+	-e^{\lambda x} \Big|_0^{+\infty} = 1
 \]
-da valutarsi tra 0 e $+\infty$ che da come risultato 1. La variabile $X$ assume valori strettamente
-positivi con probabilità 1, poiché $f(x) = 0$ per ogni $x \leq 0$ e descrive il tempo di attesa tra
-due eventi aleatori.
+La variabile $X$ assume valori strettamente positivi con probabilità 1, poiché $f(x) = 0$ per ogni
+$x \leq 0$ e descrive il tempo di attesa tra due eventi aleatori.
 
 \begin{proposition}[Assenza di memoria]
 	Se $X$ è una variabile esponenziale di parametro $\lambda > 0$, allora $\forall s,t > 0$ vale
@@ -123,11 +115,12 @@ due eventi aleatori.
 
 \begin{example}
 	Il tempo di vita (in giorni) di un macchinario è descritto da una variabile esponenziale di
-	parametro $\lambda = \frac{1}{8}$. Ci chiediamo qual è la probabilità che il primo guasto si
+	parametro $\lambda = 1/8$. Ci chiediamo qual è la probabilità che il primo guasto si
 	verifichi dopo 6 giorni.
-	\[ P(X > 6) = \int_{6}^{+\infty} \frac{1}{8} e^{-x/8} dx = -e^{-x/8} \]
-	da valutare tra 6 e $+\infty$, il che equivale a
-	\[ 0 + e^{-6/8} = e^{-3/4} \]
+	\[
+		P(X > 6) = \int_{6}^{+\infty} \frac{1}{8} e^{-x/8} dx =
+		-e^{-x/8} \Big|_6^{+\infty} = e^{-3/4}
+	\]
 	Se il macchinario non si è rotto nei primi 2 giorni, qual è la probabilità che duri almeno 8
 	giorni?
 	\[ P(X \geq 8 | X > 2) = P(X \geq 6) = e^{-3/4} \]
