@@ -24,12 +24,13 @@ un controllo sui valori assumibili dall'integrale che definisce il valore atteso
 
 \begin{definition}
 	Sia $X$ una variabile discreta con funzione di massa $p$, si dice che $X$ ha
-	\textbf{valore atteso} se $\sum_i |x_i| p(x_i) < +\infty$, e in tal caso si chiama valore
-	atteso il numero
+	\textbf{valore atteso} se
+	\[ \sum_i |x_i| \cdot p(x_i) < +\infty \]
+	e in tal caso si chiama valore atteso il numero
 	\[ \E[X] = \sum_i x_i \cdot p(x_i) \]
 	Sia poi $X$ con densità $f$, essa ha \textbf{valore atteso} se
-	$\int_{-\infty}^{+\infty} |x| \cdot f(x) dx < +\infty$ e in tal caso si chiama valore atteso
-	il numero
+	\[ \int_{-\infty}^{+\infty} |x| \cdot f(x) dx < +\infty \]
+	e in tal caso si chiama valore atteso il numero
 	\[ \E[X] = \int_{-\infty}^{+\infty} x \cdot f(x) dx \]
 \end{definition}
 
@@ -271,7 +272,6 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	Nel grafico $\beta = 3$ ma, in generale, più $\beta$ è grande, più la funzione va velocemente
 	a 0. Ecco che il parametro $\beta$ determina quanto la coda della distribuzione sia
 	\emph{pesante} (valori bassi di $\beta$) o \emph{leggera} (valori alti di $\beta$).
-
 	Verifichiamo ora il momento di ordine $n$ considerando $g(x) = |x|^n \geq 0$ e dunque
 	\begin{align*}
 		\E[g(x)] = & \int g(x) f(x) dx                                    \\
@@ -290,10 +290,8 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	\[ \frac{\beta-1}{\beta-n-1} \]
 	nel caso $-\beta+n+1 = 0$ abbiamo che $\log(+\infty) = +\infty$ e quindi il valore atteso è
 	$+\infty$, nel caso di $-\beta+n+1 > 0$ abbiamo che l'esponente di $x$ nella della prima
-	equazione e positivo e dunque, per $x \to +\infty$, il valore atteso è $+\infty$.
-
-	Concludiamo che $X$ ammette momento di ordine $n$ se e solo se $-\beta+n+1 < 0$ ovvero se e
-	solo se
+	equazione e positivo e dunque, per $x \to +\infty$, il valore atteso è $+\infty$. Concludiamo
+	che $X$ ammette momento di ordine $n$ se e solo se $-\beta+n+1 < 0$ ovvero se e solo se
 	\[ n < \beta - 1 \]
 	Deduciamo quindi che, quanto più grande è $\beta$ (e quindi quanto più sono leggere le code)
 	tanti di più sono i momenti che possiamo ammettere.

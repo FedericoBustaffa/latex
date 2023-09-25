@@ -142,8 +142,8 @@ chiediamo se la variabile aleatoria
 abbia densità e se sì, come calcolarla. In generale $Y$ può non avere densità, ad esempio, se $h$
 è costante, allora $Y$ è costante, in particolare è discreta (e quindi non ammette densità).
 
-Anche nel caso in cui $Y$ ammette densità non esiste una formula generale (cioè valida per ogni
-$h$). In generale, si può sempre provare a calcolare la funzione di ripartizione di $Y$
+Anche quando $Y$ ammette densità non esiste una formula generale (cioè valida per ogni $h$) per
+calcolarla. Però si può sempre provare a calcolare la funzione di ripartizione di $Y$
 \[ F_Y (y) = P(Y \leq y) = P(h(X) \leq y) \]
 in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette densità
 \[ f_Y = \frac{d}{dy} F_Y \]
@@ -156,7 +156,7 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 	aleatoria $Y = h \circ X$ ha densità $f_Y$ data dalla formula
 	\[
 		f_Y(y) = \begin{cases}
-			f_X (h^{-1} (y)) \left| \frac{d h^{-1}}{dy} (y) \right| & y \in B    \\[2ex]
+			f_X (h^{-1} (y)) \left| \frac{d h^{-1}}{dy} (y) \right| & y \in B    \\[1ex]
 			0                                                       & y \notin B
 		\end{cases}
 	\]
@@ -167,14 +167,12 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 \end{proposition}
 
 \begin{example}
-	Sia $X = U([-1, 2])$ e sia $Z = X^2$. Vogliamo sapere se $Z$ ha densità e se sì come calcolarla.
-
-	Possiamo pensare di usare la formula del cambio di variabile, ma non possiamo poiché
-	$h(x) = x^2$ non è biunivoca nell'intervallo considerato. Cerchiamo quindi di calcolare la
-	funzione di ripartizione di $Z$.
-
-	Per prima cosa ci conviene capire dove prende valori la variabile $Z$. Poiché $X$ sta in
-	$(-1, 2)$, possiamo dire che $Z$ sta in $(0,4)$. Questo ci dice che
+	Sia $X \sim U([-1, 2])$ e sia $Z = X^2$. Vogliamo sapere se $Z$ ha densità e se sì come
+	calcolarla. Possiamo pensare di usare la formula del cambio di variabile, ma non possiamo
+	poiché $h(x) = x^2$ non è biunivoca nell'intervallo considerato. Cerchiamo quindi di calcolare
+	la funzione di ripartizione di $Z$. Per prima cosa ci conviene capire dove prende valori la
+	variabile $Z$. Poiché $X$ sta in $(-1, 2)$, possiamo dire che $Z$ sta in $(0,4)$. Questo ci
+	dice che
 	\begin{gather*}
 		F_Z(z) = P(Z \leq z) = 0 \quad z \leq 0 \\
 		F_Z(z) = P(Z \leq z) = 1 \quad z \geq 4
@@ -195,16 +193,18 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 	dalla formula
 	\[
 		f_Z (z) = \frac{d}{dz} F_Z(z) = \begin{cases}
-			0                     & z \notin (0,4) \\[2ex]
+			0                     & z \notin (0,4) \\[1ex]
 			\dfrac{1}{3 \sqrt{z}} & z \in (0,1)    \\[2ex]
 			\dfrac{1}{6 \sqrt{z}} & z \in (1, 4)
 		\end{cases}
 	\]
 \end{example}
 
+Per l'esercizio appena visto tenere a mente che nel caso uniforme, la probabilità che $X$ sia
+compreso tra $c$ e $d$ è data dalla lunghezza di $(c,d) \cap (a,b)$, diviso la lunghezza di $(a,b)$.
+
 \begin{example}
 	Sia $Y \simeq E(2)$ e sia $W = Y^2$, ci chiediamo se $W$ abbia densità e se sì come calcolarla.
-
 	In questo caso si può applicare la formula del cambio di variabili dato che la funzione
 	\[ h : (0, +\infty) \to (0, +\infty) \quad h(x) = x^2 \]
 	è biunivoca, $C^1$ con inversa $C^1$.
