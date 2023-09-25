@@ -141,13 +141,10 @@ chiediamo se la variabile aleatoria
 \[ Y : \Omega \to \R, \quad Y = h \circ X \]
 abbia densità e se sì, come calcolarla. In generale $Y$ può non avere densità, ad esempio, se $h$
 è costante, allora $Y$ è costante, in particolare è discreta (e quindi non ammette densità).
-
 Anche quando $Y$ ammette densità non esiste una formula generale (cioè valida per ogni $h$) per
 calcolarla. Però si può sempre provare a calcolare la funzione di ripartizione di $Y$
 \[ F_Y (y) = P(Y \leq y) = P(h(X) \leq y) \]
-in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette densità
-\[ f_Y = \frac{d}{dy} F_Y \]
-Se $h$ è regolare e biunivoca, si ha una formula per la densità.
+in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette come densità la derivata di $F_Y$.
 
 \begin{proposition}[Cambio di variabile]
 	Supponiamo che $X$ sia una variabile aleatoria con densità $f_X$ supportata su un intervallo
@@ -168,46 +165,54 @@ Se $h$ è regolare e biunivoca, si ha una formula per la densità.
 
 \begin{example}
 	Sia $X \sim U([-1, 2])$ e sia $Z = X^2$. Vogliamo sapere se $Z$ ha densità e se sì come
-	calcolarla. Possiamo pensare di usare la formula del cambio di variabile, ma non possiamo
-	poiché $h(x) = x^2$ non è biunivoca nell'intervallo considerato. Cerchiamo quindi di calcolare
-	la funzione di ripartizione di $Z$. Per prima cosa ci conviene capire dove prende valori la
-	variabile $Z$. Poiché $X$ sta in $(-1, 2)$, possiamo dire che $Z$ sta in $(0,4)$. Questo ci
-	dice che
+	calcolarla. Non possiamo usare il cambio di variabile perché $h(x) = x^2$ non è biunivoca
+	nell'intervallo $[-1,2]$. Proviamo a calcolare $F_Z$. Per prima cosa capiamo che valori può
+	assumere $Z$. Poiché $X \in [-1, 2]$, allora $Z \in [0,4]$. Segue che
 	\begin{gather*}
 		F_Z(z) = P(Z \leq z) = 0 \quad z \leq 0 \\
 		F_Z(z) = P(Z \leq z) = 1 \quad z \geq 4
 	\end{gather*}
 	Ci interessa quindi calcolare la funzione di ripartizione per valori $0 < z < 4$.
 	\[ F_Z(z) = P(X^2 \leq z) = P(|X| \leq \sqrt{z}) \]
-	Distinguiamo due ulteriori casi, per valori $0 < z < 1$ abbiamo che
+	A questo punto dobbiamo notare che per $0 \leq z \leq 1$ e quindi per $-1 \leq x \leq 1$ vale
 	\[
 		P(|X| \leq \sqrt{z}) = P(-\sqrt{z} \leq X \leq \sqrt{z}) =
-		\frac{|-\sqrt{z} - \sqrt{z}|}{|-1 - 2|} = \frac{2 \sqrt{z}}{3}
+		\int_{-\sqrt{z}}^{\sqrt{z}} \frac{1}{3} dx = \frac{2 \sqrt{z}}{3}
 	\]
-	Per valori $1 \leq z < 4$ abbiamo che
+	Per valori $1 < z \leq 4$ abbiamo invece
 	\[
 		P(|X| \leq \sqrt{z}) = P(-1 \leq X \leq \sqrt{z}) =
-		\frac{|-1 - \sqrt{z}|}{|-1 - 2|} = \frac{\sqrt{z} + 1}{3}
+		\int_{-1}^{\sqrt{z}} \frac{1}{3} dx = \frac{\sqrt{z} + 1}{3}
 	\]
 	Si può verificare che $F_Z$ è continua su $\R$ e $C^1$ a tratti quindi $Z$ ammette densità data
-	dalla formula
+	dalla derivata di $F_Z$
 	\[
 		f_Z (z) = \frac{d}{dz} F_Z(z) = \begin{cases}
-			0                     & z \notin (0,4) \\[1ex]
-			\dfrac{1}{3 \sqrt{z}} & z \in (0,1)    \\[2ex]
-			\dfrac{1}{6 \sqrt{z}} & z \in (1, 4)
+			0                     & z \notin [0,4] \\[1ex]
+			\dfrac{1}{3 \sqrt{z}} & z \in [0,1]    \\[2ex]
+			\dfrac{1}{6 \sqrt{z}} & z \in (1, 4]
 		\end{cases}
 	\]
 \end{example}
 
-Per l'esercizio appena visto tenere a mente che nel caso uniforme, la probabilità che $X$ sia
-compreso tra $c$ e $d$ è data dalla lunghezza di $(c,d) \cap (a,b)$, diviso la lunghezza di $(a,b)$.
+Come possiamo notare abbiamo usato la funzione di ripartizione di $X$ per trovare quanto vale la
+funzione di ripartizione di $Z$ nei vari intervalli. In altre parole, calcolare quale sia la
+probabilità che $Z$ assuma certi valori, è direttamente collegato ai valori che può assumere $X$
+a causa del legame definito dalla funzione $h$.
 
 \begin{example}
 	Sia $Y \simeq E(2)$ e sia $W = Y^2$, ci chiediamo se $W$ abbia densità e se sì come calcolarla.
 	In questo caso si può applicare la formula del cambio di variabili dato che la funzione
 	\[ h : (0, +\infty) \to (0, +\infty) \quad h(x) = x^2 \]
-	è biunivoca, $C^1$ con inversa $C^1$.
+	è biunivoca, $C^1$ con inversa $C^1$, infatti troviamo che
+	\[
+		f_W(w) = \begin{cases}
+			2 \cdot e^{-2 \cdot \sqrt{w}} \cdot
+			\left| \dfrac{1}{2 \cdot \sqrt{w}} \right| & w > 0    \\
+			0                                          & w \leq 0
+		\end{cases}
+	\]
+	è la densità di $W$.
 \end{example}
 
 \subsection{Variabili Gaussiane}

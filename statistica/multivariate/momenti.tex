@@ -315,10 +315,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 		Vediamo che sull'insieme $\{ X > a \}$ abbiamo che $Z = a$ e, in particolare $Z \leq X$.
 		Sull'altro insieme abbiamo che $Z = 0$ ma $X \geq 0$ e quindi $Z \leq X$ su $\Omega$.
 		Vale quindi che
-		\begin{align*}
-			\E[X] \geq \E[Z] = & a \cdot P(Z = a) + 0 \cdot P(Z = 0) \\
-			=                  & a \cdot P(X \geq a)
-		\end{align*}
+		\[ \E[X] \geq \E[Z] = a \cdot P(Z = a) + 0 \cdot P(Z = 0) = a \cdot P(X \geq a) \]
 	\end{proof}
 \end{proposition}
 
@@ -331,8 +328,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 \begin{proposition}[Disuguaglianza di Schwartz]
 	Siano $X$ e $Y$ due variabili aleatorie, allora
 	\[ \E[|XY|] \leq \sqrt{\E[|X|^2]} \cdot \sqrt{\E[|Y|^2]} \]
-	In questo caso possiamo dire che $XY$ ammette valore atteso se $X$ e $Y$ ammettono momento
-	secondo.
+	Possiamo dire che $XY$ ammette valore atteso se $X$ e $Y$ ammettono momento secondo.
 \end{proposition}
 
 \begin{example}
