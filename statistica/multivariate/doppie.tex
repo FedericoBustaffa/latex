@@ -91,10 +91,12 @@ che invece è codificata da $P_{(X,Y)}$.
 	concentrata in un insieme finito o numerabile di punti $(x_i, y_j)$ con $i = 1,2,\dots$ e
 	$j = 1,2,\dots$ (cioè se $P_{(X,Y)}$ è concentrata su un insieme finito o numerabile). In
 	questo caso, come per variabili aleatorie discrete, $P_{(X,Y)}$ è identificata univocamente
-	dalla sua funzione di massa
+	dalla sua \textbf{funzione di massa}
 	\[ p(x_i, y_j) = P_{(X,Y)} (x_i, y_j) = P(X = x_i, Y = y_j) \]
 	per ogni $(x_i, y_j)$. Infatti, per ogni $A \subseteq \R^2$ vale che
 	\[ P_{(X,Y)} (A) = P((X,Y) \in A) = \sum_{(x_i, y_j) \in A} p(x_i, y_j) \]
+	e deve valere, come per le variabili aleatorie singole, che la stessa sommatoria su tutto $\R$,
+	abbia valore 1.
 \end{definition}
 
 \begin{proposition}
@@ -136,11 +138,12 @@ sotteso da $f$ su $A$.
 	Data una variabile aleatoria doppia $(X, Y)$ con densità $f$, anche $X$ e $Y$ hanno densità
 	date da
 	\begin{align*}
-		f_X(x) = \int_{-\infty}^{+\infty} f(x,y) dy & \forall x \in \R \\
-		f_Y(y) = \int_{-\infty}^{+\infty} f(x,y) dx & \forall y \in \R
+		f_X(x) = \int_{-\infty}^{+\infty} f(x,y) dy \quad \forall x \in \R \\
+		f_Y(y) = \int_{-\infty}^{+\infty} f(x,y) dx \quad \forall y \in \R
 	\end{align*}
 	\begin{proof}
-		Dobbiamo dimostrare che $P(X \in A) = \int_A f_X(x) dx$ con $f_X$ data dalla formula sopra.
+		Dobbiamo dimostrare che $P(X \in A) = \displaystyle\int_A f_X(x) dx$ con $f_X$ data dalla
+		formula sopra.
 		\begin{align*}
 			P(X \in A) = & P(X \in A, Y \in \R)                       \\
 			=            & P((X, Y) \in A \times \R)                  \\
