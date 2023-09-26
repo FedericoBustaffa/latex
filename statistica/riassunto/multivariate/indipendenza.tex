@@ -1,0 +1,218 @@
+\section{Variabili aleatorie indipendenti}
+Passiamo ora a parlare dell'\textbf{indipendenza} di variabili aleatorie partendo dalla definizione
+di indipendenza.
+
+\begin{definition}
+	Due variabili aleatorie $X$ e $Y$ su uno spazio di probabilità $(\Omega, \F, P)$ sono dette
+	\textbf{indipendenti} se $\forall A, B \subseteq \R$ (misurabili), gli eventi $X \in A$ e
+	$Y \in B$ sono indipendenti. Cioè se
+	\[ P(X \in A, Y \in B) = P(X \in A) \cdot P(Y \in B) \]
+	Più in generale un insieme di variabili aleatorie $X_1, X_2, \dots, X_n$ su uno spazio di
+	probabilità $(\Omega, \F, P)$ sono dette indipendenti se per ogni
+	$A_1, A_2, \dots, A_n \subseteq \R$ (misurabili), allora vale
+	\[ P(X_1 \in A_1, X_2 \in A_2, \dots, X_n \in A_n) = \prod_{i=1}^n P(X_i \in A_i) \]
+\end{definition}
+
+Dire che $X$ e $Y$ sono indipendenti, significa che ogni informazione legata ad $X$ non modifica
+le probabilità relative ad $Y$.
+
+\begin{example}
+	Se lanciamo 2 volte una moneta, le variabile aleatorie $X$ e $Y$ definite come segue
+	\begin{align*}
+		X = & \begin{cases}
+			      1 & \text{testa al primo lancio} \\
+			      0 & \text{croce al primo lancio}
+		      \end{cases}   \\[1ex]
+		Y = & \begin{cases}
+			      1 & \text{testa al secondo lancio} \\
+			      0 & \text{croce al secondo lancio}
+		      \end{cases}
+	\end{align*}
+	sono indipendenti.
+\end{example}
+
+\begin{example}
+	Data $X$ variabile aleatoria non costante, allora $X$ e $-X$ non sono indipendenti.
+\end{example}
+
+Più rigorosamente se volessi dimostrare la correttezza di quest'ultimo esempio dovremmo considerare
+$A \subseteq \R$ e $B = -A = \{ -x | x \in A \}$, allora
+\[ P(X \in A, -X \in B) = P(X \in A, X \in A) = P(X \in A) \]
+possiamo anche dimostrare che
+\[ P(X \in A) \cdot P(X \in B) = P(X \in A) \cdot P(X \in A) = P(X \in A)^2 \]
+Se avessimo indipendenza, potremmo scrivere
+\[ P(X \in A)^2 = P(X \in A) \]
+per ogni $A \in \R$, cioè $P(X \in A) = 0$ oppure $P(X \in A) = 1$ che equivale a dire che $X$ è
+costante.
+
+\begin{observation}
+	Se $X_1, X_2, \dots, X_n$ sono variabili aleatorie indipendenti, allora sono indipendenti a 2
+	a 2 ($X_i, X_j$ sono indipendenti per ogni $i \neq j$). Il viceversa non vale.
+\end{observation}
+
+\begin{proposition}
+	Siano $X$ e $Y$ due variabili aleatorie discrete, con immagine rispettivamente nei punti $x_i$
+	e $y_j$, allora $X$ e $Y$ sono indipendenti se e solo se
+	\[ p(x_i, y_j) = p_X (x_i) \cdot p_Y (y_j) \]
+	per ogni $x_i, y_j$ e con $p(x,y)$ funzione di massa di $(X, Y)$ e $p_X$ e $p_Y$ funzioni di
+	massa rispettivamente di $X$ e $Y$.
+	\begin{proof}
+		Per dimostrare questo basta notare che
+		\begin{align*}
+			p_{(X,Y)} (x_i, y_j) = & P(X = x_i, Y = y_j)         \\
+			=                      & P(X = x_i) \cdot P(Y = y_j) \\
+			=                      & p_X (x_i) \cdot p_Y (y_j)
+		\end{align*}
+	\end{proof}
+
+	Data $(X, Y)$ con densità, $X$ e $Y$ sono indipendenti se e solo se
+	\[ f_{(X,Y)} (x,y) = f_X (x) \cdot f_Y (y) \]
+	per ogni $(x, y) \in \R^2$. Con $f_{(X,Y)}$, $f_X$, e $f_Y$ densità rispettivamente di
+	$(X,Y)$, $X$ e $Y$.
+	\begin{proof}
+		In questo caso supponiamo di avere $A, B \subseteq \R$ e vogliamo dimostrare che
+		\begin{align*}
+			P(X \in A, Y \in B) = & P((X,Y) \in A \times B)                                    \\
+			=                     & \sum_{(x_i, y_j) \in A \times B} p_{(x,y)} (x_i, y_j)      \\
+			=                     & \sum_{x_i \in A, y_j \in B} p_X(x_i) \cdot p_Y(y_j)        \\
+			=                     & \sum_{x_i \in A} \left( \sum_{y_j \in B} p_Y(y_j) \right)
+			p_X(x_i)                                                                           \\
+			=                     & \sum_{y_j \in B} p_Y(y_j) \cdot \sum_{x_i \in A} p_X (x_i) \\
+			=                     & P(Y \in B) \cdot P(X \in A)
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+\begin{observation}
+	Se $X$ e $Y$ sono indipendenti allora la funzione di massa/densità congiunta si ricava dalle
+	funzioni di massa/densità marginali. L'indipendenza è una proprietà della legge congiunta
+	perché
+	\[ P_{(X,Y)} (A \times B) = P_X(A) \cdot P_Y(B) \]
+	per ogni $A, B \subseteq \R$.
+\end{observation}
+
+\begin{example}
+	Riprendiamo l'esempio fatto in precedenza in cui abbiamo 4 punti, ciascuno con probabilità
+	$1/4$. In questo caso la densità congiunta di $i$ e $j$ è uguale a
+	\[ p_{(X,Y)} (i,j) = \frac{1}{4} \]
+	per ogni $i,j \in \{ -1, 1 \}^2$. Le densità marginali sono
+	\begin{align*}
+		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
+		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1
+	\end{align*}
+	A questo punto si può verificare che
+	\[ p_{(X,Y)} (i,j) = \frac{1}{4} = p_X(i) \cdot p_Y(j) \]
+	quindi $X$ e $Y$ sono indipendenti
+\end{example}
+
+\begin{example}
+	Riprendendo anche il secondo esempio in cui avevamo la densità congiunta che valeva
+	\[ P_{(x,y)} (i,j) = \frac{1}{2} \]
+	se $(i,j) = (1,1)$ o se $(i,j) = (-1,-1)$ e abbiamo le densità marginali che valgono
+	\begin{align*}
+		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
+		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1 \\
+	\end{align*}
+	A questo punto possiamo constatare che se conosciamo $X$ allora conosciamo anche $Y$, per
+	esempio
+	\[ p_{(x,y)} (1,-1) = 0 \neq p_x(1) \cdot p_y(-1) \]
+	dunque $X$ e $Y$ non sono indipendenti.
+\end{example}
+
+\begin{proposition}[Stabilità dell'indipendenza per composizione]
+	Se $X$ e $Y$ sono indipendenti, date $h, k : \R \to \R$, allora $h(X)$ e $k(Y)$ sono
+	indipendenti.
+
+	Più in generale se $X_1, \dots, X_n$ e $Y_1, \dots, Y_m$ sono variabili indipendenti e
+	$h : \R^n \to \R$ e $k : \R^m \to \R$, allora $h(X_1, \dots, X_n)$ e $k(Y_1, \dots, Y_m)$ sono
+	indipendenti.
+\end{proposition}
+
+Come per gli eventi, un caso rilevante di variabili aleatorie indipendenti, è dato dalle prove
+ripetute. In un esperimento ripetute più volte nelle medesime condizioni, variabili aleatorie
+associate a ripetizioni distinte o anche a gruppi disgiunti di ripetizioni, sono indipendenti.
+
+\begin{example}
+	Consideriamo $n$ prove ripetute, ciascuna con probabilità di successo $p$ (e di insuccesso
+	$1-p$). Abbiamo quindi $\Omega = \{0,1\}^n$ e la probabilità è definita come
+	\[ P(a_1, \dots, a_n) = p^{\# \{i | a_i = 1\}} \cdot (1-p)^{\# \{i | a_i = 0\}} \]
+	Consideriamo ora $X_i$ con $i = 1, \dots, n$ la variabile aleatoria che modellizza l'esito
+	dell'$i$-esimo esperimento e definita in come segue
+	\[ X_i (a_1, \dots, a_n) = a_i \]
+	Possiamo dubito dire che le varie $X_i$ sono indipendenti, inoltre, ciascun $X_i$ è una
+	variabile binomiale di parametro $p$ ($B(p)$). Se inoltre consideriamo la variabile aleatoria
+	\[ X = X_i + \dots + X_n \]
+	possiamo dire che $X$ conta il numero di successi nelle $n$ prove e sarà quindi una binomiale
+	$B(n,p)$.
+\end{example}
+
+\begin{example}
+	Sia $S$ una popolazione e sia $X : S \to \R$ una variabile aleatoria che rappresenta un
+	carattere (ad esempio $X(\omega)$ è il numero di figli di $\omega$).
+
+	Consideriamo ora l'estrazione di un campione di $n$ elementi da $S$ e sia $X_i$ l'esito della
+	misurazione del carattere dell'$i$-esimo elemento del campione.
+
+	Supponiamo che ogni elemento del campione sia scelto in modo casuale indipendentemente dalla
+	scelta di altri elementi.
+
+	In questo caso abbiamo $\Omega = S^n$, $P$ uniforme su $\Omega$ e il carattere dell'$i$-esimo
+	elemento definito come $X_i(\omega_1, \dots, \omega_n) = X (\omega_i)$. In questo caso si può
+	dimostrare che le $X_i$ sono indipendenti e hanno la stessa legge $P_X$ di $X$.
+\end{example}
+
+Data una coppia di variabili aleatorie $(X, Y)$ e $h : \R^2 \to \R$, vogliamo determinare la legge
+di $h(X, Y) : \Omega \to \R$. Non esiste una formula generale, ma si possono dare alcuni fatti e
+regole
+
+\begin{proposition}[Riproducibilità delle binomiali]
+	Siano $X \sim B(n, p)$, $Y \sim B(m, p)$, $X$ e $Y$ indipendenti, allora la variabile
+	\[ Z := X + Y \sim B(n + m, p) \]
+	\begin{proof}
+		Dobbiamo considerare due casi:
+		\begin{itemize}
+			\item \textbf{Caso (m = 1)}: in questo caso abbiamo $Y \sim B(p)$ quindi
+			      \[
+				      Y = \begin{cases}
+					      1 & \text{con probabilità } 1 \\
+					      0 & \text{con probabilità } 0
+				      \end{cases}
+			      \]
+			      e la probabilità che $Z = h$ è
+			      \begin{align*}
+				      P(Z = h) = & P(X = h, Y = 0) + P(X = h-1, Y = 1)                          \\
+				      =          & P(X = h) \cdot P(Y = 0) + P(X = h-1) \cdot P(Y = 1)          \\
+				      =          & \binom{n}{h} p^h (1-p)^{n-h} (1-p) +
+				      \binom{n}{h-1} p^{h-1} (1-p)^{n-h+1} p                                    \\
+				      =          & p^h (1-p)^{n-h+1} \left(\binom{n}{h} + \binom{n}{h-1}\right) \\
+				      =          & \binom{n+1}{h} p^h (1-p)^{n-h+1}
+			      \end{align*}
+			      che infatti è la funzione di massa di una binomiale $B(n+1 = m, p)$.
+			\item Il caso generale si ricava tramite induzione su $m$.
+		\end{itemize}
+	\end{proof}
+\end{proposition}
+
+\begin{proposition}
+	Siano $X$ e $Y$ discrete e indipendenti e sia $Z = X + Y$, allora
+	\[ P_Z(n) = P(Z = n) = \sum_{h=0}^n P_X(h) \cdot P_Y(n-h) \]
+\end{proposition}
+
+\begin{proposition}[Riproducibilità delle Poisson]
+	Siano $X \sim P(\lambda)$ e $Y \sim P(\nu)$ due variabili aleatorie indipendenti, allora
+	$X+Y \sim P(\lambda + \nu)$.
+\end{proposition}
+
+\begin{proposition}[Convoluzione]
+	Siano $X$ e $Y$ due variabili aleatorie con densità rispettivamente $f_X$ e $f_Y$ e
+	indipendenti, allora la variabile aleatoria $Z = X + Y$ ha densità
+	\[
+		f_Z (z) = \int_{-\infty}^{+\infty} f_X (x) f_Y (z - x) dx =
+		\int_{-\infty}^{+\infty} f_Y (y) f_X (z - y) dy
+	\]
+\end{proposition}
+
+\begin{proposition}[Riproducibilità delle Gaussiane]
+	Siano $X \sim N(\mu, \sigma^2)$ e $Y \sim N(\alpha, \beta^2)$ indipendenti, allora
+	\[ X + Y \sim N(\mu + \alpha, \sigma^2 + \beta^2) \]
+\end{proposition}

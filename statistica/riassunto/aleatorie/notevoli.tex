@@ -1,0 +1,295 @@
+\section{Variabili aleatorie notevoli}
+In questa sezione trattiamo le distribuzione di probabilità su $\R$ indispensabili per trattare
+ogni applicazione. Si tratta sempre di variabili discrete o definite tramite densità.
+
+\subsection{Variabili binomiali}
+Consideriamo come primo caso le \textbf{variabili binomiali} prendendo $n$ prove ripetute, con
+esito (per ciascuna prova) successo o insuccesso (schema di Bernoulli) e sia $p$ la probabilità di
+successo (nella singola prova).
+\[ P(a_1, \dots, a_n) = p^{\# \{i | a_i=1\}} \cdot (1-p)^{\# \{ i | a_i=0 \}} \]
+Sia $X$ la variabile aleatoria che conta il numero di successi, ossia
+\[ X(a_1, \dots, a_n) = \sum_{i=1}^n a_i \]
+Come possiamo notare $X$ è discreta a valori in $\{0,1,2,\dots,n\}$ e ha funzione di massa
+\[ P_X(h) = P(X = h) = \binom{n}{h} \cdot p^h \cdot (1-p)^{n-h} \]
+con $h \in \{ 0, 1, \dots, n \}$. Possiamo tradurre tutto questo nella probabilità che abbiamo di
+avere $h$ successi.
+
+Una \textbf{variabile aleatoria binomiale} di parametri $n \in \N^+$ e $p \in (0,1)$, è tale se
+possiede la funzione di massa appena descritta ed è indicata con $B(n, p)$.
+
+\begin{observation}
+	Per $n=1$ si parla di variabile aleatoria di Bernoulli e si indica con $B(p)$.
+\end{observation}
+
+\begin{example}
+	Su 5 lanci di un dado equilibrato, qual è la probabilità che il 6 appaia almeno 2 volte? Per
+	prima cosa definiamo $X$ come il numero di volte che esce 6 nelle 5 prove. Vogliamo quindi
+	calcolare la probabilità che il 6 esca almeno 2 volte in 5 lanci. Per farlo ci conviene passare
+	al problema complementare:
+	\[ P(X \geq 2) = 1 - (P(X = 0) + P(X = 1)) \]
+	Calcoliamo quindi $P(X=0)$ e $P(X=1)$:
+	\begin{gather*}
+		P(X = 0) = \binom{5}{0} \cdot \left(\frac{1}{6}\right)^0 \cdot
+		\left(1 - \frac{1}{6}\right)^5 = \left(\frac{5}{6}\right)^5 \\
+		P(X = 1) = \binom{5}{1} \cdot \left(\frac{1}{6}\right)^1 \cdot
+		\left(1 - \frac{1}{6}\right)^4 = \left(\frac{5}{6}\right)^4
+	\end{gather*}
+	Siamo ora in grado di calcolare $P(X \geq 2)$ come
+	\[ P(X \geq 2) = 1 - \left( \left(\frac{5}{6}\right)^5 + \left(\frac{5}{6}\right)^4 \right) \]
+\end{example}
+
+\subsection{Variabili geometriche}
+Rimaniamo nel contesto delle prove ripetute indipendenti con esito successo o insuccesso. Sia $X$
+la variabile aleatoria che rappresenta l'istante del primo successo (l'istante è il numero della
+prova). Come possiamo notare, $X$ è discreta a valori in $\N^+ = \{ 1, 2, \dots \}$ e la sua
+funzione di massa vale
+\[ P(X = h) = (1-p)^{h-1} \cdot p \]
+Questo ci dice la probabilità che abbiamo di ottenere il primo successo dopo $h$ tentativi.
+
+Una \textbf{variabile aleatoria geometrica} di parametro $p \in (0,1)$, è tale se possiede la
+funzione di massa appena descritta ed è indicata con $G(p)$.
+
+\begin{proposition}[Assenza di memoria]
+	Data una variabile geometrica di parametro $p$, per ogni $n,h \in \N^+$, vale
+	\[ P(X = n + h | X > n) = P(X = h) \]
+	La probabilità di successo dopo $h$ prove non cambia sapendo che il successo non si è
+	verificato nelle prime $n$ prove.
+\end{proposition}
+
+\subsection{Variabili di Poisson}
+Una variabile aleatoria $X$ si dice \textbf{variabile aleatoria di Poisson} di parametro
+$\lambda > 0$ se è una variabile aleatoria discreta a valori in $\N$, con funzione di massa
+\[ P(X = h) = \frac{\lambda^h}{h!} \cdot e^{-\lambda} \]
+con $h \in \N$ e si indica con $P(\lambda)$. La variabile di Poisson conta il numero di
+\emph{eventi rari}, infatti, tale variabile aleatoria, approssima una binomiale di parametri $n$ e
+$p$ quando $n$ è grande, $p$ è piccola e $\lambda \approx np$. Si può dimostrare infatti che, detta
+\[ p^{(n)} (h) = \binom{n}{h} \cdot p_n^h \cdot \left( 1-p_n \right)^{n-h} \]
+la funzione di massa di $B(n, p_n)$, con $p_n = \lambda / n$, allora
+\[ \lim_{n \to +\infty} p^{(n)} (h) = P_\lambda (h) = \frac{\lambda^h}{h!} \cdot e^{-\lambda} \]
+per ogni $h \in \N$.
+
+\begin{example}
+	Il numero di clienti ad un dato sportello è descritto da una variabile di Poisson di parametro
+	$\lambda = 2.3$. Qual è la probabilita di avere al massimo 2 clienti?
+	\begin{align*}
+		P(X \leq 2) = & P(X = 0) + P(X = 1) + P(X = 2)                          \\
+		=             & \frac{2.3^0}{0!} e^{-2.3} + \frac{2.3^1}{1!} e^{-2.3} +
+		\frac{2.3^2}{2!} e^{-2.3}
+	\end{align*}
+\end{example}
+
+\subsection{Variabili uniformi su un intervallo}
+Una variabile aleatoria $X$ è detta \textbf{uniforme} su un intervallo $(a, b)$ dato, se ha densità
+\[
+	f(x) = \begin{cases}
+		\dfrac{1}{b - a} & x \in (a, b)    \\[2ex]
+		0                & x \notin (a, b)
+	\end{cases}
+\]
+Una variabile aleatoria uniforme su $(a,b)$ rappresenta la posizione di un punto scelto a caso
+senza preferenze sull'intervallo $(a, b)$.
+
+\subsection{Variabili aleatorie esponenziali}
+Una variabile aleatoria $X$ è detta \textbf{esponenziale} di parametro $\lambda > 0$ se ha densità
+\[
+	f(x) = \begin{cases}
+		\lambda \cdot e^{-\lambda x} & x > 0    \\[2ex]
+		0                            & x \leq 0
+	\end{cases}
+\]
+e si indica con $E(\lambda)$. Possiamo verificare che $f$ sia effettivamente una densità notando
+in primo luogo che $f \geq 0$ e poi che
+\[
+	\int_{-\infty}^{+\infty} f(x) dx =
+	\int_0^{+\infty} \lambda \cdot e^{-\lambda x} dx =
+	-e^{\lambda x} \Big|_0^{+\infty} = 1
+\]
+La variabile $X$ assume valori strettamente positivi con probabilità 1, poiché $f(x) = 0$ per ogni
+$x \leq 0$ e descrive il tempo di attesa tra due eventi aleatori.
+
+\begin{proposition}[Assenza di memoria]
+	Se $X$ è una variabile esponenziale di parametro $\lambda > 0$, allora $\forall s,t > 0$ vale
+	\[ P(X \leq s + t | X > s) = P(X \leq t) \]
+	In altre parole, la probabilità che accada l'evento, non cambia sapendo che abbiamo atteso $s$.
+\end{proposition}
+
+\begin{example}
+	Il tempo di vita (in giorni) di un macchinario è descritto da una variabile esponenziale di
+	parametro $\lambda = 1/8$. Ci chiediamo qual è la probabilità che il primo guasto si
+	verifichi dopo 6 giorni.
+	\[
+		P(X > 6) = \int_{6}^{+\infty} \frac{1}{8} e^{-x/8} dx =
+		-e^{-x/8} \Big|_6^{+\infty} = e^{-3/4}
+	\]
+	Se il macchinario non si è rotto nei primi 2 giorni, qual è la probabilità che duri almeno 8
+	giorni?
+	\[ P(X \geq 8 | X > 2) = P(X \geq 6) = e^{-3/4} \]
+	Per l'assenza di memoria, è irrilevante il fatto che non si sia rotto nei primi 2 giorni e
+	dunque la probabilità è la stessa calcolata in precedenza.
+\end{example}
+
+\subsection{Trasformazioni di variabli aleatorie con densità}
+Sia $X : \Omega \to \R$ una variabile aleatoria con densità $f_X$, e sia $h : \R \to \R$. Ci
+chiediamo se la variabile aleatoria
+\[ Y : \Omega \to \R, \quad Y = h \circ X \]
+abbia densità e se sì, come calcolarla. In generale $Y$ può non avere densità, ad esempio, se $h$
+è costante, allora $Y$ è costante, in particolare è discreta (e quindi non ammette densità).
+Anche quando $Y$ ammette densità non esiste una formula generale (cioè valida per ogni $h$) per
+calcolarla. Però si può sempre provare a calcolare la funzione di ripartizione di $Y$
+\[ F_Y (y) = P(Y \leq y) = P(h(X) \leq y) \]
+in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette come densità la derivata di $F_Y$.
+
+\begin{proposition}[Cambio di variabile]
+	Supponiamo che $X$ sia una variabile aleatoria con densità $f_X$ supportata su un intervallo
+	aperto $A$ (cioè $f_X(x) = 0$ $\forall x \notin A$). Sia $h : A \to B$ con $B$ intervallo
+	aperto, con $h \in C^1$, biunivoca e con inversa $h^{-1} \in C^1$. Allora la variabile
+	aleatoria $Y = h \circ X$ ha densità $f_Y$ data dalla formula
+	\[
+		f_Y(y) = \begin{cases}
+			f_X (h^{-1} (y)) \left| \frac{d h^{-1}}{dy} (y) \right| & y \in B    \\[1ex]
+			0                                                       & y \notin B
+		\end{cases}
+	\]
+	Per ricordare meglio la formula possiamo tenere a mente che
+	\[ y = h(x) \quad \Rightarrow \quad x = h^{-1}(y) \]
+	e quindi
+	\[ dx = \frac{d h^{-1}}{dy} (y) dy \]
+\end{proposition}
+
+\begin{example}
+	Sia $X \sim U([-1, 2])$ e sia $Z = X^2$. Vogliamo sapere se $Z$ ha densità e se sì come
+	calcolarla. Non possiamo usare il cambio di variabile perché $h(x) = x^2$ non è biunivoca
+	nell'intervallo $[-1,2]$. Proviamo a calcolare $F_Z$. Per prima cosa capiamo che valori può
+	assumere $Z$. Poiché $X \in [-1, 2]$, allora $Z \in [0,4]$. Segue che
+	\begin{gather*}
+		F_Z(z) = P(Z \leq z) = 0 \quad z \leq 0 \\
+		F_Z(z) = P(Z \leq z) = 1 \quad z \geq 4
+	\end{gather*}
+	Ci interessa quindi calcolare la funzione di ripartizione per valori $0 < z < 4$.
+	\[ F_Z(z) = P(X^2 \leq z) = P(|X| \leq \sqrt{z}) \]
+	A questo punto dobbiamo notare che per $0 \leq z \leq 1$ e quindi per $-1 \leq x \leq 1$ vale
+	\[
+		P(|X| \leq \sqrt{z}) = P(-\sqrt{z} \leq X \leq \sqrt{z}) =
+		\int_{-\sqrt{z}}^{\sqrt{z}} \frac{1}{3} dx = \frac{2 \sqrt{z}}{3}
+	\]
+	Per valori $1 < z \leq 4$ abbiamo invece
+	\[
+		P(|X| \leq \sqrt{z}) = P(-1 \leq X \leq \sqrt{z}) =
+		\int_{-1}^{\sqrt{z}} \frac{1}{3} dx = \frac{\sqrt{z} + 1}{3}
+	\]
+	Si può verificare che $F_Z$ è continua su $\R$ e $C^1$ a tratti quindi $Z$ ammette densità data
+	dalla derivata di $F_Z$
+	\[
+		f_Z (z) = \frac{d}{dz} F_Z(z) = \begin{cases}
+			0                     & z \notin [0,4] \\[1ex]
+			\dfrac{1}{3 \sqrt{z}} & z \in [0,1]    \\[2ex]
+			\dfrac{1}{6 \sqrt{z}} & z \in (1, 4]
+		\end{cases}
+	\]
+\end{example}
+
+Come possiamo notare abbiamo usato la funzione di ripartizione di $X$ per trovare quanto vale la
+funzione di ripartizione di $Z$ nei vari intervalli. In altre parole, calcolare quale sia la
+probabilità che $Z$ assuma certi valori, è direttamente collegato ai valori che può assumere $X$
+a causa del legame definito dalla funzione $h$.
+
+\begin{example}
+	Sia $Y \simeq E(2)$ e sia $W = Y^2$, ci chiediamo se $W$ abbia densità e se sì come calcolarla.
+	In questo caso si può applicare la formula del cambio di variabili dato che la funzione
+	\[ h : (0, +\infty) \to (0, +\infty) \quad h(x) = x^2 \]
+	è biunivoca, $C^1$ con inversa $C^1$, infatti troviamo che
+	\[
+		f_W(w) = \begin{cases}
+			2 \cdot e^{-2 \cdot \sqrt{w}} \cdot
+			\left| \dfrac{1}{2 \cdot \sqrt{w}} \right| & w > 0    \\
+			0                                          & w \leq 0
+		\end{cases}
+	\]
+	è la densità di $W$.
+\end{example}
+
+\subsection{Variabili Gaussiane}
+La funzione $f(x) = e^{-x^2 / 2}$ è regolarissima (infinitamente derivabile), tende a 0 molto
+velocemente per $|x| \to \infty$ e quindi è integrabile, ma non è possibile scrivere la sua
+primitiva in termini di funzioni elementari. In sintesi significa che l'unico modo di rappresentare
+il valore di
+\[ \int_0^t e^{-x^2 / 2} dx \]
+per un generico $t$ è ricorrere ad approssimazioni numeriche. Tuttavia, per alcuni particolari
+valori di $t$ tale integrale assume valori semplici, ad esempio
+\[ \int_{-\infty}^{+\infty} e^{-x^2 / 2} dx = \sqrt{2 \pi} \]
+Di conseguenza, dividendo la funzione $e^{-x^2/2}$ per $\sqrt{2 \pi}$ si ottiene una densità di
+probabilità espressa da
+\[ \varphi (x) = \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2 / 2} \]
+che prende il nome di \textbf{densità Gaussiana} (o \textbf{normale}) \textbf{standard} e che viene
+indicata con $N(0,1)$. La sua funzione di ripartizione (di cui non possiamo dare una
+rappresentazione diversa) è
+\[ \Phi(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-t^2 / 2} dt \]
+Un altro valore importante è detto $\alpha$-quantile della variabile $N(0,1)$ ed indicato con la
+notazione $q_\alpha$. La Gaussiana standard ha anche alcune proprietà utili:
+\begin{itemize}
+	\item La sua densità $\varphi$ è pari, cioè $\varphi(x) = \varphi(-x)$, quindi la funzione è
+	      simmetrica rispetto all'asse $y$.
+	\item La funzione di ripartizione $\Phi$ gode della seguente proprietà
+	      \[ \Phi(-x) = 1 - \Phi(x) \]
+	      infatti vale
+	      \begin{align*}
+		      \Phi(-x) = & \int_{-\infty}^{-x} \varphi(y) dy           \\
+		      =          & \int_x^{+\infty} \varphi(-y') dy'           \\
+		      =          & \int_x^{+\infty} \varphi(y') dy'            \\
+		      =          & \int_{-\infty}^{+\infty} \varphi (y') dy' -
+		      \int_{-\infty}^x \varphi (y') dy'                        \\
+		      =          & 1 - \Phi(x)
+	      \end{align*}
+	      dove $y' = -y$ e vale in generale per densità $\varphi$ pari.
+	\item Data $X$ Gaussiana standard vale che
+	      \[ P(-t \leq X \leq t) = \Phi (t) - \Phi (-t) = 2 \Phi (t) - 1 \]
+	\item $P(X \leq 0) = \Phi (0) = 1 / 2$
+\end{itemize}
+Vogliamo ora calcolare
+\[ P(a < X < b) = \int_b^a \varphi (y) dy \]
+ma come abbiamo detto non esiste una formula esplicita. Si fa quindi ricorso alla funzione di
+ripartizione
+\begin{multline*}
+	P(a < X < b) = P(a \leq X < b) \\
+	= P(a < X \leq b) = P(a \leq X \leq b) = \Phi(b) - \Phi(a)
+\end{multline*}
+Della funzione di ripartizione esistono tavole contenenti approssimazioni numeriche per
+$x \in (0,4)$. Per $x \geq 4$ abbiamo che $\Phi(x) \simeq 1$, per $x < 0$ abbiamo invece
+$\Phi(x) = 1 - \Phi(-x)$. Altre delle approssimazioni più importanti sono
+\begin{gather*}
+	P(-1 \leq X \leq 1) \simeq 0.68 \\
+	P(-2 \leq X \leq 2) \simeq 0.94 \\
+	P(-3 \leq X \leq 3) \simeq 0.997
+\end{gather*}
+Leggendo al contrario le tavole, si ricavano gli $\alpha$-quantili
+\begin{itemize}
+	\item Per $\alpha \in (1/2, 1)$ abbiamo che $q_\alpha$ è tale che $\Phi(q_\alpha) = \alpha$.
+	\item Per $\alpha \in (0, 1/2)$ abbiamo che $q_{1-\alpha} = -q_\alpha$
+\end{itemize}
+Passiamo ora al caso generale di Gaussiana: data $X$ Gaussiana standard, siano $\sigma > 0$ e
+$\mu \in \R$ e sia $Y = \sigma X + \mu$ una variabile aleatoria. La funzione di ripartizione di
+$Y$ è data da
+\[
+	F_Y(y) = P(Y \leq y) = P(\sigma X + \mu \leq y)
+	= P\left(X \leq \frac{y - m}{\sigma}\right)
+	= \Phi \left(\frac{y - m}{\sigma}\right)
+\]
+e la sua densità (ottenuta derivando $F_Y$ o applicando la formula di cambio di variabile) è
+\[
+	f_Y(y) = \frac{1}{\sigma} \cdot \varphi \left(\frac{y - m}{\sigma}\right) =
+	\frac{1}{\sqrt{2 \pi} \sigma} \cdot e^{-\frac{(y - m)^2}{2 \sigma^2}}
+\]
+Quest'ultima funzione è detta \textbf{densità Gaussiana} (o \textbf{normale}) $N(\mu, \sigma^2)$,
+ovvero diciamo che $Y$ è Gaussiana $N(\mu, \sigma^2)$.
+
+In generale è sempre possibile ricondurre tutti i calcoli relativi alla funzione di ripartizione
+di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$: è sufficiente sostituire
+a $Y$ Gaussiana $N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$, con $X$ Gaussiana
+standard. Ad esempio, in particolare
+\[ P(a < Y < b) = P \left( \frac{a-m}{\sigma} < X < \frac{b-m}{\sigma} \right) \]
+
+\begin{theorem}[Riproducibilità]
+	Sia $Y$ una Gaussiana $N(\mu, \sigma^2)$, sia $V = \alpha Y + \beta$, con
+	$\alpha, \beta \in \R$ e $\alpha \neq 0$. Allora $V$ è una Gaussiana
+	$N(\alpha \mu + \beta, \alpha^2 \sigma^2)$.
+\end{theorem}

@@ -1,0 +1,54 @@
+\documentclass[11pt]{report}
+
+\usepackage{style}
+\usepackage{math_env}
+
+% --------------- TIKZ ---------------
+\usepackage{tikz, pgfplots, pgf-pie}
+\usepackage{caption, subcaption}
+\usepackage{tikz}
+\usepackage{scalerel}
+\usepackage{pict2e}
+\usepackage{tkz-euclide}
+\usepackage{pgfplots, pgfplotstable, pgf-pie}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns, arrows}
+\usetikzlibrary{shadows}
+\usetikzlibrary{external}
+
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{statistics, fillbetween}
+
+% --------------- TITLE ---------------
+\title{Statistica}
+\author{Federico Bustaffa}
+\date{02/02/2023}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{descrittiva/introduzione}
+\include{descrittiva/analisi}
+
+\include{probabilita/probabilita}
+\include{probabilita/spazi_eventi}
+\include{probabilita/combinatorio}
+\include{probabilita/condizionata}
+\include{probabilita/indipendenza}
+\include{probabilita/retta}
+
+\include{aleatorie/aleatorie}
+\include{aleatorie/ripartizione}
+\include{aleatorie/notevoli}
+
+\include{multivariate/doppie}
+\include{multivariate/indipendenza}
+\include{multivariate/momenti}
+\include{multivariate/covarianza}
+\include{multivariate/limite}
+
+\end{document}
+

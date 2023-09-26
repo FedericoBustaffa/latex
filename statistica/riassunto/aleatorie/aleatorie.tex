@@ -1,0 +1,154 @@
+\chapter{Variabili aleatorie}
+Le variabili aleatorie sono, di fatto, \textbf{caratteristiche quantitative} dell'esperimento
+preso in esame. Non si tratta di altro che di una notazione per descrivere gli eventi ma sarà
+chiaro più avanti il loro significato e la loro utilità.
+
+\begin{example}
+	Si effettuano $n$ lanci di una moneta equilibrata ed essere interessati solo alle volte che
+	esce testa. Per riuscire a farlo potremmo assegnare a testa il valore 1 e a croce il valore 0.
+	Di conseguenza otteniamo che il numero di volte che esce croce è
+	\[ X(a_1, a_2, \dots, a_n) = \sum_{i=1}^n a_i \]
+	dove gli $a_i$ sono gli esisti di ogni lancio.
+\end{example}
+
+\section{Legge di una variabile aleatoria}
+Iniziamo ora a dare qualche definizione per formalizzare meglio il concetto di variabile aleatoria
+e perché sono state introdotte.
+
+\begin{definition}
+	Dato uno spazio di probabilità $(\Omega, \F, P)$, si dice \textbf{variabile aleatoria} una
+	funzione
+	\[ X : \Omega \to \R \]
+	tale che, per ogni $A \subseteq \R$ misurabile, allora vale
+	\[ X^{-1}(A) \in \F \]
+\end{definition}
+
+\begin{example}
+	Si effettuano $n$ lanci di una moneta equilibrata e otteniamo:
+	\[ A = (a_1, \dots, a_n) \]
+	Vogliamo ora considerare
+	\begin{itemize}
+		\item numero di teste: $X(A) = \sum_{i=1}^n a_i$
+		\item numero di croci: $Y(A) = n - X(A)$
+		\item coppie consecutive testa: $Z(A) = \sum_{i=1}^{n-1} a_i \cdot a_{i+1}$
+	\end{itemize}
+\end{example}
+
+\begin{definition}
+	Per ogni $A \subseteq \R$ misurabile, definiamo l'insieme
+	\[ \{ X \in A \} = X^{-1}(A) = \{\omega \in \Omega | X(\omega) \in A \} \]
+	come la \textbf{controimmagine} di $A$ tramite $X$.
+\end{definition}
+
+In altre parole possiamo dire che $P_X$ esprime come il carattere $X$ è distribuito
+nell'esperimento.
+
+\begin{example}
+	Si effettuano $n$ lanci di moneta e consideriamo $X$ come il numero di volte che esce testa.
+	\[ X(A) = a_1 + \dots + a_n \]
+	L'insieme $\{ X \in \{ 0, 1 \} \}$ è l'insieme di casi in cui, per $n$ lanci di moneta,
+	otteniamo al massimo una testa. La probabilità di avere al massimo una testa
+	la esprimiamo come
+	\[ P_X (\{0,1\}) = P (\{X \in \{0,1\}\}) \]
+\end{example}
+
+\begin{proposition}
+	Dalle considerazioni fatte segue che $P_X : \F \to \R$ è una probabilità su $(\R, \F)$, dove
+	$\F$ è l'insieme dei misurabili e verifica quindi
+	\begin{itemize}
+		\item $P_X (\R) = 1$
+		\item $P_X(\cup_{i=1} A_i) = \sum_{i=1} P_X(A_i)$ con $A_1, A_2, ... \subseteq \R$
+		      misurabili a due a due disgiunti.
+	\end{itemize}
+\end{proposition}
+
+\begin{definition}
+	Definiamo \textbf{legge di probabilità} o \textbf{distribuzione} di $X$, come
+	\[ P_X (A) = P(\{ X \in A\}) \]
+	con $A \subseteq \R$ misurabile.
+\end{definition}
+
+\begin{example}
+	Si effettuano 2 lanci di una moneta equilibrata ($\Omega = \{ 0, 1 \}^2$) e definiamo $X$
+	come il numero di volte che esce testa. Quanto vale $P_X$? Come possiamo notare, $P_X$ è
+	concentrata su $\{ 0, 1, 2 \}$.
+	\[
+		P_X (0) = \frac{1}{4} \quad \quad
+		P_X (1) = \frac{1}{2} \quad \quad
+		P_X (2) = \frac{1}{4}
+	\]
+	Possiamo quindi dire che $P_X$ è la distribuzione del carattere $X$ all'interno
+	dell'esperimento.
+\end{example}
+
+\begin{definition}
+	Diciamo che $X$ e $Y$ sono \textbf{equidistribuite} se hanno la stessa legge, ovvero se
+	\[ P_X = P_Y \]
+\end{definition}
+
+Le variabili aleatorie altro non sono che una notazione, che diventa conveniente nel momento in cui
+vogliamo considerare più caratteri di un esperimento (e quindi più variabili aleatorie).
+
+Sono molto utili anche nel momento in cui è necessario svolgere operazioni matematiche tra
+variabili aleatorie (ad esempio sommandole).
+
+\begin{observation}
+	Data $\tilde{P}$, probabilità su $(\R, \F)$, allora esiste uno spazio $\Omega$ e una variabile
+	aleatoria $X : \Omega \to \R$ avente $\tilde{P}$ come legge ($P_X = \tilde{P})$.
+\end{observation}
+
+\begin{observation}
+	Se c'è un'unica variabile aleatoria $X$, è equivalente considerare $X$ oppure $P_X$.
+\end{observation}
+
+\subsection{Tipi di variabili aleatorie}
+Possiamo distinguere due classi di variabili aleatorie a seconda della loro legge.
+
+\begin{definition}
+	Una variabile aleatoria $X$ è detta \textbf{discreta} se $X(\Omega)$ è finita o numerabile, o
+	in modo equivalente, se la sua legge $P_X$ è discreta.
+\end{definition}
+
+Per quanto visto sulle probabilità discrete, $P_X$ è determinata dalla sua funzione di massa,
+ovvero
+\[ P_X (x_i) = P(X = x_i) \]
+vale infatti che
+\[ P(\{X \in A\}) = P_X (A) = \sum_{x_i \in A} P_X (x_i) \]
+
+\begin{definition}
+	Una variabile aleatoria $X$ è detta \textbf{con densità} o \textbf{assolutamente continua} se
+	$P_X$ ammette densità di probabilità $f$, ossia
+	\[ P(\{X \in A\}) = P_X (A) = \int_A f(x) dx \]
+\end{definition}
+
+Teniamo a mente che, in questo caso, $P_X$ non è determinata dalla sua densità ma dall'integrale
+della densità. In generale la funzione di densità ci fornisce solo un'idea di come il carattere sia
+distribuito nell'esperimento e non ci deve stupire se assume valori anche maggiori di 1 in quanto
+la densità \textbf{non} è una probabilità.
+
+\begin{example}
+	Consideriamo il caso dell'estrazione di un individuo $\omega$ da una popolazione. Supponiamo
+	quindi che $\Omega$ rappresenti la popolazione italiana e che
+	\begin{itemize}
+		\item $X(\omega)$ equivale al numero di figli di $\omega$ (carattere discreto).
+		\item $Y(\omega)$ equivale all'altezza di $\omega$ (carattere continuo).
+	\end{itemize}
+	Abbiamo che
+	\[ P_X(x_i) = P(X = x_i) = \frac{\# \{ w | X(w) = x_i\} }{\# \Omega} \]
+	ossia la frequenza relativa di $X = x_i$ su tutta la popolazione. $P_X(2)$ è quindi la
+	frequenza relativa, sulla popolazione italiana, delle persone con 2 figli.
+
+	Per quanto riguarda $Y$ invece, l'area sottesa da $f$ nell'intervallo $[a,b]$ equivale a
+	\[
+		\int_a^b f(x) dx = P (a \leq Y \leq b)
+		= \frac{\# \{ \omega | Y(\omega) \in [a,b] \}}{\# \Omega}
+	\]
+	ossia la frequenza relativa di $Y \in [a,b]$ su tutta la popolazione. Nel nostro esempio, se
+	consideriamo l'intervallo $[1.70, 1.80]$, abbiamo che
+	\[ \int_{1.70}^{1.80} f(x) dx = P (1.70 \leq Y \leq 1.80) \]
+	ossia la frequenza relativa, nella popolazione italiana, delle persone con altezza compresa tra
+	1.70 e 1.80.
+
+	Poiché anche nell'istogramma la frequenza relativa di $a \leq Y \leq b$ è l'area dei rettangoli
+	tra $a$ e $b$, la curva $f$ rappresenta un'ottima approssimazione di tale istogramma.
+\end{example}
