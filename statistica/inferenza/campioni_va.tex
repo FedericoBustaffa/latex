@@ -17,7 +17,7 @@ carattere in esame. In altre parole assumiamo di avere a disposizione $n$ variab
 $X_1, \dots, X_n$, indipendenti e aventi la stessa legge di X, che rappresentano il
 \textbf{campione} estratto dalla popolazione.
 
-\begin{definition}
+\begin{definition}\label{def: campione statistico}
 	Una famiglia finita $X_1, \dots, X_n$ di variabili aleatorie i.i.d si chiama
 	\textbf{campione statistico di numerosità} (o \textbf{taglia}) $n$ con la legge $P_X$ di $X$.
 \end{definition}
@@ -39,10 +39,12 @@ dipendenti da un parametro $\theta$ o da più parametri $\theta_1, \dots, \theta
 	varianza (i parametri sono media e varianza).
 \end{example}
 
+\label{def: statistica campionaria}
 L'obbiettivo della stima parametrica è ricostruire il parametro o i parametri incogniti, a partire
 dalle osservazioni, cioè in funzione del campione. Una funzione $g(X_1, \dots, X_n)$ di un campione
 statistico è chiamata \textbf{statistica campionaria} (per esempio la media campionaria).
 
+\label{def: stimatore}
 Uno \textbf{stimatore} di un parametro $\theta$ della distribuzione è una statistica campionaria,
 cioè una funzione $g(X_1, \dots, X_n)$ del campione, atta a stimare $\theta$.
 
@@ -60,7 +62,7 @@ cioè una funzione $g(X_1, \dots, X_n)$ del campione, atta a stimare $\theta$.
 Si pone quindi il problema di come scegliere un buon stimatore e di come valutarne la \emph{bontà}.
 Per fare questa valutazione vedremo tre criteri.
 
-\begin{definition}
+\begin{definition}\label{def: stimatore corretto}
 	Dato $\theta$ parametro della distribuzione e dato $X_1, \dots, X_n$ un campione della
 	distribuzione, una statistica $g(X_1, \dots, X_n)$ si dice \textbf{stimatore corretto} o
 	\textbf{non distorto} del parametro $\theta$ se
@@ -74,7 +76,7 @@ Per fare questa valutazione vedremo tre criteri.
 	\[ \E[X_n] = \E[X_1] \quad \quad \E[S_n^2] = \Var(X_1) \]
 \end{proposition}
 
-\begin{definition}
+\begin{definition}\label{def: stimatore consistente}
 	Dato un parametro $\theta$ della distribuzione e un campione $X_1, \dots, X_n, \dots$ di
 	infinite variabili aleatorie i.i.d, la successione di statistiche $g_n(X_1, \dots, X_n)$ si
 	dice uno stimatore \textbf{consistente} di $\theta$ se, per $n \to +\infty$, allora
@@ -88,7 +90,7 @@ La media campionaria e la varianza campionaria sono stimatori consistenti rispet
 atteso e varianza. La media campionaria lo è per la legge dei grandi numeri, la varianza lo è per
 un suo corollario.
 
-\begin{definition}
+\begin{definition}\label{def: stimatore efficiente}
 	Dato un parametro $\theta$ e un campione $X_1, \dots, X_n$ e dati due stimatori corretti
 	$g(X_1, \dots, X_n)$ e $h(X_1, \dots, X_m)$, diciamo che $g(X_1, \dots, X_n)$ è più
 	\textbf{efficiente} di $h(X_1, \dots, X_m)$ se

@@ -1,0 +1,73 @@
+% --------------- MATH ---------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{mdframed}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+
+\newtheoremstyle{math_box}
+{0pt}
+{0pt}
+{\normalfont}
+{}
+{\color{green!40!black}}
+{\;}
+{0.25em}
+{\thmname{\textbf{#1}}\thmnumber{ \textbf{#2}}{\color{black}\thmnote{\textbf{ -- #3}}}}
+
+\newmdenv[
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=green!40!black,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=0pt,
+	innerbottommargin=0pt,
+	leftmargin=0cm,
+	rightmargin=0cm,
+	linewidth=4pt
+]{dBox}
+
+\newmdenv[
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+	linecolor=green!40!black,
+	backgroundcolor=black!5,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=5pt,
+	leftmargin=0cm,
+	rightmargin=0cm,
+	linewidth=4pt
+]{pBox}
+
+\theoremstyle{math_box}
+\newtheorem{theoremeT}{Teorema}[chapter]
+\newtheorem{definitionT}{Definizione}[chapter]
+\newtheorem{propositionT}{Proposizione}[chapter]
+\newtheorem{corollary}{Corollario}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{observation}{Osservazione}[chapter]
+\newtheorem{exampleT}{Esempio}[section]
+
+\newenvironment{theorem}{\begin{pBox}\begin{theoremeT}}{\end{theoremeT}\end{pBox}}
+\newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}
+\newenvironment{proposition}{\begin{pBox}\begin{propositionT}}{\end{propositionT}\end{pBox}}
+\newenvironment{example}{\begin{dBox}\begin{exampleT}}{\end{exampleT}\end{dBox}}
