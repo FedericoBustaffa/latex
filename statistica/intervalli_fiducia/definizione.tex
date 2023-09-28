@@ -1,0 +1,35 @@
+\chapter{Intervalli di fiducia}
+Gli \textbf{intervalli di fiducia} sono un esempio particolare di test statistico in cui si va a
+definire un intervallo entro il quale potrebbe ricadere la probabilita effettiva. Tale intervallo
+si rimpicciolisce sempre di più man mano che che il campione cresce in numerosità.
+
+Gli estremi di questi intervalli sono determinati a partire dagli esiti della misurazione del
+campione, dunque dal punto di vista matematico dobbiamo definirli come variabili aleatorie
+ottenute da funzioni del campione statistico.
+
+\section{Definizione di intervallo di fiducia}
+Per comprendere meglio il concetto consideriamo un campione \iid $X_1, \dots, X_n$ di $X$, con
+legge $(P_X)_\theta$ dipendente da un parametro incognito $\theta$. Vorremmo determinare un
+intervallo, a partire dal campione, tale che $\theta$ appartenga a questo intervallo con alta
+probabilità.
+
+\begin{definition}
+	Dati un campione $X_1, \dots, X_n$ i.i.d di $X$ con legge $(P_X)_\theta$ e due parametri
+	$\theta \in \R$ e $\alpha \in (0,1)$, un intervallo aleatorio
+	\[ I = [a(X_1, \dots, X_n), b(X_1, \dots, X_n)] \]
+	si dice \textbf{intervallo di fiducia} (\IF) per $\theta$ di livello $1-\alpha$ se, per ogni
+	$\theta \in \Theta$, vale
+	\[ P_\theta (\theta \in I) \geq 1 - \alpha \]
+	Tipicamente se $\alpha$ è piccolo (ad esempio $\alpha = 0.05$), allora $\theta \in I$ con
+	probabilità alta.
+\end{definition}
+
+\begin{observation}
+	Non è detto che $\theta \in I$ in ogni caso. Non dobbiamo inoltre considerare il parametro
+	$\theta$ come aleatorio solo perché non lo conosciamo. Ciò che è aleatorio è l'intervallo di
+	fiducia che stiamo cercando.
+\end{observation}
+
+Idealmente vorremmo che $\alpha$ sia piccolo e che l'ampiezza dell'intervallo $I$ sia piccola.
+Questo non è semplice poiché, di solito, un $\alpha$ piccolo implica generalmente una grande
+ampiezza dell'intervallo e viceversa.

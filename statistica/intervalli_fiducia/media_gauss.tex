@@ -1,0 +1,79 @@
+\section{Intervalli di fiducia per la media di un campione Gaussiano}
+Negli esempi che vedremo di seguito supponiamo di avere un campione statistico e supponiamo di
+sapere che la sua distribuzione sia Gaussiana di parametri $\mu$ e $\sigma^2$. Nel nostro caso ci
+poniamo il problema di cercare degli intevalli di fiducia per $\mu$ che è non nota. Come sappiamo,
+la media campionaria
+\[ \overline{X_n} = \frac{X_1 + \dots + X_n}{n} \]
+è uno stimatore di $\E[X] = \mu$, quindi è naturale cercare un intervallo di fiducia della forma
+\[ I = [\overline{X_n} - d, \overline{X_n} + d] = [\overline{X_n} \pm d] \]
+Dobbiamo quindi determinare $d$ tale che valga
+\[ P(\mu \in I) \geq 1 - \alpha \]
+
+\begin{definition}
+	Se $[\overline{X_n} \pm d]$ è un intervallo di fiducia per la media $\mu$, allora $d$ è detta
+	\textbf{precisione della stima} ($d$ piccola corrisponde ad un'alta precisione) e
+	$\frac{d}{\overline{X_n}}$ è detta \textbf{precisione relativa della stima}.
+\end{definition}
+
+\begin{proposition}
+	Dato $\alpha \in (0,1)$, assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
+	\[
+		I = \left[
+			\overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
+	\]
+	è un intervallo di fiducia per la media $\mu$ di livello $1 - \alpha$. Questo vale per il
+	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane}. In particolare se
+	$X_i \sim N(\mu, \sigma^2)$ sono indipendenti, allora
+	\[ \overline{X_n} = \frac{1}{n} \sum_{i=1}^n X_i \sim N(\mu, \frac{\sigma^2}{n}) \]
+	\begin{proof}
+		Dobbiamo dimostrare che
+		\[
+			1 - \alpha \leq P \left( \mu \in \left[ \overline{X_n} \pm
+				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right)
+		\]
+		Partiamo con il calcolare la probabilità
+		\[
+			P \left( \mu \in \left[ \overline{X_n} \pm
+				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right) =
+			P \left( \left| \overline{X_n} - \mu \right| \leq
+			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right)
+		\]
+		A questo punto, facendo uso della standardizzazione delle gaussiane, otteniamo che
+		\begin{align*}
+			P \left( \left| \overline{X_n} - \mu \right| \leq
+			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right) = &
+			P \left( \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \leq
+			\frac{\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}}{\sigma/\sqrt{n}} \right) \\
+			=                                                          &
+			P \left( |Z| \leq q_{1 - \frac{\alpha}{2}} \right)                                   \\
+			=                                                          &
+			P \left( -q_{1 - \frac{\alpha}{2}} \leq Z \leq q_{1-\frac{\alpha}{2}} \right)        \\
+			=                                                          &
+			\Phi \left( q_{1-\frac{\alpha}{2}} \right) -
+			\Phi \left(-q_{1-\frac{\alpha}{2}} \right)                                           \\
+			=                                                          &
+			\Phi \left( q_{1-\frac{\alpha}{2}} \right) -
+			\Phi \left(q_{\frac{\alpha}{2}} \right)
+		\end{align*}
+		Infine per la definizione di \hyperref[def: quantile]{quantile} abbiamo che
+		\begin{align*}
+			\Phi \left( q_{1-\frac{\alpha}{2}} \right) -
+			\Phi \left(q_{\frac{\alpha}{2}} \right) = & 1 - \frac{\alpha}{2} -
+			\frac{\alpha}{2}                                                   \\
+			=                                         & 1 - \alpha
+		\end{align*}
+	\end{proof}
+\end{proposition}
+
+\begin{observation}
+	La precisione $d$ della stima
+	\begin{itemize}
+		\item Cresce al crescere del livello di fiducia $1-\alpha$.
+		\item Cresce al crescere di $\sigma^2$.
+		\item Decresce al crescere di $n$.
+	\end{itemize}
+	In particolare, dalla formula
+	\[ d = \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \]
+	è possibile, dati $\alpha$ e $\sigma$, determinare la numerosità $n$ tale che l'intervallo
+	abbia una data precisione e un dato livello di fiducia.
+\end{observation}

@@ -22,20 +22,127 @@ $(X_1, \dots, X_n)$. Analoga interpretazione nel caso di variabili con densità.
 	Si chiama \textbf{stima di massima verosimiglianza}, se esiste, una statistica campionaria,
 	usualmente indicata $\hat{\theta} = \hat{\theta} (x_1, \dots, X_n)$, tale che valga
 	l'eguaglianza
-	\[ L(\hat{\theta}; x_1, \dots, x_n) = \max_{\theta \in \Theta} (L(\theta, x_1, \dots, x_n)) \]
-	per ogni $(x_1, \dots, x_n)$.
+	\[
+		L(\hat{\theta}; x_1, \dots, x_n) = \max_{\theta \in \Theta} (L(\theta, x_1, \dots, x_n))
+		\quad \forall (x_1, \dots, x_n)
+	\]
 \end{definition}
 
 Nel caso discreto, se $x_1, \dots, x_n$ sono gli esiti la stima di massima verosimiglianza sceglie
 un parametro $\hat{\theta}$ che \emph{massimizza} la probabilità degli esiti $x_1, \dots, x_n$
 effettivamente ottenuti.
 
-L'idea del metodo dei momenti è quella di confrontare i \emph{momenti teorici} (valori attesi di
-$X^k$)
+Passiamo ora al metodo dei momenti, la cui idea è quella di confrontare i \emph{momenti teorici}
+(valori attesi di $X^k$)
 \[ m_k(\theta) = \E[X^k] \]
-con $k =1,2,\dots$, con i momenti empirici (cioè le medie campionarie di $X_1^k, \dots, X_n^k$),
-ossia
+con $k =1,2,\dots$, con i momenti \emph{empirici} (cioè le medie campionarie di
+$X_1^k, \dots, X_n^k$), ossia
 \[ \frac{1}{n} \sum_{i=1}^k X_i^k \]
 Poiché la media campionaria è un buon stimatore del valore atteso, è ragionevole prendere, come
 stima di $\theta$, un valore $\tilde{\theta}$ che realizzi l'uguaglianza tra alcuni momenti teorici
 e i corrispondenti momenti empirici.
+
+\begin{definition}
+	Si chiama \textbf{stima con il metodo dei momenti}, se esiste, una statistica campionaria
+	$\tilde{\theta}$ tale che eguagli momenti teorici con i relativi campionari
+	\[ \E_{\tilde{\theta}} [X^k] = \frac{1}{n} \sum_{k=1}^{n} x_i^k \quad \forall(x_1, \dots, x_n) \]
+\end{definition}
+
+\begin{observation}
+	Le definizioni date sopra si generalizzano in modo naturale al caso di più parametri, prendendo
+	$\theta = (\theta_1, \dots, \theta_n)$.
+\end{observation}
+
+\begin{observation}
+	Non sempre queste stime esistono, quando esistono, a volte danno valori simili e a volte no.
+	Questo perché il problema della stima di un parametro non è ben posto perché non si può stimare
+	\emph{esattamente} il parametro.
+\end{observation}
+
+Si può dimostrare che la coppia dei parametri
+\[ \left( \overline{X_n}, \frac{n-1}{n} \cdot S_n^2 \right) \]
+è la stima per la coppia (valore atteso, varianza) con il metodo dei momenti per $k=1,2$.
+
+\begin{example}
+	Consideriamo un campione di variabili aleatorie $X \sim E(\theta)$ non noto. Proviamo a stimare
+	$\theta$ con il metodo di verosimiglianza
+	\[
+		L(\theta, x_1, \dots, x_n) =
+		\prod_{i=1}^n f_\theta(x_i) =
+		\begin{cases}
+			0                                                                &
+			\text{se almeno un } x_i \leq 0                                    \\
+			\theta e^{-\theta x_1} \cdot \ldots \cdot \theta e^{-\theta x_n} &
+			\text{tutti gli } x_i > 0
+		\end{cases}
+	\]
+	che può essere riscritta come
+	\[
+		L(\theta, x_1, \dots, x_n) =
+		\prod_{i=1}^n f_\theta(x_i) =
+		\begin{cases}
+			0                                             &
+			\text{se almeno un } x_i \leq 0                 \\
+			\theta^n e^{-\theta \cdot \sum_{i=1}^{n} x_i} &
+			\text{tutti gli } x_i > 0
+		\end{cases}
+	\]
+	Concentrandoci sul secondo caso, possiamo dimostrare che, presa
+	$g : \Theta \to L(\theta, x_1, \dots, x_n)$, vale
+	\[ \lim_{\theta \to 0} g(\theta) = 0 \quad \lim_{\theta \to +\infty} g(\theta) = 0 \]
+	quindi $g$ ha almeno un massimo $\hat{\theta}$ che verifica $g'(\hat{\theta}) = 0$. Calcoliamo
+	quindi la derivata di $g$
+	\begin{align*}
+		g'(\theta) = & n \cdot \theta^{n-1} \cdot e^{-\theta \cdot \sum_{i=1}^n x_i} +
+		\theta^n \left( -\sum_{i=1}^{n} x_i \right) e^{-\theta \cdot \sum_{i=1}^{n} x_i} \\
+		=            & \theta^{n-1} \cdot e^{-\theta \cdot \sum_{i=1}^{n} x_i} \cdot
+		\left(n - \theta \cdot \sum_{i=1}^{n} x_i \right)
+	\end{align*}
+	Abbiamo quindi che $g'(\hat{\theta}) = 0$ se e solo se
+	\[
+		n - \theta \cdot \sum_{i=1}^{n} x_i = 0
+		\quad \Leftrightarrow \quad
+		\frac{1}{\theta} = \frac{1}{n} \cdot \sum_{i=1}^{n} x_i
+	\]
+	Come possiamo notare, il valore atteso della variabile esponenziale è proprio
+	$\frac{1}{\theta}$ e quindi, in questo caso, la stima di massima verosimiglianza coincide con
+	la stima dei momenti. Questo lo si può dimostrare tramite la formula
+	\[
+		\E_{\tilde{\theta}} [X] = \frac{1}{n} \cdot \sum_{i=1}^n x_i
+		\quad \Leftrightarrow \quad
+		\frac{1}{\hat{\theta}} = \frac{1}{n} \cdot \sum_{i=1}^n x_i
+	\]
+	cioè lo stesso risultato della stima di massima verosimiglianza.
+\end{example}
+
+\begin{example}
+	Consideriamo il caso di densità uniforme su un intervallo di lunghezza variabile, ossia
+	$X \sim U((0, \theta))$ con $\theta$ parametro incognito. Abbiamo quindi che la densità è così
+	descritta
+	\[
+		f_\theta(x) = \begin{cases}
+			\dfrac{1}{\theta} & x \in (0, \theta)    \\[2ex]
+			0                 & x \notin (0, \theta)
+		\end{cases}
+	\]
+	Proviamo a stimare $\theta$ con il metodo dei momenti studiando solo il primo momento ($k=1$).
+	Imponiamo quindi
+	\[
+		\E_{\tilde{\theta}}[X] = \frac{1}{n} \cdot \sum_{i=1}^n
+		\quad \Leftrightarrow \quad
+		\frac{\tilde{\theta}}{2} = \frac{1}{n} \cdot \sum_{i=1}^n
+	\]
+	quindi
+	\[ \tilde{\theta} = 2 \cdot \frac{1}{n} \sum_{i=1}^n x_i = 2 \cdot \overline{x_n} \]
+	Facciamo ora la stima con la massima verosimiglianza
+	\[
+		L(\theta; x_1, \dots, x_n) = f_\theta (x_1) \cdot \ldots \cdot f_\theta (x_n) =
+		\begin{cases}
+			0                   & \text{se almeno un } x_i \leq 0          \\[1ex]
+			\dfrac{1}{\theta^n} & \text{se tutti gli } x_i \in (0, \theta) \\[1ex]
+			0                   & \text{se } \max_i (x_i) \geq \theta
+		\end{cases}
+	\]
+	Massimiziamo $L(\theta; x_1, \dots, x_n)$ per $x_1, \dots, x_n > 0$ e otteniamo che
+	\[ \sup (\hat{\theta}) = \max_i (x_i) = \max (\{x_1, \dots, x_n\}) \]
+\end{example}
