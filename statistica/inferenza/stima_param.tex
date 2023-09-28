@@ -1,0 +1,30 @@
+\section{Stima parametrica}
+La stima parametrica si occupa di fornirci dei metodi per scegliere un buon stimatore. In
+particolare ne vedremo due: il metodo di verosimiglianza e il metodo dei momenti.
+
+Iniziamo con il considerare un campione statistico la cui legge di probabilità dipende da un
+parametro $\theta \in \Theta$, nel quale le variabili possono essere discrete con funzione di
+massa $p_\theta(x)$, oppure con densità $f_\theta(x)$.
+
+\begin{definition}
+	Si chiama \textbf{funzione di verosimiglianza} la funzione $L(\theta; \dots)$ definita, nel
+	caso di variabili discrete da
+	\[ L(\theta; x_1, \ldots, x_n) = \prod_{i=1}^n p_\theta(x_i) \]
+	e nel caso di variabili con densità
+	\[ L(\theta; x_1, \ldots, x_n) = \prod_{i=1}^n f_\theta(x_i) \]
+\end{definition}
+
+Si noti che nel caso discreto la verosimiglianza equivale alla densità congiunta di
+$(X_1, \dots, X_n)$. Analoga interpretazione nel caso di variabili con densità.
+
+\begin{definition}
+	Si chiama \textbf{stima di massima verosimiglianza}, se esiste, una statistica campionaria,
+	usualmente indicata $\hat{\theta} = \hat{\theta} (x_1, \dots, X_n)$, tale che valga
+	l'eguaglianza
+	\[ L(\hat{\theta}; x_1, \dots, x_n) = \max_{\theta \in \Theta} (L(\theta, x_1, \dots, x_n)) \]
+	per ogni $(x_1, \dots, x_n)$.
+\end{definition}
+
+Nel caso discreto, se $x_1, \dots, x_n$ sono gli esiti la stima di massima verosimiglianza sceglie
+un parametro $\hat{\theta}$ che \emph{massimizza} la probabilità degli esiti $x_1, \dots, x_n$
+effettivamente ottenuti.
