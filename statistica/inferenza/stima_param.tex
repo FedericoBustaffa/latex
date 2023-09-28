@@ -1,7 +1,7 @@
 \section{Stima parametrica}
 La stima parametrica si occupa di fornirci dei metodi per scegliere un buon
-\hyperref[def: stimatore]{stimatore}. In particolare ne vedremo due: il metodo di verosimiglianza e il
-metodo dei momenti.
+\hyperref[def: stimatore]{stimatore}. In particolare ne vedremo due: il metodo di verosimiglianza
+e il metodo dei momenti.
 
 Iniziamo con il considerare un campione statistico la cui legge di probabilità dipende da un
 parametro $\theta \in \Theta$, nel quale le variabili possono essere discrete con funzione di
@@ -29,3 +29,13 @@ $(X_1, \dots, X_n)$. Analoga interpretazione nel caso di variabili con densità.
 Nel caso discreto, se $x_1, \dots, x_n$ sono gli esiti la stima di massima verosimiglianza sceglie
 un parametro $\hat{\theta}$ che \emph{massimizza} la probabilità degli esiti $x_1, \dots, x_n$
 effettivamente ottenuti.
+
+L'idea del metodo dei momenti è quella di confrontare i \emph{momenti teorici} (valori attesi di
+$X^k$)
+\[ m_k(\theta) = \E[X^k] \]
+con $k =1,2,\dots$, con i momenti empirici (cioè le medie campionarie di $X_1^k, \dots, X_n^k$),
+ossia
+\[ \frac{1}{n} \sum_{i=1}^k X_i^k \]
+Poiché la media campionaria è un buon stimatore del valore atteso, è ragionevole prendere, come
+stima di $\theta$, un valore $\tilde{\theta}$ che realizzi l'uguaglianza tra alcuni momenti teorici
+e i corrispondenti momenti empirici.
