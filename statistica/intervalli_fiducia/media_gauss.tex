@@ -109,6 +109,54 @@ Dobbiamo quindi determinare $d$ tale che valga
 	Otteniamo quindi che il campione deve avere numerosità $n \geq 62$.
 \end{example}
 
-\begin{proposition}[Intervallo di fiducia per la media con varianza non nota]
+Prima di proseguire dobbiamo introdurre la distribuzione $t$ \textbf{di Student} utile per capire
+meglio il risultato che seguirà. Tale distribuzione, a $k$ gradi di libertà, ha densità
+\[
+	f_{k} (x) = c_k \cdot
+	\left( 1 + \frac{t^2}{k} \right)^{-\frac{k}{2} - \frac{1}{2}}
+\]
+Su questa distribuzione possiamo dire che ha una densità simmetrica \emph{"a campana"}, ha code
+più pesanti di $N(0,1)$, ovvero
+\[ P(T > \gamma) \geq P(Z > \gamma) \]
+per $\gamma$ grande. Il fatto di avere code più pesanti implica che il quantile della $t$ di
+Student è più grande di quello della Gaussiana. Ultima considerazione è che per
+$k \to \infty$ abbiamo che $t_k$ tende in legge a $N(0,1)$.
 
+\begin{proposition}[Intervallo di fiducia per la media con varianza non nota]
+	In questo caso non possiamo usare $\sigma$ nella determinazione dell'intervallo di fiducia.
+	Questo problema si risolve considerando lo stimatore di $\sigma^2$:
+	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X_n} \right)^2 \]
+	Consideriamo quindi la variabile aleatoria
+	\[ T = \frac{\overline{X_n} - \mu}{S_n / \sqrt{n}} \]
+	la quale ha distribuzione nota (per $X_1, \dots, X_n$ \iid $\sim N(\mu, \sigma^2)$), che è la
+	distribuzione $t$ di Student a $n-1$ gradi di libertà. Dato quindi $\alpha \in (0,1)$ e
+	assumendo $\sigma^2 > 0$ non nota, l'intervallo aleatorio
+	\[
+		\left[ \overline{X_n} \pm
+			\frac{S_n}{\sqrt{n}} \cdot \tau_{1 - \frac{\alpha}{2}, n-1} \right]
+	\]
+	è un intervallo di fiducia per la media $\mu$ di livello $1-\alpha$. Nella formula $\tau$ è il
+	quantile $1-\frac{\alpha}{2}$ della $t$ di Student a $n-1$ gradi di libertà.
+\end{proposition}
+
+Per il momento abbiamo sempre considerato \textbf{intervalli bilateri}, ossia intervalli i cui
+estremi sono entrambi variabili aleatorie. Possiamo considerare anche \textbf{intervalli unilateri}
+se ad esempio ci interessa sapere se la media non è troppo alta, consideriamo un intervallo del
+tipo
+\[ (-\infty, b(X_1, \dots, X_n)] \]
+
+\begin{proposition}
+	Dato $\alpha \in (0,1)$, gli intervalli aleatori
+	\[
+		\left( -\infty, \overline{X_n} + \frac{\sigma}{\sqrt{n}} q_{1-\alpha} \right],
+		\quad
+		\left[ \overline{X_n} - \frac{\sigma}{\sqrt{n}} q_{1-\alpha}, +\infty \right)
+	\]
+	sono intervalli di fiducia per la media $\mu$ di livello $1-\alpha$. Nel caso $\sigma^2$
+	incognita, le formule diventano
+	\[
+		\left( -\infty, \overline{X_n} + \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1} \right],
+		\quad
+		\left[ \overline{X_n} - \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1}, +\infty \right)
+	\]
 \end{proposition}
