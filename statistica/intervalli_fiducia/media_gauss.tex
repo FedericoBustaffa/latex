@@ -15,7 +15,7 @@ Dobbiamo quindi determinare $d$ tale che valga
 	$\frac{d}{\overline{X_n}}$ è detta \textbf{precisione relativa della stima}.
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}[Intervallo di fiducia per la media con varianza nota]
 	Dato $\alpha \in (0,1)$, assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
 	\[
 		I = \left[
@@ -77,3 +77,38 @@ Dobbiamo quindi determinare $d$ tale che valga
 	è possibile, dati $\alpha$ e $\sigma$, determinare la numerosità $n$ tale che l'intervallo
 	abbia una data precisione e un dato livello di fiducia.
 \end{observation}
+
+\begin{example}
+	Il peso di una specie di salmoni segue una distribuzione Gaussiana di media $\mu$ incognita e
+	deviazione standard $\sigma = 0.4$. Vengono pesati 10 esemplari e viene ricavato un peso medio
+	di 3.58.
+	\begin{enumerate}
+		\item Vogliamo determinare un \IF per la media $\mu$ di livello $95\% = 1 - \alpha$.
+		\item Mantenendo il livello di fiducia al 95\%, quanto grande deve essere $n$ affinché la
+		      precisione $d$ della stima sia al massimo 0.1?
+	\end{enumerate}
+
+	Punto 1. Il campione che consideriamo è di $n=10$ salmoni, la variabile aleatoria $X$ ci dice
+	il peso di un esemplare scelto a caso e $X_i$ è il peso dell'$i$-esimo esemplare del campione.
+	Abbiamo poi che $1-\alpha = 0.95$ quindi $\alpha=0.05$ e quindi $1 - \frac{\alpha}{2}$. Dalle
+	tavole ricaviamo infine che $q_{1-\frac{\alpha}{2}} = 1.96$. L'intervallo di fiducia cercato è
+	\[
+		I = \left[ \overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right]
+		= \left[ \overline{X_{10}} \pm \frac{0.4}{\sqrt{10}} \cdot 1.96 \right]
+		= \left[ \overline{X_{10}} \pm 0.248 \right]
+	\]
+	Inserendo il dato $\overline{X_n} = 3.58$, otteniamo $I = [3.58 \pm 0.248] = [3.332, 3.828]$.
+
+	Punto 2. Imponiamo $d \leq 0.1$ dove sappiamo $d$ essere
+	$\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}$ e quindi abbiamo che
+	\[
+		\sigma \cdot q_{1-\frac{\alpha}{2}} \leq 0.1 \cdot \sqrt{n}
+		\quad \Leftrightarrow \quad
+		n \geq \frac{\sigma^2 q_{1-\frac{\alpha}{2}}^2}{0.1^2} \approx 61.46
+	\]
+	Otteniamo quindi che il campione deve avere numerosità $n \geq 62$.
+\end{example}
+
+\begin{proposition}[Intervallo di fiducia per la media con varianza non nota]
+
+\end{proposition}
