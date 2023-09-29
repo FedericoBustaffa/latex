@@ -1,1 +1,69 @@
 \section{Intervalli di fiducia per la media di un campione Bernoulliano}
+Sia $X \sim B(p)$ che rappresenta il verificarsi o meno di un \emph{successo} dove $p$ è la
+probabilità del successo. Consideriamo un campione $X_1, \dots, X_n$ \iid di $X$, abbiamo che
+\[ X_1 + \dots + X_n \]
+è il numero successi nel campione e che
+\[ \overline{X_n} = \frac{X_1 + \dots + X_n}{n} \]
+è la frequenza relativa del successo nel campione. Ricordiamo inoltre che
+\[ X_1 + \dots + X_n \sim B(n,p) \quad \Rightarrow \quad \E[X] = \E[X_i] = p \]
+In particolare $\overline{X_n}$ è uno stimatore di $p$. A questo punto è ragionevole cercare un
+intervallo di fiducia per $p$ del tipo $[\overline{X_n} \pm d]$. In questo caso, dovremo usare i
+quantili della distribuzione binomiale, i quali dipendono da $n$. Questo è possibile ma essendo
+la formula complessa, offriamo un'alternativa che è valida per $n$ grande (in genere $n \geq 80$),
+la quale fa uso del \hyperref[th: tlc]{teorema del limite centrale} poiché la variabile aleatoria
+\[
+	\frac{X_1 + \dots + X_n - np}{\sqrt{n \cdot p \cdot (1-p)}} =
+	\sqrt{n} \cdot \frac{\overline{X_n} - p}{\sqrt{p \cdot (1-p)}}
+\]
+è approssimativamente una Gaussiana standard $N(0,1)$. Dato che la varianza
+$\sigma^2 = p \cdot (1-p)$ dipende da $p$ che incognita possiamo stimare $p$ con $\overline{X_n}$
+e quindi $p \cdot (1-p)$ con $\overline{X_n} \cdot (1 - \overline{X_n})$. Si può dimostrare, come
+conseguenza del teorema centrale del limite, che
+\[
+	\frac{X_1 + \dots + X_n - np}{\sqrt{n \cdot \overline{X_n} \cdot (1 - \overline{X_n})}} =
+	\sqrt{n} \cdot \frac{\overline{X_n} - p}{\sqrt{\overline{X_n} \cdot (1 - \overline{X_n})}}
+\]
+converge in legge ad una Gaussiana standard per $n \to +\infty$.
+
+\begin{proposition}
+	Dato $\alpha \in (0,1)$, l'intervallo aleatorio
+	\[
+		\left[
+			\overline{X_n} \pm \sqrt{\frac{\overline{X_n} \cdot (1 - \overline{X_n})}{n}}
+			\cdot q_{1 - \frac{\alpha}{2}}
+			\right]
+	\]
+	è un intervallo di fiducia per $p$ con livello di fiducia approssimativamente $1-\alpha$, più
+	precisamente, si ha
+	\[
+		\lim_{n \to +\infty} P \left( p \in \left[ \overline{X_n} \pm
+			\sqrt{\frac{\overline{X_n} \cdot (1 - \overline{X_n})}{n}} \cdot
+			q_{1 - \frac{\alpha}{2}} \right] \right) = 1 - \alpha
+	\]
+\end{proposition}
+
+\begin{example}
+	Si vuole condurre un sondaggio per determinare la percentuale di gradimento nei confronti del
+	governo. Qual è il numero minimo di telefonta da effettuare affinché la precisione $d$ della
+	stima sia inferiore all'1\%, con livello di fiducia del 95\%? La precisione è
+	\[
+		d = \sqrt{\frac{\overline{X_n} \cdot (1 - \overline{X_n})}{n}} \cdot
+		q_{1 - \frac{\alpha}{2}} = \sqrt{\frac{\overline{X_n} \cdot (1 - \overline{X_n})}{n}} \cdot
+		1.96
+	\]
+	che dipende da $\overline{X_n}$, non noto a priori. Sappiamo però che la funzione che associa
+	$x \in [0,1]$ a $x \cdot (1-x)$ ha un massimo in $x=1/2$ e il massimo vale $1/4$, quindi
+	\[ \overline{X_n} \cdot (1 - \overline{X_n}) \leq \frac{1}{4} \]
+	e di conseguenza
+	\[
+		d \leq \sqrt{\frac{1/4}{n}} \cdot q_{1 - \frac{\alpha}{2}} =
+		\frac{1}{2} \cdot \frac{1}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
+	\]
+	A questo punto otteniamo
+	\[
+		\frac{1}{2} \cdot \frac{1}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \leq 0.01
+		\quad \Leftrightarrow \quad
+		n \geq \frac{1.96^2}{4 \cdot 0.01^2} = 9604
+	\]
+	Dato che $n$ è grande vale l'approssimazione Gaussiana.
+\end{example}
