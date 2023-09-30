@@ -1,1 +1,30 @@
-\section{Intervalli di fiducia per la varianza di un campione Gaussiano}
+\section{Varianza di un campione Gaussiano}
+Sia $X_1, \dots, X_n$ un campione \iid di $X \sim N(\mu, \sigma^2)$ cerchiamo un intervallo per
+la varianza $\sigma^2$, occupandoci principalmente di intervalli unilateri. Come abbiamo visto,
+lo stimatore della varianza $\sigma^2$ è la varianza campionaria
+\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n (X_i - \overline{X_n})^2 \]
+
+\begin{proposition}
+	La variabile aleatoria
+	\[ \frac{(n-1) \cdot S_n^2}{\sigma^2} \]
+	ha distribuzione $\chi_{n-1}^2$ dove $\chi_k^2$ è la distribuzione avente densità
+	\[
+		f_k(x) = \begin{cases}
+			c_k \cdot x^{\frac{k}{2} - 1} \cdot e^{-x/2} & x > 0    \\
+			0                                            & x \leq 0
+		\end{cases}
+	\]
+\end{proposition}
+
+\begin{proposition}
+	Dato $X_1, \dots, X_n$ un campione \iid di $X \sim N(\mu, \sigma^2)$ e dato $\alpha \in (0,1)$,
+	l'intervallo aleatorio
+	\[
+		\left( 0, \frac{(n-1) \cdot S_n^2}{\chi_{\alpha, n-1}^2} \right] =
+		\left( 0, \frac{\sum_{i=1}^n (X_i - \overline{X_n})^2}{\chi_{\alpha, n-1}^2} \right]
+		\]
+		è un intervallo di fiducia per $\sigma^2$ con livello di fiducia $1-\alpha$, con
+		$\chi_{\alpha, n-1}^2$ che è il quantile di ordine $\alpha$ di $\chi_{n-1}^2$. Analogamente
+		\[ \left[ \frac{(n-1) \cdot S_n^2}{\chi_{1-\alpha, n-1}^2}, +\infty \right) \]
+	è un intervallo di fiducia per $\sigma^2$ con livello di fiducia $1-\alpha$.
+\end{proposition}
