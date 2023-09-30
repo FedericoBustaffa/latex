@@ -1,0 +1,45 @@
+\chapter{Test statistici}
+Nel capitolo precedente abbiamo cercato di definire e trovare degli intervalli aleatori entro i
+quali un certa caratteristica della popolazione cade con probabilità alta. I test statistici
+cercano invece di capire quanto e se una o più caratteristiche del campione siano
+\textbf{compatibili} con le reali caratteristiche della popolazione.
+
+In un controllo qualità vogliamo verificare se la percentuale di pezzi difettosi è non superiore
+al 2\%. Per farlo prendiamo un campione e verifichiamo se i dati del campione sono compatibili o
+meno con l'ipotesi "percentuale di pezzi difettosi non superiore al 2\%".
+
+Pianificare un test significa formulare un'ipotesi su un parametro della distribuzione e
+pianificare un esperimento per accettare o rifiutare l'ipotesi. La risposta non è mai una verità
+e viene fornita con un opportuno livello di fiducia.
+
+\section{Concetti generali}
+Sia $X$ una variabile aleatoria con distribuzione $P_\theta$, con $\theta$ parametro non noto e
+sia $(X_1, \dots, X_n)$ un campione \iid di $X$. Un'ipotesi statistica è un'affermazione sul
+parametro $\theta$. Formalmente, per formulare quest'ipotesi, si divide l'insieme $\Theta$ dei
+parametri in due:
+\begin{itemize}
+	\item $\Theta_0$ è l'insieme dei parametri dell'ipotesi, detta \textbf{ipotesi nulla} $H_0$.
+	\item $\Theta_1 = \Theta \backslash \Theta_0$ è l'insieme dei parametri dell'
+	      \textbf{ipotesi alternativa} detta $H_1$.
+\end{itemize}
+Un test statistico è una procedura per accettare o rifiutare l'ipotesi nulla $H_0$, sulla base dei
+dati del campione $X_1, \dots, X_n$:
+\begin{itemize}
+	\item Si accetta $H_0$ se i valori $X_1, \dots, X_n$ assunti dal campione sono compatibili con
+	      $H_0$.
+	\item Si rifiuta $H_0$, in favore di $H_1$, se, con un alto grado di fiducia, i valori
+	      $x_1, \dots, x_n$ assunti dal campione non sono compatibili con $H_0$, c'è quindi
+	      un'\textbf{evidenza statistica} contro $H_0$.
+\end{itemize}
+
+Nell'esempio del controllo qualità, $\theta$ è la probabilità che un pezzo sia difettoso e
+l'intervallo $\Theta = [0,1]$. L'ipotesi nulla $H_0$ è $\theta \leq 2\% = 0.02$, quindi l'insieme
+$\Theta_0 = [0, 0.02]$, mentre l'ipotesi $H_1$ è l'opposto, ovvero $\theta > 0.02$ e l'insieme
+$\Theta_1 = (0.02, 1]$.
+
+Notiamo che c'è un'\textbf{asimmetria} tra le ipotesi nulla e alternativa:
+\begin{itemize}
+	\item Rifiutare $H_0$ significa che c'è un'evidenza, dai dati, contro $H_0$.
+	\item Accettare $H_0$ non significa che c'è evidenza per $H_0$ ma solo che i dati sono
+	      compatibili con $H_0$ e quindi non c'è evidenza contro $H_0$.
+\end{itemize}
