@@ -5,7 +5,9 @@ Definiamo quindi $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ nota e sia $X_1, \dots
 \[ \sqrt{n} \cdot \frac{\overline{X_n} - \mu}{\sigma} = Z \sim N(0,1) \]
 Occupiamoci per il momento del test bilatero scrivendo le ipotesi
 \[ H_0: \mu = \mu_0 \quad H_1: \mu \neq \mu_0 \]
-Passiamo quindi alla formulazione del test: Poiché $\overline{X_n}$ è la stima della media $\mu$,
+
+\subsection{Formulazione del test}
+Poiché $\overline{X_n}$ è la stima della media $\mu$,
 l'intuizione ci porta a rifiutare l'ipotesi $H_0$ se $\overline{X_n}$ si discosta molto dal valore
 $\mu_0$. Scegliamo quindi una regione critica
 \[ C = \{ | \overline{X_n} - \mu_0 | > d \} \]
@@ -54,3 +56,24 @@ Notiamo che l'ampiezza della regione di accettazione $C^c$ che è
 	\item Cresce al crescere di $\sigma^2$
 	\item Decresce al crescere di $n$
 \end{itemize}
+
+\begin{observation}
+	L'ipotesi $H_0: \mu = \mu_0$ è accettata al livello $\alpha$ se e solo se $\mu_0$ appartiene
+	all'intervallo di fiducia di livello $1-\alpha$. Questa è una proprietà generale: si può
+	dimostrare che è equivalente verificare un intervallo di fiducia di livello $1-\alpha$ e
+	formulare un test di livello $\alpha$ con $H_0$ ipotesi semplice, cioè ridotta ad un unico
+	valore del parametro ($H_0 : \theta = \theta_0$).
+\end{observation}
+
+\subsection{Calcolo del p-value}
+Informalmente, il $p$-value dei dati $(x_1, \dots, x_n)$ è la probabilità, sotto $H_0$, di
+ottenere dati più estremi, rispetto ad $H_0$, di $(x_1, \dots, x_n)$. Poiché $\overline{X_n}$ è
+lo stimatore di $\mu$ e $H_0: \mu = \mu_0$, è intuitivo considerare, come dati più estremi, i dati
+$(y_1, \dots, y_n)$ che verificano
+\[ |\overline{y} - \mu_0| > |\overline{x} - \mu_0| \]
+con $\overline{y}$ che è più distante da $\mu_0$ rispetto a $\overline{x}$. Ci aspettiamo quindi
+come $p$-value
+\[
+	\overline{\alpha} (x_1, \dots, x_n) =
+	P_{\mu_0} (|\overline{X_n} - \mu_0| > |\overline{x} - \mu_0|)
+\]
