@@ -71,9 +71,20 @@ ottenere dati più estremi, rispetto ad $H_0$, di $(x_1, \dots, x_n)$. Poiché $
 lo stimatore di $\mu$ e $H_0: \mu = \mu_0$, è intuitivo considerare, come dati più estremi, i dati
 $(y_1, \dots, y_n)$ che verificano
 \[ |\overline{y} - \mu_0| > |\overline{x} - \mu_0| \]
-con $\overline{y}$ che è più distante da $\mu_0$ rispetto a $\overline{x}$. Ci aspettiamo quindi
-come $p$-value
+ci aspettiamo quindi che $\overline{y}$ sia più distante da $\mu_0$ rispetto a $\overline{x}$. Ci
+aspettiamo quindi come $p$-value
 \[
 	\overline{\alpha} (x_1, \dots, x_n) =
-	P_{\mu_0} (|\overline{X_n} - \mu_0| > |\overline{x} - \mu_0|)
+	P_{\mu_0} (|\overline{X} - \mu_0| > |\overline{x} - \mu_0|)
 \]
+Per svolgere il calcolo usiamo la standardizzazione e otteniamo
+\begin{align*}
+	P_{\mu_0} (|\overline{X} - \mu_0| > |\overline{x} - \mu_0|)
+	= & P_{\mu_0} \left( \frac{\sqrt{n}}{\sigma} \cdot |\overline{X} - \mu_0| >
+	\frac{\sqrt{n}}{\sigma} \cdot |\overline{x} - \mu_0| \right)                    \\
+	= & P \left( |Z| > \frac{\sqrt{n}}{\sigma} \cdot |\overline{x} - \mu_0| \right) \\
+	= & 2 \cdot \left(1 - \Phi \left(\frac{\sqrt{n}}{\sigma} \cdot
+		|\overline{x} - \mu_0| \right) \right)
+\end{align*}
+Si verifica che $\overline{\alpha}$ soddisfa la definizione rigorosa di $p$-value: si rifiuta $H_0$
+se e solo se $\alpha > \overline{\alpha}$.
