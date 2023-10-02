@@ -1,0 +1,56 @@
+\section{Z-test}
+Si vuole ora effettuare un test sulla media di una popolazione Gaussiano con varianza nota.
+Definiamo quindi $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ nota e sia $X_1, \dots, X_n$ un campione
+\iid di $X$. Come per l'intervallo di fiducia usiamo il fatto che
+\[ \sqrt{n} \cdot \frac{\overline{X_n} - \mu}{\sigma} = Z \sim N(0,1) \]
+Occupiamoci per il momento del test bilatero scrivendo le ipotesi
+\[ H_0: \mu = \mu_0 \quad H_1: \mu \neq \mu_0 \]
+Passiamo quindi alla formulazione del test: Poiché $\overline{X_n}$ è la stima della media $\mu$,
+l'intuizione ci porta a rifiutare l'ipotesi $H_0$ se $\overline{X_n}$ si discosta molto dal valore
+$\mu_0$. Scegliamo quindi una regione critica
+\[ C = \{ | \overline{X_n} - \mu_0 | > d \} \]
+con $d$ da determinare. Per scegliere $d$ imponiamo che
+\[ P_{\mu_0} (C) \leq \alpha \]
+con $\alpha$ livello del test e per avere massima potenza del test imponiamo
+\[ P_{\mu_0} (C) = \alpha \]
+Questo vuol dire che
+\begin{align*}
+	\alpha = & P_{\mu_0} ( | \overline{X_n} - \mu_0 | > d )                   \\
+	=        & P_{\mu_0} \left( \frac{\sqrt{n}}{\sigma} \cdot
+	|\overline{X_n} - \mu_0| > \frac{\sqrt{n}}{\sigma} \cdot d \right)        \\
+	=        & P_{\mu_0} \left( |Z| > \frac{\sqrt{n}}{\sigma} \cdot d \right)
+\end{align*}
+dove $Z$ è una Gaussiana standard. Continuando il calcolo abbiamo
+\begin{align*}
+	P_{\mu_0} \left( |Z| > \frac{\sqrt{n}}{\sigma} \cdot d \right)
+	= & P_{\mu_0} \left( -\frac{\sqrt{n}}{\sigma} \cdot d < Z
+	< \frac{\sqrt{n}}{\sigma} \cdot d \right)                           \\
+	= & \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) -
+	\Phi \left( -\frac{\sqrt{n}}{\sigma} \cdot d \right)                \\
+	= & 2 \cdot \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) - 1
+\end{align*}
+A questo punto abbiamo che
+\begin{gather*}
+	\alpha = 2 \cdot \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) - 1 \\
+	\Leftrightarrow \\
+	\Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) = 1 - \frac{\alpha}{2} \\
+	\Leftrightarrow \\
+	\frac{\sqrt{n}}{\sigma} \cdot d = q_{1 - \frac{\alpha}{2}} \\
+	\Leftrightarrow \\
+	d = \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
+\end{gather*}
+Otteniamo quindi la regione critica
+\[
+	C = \left\{ \sqrt{n} \cdot \frac{|\overline{X_n} -
+		\mu_0|}{\sigma} > q_{1 - \frac{\alpha}{2}} \right\}
+\]
+In pratica, di fronte alla realizzazione $x_1, \dots, x_n$ del campione si calcola la media
+empirica $\overline{x}$ e si rifiuta $H_0$ se e solo se
+\[ \sqrt{n} \cdot \frac{|\overline{x_n} - \mu_0|}{\sigma} > q_{1 - \frac{\alpha}{2}}  \]
+Notiamo che l'ampiezza della regione di accettazione $C^c$ che è
+\[ 2 \cdot \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \]
+\begin{itemize}
+	\item Cresce al decrescere di $\alpha$
+	\item Cresce al crescere di $\sigma^2$
+	\item Decresce al crescere di $n$
+\end{itemize}

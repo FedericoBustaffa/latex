@@ -37,9 +37,101 @@ l'intervallo $\Theta = [0,1]$. L'ipotesi nulla $H_0$ è $\theta \leq 2\% = 0.02$
 $\Theta_0 = [0, 0.02]$, mentre l'ipotesi $H_1$ è l'opposto, ovvero $\theta > 0.02$ e l'insieme
 $\Theta_1 = (0.02, 1]$.
 
-Notiamo che c'è un'\textbf{asimmetria} tra le ipotesi nulla e alternativa:
+\begin{observation}
+	Notiamo che c'è un'\textbf{asimmetria} tra le ipotesi nulla e alternativa:
+	\begin{itemize}
+		\item Rifiutare $H_0$ significa che c'è un'evidenza, dai dati, contro $H_0$.
+		\item Accettare $H_0$ non significa che c'è evidenza per $H_0$ ma solo che i dati sono
+		      compatibili con $H_0$ e quindi non c'è evidenza contro $H_0$.
+	\end{itemize}
+\end{observation}
+
+Per determinare il test, si determina un insieme di risultati che portano a rifiutare l'ipotesi
+nulla $H_0$. Questo insieme si identifica come un sottoinsieme $C \subset \Omega$ ed è detto
+\textbf{regione critica} o \textbf{di rifiuto} per $H_0$. Il complementare $C^c$, è detto
+\textbf{regione di accettazione}.
+
+Come vedremo, $C$ viene scelto in modo tale che i suoi valori siano \textbf{estremi} sotto $H_0$ e
+\textbf{compatibili} con $H_1$, cioè:
 \begin{itemize}
-	\item Rifiutare $H_0$ significa che c'è un'evidenza, dai dati, contro $H_0$.
-	\item Accettare $H_0$ non significa che c'è evidenza per $H_0$ ma solo che i dati sono
-	      compatibili con $H_0$ e quindi non c'è evidenza contro $H_0$.
+	\item Estremi sotto $H_0$: per ogni $\theta \in \Theta_0$, la probabilità $P_\theta (C)$ è
+	      piccola.
+	\item Compatibili con $H_1$: il verificarsi di $C$ è un indicazione per $H_1$.
 \end{itemize}
+La scelta di $C$ dipende dalla distribuzione $P_\theta$ per $\theta \in \Theta_0$ e dalla forma
+delle ipotesi (se ad esempio $\Theta_0$ è una semiretta a destra, a sinistra oppure se è un singolo
+punto).
+
+Il risultato del test è soggetto a due tipi di errori: si ha un errore di \textbf{prima specie}
+quando si rifiuta $H_0$ e questa è vera. Si ha invece un errore di \textbf{seconda specie} quando
+si accetta $H_0$ e questa è falsa.
+
+\begin{definition}
+	Fissato $0 < \alpha < 1$, si dice che il test è di \textbf{livello} $\alpha$ se, per ogni
+	$\theta \in \Theta_0$, vale
+	\[ P_\theta (C) \leq \alpha \]
+\end{definition}
+
+Quindi fissare un livello per un test significa fissare un limite superiore per gli errori di
+prima specie, scegliendo $C$ in modo tale da soddisfare $P_\theta (C) \leq \alpha$ per ogni
+$\theta \in \Theta_0$. Questo perché $P_\theta(C)$ è la probabilità di rifiutare quando l'ipotesi
+nulla è vera.
+
+La scelta di $\alpha$ dipende dal \textbf{grado di fiducia} che chiediamo per rifiutare $H_0$. Più
+piccolo è $\alpha$, maggiore è l'evidenza che richiediamo per rifiutare $H_0$.
+
+\begin{definition}
+	Si chiama \textbf{potenza} del test la funzione che associa a $\theta \in \Theta$ la
+	probabilità $P_\theta(C)$. Si chiama invece \textbf{curva operativa} la funzione che associa
+	a $\theta \in \Theta$ la probabilità $P_\theta (C^c) = 1 - P_\theta(C)$ e si indica spesso con
+	$\beta(\theta)$.
+	\begin{itemize}
+		\item Per $\theta \in \Theta_1$, il valore $\beta(\theta)$ della curva operativa in
+		      $\theta$, equivale alla probabilità di accettare $H_0$ quando il vero valore del
+		      parametro è $\theta$ nell'ipotesi alternativa. Equivale quindi alla probabilità di
+		      errore di seconda specie per il dato $\theta \in \Theta_1$.
+		\item La potenza di $1 - \beta(\theta)$ è la probabilità di rifiutare $H_0$ quando questa
+		      è falsa, rappresenta cioè la capacità di accorgersi che $H_0$ non è soddisfatta.
+	\end{itemize}
+\end{definition}
+
+Nella formulazione di un test vorremmo che il test abbia livello basso (bassa probabilità di errori
+di prima specie) e potenza alta (bassa probabilità di errori di seconda specie). Queste richieste
+sono tuttavia in contrapposizione, infatti un basso livello del test vuol dire una richiesta di
+maggiore evidenza per rifiutare $H_0$ e quindi un maggiore rischio di errore di seconda specie.
+
+Come vedremo è possibile avere un basso livello e alta potenza aumentando la taglia del campione.
+
+\subsection{p-value}
+Il metodo classico di impostazione di un test è
+\begin{enumerate}
+	\item Fissare un livello $\alpha$ a priori.
+	\item Scegliere la regione critica $C$ in modo da soddsifare $P_\theta(C) \leq \alpha$ per ogni
+	      $\theta \in \Theta_0$.
+\end{enumerate}
+La scelta di $\alpha$ ovviamente influenza la scelta di $C$ e di conseguenza il risultato del test:
+più piccolo è $\alpha$ (maggiore è l'evidenza richiesta per rifiutare), più piccola è la regione
+critica. In particolare, se rifiutiamo ad un certo livello $\alpha$, allora rifiutiamo anche al
+livello $\alpha' > \alpha$, mentre potremmo accettare per un livello inferiore ad $\alpha$.
+
+Per ovviare alla dipendenza dell'esito del test da $\alpha$, viene usato il metodo del $p$-value.
+A differenza della regione critica $C$, che è fissata a priori indipendentemente dall'esito del
+campione, il $p$-value dipende dalla realizzazione $(x_1, \dots, x_n)$ del campione
+$(X_1, \dots, X_n)$. Informalmente il $p$-value di un dato $(x_1, \dots, x_n)$ è la probabilità
+$\overline{\alpha}$ nell'ipotesi $H_0$ di ottenere dati più estremi (rispetto ad $H_0$) di
+$(x_1, \dots, x_n)$
+
+\begin{definition}
+	Data $(x_1, \dots, x_n)$ realizzazione del campione $(X_1, \dots, X_n)$ si chiama $p$-value di
+	$(x_1, \dots, x_n)$ il valore $\overline{\alpha} = \overline{\alpha} (x_1, \dots, x_n)$ tale
+	che, se il livello $\alpha$ del test è $\alpha < \alpha'$, l'ipotesi viene accettata a livello
+	$\alpha$, mentre se $\alpha > \overline{\alpha}$, l'ipotesi viene rifiutata a livello $\alpha$.
+\end{definition}
+
+Il $p$-value sintetizza in un unico numero la \emph{plausibilità} dell'ipotesi $H_0$ e l'esito del
+test al variare di $\alpha$. Il $p$-value offre come esito quantitativo tra 0 e 1, un'informazione
+più ricca della semplice dicotomia accetto/rifiuto (indipendente dal livello $\alpha$).
+
+In pratica, se il $p$-value è molto basso, l'ipotesi $H_0$ è decisamente poco plausibile, se invece
+il $p$-value è alto allora $H_0$ è molto plausibile. Per valori intermedi, il $p$-value, ci dice
+quanto forte è l'indicazione contro $H_0$.
