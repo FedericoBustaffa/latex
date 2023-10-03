@@ -126,3 +126,55 @@ Se vogliamo che $1-\beta(\mu) \geq 1 - \beta_0$, imponiamo
 	1 - \Phi \left( \sqrt{n} \cdot \frac{|\mu_0 - \mu|}{\sigma} -
 	q_{1-\frac{\alpha}{2}} \right) \leq \beta_0
 \]
+
+\subsection{Z-test unilatero}
+Ragionamento molto simile al caso bilatero, infatti consideriamo $X \sim N(\mu, \sigma^2)$ con
+$\sigma^2$ nota e $X_1, \dots, X_n$ un campione \iid di $X$. In questo caso il test è però
+unilatero e quindi abbiamo che
+\[ H_0: \mu \leq \mu_0 \quad H_1: \mu > \mu_0 \]
+
+\subsubsection{Formulazione del test}
+L'intuizione ci spinge a rifiutare $H_0$ se $\overline{X} - \mu_0$ è grande, cioè a considerare
+una regione critica della forma
+\[ C = \{ \overline{X} - \mu_0 > d \} \]
+La condizione sul livello $\alpha$ diventa
+\[ P_\mu \{ \overline{X} - \mu_0 > d \} \leq \alpha \]
+per ogni $\mu \leq \mu_0$. Si può dimostrare che la probabilità scritta sopra cresce al crescere
+di $\mu$ e quindi basta imporre
+\[ P_{\mu_0} (\overline{X} - \mu_0 > d) = \alpha \]
+Facciamo ora uso della standardizzazione e otteniamo
+\[
+	P_{\mu_0} (\overline{X} - \mu_0 > d) =
+	P_{\mu_0} \left( \frac{\sqrt{n}}{\sigma} \cdot (\overline{X} - \mu_0) >
+	\frac{\sqrt{n}}{\sigma} \cdot d \right) = \alpha
+\]
+da cui $\frac{\sqrt{n}}{\sigma} \cdot d = q_{1-\alpha}$. Quindi
+\[
+	C = \left\{ \frac{\sqrt{n}}{\sigma} (\overline{X} - \mu_0) > q_{1-\alpha} \right\}
+	= \left\{ \overline{X} - \mu_0 > \frac{\sigma}{\sqrt{n}} \cdot q_{1-\alpha} \right\}
+\]
+La dipendenza dell'ampiezza della regione di accettazione $C^c$ dai parametri $\alpha$, $\sigma$
+ed $n$ è la stessa del caso bilatero.
+
+\subsubsection{Calcolo del p-value}
+I dati $(y_1, \dots, y_n)$ sono più estremi di $(x_1, \dots, x_n)$, rispetto ad
+$H_0: \mu \leq \mu_0$, se $\overline{y} - \mu_0 > \overline{x} - \mu_0$. Quindi il $p$-value,
+ossia la probabilità, sotto $H_0$ di avere dati più estremi di $(x_1, \dots, x_n)$ è
+\[ P_\mu \left( \overline{X} - \mu_0 > \overline{x} - \mu_0 \right) \]
+Come $p$-value si prende quindi il massimo di queste probabilità, che si realizza in $\mu = \mu_0$:
+\begin{align*}
+	\overline{\alpha} (x_1, \dots, x_n)
+	= & P_{\mu_0} \left( \overline{X} - \mu_0 > \overline{x} - \mu_0 \right)       \\
+	= & P_{\mu_0} \left( \frac{\overline{X} - \mu_0}{\sigma} \cdot \sqrt{n} >
+	\sqrt{n} \cdot \frac{\overline{x} - \mu_0}{\sigma} \right)                     \\
+	= & P \left( Z > \sqrt{n} \cdot \frac{\overline{x} - \mu_0}{\sigma} \right)    \\
+	= & 1 - \Phi \left( \sqrt{n} \cdot \frac{\overline{x} - \mu_0}{\sigma} \right)
+\end{align*}
+
+\subsubsection{Calcolo della curva operativa}
+Procediamo ora al calcolo della curva operativa e otteniamo
+\begin{align*}
+	\beta(\mu) = & P_\mu \left( \frac{\sqrt{n}}{\sigma} \cdot (\overline{X} - \mu_0) \leq
+	q_{1-\alpha} \right)                                                                        \\
+	=            & \Phi \left( \sqrt{n} \cdot \frac{\mu_0 - \mu}{\sigma} + q_{1-\alpha} \right)
+\end{align*}

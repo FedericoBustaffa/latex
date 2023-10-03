@@ -1,0 +1,12 @@
+\section{T-test}
+Vogliamo ora formulare un test per la media di una popolazione Gaussiana senza però conoscere la
+varianza. Sia $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ non noto e sia $X_1, \dots, X_n$ un campione
+\iid di $X$.
+
+Il ragionamento è analogo allo $z$-test ma considerando come statistica
+\[ \sqrt{n} \cdot \frac{\overline{X} - \mu}{S} \]
+che, come abbiamo visto in precedenza, si tratta di una distribuzione $t$ di Student a $n-1$ gradi
+di libertà, con
+\[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n (X_i - \overline{X})^2 \]
+varianza campionaria. Una volta definito questo ci basta usare i quantili della distribuzione $t$
+di Student invece di quelli della Gaussiana.
