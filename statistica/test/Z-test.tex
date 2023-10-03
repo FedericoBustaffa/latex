@@ -88,3 +88,41 @@ Per svolgere il calcolo usiamo la standardizzazione e otteniamo
 \end{align*}
 Si verifica che $\overline{\alpha}$ soddisfa la definizione rigorosa di $p$-value: si rifiuta $H_0$
 se e solo se $\alpha > \overline{\alpha}$.
+
+\subsection{Calcolo della curva operativa}
+Come abbiamo detto, la curva operativa è
+\begin{align*}
+	\beta (\mu) = & P_\mu (C^c)                                                              \\
+	=             & P_\mu \left( \sqrt{n} \cdot \frac{|\overline{X} - \mu_0|}{\sigma}
+	\leq q_{1 - \frac{\alpha}{2}} \right)                                                    \\
+	=             & P_\mu \left( -q_{1-\frac{\alpha}{2}} \leq
+	\sqrt{n} \cdot \frac{\overline{X} - \mu_0}{\sigma} \leq q_{1 - \frac{\alpha}{2}} \right) \\
+	=             & P_\mu \left( -q_{1-\frac{\alpha}{2}} \leq
+	\sqrt{n} \cdot \frac{\overline{X} - \mu}{\sigma} + \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma}
+	\leq q_{1-\frac{\alpha}{2}} \right)                                                      \\
+	=             & P_\mu \left( \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} -
+	q_{1 - \frac{\alpha}{2}} \leq Z \leq
+	\sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} + q_{1-\frac{\alpha}{2}} \right)               \\
+	=             & \Phi \left( \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} +
+	q_{1-\frac{\alpha}{2}} \right) - \Phi \left( \sqrt{n} \cdot
+	\frac{\mu - \mu_0}{\sigma} - q_{1-\frac{\alpha}{2}} \right)                              \\
+	=             & h \left( \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} \right)
+\end{align*}
+Si può dimostrare che la funzione $h$ è pari e decrescente in $x \geq 0$ (ad $\alpha$ fissato).
+Quindi più $\sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma}$ è grande, più la curva operativa è piccola
+e quindi più grande è la potenza $1 - \beta(\mu)$.
+
+Ne segue che, per aumentare la potenza $1 - \beta(\mu)$ (lasciando $\alpha$ fissato), si può
+aumentare la taglia $n$ del campione. Più precisamente possiamo formalizzare la cosa in questo modo
+\begin{align*}
+	\beta (\mu) = & \Phi \left( \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} +
+	q_{1-\frac{\alpha}{2}} \right) - \Phi \left( \sqrt{n} \cdot
+	\frac{\mu - \mu_0}{\sigma} - q_{1-\frac{\alpha}{2}} \right)                 \\
+	\leq          & 1 - \Phi \left( \sqrt{n} \cdot \frac{\mu - \mu_0}{\sigma} -
+	q_{1-\frac{\alpha}{2}} \right)
+\end{align*}
+Se vogliamo che $1-\beta(\mu) \geq 1 - \beta_0$, imponiamo
+\[
+	1 - \Phi \left( \sqrt{n} \cdot \frac{|\mu_0 - \mu|}{\sigma} -
+	q_{1-\frac{\alpha}{2}} \right) \leq \beta_0
+\]
