@@ -7,6 +7,23 @@ Il ragionamento è analogo allo $z$-test ma considerando come statistica
 \[ \sqrt{n} \cdot \frac{\overline{X} - \mu}{S} \]
 che, come abbiamo visto in precedenza, si tratta di una distribuzione $t$ di Student a $n-1$ gradi
 di libertà, con
-\[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n (X_i - \overline{X})^2 \]
+\[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X} \right)^2 \]
 varianza campionaria. Una volta definito questo ci basta usare i quantili della distribuzione $t$
 di Student invece di quelli della Gaussiana.
+
+\subsection{Test bilatero}
+Poniamoci nell'ipotesi
+\[ H_0: \mu = \mu_0 \quad H_1: \mu \neq \mu_0 \]
+
+\subsubsection{Formulazione del test}
+Cerchiamo una regione critica della forma
+\[ C = \left\{ |\overline{X} - \mu_0| > d \right\} \]
+Per farlo imponiamo quindi il livello $\alpha$
+\begin{align*}
+	P_{\mu_0} (C) =                          & \alpha \\
+	P_{\mu_0} (|\overline{X} - \mu_0| > d) = &
+	P_{\mu_0} \left( \frac{\overline{X} - \mu_0}{S} \cdot \sqrt{n} >
+	\frac{\sqrt{n}}{S} \cdot d \right)                \\
+	=                                        &
+	P \left( |T_{n-1}| > \frac{\sqrt{n}}{S} \cdot d \right)
+\end{align*}
