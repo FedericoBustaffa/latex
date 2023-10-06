@@ -36,8 +36,7 @@ e vale una formula più generale data dalla seguente proposizione.
 \end{proposition}
 
 \begin{definition}
-	Siano $B_1, \dots, B_n$ eventi non trascurabili che formano una partizione dello spazio
-	campionario $\Omega$, se
+	Siano $B_1, \dots, B_n$ eventi non trascurabili tali che
 	\[ B_i \cap B_j = \emptyset \quad \land \quad B_1 \cup \dots \cup B_n = \Omega \]
 	per ogni $i,j$ con $i \neq j$, allora sono detti \textbf{sistema di alternative}.
 \end{definition}
@@ -94,7 +93,7 @@ probabilità condizionate relative ad un sistema di alternative.
 \begin{theorem}[Bayes]\label{th: bayes}
 	Siano $A$ e $B$ eventi non trascurabili. Allora vale
 	\[ P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \]
-	In particolare se $B_1, B_2, \dots, B_n$ allora vale
+	In particolare se $B_1, B_2, \dots, B_n$ è un sistema di alternative, allora vale
 	\[
 		P(B_i | A) = \frac{P(A | B_i) \cdot
 			P(B_i)}{\displaystyle\sum_{j=1}^n P(A | B_j) \cdot P(B_j)}
