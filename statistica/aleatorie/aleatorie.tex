@@ -3,14 +3,6 @@ Le variabili aleatorie sono, di fatto, \textbf{caratteristiche quantitative} del
 preso in esame. Non si tratta di altro che di una notazione per descrivere gli eventi ma sarà
 chiaro più avanti il loro significato e la loro utilità.
 
-\begin{example}
-	Si effettuano $n$ lanci di una moneta equilibrata ed essere interessati solo alle volte che
-	esce testa. Per riuscire a farlo potremmo assegnare a testa il valore 1 e a croce il valore 0.
-	Di conseguenza otteniamo che il numero di volte che esce croce è
-	\[ X(a_1, a_2, \dots, a_n) = \sum_{i=1}^n a_i \]
-	dove gli $a_i$ sono gli esisti di ogni lancio.
-\end{example}
-
 \section{Legge di una variabile aleatoria}
 Iniziamo ora a dare qualche definizione per formalizzare meglio il concetto di variabile aleatoria
 e perché sono state introdotte.
@@ -109,11 +101,10 @@ Possiamo distinguere due classi di variabili aleatorie a seconda della loro legg
 	in modo equivalente, se la sua legge $P_X$ è discreta.
 \end{definition}
 
-Per quanto visto sulle probabilità discrete, $P_X$ è determinata dalla sua funzione di massa,
-ovvero
+Per quanto visto sulle probabilità discrete, $P_X$ è determinata dalla sua funzione di massa
 \[ P_X (x_i) = P(X = x_i) \]
 vale infatti che
-\[ P(\{X \in A\}) = P_X (A) = \sum_{x_i \in A} P_X (x_i) \]
+\[ P(X \in A) = P_X (A) = \sum_{x_i \in A} P_X (x_i) \]
 
 \begin{definition}
 	Una variabile aleatoria $X$ è detta \textbf{con densità} o \textbf{assolutamente continua} se
@@ -121,24 +112,21 @@ vale infatti che
 	\[ P(\{X \in A\}) = P_X (A) = \int_A f(x) dx \]
 \end{definition}
 
-Teniamo a mente che, in questo caso, $P_X$ non è determinata dalla sua densità ma dall'integrale
-della densità. In generale la funzione di densità ci fornisce solo un'idea di come il carattere sia
-distribuito nell'esperimento e non ci deve stupire se assume valori anche maggiori di 1 in quanto
-la densità \textbf{non} è una probabilità.
+In questo caso $P_X$ non è determinata dalla sua densità ma dall'integrale della densità. In
+generale la funzione di densità ci dice come il carattere è distribuito e non ci deve stupire se
+questa assume valori anche maggiori di 1 in quanto la densità \textbf{non} è una probabilità.
 
 \begin{example}
-	Consideriamo il caso dell'estrazione di un individuo $\omega$ da una popolazione. Supponiamo
-	quindi che $\Omega$ rappresenti la popolazione italiana e che
+	Estraiamo un individuo $\omega$ da una popolazione $\Omega$ e consideriamo
 	\begin{itemize}
-		\item $X(\omega)$ equivale al numero di figli di $\omega$ (carattere discreto).
-		\item $Y(\omega)$ equivale all'altezza di $\omega$ (carattere continuo).
+		\item $X(\omega)$ che equivale al numero di figli di $\omega$ (carattere discreto).
+		\item $Y(\omega)$ che equivale all'altezza di $\omega$ (carattere continuo).
 	\end{itemize}
 	Abbiamo che
-	\[ P_X(x_i) = P(X = x_i) = \frac{\# \{ w | X(w) = x_i\} }{\# \Omega} \]
+	\[ P_X(x_i) = P(X = x_i) = \frac{\# \{ \omega | X(\omega) = x_i\} }{\# \Omega} \]
 	ossia la frequenza relativa di $X = x_i$ su tutta la popolazione. $P_X(2)$ è quindi la
-	frequenza relativa, sulla popolazione italiana, delle persone con 2 figli.
-
-	Per quanto riguarda $Y$ invece, l'area sottesa da $f$ nell'intervallo $[a,b]$ equivale a
+	frequenza relativa, sulla popolazione italiana, delle persone con 2 figli. Per quanto riguarda
+	$Y$ invece, abbiamo che l'area sottesa da $f$ nell'intervallo $[a,b]$ equivale a
 	\[
 		\int_a^b f(x) dx = P (a \leq Y \leq b)
 		= \frac{\# \{ \omega | Y(\omega) \in [a,b] \}}{\# \Omega}
@@ -148,7 +136,4 @@ la densità \textbf{non} è una probabilità.
 	\[ \int_{1.70}^{1.80} f(x) dx = P (1.70 \leq Y \leq 1.80) \]
 	ossia la frequenza relativa, nella popolazione italiana, delle persone con altezza compresa tra
 	1.70 e 1.80.
-
-	Poiché anche nell'istogramma la frequenza relativa di $a \leq Y \leq b$ è l'area dei rettangoli
-	tra $a$ e $b$, la curva $f$ rappresenta un'ottima approssimazione di tale istogramma.
 \end{example}

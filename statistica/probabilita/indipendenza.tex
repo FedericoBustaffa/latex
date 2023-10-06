@@ -81,17 +81,47 @@ prodotto delle probabilità dei singoli eventi.
 
 \subsubsection{Prove ripetute}
 Un caso importante di eventi indipendenti è il caso delle \textbf{prove ripetute} in cui si ripete
-un esperimento $n$ volte nelle medesime condizioni. Possiamo dire che per gli eventi riferiti a
+un esperimento $n$ volte nelle medesime condizioni. Possiamo dire che gli eventi riferiti a
 ripetizioni distinte o a gruppi disgiunti di ripetizione sono indipendenti.
 
 Un sottocaso importante delle prove ripetute è lo schema di Bernoulli per $n$ prove ripetute in
 cui ciascuna prova ha esito \emph{successo} o \emph{insuccesso}. In questo specifico caso è
-possibile scrivere lo spazio campionario
+possibile scrivere lo spazio campionario come segue
 \[ \Omega = \{ a_1, a_2, \dots, a_n | \forall i \; a_i \in \{ 0, 1 \} \} = \{ 0, 1 \}^n \]
-In cui associamo tipicamente a 1 il successo e a 0 l'insuccesso. La probabilità associata ad una
+dove associamo tipicamente a 1 il successo e a 0 l'insuccesso. La probabilità associata ad una
 sequenza equivale a
-\[ P(\{ a_1, \dots, a_n \}) = p^{\# \{i | a_i = 1\}} \cdot (1 - p)^{\# \{i | a_i = 0\}}  \]
-dove $p$ è la probabilità di successo della singola prova.
+\[ P(\{ a_1, \dots, a_n \}) = p^{\# \{i | a_i = 1\}} \cdot (1 - p)^{\# \{i | a_i = 0\}} \]
+dove $p$ è la probabilità di successo della singola prova. A questo punto, se volessimo calcolare
+la probabilità di ottenere $k$ successi dovremmo calcolare in quanti possibili modi è ottenere $k$
+successi in $n$ prove ripetute. Per farlo possiamo pensare ad ogni prova come ad un evento e quello
+che vogliamo fare è calcolare in quanti possibili modi è possibile estrarre $k$ successi da un
+insieme di $n$ prove (coefficiente binomiale). Otteniamo quindi che
+\[ \binom{n}{k} \cdot p^k \cdot (1 - p)^{n - k} \]
+è la probabilità di ottenere esattamente $k$ successi in $n$ prove ripetute.
+
+\begin{example}
+	Lanciamo 10 volte una moneta. L'evento "testa" equivale al successo e l'evento "croce" equivale
+	all'insuccesso. Qual è la probabilità di ottenere esattamente 3 volte testa? Prima di tutto
+	abbiamo che
+	\[ P(t) = P(c) = \frac{1}{2} \]
+	quindi la probabilità che si verifichi una singola sequenza con 3 successi e 7 insuccessi si
+	calcola come
+	\[
+		\left( \frac{1}{2} \right)^3 \cdot \left( 1 - \frac{1}{2} \right)^7
+		= \left( \frac{1}{2} \right)^{10}
+	\]
+	Essendo interessati però a tutti i possibili modi in cui questo può avvenire e per farlo
+	possiamo pensare di "estrarre" da un insieme di 10 lanci (prove), 3 successi e calcolare in
+	quanti modi è possibile farlo. Otteniamo quindi
+	\[
+		\binom{10}{3} \cdot \left( \frac{1}{2} \right)^3 \cdot \left( 1 - \frac{1}{2} \right)^7
+		= 120 \cdot \left( \frac{1}{2} \right)^{10} \approx 0.117
+	\]
+\end{example}
+
+Se volessimo calcolare la probabilità di avere almeno $k$ successi per $n$ prove ripetute, dovremmo
+calcolare la probabilità di ottenere da $k$ a $n$ successi e poi sommarle tutte. Discorso analago
+per il problema complementare.
 
 \begin{observation}
 	Il concetto di indipendenza non è legato al concetto di causalità.
