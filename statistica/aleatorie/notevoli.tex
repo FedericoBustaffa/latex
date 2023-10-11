@@ -214,14 +214,14 @@ Per prima cosa consideriamo la funzione
 la quale è regolarissima (infinitamente derivabile), tende a 0 molto velocemente per
 $|x| \to \infty$ ed è quindi integrabile su tutto $\R$, cioè
 \[ \int_{-\infty}^{+\infty} e^{-x^2/2} dx < +\infty \]
-Non esite però una formula esplicita per
+Non esite però una formula esplicita per esprimere analiticamente
 \[ \int_a^b e^{-x^2 / 2} dx \]
 per qualsiasi $a,b$. Tuttavia, ci sono particolari valori di $a$ e $b$, per cui è possibile
 calcolare tale integrale. In particolare si può dimostrare che
 \[ \int_{-\infty}^{+\infty} e^{-x^2 / 2} dx = \sqrt{2 \pi} \]
 Di conseguenza, dividendo la funzione $e^{-x^2/2}$ per $\sqrt{2 \pi}$ si ottiene una densità di
 probabilità espressa da
-\[ \varphi (x) = \frac{e^{-x^2 / 2}}{\sqrt{2 \pi}} \]
+\[ \varphi (x) = \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2 / 2} \]
 che prende il nome di \textbf{densità Gaussiana} (o \textbf{normale}) \textbf{standard} e che viene
 indicata con $N(0,1)$.
 
@@ -251,9 +251,7 @@ indicata con $N(0,1)$.
 		\end{axis}
 	\end{tikzpicture}
 \end{center}
-
-La sua funzione di ripartizione (di cui non possiamo dare una
-rappresentazione diversa) è dunque
+La sua funzione di ripartizione (di cui non possiamo dare una rappresentazione diversa) è dunque
 \[
 	\Phi(x) = \int_{-\infty}^x \varphi(y) dy =
 	\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-y^2 / 2} dy
@@ -278,14 +276,15 @@ proprietà utili della Gaussiana standard:
 	      dove $y' = -y$ e vale in generale per densità $\varphi$ pari.
 	\item Data $X$ Gaussiana standard vale che
 	      \[ P(-t \leq X \leq t) = \Phi (t) - \Phi (-t) = 2 \Phi (t) - 1 \]
-	\item $P(X \leq 0) = \Phi (0) = 1 / 2$
+	\item Data $X$ Gaussiana standard vale che
+	      \[ P(X \leq 0) = \Phi (0) = 1 / 2 \]
 \end{itemize}
 Vogliamo ora calcolare
 \[ P(a < X < b) = \int_b^a \varphi (y) dy \]
 ma come abbiamo detto non esiste una formula esplicita. Si fa quindi ricorso alla funzione di
 ripartizione
 \[ P(a < X < b) = P(a \leq X < b) = P(a < X \leq b) = P(a \leq X \leq b) \]
-e per il teorema \ref{th: diff_cdf} vale che la probabilità scritta sopra vale
+e per il teorema \ref{th: diff_cdf} abbiamo che la probabilità scritta sopra vale
 \[ \Phi(b) - \Phi(a) \]
 Della funzione di ripartizione esistono tavole contenenti approssimazioni numeriche per
 $x \in (0,4)$. Per $x \geq 4$ abbiamo che $\Phi(x) \approx 1$, per $x < 0$ abbiamo invece
@@ -293,7 +292,7 @@ $\Phi(x) = 1 - \Phi(-x)$. Leggendo al contrario le tavole, si ricavano gli $\alp
 \begin{itemize}
 	\item Per $\alpha \in \left(\frac{1}{2}, 1 \right)$ abbiamo che $q_\alpha$ è tale che
 	      $\Phi(q_\alpha) = \alpha$.
-	\item Per $\alpha \in \left(0, \frac{1}{2} \right)$ abbiamo che $q_{1-\alpha} = -q_\alpha$
+	\item Per $\alpha \in \left(0, \frac{1}{2} \right)$ abbiamo che $q_{1-\alpha} = -q_\alpha$.
 \end{itemize}
 Dalle tavole si ricavano delle approssimazioni spesso utili per i calcoli, ossia
 \begin{gather*}
@@ -327,7 +326,7 @@ di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$ di una 
 poiché vale
 \[ Y \sim N(\mu, \sigma^2) \implies X = \frac{Y - \mu}{\sigma} \sim N(0,1) \]
 Per farlo è sufficiente sostituire a $Y \sim N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$,
-con $X$ Gaussiana standard. In particolare
+con $X$ Gaussiana standard. Questo processo è detta \textbf{standardizzazione}. Vale quindi che
 \begin{align*}
 	P(a < Y < b) = & P \left( \frac{a - \mu}{\sigma} < \frac{Y - \mu}{\sigma}
 	< \frac{b - \mu}{\sigma} \right)                                          \\
@@ -346,4 +345,12 @@ approssimazioni numeriche
 \begin{theorem}[Riproducibilità]\label{th: riprod_gauss}
 	Sia $Y \sim N(\mu, \sigma^2)$ e sia $Z = \alpha Y + \beta$, con $\alpha, \beta \in \R$ e
 	$\alpha \neq 0$, allora $Z \sim N(\alpha \mu + \beta, \alpha^2 \sigma^2)$.
+	\begin{proof}
+		Possiamo standardizzare $Y$ riconducendoci ad una Gaussiana standard $X$ in questo modo
+		\[ X = \frac{Y - \mu}{\sigma} \iff Y = \sigma X + \mu \]
+		Ora possiamo sostituire $Y$ nella formula che definisce $Z$ e otteniamo
+		\[ Z = \alpha \sigma X + \alpha \mu + \beta \]
+		e dato che $X$ è una Gaussiana standard possiamo concludere che
+		\[ Z \sim N(\alpha \mu + \beta, \alpha^2 \sigma^2) \]
+	\end{proof}
 \end{theorem}
