@@ -139,7 +139,7 @@ calcolarla. Però si può sempre provare a calcolare la funzione di ripartizione
 \[ F_Y (y) = P(Y \leq y) = P(h(X) \leq y) \]
 in particolare, se $F_Y$ è $C^1$ a tratti, allora $Y$ ammette come densità la derivata di $F_Y$.
 
-\begin{proposition}[Cambio di variabile]
+\begin{proposition}[Cambio di variabile]\label{prop: cambio_var}
 	Supponiamo che $X$ sia una variabile aleatoria con densità $f_X$ supportata su un intervallo
 	aperto $A$ (cioè $f_X(x) = 0$ $\forall x \notin A$). Sia $h : A \to B$ con $B$ intervallo
 	aperto, con $h \in C^1$, biunivoca e con inversa $h^{-1} \in C^1$. Allora la variabile
@@ -209,29 +209,64 @@ a causa del legame definito dalla funzione $h$.
 \end{example}
 
 \subsection{Variabili Gaussiane}
-La funzione $f(x) = e^{-x^2 / 2}$ è regolarissima (infinitamente derivabile), tende a 0 molto
-velocemente per $|x| \to \infty$ e quindi è integrabile, ma non è possibile scrivere la sua
-primitiva in termini di funzioni elementari. In sintesi significa che l'unico modo di rappresentare
-il valore di
-\[ \int_0^t e^{-x^2 / 2} dx \]
-per un generico $t$ è ricorrere ad approssimazioni numeriche. Tuttavia, per alcuni particolari
-valori di $t$ tale integrale assume valori semplici, ad esempio
+Per prima cosa consideriamo la funzione
+\[ f(x) = e^{-x^2 / 2} \]
+la quale è regolarissima (infinitamente derivabile), tende a 0 molto velocemente per
+$|x| \to \infty$ ed è quindi integrabile su tutto $\R$, cioè
+\[ \int_{-\infty}^{+\infty} e^{-x^2/2} dx < +\infty \]
+Non esite però una formula esplicita per
+\[ \int_a^b e^{-x^2 / 2} dx \]
+per qualsiasi $a,b$. Tuttavia, ci sono particolari valori di $a$ e $b$, per cui è possibile
+calcolare tale integrale. In particolare si può dimostrare che
 \[ \int_{-\infty}^{+\infty} e^{-x^2 / 2} dx = \sqrt{2 \pi} \]
 Di conseguenza, dividendo la funzione $e^{-x^2/2}$ per $\sqrt{2 \pi}$ si ottiene una densità di
 probabilità espressa da
-\[ \varphi (x) = \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2 / 2} \]
+\[ \varphi (x) = \frac{e^{-x^2 / 2}}{\sqrt{2 \pi}} \]
 che prende il nome di \textbf{densità Gaussiana} (o \textbf{normale}) \textbf{standard} e che viene
-indicata con $N(0,1)$. La sua funzione di ripartizione (di cui non possiamo dare una
-rappresentazione diversa) è
-\[ \Phi(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-t^2 / 2} dt \]
-Un altro valore importante è detto $\alpha$-quantile della variabile $N(0,1)$ ed indicato con la
-notazione $q_\alpha$. La Gaussiana standard ha anche alcune proprietà utili:
+indicata con $N(0,1)$.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				font=\footnotesize,
+				width=8cm, height=5cm,
+				axis lines = center,
+				xtick={-2, -1, 1, 2},
+				ytick={0.25, 0.5},
+				xmin=-2, xmax=2,
+				ymin=0, ymax=0.5,
+				grid = both, grid style = dashed,
+				enlargelimits
+			]
+
+			\addplot[
+				name path=f,
+				domain=-3:3,
+				color=blue,
+				thick,
+				samples=100
+			]
+			{exp(-x^2 / 2) / sqrt(2 * pi)};
+
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+La sua funzione di ripartizione (di cui non possiamo dare una
+rappresentazione diversa) è dunque
+\[
+	\Phi(x) = \int_{-\infty}^x \varphi(y) dy =
+	\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-y^2 / 2} dy
+\]
+Un altro valore importante è detto $\alpha$\textbf{-quantile} della Gaussiana standard $N(0,1)$ ed
+è indicato con la notazione $q_\alpha$ con $\alpha \in (0,1)$. Possiamo ora definire alcune
+proprietà utili della Gaussiana standard:
 \begin{itemize}
 	\item La sua densità $\varphi$ è pari, cioè $\varphi(x) = \varphi(-x)$, quindi la funzione è
 	      simmetrica rispetto all'asse $y$.
 	\item La funzione di ripartizione $\Phi$ gode della seguente proprietà
 	      \[ \Phi(-x) = 1 - \Phi(x) \]
-	      infatti vale
+	      ed è dimostrabile calcolando
 	      \begin{align*}
 		      \Phi(-x) = & \int_{-\infty}^{-x} \varphi(y) dy           \\
 		      =          & \int_x^{+\infty} \varphi(-y') dy'           \\
@@ -249,47 +284,66 @@ Vogliamo ora calcolare
 \[ P(a < X < b) = \int_b^a \varphi (y) dy \]
 ma come abbiamo detto non esiste una formula esplicita. Si fa quindi ricorso alla funzione di
 ripartizione
-\begin{multline*}
-	P(a < X < b) = P(a \leq X < b) \\
-	= P(a < X \leq b) = P(a \leq X \leq b) = \Phi(b) - \Phi(a)
-\end{multline*}
+\[ P(a < X < b) = P(a \leq X < b) = P(a < X \leq b) = P(a \leq X \leq b) \]
+e per il teorema \ref{th: diff_cdf} vale che la probabilità scritta sopra vale
+\[ \Phi(b) - \Phi(a) \]
 Della funzione di ripartizione esistono tavole contenenti approssimazioni numeriche per
-$x \in (0,4)$. Per $x \geq 4$ abbiamo che $\Phi(x) \simeq 1$, per $x < 0$ abbiamo invece
-$\Phi(x) = 1 - \Phi(-x)$. Altre delle approssimazioni più importanti sono
-\begin{gather*}
-	P(-1 \leq X \leq 1) \simeq 0.68 \\
-	P(-2 \leq X \leq 2) \simeq 0.94 \\
-	P(-3 \leq X \leq 3) \simeq 0.997
-\end{gather*}
-Leggendo al contrario le tavole, si ricavano gli $\alpha$-quantili
+$x \in (0,4)$. Per $x \geq 4$ abbiamo che $\Phi(x) \approx 1$, per $x < 0$ abbiamo invece
+$\Phi(x) = 1 - \Phi(-x)$. Leggendo al contrario le tavole, si ricavano gli $\alpha$-quantili
 \begin{itemize}
-	\item Per $\alpha \in (1/2, 1)$ abbiamo che $q_\alpha$ è tale che $\Phi(q_\alpha) = \alpha$.
-	\item Per $\alpha \in (0, 1/2)$ abbiamo che $q_{1-\alpha} = -q_\alpha$
+	\item Per $\alpha \in \left(\frac{1}{2}, 1 \right)$ abbiamo che $q_\alpha$ è tale che
+	      $\Phi(q_\alpha) = \alpha$.
+	\item Per $\alpha \in \left(0, \frac{1}{2} \right)$ abbiamo che $q_{1-\alpha} = -q_\alpha$
 \end{itemize}
-Passiamo ora al caso generale di Gaussiana: data $X$ Gaussiana standard, siano $\sigma > 0$ e
-$\mu \in \R$ e sia $Y = \sigma X + \mu$ una variabile aleatoria. La funzione di ripartizione di
+Dalle tavole si ricavano delle approssimazioni spesso utili per i calcoli, ossia
+\begin{gather*}
+	P(-1 \leq X \leq 1) \approx 0.68 \\
+	P(-2 \leq X \leq 2) \approx 0.94 \\
+	P(-3 \leq X \leq 3) \approx 0.997
+\end{gather*}
+Per gli altri valori basta consultare le tavole contenenti tutte le approssimazioni.
+
+\subsubsection{Gaussiana generale}
+Passiamo ora al caso generale di Gaussiana: data $X$ Gaussiana standard, siano $\mu \in \R$ e
+$\sigma > 0$ e sia $Y = \sigma X + \mu$ una variabile aleatoria. La funzione di ripartizione di
 $Y$ è data da
 \[
 	F_Y(y) = P(Y \leq y) = P(\sigma X + \mu \leq y)
-	= P\left(X \leq \frac{y - m}{\sigma}\right)
-	= \Phi \left(\frac{y - m}{\sigma}\right)
+	= P\left(X \leq \frac{y - \mu}{\sigma}\right)
+	= \Phi \left(\frac{y - \mu}{\sigma}\right)
 \]
-e la sua densità (ottenuta derivando $F_Y$ o applicando la formula di cambio di variabile) è
+e la sua densità (ottenuta derivando $F_Y$ o applicando la formula di
+\hyperref[prop: cambio_var]{cambio di variabile}) è
 \[
-	f_Y(y) = \frac{1}{\sigma} \cdot \varphi \left(\frac{y - m}{\sigma}\right) =
-	\frac{1}{\sqrt{2 \pi} \sigma} \cdot e^{-\frac{(y - m)^2}{2 \sigma^2}}
+	f_Y(y) = \frac{1}{\sigma} \cdot \varphi \left(\frac{y - \mu}{\sigma}\right) =
+	\frac{1}{\sqrt{2 \pi} \sigma} \cdot e^{-\frac{(y - \mu)^2}{2 \sigma^2}}
 \]
-Quest'ultima funzione è detta \textbf{densità Gaussiana} (o \textbf{normale}) $N(\mu, \sigma^2)$,
-ovvero diciamo che $Y$ è Gaussiana $N(\mu, \sigma^2)$.
+Quest'ultima funzione è detta \textbf{densità Gaussiana} (o \textbf{normale}) di parametri $\mu$ e
+$\sigma^2$ ed è denotata come $N(\mu, \sigma^2)$.
 
+\label{standardizzazione}
 In generale è sempre possibile ricondurre tutti i calcoli relativi alla funzione di ripartizione
-di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$: è sufficiente sostituire
-a $Y$ Gaussiana $N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$, con $X$ Gaussiana
-standard. Ad esempio, in particolare
-\[ P(a < Y < b) = P \left( \frac{a-m}{\sigma} < X < \frac{b-m}{\sigma} \right) \]
+di una variabile Gaussiana generica alla funzione di ripartizione $\Phi$ di una Gaussiana standard
+poiché vale
+\[ Y \sim N(\mu, \sigma^2) \implies X = \frac{Y - \mu}{\sigma} \sim N(0,1) \]
+Per farlo è sufficiente sostituire a $Y \sim N(\mu, \sigma^2)$ la rappresentazione $\sigma X + \mu$,
+con $X$ Gaussiana standard. In particolare
+\begin{align*}
+	P(a < Y < b) = & P \left( \frac{a - \mu}{\sigma} < \frac{Y - \mu}{\sigma}
+	< \frac{b - \mu}{\sigma} \right)                                          \\
+	=              & \Phi \left( \frac{b - \mu}{\sigma} \right) -
+	\Phi \left( \frac{a - \mu}{\sigma} \right)
+\end{align*}
+con $\Phi$ che è la funzione di ripartizione di una Gaussiana standard. In particolare, per una
+Gaussiana $Y \sim N(\mu, \sigma^2)$, dalle analoghe proprietà per $X$, otteniamo le seguenti
+approssimazioni numeriche
+\begin{gather*}
+	P(\mu - \sigma \leq Y \leq \mu + \sigma) \approx 0.68 \\
+	P(\mu - 2 \sigma \leq Y \leq \mu + 2 \sigma) \approx 0.94 \\
+	P(\mu - 3 \sigma \leq Y \leq \mu + 3 \sigma) \approx 0.997
+\end{gather*}
 
 \begin{theorem}[Riproducibilità]\label{th: riprod_gauss}
-	Sia $Y$ una Gaussiana $N(\mu, \sigma^2)$, sia $V = \alpha Y + \beta$, con
-	$\alpha, \beta \in \R$ e $\alpha \neq 0$. Allora $V$ è una Gaussiana
-	$N(\alpha \mu + \beta, \alpha^2 \sigma^2)$.
+	Sia $Y \sim N(\mu, \sigma^2)$ e sia $Z = \alpha Y + \beta$, con $\alpha, \beta \in \R$ e
+	$\alpha \neq 0$, allora $Z \sim N(\alpha \mu + \beta, \alpha^2 \sigma^2)$.
 \end{theorem}
