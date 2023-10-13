@@ -60,7 +60,7 @@ Vediamo ora come calcolare il valore atteso di una trasformazione di una variabi
 ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 
 \begin{proposition}
-	Sia $X$ discreta, la variabile $g(X)$ ammette valore atteso se
+	Sia $X$ discreta con funzione di massa $p$, la variabile $g(X)$ ammette valore atteso se
 	$\sum_i |g(x_i)| \cdot p(x_i) < +\infty$, e in tal caso
 	\[ \E[g(X)] = \sum_i g(x_i) \cdot p(x_i) \]
 	Sia $X$ con densità $f$, la variabile $g(X)$ ha valore atteso se
@@ -135,8 +135,8 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 	Quando $X \geq 0$, allora si può sempre definire $\E[X] \in [0, +\infty)$ come
 	\[
 		\E[X] = \begin{cases}
-			\displaystyle\sum_i x_i \cdot p(x_i)            & X \text{ discreta}    \\[3ex]
-			\displaystyle\int_{-\infty}^{+\infty} x f(x) dx & X \text{ con densità}
+			\displaystyle\sum_i x_i \cdot p(x_i)                  & X \text{ discreta}    \\[3ex]
+			\displaystyle\int_{-\infty}^{+\infty} x \cdot f(x) dx & X \text{ con densità}
 		\end{cases}
 	\]
 \end{observation}
@@ -202,7 +202,7 @@ atteso.
 \begin{corollary}
 	Siano $X$ e $Y$ indipendenti e $h,k : \R \to \R$, con $h(X)$ e $k(Y)$ che ammettono valore
 	atteso. Allora anche $h(X) \cdot k(Y)$ ha valore atteso e vale
-	\[ \E[h(X) \cdot k(Y)] = \E[h(X)] \cdot \E[(k(Y))] \]
+	\[ \E[h(X) \cdot k(Y)] = \E[h(X)] \cdot \E[k(Y)] \]
 	\begin{proof}
 		Se $X$ e $Y$ sono indipendenti, allora $h(X)$ e $k(Y)$ sono indipendenti e quindi si usa
 		il risultato precedente.
@@ -364,7 +364,7 @@ del quadrato degli scarti di $X$ da $\E[X]$.
 
 \begin{definition}
 	Data $X$ con momento secondo, si chiama \textbf{varianza} di $X$ la quantità
-	\[ \Var(X) = \E[(X - E[X])^2] \]
+	\[ \Var(X) = \E[(X - \E[X])^2] \]
 	Si chiama \textbf{scarto quadratico medio} o \textbf{deviazione standard} la quantità
 	\[ \sigma(X) = \sqrt{\Var(X)} \]
 \end{definition}
@@ -373,12 +373,14 @@ del quadrato degli scarti di $X$ da $\E[X]$.
 	Come per il valore atteso, la varianza di $X$ dipende solo dalla legge $P_X$.
 \end{observation}
 
-Sviluppando il quadrato
-\[ (X - \E[X])^2 = X^2 + \E[X]^2 - 2 X \E[X] \]
-otteniamo
-\[ \Var(X) = \E[X^2] - \E[X]^2 \]
-Inoltre
-\[ \Var(aX + b) = a^2 \Var(X) \]
+\begin{observation}
+	Sviluppando il quadrato
+	\[ (X - \E[X])^2 = X^2 + \E[X]^2 - 2 X \E[X] \]
+	otteniamo
+	\[ \Var(X) = \E[X^2] - \E[X]^2 \]
+	Inoltre vale
+	\[ \Var(aX + b) = a^2 \Var(X) \]
+\end{observation}
 
 \begin{example}
 	Calcoliamo ora la varianza del lancio di un dado data la variabile $X$ che rappresenta l'esito

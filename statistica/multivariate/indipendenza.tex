@@ -32,18 +32,17 @@ le probabilità relative ad $Y$.
 \end{example}
 
 \begin{example}
-	Data $X$ variabile aleatoria non costante, allora $X$ e $-X$ non sono indipendenti.
+	Data $X$ variabile aleatoria non costante, allora $X$ e $-X$ non sono indipendenti. Se
+	volessimo dimostrare la correttezza di quest'ultimo esempio dovremmo considerare
+	$A \subseteq \R$ e $B = -A = \{ -x | x \in A \}$, allora
+	\[ P(X \in A, -X \in B) = P(X \in A, X \in A) = P(X \in A) \]
+	possiamo anche dimostrare che
+	\[ P(X \in A) \cdot P(X \in B) = P(X \in A) \cdot P(X \in A) = P(X \in A)^2 \]
+	Se avessimo indipendenza, potremmo scrivere
+	\[ P(X \in A)^2 = P(X \in A) \]
+	per ogni $A \in \R$, cioè $P(X \in A) = 0$ oppure $P(X \in A) = 1$ che equivale a dire che $X$ è
+	costante.
 \end{example}
-
-Più rigorosamente se volessi dimostrare la correttezza di quest'ultimo esempio dovremmo considerare
-$A \subseteq \R$ e $B = -A = \{ -x | x \in A \}$, allora
-\[ P(X \in A, -X \in B) = P(X \in A, X \in A) = P(X \in A) \]
-possiamo anche dimostrare che
-\[ P(X \in A) \cdot P(X \in B) = P(X \in A) \cdot P(X \in A) = P(X \in A)^2 \]
-Se avessimo indipendenza, potremmo scrivere
-\[ P(X \in A)^2 = P(X \in A) \]
-per ogni $A \in \R$, cioè $P(X \in A) = 0$ oppure $P(X \in A) = 1$ che equivale a dire che $X$ è
-costante.
 
 \begin{observation}
 	Se $X_1, X_2, \dots, X_n$ sono variabili aleatorie indipendenti, allora sono indipendenti a 2
@@ -54,7 +53,7 @@ costante.
 	Siano $X$ e $Y$ due variabili aleatorie discrete, con immagine rispettivamente nei punti $x_i$
 	e $y_j$, allora $X$ e $Y$ sono indipendenti se e solo se
 	\[ p(x_i, y_j) = p_X (x_i) \cdot p_Y (y_j) \]
-	per ogni $x_i, y_j$ e con $p(x,y)$ funzione di massa di $(X, Y)$ e $p_X$ e $p_Y$ funzioni di
+	per ogni $x_i, y_j$, con $p(x,y)$ funzione di massa di $(X, Y)$ e con $p_X$ e $p_Y$ funzioni di
 	massa rispettivamente di $X$ e $Y$.
 	\begin{proof}
 		Per dimostrare questo basta notare che
