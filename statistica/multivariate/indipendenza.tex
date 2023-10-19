@@ -56,20 +56,13 @@ le probabilità relative ad $Y$.
 	per ogni $x_i, y_j$, con $p(x,y)$ funzione di massa di $(X, Y)$ e con $p_X$ e $p_Y$ funzioni di
 	massa rispettivamente di $X$ e $Y$.
 	\begin{proof}
-		Per dimostrare questo basta notare che
+		Consideriamo $A = \{ x_i \}$ e $B = \{ y_j \}$, si dimostra che
 		\begin{align*}
 			p_{(X,Y)} (x_i, y_j) = & P(X = x_i, Y = y_j)         \\
 			=                      & P(X = x_i) \cdot P(Y = y_j) \\
 			=                      & p_X (x_i) \cdot p_Y (y_j)
 		\end{align*}
-	\end{proof}
-
-	Data $(X, Y)$ con densità, $X$ e $Y$ sono indipendenti se e solo se
-	\[ f_{(X,Y)} (x,y) = f_X (x) \cdot f_Y (y) \]
-	per ogni $(x, y) \in \R^2$. Con $f_{(X,Y)}$, $f_X$, e $f_Y$ densità rispettivamente di
-	$(X,Y)$, $X$ e $Y$.
-	\begin{proof}
-		In questo caso supponiamo di avere $A, B \subseteq \R$ e vogliamo dimostrare che
+		Viceversa, se consideriamo $A,B\subseteq \R$ si ha che
 		\begin{align*}
 			P(X \in A, Y \in B) = & P((X,Y) \in A \times B)                                    \\
 			=                     & \sum_{(x_i, y_j) \in A \times B} p_{(x,y)} (x_i, y_j)      \\
@@ -82,6 +75,13 @@ le probabilità relative ad $Y$.
 	\end{proof}
 \end{proposition}
 
+\begin{proposition}
+	Data $(X, Y)$ con densità, $X$ e $Y$ sono indipendenti se e solo se
+	\[ f_{(X,Y)} (x,y) = f_X (x) \cdot f_Y (y) \]
+	per ogni $(x, y) \in \R^2$ con $f_{(X,Y)}$, $f_X$ e $f_Y$ densità rispettivamente di
+	$(X,Y)$, $X$ e $Y$.
+\end{proposition}
+
 \begin{observation}
 	Se $X$ e $Y$ sono indipendenti allora la funzione di massa/densità congiunta si ricava dalle
 	funzioni di massa/densità marginali. L'indipendenza è una proprietà della legge congiunta
@@ -92,12 +92,12 @@ le probabilità relative ad $Y$.
 
 \begin{example}
 	Riprendiamo l'esempio fatto in precedenza in cui abbiamo 4 punti, ciascuno con probabilità
-	$1/4$. In questo caso la densità congiunta di $i$ e $j$ è uguale a
+	$1/4$. In questo caso la funzione di massa congiunta di $i$ e $j$ è uguale a
 	\[ p_{(X,Y)} (i,j) = \frac{1}{4} \]
 	per ogni $i,j \in \{ -1, 1 \}^2$. Le densità marginali sono
 	\begin{align*}
-		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
-		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1
+		p_X(i) = & \frac{1}{2} & \forall i \in \{ -1, 1 \} \\
+		p_Y(j) = & \frac{1}{2} & \forall j \in \{ -1, 1 \}
 	\end{align*}
 	A questo punto si può verificare che
 	\[ p_{(X,Y)} (i,j) = \frac{1}{4} = p_X(i) \cdot p_Y(j) \]
@@ -105,12 +105,12 @@ le probabilità relative ad $Y$.
 \end{example}
 
 \begin{example}
-	Riprendendo anche il secondo esempio in cui avevamo la densità congiunta che valeva
+	Riprendendo anche il secondo esempio in cui avevamo la funzione di massa congiunta che valeva
 	\[ P_{(x,y)} (i,j) = \frac{1}{2} \]
-	se $(i,j) = (1,1)$ o se $(i,j) = (-1,-1)$ e abbiamo le densità marginali che valgono
+	se $(i,j) = (1,1)$ o se $(i,j) = (-1,-1)$ e abbiamo le funzioni di massa marginali che valgono
 	\begin{align*}
-		p_X(i) = & \frac{1}{2} & \forall i = -1, 1 \\
-		p_Y(j) = & \frac{1}{2} & \forall j = -1, 1 \\
+		p_X(i) = & \frac{1}{2} & \forall i \in \{ -1, 1 \} \\
+		p_Y(j) = & \frac{1}{2} & \forall j \in \{ -1, 1 \} \\
 	\end{align*}
 	A questo punto possiamo constatare che se conosciamo $X$ allora conosciamo anche $Y$, per
 	esempio
@@ -121,11 +121,11 @@ le probabilità relative ad $Y$.
 \begin{proposition}[Stabilità dell'indipendenza per composizione]
 	Se $X$ e $Y$ sono indipendenti, date $h, k : \R \to \R$, allora $h(X)$ e $k(Y)$ sono
 	indipendenti.
-
-	Più in generale se $X_1, \dots, X_n$ e $Y_1, \dots, Y_m$ sono variabili indipendenti e
-	$h : \R^n \to \R$ e $k : \R^m \to \R$, allora $h(X_1, \dots, X_n)$ e $k(Y_1, \dots, Y_m)$ sono
-	indipendenti.
 \end{proposition}
+
+Più in generale se $X_1, \dots, X_n$ e $Y_1, \dots, Y_m$ sono variabili indipendenti e
+$h : \R^n \to \R$ e $k : \R^m \to \R$, allora $h(X_1, \dots, X_n)$ e $k(Y_1, \dots, Y_m)$ sono
+indipendenti.
 
 Come per gli eventi, un caso rilevante di variabili aleatorie indipendenti, è dato dalle prove
 ripetute. In un esperimento ripetute più volte nelle medesime condizioni, variabili aleatorie
@@ -138,8 +138,8 @@ associate a ripetizioni distinte o anche a gruppi disgiunti di ripetizioni, sono
 	Consideriamo ora $X_i$ con $i = 1, \dots, n$ la variabile aleatoria che modellizza l'esito
 	dell'$i$-esimo esperimento e definita in come segue
 	\[ X_i (a_1, \dots, a_n) = a_i \]
-	Possiamo dubito dire che le varie $X_i$ sono indipendenti, inoltre, ciascun $X_i$ è una
-	variabile binomiale di parametro $p$ ($B(p)$). Se inoltre consideriamo la variabile aleatoria
+	Possiamo subito dire che le varie $X_i$ sono indipendenti, inoltre, ciascun $X_i$ è una
+	variabile binomiale di parametro $p$. Se consideriamo poi la variabile aleatoria
 	\[ X = X_i + \dots + X_n \]
 	possiamo dire che $X$ conta il numero di successi nelle $n$ prove e sarà quindi una binomiale
 	$B(n,p)$.
@@ -166,29 +166,24 @@ regole
 
 \begin{proposition}[Riproducibilità delle binomiali]
 	Siano $X \sim B(n, p)$, $Y \sim B(m, p)$, $X$ e $Y$ indipendenti, allora la variabile
-	\[ Z := X + Y \sim B(n + m, p) \]
+	\[ Z = X + Y \sim B(n + m, p) \]
 	\begin{proof}
-		Dobbiamo considerare due casi:
-		\begin{itemize}
-			\item \textbf{Caso (m = 1)}: in questo caso abbiamo $Y \sim B(p)$ quindi
-			      \[
-				      Y = \begin{cases}
-					      1 & \text{con probabilità } 1 \\
-					      0 & \text{con probabilità } 0
-				      \end{cases}
-			      \]
-			      e la probabilità che $Z = h$ è
-			      \begin{align*}
-				      P(Z = h) = & P(X = h, Y = 0) + P(X = h-1, Y = 1)                          \\
-				      =          & P(X = h) \cdot P(Y = 0) + P(X = h-1) \cdot P(Y = 1)          \\
-				      =          & \binom{n}{h} p^h (1-p)^{n-h} (1-p) +
-				      \binom{n}{h-1} p^{h-1} (1-p)^{n-h+1} p                                    \\
-				      =          & p^h (1-p)^{n-h+1} \left(\binom{n}{h} + \binom{n}{h-1}\right) \\
-				      =          & \binom{n+1}{h} p^h (1-p)^{n-h+1}
-			      \end{align*}
-			      che infatti è la funzione di massa di una binomiale $B(n+1 = m, p)$.
-			\item Il caso generale si ricava tramite induzione su $m$.
-		\end{itemize}
+		Prima di tutto consideriamo il caso $m = 1$ e dunque $Y \sim B(p)$. La probabilità che
+		$Z = h$ è
+		\[ P(Z = h) = P(X = h, Y = 0) + P(X = h-1, Y = 1) \]
+		poiché dobbiamo far si che la somma dei valori assunti da $X$ e $Y$ sia $h$. Ora usiamo
+		l'indipendenza e otteniamo
+		\[ P(Z = h) = P(X = h) \cdot P(Y = 0) + P(X = h-1) \cdot P(Y = 1) \]
+		Da qui in avanti si sostituisce alle varie probabilità la legge della binomiale e otteniamo
+		che
+		\begin{align*}
+			P(Z = h) = & \binom{n}{h} p^h (1-p)^{n-h} (1-p) +
+			\binom{n}{h-1} p^{h-1} (1-p)^{n-h+1} p                                    \\
+			=          & p^h (1-p)^{n-h+1} \left(\binom{n}{h} + \binom{n}{h-1}\right) \\
+			=          & \binom{n+1}{h} p^h (1-p)^{n-h+1}
+		\end{align*}
+		che infatti è la funzione di massa di una binomiale $B(n + 1, p)$. Il caso generale si
+		ricava per induzione su $m$.
 	\end{proof}
 \end{proposition}
 
@@ -199,19 +194,19 @@ regole
 
 \begin{proposition}[Riproducibilità delle Poisson]
 	Siano $X \sim P(\lambda)$ e $Y \sim P(\nu)$ due variabili aleatorie indipendenti, allora
-	$X+Y \sim P(\lambda + \nu)$.
+	\[ Z = X+Y \sim P(\lambda + \nu) \]
 \end{proposition}
 
 \begin{proposition}[Convoluzione]
-	Siano $X$ e $Y$ due variabili aleatorie con densità rispettivamente $f_X$ e $f_Y$ e
-	indipendenti, allora la variabile aleatoria $Z = X + Y$ ha densità
+	Siano $X$ e $Y$ due variabili aleatorie indipendenti e con densità rispettivamente $f_X$ e
+	$f_Y$, allora la variabile aleatoria $Z = X + Y$ ha densità
 	\[
-		f_Z (z) = \int_{-\infty}^{+\infty} f_X (x) f_Y (z - x) dx =
-		\int_{-\infty}^{+\infty} f_Y (y) f_X (z - y) dy
+		f_Z (z) = \int_{-\infty}^{+\infty} f_X (x) \cdot f_Y (z - x) dx =
+		\int_{-\infty}^{+\infty} f_Y (y) \cdot f_X (z - y) dy
 	\]
 \end{proposition}
 
 \begin{proposition}[Riproducibilità delle Gaussiane]\label{prop: riprod_gauss}
-	Siano $X \sim N(\mu, \sigma^2)$ e $Y \sim N(\alpha, \beta^2)$ indipendenti, allora
-	\[ X + Y \sim N(\mu + \alpha, \sigma^2 + \beta^2) \]
+	Siano $X \sim N(\mu_1, \sigma_1^2)$ e $Y \sim N(\mu_2, \sigma_2^2)$ indipendenti, allora
+	\[ Z = X + Y \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2) \]
 \end{proposition}
