@@ -9,15 +9,7 @@ due variabili aleatorie. La variabile aleatoria doppia è la funzione $(X, Y) : 
 tale che
 \[ (X, Y)(\omega) = (X(\omega), Y(\omega)) \]
 Possiamo dire che se $X$ e $Y$ sono due caratteri di un dato esperimento, la variabile aleatoria
-doppia $(X, Y)$ rappresenta la coppia dei due caratteri.
-
-\begin{example}
-	Se consideriamo l'estrazione di un individuo dalla popolazione italiana e definiamo $X(\omega)$
-	come l'altezza dell'individuo $\omega$ e $Y(\omega)$ il suo peso, allora la coppia
-	$(X, Y)(\omega)$ rappresenta la coppia (altezza, peso) di $\omega$.
-\end{example}
-
-L'insieme $\{ (X, Y) \in A \}$ è uguale a
+doppia $(X, Y)$ rappresenta la coppia dei due caratteri. L'insieme $\{ (X, Y) \in A \}$ è uguale a
 \[ (X, Y)^{-1} (A) = \{ \omega \in \Omega | (X(\omega), Y(\omega)) \in A \} \]
 per $A \subseteq \R^2$ misurabile. In particolare se $A$ è nella forma $A_1 \times A_2$ con
 $A_1, A_2 \subseteq \R$ allora
@@ -28,27 +20,29 @@ $A_1, A_2 \subseteq \R$ allora
 Possiamo quindi dire che si verificano \emph{congiuntamente} $X \in A_1$ e $Y \in A_2$.
 
 \begin{example}
-	Riprendendo l'esempio fatto prima con altezza e peso e considerando $A_1 = [1.70, 1.80]$ e
-	$A_2 = [80, 90]$ allora
+	Estraiamo un individuo da una popolazione, se definiamo $X(\omega)$ come l'altezza
+	dell'individuo $\omega$ e $Y(\omega)$ come il suo peso, allora la coppia $(X, Y)(\omega)$
+	rappresenta la coppia (altezza, peso) di $\omega$. In particolare, se consideriamo
+	$A_1 = [1.70, 1.80]$ e $A_2 = [80, 90]$ allora
 	\[ \{ (X, Y) \in [1.70, 1.80] \times [80, 90] \} = \{ X \in [1.70, 1.80], Y \in [80, 90] \} \]
-	significa che abbiamo scelto gli individui con altezza compresa tra 1.70 e 1.80 e con peso
-	compreso tra 80 e 90. Non stiamo quindi considerando tutti gli individui con altezza compresa
-	in $A_1$ e tutti gli individui con peso compreso in $A_2$ ma solo gli individui che soddisfano
-	contemporaneamente queste due condizioni.
+	stiamo considerando gli individui con altezza tra 1.70 e 1.80 e peso tra 80 e 90.
 \end{example}
 
+\subsection{Legge di una variabile aleatoria doppia}
+Vediamo ora come è definita la \textbf{legge} di una variabile aleatoria doppia.
+
 \begin{definition}
-	Data $(X, Y) : \Omega \to \R^2$ una variabile aleatoria doppia, definiamo
+	Sia $(X, Y) : \Omega \to \R^2$ una variabile aleatoria doppia, definiamo
 	\[ P_{(X, Y)} (A) = P((X, Y) \in A) \]
-	la probabilità che il vettore $(X, Y)$ stia in $A$.
+	la probabilità che il vettore $(X, Y)$ stia in $A$ e la chiamiamo \textbf{legge congiunta} di
+	$X$ e $Y$. Analogamente chiamiamo \textbf{leggi marginali} di $(X,Y)$ le leggi $P_X$ di $X$ e
+	$P_Y$ di $Y$.
 \end{definition}
 
-Si può dimostrare che $P_{(X,Y)}$ è una probabilità su $\R^2$ e rappresenta la distribuzione dei
-valori di $(X, Y)$. Possiamo anche dire che $P_{(X, Y)}$ si chiama legge (o distribuzione) di
-probabilità di $(X,Y)$ o anche \textbf{legge congiunta} di $X$ e $Y$.
-
-Data $(X, Y)$, possiamo considerare separatamente la legge $P_X$ di $X$ e la legge $P_Y$ di $Y$ e
-gli diamo il nome di leggi (o distribuzioni) \textbf{marginali} della coppia $(X,Y)$.
+Possiamo infatti vedere la probabilità $P_{(X,Y)} (A)$ come la probabilità che si verifichino
+congiuntamente gli eventi $X \in A_1$ e $Y \in A_2$ definita come segue
+\[ P(X \in A_1, Y \in A_2) = P(X \in A_1 \cap Y \in A_2) \]
+dove $A = A_1 \times A_2$ e $A_1, A_2 \subseteq \R$.
 
 \begin{observation}
 	La legge congiunta $P_{(X,Y)}$ determina univocamente $P_X$ e $P_Y$ (marginali) infatti, per
@@ -58,24 +52,22 @@ gli diamo il nome di leggi (o distribuzioni) \textbf{marginali} della coppia $(X
 	\[ P_Y(A) = P_{(X,Y)} (\R \times A) \]
 \end{observation}
 
-Un'altra osservazione che possiamo fare è che le leggi marginali non determinano univocamente la
-legge congiunta. In altre parole $P_X$ e $P_Y$ non ci dicono nulla della relazione tra $X$ e $Y$,
-che invece è codificata da $P_{(X,Y)}$.
+Un'altra osservazione che possiamo fare è che le leggi marginali \textbf{non determinano}
+univocamente la legge congiunta. In altre parole $P_X$ e $P_Y$ non ci dicono nulla della relazione
+tra $X$ e $Y$, che invece è codificata da $P_{(X,Y)}$.
 
 \begin{example}
-	Consideriamo la variabile aleatoria doppia discreta $(X, Y)$ tale che
-	\[ P_{(X, Y)} (i,j) = \frac{1}{4} \]
-	per ogni $(i,j) \in \{ (1,1), (1,-1), (-1,1), (-1,-1) \}$. Allora possiamo dire che
+	Consideriamo la variabile aleatoria doppia $(X, Y)$ tale che $P_{(X, Y)} (i,j) = 1 / 4$ per
+	ogni $(i,j)$ nell'insieme
+	\[ \{ (1,1), (1,-1), (-1,1), (-1,-1) \} \]
+	Allora possiamo dire che
 	\begin{align*}
 		P_X(1) = & P_{(X, Y)} (\{ 1 \} \times \{-1, 1\})   \\
 		=        & P_{(X,Y)} (1,1) + P_{(X,Y)} (1,-1)      \\
 		=        & \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
 	\end{align*}
-	Analogamente possiamo dire che $P_X(-1) = P_Y(1) = P_Y(-1) = 1/2$.
-\end{example}
-
-\begin{example}
-	Consideriamo la variabile aleatoria doppia $(X, Y)$ tale che
+	Analogamente possiamo dire che $P_X(-1) = P_Y(1) = P_Y(-1) = 1/2$. Consideriamo ora una nuova
+	variabile aleatoria doppia $(X, Y)$ tale che
 	\[ P_{(X,Y)} (1,1) = P_{(X, Y)} (-1, -1) = \frac{1}{2} \]
 	Calcolando le leggi marginali abbiamo che
 	\begin{gather*}
@@ -83,8 +75,12 @@ che invece è codificata da $P_{(X,Y)}$.
 		P_X (-1) = P_{(X, Y)} (-1, -1) = \frac{1}{2}
 	\end{gather*}
 	Analogamente abbiamo che $P_Y(1) = P_Y(-1) = 1/2$. Come possiamo notare le leggi marginali sono
-	le stesse dell'esempio precedente.
+	le stesse dell'esempio precedente ma la legge congiunta cambia.
 \end{example}
+
+\subsubsection{Caso discreto}
+Entriamo più nello specifico, iniziando con il definire le
+\textbf{variabili aleatorie doppie discrete}.
 
 \begin{definition}
 	La variabile aleatoria doppia $(X,Y)$ è detta \textbf{discreta} se l'immagine di $(X,Y)$ è
@@ -108,23 +104,16 @@ che invece è codificata da $P_{(X,Y)}$.
 	\end{gather*}
 	\begin{proof}
 		Notiamo che
-		\[ (X = x_i) = \cup_{y_j} (\{ X = x_i, Y = y_j \}) \]
+		\[ \{ X = x_i \} = \cup_{j} \{ X = x_i, Y = y_j \} \]
 		quindi
 		\[ P_X(x_i) = P(X = x_i) = \sum_{y_j} P(X = x_i, Y = y_j) = \sum_{y_j} p(x_i, y_j) \]
 		Ragionamento analogo vale per $Y$.
 	\end{proof}
 \end{proposition}
 
-\begin{definition}
-	Si dice che la variabile aleatoria doppia $(X,Y)$ ammette \textbf{densità} se esiste
-	$f : \R^2 \to [0, +\infty)$ integrabile e con
-	\[ \iint_{\R^2} f(x,y) dx dy = 1 \]
-	tale che vale, per $A \subseteq \R^2$
-	\[ P_{(X,Y)} (A) = P((X,Y) \in A) = \iint_A f(x,y) dx dy \]
-\end{definition}
-
-Intuitivamente, si può pensare all'integrale doppio di $f$ su $A \subseteq \R^2$ come al volume
-sotteso da $f$ su $A$.
+\subsubsection{Caso con densità}
+In questo caso siamo costretti ad itnrodurre gli \textbf{integrali doppi}, i quali possono essere
+pensati come al volume sotteso da una funzione a due parametri $f$ su un certo intervallo $A$.
 
 \begin{theorem}[Fubini-Tonelli]
 	Se $A = A_1 \times A_2$, allora
@@ -134,6 +123,17 @@ sotteso da $f$ su $A$.
 	\end{align*}
 \end{theorem}
 
+Possiamo dare ora una definizione di \textbf{variabile aleatoria doppia con densità} in modo più
+consapevole facendo riferimento al teorema appena enunciato.
+
+\begin{definition}
+	Si dice che la variabile aleatoria doppia $(X,Y)$ ammette \textbf{densità} se esiste
+	$f : \R^2 \to [0, +\infty)$ integrabile e con
+	\[ \iint_{\R^2} f(x,y) dx dy = 1 \]
+	tale che vale, per $A \subseteq \R^2$
+	\[ P_{(X,Y)} (A) = P((X,Y) \in A) = \iint_A f(x,y) dx dy \]
+\end{definition}
+
 \begin{proposition}
 	Data una variabile aleatoria doppia $(X, Y)$ con densità $f$, anche $X$ e $Y$ hanno densità
 	date da
@@ -142,8 +142,7 @@ sotteso da $f$ su $A$.
 		f_Y(y) = \int_{-\infty}^{+\infty} f(x,y) dx \quad \forall y \in \R
 	\end{align*}
 	\begin{proof}
-		Dobbiamo dimostrare che $P(X \in A) = \displaystyle\int_A f_X(x) dx$ con $f_X$ data dalla
-		formula sopra.
+		Notiamo che
 		\begin{align*}
 			P(X \in A) = & P(X \in A, Y \in \R)                       \\
 			=            & P((X, Y) \in A \times \R)                  \\
