@@ -144,42 +144,41 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 \begin{observation}
 	Formule analoghe valgono per $\E[g(X,Y)]$, nel caso discreto abbiamo quindi che $g(X, Y)$
 	ammette valore atteso se
-	\[ \sum_{i,j} |g(x_i, y_j)| \cdot P_{(X,Y)} (x_i, y_j) < \infty \]
-	e, in tal caso
+	\[ \sum_{i,j} |g(x_i, y_j)| \cdot P_{(X,Y)} (x_i, y_j) < +\infty \]
+	e, in tal caso assume valore
 	\[ \E[g(X,Y)] = \sum_{i,j} g(x_i, y_j) \cdot P_{(X,Y)} (x_i, y_j) \]
 	Nel caso con densità abbiamo invece che $g(X,Y)$ ammette valore atteso se
-	\[ \iint |g(X,Y)| \cdot f (X,Y) dx dy < \infty \]
-	e in tal caso
-	\[ \E[g(X, Y)] = \iint g(X, Y) \cdot f(X,Y) dx \]
+	\[ \iint |g(x,y)| \cdot f (x,y) dx dy < +\infty \]
+	e in tal caso assume valore
+	\[ \E[g(X, Y)] = \iint g(x, y) \cdot f(x,y) dx dy \]
 \end{observation}
 
-\begin{proposition}
-	Siano $X$ e $Y$ variabili aleatorie che ammettono valore atteso, allora $X+Y$ ha valore atteso
-	e valgono le seguenti proprietà
+Introduciamo ora alcune proprietà del valore atteso, utili quando lavoriamo con puù variabili
+aleatorie. Siano $X$ e $Y$ variabili aleatorie che ammettono valore atteso, allora $X+Y$ ha valore
+atteso e valgono le seguenti proprietà
+\begin{align*}
+	\E[X+Y] =         & \E[X] + \E[Y]                 \\
+	\E[aX + b] =      & a \E[X] + b      & a,b \in \R \\
+	|\E[X]| \leq      & \E[|X|]                       \\
+	X \geq 0 \implies & \E[X] \geq 0                  \\
+	X \geq Y \implies & \E[X] \geq \E[Y]
+\end{align*}
+\begin{proof}
+	Dimostriamo la prima formula nel caso discreto assumendo che $X+Y$ abbia valore atteso
+	senza verificarlo. Per farlo usiamo la formula per il valore atteso di $g(X,Y)$ con
+	$g(X,Y) = X+Y$
 	\begin{align*}
-		\E[X+Y] =         & \E[X] + \E[Y]                 \\
-		\E[aX + b] =      & a \E[X] + b      & a,b \in \R \\
-		|\E[X]| \leq      & \E[|X|]                       \\
-		X \geq 0 \implies & \E[X] \geq 0                  \\
-		X \geq Y \implies & \E[X] \geq \E[Y]
+		\E[X+Y] = & \sum_{i,j} g(x_i, y_j) \cdot P_{(X, Y)} (x_i, y_j)                    \\
+		=         & \sum_{i,j} (x_i + y_j) \cdot P_{(X,Y)} (x_i, y_j)                     \\
+		=         & \sum_{i,j} x_i P_{(X,Y)} (x_i, y_j) +
+		\sum_{i,j} y_j P_{(X,Y)} (x_i, y_j)                                               \\
+		=         & \sum_i x_i \sum_j P_{(X,Y)} (x_i, y_j) +
+		\sum_j y_j \sum_i P_{(X,Y)} (x_i, y_j)                                            \\
+		=         & \sum_i x_i \cdot P_X(x_i) + \sum_j y_j \cdot P_Y(y_j) = \E[X] + \E[Y]
 	\end{align*}
-	\begin{proof}
-		Dimostriamo la prima formula nel caso discreto assumendo che $X+Y$ abbia valore atteso
-		senza verificarlo. Per farlo usiamo la formula per il valore atteso di $g(X,Y)$ con
-		$g(X,Y) = X+Y$
-		\begin{align*}
-			\E[X+Y] = & \sum_{i,j} g(x_i, y_j) \cdot P_{(X, Y)} (x_i, y_j)                    \\
-			=         & \sum_{i,j} (x_i + y_j) \cdot P_{(X,Y)} (x_i, y_j)                     \\
-			=         & \sum_{i,j} x_i P_{(X,Y)} (x_i, y_j) +
-			\sum_{i,j} y_j P_{(X,Y)} (x_i, y_j)                                               \\
-			=         & \sum_i x_i \sum_j P_{(X,Y)} (x_i, y_j) +
-			\sum_j y_j \sum_i P_{(X,Y)} (x_i, y_j)                                            \\
-			=         & \sum_i x_i \cdot P_X(x_i) + \sum_j y_j \cdot P_Y(y_j) = \E[X] + \E[Y]
-		\end{align*}
-	\end{proof}
-\end{proposition}
+\end{proof}
 
-Consideriamo ora due variabili aleatorie $X$ e $Y$, non è detto che $X \cdot Y$ abbia valore
+Se consideriamo invece due variabili aleatorie $X$ e $Y$, non è detto che $X \cdot Y$ abbia valore
 atteso.
 
 \begin{proposition}
@@ -328,7 +327,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 \begin{proposition}[Disuguaglianza di Schwartz]
 	Siano $X$ e $Y$ due variabili aleatorie, allora
 	\[ \E[|XY|] \leq \sqrt{\E[|X|^2]} \cdot \sqrt{\E[|Y|^2]} \]
-	Possiamo dire che $XY$ ammette valore atteso se $X$ e $Y$ ammettono momento secondo.
+	Possiamo dire che $X \cdot Y$ ammette valore atteso se $X$ e $Y$ ammettono momento secondo.
 \end{proposition}
 
 \begin{example}
