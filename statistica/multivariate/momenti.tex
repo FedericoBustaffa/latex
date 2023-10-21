@@ -251,6 +251,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 					enlargelimits
 				]
 
+
 				\addplot [
 					domain=-5:1,
 					samples=100,
@@ -264,9 +265,9 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 					domain=1:5,
 					samples=100,
 					thick,
-					color=red
+					color=red,
 				]
-				{x^(-3)};
+				{2 * x^(-3)};
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
@@ -275,7 +276,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	\emph{pesante} (valori bassi di $\beta$) o \emph{leggera} (valori alti di $\beta$).
 	Verifichiamo ora il momento di ordine $n$ considerando $g(x) = |x|^n \geq 0$ e dunque
 	\begin{align*}
-		\E[g(x)] = & \int g(x) f(x) dx                                    \\
+		\E[g(x)] = & \int g(x) \cdot f(x) dx                              \\
 		=          & \int_1^{+\infty} x^n \cdot (\beta - 1) x^{-\beta} dx \\
 		=          & \int_{1}^{+\infty} (\beta-1) \cdot x^{-\beta+n} dx
 	\end{align*}
@@ -302,7 +303,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	Se $X$ ammette momento di ordine $n$, allora ammette momento di ordine $m$ per ogni $m \leq n$.
 \end{proposition}
 
-\begin{proposition}[Disuguaglianza di Markov]
+\begin{proposition}[Disuguaglianza di Markov]\label{prop: markov}
 	Sia $X$ una variabile aleatoria a valori non negativi e sia $a>0$, allora
 	\[ P(X > a) \leq \frac{\E[X]}{a} \]
 	\begin{proof}
@@ -339,7 +340,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	\[ \E[X + Y] = \E[X] + \E[Y] = \frac{7}{2} + \frac{7}{2} = 7 \]
 	Calcoliamo ora il valore atteso del prodotto, assumendo che i lanci del dado siano prove
 	ripetute indipendenti
-	\[ \E[X \cdot Y] = \E[X] \cdot \E[Y] = \frac{7}{2} \cdot \frac{7}{2} = \frac{49}{4} \]
+	\[ \E[X \cdot Y] = \E[X] \cdot \E[Y] = \frac{7}{2} \cdot \frac{7}{2} = \frac{49}{4} = 12.25 \]
 	Quando $X$ assume un numero finito di valori ammette momento di ogni ordine.
 \end{example}
 
@@ -349,7 +350,7 @@ momento, in generale è un indice di quanto le \textbf{code} della distribuzioni
 	modellizzata dal modello uniforme, $\Omega = S$, $\F = \mathcal{P}(\Omega)$ e $P$ è uniforme.
 	Abbiamo quindi che
 	\[
-		\E[X] = \sum_i x_i P(X = x_i) =
+		\E[X] = \sum_i x_i \cdot P(X = x_i) =
 		\sum_i x_i \cdot \frac{\# \{\omega \in S | X(\omega) = x_i\}}{\# S}
 	\]
 	Questo equivale alla \textbf{frequenza relativa} di $X = x_i$ su tutta la popolazione e quindi
@@ -395,10 +396,11 @@ del quadrato degli scarti di $X$ da $\E[X]$.
 	possiamo vedere questo come una stima quantitativa della dispersione tramite la varianza.
 	\begin{proof}
 		Possiamo riscrivere il termine a sinistra dell'equazione precedente come
-		\[ P(|X - \E[X]|) \geq d = P((X - \E[X]^2) \geq d^2) \]
-		A questo punto, applicando la disuguaglianza di Markov otteniamo che
-		\[ P((X - \E[X]^2) \geq d^2) \leq \frac{\E[(X - \E[X])^2]}{d^2} \]
-		che, se notiamo equivale a
+		\[ P(|X - \E[X]| \geq d) = P((X - \E[X])^2 \geq d^2) \]
+		A questo punto, applicando la \hyperref[prop: markov]{disuguaglianza di Markov} otteniamo
+		che
+		\[ P((X - \E[X])^2 \geq d^2) \leq \frac{\E[(X - \E[X])^2]}{d^2} \]
+		a questo punto usiamo la definizione di varianza per ottenere
 		\[ \frac{\E[(X - \E[X])^2]}{d^2} = \frac{\Var(X)}{d^2} \]
 	\end{proof}
 \end{proposition}
