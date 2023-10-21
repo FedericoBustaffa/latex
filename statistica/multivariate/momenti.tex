@@ -14,7 +14,7 @@ aleatoria è centrata.
 
 Per una variabile aleatoria discreta che assume valori $x_1, x_2, \dots$ consideriamo come valore
 atteso una media pesata di tali valori, dando come peso ad ogni valore la probabilità a questo
-associata. Nel caso di variabile discrete che assumono infiniti valori, la media pesata diventa
+associata. Nel caso di variabili discrete che assumono infiniti valori, la media pesata diventa
 una serie, di cui bisogna controllare la convergenza.
 
 Per una variabile aleatoria con densità, rimpiazziamo la somma pesata della funzione di massa con
@@ -23,14 +23,14 @@ assumere infiniti valori sono analoghe per variabili con densità, per le quali 
 un controllo sui valori assumibili dall'integrale che definisce il valore atteso della variabile.
 
 \begin{definition}
-	Sia $X$ una variabile discreta con funzione di massa $p$, si dice che $X$ ha
-	\textbf{valore atteso} se
+	Sia $X$ una variabile discreta con funzione di massa $p$, si dice che $X$ ammette valore atteso
+	se
 	\[ \sum_i |x_i| \cdot p(x_i) < +\infty \]
-	e in tal caso si chiama valore atteso il numero
+	e in tal caso si chiama \textbf{valore atteso} il numero
 	\[ \E[X] = \sum_i x_i \cdot p(x_i) \]
-	Sia poi $X$ con densità $f$, essa ha \textbf{valore atteso} se
+	Sia poi $X$ con densità $f$, essa ammette valore atteso se
 	\[ \int_{-\infty}^{+\infty} |x| \cdot f(x) dx < +\infty \]
-	e in tal caso si chiama valore atteso il numero
+	e in tal caso si chiama \textbf{valore atteso} il numero
 	\[ \E[X] = \int_{-\infty}^{+\infty} x \cdot f(x) dx \]
 \end{definition}
 
@@ -57,14 +57,14 @@ di $X$.
 \end{example}
 
 Vediamo ora come calcolare il valore atteso di una trasformazione di una variabile aleatoria $X$,
-ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
+ossia di una nuova variabile $Y = g(X)$ con $g : \R \to \R$.
 
 \begin{proposition}
 	Sia $X$ discreta con funzione di massa $p$, la variabile $g(X)$ ammette valore atteso se
-	$\sum_i |g(x_i)| \cdot p(x_i) < +\infty$, e in tal caso
+	$\sum_i |g(x_i)| \cdot p(x_i) < +\infty$, e in tal caso assume valore
 	\[ \E[g(X)] = \sum_i g(x_i) \cdot p(x_i) \]
 	Sia $X$ con densità $f$, la variabile $g(X)$ ha valore atteso se
-	$\int_{-\infty}^{+\infty} |g(x)| \cdot f(x) dx < +\infty$, e in tal caso
+	$\int_{-\infty}^{+\infty} |g(x)| \cdot f(x) dx < +\infty$, e in tal caso assume valore
 	\[ \E[g(X)] = \int_{-\infty}^{+\infty} g(x) \cdot f(x) dx \]
 	\begin{proof}
 		Forniamo la dimostrazione per il caso discreto partendo da un caso particolare, ossia il
@@ -81,8 +81,10 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 		\[ P(X = x_j) = \sum_{j \in A_i} P_X (x_j) \]
 		quindi
 		\begin{multline*}
-			\E[Y] = \sum_i y_i p_Y(y_i) = \sum_i y_i \left( \sum_{j \in A_i} p_X(x_j) \right) \\
-			= \sum_i \left( \sum_{j \in A_i} g(x_j) p_X (x_j) \right) = \sum_j g(x_j) p_X (x_j)
+			\E[Y] = \sum_i y_i \cdot p_Y(y_i) =
+			\sum_i y_i \left( \sum_{j \in A_i} p_X(x_j) \right) \\
+			= \sum_i \left( \sum_{j \in A_i} g(x_j) \cdot p_X (x_j) \right) =
+			\sum_j g(x_j) \cdot p_X (x_j)
 		\end{multline*}
 		Dato che $A_i$ è una partizione di tutti gli indici $j$. Il caso più generale si ottiene
 		osservando che $g = g^+ - g^-$ dove
@@ -104,7 +106,7 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 \end{example}
 
 \begin{example}
-	Sia $X \sim U([0,1])$ e $Y = X^2$, calcolare la densità $f_Y$ di $Y$ e $\E[Y]$. Notiamo che
+	Sia $X \sim U((0,1))$ e $Y = X^2$, calcolare la densità $f_Y$ di $Y$ e $\E[Y]$. Notiamo che
 	$Y = g(X)$ con $g(x) = x^2$ e $X$ ha densità
 	\[
 		f_X(x) = \begin{cases}
@@ -153,7 +155,7 @@ ossia di una nuova variabile $Y$ della forma $g(X)$ con $g : \R \to \R$.
 	\[ \E[g(X, Y)] = \iint g(x, y) \cdot f(x,y) dx dy \]
 \end{observation}
 
-Introduciamo ora alcune proprietà del valore atteso, utili quando lavoriamo con puù variabili
+Introduciamo ora alcune proprietà del valore atteso, utili quando lavoriamo con più variabili
 aleatorie. Siano $X$ e $Y$ variabili aleatorie che ammettono valore atteso, allora $X+Y$ ha valore
 atteso e valgono le seguenti proprietà
 \begin{align*}
@@ -170,8 +172,8 @@ atteso e valgono le seguenti proprietà
 	\begin{align*}
 		\E[X+Y] = & \sum_{i,j} g(x_i, y_j) \cdot P_{(X, Y)} (x_i, y_j)                    \\
 		=         & \sum_{i,j} (x_i + y_j) \cdot P_{(X,Y)} (x_i, y_j)                     \\
-		=         & \sum_{i,j} x_i P_{(X,Y)} (x_i, y_j) +
-		\sum_{i,j} y_j P_{(X,Y)} (x_i, y_j)                                               \\
+		=         & \sum_{i,j} x_i \cdot P_{(X,Y)} (x_i, y_j) +
+		\sum_{i,j} y_j \cdot P_{(X,Y)} (x_i, y_j)                                         \\
 		=         & \sum_i x_i \sum_j P_{(X,Y)} (x_i, y_j) +
 		\sum_j y_j \sum_i P_{(X,Y)} (x_i, y_j)                                            \\
 		=         & \sum_i x_i \cdot P_X(x_i) + \sum_j y_j \cdot P_Y(y_j) = \E[X] + \E[Y]
@@ -190,9 +192,9 @@ atteso.
 		prima cosa si verifica che $X \cdot Y$ ammette valore atteso. Assumendo che il primo passo
 		sia verificato, proviamo a calcolare il valore atteso di $\E[g(X,Y)]$ dove $g(X,Y)=xy$
 		\begin{align*}
-			\E[X \cdot Y] = & \sum_{i,j} x_i \cdot y_j \cdot P_{(X,Y)} (x_i, y_j)    \\
-			=               & \sum_{i,j} x_i \cdot y_j \cdot P_X(x_i) \cdot P_Y(y_j) \\
-			=               & \sum_i x_i P_X (x_i) \cdot \sum_j y_j P_Y(y_j)         \\
+			\E[X \cdot Y] = & \sum_{i,j} x_i \cdot y_j \cdot P_{(X,Y)} (x_i, y_j)        \\
+			=               & \sum_{i,j} x_i \cdot y_j \cdot P_X(x_i) \cdot P_Y(y_j)     \\
+			=               & \sum_i x_i \cdot P_X (x_i) \cdot \sum_j y_j \cdot P_Y(y_j) \\
 			=               & \E[X] \cdot \E[Y]
 		\end{align*}
 	\end{proof}
@@ -209,12 +211,12 @@ atteso.
 \end{corollary}
 
 \subsection{Momenti}
-Un'altra proprietà delle variabili aleatorie è il momento, il quale si basa sul calcolo del valore
-atteso.
+I \textbf{momenti} di una variabile aleatoria descrivono alcune caratteristiche di tale variabile
+come ad esempio la loro variazione o quanto questi sono addensati intorno a determinati valori.
 
 \begin{definition}
 	Diciamo che $X$ ammette \textbf{momento} di ordine $n$ se vale
-	\[ \E[|X|^n] < \infty \]
+	\[ \E[|X|^n] < +\infty \]
 	e, in tal caso, chiamiamo momento di ordine $n$ la quantità
 	\[ \E[X^n] \]
 \end{definition}
