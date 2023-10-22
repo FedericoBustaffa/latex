@@ -38,7 +38,7 @@ Di seguito elenchiamo alcune proprietà molto utili per la covarianza
 \end{proposition}
 
 Per capire meglio il secondo punto dobbiamo considerare $(a^*,b^*)$ che realizzano il minimo
-nella seconda equazione, la retta $y = a^* + b^* X$ è la migliore approssimazione lineare tra
+nella seconda equazione poiché la retta $y = a^* + b^* X$ è la migliore approssimazione lineare tra
 $X$ e $Y$. Stiamo cioè minimizzando la distanza tra $Y$ e $a+bX$. Il valore del minimo è
 proporzionale a $1 - \rho(X,Y)^2$.
 
@@ -83,7 +83,7 @@ In questo caso, il valore atteso vale
 Per quanto riguarda la varianza calcoliamo prima
 \[ \E[X^2] = 1^2 \cdot P(X=1) + 0^2 \cdot P(X = 0) = p \]
 La varianza risulta quindi essere
-\[ \Var(X) = \E[X^2] - \E[X]^2 = p - p^2 = p(1-p) \]
+\[ \Var(X) = \E[X^2] - \E[X]^2 = p - p^2 = p \cdot (1-p) \]
 Nel caso con $n \in \N^+$ abbiamo $X \sim B(n,p)$ e quindi $X$ equivale al numero di successi in
 $n$ prove ripetute. Un modo semplice di vederlo è il seguente
 \[ X = X_1 + X_2 + \dots + X_n \]
@@ -115,7 +115,7 @@ rappresentato dalla quantità
 Calcoliamo ora la varianza tenendo di conto che $\E[X^2] = \lambda^2 + \lambda$
 \[ \Var(X) = \E[X^2] - \E[X]^2 = \lambda^2 + \lambda - \lambda^2 = \lambda \]
 
-\subsubsection{Variabili uniformi}
+\subsubsection{Variabili uniformi su un intervallo}
 Consideriamo ora variabili aleatorie con densità partendo dalle uniformi e facendo un'osservazione
 preliminare
 
@@ -221,9 +221,7 @@ se $X$ ammette momenti. Possiamo però calcolare
 \]
 per $x \geq M_n$ dove $M_n$ è un valore che dipende da $n$. Risparmiandoci i passaggi matematici
 possiamo dire che $|x|^n \cdot e^{-x^2 / 4} \leq 1$, è dunque limitato e quindi ammette momenti di
-ogni ordine.
-
-Possiamo quindi calcolare il valore atteso rappresentato dalla seguente formula
+ogni ordine. Possiamo quindi calcolare il valore atteso rappresentato dalla seguente formula
 \[ \E[X^n] = \int_{-\infty}^{+\infty} \frac{1}{\sqrt{2 \pi}} \cdot x^n \cdot e^{-x^2 / 2} dx \]
 Dobbiamo però analizzare due casi distinti. Se $n$ è dispari otteniamo una cosa di questo tipo
 \begin{center}

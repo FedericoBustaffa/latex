@@ -10,14 +10,14 @@ le oscillazioni del numero di teste attorno a 500. Iniziamo però a dare qualche
 
 \begin{definition}
 	Data una famiglia di variabili aleatorie $X_1, X_2, \dots, X_n$ (possibilmente infinita), le
-	variabili $X_i$ si dicono indipendenti e identicamente distribuite (i.i.d) se sono indipendenti
-	e hanno la stessa distribuzione (cioè $P_{X_i}$ non dipende da $i$).
-
-	Nel caso di famiglia infinita, diciamo che le $X_i$ sono indipendenti se $\forall n \in \N$ le
-	variabili $X_1, X_2, \dots, X_n$ sono indipendenti.
+	variabili $X_i$ si dicono \textbf{indipendenti e identicamente distribuite} (i.i.d.) se sono
+	indipendenti e hanno la stessa distribuzione (cioè $P_{X_i}$ non dipende da $i$).
 \end{definition}
 
-Dire che la variabile $X_i$ sono i.i.d equivale a dire che le $X_i$ hanno la stessa funzione di
+Nel caso di famiglia infinita, diciamo che le $X_i$ sono indipendenti se $\forall n \in \N$ le
+variabili $X_1, X_2, \dots, X_n$ sono indipendenti.
+
+Dire che la variabile $X_i$ sono i.i.d. equivale a dire che le $X_i$ hanno la stessa funzione di
 ripartizione
 \[ P(X_i \leq t) = F_{X_i} (t) = F(t) \]
 per ogni $i$ e inoltre significa che sono indipendenti
@@ -28,7 +28,7 @@ ripetizioni di un esperimento (non perforza con esisto successo o insuccesso).
 Consideriamo $n$ (o anche infinite) ripetizioni di un esperimento nelle stesse condizioni. Sia
 $X$ la variabile aleatoria che descrive un carattere dell'esperimento (ad esempio l'esito del
 lancio di un dado). Per $i \in \N^+$, sia $X_i$ il valore del carattere dell'esito dell'$i$-esimo
-esperimento. Allora le $X_i$ sono i.i.d.
+esperimento, allora le $X_i$ sono i.i.d.
 
 Come caso particolare consideriamo l'estrazione di un campione da una popolazione reale.
 Consideriamo quindi una popolazione e sia $X$ la variabile aleatoria che rappresenta un carattere
@@ -36,17 +36,17 @@ degli individui. Supponiamo ora di estrarre casualmente $n$ individui, in modo i
 dall'altro, e chiamiamo $X_i$ il carattere dell'$i$-esimo individuo estratto. Allora gli $X_i$
 sono i.i.d con la stessa distribuzione di $X$.
 
-Introduciamo ora la notazione per la media aritmetica di $n$ variabili aleatorie $X_1, \dots, X_n$
-i.i.d
-\[ \overline{X} = \overline{X_n} = \frac{X_1 + X_2 + \dots + X_n}{n} \]
+Introduciamo ora la notazione per un altro strumento utile ai nostri fini, ossia la
+\textbf{media aritmetica} di $n$ variabili aleatorie $X_1, \dots, X_n$ i.i.d
+\[ \overline{X} = \overline{X}_n = \frac{X_1 + X_2 + \dots + X_n}{n} \]
 Osserviamo che $\overline{X}$ è essa stessa una variabile aleatoria in quanto combinazione di
 variabili aleatorie. Osserviamo anche che se $X_1, \dots, X_n$ rappresenta un campione,
 $\overline{X}$ è la media campionaria del campione.
 
 \begin{example}
 	Consideriamo il caso di $n$ ripetizioni di un esperimento con esito successo o insuccesso.
-	Chiamiamo $A$ il successo e sia $p = P(A)$ e sia $X_i$ la variabile aleatoria di Bernoulli
-	associata all'$i$-esima ripetizione
+	Chiamiamo $A$ il successo, abbiamo quindi che $p = P(A)$ e sia $X_i$ la variabile aleatoria di
+	Bernoulli associata all'$i$-esima ripetizione
 	\[
 		X_i = \begin{cases}
 			1 & \text{se accade $A$ all'$i$-esima ripetizione} \\
@@ -62,13 +62,13 @@ $\overline{X}$ è la media campionaria del campione.
 
 \subsection{Legge dei grandi numeri}
 Uno degli obbiettivi fondamentali della legge dei grandi numeri è studiare il valore di
-$\overline{X_n}$ per campioni grandi ($n$ grande). Questo significa calcolare in qualche modo il
+$\overline{X}_n$ per campioni grandi ($n$ grande). Questo significa calcolare in qualche modo il
 limite, ma trattandosi di variabili aleatorie dobbiamo definire meglio cosa si intenda per limite.
 Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}.
 
 \begin{definition}
-	Una successione $Y_1, \dots, Y_n, \dots$ di variabili aleatorie definite sullo stesso spazio
-	diciamo che \textbf{converge in probabilità} a una variabile aleatoria $Y$ se
+	Diciamo che una successione $Y_1, \dots, Y_n, \dots$ di variabili aleatorie definite sullo
+	stesso spazio di probabilità \textbf{converge in probabilità} a una variabile aleatoria $Y$ se
 	\[ P(|Y_n - Y| > \varepsilon) \to 0 \]
 	per ogni $\varepsilon > 0$. In alternativa possiamo vedere la cosa in questo modo
 	\[ \lim_{n \to +\infty} P(|Y_n - Y| > \varepsilon) = 0 \]
@@ -77,26 +77,26 @@ Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}
 
 \begin{theorem}[Legge debole dei grandi numeri]
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
-	secondo e sia $\mu = \E[X_i]$, allora $\overline{X_n}$ converge in probabilità a $\mu$, cioè
-	\[ P(|\overline{X_n} - \mu| > \varepsilon) \to 0 \]
+	secondo e sia $\mu = \E[X_i]$, allora $\overline{X}_n$ converge in probabilità a $\mu$, cioè
+	\[ P(|\overline{X}_n - \mu| > \varepsilon) \to 0 \]
 	per $n \to +\infty$ e per ogni $\varepsilon > 0$.
 	\begin{proof}
 		L'idea alla base della dimostrazione è che si può dimostrare che
 		\begin{align*}
-			\E[\overline{X_n}] = & \E\left[ \frac{X_1 + \dots + X_n}{n} \right] \\
+			\E[\overline{X}_n] = & \E\left[ \frac{X_1 + \dots + X_n}{n} \right] \\
 			=                    & \frac{1}{n} \sum_{i=1}^n \E[X_i] = \mu
 		\end{align*}
 		Vogliamo anche calcolare la varianza di $\overline{X}_n$
 		\begin{align*}
-			\Var(\overline{X_n}) = & \Var \left( \frac{1}{n} \cdot \sum_{i=1}^n X_i \right)   \\
+			\Var(\overline{X}_n) = & \Var \left( \frac{1}{n} \cdot \sum_{i=1}^n X_i \right)   \\
 			=                      & \frac{1}{n^2} \cdot \Var \left( \sum_{i=1}^n X_i \right) \\
 			=                      & \frac{1}{n^2} \cdot \sum_{i=1}^n \Var(X_i)               \\
 			=                      & \frac{1}{n^2} \cdot n \sigma^2 = \frac{\sigma^2}{n}
 		\end{align*}
 		Per la disuguaglianza di Chebyshev abbiamo che
 		\[
-			P(|\overline{X_n} - \E[\overline{X_n}]| >
-			\varepsilon) \leq \frac{\Var(\overline{X_n})}{\varepsilon^2} =
+			P(|\overline{X}_n - \E[\overline{X}_n]| >
+			\varepsilon) \leq \frac{\Var(\overline{X}_n)}{\varepsilon^2} =
 			\frac{1}{\varepsilon^2} \cdot \frac{\sigma^2}{n} \to 0
 		\]
 		per $n \to \infty$.
@@ -109,8 +109,8 @@ grande, al valore atteso. Valore atteso che è la media sulla popolazione nel ca
 \begin{example}
 	Lanciamo un dado 1000 volte e vogliamo fornire un valore approssimato per il numero di 5 nei
 	1000 lanci. In questo caso le $X_i \sim B(1/6)$ indipendenti e abbiamo che
-	\[ \overline{X_n} = \frac{1}{n} \cdot \sum_{i=1}^{n} X_i \]
-	è la frequenza relativa di 5. Per la LGN $\overline{X_n} \to 1/6$ e quindi se definiamo
+	\[ \overline{X}_n = \frac{1}{n} \cdot \sum_{i=1}^{n} X_i \]
+	è la frequenza relativa di 5. Per la LGN $\overline{X}_n \to 1/6$ e quindi se definiamo
 	\[ Y_n = \sum_{i=1}^{n} X_i \]
 	la frequenza assoluta di 5 abbiamo che che $Y_n \to n \cdot 1/6$. Per $n=1000$ abbiamo che
 	\[ Y_{1000} \approx 1000 \cdot \frac{1}{6} \approx 167 \]
@@ -134,44 +134,44 @@ campione.
 Come anticipato, questo strumento matematico ci fornisce una misura di quanto ci discostiamo dal
 valore atteso della media.
 
-Quello che ci dice il teorema del limite centrale ci dice che le fluttuazioni intorno alla media
+Quello che ci dice il teorema del limite centrale è che le fluttuazioni intorno alla media
 hanno un comportamento, per $n$ grande, universale e gaussiano a prescindere dall'esperimento in
 esame.
 
 \begin{definition}
 	Sia $Y_1, \dots, Y_n, \dots$ una successione di variabili aleatorie, $Y$ una variabile
 	aleatoria e siano $F_n$ ed $F$ le funzioni di ripartizione rispettivamente di $Y_n$ e $Y$.
-	Supponendo che $F$ sia continua diciamo che $(Y_n)_n$ \textbf{converge in legge} (o in
+	Supponendo che $F$ sia continua, diciamo che $Y_n$ \textbf{converge in legge} (o in
 	distribuzione) a $Y$ se
-	\[ \lim_{n \to \infty} F_n (t) = F(t) \]
+	\[ \lim_{n \to +\infty} F_n (t) = F(t) \]
 	per ogni $t \in \R$. Notiamo che questa condizione di convergenza dipende solo dalle leggi di
 	$Y_n$ e di $Y$.
 \end{definition}
 
 \begin{theorem}[Teorema del limite centrale]\label{th: tlc}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
-	secondo finito, allora $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i) < \infty$, allora
-	\[ \left( \sqrt{n} \cdot \frac{\overline{X_n} - \mu}{\sigma} \right)_n \]
+	secondo finito, allora $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i) < +\infty$, allora
+	\[ \left( \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} \right)_n \]
 	converge in legge a $Z \sim N(0,1)$. Questo vuol dire che per ogni $a, b$ tali che
 	$-\infty \leq a < b \leq +\infty$
 	\begin{align*}
-		\lim_{n \to \infty} P\left( a \leq \sqrt{n} \frac{\overline{X_n} -
-		\mu}{\sigma} \leq b \right) = & P(a \leq Z \leq b)                                      \\
-		=                             & \int_{a}^{b} \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2/2} dx \\
-		=                             & \Phi(b) - \Phi(a)
+		\lim_{n \to +\infty} P\left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma}
+		\leq b \right) = & P(a \leq Z \leq b)                                      \\
+		=                & \int_{a}^{b} \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2/2} dx \\
+		=                & \Phi(b) - \Phi(a)
 	\end{align*}
 \end{theorem}
 
 \begin{observation}
 	Osserviamo che
 	\[
-		\sqrt{n} \cdot \frac{\overline{X_n} - \mu}{\sigma} =
+		\sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} =
 		\frac{X_1 + \dots + X_n - n \cdot \mu}{\sigma \cdot \sqrt{n}}
 	\]
 	Vale anche che
 	\[
-		\E \left[ \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \right] = 0 \quad
-		\Var \left( \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \right) = 1
+		\E \left[ \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \right] = 0 \quad
+		\Var \left( \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \right) = 1
 	\]
 \end{observation}
 
@@ -259,13 +259,13 @@ esame.
 \begin{proposition}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d con momento secondo
 	finito, $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i)$ supponendo $\sigma^2 > 0$, allora
-	\[ \sqrt{n} \cdot \frac{\overline{X_n}  - \mu}{S_n} \]
+	\[ \sqrt{n} \cdot \frac{\overline{X}_n  - \mu}{S_n} \]
 	tende in legge a $Z \sim N(0,1)$ per $n \to \infty$. Possiamo quindi dire che per ogni $a,b$
 	tali che $-\infty < a < b < +\infty$ vale
 	\[
-		P \left( a \leq \sqrt{n} \cdot \frac{\overline{X_n}  - \mu}{S_n} \leq b \right) \to
+		P \left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n  - \mu}{S_n} \leq b \right) \to
 		P(a \leq Z \leq b)
 	\]
 	dove
-	\[ S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \overline{X_n})^2 \]
+	\[ S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \overline{X}_n)^2 \]
 \end{proposition}
