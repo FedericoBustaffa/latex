@@ -75,7 +75,7 @@ Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}
 	Stiamo quindi dicendo che per $n$ grande $Y_n$ è vicina a $Y$ con probabilità alta.
 \end{definition}
 
-\begin{theorem}[Legge debole dei grandi numeri]
+\begin{theorem}[Legge dei grandi numeri]
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
 	secondo e sia $\mu = \E[X_i]$, allora $\overline{X}_n$ converge in probabilità a $\mu$, cioè
 	\[ P(|\overline{X}_n - \mu| > \varepsilon) \to 0 \]
@@ -90,7 +90,8 @@ Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}
 		\begin{align*}
 			\Var(\overline{X}_n) = & \Var \left( \frac{1}{n} \cdot \sum_{i=1}^n X_i \right)   \\
 			=                      & \frac{1}{n^2} \cdot \Var \left( \sum_{i=1}^n X_i \right) \\
-			=                      & \frac{1}{n^2} \cdot \sum_{i=1}^n \Var(X_i)               \\
+			=                      & \frac{1}{n^2} \cdot \sum_{i=1}^n \Var(X_i)
+			\quad \text{se $X_i$ indipendenti}                                                \\
 			=                      & \frac{1}{n^2} \cdot n \sigma^2 = \frac{\sigma^2}{n}
 		\end{align*}
 		Per la disuguaglianza di Chebyshev abbiamo che
@@ -103,8 +104,8 @@ Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}
 	\end{proof}
 \end{theorem}
 
-In altre parole il teorema dice che la media campionaria dei primi $n$ termini tende, per $n$
-grande, al valore atteso. Valore atteso che è la media sulla popolazione nel caso di estrazione.
+In altre parole il teorema dice che la media campionaria di $n$ prove tende, per $n$ grande, al
+valore atteso della singola prova.
 
 \begin{example}
 	Lanciamo un dado 1000 volte e vogliamo fornire un valore approssimato per il numero di 5 nei
@@ -114,7 +115,9 @@ grande, al valore atteso. Valore atteso che è la media sulla popolazione nel ca
 	\[ Y_n = \sum_{i=1}^{n} X_i \]
 	la frequenza assoluta di 5 abbiamo che che $Y_n \to n \cdot 1/6$. Per $n=1000$ abbiamo che
 	\[ Y_{1000} \approx 1000 \cdot \frac{1}{6} \approx 167 \]
+	Come possiamo notare, per $n$ grande, la frequenza relativa tende al probabilità teorica.
 \end{example}
+
 
 Introduciamo ora la \textbf{varianza campionaria} come la misura di quanto i campioni si
 discostano dalla media e definita come
@@ -179,23 +182,34 @@ esame.
 	La legge di $X_i$ può essere qualunque a patto che abbia momento secondo.
 \end{observation}
 
-\begin{example}
-	Consideriamo $n$ ripetizioni di un esperimento di Bernoulli. Abbiamo che
-	\[ Y_n = Y_1 + \dots + Y_n \]
-	è la frequenza assoluta del successo nelle prime $n$ ripetizioni ed è anche una binomiale
-	$B(n,p)$. Il teorema del limite centrale ci dice che
-	\[ \frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}} \]
-	è approssimativamente una $N(0,1)$. Questo risultato prende il nome di
-	\textbf{approssimazione della binomiale} per $n$ grande.
-\end{example}
+Come \textbf{regola empirica} per capire quando $n$ è abbastanza grande perché il teorema dia
+una buona approssimazione, possiamo considerare $n \geq 50$ per una buona approssimazione e
+$n \geq 80$ per un'ottima approssimazione.
+
+Un caso importante è quello in cui abbiamo $n$ ripetizioni di un esperimento di Bernoulli in cui
+consideriamo $n$ variabili aleatorie con esito successo o insuccesso. Sappiamo che la variabile
+aleatoria
+\[ Y_n = X_1 + \dots + X_n \sim B(n, p) \]
+rappresenta la frequenza assoluta del successo nelle prime $n$ ripetizioni. Il teorema del limite
+centrale ci dice che
+\[ \frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}} \]
+è approssimativamente $N(0,1)$. Questo risultato prende il nome di
+\textbf{approssimazione della binomiale} per $n$ grande. In particolare, come regola empirica,
+possiamo prendere $n$ tale che
+\[
+	n \cdot p \cdot (1 - p) \geq \begin{cases}
+		15 & \text{per una buona approssimazione} \\
+		20 & \text{per un'ottima approssimazione}
+	\end{cases}
+\]
 
 \begin{example}
 	Consideriamo 1000 lanci di moneta e ci chiediamo
-	\begin{itemize}
+	\begin{enumerate}
 		\item Qual è la probabilità di avere almeno 480 teste.
 		\item Quanto deve valere $k$ tale che, con probabilità del 95\%, escano almeno $k$ teste su
 		      1000.
-	\end{itemize}
+	\end{enumerate}
 	Sia $X$ il numero di teste su 1000 lanci $\sim B(1000, 1/2)$. Per poter applicare il TLC
 	dobbiamo verificare che
 	\[ n \cdot p \cdot (1-p) = 1000 \cdot \frac{1}{2} \cdot \frac{1}{2} = 250 \geq 20 \]
@@ -203,57 +217,44 @@ esame.
 	\begin{align*}
 		P(X \geq 480) = & P \left( \frac{X - 1000 \cdot \frac{1}{2}}
 		{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}} \geq
-		\frac{480 - 1000 \cdot \frac{1}{2}}{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}} \right)
-	\end{align*}
-	A questo punto, calcolando il membro a destra della seconda disequazione otteniamo
-	\[
 		\frac{480 - 1000 \cdot \frac{1}{2}}{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}}
-		\approx -1.26
-	\]
+		\right)                                                                  \\
+		=               & P \left( \frac{X - 500}{\sqrt{250}} \geq -1.26 \right) \\
+	\end{align*}
 	Se adesso introduciamo $Z \sim N(0,1)$, possiamo dire, per il TLC, che
+	\[
+		P \left( \frac{X - 500}{\sqrt{250}}
+		\geq -1.26 \right) \approx P(Z \geq -1.26)
+	\]
+	da cui otteniamo
 	\begin{align*}
-		P \left( \frac{X - 1000 \cdot \frac{1}{2}}
-		{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}}
-		\geq -1.26 \right) \approx & P(Z \geq -1.26)          \\
-		=                          & 1 - P(Z < -1.26)         \\
-		=                          & 1 - \Phi (-1.26)         \\
-		=                          & \Phi(1.26) \approx 0.896
+		P(Z \geq -1.26) = & 1 - P(Z < -1.26)         \\
+		=                 & 1 - \Phi (-1.26)         \\
+		=                 & \Phi(1.26) \approx 0.896
 	\end{align*}
 	Vogliamo ora trovare $k$ tale che $P(X \geq k) = 0.95$ che equivale a
-	\begin{align*}
-		P(X \geq k) = & P \left( \frac{X - 1000 \cdot \frac{1}{2}}
-		{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}} \geq \frac{k - 1000 \cdot \frac{1}{2}}
-		{\sqrt{1000 \cdot \frac{1}{2} \cdot \frac{1}{2}}} \right)  \\
-		=             & P \left( \frac{X - 500}{\sqrt{250}} \geq
-		\frac{k - 500}{\sqrt{250}} \right)
-	\end{align*}
+	\[
+		P(X \geq k) = P \left( \frac{X - 500}{\sqrt{250}} \geq \frac{k - 500}{\sqrt{250}} \right)
+	\]
 	Sempre per il TLC abbiamo che
 	\[
 		P \left( \frac{X - 500}{\sqrt{250}} \geq
 		\frac{k - 500}{\sqrt{250}} \right) \approx
 		P\left( Z \geq \frac{k - 500}{\sqrt{250}} \right) = 0.95
 	\]
-	Come possiamo vedere il problema è quello di trovare un quantile, ossia un valore per
-	\[ \frac{k - 500}{\sqrt{250}} \]
-	tale che
-	\[ P \left( Z < \frac{k - 500}{\sqrt{250}} \right) = 0.05 \]
-	Scriviamo quindi che
-	\begin{gather*}
-		1 - \Phi \left( \frac{k - 500}{\sqrt{250}} \right) = 0.95 \\
-		\Leftrightarrow \\
-		\Phi \left( \frac{k - 500}{\sqrt{250}} \right) = 0.05 \\
-		\Leftrightarrow \\
-		1 - \Phi \left( \frac{500 - k}{\sqrt{250}} \right) = 0.05 \\
-		\Leftrightarrow \\
-		\Phi \left( \frac{500 - k}{\sqrt{250}} \right) = 0.95
-	\end{gather*}
-	A questo punto, facendo ricorso alle tavole, si ottiene
-	\begin{gather*}
-		\frac{500 - k}{\sqrt{250}} \approx 1.64 \\
-		\Leftrightarrow \\
-		k \approx 473.91
-	\end{gather*}
-	Questo ci dice che con probabilità del 95\% otteniamo almeno 473 teste.
+	Come possiamo vedere il problema è quello di trovare un quantile, ossia un valore $k$ tale che
+	\[
+		P \left( Z \geq \frac{k - 500}{\sqrt{250}} \right) = 0.95 \iff
+		1 - P \left( Z < \frac{k - 500}{\sqrt{250}} \right) = 0.95
+	\]
+	e quindi
+	\[
+		1 - \Phi \left( \frac{k - 500}{\sqrt{250}} \right) = 0.95 \iff
+		\Phi \left( \frac{k - 500}{\sqrt{250}} \right) = 0.05
+	\]
+	Tramite le tavole otteniamo che, affinché l'ultima uguaglianza sia vera, deve valere
+	\[ \frac{k - 500}{\sqrt{250}} = -1.64 \iff k \approx 474.07 \]
+	Concludiamo quindi che con probabilità del 95\% otterremo almeno 474 teste.
 \end{example}
 
 \begin{proposition}
