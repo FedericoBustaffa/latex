@@ -19,8 +19,9 @@ $X_1, \dots, X_n$, indipendenti e aventi la stessa legge di X, che rappresentano
 \textbf{campione} estratto dalla popolazione.
 
 \begin{definition}\label{def: campione statistico}
-	Una famiglia finita $X_1, \dots, X_n$ di variabili aleatorie i.i.d si chiama
-	\textbf{campione statistico} di \textbf{taglia} $n$ che ha come legge, la legge $P_X$ di $X$.
+	Data una popolazione in cui un carattere $X$ segue una certa distribuzione $P_X$, una famiglia
+	finita di variabili aleatorie i.i.d. $X_1, \dots, X_n$ che hanno la stessa legge $P_X$ di $X$
+	si dice campione statistico di taglia $n$ di $X$.
 \end{definition}
 
 \begin{observation}
@@ -31,7 +32,7 @@ $X_1, \dots, X_n$, indipendenti e aventi la stessa legge di X, che rappresentano
 \end{observation}
 
 Sia $(X_1, \dots, X_n)$ un campione i.i.d di $X$ di legge non nota $P_X$. Supponiamo che la
-distribuzione $P_X$ è parzialmente specificata. Appartiene cioè ad una famiglia di probabilità
+distribuzione $P_X$ sia parzialmente specificata, appartiene cioè ad una famiglia di probabilità
 dipendenti da un parametro $\theta$ o da più parametri $\theta_1, \dots, \theta_n$, non noti.
 
 \begin{example}
@@ -39,28 +40,23 @@ dipendenti da un parametro $\theta$ o da più parametri $\theta_1, \dots, \theta
 	varianza (i parametri sono media e varianza).
 \end{example}
 
-\label{def: statistica campionaria}
+\subsection{Stimatori}\label{def: stimatore}
 L'obbiettivo della stima parametrica è ricostruire il parametro o i parametri incogniti, a partire
 dalle osservazioni, cioè in funzione del campione. Una funzione $g(X_1, \dots, X_n)$ di un campione
 statistico è chiamata \textbf{statistica campionaria} (per esempio la media campionaria).
 
-\label{def: stimatore}
 Uno \textbf{stimatore} di un parametro $\theta$ della distribuzione è una statistica campionaria,
 cioè una funzione $g(X_1, \dots, X_n)$ del campione, atta a stimare $\theta$.
 
 \begin{example}
-	La media campionaria $\overline{X_n}$ è lo stimatore abituale del valore atteso $\E[X]$. La
+	La media campionaria $\overline{X}_n$ è lo stimatore abituale del valore atteso $\E[X]$ e la
 	varianza campionaria $S_n^2$ è lo stimatore abituale della varianza $\Var(X)$.
 \end{example}
 
-\begin{observation}
-	Poiché uno stimatore è una funzione del campione, anch'esso è una variabile aleatoria. In
-	particolare, realizzazione diverse del campione $X_1, \dots, X_n$, portano a valori diversi
-	dello stimatore.
-\end{observation}
-
-Si pone quindi il problema di come scegliere un buon stimatore e di come valutarne la \emph{bontà}.
-Per fare questa valutazione vedremo tre criteri.
+Poiché uno stimatore è una funzione del campione, anch'esso è una variabile aleatoria. In
+particolare, realizzazioni diverse del campione $X_1, \dots, X_n$, portano a valori diversi dello
+stimatore. Si pone quindi il problema di come scegliere un buon stimatore e di come valutarne la
+\emph{bontà}.
 
 \begin{definition}\label{def: stimatore corretto}
 	Dato $\theta$ parametro della distribuzione e dato $X_1, \dots, X_n$ un campione della
@@ -71,32 +67,64 @@ Per fare questa valutazione vedremo tre criteri.
 \end{definition}
 
 \begin{proposition}
-	Media campionaria e varianza campionaria sono stimatori corretti, rispettivamente di valore
-	atteso e varianza. Se $X_1, \dots, X_n$ è un campione i.i.d con momento secondo finito, allora
-	\[ \E[X_n] = \E[X_1] \quad \quad \E[S_n^2] = \Var(X_1) \]
+	Dati un campione i.i.d. $X_1, \dots, X_n$ con momento secondo finito, siano
+	\[ \mu = \E[X_i] \quad \quad \sigma^2 = \Var(X_i) \]
+	e siano
+	\[ \overline{X} = \frac{X_1 + \dots + X_n}{n} \quad \quad
+		S^2 = \dfrac{\sum_{i=1}^n (X_i - \overline{X})^2}{n-1}
+	\]
+	allora valgono
+	\[
+		\E[\overline{X}] = \mu \quad \quad
+		\Var(\overline{X}) = \sigma^2 / n \quad \quad
+		\E \left[ S^2 \right] = \sigma^2
+	\]
+	\begin{proof}
+		Le prime due uguaglianze sono immediate dalla proprietà di linearità del valore atteso e
+		dalle ipotesi di indipendenza. Per quanto riguarda l'ultima osserviamo che
+		\[ \sum_{i=1}^n (X_i - \overline{X})^2 = \sum_{i=1}^n X_i^2 - n \cdot \overline{X}^2 \]
+		Inoltre, per ogni $X_i$ si ha che
+		\[ \E[X_i^2] = \Var(X_i) + \E[X_i]^2 = \sigma^2 + \mu^2 \]
+		per cui, ricordando le prime due formule enunciate si conclude che
+		\begin{align*}
+			\E \left[ \sum_{i=1}^n (X_i - \overline{X})^2 \right]
+			= & \sum_{i=1}^n \E \left[ X_i^2 \right] - n \cdot \E \left[ \overline{X}^2 \right] \\
+			= & n \cdot (\sigma^2 + \mu^2) - n \cdot (\sigma^2 / n + \mu^2)                     \\
+			= & (n-1) \cdot \sigma^2
+		\end{align*}
+		da cui la tesi.
+	\end{proof}
 \end{proposition}
+
+In altre parole media campionaria e varianza campionaria sono stimatori corretti,
+rispettivamente di valore atteso e varianza.
 
 \begin{definition}\label{def: stimatore consistente}
 	Dato un parametro $\theta$ della distribuzione e un campione $X_1, \dots, X_n, \dots$ di
 	infinite variabili aleatorie i.i.d, la successione di statistiche $g_n(X_1, \dots, X_n)$ si
-	dice uno stimatore \textbf{consistente} di $\theta$ se, per $n \to +\infty$, allora
+	dice uno \textbf{stimatore consistente} di $\theta$ se, per $n \to +\infty$, allora
 	$g_n(X_1, \dots, X_n)$ tende a $\theta$ in probabilità, cioè
 	\[ \lim_{n \to +\infty} P(|g_n(X_1, \dots, X_n) - \theta| > \varepsilon) = 0 \]
-	per ogni $\varepsilon > 0$. Cioè, quando la taglia del campione diventa molto grande,
-	$g_n(X_1, \dots, X_n)$ si avvicina con alta probabilità al valore $\theta$.
+	per ogni $\varepsilon > 0$. In altre parole, quando la taglia del campione diventa molto
+	grande, $g_n(X_1, \dots, X_n)$ si avvicina con alta probabilità al valore $\theta$.
 \end{definition}
 
-La media campionaria e la varianza campionaria sono stimatori consistenti rispettivamente di valore
-atteso e varianza. La media campionaria lo è per la legge dei grandi numeri, la varianza lo è per
-un suo corollario.
+La media campionaria è uno stimatore consistente del valore atteso per la
+\hyperref[th: lgn]{legge dei grandi numeri} e la varianza campionaria è uno stimatore consistente
+della varianza per il corollario \ref{cor: lgn}.
 
 \begin{definition}\label{def: stimatore efficiente}
 	Dato un parametro $\theta$ e un campione $X_1, \dots, X_n$ e dati due stimatori corretti
-	$g(X_1, \dots, X_n)$ e $h(X_1, \dots, X_m)$, diciamo che $g(X_1, \dots, X_n)$ è più
-	\textbf{efficiente} di $h(X_1, \dots, X_m)$ se
+	$g(X_1, \dots, X_n)$ e $h(X_1, \dots, X_m)$, diciamo che $g(X_1, \dots, X_n)$ è
+	\textbf{più efficiente} di $h(X_1, \dots, X_m)$ se
 	\[ \Var(g(X_1, \dots, X_n)) \leq \Var(h(X_1, \dots, X_m)) \]
 \end{definition}
 
 Vogliamo cioè che la dispersione di $g(X_1, \dots, X_n)$ attorno a
 $\E[g(X_1, \dots, X_n)] = \theta$ sia minore della dispersione di $h(X_1, \dots, X_m)$ attorno a
 $\E[h(X_1, \dots, X_m)] = \theta$.
+
+Per $n \geq m$, la media campionaria $\overline{X}_n$ è più efficiente della media campionaria
+$\overline{X}_m$, infatti
+\[ \Var(\overline{X}_n) = \frac{\sigma^2}{n} \leq \frac{\sigma^2}{m} = \Var(\overline{X}_m) \]
+Similmente si può dimostrare che, al crescere di $n$, $S_n^2$ è sempre più efficiente.
