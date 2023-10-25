@@ -68,14 +68,13 @@ esiti $x_1, \dots, x_n$.
 		=            & \theta^{n-1} \cdot e^{-\theta \cdot \sum_{i=1}^{n} x_i} \cdot
 		\left(n - \theta \cdot \sum_{i=1}^{n} x_i \right)
 	\end{align*}
-	Abbiamo quindi che $g'(\hat{\theta}) = 0$ se e solo se
+	Abbiamo quindi che $g'(\theta) = 0$ se e solo se
 	\[
 		n - \theta \cdot \sum_{i=1}^{n} x_i = 0 \iff
-		\frac{1}{\theta} = \frac{1}{n} \cdot \sum_{i=1}^{n} x_i
+		\frac{1}{\theta} = \frac{1}{n} \cdot \sum_{i=1}^{n} x_i \iff
+		\frac{1}{\theta} = \overline{x}
 	\]
-	Possiamo adesso riconoscere che il valore atteso di una variabile esponenziale è proprio
-	$\frac{1}{\theta}$ e concludiamo quindi che abbiamo trovato un buon stimatore per il valore
-	atteso di $X$.
+	Possiamo quindi concludere che $\theta = 1 / \overline{x}$ è il parametro scelto.
 \end{example}
 
 \subsection{Metodo dei momenti}
