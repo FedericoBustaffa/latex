@@ -83,7 +83,8 @@ Dobbiamo quindi determinare $d$ tale che valga
 	deviazione standard $\sigma = 0.4$. Vengono pesati 10 esemplari e viene ricavato un peso medio
 	di 3.58.
 	\begin{enumerate}
-		\item Vogliamo determinare un \IF per la media $\mu$ di livello $95\% = 1 - \alpha$.
+		\item Vogliamo determinare un intervallo di fiducia per la media $\mu$ di livello
+		      $95\% = 1 - \alpha$.
 		\item Mantenendo il livello di fiducia al 95\%, quanto grande deve essere $n$ affinché la
 		      precisione $d$ della stima sia al massimo 0.1?
 	\end{enumerate}
@@ -128,7 +129,7 @@ $k \to \infty$ abbiamo che $t_k$ tende in legge a $N(0,1)$.
 	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X_n} \right)^2 \]
 	Consideriamo quindi la variabile aleatoria
 	\[ T = \frac{\overline{X_n} - \mu}{S_n / \sqrt{n}} \]
-	la quale ha distribuzione nota (per $X_1, \dots, X_n$ \iid $\sim N(\mu, \sigma^2)$), che è la
+	la quale ha distribuzione nota (per $X_1, \dots, X_n$ i.i.d. $\sim N(\mu, \sigma^2)$), che è la
 	distribuzione $t$ di Student a $n-1$ gradi di libertà. Dato quindi $\alpha \in (0,1)$ e
 	assumendo $\sigma^2 > 0$ non nota, l'intervallo aleatorio
 	\[

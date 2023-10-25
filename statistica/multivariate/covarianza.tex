@@ -108,9 +108,9 @@ rappresentato dalla quantità
 \begin{align*}
 	\E[X] = & \sum_{k \in \N} k \cdot P(X = k)                                                   \\
 	=       & \sum_{k=0}^{+\infty} k \cdot \frac{\lambda^k}{k!} e^{-\lambda}                     \\
-	=       & \sum_{i=1}^{+\infty} \lambda \cdot \frac{\lambda^{k-1}}{(k-1)!} \cdot e^{-\lambda} \\
-	=       & \lambda \sum_{i=1}^{+\infty} \cdot \frac{\lambda^{k-1}}{(k-1)!} \cdot e^{-\lambda} \\
-	=       & \lambda
+	=       & \sum_{k=1}^{+\infty} \lambda \cdot \frac{\lambda^{k-1}}{(k-1)!} \cdot e^{-\lambda} \\
+	=       & \lambda e^{-\lambda} \cdot \sum_{k=1}^{+\infty} \cdot \frac{\lambda^{k-1}}{(k-1)!} \\
+	=       & \lambda \cdot e^{-\lambda} \cdot e^\lambda = \lambda
 \end{align*}
 Calcoliamo ora la varianza tenendo di conto che $\E[X^2] = \lambda^2 + \lambda$
 \[ \Var(X) = \E[X^2] - \E[X]^2 = \lambda^2 + \lambda - \lambda^2 = \lambda \]
