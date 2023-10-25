@@ -3,46 +3,53 @@ Negli esempi che vedremo di seguito supponiamo di avere un campione statistico e
 sapere che la sua distribuzione sia Gaussiana di parametri $\mu$ e $\sigma^2$. Nel nostro caso ci
 poniamo il problema di cercare degli intevalli di fiducia per $\mu$ che è non nota. Come sappiamo,
 la media campionaria
-\[ \overline{X_n} = \frac{X_1 + \dots + X_n}{n} \]
+\[ \overline{X}_n = \frac{X_1 + \dots + X_n}{n} \]
 è uno stimatore di $\E[X] = \mu$, quindi è naturale cercare un intervallo di fiducia della forma
-\[ I = [\overline{X_n} - d, \overline{X_n} + d] = [\overline{X_n} \pm d] \]
+\[ I = [\overline{X}_n - d, \overline{X}_n + d] = [\overline{X}_n \pm d] \]
 Dobbiamo quindi determinare $d$ tale che valga
 \[ P(\mu \in I) \geq 1 - \alpha \]
 
 \begin{definition}
-	Se $[\overline{X_n} \pm d]$ è un intervallo di fiducia per la media $\mu$, allora $d$ è detta
+	Se $[\overline{X}_n \pm d]$ è un intervallo di fiducia per la media $\mu$, allora $d$ è detta
 	\textbf{precisione della stima} ($d$ piccola corrisponde ad un'alta precisione) e
-	$\frac{d}{\overline{X_n}}$ è detta \textbf{precisione relativa della stima}.
+	$\frac{d}{\overline{X}_n}$ è detta \textbf{precisione relativa della stima}.
 \end{definition}
 
+Per evitare di confonderci possiamo vedere $d$ come l'errore che \emph{possiamo} commettere, più
+questo è piccolo, più vincoleremo la nostra stima ad essere precisa. Dato che però l'intervallo è
+aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità di errore.
+
 \begin{proposition}[Intervallo di fiducia per la media con varianza nota]
-	Dato $\alpha \in (0,1)$, assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
+	Dato il parametro $\alpha \in (0,1)$ e assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
 	\[
-		I = \left[
-			\overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
+		I = \left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}}
+			\cdot q_{1 - \frac{\alpha}{2}} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1 - \alpha$. Questo vale per il
 	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane}. In particolare se
 	$X_i \sim N(\mu, \sigma^2)$ sono indipendenti, allora
-	\[ \overline{X_n} = \frac{1}{n} \sum_{i=1}^n X_i \sim N(\mu, \frac{\sigma^2}{n}) \]
+	\[
+		\overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \sim
+		N \left( \mu, \frac{\sigma^2}{n} \right)
+	\]
 	\begin{proof}
 		Dobbiamo dimostrare che
 		\[
-			1 - \alpha \leq P \left( \mu \in \left[ \overline{X_n} \pm
+			1 - \alpha \leq P \left( \mu \in \left[ \overline{X}_n \pm
 				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right)
 		\]
 		Partiamo con il calcolare la probabilità
 		\[
-			P \left( \mu \in \left[ \overline{X_n} \pm
+			P \left( \mu \in \left[ \overline{X}_n \pm
 				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right) =
-			P \left( \left| \overline{X_n} - \mu \right| \leq
+			P \left( \left| \overline{X}_n - \mu \right| \leq
 			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right)
 		\]
-		A questo punto, facendo uso della standardizzazione delle gaussiane, otteniamo che
+		A questo punto, standardizziamo e otteniamo
 		\begin{align*}
-			P \left( \left| \overline{X_n} - \mu \right| \leq
+			P \left( |\overline{X}_n - \mu| \leq
 			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right) = &
-			P \left( \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \leq
+			P \left( \frac{|\overline{X}_n - \mu|}{\sigma / \sqrt{n}} \leq
 			\frac{\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}}{\sigma/\sqrt{n}} \right) \\
 			=                                                          &
 			P \left( |Z| \leq q_{1 - \frac{\alpha}{2}} \right)                                   \\
@@ -80,38 +87,33 @@ Dobbiamo quindi determinare $d$ tale che valga
 
 \begin{example}
 	Il peso di una specie di salmoni segue una distribuzione Gaussiana di media $\mu$ incognita e
-	deviazione standard $\sigma = 0.4$. Vengono pesati 10 esemplari e viene ricavato un peso medio
-	di 3.58.
+	deviazione standard $\sigma = 0.4$ kg. Vengono pesati 10 esemplari e viene ricavato un peso medio
+	di 3.58 kg.
 	\begin{enumerate}
 		\item Vogliamo determinare un intervallo di fiducia per la media $\mu$ di livello
-		      $95\% = 1 - \alpha$.
+		      $1 - \alpha = 0.95$.
 		\item Mantenendo il livello di fiducia al 95\%, quanto grande deve essere $n$ affinché la
 		      precisione $d$ della stima sia al massimo 0.1?
 	\end{enumerate}
-
-	Punto 1. Il campione che consideriamo è di $n=10$ salmoni, la variabile aleatoria $X$ ci dice
+	Il campione che consideriamo è di $n=10$ salmoni, la variabile aleatoria $X$ ci dice
 	il peso di un esemplare scelto a caso e $X_i$ è il peso dell'$i$-esimo esemplare del campione.
-	Abbiamo poi che $1-\alpha = 0.95$ quindi $\alpha=0.05$ e quindi $1 - \frac{\alpha}{2}$. Dalle
-	tavole ricaviamo infine che $q_{1-\frac{\alpha}{2}} = 1.96$. L'intervallo di fiducia cercato è
+	Abbiamo poi che $1-\alpha = 0.95$ quindi $\alpha=0.05$ e quindi $1 - \frac{\alpha}{2} = 0.975$.
+	Dalle tavole ricaviamo infine che $q_{0.975} = 1.96$. L'intervallo di fiducia cercato è quindi
 	\[
-		I = \left[ \overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right]
-		= \left[ \overline{X_{10}} \pm \frac{0.4}{\sqrt{10}} \cdot 1.96 \right]
-		= \left[ \overline{X_{10}} \pm 0.248 \right]
+		I = \left[ 3.58 \pm \frac{0.4}{\sqrt{10}} \cdot 1.96 \right]
+		= [ 3.58 \pm 0.248 ] = [ 3.332, 3.828 ]
 	\]
-	Inserendo il dato $\overline{X_n} = 3.58$, otteniamo $I = [3.58 \pm 0.248] = [3.332, 3.828]$.
-
-	Punto 2. Imponiamo $d \leq 0.1$ dove sappiamo $d$ essere
+	Risolviamo ora il secondo punto imponendo $d \leq 0.1$ dove sappiamo $d$ essere
 	$\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}$ e quindi abbiamo che
 	\[
-		\sigma \cdot q_{1-\frac{\alpha}{2}} \leq 0.1 \cdot \sqrt{n}
-		\quad \Leftrightarrow \quad
+		\sigma \cdot q_{1-\frac{\alpha}{2}} \leq 0.1 \cdot \sqrt{n} \iff
 		n \geq \frac{\sigma^2 q_{1-\frac{\alpha}{2}}^2}{0.1^2} \approx 61.46
 	\]
 	Otteniamo quindi che il campione deve avere numerosità $n \geq 62$.
 \end{example}
 
-Prima di proseguire dobbiamo introdurre la distribuzione $t$ \textbf{di Student} utile per capire
-meglio il risultato che seguirà. Tale distribuzione, a $k$ gradi di libertà, ha densità
+Prima di proseguire dobbiamo introdurre la distribuzione di \textbf{Student}, utile per capire
+meglio il risultato che seguirà. Tale distribuzione, a $k$ \textbf{gradi di libertà}, ha densità
 \[
 	f_{k} (x) = c_k \cdot
 	\left( 1 + \frac{t^2}{k} \right)^{-\frac{k}{2} - \frac{1}{2}}
@@ -120,44 +122,75 @@ Su questa distribuzione possiamo dire che ha una densità simmetrica \emph{"a ca
 più pesanti di $N(0,1)$, ovvero
 \[ P(T > \gamma) \geq P(Z > \gamma) \]
 per $\gamma$ grande. Il fatto di avere code più pesanti implica che il quantile della $t$ di
-Student è più grande di quello della Gaussiana. Ultima considerazione è che per
-$k \to \infty$ abbiamo che $t_k$ tende in legge a $N(0,1)$.
+Student è più grande di quello della Gaussiana. Per il calcolo dei quantili $\tau$ della
+distribuzione $t$ di Student si ricorre, come per le Gaussiane a tavole o software. Ultima
+considerazione è che per $k \to \infty$ abbiamo che $t_k$ tende in legge a $N(0,1)$.
 
 \begin{proposition}[Intervallo di fiducia per la media con varianza non nota]
 	In questo caso non possiamo usare $\sigma$ nella determinazione dell'intervallo di fiducia.
 	Questo problema si risolve considerando lo stimatore di $\sigma^2$:
-	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X_n} \right)^2 \]
+	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X}_n \right)^2 \]
 	Consideriamo quindi la variabile aleatoria
-	\[ T = \frac{\overline{X_n} - \mu}{S_n / \sqrt{n}} \]
+	\[ T = \frac{\overline{X}_n - \mu}{S_n / \sqrt{n}} \]
 	la quale ha distribuzione nota (per $X_1, \dots, X_n$ i.i.d. $\sim N(\mu, \sigma^2)$), che è la
 	distribuzione $t$ di Student a $n-1$ gradi di libertà. Dato quindi $\alpha \in (0,1)$ e
 	assumendo $\sigma^2 > 0$ non nota, l'intervallo aleatorio
 	\[
-		\left[ \overline{X_n} \pm
+		\left[ \overline{X}_n \pm
 			\frac{S_n}{\sqrt{n}} \cdot \tau_{1 - \frac{\alpha}{2}, n-1} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1-\alpha$. Nella formula $\tau$ è il
 	quantile $1-\frac{\alpha}{2}$ della $t$ di Student a $n-1$ gradi di libertà.
 \end{proposition}
 
+\begin{example}
+	Consideriamo come prima il peso di una specie di salmoni che segue una distribuzione di media
+	$\mu$ e di varianza $\sigma^2$ incognita. Vengono pesati 10 esemplari e viene ricavato un peso
+	medio di 3.58 kg e deviazione standard campionaria di 0.4 kg.
+	\begin{enumerate}
+		\item Vogliamo determinare un intervallo di fiducia per la media $\mu$ di livello
+		      $1 - \alpha = 0.95$.
+		\item Mantenendo il livello di fiducia al 95\%, quanto grande deve essere $n$ affinché la
+		      precisione $d$ della stima sia al massimo 0.1?
+	\end{enumerate}
+	Il procedimento è analogo a prima ma dobbiamo lavorare valori differenti, in particolare
+	l'intervallo cercato avrà forma
+	\[
+		I = \left[ 3.58 \pm \frac{0.4}{\sqrt{10}} \cdot 2.262 \right]
+		= [3.58 \pm 0.286] = [3.294, 3.866]
+	\]
+	come possiamo notare $d$ è più grande, questo è dovuto al fatto che il quantile della t di
+	Student è maggiore della Gaussiana.
+
+	Per il secondo punto notiamo che $d$ dipende da $S_n$ e quindi dipende dai dati del campione,
+	il che vuol dire che se variamo $n$ variamo anche $S_n$. Non si può quindi determinare $n$ a
+	priori ma si può dare una \emph{stima ragionevole} di $S_n$, ad esempio supponendo che sia
+	limitata da $2 \cdot 0.4 = 0.8$, quindi calcoliamo $n$ basandoci su tale stima, cioè
+	\[
+		d = \frac{S_n}{\sqrt{n}} \cdot \tau_{1 - \frac{\alpha}{2}, n-1} \leq
+		\frac{0.8}{\sqrt{n}} \cdot \tau_{1 - \frac{\alpha}{2}, n-1} \leq 0.1
+	\]
+	e, dopo aver raccolto di nuovo i dati dal campione di taglia $n$, verifichiamo che la $S_n$
+	verifichi la stima che avevamo imposto o verifichiamo che $d$ rispetti la stima richiesta.
+\end{example}
+
 Per il momento abbiamo sempre considerato \textbf{intervalli bilateri}, ossia intervalli i cui
 estremi sono entrambi variabili aleatorie. Possiamo considerare anche \textbf{intervalli unilateri}
-se ad esempio ci interessa sapere se la media non è troppo alta, consideriamo un intervallo del
-tipo
+della forma
 \[ (-\infty, b(X_1, \dots, X_n)] \]
 
 \begin{proposition}
 	Dato $\alpha \in (0,1)$, gli intervalli aleatori
 	\[
-		\left( -\infty, \overline{X_n} + \frac{\sigma}{\sqrt{n}} q_{1-\alpha} \right],
+		\left( -\infty, \overline{X}_n + \frac{\sigma}{\sqrt{n}} q_{1-\alpha} \right],
 		\quad
-		\left[ \overline{X_n} - \frac{\sigma}{\sqrt{n}} q_{1-\alpha}, +\infty \right)
+		\left[ \overline{X}_n - \frac{\sigma}{\sqrt{n}} q_{1-\alpha}, +\infty \right)
 	\]
 	sono intervalli di fiducia per la media $\mu$ di livello $1-\alpha$. Nel caso $\sigma^2$
 	incognita, le formule diventano
 	\[
-		\left( -\infty, \overline{X_n} + \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1} \right],
+		\left( -\infty, \overline{X}_n + \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1} \right],
 		\quad
-		\left[ \overline{X_n} - \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1}, +\infty \right)
+		\left[ \overline{X}_n - \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1}, +\infty \right)
 	\]
 \end{proposition}
