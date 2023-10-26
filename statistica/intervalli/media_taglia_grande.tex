@@ -1,34 +1,34 @@
 \section{Media di un campione di taglia grande}
-Sia $X_1, \dots, X_n$ un campione i.i.d. di $X$ e supponiamo $n$ grande ($n \geq 80$). Per il
-\hyperref[th: tlc]{teorema del limite centrale} e per $n$ grande
-\[ \frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \]
+Sia $X_1, \dots, X_n$ un campione i.i.d. di $X$ e supponiamo $n$ grande ($n \geq 80$) allora, per
+il \hyperref[th: tlc]{teorema centrale del limite}
+\[ \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \]
 è approssimativamente una Gaussiana standard e anche
-\[ \frac{\overline{X_n} - \mu}{S_n / \sqrt{n}} \]
+\[ \frac{\overline{X}_n - \mu}{S_n / \sqrt{n}} \]
 è approssimativamente una Gaussiana standard. Quindi, usando un procedimento analogo a quello visto
 per campioni Gaussiani o Bernoulliani di taglia grande, otteniamo il seguente risultato.
 
 \begin{proposition}[Intervallo di fiducia per la media di campioni grandi e varianza nota]
-	Siano $(X_1, \dots, X_n)$ campione i.i.d., con $\E[X_i^2] < \infty$, con $n$ grande. Dato
+	Sia $X_1, \dots, X_n$ un campione i.i.d., con momento secondo finito e $n$ grande. Dato
 	$\alpha \in (0,1)$, l'intervallo aleatorio
-	\[ \left[ \overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right] \]
+	\[ \left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right] \]
 	è un intervallo di fiducia per la media $\mu$ della popolazione con livello di fiducia
 	approssimativamente $1 - \alpha$. Precisamente si ha che
 	\[
-		\lim_{n \to \infty} P \left( \mu \in \left[
-			\overline{X_n} \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
+		\lim_{n \to +\infty} P \left( \mu \in \left[
+			\overline{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
 			\right] \right) = 1 - \alpha
 	\]
 \end{proposition}
 
 \begin{proposition}[Intervallo di fiducia per la media di campioni grandi e varianza non nota]
-	Sia $(X_1, \dots, X_n)$ un campione i.i.d. con $\E[X_i^2] < \infty$, $n$ grande e
-	$\alpha \in (0,1)$. L'intervallo aleatorio
-	\[ \left[ \overline{X_n} \pm \frac{S_n}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right] \]
+	Sia $X_1, \dots, X_n$ un campione i.i.d. con momento secondo finito e $n$ grande. Dato
+	$\alpha \in (0,1)$, l'intervallo aleatorio
+	\[ \left[ \overline{X}_n \pm \frac{S_n}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right] \]
 	è un intervallo di fiducia per la media $\mu$ della popolazione con livello di fiducia
-	$1-\alpha$. Precisamente abbiamo
+	approssimativamente $1-\alpha$. Precisamente si ha che
 	\[
 		\lim_{n \to \infty} P \left( \mu \in \left[
-			\overline{X_n} \pm \frac{S_n}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
+			\overline{X}_n \pm \frac{S_n}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}}
 			\right] \right) = 1 - \alpha
 	\]
 \end{proposition}

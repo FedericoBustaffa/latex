@@ -1,8 +1,7 @@
 \section{Media di un campione Gaussiano}
-Negli esempi che vedremo di seguito supponiamo di avere un campione statistico e supponiamo di
-sapere che la sua distribuzione sia Gaussiana di parametri $\mu$ e $\sigma^2$. Nel nostro caso ci
-poniamo il problema di cercare degli intevalli di fiducia per $\mu$ che è non nota. Come sappiamo,
-la media campionaria
+Supponiamo ora di avere un campione statistico e supponiamo di sapere che la sua distribuzione sia
+Gaussiana di parametri $\mu$ e $\sigma^2$. Nel nostro caso ci poniamo il problema di cercare degli
+intevalli di fiducia per $\mu$ che è non nota. Come sappiamo, la media campionaria
 \[ \overline{X}_n = \frac{X_1 + \dots + X_n}{n} \]
 è uno stimatore di $\E[X] = \mu$, quindi è naturale cercare un intervallo di fiducia della forma
 \[ I = [\overline{X}_n - d, \overline{X}_n + d] = [\overline{X}_n \pm d] \]
@@ -22,8 +21,7 @@ aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità d
 \begin{proposition}[Intervallo di fiducia per la media con varianza nota]
 	Dato il parametro $\alpha \in (0,1)$ e assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
 	\[
-		I = \left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}}
-			\cdot q_{1 - \frac{\alpha}{2}} \right]
+		\left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1 - \alpha$. Questo vale per il
 	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane}. In particolare se
