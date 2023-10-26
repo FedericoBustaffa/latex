@@ -24,7 +24,7 @@ aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità d
 		\left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1 - \alpha$. Questo vale per il
-	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane}. In particolare se
+	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane} che ci dice che se
 	$X_i \sim N(\mu, \sigma^2)$ sono indipendenti, allora
 	\[
 		\overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \sim
@@ -33,8 +33,8 @@ aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità d
 	\begin{proof}
 		Dobbiamo dimostrare che
 		\[
-			1 - \alpha \leq P \left( \mu \in \left[ \overline{X}_n \pm
-				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right)
+			P \left( \mu \in \left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}}
+				\cdot q_{1-\frac{\alpha}{2}} \right] \right) \geq 1 - \alpha
 		\]
 		Partiamo con il calcolare la probabilità
 		\[

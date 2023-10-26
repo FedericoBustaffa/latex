@@ -153,11 +153,11 @@ esame.
 \begin{theorem}[Teorema del limite centrale]\label{th: tlc}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
 	secondo finito, allora $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i) < +\infty$, allora
-	\[ \left( \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} \right)_n \]
+	\[ \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} \]
 	converge in legge a $Z \sim N(0,1)$. Questo vuol dire che per ogni $a, b$ tali che
 	$-\infty \leq a < b \leq +\infty$
 	\begin{align*}
-		\lim_{n \to +\infty} P\left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma}
+		\lim_{n \to +\infty} P \left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma}
 		\leq b \right) = & P(a \leq Z \leq b)                                      \\
 		=                & \int_{a}^{b} \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2/2} dx \\
 		=                & \Phi(b) - \Phi(a)
@@ -191,7 +191,10 @@ aleatoria
 \[ Y_n = X_1 + \dots + X_n \sim B(n, p) \]
 rappresenta la frequenza assoluta del successo nelle prime $n$ ripetizioni. Il teorema del limite
 centrale ci dice che
-\[ \frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}} \]
+\[
+	\sqrt{n} \cdot \frac{\overline{X}_n - p}{\sqrt{p \cdot (1-p)}} =
+	\frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}}
+\]
 è approssimativamente $N(0,1)$. Questo risultato prende il nome di
 \textbf{approssimazione della binomiale} per $n$ grande. In particolare, come regola empirica,
 possiamo prendere $n$ tale che
