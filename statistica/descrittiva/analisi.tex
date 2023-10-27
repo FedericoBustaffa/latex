@@ -9,7 +9,7 @@ Procediamo con alcune definizioni fondamentali per l'analisi statistica dei dati
 \begin{definition}
 	Definiamo la \textbf{media empirica} o il \textbf{valore medio} come la media aritmetica dei
 	valori in un certo vettore di dati.
-	\[ \overline{x} = \frac{x_1 + x_2 + \dots + x_n}{n} \]
+	\[ \bar{x} = \frac{x_1 + x_2 + \dots + x_n}{n} \]
 \end{definition}
 
 \section{Varianza}
@@ -20,13 +20,13 @@ doppia definizione.
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza campionaria} come
-	\[ \Var(x) = \frac{1}{n - 1} \cdot \sum_{i=1}^n (x_i - \overline{x})^2 \]
+	\[ \Var(x) = \frac{1}{n - 1} \cdot \sum_{i=1}^n (x_i - \bar{x})^2 \]
 	La varianza campionaria si applica meglio su campioni di dati.
 \end{definition}
 
 \begin{definition}
 	Sia $x$ un vettore di dati, definiamo la \textbf{varianza empirica} come
-	\[ \Var_e(x) = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2 \]
+	\[ \Var_e(x) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 \]
 	La varianza empirica si applica meglio su intere popolazioni di dati.
 \end{definition}
 
@@ -46,15 +46,15 @@ doppia definizione.
 
 Definiamo anche un'uguaglianza di base che, per il momento non andremo a spiegare, ma che in
 seguito ci tornerà utile:
-\[ \sum_{i=1}^n (x_i - \overline{x})^2 = \sum_{i=1}^n x_i^2 - n \overline{x}^2 \]
+\[ \sum_{i=1}^n (x_i - \bar{x})^2 = \sum_{i=1}^n x_i^2 - n \bar{x}^2 \]
 \begin{proof}
 	Sviluppando il quadrato possiamo facilmente convincerci che l'uguaglianza sia vera:
 	\begin{align*}
-		\sum_{i=1}^n (x_i - \overline{x})^2 =                                     \\
-		\sum_{i=1}^n (x_i^2 - 2 x_i \overline{x} + \overline{x}^2) =              \\
-		\sum_{i=1}^n x_i^2 - 2 \overline{x} \sum_{i=1}^n x_i + n \overline{x}^2 = \\
-		\sum_{i=1}^n x_i^2 - 2 n \overline{x}^2 + n \overline{x}^2 =              \\
-		\sum_{i=1}^n x_i^2 - n \overline{x}^2
+		\sum_{i=1}^n (x_i - \bar{x})^2 =                                \\
+		\sum_{i=1}^n (x_i^2 - 2 x_i \bar{x} + \bar{x}^2) =              \\
+		\sum_{i=1}^n x_i^2 - 2 \bar{x} \sum_{i=1}^n x_i + n \bar{x}^2 = \\
+		\sum_{i=1}^n x_i^2 - 2 n \bar{x}^2 + n \bar{x}^2 =              \\
+		\sum_{i=1}^n x_i^2 - n \bar{x}^2
 	\end{align*}
 \end{proof}
 
@@ -74,12 +74,12 @@ sono uguali tra di loro, vale quindi
 \[ \Var(x) = 0 \Leftrightarrow x_1 = x_2 = \dots = x_n \]
 Abbiamo anche già specificato che il valore della varianza indica il grado di \emph{dispersione}
 dei dati, per fissare meglio il concetto analizziamo questa espressione:
-\[ \# \{ x_i : |x_i - \overline{x}| > d  \} \leq \frac{\sum_{i=1}^n (x_i - \overline{x})}{d^2} \]
+\[ \# \{ x_i : |x_i - \bar{x}| > d  \} \leq \frac{\sum_{i=1}^n (x_i - \bar{x})}{d^2} \]
 Da qui possiamo dedurre che
-\[ \frac{\# \{ x_i : |x_i - \overline{x}| > d \}}{n} \leq \frac{\Var_e(x)}{d^2} \]
+\[ \frac{\# \{ x_i : |x_i - \bar{x}| > d \}}{n} \leq \frac{\Var_e(x)}{d^2} \]
 La disequazione appena descritta è detta \textbf{disuguaglianza di Chebyshev}, anche se, come
 vedremo più avanti, si tratta di un caso particolare della vera disuguaglianza di Chebyshev. Essa
-indica la percentuale di dati che differiscono da $\overline{x}$ per almeno un fattore $d$.
+indica la percentuale di dati che differiscono da $\bar{x}$ per almeno un fattore $d$.
 
 \begin{observation}
 	Questo ci dice che più la varianza è piccola, più il numero di dati che differiscono dalla
@@ -92,11 +92,11 @@ indica la percentuale di dati che differiscono da $\overline{x}$ per almeno un f
 	l'istogramma sia normale abbiamo che
 	\begin{itemize}
 		\item Circa il 68\% dei dati appartiene a
-		      \[ [ \overline{x} - \sigma(x),\; \overline{x} + \sigma(x) ] \]
+		      \[ [ \bar{x} - \sigma(x),\; \bar{x} + \sigma(x) ] \]
 		\item Circa il 95\% dei dati appartiene a
-		      \[ [ \overline{x} - 2 \sigma(x),\; \overline{x} + 2 \sigma(x) ] \]
+		      \[ [ \bar{x} - 2 \sigma(x),\; \bar{x} + 2 \sigma(x) ] \]
 		\item Circa il 99.7\% dei dati appartiene a
-		      \[ [ \overline{x} - 3 \sigma(x),\; \overline{x} + 3 \sigma(x) ] \]
+		      \[ [ \bar{x} - 3 \sigma(x),\; \bar{x} + 3 \sigma(x) ] \]
 	\end{itemize}
 	Questi intervalli si allargano tanto più velocemente quanto più grande è lo scarto quadratico
 	medio (o la varianza).
@@ -197,14 +197,14 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 
 \begin{definition}
 	Siano $x$  e $y$ due vettori di dati, definiamo la \textbf{covarianza campionaria} come
-	\[ \Cov(x, y) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \overline{x}) (y_i - \overline{y}) \]
+	\[ \Cov(x, y) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}) (y_i - \bar{y}) \]
 \end{definition}
 
 \begin{definition}
 	Siano $x$  e $y$ due vettori di dati, definiamo la \textbf{covarianza empirica} come
 	\[
-		\Cov_e(x, y) = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x}) (y_i - \overline{y}) =
-		\frac{1}{n} \left( \sum_{i=1}^n x_i \cdot y_i \right) - \overline{x} \cdot \overline{y}
+		\Cov_e(x, y) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x}) (y_i - \bar{y}) =
+		\frac{1}{n} \left( \sum_{i=1}^n x_i \cdot y_i \right) - \bar{x} \cdot \bar{y}
 	\]
 \end{definition}
 
@@ -213,9 +213,9 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 	\textbf{coefficiente di correlazione} tra $x$ e $y$ il numero
 	\[
 		r(x, y) = \frac{\Cov (x, y)}{\sigma (x) \cdot \sigma (y)} =
-		\frac{\sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})}
-		{\sqrt{\sum_{i=1}^n (x_i - \overline{x})^2} \cdot
-			\sqrt{\sum_{i=1}^n (y_i - \overline{y})^2}}
+		\frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}
+		{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2} \cdot
+			\sqrt{\sum_{i=1}^n (y_i - \bar{y})^2}}
 	\]
 	Sia che si scelga la covarianza campionaria sia che si scelga quella empirica il risultato
 	non cambia.
@@ -224,8 +224,8 @@ La \textbf{covarianza} è la misura di \emph{quanto varia} un insieme.
 \begin{definition}
 	La \textbf{disuguaglianza di Schwartz} è definita come segue
 	\[
-		\sum_{i=1}^n |(x_i - \overline{x}) (y_i - \overline{y})| \leq
-		\sqrt{\sum_{i=1}^n (x_i - \overline{x})^2} \cdot \sqrt{\sum_{i=1}^n (y_i - \overline{y})^2}
+		\sum_{i=1}^n |(x_i - \bar{x}) (y_i - \bar{y})| \leq
+		\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2} \cdot \sqrt{\sum_{i=1}^n (y_i - \bar{y})^2}
 	\]
 	e di conseguenza vale \[ |r(x, y)| \leq 1 \]
 \end{definition}
@@ -260,11 +260,11 @@ meglio la funzione.
 	Il minimo, al variare di $(a, b) \in \mathbb{R}^2$, della quantità
 	\[ \sum_{i=1}^n (y_i - (a x_i + b))^2 \]
 	si ottiene calcolando i coefficienti $a^*$ e $b^*$ come segue
-	\[ a^* = \frac{\Cov(x, y)}{\Var(x)} \quad \wedge \quad b^* = \overline{y} - a^* \overline{x} \]
+	\[ a^* = \frac{\Cov(x, y)}{\Var(x)} \quad \wedge \quad b^* = \bar{y} - a^* \bar{x} \]
 	e vale l'uguaglianza
 	\[
 		\min_{a, b \in \mathbb{R}^2} \sum_{i=1}^n (y_i - (a x_i + b))^2 =
-		(1 - r(x, y)^2) \cdot \sum_{i=1}^n (y_i - \overline{y})^2
+		(1 - r(x, y)^2) \cdot \sum_{i=1}^n (y_i - \bar{y})^2
 	\]
 	La retta $y = a^* x + b^*$ è chiamata \textbf{retta di regressione}.
 	\begin{proof}
@@ -290,22 +290,22 @@ meglio la funzione.
 		\[
 			\begin{cases}
 				\frac{1}{n} \sum_{i=1}^n x_i y_i - \frac{a}{n} \sum_{i=1}^n x_i^2 +
-				b \overline{x}                    & = 0 \\
-				\overline{y} - a \overline{x} - b & = 0
+				b \bar{x}               & = 0 \\
+				\bar{y} - a \bar{x} - b & = 0
 			\end{cases}
 		\]
 		Risolvendo il sistema si ricavano $a$ e $b$ come segue
 		\[
 			\begin{cases}
-				b = & \overline{y} - a \overline{x}            \\
+				b = & \bar{y} - a \bar{x}                      \\
 				a = & \frac{\frac{1}{n} \sum_{i=1}^n x_i y_i -
-					\overline{x} \cdot \overline{y}}
-				{\frac{1}{n} \sum_{i=1}^n x_i^2 - \overline{x}^2} =
+					\bar{x} \cdot \bar{y}}
+				{\frac{1}{n} \sum_{i=1}^n x_i^2 - \bar{x}^2} =
 				\frac{\Cov_e(x, y)}{\Var_e(x)}
 			\end{cases}
 		\]
 		Otteniamo così $a^*$ e $b^*$ e se proviamo a calcolare $Q(a^*, b^*)$ si ricava che
-		\[ Q(a^*, b^*) = \sum_{i=1}^n (y_i - \overline{y})^2 (1 - r(x, y)^2) \]
+		\[ Q(a^*, b^*) = \sum_{i=1}^n (y_i - \bar{y})^2 (1 - r(x, y)^2) \]
 	\end{proof}
 \end{theorem}
 

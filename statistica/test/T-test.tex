@@ -2,10 +2,10 @@
 Vogliamo ora formulare un test per la media di una popolazione Gaussiana senza però conoscere la
 varianza. Sia $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ non noto e sia $X_1, \dots, X_n$ un campione
 i.i.d. di $X$. Il ragionamento è analogo allo $z$-test ma considerando come statistica
-\[ \sqrt{n} \cdot \frac{\overline{X} - \mu}{S} \]
+\[ \sqrt{n} \cdot \frac{\bar{X} - \mu}{S} \]
 che, come abbiamo visto in precedenza, si tratta di una distribuzione $t$ di Student a $n-1$ gradi
 di libertà, con
-\[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X} \right)^2 \]
+\[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \bar{X} \right)^2 \]
 varianza campionaria. Una volta definito questo ci basta usare i quantili della distribuzione $t$
 di Student invece di quelli della Gaussiana.
 
@@ -15,13 +15,13 @@ Poniamoci nell'ipotesi
 
 \subsubsection{Formulazione del test}
 Cerchiamo una regione critica della forma
-\[ C = \left\{ |\overline{X} - \mu_0| > d \right\} \]
+\[ C = \left\{ |\bar{X} - \mu_0| > d \right\} \]
 Per farlo imponiamo quindi il livello $\alpha$
 \begin{align*}
-	P_{\mu_0} (C) =                          & \alpha \\
-	P_{\mu_0} (|\overline{X} - \mu_0| > d) = &
-	P_{\mu_0} \left( \frac{\overline{X} - \mu_0}{S} \cdot \sqrt{n} >
-	\frac{\sqrt{n}}{S} \cdot d \right)                \\
-	=                                        &
+	P_{\mu_0} (C) =                     & \alpha \\
+	P_{\mu_0} (|\bar{X} - \mu_0| > d) = &
+	P_{\mu_0} \left( \frac{\bar{X} - \mu_0}{S} \cdot \sqrt{n} >
+	\frac{\sqrt{n}}{S} \cdot d \right)           \\
+	=                                   &
 	P \left( |T_{n-1}| > \frac{\sqrt{n}}{S} \cdot d \right)
 \end{align*}

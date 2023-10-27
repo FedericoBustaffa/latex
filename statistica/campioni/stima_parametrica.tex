@@ -70,9 +70,9 @@ esiti $x_1, \dots, x_n$.
 	\[
 		n - \theta \cdot \sum_{i=1}^{n} x_i = 0 \iff
 		\frac{1}{\theta} = \frac{1}{n} \cdot \sum_{i=1}^{n} x_i \iff
-		\frac{1}{\theta} = \overline{x}
+		\frac{1}{\theta} = \bar{x}
 	\]
-	Possiamo quindi concludere che $\hat{\theta} = 1 / \overline{x}$ è il parametro scelto.
+	Possiamo quindi concludere che $\hat{\theta} = 1 / \bar{x}$ è il parametro scelto.
 \end{example}
 
 \begin{example}
@@ -130,7 +130,7 @@ perché il problema della stima di un parametro non è ben posto poiché non si 
 
 Si può dimostrare che una stima per la coppia (valore atteso, varianza) con il metodo dei momenti
 è data dalla coppia di parametri
-\[ \begin{pmatrix} \overline{X}_n, & \dfrac{n-1}{n} \cdot S_n^2 \end{pmatrix} \]
+\[ \begin{pmatrix} \bar{X}_n, & \dfrac{n-1}{n} \cdot S_n^2 \end{pmatrix} \]
 per $k = 1, 2$.
 
 \begin{example}
@@ -147,7 +147,7 @@ per $k = 1, 2$.
 	\[ \E[X] = \frac{1}{\theta} \]
 	Per effettuare la stima con il metodo dei momenti dobbiamo imporre dunque
 	\[ \frac{1}{\theta} = \frac{1}{n} \cdot \sum_{i=1}^n x_i \]
-	da cui ricaviamo $\tilde{\theta} = 1 / \overline{x}$ come nel caso di stima di verosimiglianza.
+	da cui ricaviamo $\tilde{\theta} = 1 / \bar{x}$ come nel caso di stima di verosimiglianza.
 \end{example}
 
 \begin{example}
@@ -165,6 +165,6 @@ per $k = 1, 2$.
 		\E_{\tilde{\theta}}[X] = \frac{1}{n} \cdot \sum_{i=1}^n \iff
 		\frac{\tilde{\theta}}{2} = \frac{1}{n} \cdot \sum_{i=1}^n
 	\]
-	da cui ricaviamo $\tilde{\theta} = 2 \cdot \overline{x}_n$ diversamente da quanto ottenuto
+	da cui ricaviamo $\tilde{\theta} = 2 \cdot \bar{x}_n$ diversamente da quanto ottenuto
 	con il metodo di verosimiglianza.
 \end{example}

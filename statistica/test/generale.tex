@@ -69,9 +69,9 @@ punto).
 \begin{example}
 	Nell'esempio del controllo qualità si rifiuta l'ipotesi $H_0$ se la percentuale dei pezzi
 	difettosi riscontrata nel campione è superiore a un certo valore $d$
-	\[ C = \{ \omega \in \Omega | \overline{X}(\omega) > d \} = \{ \overline{X} > d \} \]
+	\[ C = \{ \omega \in \Omega | \bar{X}(\omega) > d \} = \{ \bar{X} > d \} \]
 	La scelta di $d$ sarà tale che
-	\[ P_\theta(C) = P_\theta(\overline{X} > d) \]
+	\[ P_\theta(C) = P_\theta(\bar{X} > d) \]
 	sia piccola per ogni $\theta \leq 0.02$.
 \end{example}
 
@@ -139,14 +139,21 @@ Per ovviare alla dipendenza dell'esito del test da $\alpha$, viene usato il meto
 A differenza della regione critica $C$, che è fissata a priori indipendentemente dall'esito del
 campione, il $p$-value dipende dalla realizzazione $x_1, \dots, x_n$ del campione $X_1, \dots, X_n$.
 
-Informalmente il $p$-value di un dato $x_1, \dots, x_n$ è la probabilità $\overline{\alpha}$
+Informalmente il $p$-value di un dato $x_1, \dots, x_n$ è la probabilità $\bar{\alpha}$
 nell'ipotesi $H_0$ di ottenere dati più estremi (rispetto ad $H_0$) di $x_1, \dots, x_n$
+
+\begin{example}
+	Se su un controllo qualità di 1000 pezzi, 30 risultano difettosi, il $p$-value dei dati
+	ottenuti è la probabilità, assumendo $\theta \leq 0.02$, di trovare almeno 30 pezzi difettosi
+	su 1000.
+\end{example}
 
 \begin{definition}
 	Data $x_1, \dots, x_n$ realizzazione del campione $X_1, \dots, X_n$ si chiama $p$-value di
-	$x_1, \dots, x_n$ il valore $\overline{\alpha} = \overline{\alpha} (x_1, \dots, x_n)$ tale
-	che, se il livello $\alpha$ del test è $\alpha < \alpha'$, l'ipotesi viene accettata a livello
-	$\alpha$, mentre se $\alpha > \overline{\alpha}$, l'ipotesi viene rifiutata a livello $\alpha$.
+	$x_1, \dots, x_n$ il valore $\bar{\alpha} = \bar{\alpha} (x_1, \dots, x_n)$ tale
+	che, se il livello $\alpha$ del test è $\alpha < \bar{\alpha}$, l'ipotesi viene accettata a
+	livello $\alpha$, mentre se $\alpha > \bar{\alpha}$, l'ipotesi viene rifiutata a livello
+	$\alpha$.
 \end{definition}
 
 Il $p$-value sintetizza in un unico numero la \emph{plausibilità} dell'ipotesi $H_0$ e l'esito del
@@ -155,4 +162,5 @@ più ricca della semplice dicotomia accetto/rifiuto (indipendente dal livello $\
 
 In pratica, se il $p$-value è molto basso, l'ipotesi $H_0$ è decisamente poco plausibile, se invece
 il $p$-value è alto allora $H_0$ è molto plausibile. Per valori intermedi, il $p$-value, ci dice
-quanto forte è l'indicazione contro $H_0$.
+quanto forte è l'indicazione contro $H_0$ (più basso è il $p$-value, più forte è l'indicazione
+contro $H_0$).

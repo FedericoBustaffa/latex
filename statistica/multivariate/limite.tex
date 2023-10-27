@@ -38,10 +38,10 @@ sono i.i.d con la stessa distribuzione di $X$.
 
 Introduciamo ora la notazione per un altro strumento utile ai nostri fini, ossia la
 \textbf{media aritmetica} di $n$ variabili aleatorie $X_1, \dots, X_n$ i.i.d
-\[ \overline{X} = \overline{X}_n = \frac{X_1 + X_2 + \dots + X_n}{n} \]
-Osserviamo che $\overline{X}$ è essa stessa una variabile aleatoria in quanto combinazione di
+\[ \bar{X} = \bar{X}_n = \frac{X_1 + X_2 + \dots + X_n}{n} \]
+Osserviamo che $\bar{X}$ è essa stessa una variabile aleatoria in quanto combinazione di
 variabili aleatorie. Osserviamo anche che se $X_1, \dots, X_n$ rappresenta un campione,
-$\overline{X}$ è la media campionaria del campione.
+$\bar{X}$ è la media campionaria del campione.
 
 \begin{example}
 	Consideriamo il caso di $n$ ripetizioni di un esperimento con esito successo o insuccesso.
@@ -56,13 +56,13 @@ $\overline{X}$ è la media campionaria del campione.
 	Allora le $X_i$ sono i.i.d indipendenti e con distribuzione $B(p)$, quindi $X=X_1+\dots+X_n$ è
 	una variabile aleatoria $B(n,p)$ e rappresenta la \textbf{frequenza assoluta} del successo
 	(di $A$) mentre
-	\[ \overline{X} = \frac{X}{n} \]
+	\[ \bar{X} = \frac{X}{n} \]
 	rappresenta la frequenza relativa del successo.
 \end{example}
 
 \subsection{Legge dei grandi numeri}
 Uno degli obbiettivi fondamentali della legge dei grandi numeri è studiare il valore di
-$\overline{X}_n$ per campioni grandi ($n$ grande). Questo significa calcolare in qualche modo il
+$\bar{X}_n$ per campioni grandi ($n$ grande). Questo significa calcolare in qualche modo il
 limite, ma trattandosi di variabili aleatorie dobbiamo definire meglio cosa si intenda per limite.
 Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}.
 
@@ -77,27 +77,27 @@ Per la legge dei grandi numeri, ci serve la \textbf{convergenza in probabilità}
 
 \begin{theorem}[Legge dei grandi numeri]\label{th: lgn}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
-	secondo e sia $\mu = \E[X_i]$, allora $\overline{X}_n$ converge in probabilità a $\mu$, cioè
-	\[ P(|\overline{X}_n - \mu| > \varepsilon) \to 0 \]
+	secondo e sia $\mu = \E[X_i]$, allora $\bar{X}_n$ converge in probabilità a $\mu$, cioè
+	\[ P(|\bar{X}_n - \mu| > \varepsilon) \to 0 \]
 	per $n \to +\infty$ e per ogni $\varepsilon > 0$.
 	\begin{proof}
 		L'idea alla base della dimostrazione è che si può dimostrare che
 		\begin{align*}
-			\E[\overline{X}_n] = & \E\left[ \frac{X_1 + \dots + X_n}{n} \right] \\
-			=                    & \frac{1}{n} \sum_{i=1}^n \E[X_i] = \mu
+			\E[\bar{X}_n] = & \E\left[ \frac{X_1 + \dots + X_n}{n} \right] \\
+			=               & \frac{1}{n} \sum_{i=1}^n \E[X_i] = \mu
 		\end{align*}
-		Vogliamo anche calcolare la varianza di $\overline{X}_n$
+		Vogliamo anche calcolare la varianza di $\bar{X}_n$
 		\begin{align*}
-			\Var(\overline{X}_n) = & \Var \left( \frac{1}{n} \cdot \sum_{i=1}^n X_i \right)    \\
-			=                      & \frac{1}{n^2} \cdot \Var \left( \sum_{i=1}^n X_i \right)  \\
-			=                      & \frac{1}{n^2} \cdot \sum_{i=1}^n \Var(X_i)
-			\quad \text{se $X_i$ indipendenti}                                                 \\
-			=                      & \frac{1}{n^2} \cdot n \cdot \sigma^2 = \frac{\sigma^2}{n}
+			\Var(\bar{X}_n) = & \Var \left( \frac{1}{n} \cdot \sum_{i=1}^n X_i \right)    \\
+			=                 & \frac{1}{n^2} \cdot \Var \left( \sum_{i=1}^n X_i \right)  \\
+			=                 & \frac{1}{n^2} \cdot \sum_{i=1}^n \Var(X_i)
+			\quad \text{se $X_i$ indipendenti}                                            \\
+			=                 & \frac{1}{n^2} \cdot n \cdot \sigma^2 = \frac{\sigma^2}{n}
 		\end{align*}
 		Per la disuguaglianza di Chebyshev abbiamo che
 		\[
-			P(|\overline{X}_n - \E[\overline{X}_n]| >
-			\varepsilon) \leq \frac{\Var(\overline{X}_n)}{\varepsilon^2} =
+			P(|\bar{X}_n - \E[\bar{X}_n]| >
+			\varepsilon) \leq \frac{\Var(\bar{X}_n)}{\varepsilon^2} =
 			\frac{1}{\varepsilon^2} \cdot \frac{\sigma^2}{n} \to 0
 		\]
 		per $n \to \infty$.
@@ -118,8 +118,8 @@ valore atteso della singola prova.
 \begin{example}
 	Lanciamo un dado 1000 volte e vogliamo fornire un valore approssimato per il numero di 5 nei
 	1000 lanci. In questo caso le $X_i \sim B(1/6)$ indipendenti e abbiamo che
-	\[ \overline{X}_n = \frac{1}{n} \cdot \sum_{i=1}^{n} X_i \]
-	è la frequenza relativa di 5. Per la LGN $\overline{X}_n \to 1/6$ e quindi se definiamo
+	\[ \bar{X}_n = \frac{1}{n} \cdot \sum_{i=1}^{n} X_i \]
+	è la frequenza relativa di 5. Per la LGN $\bar{X}_n \to 1/6$ e quindi se definiamo
 	\[ Y_n = \sum_{i=1}^{n} X_i \]
 	la frequenza assoluta di 5 abbiamo che che $Y_n \to n \cdot 1/6$. Per $n=1000$ abbiamo che
 	\[ Y_{1000} \approx 1000 \cdot \frac{1}{6} \approx 167 \]
@@ -128,7 +128,7 @@ valore atteso della singola prova.
 
 Introduciamo ora la \textbf{varianza campionaria} come la misura di quanto i campioni si
 discostano dalla media la quale è definita come
-\[ S^2 = S_n^2 = \frac{\sum_{i=1}^n \left( X_i - \overline{X}_n \right)^2}{n - 1} \]
+\[ S^2 = S_n^2 = \frac{\sum_{i=1}^n \left( X_i - \bar{X}_n \right)^2}{n - 1} \]
 Se $(X_1, \dots, X_n)$ rappresenta un campione, allora $S^2$ è la varianza campionaria di tale
 campione.
 
@@ -153,11 +153,11 @@ esame.
 \begin{theorem}[Teorema del limite centrale]\label{th: tlc}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
 	secondo finito, allora $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i) < +\infty$, allora
-	\[ \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} \]
+	\[ \sqrt{n} \cdot \frac{\bar{X}_n - \mu}{\sigma} \]
 	converge in legge a $Z \sim N(0,1)$. Questo vuol dire che per ogni $a, b$ tali che
 	$-\infty \leq a < b \leq +\infty$
 	\begin{align*}
-		\lim_{n \to +\infty} P \left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma}
+		\lim_{n \to +\infty} P \left( a \leq \sqrt{n} \cdot \frac{\bar{X}_n - \mu}{\sigma}
 		\leq b \right) = & P(a \leq Z \leq b)                                      \\
 		=                & \int_{a}^{b} \frac{1}{\sqrt{2 \pi}} \cdot e^{-x^2/2} dx \\
 		=                & \Phi(b) - \Phi(a)
@@ -167,13 +167,13 @@ esame.
 \begin{observation}
 	Osserviamo che
 	\[
-		\sqrt{n} \cdot \frac{\overline{X}_n - \mu}{\sigma} =
+		\sqrt{n} \cdot \frac{\bar{X}_n - \mu}{\sigma} =
 		\frac{X_1 + \dots + X_n - n \cdot \mu}{\sigma \cdot \sqrt{n}}
 	\]
 	Vale anche che
 	\[
-		\E \left[ \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \right] = 0 \quad
-		\Var \left( \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \right) = 1
+		\E \left[ \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \right] = 0 \quad
+		\Var \left( \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \right) = 1
 	\]
 \end{observation}
 
@@ -192,7 +192,7 @@ aleatoria
 rappresenta la frequenza assoluta del successo nelle prime $n$ ripetizioni. Il teorema del limite
 centrale ci dice che
 \[
-	\sqrt{n} \cdot \frac{\overline{X}_n - p}{\sqrt{p \cdot (1-p)}} =
+	\sqrt{n} \cdot \frac{\bar{X}_n - p}{\sqrt{p \cdot (1-p)}} =
 	\frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}}
 \]
 è approssimativamente $N(0,1)$. Questo risultato prende il nome di
@@ -262,13 +262,13 @@ possiamo prendere $n$ tale che
 \begin{proposition}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d con momento secondo
 	finito, $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i)$ supponendo $\sigma^2 > 0$, allora
-	\[ \sqrt{n} \cdot \frac{\overline{X}_n  - \mu}{S_n} \]
+	\[ \sqrt{n} \cdot \frac{\bar{X}_n  - \mu}{S_n} \]
 	tende in legge a $Z \sim N(0,1)$ per $n \to \infty$. Possiamo quindi dire che per ogni $a,b$
 	tali che $-\infty < a < b < +\infty$ vale
 	\[
-		P \left( a \leq \sqrt{n} \cdot \frac{\overline{X}_n  - \mu}{S_n} \leq b \right) \to
+		P \left( a \leq \sqrt{n} \cdot \frac{\bar{X}_n  - \mu}{S_n} \leq b \right) \to
 		P(a \leq Z \leq b)
 	\]
 	dove
-	\[ S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \overline{X}_n)^2 \]
+	\[ S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X}_n)^2 \]
 \end{proposition}

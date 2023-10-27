@@ -49,7 +49,7 @@ Uno \textbf{stimatore} di un parametro $\theta$ della distribuzione è una stati
 cioè una funzione $g(X_1, \dots, X_n)$ del campione, atta a stimare $\theta$.
 
 \begin{example}
-	La media campionaria $\overline{X}_n$ è lo stimatore abituale del valore atteso $\E[X]$ e la
+	La media campionaria $\bar{X}_n$ è lo stimatore abituale del valore atteso $\E[X]$ e la
 	varianza campionaria $S_n^2$ è lo stimatore abituale della varianza $\Var(X)$.
 \end{example}
 
@@ -70,26 +70,26 @@ stimatore. Si pone quindi il problema di come scegliere un buon stimatore e di c
 	Dati un campione i.i.d. $X_1, \dots, X_n$ con momento secondo finito, siano
 	\[ \mu = \E[X_i] \quad \quad \sigma^2 = \Var(X_i) \]
 	e siano
-	\[ \overline{X} = \frac{X_1 + \dots + X_n}{n} \quad \quad
-		S^2 = \dfrac{\sum_{i=1}^n (X_i - \overline{X})^2}{n-1}
+	\[ \bar{X} = \frac{X_1 + \dots + X_n}{n} \quad \quad
+		S^2 = \dfrac{\sum_{i=1}^n (X_i - \bar{X})^2}{n-1}
 	\]
 	allora valgono
 	\[
-		\E[\overline{X}] = \mu \quad \quad
-		\Var(\overline{X}) = \sigma^2 / n \quad \quad
+		\E[\bar{X}] = \mu \quad \quad
+		\Var(\bar{X}) = \sigma^2 / n \quad \quad
 		\E \left[ S^2 \right] = \sigma^2
 	\]
 	\begin{proof}
 		Le prime due uguaglianze sono immediate dalla proprietà di linearità del valore atteso e
 		dalle ipotesi di indipendenza. Per quanto riguarda l'ultima osserviamo che
-		\[ \sum_{i=1}^n (X_i - \overline{X})^2 = \sum_{i=1}^n X_i^2 - n \cdot \overline{X}^2 \]
+		\[ \sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n X_i^2 - n \cdot \bar{X}^2 \]
 		Inoltre, per ogni $X_i$ si ha che
 		\[ \E[X_i^2] = \Var(X_i) + \E[X_i]^2 = \sigma^2 + \mu^2 \]
 		per cui, ricordando le prime due formule enunciate si conclude che
 		\begin{align*}
-			\E \left[ \sum_{i=1}^n (X_i - \overline{X})^2 \right]
-			= & \sum_{i=1}^n \E \left[ X_i^2 \right] - n \cdot \E \left[ \overline{X}^2 \right] \\
-			= & n \cdot (\sigma^2 + \mu^2) - n \cdot (\sigma^2 / n + \mu^2)                     \\
+			\E \left[ \sum_{i=1}^n (X_i - \bar{X})^2 \right]
+			= & \sum_{i=1}^n \E \left[ X_i^2 \right] - n \cdot \E \left[ \bar{X}^2 \right] \\
+			= & n \cdot (\sigma^2 + \mu^2) - n \cdot (\sigma^2 / n + \mu^2)                \\
 			= & (n-1) \cdot \sigma^2
 		\end{align*}
 		da cui la tesi.
@@ -124,7 +124,7 @@ Vogliamo cioè che la dispersione di $g(X_1, \dots, X_n)$ attorno a
 $\E[g(X_1, \dots, X_n)] = \theta$ sia minore della dispersione di $h(X_1, \dots, X_m)$ attorno a
 $\E[h(X_1, \dots, X_m)] = \theta$.
 
-Per $n \geq m$, la media campionaria $\overline{X}_n$ è più efficiente della media campionaria
-$\overline{X}_m$, infatti
-\[ \Var(\overline{X}_n) = \frac{\sigma^2}{n} \leq \frac{\sigma^2}{m} = \Var(\overline{X}_m) \]
+Per $n \geq m$, la media campionaria $\bar{X}_n$ è più efficiente della media campionaria
+$\bar{X}_m$, infatti
+\[ \Var(\bar{X}_n) = \frac{\sigma^2}{n} \leq \frac{\sigma^2}{m} = \Var(\bar{X}_m) \]
 Similmente si può dimostrare che, al crescere di $n$, $S_n^2$ è sempre più efficiente.

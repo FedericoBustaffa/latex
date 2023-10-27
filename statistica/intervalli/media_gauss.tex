@@ -2,16 +2,16 @@
 Supponiamo ora di avere un campione statistico e supponiamo di sapere che la sua distribuzione sia
 Gaussiana di parametri $\mu$ e $\sigma^2$. Nel nostro caso ci poniamo il problema di cercare degli
 intevalli di fiducia per $\mu$ che è non nota. Come sappiamo, la media campionaria
-\[ \overline{X}_n = \frac{X_1 + \dots + X_n}{n} \]
+\[ \bar{X}_n = \frac{X_1 + \dots + X_n}{n} \]
 è uno stimatore di $\E[X] = \mu$, quindi è naturale cercare un intervallo di fiducia della forma
-\[ I = [\overline{X}_n - d, \overline{X}_n + d] = [\overline{X}_n \pm d] \]
+\[ I = [\bar{X}_n - d, \bar{X}_n + d] = [\bar{X}_n \pm d] \]
 Dobbiamo quindi determinare $d$ tale che valga
 \[ P(\mu \in I) \geq 1 - \alpha \]
 
 \begin{definition}
-	Se $[\overline{X}_n \pm d]$ è un intervallo di fiducia per la media $\mu$, allora $d$ è detta
+	Se $[\bar{X}_n \pm d]$ è un intervallo di fiducia per la media $\mu$, allora $d$ è detta
 	\textbf{precisione della stima} ($d$ piccola corrisponde ad un'alta precisione) e
-	$\frac{d}{\overline{X}_n}$ è detta \textbf{precisione relativa della stima}.
+	$\frac{d}{\bar{X}_n}$ è detta \textbf{precisione relativa della stima}.
 \end{definition}
 
 Per evitare di confonderci possiamo vedere $d$ come l'errore che \emph{possiamo} commettere, più
@@ -21,33 +21,33 @@ aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità d
 \begin{proposition}[Intervallo di fiducia per la media con varianza nota]
 	Dato il parametro $\alpha \in (0,1)$ e assumendo $\sigma^2 > 0$ nota, l'intervallo aleatorio
 	\[
-		\left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
+		\left[ \bar{X}_n \pm \frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1 - \alpha$. Questo vale per il
 	teorema di \hyperref[prop: riprod_gauss]{riproducibilità delle Gaussiane} che ci dice che se
 	$X_i \sim N(\mu, \sigma^2)$ sono indipendenti, allora
 	\[
-		\overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \sim
+		\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \sim
 		N \left( \mu, \frac{\sigma^2}{n} \right)
 	\]
 	\begin{proof}
 		Dobbiamo dimostrare che
 		\[
-			P \left( \mu \in \left[ \overline{X}_n \pm \frac{\sigma}{\sqrt{n}}
+			P \left( \mu \in \left[ \bar{X}_n \pm \frac{\sigma}{\sqrt{n}}
 				\cdot q_{1-\frac{\alpha}{2}} \right] \right) \geq 1 - \alpha
 		\]
 		Partiamo con il calcolare la probabilità
 		\[
-			P \left( \mu \in \left[ \overline{X}_n \pm
+			P \left( \mu \in \left[ \bar{X}_n \pm
 				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right) =
-			P \left( \left| \overline{X}_n - \mu \right| \leq
+			P \left( \left| \bar{X}_n - \mu \right| \leq
 			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right)
 		\]
 		A questo punto, standardizziamo e otteniamo
 		\begin{align*}
-			P \left( |\overline{X}_n - \mu| \leq
+			P \left( |\bar{X}_n - \mu| \leq
 			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right) = &
-			P \left( \frac{|\overline{X}_n - \mu|}{\sigma / \sqrt{n}} \leq
+			P \left( \frac{|\bar{X}_n - \mu|}{\sigma / \sqrt{n}} \leq
 			\frac{\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}}{\sigma/\sqrt{n}} \right) \\
 			=                                                          &
 			P \left( |Z| \leq q_{1 - \frac{\alpha}{2}} \right)                                   \\
@@ -127,14 +127,14 @@ considerazione è che per $k \to \infty$ abbiamo che $t_k$ tende in legge a $N(0
 \begin{proposition}[Intervallo di fiducia per la media con varianza non nota]
 	In questo caso non possiamo usare $\sigma$ nella determinazione dell'intervallo di fiducia.
 	Questo problema si risolve considerando lo stimatore di $\sigma^2$:
-	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \overline{X}_n \right)^2 \]
+	\[ S_n^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \bar{X}_n \right)^2 \]
 	Consideriamo quindi la variabile aleatoria
-	\[ T = \frac{\overline{X}_n - \mu}{S_n / \sqrt{n}} \]
+	\[ T = \frac{\bar{X}_n - \mu}{S_n / \sqrt{n}} \]
 	la quale ha distribuzione nota (per $X_1, \dots, X_n$ i.i.d. $\sim N(\mu, \sigma^2)$), che è la
 	distribuzione $t$ di Student a $n-1$ gradi di libertà. Dato quindi $\alpha \in (0,1)$ e
 	assumendo $\sigma^2 > 0$ non nota, l'intervallo aleatorio
 	\[
-		\left[ \overline{X}_n \pm
+		\left[ \bar{X}_n \pm
 			\frac{S_n}{\sqrt{n}} \cdot \tau_{1 - \frac{\alpha}{2}, n-1} \right]
 	\]
 	è un intervallo di fiducia per la media $\mu$ di livello $1-\alpha$. Nella formula $\tau$ è il
@@ -180,15 +180,16 @@ della forma
 \begin{proposition}
 	Dato $\alpha \in (0,1)$, gli intervalli aleatori
 	\[
-		\left( -\infty, \overline{X}_n + \frac{\sigma}{\sqrt{n}} q_{1-\alpha} \right],
+		\left( \left. -\infty, \bar{X}_n + \frac{\sigma}{\sqrt{n}} q_{1-\alpha} \right] \right.,
 		\quad
-		\left[ \overline{X}_n - \frac{\sigma}{\sqrt{n}} q_{1-\alpha}, +\infty \right)
+		\left[ \bar{X}_n - \frac{\sigma}{\sqrt{n}} q_{1-\alpha}, +\infty \right)
 	\]
 	sono intervalli di fiducia per la media $\mu$ di livello $1-\alpha$. Nel caso $\sigma^2$
 	incognita, le formule diventano
 	\[
-		\left( -\infty, \overline{X}_n + \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1} \right],
-		\quad
-		\left[ \overline{X}_n - \frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1}, +\infty \right)
+		\left( \left. -\infty, \bar{X}_n +
+		\frac{S_n}{\sqrt{n}} \tau_{1-\alpha, n-1} \right] \right., \quad
+		\left[ \left. \bar{X}_n - \frac{S_n}{\sqrt{n}}
+		\tau_{1-\alpha, n-1}, +\infty \right) \right.
 	\]
 \end{proposition}
