@@ -1,8 +1,8 @@
 \section{T-test}
-Vogliamo ora formulare un test per la media di una popolazione Gaussiana senza però conoscere la
-varianza. Sia $X \sim N(\mu, \sigma^2)$ con $\sigma^2$ non noto e sia $X_1, \dots, X_n$ un campione
-i.i.d. di $X$. Il ragionamento è analogo allo $z$-test ma considerando come statistica
-\[ \sqrt{n} \cdot \frac{\bar{X} - \mu}{S} \]
+Vogliamo ora formulare un test per la media di una popolazione Gaussiana con varianza non nota. Sia
+$X \sim N(\mu, \sigma^2)$ con $\sigma^2$ non noto e sia $X_1, \dots, X_n$ un campione i.i.d. di
+$X$. Il ragionamento è analogo allo $Z$-test ma considerando come statistica
+\[ \sqrt{n} \cdot \frac{\bar{X} - \mu}{S} \sim T_{n-1} \]
 che, come abbiamo visto in precedenza, si tratta di una distribuzione $t$ di Student a $n-1$ gradi
 di libertà, con
 \[ S^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n \left( X_i - \bar{X} \right)^2 \]
@@ -11,7 +11,7 @@ di Student invece di quelli della Gaussiana.
 
 \subsection{Test bilatero}
 Poniamoci nell'ipotesi
-\[ H_0: \mu = \mu_0 \quad H_1: \mu \neq \mu_0 \]
+\[ H_0: \mu = \mu_0 \qquad H_1: \mu \neq \mu_0 \]
 
 \subsubsection{Formulazione del test}
 Cerchiamo una regione critica della forma
@@ -20,8 +20,70 @@ Per farlo imponiamo quindi il livello $\alpha$
 \begin{align*}
 	P_{\mu_0} (C) =                     & \alpha \\
 	P_{\mu_0} (|\bar{X} - \mu_0| > d) = &
-	P_{\mu_0} \left( \frac{\bar{X} - \mu_0}{S} \cdot \sqrt{n} >
+	P_{\mu_0} \left( \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{S} >
 	\frac{\sqrt{n}}{S} \cdot d \right)           \\
 	=                                   &
 	P \left( |T_{n-1}| > \frac{\sqrt{n}}{S} \cdot d \right)
 \end{align*}
+e otteniamo $\frac{\sqrt{n}}{S} \cdot d = \tau_{1 - \frac{\alpha}{2}, n-1}$ che è il quantile di
+ordine $1 - \frac{\alpha}{2}$ di una $t$ di Studenti a $n-1$ gradi di libertà. La regione critica
+è dunque
+\[
+	C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - \mu_0}{S} >
+	\tau_{1 - \frac{\alpha}{2}, n-1} \right\}
+\]
+
+\subsubsection{Calcolo del p-value}
+Consideriamo $(y_1, \dots, y_n)$ come dati più estremi sotto $H_0 : \mu = \mu_0$ tali che
+\[ \frac{|\bar{y} - \mu_0|}{S_y} > \frac{|\bar{x} - \mu_0}{S_x} \]
+con $S_x^2$ e $S_y^2$ varianze campionarie rispettivamente di $(x_1, \dots, x_n)$ e
+$(y_1, \dots, y_n)$. A questo punto calcoliamo il $p$-value di $(x_1, \dots, x_n)$ come segue
+\begin{align*}
+	\bar{\alpha}(x_1, \dots, x_n) = & P_{\mu_0} \left( \frac{|\bar{X} - \mu_0|}{S} >
+	\frac{|\bar{x} - \mu_0|}{s} \right)                                                \\
+	=                               & P_{\mu_0} \left( \sqrt{n} \cdot
+	\frac{|\bar{X} - \mu_0|}{S} > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)   \\
+	=                               & P \left( |T_{n-1}| >
+	\sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)                                 \\
+	=                               & 2 \cdot \left( 1 - F_{n-1} \left( \sqrt{n} \cdot
+	\frac{|\bar{x} - \mu_0|}{s} \right) \right)
+\end{align*}
+con $F_{n-1}$ che è la funzione di ripartizione della $t$ di Studenti a $n-1$ gradi di libertà.
+
+\subsubsection{Calcolo della curva opertiva}
+In questo caso la curva operativa non è ben definita, infatti se proviamo a calcolarla otteniamo
+\[
+	\beta (\mu) = P_\mu \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S}
+	\leq \tau_{1 - \frac{\alpha}{2}, n-1} \right)
+\]
+La variabile aleatoria a sinistra della disequazione non è una $t$ di Student ma possiamo
+riscriverla come
+\[
+	\sqrt{n}  \cdot \frac{\bar{X} - \mu_0}{S} =
+	\underbrace{\sqrt{n} \cdot \frac{\bar{X} - \mu}{S}}_{T_{n-1}} +
+	\underbrace{\sqrt{n}  \cdot \frac{\mu - \mu_0}{S}}_{??}
+\]
+L'ultima variabile aleatoria dipende da $\sigma^2$ e non la vedremo anche se si può collegare alla
+distribuzione $\chi^2$.
+
+\subsection{Test unilatero}
+Poniamoci nell'ipotesi
+\[ H_0 : \mu \leq \mu_0 \qquad H_1 : \mu > \mu_0 \]
+
+\subsubsection{Formulazione del test}
+Identifichiamo la regione critica imponendo
+\[ C = \left\{ \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{S} > \tau_{1 - \alpha, n-1} \right\} \]
+
+\subsubsection{Calcolo del p-value}
+Il $p$-value si ottiene calcolando
+\begin{align*}
+	P_{\mu_0} \left( \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{S} >
+	\sqrt{n} \cdot \frac{\bar{x} - \mu_0}{s} \right) = &
+	P \left( T_{n-1} > \sqrt{n} \cdot \frac{\bar{x} - \mu_0}{s} \right) \\
+	=                                                  &
+	1 - F_{n-1} \left( \sqrt{n} \cdot \frac{\bar{x} - \mu_0}{s} \right)
+\end{align*}
+
+\begin{example}
+	Consideriamo una popolazione di salmoni
+\end{example}
