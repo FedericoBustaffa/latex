@@ -85,5 +85,33 @@ Il $p$-value si ottiene calcolando
 \end{align*}
 
 \begin{example}
-	Consideriamo una popolazione di salmoni
+	Il peso di una popolazione di salmoni ha distribuzione Gaussiana, di media e varianza non nota.
+	Viene rilevato il peso su un campione di 16 esemplari e vogliamo formulare un test di livello
+	$\alpha = 0.05$ per verificare se l'ipotesi $H_0 : \mu = 3$ è plausibile oppure no e applicarlo
+	nel caso le misurazioni diano $\bar{x} = 3.2$ e $s = 0.5$. La regione critica è del tipo
+	\[
+		C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S}
+		> \tau_{1 - \frac{\alpha}{2}, n-1} \right\} =
+		\left\{ 4 \cdot \frac{|\bar{X} - 3|}{S} > 2.13 \right\}
+	\]
+	Applichiamo il test e otteniamo
+	\[ 4 \cdot \frac{|\bar{x} - 3|}{s} = 4 \cdot \frac{0.2}{0.5} = 1.6 \leq 2.13 \]
+	quindi si accetta l'ipotesi $H_0$. Calcoliamo ora il $p$-value dei dati
+	\begin{align*}
+		P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|} >
+		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right) = &
+		P \left( |T_{n-1}| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right)                 \\
+		=                                                   &
+		2 \cdot \left( 1 - F_{n-1} \left( \sqrt{n} \cdot
+		\frac{|\bar{x} - \mu_0|}{s} \right) \right)                                            \\
+		=                                                   &
+		2 \cdot \left( 1 - F_{15} \left( 4 \cdot \frac{|3.2 - 3|}{0.5} \right) \right)         \\
+		=                                                   & 2 \cdot \left( 1 - 0.935 \right)
+		= 0.13
+	\end{align*}
+	In questo caso accettiamo per $\alpha < 0.13$.
 \end{example}
+
+Come possiamo notare, a differenza dello $Z$-test, nonostante il valore della varianza campionaria
+sia lo stesso della varianza teorica, il $p$-value è più alto poiché c'è maggiore incertezza.
+Questo si traduce in una regione di accettazione più ampia per il $T$-test rispetto allo $Z$-test.
