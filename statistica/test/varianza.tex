@@ -1,1 +1,46 @@
 \section{Test per la varianza di un campione Gaussiano}
+Data $X \sim N(\mu, \sigma^2)$ e dato $X_1, \dots, X_n$ un campione i.i.d. di $X$, vogliamo
+formulare un test per $\sigma^2$. Per la formulazione del test usiamo che
+\[ S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2 \]
+è uno stimatore di $\sigma^2$ e che
+\[
+	\frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \bar{X})^2 =
+	\frac{n-1}{\sigma^2} \cdot S^2 \sim \chi_{n-1}^2
+\]
+
+\subsection{Test unilatero}
+In questo caso ci occupiamo solo del caso unilatero e ci poniamo sotto le ipotesi
+\[ H_0 : \sigma^2 \leq \sigma_0^2 \qquad H_1 : \sigma^2 > \sigma_0^2 \]
+
+\subsubsection{Formulazione del test}
+La regione critica è quindi della forma
+\[
+	C = \left\{ S^2 > d_0 \right\} =
+	\left\{ \sum_{i=1}^n (X_i - \bar{X})^2 > (n-1) \cdot d_0 \right\}
+\]
+Per trovare $d_0$ imponiamo la condizione di livello $\alpha$
+\[ P_\sigma (C) = P_\sigma (S^2 > d) \leq \alpha \]
+per ogni $\alpha \leq \sigma_0$. Poiché $P_\sigma(C)$ è crescente in $\sigma$, basta imporre
+\[ P_{\sigma_0} (C) = P_{\sigma_0} (S^2 > d) = \alpha \]
+A questo punto possiamo sostituire
+\[
+	P_{\sigma_0} (S^2 > d) =
+	P_{\sigma_0} \left( \frac{(n-1) \cdot S^2}{\sigma^2} > \frac{(n-1) \cdot s^2}{\sigma^2} \right)
+\]
+Ma come sappiamo
+\[ \frac{(n-1) \cdot S^2}{\sigma^2} \sim \chi_{n-1}^2 \]
+e dunque la regione critica equivale a
+\[ C = \left\{ \frac{(n-1) \cdot S^2}{\sigma^2} > \chi_{1-\alpha, n-1}^2 \right\} \]
+dove $\chi_{1-\alpha, n-1}^2$ è il quantile di livello $1-\alpha$ della distribuzione $\chi^2$ a
+$n-1$ gradi di libertà.
+
+\subsubsection{Calcolo del p-value}
+Il $p$-value dei dati $(x_1, \dots, x_n)$ equivale a
+\[
+	P_{\sigma_0} \left( \frac{(n-1) \cdot S^2}{\sigma_0^2} >
+	\frac{(n-1) \cdot s^2}{\sigma_0^2} \right) =
+	1 - G_{n-1} \left( \frac{(n-1) \cdot S^2}{\sigma_0^2} \right)
+\]
+dove $G_{n-1}$ è la funzione di ripartizione della distribuzione $\chi^2$ a $n-1$ gradi di libertà.
+Per il test unilateri opposto basta ribaltare le disuguaglianze e il quantile
+$\chi_{1-\alpha, n-1}^2$ viene sostituito dal quantile $\chi_{\alpha, n-1}^2$.
