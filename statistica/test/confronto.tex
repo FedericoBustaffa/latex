@@ -1,2 +1,91 @@
 \section{Confronto tra due campioni statistici}
-Per confrontare due campioni agiamo nel seguente modo
+Poniamoci per prima cosa nel caso in cui abbiamo due campioni che non sono indipendenti l'uno
+dall'altro e cerchiamo quindi di inquadrare la situazione tramite un esempio.
+
+\begin{example}
+	Viene pubblicizzata una cura dimagrante che promette 7kg in meno in 7 giorni. Per verificare
+	la plausibilità di tale affermazione vengono misurati 7 pazienti prima e dopo la cura ottenendo
+	i seguenti valori
+	\begin{center}
+		\begin{tabular}{| c | c | c | c | c | c | c | c |}
+			\hline
+			Paziente   & 1  & 2  & 3  & 4  & 5  & 6  & 7  \\
+			\hline
+			Peso prima & 72 & 89 & 94 & 77 & 86 & 91 & 83 \\
+			\hline
+			Peso dopo  & 68 & 83 & 90 & 71 & 80 & 88 & 74 \\
+			\hline
+			Differenza & 4  & 6  & 4  & 6  & 6  & 3  & 9  \\
+			\hline
+		\end{tabular}
+	\end{center}
+	Vogliamo verificare se l'affermazione \emph{"la riduzione media è di almeno 7kg"} è plausibile
+	oppure no. Se indichiamo con $X_i$ il peso dell'$i$-esimo paziente prima della cura e con $Y_i$
+	il peso dell'$i$-esimo paziente dopo la cura possiamo valutare direttamente il campione dei
+	$V_i = X_i - Y_i$, che in assenza di ulteriori indicazioni possiamo supporre Gaussiano con
+	varianza sconociuta. Da notare che
+	\[ \mu = \E[V_i] = \E[X_i] - \E[Y_i] \]
+	è la diminuzione media del peso prima e dopo la cura. Poniamo ora nelle ipotesi
+	\[ H_0 : \mu \geq 7 \qquad H_1 : \mu < 7 \]
+	Siamo quindi nel caso di popolazione Gaussiana con varianza non nota ed è dunque naturale
+	effettuare un $T$-test unilatero. Usiamo quindi la statistica
+	\[ \sqrt{7} \cdot \frac{\bar{V} - 7}{S_V} \sim T_6 \]
+	Dato che non viene fornito un livello $\alpha$ per il test calcoliamo direttamente il $p$-value
+	\begin{align*}
+		P \left( \sqrt{7} \cdot \frac{\bar{V} - 7}{S_V} \leq
+		\sqrt{7} \cdot \frac{\bar{v} - 7}{s_V} \right) = &
+		P \left( T \leq \sqrt{7} \cdot \frac{\bar{v} - 7}{s_V} \right)                   \\
+		=                                                & P \left( T \leq -2.09 \right) \\
+		=                                                & F_6 (-2.09) = 0.04
+	\end{align*}
+	Dato il $p$-value abbastanza basso possiamo dire che l'ipotesi $H_0$ è poco plausibile.
+\end{example}
+
+\subsection{Confronto tra due campioni indipendenti}
+Se invece ci trovassimo davanti un caso in cui i due campioni sono indipendenti l'uno dall'altro ed
+entrambi seguono delle distribuzioni Gaussiane di varianza non nota ma uguale si può ricorrere al
+seguente teorema.
+
+\begin{theorem}\label{th: confronto}
+	Sia $X_1, \dots, X_n$ un campione i.i.d. di $X \sim N(\mu_1, \sigma^2)$ e $Y_1, \dots, Y_k$ un
+	campione i.i.d. di $Y \sim N(\mu_2, \sigma^2)$, allora la variabile aleatoria
+	\[
+		T_{n,k} = \frac{(\bar{X} - \bar{Y}) - (\mu_1 - \mu_2)}
+		{\sqrt{\sum_{i=1}^n (X_i - \bar{X})^2 + \sum_{j=1}^k (Y_j - \bar{Y})^2}} \cdot
+		\frac{\sqrt{n+k-2}}{\sqrt{\frac{1}{n} + \frac{1}{k}}}
+	\]
+	ha densità $t$ di Student a $n+k-2$ gradi di libertà.
+\end{theorem}
+
+Si può quindi formulare un $T$-test su $\mu_1 - \mu_2$ tramite la statistica appena descritta dal
+teorema.
+
+\begin{example}
+	Vengono misurate le lunghezze delle tibie di uomini adulti provenienti da reperti di tombe
+	etrusche: dal sito di Cerveteri vengono effettuate 13 misurazioni ottenendo
+	\[ \bar{X} = 47.2 \qquad S_X^2 = 7.98 \]
+	mentre dal sito di Ladispoli vengono effettuate 8 misurazioni dalle quali si ottiene
+	\[ \bar{Y} = 44.9 \qquad S_Y^2 = 8.85 \]
+	Si può affermare che la differenza sia una semplice fluttuazione statistica oppure si deve
+	concludere che gli abitanti di Cerveteri erano veramente più alti?
+
+	Iniziamo con l'indicare tramite $X_i$ la lunghezza dell'$i$-esimo campione di Cerveteri e con
+	$Y_j$ la lunghezza del $j$-esimo campione di Ladispoli. Supponiamo che i due campioni siano
+	Gaussiani e che le loro varianze siano uguali.
+	\[ \mu_1 = \E[X_i] \qquad \mu_2 = \E[Y_j] \]
+	e dunque $\mu = \mu_1 - \mu_2$. Poniamoci quindi nelle ipotesi
+	\[ H_0 : \mu \leq 0 \qquad H_1 : \mu > 0 \]
+	Formuliamo quindi un $T$-test e per il teorema \ref{th: confronto} abbiamo che
+	\begin{align*}
+		T = & \frac{(\bar{X} - \bar{Y})}
+		{\sqrt{(n-1) \cdot S_X^2 + (k-1) \cdot S_Y^2}} \cdot
+		\frac{\sqrt{n+k-2}}{\sqrt{\frac{1}{n} + \frac{1}{k}}} \\
+		=   & \frac{(\bar{X} - \bar{Y})}
+		{\sqrt{12 \cdot S_X^2 + 7 \cdot S_Y^2}} \cdot
+		\frac{\sqrt{19}}{\sqrt{\frac{1}{13} + \frac{1}{8}}}
+	\end{align*}
+	ha distribuzione $t$ di Student a $19$ gradi di libertà. La regione critica di livello $\alpha$
+	è dunque
+	\[ C = \left\{ T > \tau_{1 - \alpha, 19} \right\} \]
+	Passiamo ora al calcolo del $p$-value
+\end{example}
