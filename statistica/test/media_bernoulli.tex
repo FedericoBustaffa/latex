@@ -1,3 +1,58 @@
 \section{Test per la media di un campione Bernoulliano}
-Sia $X \sim B(p)$, $X_1, \dots, X_n$ un campione i.i.d. di $X$. Vogliamo formulare un test per la
-media
+Dati $X \sim B(p)$ e $X_1, \dots, X_n$ un campione i.i.d. di $X$, vogliamo formulare un test per la
+media $p$. Come per gli intervalli di fiducia usiamo il fatto che, per $n$ grande, la statistica
+\[ \sqrt{n} \cdot \frac{\bar{X} - p}{\sqrt{p \cdot (1-p)}} \sim N(0,1) \]
+per il \hyperref[th: tlc]{teorema centrale del limite}. Fatte tali considerazioni è naturale fare
+uso di uno \hyperref[sec: z-test]{$Z$-test} per la statistica scritta sopra.
+
+\subsection{Test bilatero}
+Poniamoci nell'ipotesi
+\[ H_0: p = p_0 \qquad H_1: p \neq p_0 \]
+
+\subsubsection{Formulazione del test}
+La regione critica approssimata sarà della forma
+\[
+	C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - p_0|}{\sqrt{p_0 \cdot (1-p_0)}} >
+	q_{1 - \frac{\alpha}{2}}\right\}
+\]
+
+\subsubsection{Calcolo del p-value}
+Come al solito calcoliamo la probabilità, sotto l'ipotesi nulla, che la statistica assuma un valore
+più estremo del valore assunto dal campione.
+
+\begin{align*}
+	P_{p_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - p_0|}{\sqrt{p_0 \cdot (1-p_0)}} >
+	\sqrt{n} \cdot \frac{|\bar{x} - p_0|}{\sqrt{p_0 \cdot (1-p_0)}} \right) = &
+	P \left( |Z| > \sqrt{n} \cdot \frac{|\bar{x} - p_0|}{\sqrt{p_0 \cdot (1-p_0)}} \right) \\
+	=                                                                         &
+	2 \cdot \left( 1 - \Phi \left( \sqrt{n} \cdot
+		\frac{|\bar{x} - p_0|}{\sqrt{p_0 \cdot (1-p_0)}} \right) \right)
+\end{align*}
+
+\begin{example}
+	Nel caso di un controllo qualità su un certo tipo di pezzi, vengono estratti e verificati 1000
+	pezzi. Vogliamo formulare formulare un test di livello $\alpha = 0.05$ per decidere se
+	l'ipotesi $H_0 : p \leq 0.02$ è plausibile o no, dove $p$ è la percentuale di pezzi difettosi,
+	e vogliamo applicarlo nel caso vengano rilevati 25 pezzi difettosi su 1000.
+
+	La regione critica è
+	\begin{align*}
+		\left\{ \sqrt{n} \cdot \frac{\bar{X} - p_0}{\sqrt{p_0 \cdot (1-p_0)}}
+		> q_{1-\alpha} \right\} = &
+		\left\{ \sqrt{1000} \cdot \frac{\bar{X} - 0.02}{\sqrt{0.02 \cdot 0.98}} > 1.64 \right\} \\
+		=                         & \left\{ \bar{X} - 0.02 > 0.0073 \right\}
+	\end{align*}
+	Se il numero di pezzi difettosi è 25 su 1000 allora $\bar{x} = 25 / 1000 = 0.025$ e quindi
+	\[ 0.025 - 0.02 = 0.05 \leq 0.0073 \]
+	Di conseguenza $p \leq 0.02$ è plausibile a livello 0.05. Calcoliamo ora il $p$-value che è
+	\begin{align*}
+		P_{p_0} \left( \sqrt{n} \cdot \frac{\bar{X} - p_0}{\sqrt{p_0 \cdot (1-p_0)}} >
+		\sqrt{n} \cdot \frac{\bar{x} - p_0}{\sqrt{p_0 \cdot (1-p_0)}} \right) = &
+		P \left( Z > \sqrt{n} \cdot \frac{\bar{x} - p_0}{\sqrt{p_0 \cdot (1-p_0)}} \right)    \\
+		=                                                                       &
+		1 - \Phi \left( \sqrt{n} \cdot \frac{\bar{x} - p_0}{\sqrt{p_0 \cdot (1-p_0)}} \right) \\
+		=                                                                       &
+		1 - \Phi(1.13) = 0.129
+	\end{align*}
+	Ne deduciamo che non c'è grossa evidenza contro $H_0 : p \leq 0.02$.
+\end{example}
