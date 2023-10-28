@@ -1,4 +1,50 @@
-\section{Test per la media per un campione di taglia grande}
+\section{Test per la media di un campione di taglia grande}
 Come per gli intervalli di fiducia, per il \hyperref[th: tlc]{teorema centrale del limite}, si può
 formulare un test approssimato per la media di una popolazione con distribuzione non nota se il
 campione ha taglia $n$ grande.
+
+\subsection{Test per la media con varianza nota}
+Sia $X$ una distribuzione di media $\mu$ non nota e varianza $\sigma^2$ nota e sia
+$X_1, \dots, X_n$ un campione i.i.d. di $X$ con $n$ grande, allora per il TCL
+\[ Z = \sqrt{n} \cdot \frac{\bar{X} - \mu}{\sigma} \sim N(0,1) \]
+Come possiamo vedere ci siamo ricondotti nella casistica in cui è possibile applicare uno $Z$-test.
+
+\subsubsection{Test bilatero}
+Come al solito ci poniamo nelle ipotesi
+\[ H_0 : \mu = \mu_0 \qquad H_1 : \mu \neq \mu_0 \]
+La regione critica approssimata equivale a
+\[ C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{\sigma} > q_{1 - \frac{\alpha}{2}} \right\} \]
+e il $p$-value equivale a
+\begin{align*}
+	P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{\sigma} >
+	\sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{\sigma} \right) = &
+	P \left( |Z| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{\sigma} \right) \\
+	=                                                         &
+	2 \cdot \left( 1 - \Phi \left( \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{\sigma} \right) \right)
+\end{align*}
+
+\subsection{Test per la media con varianza non nota}
+Nel caso in cui $X$ abbia varianza non nota, sempre con $n$ grande, per la proposizione
+\ref{prop: tlc} del TCL, la statisitca
+\[ Z = \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{S} \sim N(0,1) \]
+quindi, anche in questo caso, possiamo usare uno $Z$-test per campioni gaussiani a varianza nota
+ma sostituendo $S$ a $\sigma$.
+
+\begin{example}
+	Una ditta che produce aste dichiara una lunghezza media di $2.3$m. Viene rilevata la lunghezza
+	di 100 aste prodotte la cui media e varianza campionarie risultano $2.317$m e $0.1$m.
+	L'affermazione dichiarata dalla ditta è plausibile o no? Per capirlo formuliamo un test per
+	la media di un campione grande con varianza non nota, usando la statistica
+	\[ Z = \sqrt{n} \cdot \frac{\bar{X} - \mu}{S} \sim N(0, 1) \]
+	Dato che non ci viene fornito un $\alpha$ ci conviene calcolare direttamente il $p$-value
+	\begin{align*}
+		P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S} >
+		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right) = &
+		P \left( |Z| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)                        \\
+		=                                                   &
+		P \left( |Z| > \sqrt{100} \cdot \frac{|2.317 - 2.3|}{0.1} \right)                        \\
+		=                                                   & P \left( |Z| > 1.7 \right)         \\
+		=                                                   & 2 \cdot (1 - \Phi (1.7) ) = 0.0892
+	\end{align*}
+	Quindi per $\alpha > 0.0892$ rifiutiamo $H_0$ e invece accettiamo $H_0$ per $\alpha < 0.0892$.
+\end{example}
