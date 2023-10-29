@@ -1,11 +1,11 @@
 \section{Teoremi limite}
 I \textbf{teoremi limite} entrano in gioco quando si vuole, in un certo senso, passare al lato
 più empirico della statistica, ecco che vengono introdotti la \textbf{legge dei grandi numeri} e
-il \textbf{teorema del limite centrale}.
+il \textbf{teorema centrale del limite}.
 
 Prendiamo per esempio il lancio di una moneta equilibrata. Se si effettuano 1000 lanci ci
 aspettiamo di ottenere all'incirca 500 teste se la moneta è equilibrata. La legge dei grandi numeri
-cerca di formalizzare questo risultato, mentre il teorema del limite centrale cerca di quantificare
+cerca di formalizzare questo risultato, mentre il teorema centrale del limite cerca di quantificare
 le oscillazioni del numero di teste attorno a 500. Iniziamo però a dare qualche definizione.
 
 \begin{definition}
@@ -132,11 +132,11 @@ discostano dalla media la quale è definita come
 Se $(X_1, \dots, X_n)$ rappresenta un campione, allora $S^2$ è la varianza campionaria di tale
 campione.
 
-\subsection{Teorema del limite centrale}
+\subsection{Teorema centrale del limite}
 Come anticipato, questo strumento matematico ci fornisce una misura di quanto ci discostiamo dal
 valore atteso della media.
 
-Quello che ci dice il teorema del limite centrale è che le fluttuazioni intorno alla media
+Quello che ci dice il teorema centrale del limite è che le fluttuazioni intorno alla media
 hanno un comportamento, per $n$ grande, universale e gaussiano a prescindere dall'esperimento in
 esame.
 
@@ -150,7 +150,7 @@ esame.
 	$Y_n$ e di $Y$.
 \end{definition}
 
-\begin{theorem}[Teorema del limite centrale]\label{th: tlc}
+\begin{theorem}[Teorema centrale del limite]\label{th: tcl}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d dotate di momento
 	secondo finito, allora $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i) < +\infty$, allora
 	\[ \sqrt{n} \cdot \frac{\bar{X}_n - \mu}{\sigma} \]
@@ -189,8 +189,8 @@ Un caso importante è quello in cui abbiamo $n$ ripetizioni di un esperimento di
 consideriamo $n$ variabili aleatorie con esito successo o insuccesso. Sappiamo che la variabile
 aleatoria
 \[ Y_n = X_1 + \dots + X_n \sim B(n, p) \]
-rappresenta la frequenza assoluta del successo nelle prime $n$ ripetizioni. Il teorema del limite
-centrale ci dice che
+rappresenta la frequenza assoluta del successo nelle prime $n$ ripetizioni. Il teorema centrale del
+limite ci dice che
 \[
 	\sqrt{n} \cdot \frac{\bar{X}_n - p}{\sqrt{p \cdot (1-p)}} =
 	\frac{Y_n - n \cdot p}{\sqrt{n \cdot p \cdot (1-p)}}
@@ -212,7 +212,7 @@ possiamo prendere $n$ tale che
 		\item Quanto deve valere $k$ tale che, con probabilità del 95\%, escano almeno $k$ teste su
 		      1000.
 	\end{enumerate}
-	Sia $X$ il numero di teste su 1000 lanci $\sim B(1000, 1/2)$. Per poter applicare il TLC
+	Sia $X$ il numero di teste su 1000 lanci $\sim B(1000, 1/2)$. Per poter applicare il tcl
 	dobbiamo verificare che
 	\[ n \cdot p \cdot (1-p) = 1000 \cdot \frac{1}{2} \cdot \frac{1}{2} = 250 \geq 20 \]
 	Quindi
@@ -223,7 +223,7 @@ possiamo prendere $n$ tale che
 		\right)                                                                  \\
 		=               & P \left( \frac{X - 500}{\sqrt{250}} \geq -1.26 \right) \\
 	\end{align*}
-	Se adesso introduciamo $Z \sim N(0,1)$, possiamo dire, per il TLC, che
+	Se adesso introduciamo $Z \sim N(0,1)$, possiamo dire, per il tcl, che
 	\[
 		P \left( \frac{X - 500}{\sqrt{250}}
 		\geq -1.26 \right) \approx P(Z \geq -1.26)
@@ -238,7 +238,7 @@ possiamo prendere $n$ tale che
 	\[
 		P(X \geq k) = P \left( \frac{X - 500}{\sqrt{250}} \geq \frac{k - 500}{\sqrt{250}} \right)
 	\]
-	Sempre per il TLC abbiamo che
+	Sempre per il tcl abbiamo che
 	\[
 		P \left( \frac{X - 500}{\sqrt{250}} \geq
 		\frac{k - 500}{\sqrt{250}} \right) \approx
@@ -259,7 +259,7 @@ possiamo prendere $n$ tale che
 	Concludiamo quindi che con probabilità del 95\% otterremo almeno 474 teste.
 \end{example}
 
-\begin{proposition}\label{prop: tlc}
+\begin{proposition}\label{prop: tcl}
 	Sia $X_1, \dots, X_n, \dots$ una successione di variabili aleatorie i.i.d con momento secondo
 	finito, $\mu = \E[X_i]$ e $\sigma^2 = \Var(X_i)$ supponendo $\sigma^2 > 0$, allora
 	\[ \sqrt{n} \cdot \frac{\bar{X}_n  - \mu}{S_n} \]
