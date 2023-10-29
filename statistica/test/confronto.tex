@@ -87,5 +87,16 @@ teorema.
 	ha distribuzione $t$ di Student a $19$ gradi di libertà. La regione critica di livello $\alpha$
 	è dunque
 	\[ C = \left\{ T > \tau_{1 - \alpha, 19} \right\} \]
-	Passiamo ora al calcolo del $p$-value
+	Passiamo ora al calcolo del $p$-value considerando che il valore assunto da $T$ per i dati
+	raccolti è
+	\[
+		t = \frac{47.2 - 44.9}{\sqrt{7.98 \cdot 12 + 8.85 \cdot 7}} \cdot
+		\frac{\sqrt{19}}{\sqrt{\frac{1}{13} + \frac{1}{8}}} = 1.776
+	\]
+	dunque il $p$-value risultante è
+	\[ P(T > t) = 1 - F_{19} (1.776) = 0.045 \]
+	con $F_{19}$ la funzione di ripartizione della $t$ di Student a 19 gradi di libertà. Si tratta
+	di un valore piuttosto basso (anche se non trascurabile). Ad esempio a livello $\alpha = 0.07$,
+	si conclude che gli abitanti di Cerveteri erano effettivamente più alti (mentre non si può
+	avallare tale conclusione per $\alpha = 0.01$).
 \end{example}
