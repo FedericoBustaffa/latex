@@ -41,22 +41,22 @@ aleatorio, l'osservazione appena fatta si traduce in una maggiore possibilità d
 			P \left( \mu \in \left[ \bar{X}_n \pm
 				\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}} \right] \right) =
 			P \left( \left| \bar{X}_n - \mu \right| \leq
-			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right)
+			\frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right)
 		\]
 		A questo punto, standardizziamo e otteniamo
 		\begin{align*}
 			P \left( |\bar{X}_n - \mu| \leq
-			\frac{\sigma}{\sqrt{n}} q_{1 - \frac{\alpha}{2}} \right) = &
+			\frac{\sigma}{\sqrt{n}} \cdot q_{1 - \frac{\alpha}{2}} \right) = &
 			P \left( \frac{|\bar{X}_n - \mu|}{\sigma / \sqrt{n}} \leq
 			\frac{\frac{\sigma}{\sqrt{n}} \cdot q_{1-\frac{\alpha}{2}}}{\sigma/\sqrt{n}} \right) \\
-			=                                                          &
+			=                                                                &
 			P \left( |Z| \leq q_{1 - \frac{\alpha}{2}} \right)                                   \\
-			=                                                          &
+			=                                                                &
 			P \left( -q_{1 - \frac{\alpha}{2}} \leq Z \leq q_{1-\frac{\alpha}{2}} \right)        \\
-			=                                                          &
+			=                                                                &
 			\Phi \left( q_{1-\frac{\alpha}{2}} \right) -
 			\Phi \left(-q_{1-\frac{\alpha}{2}} \right)                                           \\
-			=                                                          &
+			=                                                                &
 			\Phi \left( q_{1-\frac{\alpha}{2}} \right) -
 			\Phi \left(q_{\frac{\alpha}{2}} \right)
 		\end{align*}
