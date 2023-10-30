@@ -4,10 +4,6 @@ quali un certa caratteristica della popolazione cade con probabilità alta. I te
 cercano invece di capire quanto e se una o più caratteristiche del campione siano
 \textbf{compatibili} con le reali caratteristiche della popolazione.
 
-In un controllo qualità vogliamo verificare se la percentuale di pezzi difettosi è non superiore
-al 2\%. Per farlo prendiamo un campione e verifichiamo se i dati del campione sono compatibili o
-meno con l'ipotesi "percentuale di pezzi difettosi non superiore al 2\%".
-
 Pianificare un test significa formulare un'ipotesi su un parametro della distribuzione e
 pianificare un esperimento per accettare o rifiutare l'ipotesi. La risposta non è mai una verità
 e viene fornita con un opportuno livello di fiducia.
@@ -20,24 +16,16 @@ parametri in due:
 \begin{itemize}
 	\item $\Theta_0$ è l'insieme dei parametri dell'ipotesi, detta \textbf{ipotesi nulla} $H_0$.
 	\item $\Theta_1 = \Theta \backslash \Theta_0$ è l'insieme dei parametri
-	      dell'\textbf{ipotesi alternativa} detta $H_1$.
+	      dell'\textbf{ipotesi alternativa} $H_1$.
 \end{itemize}
-
-\begin{example}
-	Nell'esempio del controllo qualità abbiamo che $\theta$ equivale alla probabilità di un pezzo
-	difettoso e quindi $\Theta = [0, 1]$. Di conseguenza l'insieme dell'ipotesi nulla
-	$H_0 : \theta \leq 0.02$ è
-	\[ \Theta_0 = [0, 0.02] \qquad \Theta_1 = (0.02, 1] \]
-\end{example}
-
 Un test statistico è una procedura per accettare o rifiutare l'ipotesi nulla $H_0$, sulla base dei
 dati del campione $X_1, \dots, X_n$:
 \begin{itemize}
-	\item Si accetta $H_0$ se i valori $X_1, \dots, X_n$ assunti dal campione sono
-	      \emph{compatibili} con $H_0$.
-	\item Si rifiuta $H_0$, in favore di $H_1$, se, con un alto grado di fiducia, i valori
-	      $x_1, \dots, x_n$ assunti dal campione non sono compatibili con $H_0$, c'è quindi
-	      un'\textbf{evidenza statistica} contro $H_0$.
+	\item Si \textbf{accetta} $H_0$ se i valori assunti dal campione sono \emph{compatibili} con
+	      $H_0$.
+	\item Si \textbf{rifiuta} $H_0$, in favore di $H_1$, se, con un alto grado di fiducia, i valori
+	      assunti dal campione non sono compatibili con $H_0$, c'è quindi \textbf{evidenza statistica}
+	      contro $H_0$.
 \end{itemize}
 
 \begin{observation}
@@ -49,32 +37,22 @@ dati del campione $X_1, \dots, X_n$:
 	\end{itemize}
 \end{observation}
 
-Per determinare il test, si deve determinare l'insieme dei risultati che portano a rifiutare
-l'ipotesi nulla $H_0$. Questo insieme si identifica come un sottoinsieme $C \subset \Omega$ ed è
-detto \textbf{regione critica} o \textbf{di rifiuto} per $H_0$. Il complementare $C^c$, è detto
-\textbf{regione di accettazione}.
-
-Come vedremo, $C$ viene scelto in modo tale che i suoi valori siano \textbf{estremi} sotto $H_0$ e
-\textbf{compatibili} con $H_1$, cioè:
+\subsection{Regione critica}
+Per formulare il test, si deve determinare l'insieme dei risultati che portano a rifiutare
+l'ipotesi nulla. Questo insieme si identifica come un sottoinsieme $C \subset \Omega$ ed è
+detto \textbf{regione critica}. Il complementare $C^c$ è detto \textbf{regione di accettazione}.
+Come vedremo, $C$ viene scelto in modo tale che i suoi valori siano
 \begin{itemize}
-	\item Estremi sotto $H_0$: per ogni $\theta \in \Theta_0$, la probabilità $P_\theta (C)$ è
-	      piccola.
-	\item Compatibili con $H_1$: il verificarsi di $C$ è un indicazione per $H_1$.
+	\item \textbf{Estremi} sotto $H_0$: per ogni $\theta \in \Theta_0$, la probabilità
+	      $P_\theta (C)$ è piccola.
+	\item \textbf{Compatibili} con $H_1$: il verificarsi di $C$ è un indicazione per $H_1$.
 \end{itemize}
 La scelta di $C$ dipende dalla distribuzione $P_\theta$ per $\theta \in \Theta_0$ e dalla forma
 delle ipotesi (se ad esempio $\Theta_0$ è una semiretta a destra, a sinistra oppure se è un singolo
 punto).
 
-\begin{example}
-	Nell'esempio del controllo qualità si rifiuta l'ipotesi $H_0$ se la percentuale dei pezzi
-	difettosi riscontrata nel campione è superiore a un certo valore $d$
-	\[ C = \{ \omega \in \Omega | \bar{X}(\omega) > d \} = \{ \bar{X} > d \} \]
-	La scelta di $d$ sarà tale che
-	\[ P_\theta(C) = P_\theta(\bar{X} > d) \]
-	sia piccola per ogni $\theta \leq 0.02$.
-\end{example}
-
-Il risultato del test è soggetto a due tipi di errori:
+\subsection{Potenza e curva operativa}
+Il risultato del test è soggetto a due tipi di errore:
 \begin{itemize}
 	\item Di \textbf{prima specie} quando si rifiuta $H_0$ e questa è vera.
 	\item Di \textbf{seconda specie} quando si accetta $H_0$ e questa è falsa.
@@ -93,10 +71,6 @@ nulla è vera.
 
 La scelta di $\alpha$ (in genere 0.05 o 0.01) dipende dal \textbf{grado di fiducia} che chiediamo
 per rifiutare $H_0$. Più piccolo è $\alpha$, maggiore è l'evidenza che richiediamo per rifiutare
-$H_0$.
-
-Se ad esempio $\alpha = 0.001$, allora rifiutiamo solo se i dati cadono in una regione critica $C$
-di probabilità al massimo $0.001$ sotto $H_0$, cioè rifiutiamo solo se c'è grande evidenza contro
 $H_0$.
 
 \begin{definition}
@@ -121,7 +95,7 @@ Queste richieste sono tuttavia in contrapposizione, infatti un basso livello del
 richiesta di maggiore evidenza per rifiutare $H_0$ e quindi un maggiore rischio di errore di
 seconda specie, quindi bassa potenza.
 
-\subsection{Test classico}
+\subsection{p-value}
 Il metodo classico di impostazione di un test è
 \begin{enumerate}
 	\item Fissare un livello $\alpha$ a priori.
@@ -133,25 +107,20 @@ più piccolo è $\alpha$ (maggiore è l'evidenza richiesta per rifiutare), più 
 critica. In particolare, se rifiutiamo ad un certo livello $\alpha$, allora rifiutiamo anche al
 livello $\alpha' > \alpha$, mentre potremmo accettare per un livello inferiore ad $\alpha$.
 
-\subsection{p-value}
 Per ovviare alla dipendenza dell'esito del test da $\alpha$, viene usato il metodo del $p$-value.
 A differenza della regione critica $C$, che è fissata a priori indipendentemente dall'esito del
-campione, il $p$-value dipende dalla realizzazione $x_1, \dots, x_n$ del campione $X_1, \dots, X_n$.
+campione, il $p$-value dipende dalla realizzazione $(x_1, \dots, x_n)$ del campione
+$(X_1, \dots, X_n)$.
 
-Informalmente il $p$-value di un dato $x_1, \dots, x_n$ è la probabilità $\bar{\alpha}$
-nell'ipotesi $H_0$ di ottenere dati più estremi (rispetto ad $H_0$) di $x_1, \dots, x_n$
-
-\begin{example}
-	Se su un controllo qualità di 1000 pezzi, 30 risultano difettosi, il $p$-value dei dati
-	ottenuti è la probabilità, assumendo $\theta \leq 0.02$, di trovare almeno 30 pezzi difettosi
-	su 1000.
-\end{example}
+Informalmente il $p$-value di un dato $(x_1, \dots, x_n)$ è la probabilità $\bar{\alpha}$
+nell'ipotesi $H_0$ di ottenere dati più estremi (rispetto ad $H_0$) di $(x_1, \dots, x_n)$.
 
 \begin{definition}
-	Data $x_1, \dots, x_n$ realizzazione del campione $X_1, \dots, X_n$ si chiama $p$-value di
-	$x_1, \dots, x_n$ il valore $\bar{\alpha} = \bar{\alpha} (x_1, \dots, x_n)$ tale
-	che, se il livello $\alpha$ del test è $\alpha < \bar{\alpha}$, l'ipotesi viene accettata a
-	livello $\alpha$, mentre se $\alpha > \bar{\alpha}$, l'ipotesi viene rifiutata a livello
+	Data $(x_1, \dots, x_n)$ realizzazione del campione $(X_1, \dots, X_n)$ si chiama
+	\textbf{$p$-value} di $(x_1, \dots, x_n)$ il valore
+	\[ \bar{\alpha} = \bar{\alpha} (x_1, \dots, x_n) \]
+	tale che, se il livello $\alpha$ del test è $\alpha < \bar{\alpha}$, l'ipotesi viene accettata
+	a livello $\alpha$, mentre se $\alpha > \bar{\alpha}$, l'ipotesi viene rifiutata a livello
 	$\alpha$.
 \end{definition}
 
@@ -163,3 +132,14 @@ In pratica, se il $p$-value è molto basso, l'ipotesi $H_0$ è decisamente poco 
 il $p$-value è alto allora $H_0$ è molto plausibile. Per valori intermedi, il $p$-value, ci dice
 quanto forte è l'indicazione contro $H_0$ (più basso è il $p$-value, più forte è l'indicazione
 contro $H_0$).
+
+\begin{example}
+	In un controllo qualità su un campione di 1000 pezzi, 30 risultano difettosi. Vogliamo quindi
+	verificare se la percentuale di pezzi difettosi è non superiore al 2\%. Ci poniamo quindi sotto
+	le ipotesi
+	\[ H_0 : \theta \leq 0.02 \qquad H_1 : \theta > 0.02 \]
+	e formuliamo un test di livello $\alpha = 0.05$ che ci farà rifiutare $H_0$ se
+	\[ P_\theta (\bar{X} > d) \leq 0.05 \]
+	In questo caso il $p$-value dei dati ottenuti equivale alla probabilità, assumendo
+	$\theta \leq 0.02$, di trovare almeno 30 pezzi difettosi su 1000.
+\end{example}
