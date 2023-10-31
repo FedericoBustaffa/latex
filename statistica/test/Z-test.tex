@@ -19,23 +19,27 @@ con $\alpha$ livello del test e per avere massima potenza del test imponiamo
 \[ P_{\mu_0} (C) = \alpha \]
 Questo vuol dire che
 \begin{align*}
-	\alpha = & P_{\mu_0} ( | \bar{X}_n - \mu_0 | > d )                        \\
-	=        & P_{\mu_0} \left( \frac{\sqrt{n}}{\sigma} \cdot
-	|\bar{X}_n - \mu_0| > \frac{\sqrt{n}}{\sigma} \cdot d \right)             \\
-	=        & P_{\mu_0} \left( |Z| > \frac{\sqrt{n}}{\sigma} \cdot d \right)
+	\alpha =     & P_{\mu_0} (|\bar{X}_n - \mu_0| > d )                              \\
+	             & \iff                                                              \\
+	\alpha =     & 1 - P_{\mu_0} (|\bar{X}_n - \mu_0| \leq d)                        \\
+	             & \iff                                                              \\
+	1 - \alpha = & P_{\mu_0} (|\bar{X}_n - \mu_0| \leq d)                            \\
+	=            & P_{\mu_0} \left( \frac{\sqrt{n}}{\sigma} \cdot
+	|\bar{X}_n - \mu_0| \leq \frac{\sqrt{n}}{\sigma} \cdot d \right)                 \\
+	=            & P_{\mu_0} \left( |Z| \leq \frac{\sqrt{n}}{\sigma} \cdot d \right)
 \end{align*}
 dove $Z$ è una Gaussiana standard. Continuando il calcolo abbiamo
 \begin{align*}
-	P_{\mu_0} \left( |Z| > \frac{\sqrt{n}}{\sigma} \cdot d \right)
-	= & P_{\mu_0} \left( -\frac{\sqrt{n}}{\sigma} \cdot d < Z
-	< \frac{\sqrt{n}}{\sigma} \cdot d \right)                           \\
+	P_{\mu_0} \left( |Z| \leq \frac{\sqrt{n}}{\sigma} \cdot d \right)
+	= & P_{\mu_0} \left( -\frac{\sqrt{n}}{\sigma} \cdot d \leq Z
+	\leq \frac{\sqrt{n}}{\sigma} \cdot d \right)                        \\
 	= & \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) -
 	\Phi \left( -\frac{\sqrt{n}}{\sigma} \cdot d \right)                \\
 	= & 2 \cdot \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) - 1
 \end{align*}
 A questo punto abbiamo che
 \begin{gather*}
-	\alpha = 2 \cdot \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) - 1 \\
+	1 - \alpha = 2 \cdot \Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) - 1 \\
 	\iff \\
 	\Phi \left( \frac{\sqrt{n}}{\sigma} \cdot d \right) = 1 - \frac{\alpha}{2} \\
 	\iff \\
