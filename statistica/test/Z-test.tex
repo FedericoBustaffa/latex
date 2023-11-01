@@ -177,9 +177,11 @@ e troviamo il valore $n$ per cui la potenza $1 - \beta(\mu) \geq 1 - \beta_0$.
 	\]
 	Inserendo i dati otteniamo
 	\begin{align*}
-		1 - \Phi \left( 0.8 \cdot \sqrt{n} - 1.96 \right) \leq & 0.05 \\
-		\Phi \left( 0.8 \cdot \sqrt{n} - 1.96 \right) \geq     & 0.95 \\
-		0.8 \cdot \sqrt{n} - 1.96 \geq                         & 1.64
+		1 - \Phi \left( 0.8 \cdot \sqrt{n} - 1.96 \right) \leq & 0.05  \\
+		\Phi \left( 0.8 \cdot \sqrt{n} - 1.96 \right) \geq     & 0.95  \\
+		0.8 \cdot \sqrt{n} - 1.96 \geq                         & 1.64  \\
+		\sqrt{n} \geq                                          & 4.5   \\
+		n \geq                                                 & 20.25
 	\end{align*}
 	Si conclude che $n = 21$ soddisfa l'uguaglianza.
 \end{example}
@@ -257,8 +259,8 @@ Procediamo ora al calcolo della curva operativa e otteniamo
 	In questo caso non è ben chiaro se sia giusto accettare o rifiutare.
 \end{example}
 
-Il caso unilatero inverso $H_0 : \mu \geq \mu$ e $H_1 : \mu < \mu_0$ è analogo ma si ribaltano le
-disuguaglianze e si sostituisce $q_{1 - \alpha}$ con $q_\alpha$. Abbiamo quindi una regione di
+Il caso unilatero inverso $H_0 : \mu_0 \geq \mu$ e $H_1 : \mu < \mu_0$ è analogo ma si ribaltano
+le disuguaglianze e si sostituisce $q_{1 - \alpha}$ con $q_\alpha$. Abbiamo quindi una regione di
 rigetto del tipo
 \[ C = \left\{ \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{\sigma} < q_\alpha \right\} \]
 e il $p$-value sarà
