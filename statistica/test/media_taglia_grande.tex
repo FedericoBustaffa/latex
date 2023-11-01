@@ -39,12 +39,12 @@ ma sostituendo $S$ a $\sigma$.
 	Dato che non ci viene fornito un $\alpha$ ci conviene calcolare direttamente il $p$-value
 	\begin{align*}
 		P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S} >
-		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right) = &
-		P \left( |Z| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)                        \\
-		=                                                   &
-		P \left( |Z| > \sqrt{100} \cdot \frac{|2.317 - 2.3|}{0.1} \right)                        \\
-		=                                                   & P \left( |Z| > 1.7 \right)         \\
-		=                                                   & 2 \cdot (1 - \Phi (1.7) ) = 0.0892
+		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right) = &
+		P \left( |Z| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)                         \\
+		=                                                    &
+		P \left( |Z| > \sqrt{100} \cdot \frac{|2.317 - 2.3|}{0.1} \right)                         \\
+		=                                                    & P \left( |Z| > 1.7 \right)         \\
+		=                                                    & 2 \cdot (1 - \Phi (1.7) ) = 0.0892
 	\end{align*}
 	Quindi per $\alpha > 0.0892$ rifiutiamo $H_0$ e invece accettiamo $H_0$ per $\alpha < 0.0892$.
 \end{example}

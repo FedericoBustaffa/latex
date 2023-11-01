@@ -20,7 +20,7 @@ Per farlo imponiamo quindi il livello $\alpha$
 \begin{align*}
 	P_{\mu_0} (C) =                     & \alpha \\
 	P_{\mu_0} (|\bar{X} - \mu_0| > d) = &
-	P_{\mu_0} \left( \sqrt{n} \cdot \frac{\bar{X} - \mu_0}{S} >
+	P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S} >
 	\frac{\sqrt{n}}{S} \cdot d \right)           \\
 	=                                   &
 	P \left( |T_{n-1}| > \frac{\sqrt{n}}{S} \cdot d \right)
@@ -29,13 +29,13 @@ e otteniamo $\frac{\sqrt{n}}{S} \cdot d = \tau_{1 - \frac{\alpha}{2}, n-1}$ che 
 ordine $1 - \frac{\alpha}{2}$ di una $t$ di Studenti a $n-1$ gradi di libertà. La regione critica
 è dunque
 \[
-	C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - \mu_0}{S} >
+	C = \left\{ \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|}{S} >
 	\tau_{1 - \frac{\alpha}{2}, n-1} \right\}
 \]
 
 \subsubsection{Calcolo del p-value}
 Consideriamo $(y_1, \dots, y_n)$ come dati più estremi sotto $H_0 : \mu = \mu_0$ tali che
-\[ \frac{|\bar{y} - \mu_0|}{S_y} > \frac{|\bar{x} - \mu_0}{S_x} \]
+\[ \frac{|\bar{y} - \mu_0|}{S_y} > \frac{|\bar{x} - \mu_0|}{S_x} \]
 con $S_x^2$ e $S_y^2$ varianze campionarie rispettivamente di $(x_1, \dots, x_n)$ e
 $(y_1, \dots, y_n)$. A questo punto calcoliamo il $p$-value di $(x_1, \dots, x_n)$ come segue
 \begin{align*}
@@ -99,14 +99,14 @@ Il $p$-value si ottiene calcolando
 	quindi si accetta l'ipotesi $H_0$. Calcoliamo ora il $p$-value dei dati
 	\begin{align*}
 		P_{\mu_0} \left( \sqrt{n} \cdot \frac{|\bar{X} - \mu_0|} >
-		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right) = &
-		P \left( |T_{n-1}| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0}{s} \right)                 \\
-		=                                                   &
+		\sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right) = &
+		P \left( |T_{n-1}| > \sqrt{n} \cdot \frac{|\bar{x} - \mu_0|}{s} \right)                 \\
+		=                                                    &
 		2 \cdot \left( 1 - F_{n-1} \left( \sqrt{n} \cdot
-		\frac{|\bar{x} - \mu_0|}{s} \right) \right)                                            \\
-		=                                                   &
-		2 \cdot \left( 1 - F_{15} \left( 4 \cdot \frac{|3.2 - 3|}{0.5} \right) \right)         \\
-		=                                                   & 2 \cdot \left( 1 - 0.935 \right)
+		\frac{|\bar{x} - \mu_0|}{s} \right) \right)                                             \\
+		=                                                    &
+		2 \cdot \left( 1 - F_{15} \left( 4 \cdot \frac{|3.2 - 3|}{0.5} \right) \right)          \\
+		=                                                    & 2 \cdot \left( 1 - 0.935 \right)
 		= 0.13
 	\end{align*}
 	In questo caso accettiamo per $\alpha < 0.13$.
