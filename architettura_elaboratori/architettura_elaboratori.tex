@@ -15,35 +15,44 @@
 \maketitle
 \tableofcontents
 
-\begin{figure}[!h]\centering
-	\begin{circuitikz}
-		% logic gates
-		\node[and port] (and1) at (0, 2)  {};
-		\node[or port] (or) at (0, 0)  {};
-		\node[and port]	(and2) at (0, -2) {};
+\include{introduzione/intro}
+\include{reti_logiche/reti_logiche}
+\include{firmware/firmware}
+\include{assembler/assembler}
+\include{microarchitettura/microarchitettura}
+\include{memoria/memoria}
+\include{IO/gestione_IO}
+\include{architetture_avanzate/architetture_avanzate}
 
-		\node[xnor port] (xnor) at (2.5, 1) {};
-		\node[not port] (not) at (2.5, -1) {};
+% \begin{figure}[!h]\centering
+% 	\begin{circuitikz}
+% 		% logic gates
+% 		\node[and port] (and1) at (0, 2)  {};
+% 		\node[or port] (or) at (0, 0)  {};
+% 		\node[and port]	(and2) at (0, -2) {};
 
-		\node[xor port] (xor) at (5, 0) {};
+% 		\node[xnor port] (xnor) at (2.5, 1) {};
+% 		\node[not port] (not) at (2.5, -1) {};
 
-		% connections
-		\draw (and1.out) |- (xnor.in 1);
-		\draw (or.out)   |- (xnor.in 2);
-		\draw (and2.out) |- (not.in);
+% 		\node[xor port] (xor) at (5, 0) {};
 
-		\draw (xnor.out) |- (xor.in 1);
-		\draw (not.out)  |- (xor.in 2);
-	\end{circuitikz}
-\end{figure}
+% 		% connections
+% 		\draw (and1.out) |- (xnor.in 1);
+% 		\draw (or.out)   |- (xnor.in 2);
+% 		\draw (and2.out) |- (not.in);
 
-\begin{tabular}{c|c}
-	Pari & Dispari \\ \hline
-	0    & 1       \\
-	2    & 3       \\
-	4    & 5       \\
-	6    & 7       \\
-	8    & 9
-\end{tabular}
+% 		\draw (xnor.out) |- (xor.in 1);
+% 		\draw (not.out)  |- (xor.in 2);
+% 	\end{circuitikz}
+% \end{figure}
+
+% \begin{tabular}{c|c}
+% 	Pari & Dispari \\ \hline
+% 	0    & 1       \\
+% 	2    & 3       \\
+% 	4    & 5       \\
+% 	6    & 7       \\
+% 	8    & 9
+% \end{tabular}
 
 \end{document}
