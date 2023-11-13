@@ -1,13 +1,11 @@
-\chapter{Aritmetica binaria e logica booleana}
-
-\section{Introduzione}
+\chapter{Introduzione}
 Partiamo con il dire che tutti i calcolatori moderni possono essere schematizzati semplicemente
 tramite il cosiddetto \textbf{modello Von Neumann} in cui abbiamo tre componenti principali:
 \textbf{memoria}, \textbf{processore} e canali di \textbf{I/O}.
 
 \begin{center}
-	\begin{tikzpicture}
-		\node[draw] (mem) at (0, 0) {Mem};
+	\begin{tikzpicture}[scale=1.5]
+		\node[draw] (mem) at (0, 0) {Memoria};
 		\node[draw] (cpu) at (0, -1.5) {CPU};
 		\node[draw] (io) at (2, -1.5) {I/O};
 
@@ -36,3 +34,16 @@ In pratica viene estratta dalla memoria l'istruzione puntata da un \textbf{Progr
 si decodifica e la si esegue. In seguito il Program Counter viene aggiornato e i risultati vengono
 consolidati nei registri della CPU oppure in memoria.
 
+Per ognuna delle istruzioni eseguite sul canale presente tra processore e memoria vengono svolte
+le seguenti operazioni
+\begin{enumerate}
+	\item Il processore manda un indirizzo (PC) dove andare a prendere l'istruzione.
+	\item La memoria risponde con un'istruzione.
+	\item Il processore esegue e durante l'esecuzione può richiedere la lettura o scrittura dalla
+	      memoria.
+\end{enumerate}
+Questo processo avviene molto spesso e rende il traffico sul canale molto intenso. Nei processori
+moderni, per misurare le performance di un processore, siamo abituati a ragionare in termini di
+\textbf{cicli di clock}. Dato che, approssimativamente, possiamo dire che un ciclo di clock
+corrisponde ad un'istruzione eseguita, possiamo dire che un processore a 1 GHz esegue un'istruzione
+in 1 nanosecondo.
