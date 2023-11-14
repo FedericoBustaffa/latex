@@ -53,6 +53,7 @@ Per misurare le performance di un processore siamo abituati a ragionare in termi
 corrisponde ad un'istruzione eseguita, se ad esempio abbiamo un processore a 1 GHz, questo riuscirà
 ad eseguire un'istruzione in 1 nanosecondo.
 
+\section{Architetture}
 Durante il corso verrano trattate varie architetture, dalle prime progettate alle più recenti,
 cercando di capire come funzionano e i loro pregi e difetti. Tra quelle che tratteremo elenchiamo
 \begin{itemize}
@@ -63,4 +64,36 @@ cercando di capire come funzionano e i loro pregi e difetti. Tra quelle che trat
 	      parallelamente alle altre. Una volta arrivato a regime questo processore riesce a
 	      eseguire un'istruzione all'inizio di ogni ciclo di clock e non alla fine (come nel
 	      modello single cycle).
+	\item \textbf{Superscalare}: in questo modello abbiamo, come nel modello pipeline, componenti
+	      distinte che svologono compiti distinti ma invece di averne una per ogni compito, ne
+	      abbiamo molteplici. Questo ci permette di eseguire più istruzioni in un singolo ciclo
+	      di clock.
+	\item \textbf{Multi-Core}: modello in cui si hanno più processori superscalari collegati alla
+	      memoria.
 \end{itemize}
+
+Oltre a questo sono stati sviluppati anche i cosiddetti \textbf{acceleratori} come ad esempio le
+GPU. Gli acceleratori sono dei processori specializzati per alcuni compiti a cui la CPU vera e
+propria delega determinati calcoli tramite un canale detto \textbf{PCI Express}. Oltre alle GPU
+esistono degli acceleratori per la sicurezza, i quali sono molto veloci ad eseguire calcoli
+crittografici per cifrare e decifrare informazioni.
+
+\section{Struttura}
+Possiamo rappresentare il calcolatore con una serie di livelli di astrazione con una forma a stack.
+Ogni livello comunica con il livello direttamente soprastante o sottostante tramite un'interfaccia
+a cui i vari livelli devono conformarsi per poter comunicare.
+
+Ogni livello possiede un grado di astrazione minore del livello soprastante e viceversa e possiamo
+dire che ogni livello garantisce la ai livelli adiacenti determinati servizi.
+
+\begin{center}
+	\begin{tabular}{|c|}
+		\hline
+		APPLICATIVO          \\ \hline
+		SISTEMA OPERATIVO    \\ \hline
+		ARCHITETTURA         \\ \hline
+		MICROARCHITETTURA    \\ \hline
+		COMPONENTI LOGICI    \\ \hline
+		DISPOSITIVI / FISICA \\ \hline
+	\end{tabular}
+\end{center}
