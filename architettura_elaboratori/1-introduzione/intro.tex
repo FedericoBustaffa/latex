@@ -1,7 +1,7 @@
 \chapter{Introduzione}
-Partiamo con il dire che tutti i calcolatori moderni possono essere schematizzati semplicemente
-tramite il cosiddetto \textbf{modello Von Neumann} in cui abbiamo tre componenti principali:
-\textbf{memoria}, \textbf{processore} e canali di \textbf{I/O}.
+Tutti i calcolatori moderni possono essere schematizzati semplicemente tramite il cosiddetto
+\textbf{modello Von Neumann} in cui abbiamo tre componenti principali: \textbf{memoria},
+\textbf{processore} e canali di \textbf{I/O}.
 
 \begin{center}
 	\begin{tikzpicture}[scale=1.5]
@@ -17,7 +17,8 @@ tramite il cosiddetto \textbf{modello Von Neumann} in cui abbiamo tre componenti
 Come possiamo vedere dalla figura i collegamenti tra le varie entità sono bidirezionali. Il
 processore (ma anche la memoria) è collegato ai canali di I/O e il collegamento che c'è tra memoria
 e processore è chiamato \textbf{Von Neumann bottleneck}. Quello che accade tra memoria e processore
-è, grosso modo, quello che viene descritto dal seguente pseudocodice.
+è, grosso modo, quello che viene descritto dal seguente pseudocodice ed è denominato ciclo di
+\textbf{fetch-decode-execute}.
 
 \begin{minted}{c}
 while (true) {
@@ -42,8 +43,24 @@ le seguenti operazioni
 	\item Il processore esegue e durante l'esecuzione può richiedere la lettura o scrittura dalla
 	      memoria.
 \end{enumerate}
-Questo processo avviene molto spesso e rende il traffico sul canale molto intenso. Nei processori
-moderni, per misurare le performance di un processore, siamo abituati a ragionare in termini di
+Questo processo avviene molto spesso e rende il traffico sul canale molto intenso creando per
+l'appunto un \emph{collo di bottiglia}. Questo è dovuto alla rapida evoluzione dei processori e
+alla non altrettanto rapida evoluzione della memoria, la quale ha una velocità nel fornire le
+istruzioni minore della velocità che impiega il processore ad eseguirle e richiederne altre.
+
+Per misurare le performance di un processore siamo abituati a ragionare in termini di
 \textbf{cicli di clock}. Dato che, approssimativamente, possiamo dire che un ciclo di clock
-corrisponde ad un'istruzione eseguita, possiamo dire che un processore a 1 GHz esegue un'istruzione
-in 1 nanosecondo.
+corrisponde ad un'istruzione eseguita, se ad esempio abbiamo un processore a 1 GHz, questo riuscirà
+ad eseguire un'istruzione in 1 nanosecondo.
+
+Durante il corso verrano trattate varie architetture, dalle prime progettate alle più recenti,
+cercando di capire come funzionano e i loro pregi e difetti. Tra quelle che tratteremo elenchiamo
+\begin{itemize}
+	\item \textbf{Single cycle}: modello in cui un ciclo fetch-execute viene effettuato in un ciclo
+	      di clock.
+	\item \textbf{Pipeline}: modello in cui si hanno componenti distinte per le operazioni di fetch,
+	      decode ed execute. In questo modo ogni componente continua a svolgere il proprio lavoro
+	      parallelamente alle altre. Una volta arrivato a regime questo processore riesce a
+	      eseguire un'istruzione all'inizio di ogni ciclo di clock e non alla fine (come nel
+	      modello single cycle).
+\end{itemize}
