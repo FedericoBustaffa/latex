@@ -1,1 +1,156 @@
 \chapter{Aritmetica binaria e logica booleana}
+Passiamo ora ad un breve richiamo sull'aritmetica binaria e sulla logica booleana per capire meglio
+cosa verrà utilizzato dal calcolatore per svolgere i calcoli.
+
+\section{Aritmetica binaria}
+Il sistema di numerazione binario, così come quelli decimale ed esadecimale, è detto
+\textbf{posizionale}. Si assegna cioè un \textbf{peso} alle possibili posizioni in cui può cadere
+una delle cifre a cui poi verrà moltiplicata la cifra effettiva.
+
+Il numero $123_{10}$ si ottiene dalla somma delle sue singole cifre moltiplicate per il peso della
+posizione in cui si trovano. Nello specifico, se la base di numerazione è $b$, partendo dalla
+posizione più a destra, il peso della prima posizione sarà $b^0$ mentre il peso dell'$n$-esima
+posizione sarà $b^{n-1}$.
+\[ 123_{10} = 1 \cdot 10^2 + 2 \cdot 10^1 + 3 \cdot 10^0 = 100 + 20 + 3 \]
+Se ad esempio volessimo fare lo stesso per il numero $1010_2$ otterremmo
+\[ 1010_2 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 0 \cdot 2^0 = 8 + 2 = 10_{10} \]
+Come possiamo vedere abbiamo anche trovato un modo semplice per la conversione da binario a
+decimale. In genere per la rappresentazione in macchina viene usata la notazione
+\textbf{esadecimale} poiché, avendo 16 simboli a disposizione, fornisce una rappresentazione più
+compatta di numeri binari altrimenti molto lunghi e difficilmente leggibili.
+\[ 1F0_{16} = 1 \cdot 16^2 + 15 \cdot 16^1 + 0 \cdot 16^0 = 256 + 240 = 496_{10} \]
+L'operazioni più semplice che possiamo fare tra numeri binari è ovviamente la \textbf{somma} che
+funziona in modo analogo
+\begin{center}
+	\begin{tabular}{c | c c}
+		$2_{10}$ & $0010$ & + \\
+		$3_{10}$ & $0011$ & = \\ \hline
+		$5_{10}$ & $0101$
+	\end{tabular}
+\end{center}
+
+Per la \textbf{conversione} da decimale a binario possiamo
+\begin{enumerate}
+	\item Prendere la più grande potenza di 2 minore o uguale del numero che vogliamo convertire.
+	\item Sottraiamo al numero la potenza di 2 trovata.
+	\item Ripetiamo il procedimento con la differenza ottenuta finché non si ottiene 0.
+	\item Quando si ottiene 0 si va a mettere un 1 in ognuna delle posizioni relative alle potenze
+	      trovate.
+\end{enumerate}
+Se ad esempio volessimo rappresentare $17_{10}$ troveremmo che $2^4 = 16$ è la più grande potenza
+di 2 minore o uguale di 17. Quindi eseguiamo $17 - 16 = 1$ a questo punto abbiamo che $2^0 = 1$ è
+la più grande potenza minore o uguale di 1. Eseguiamo $1-1 = 0$ e concludiamo. Il risultato sarà
+\[ 17_{10} = 10001_2 \]
+dove gli 1 si trovano rispettivamente in posizione 1 e 5 ossia le posizioni di peso $2^0$ e $2^4$.
+
+\subsection{Rappresentazione in macchina}
+Se volessimo rappresentare numeri in macchina avendo a disposizione registri di $n$ bit potremmo
+rappresentare $2^n$ possibili numeri (in particolare in numeri da 0 a $2^n - 1$).
+
+Si ha però un problema nel momento in cui si vogliono rappresentare numeri negativi. Supponiamo di
+voler rappresentare i numeri da $-x$ a $+x$, il primo metodo di rappresentazione dei numeri
+negativi è il cosiddetto \textbf{modulo e segno}.
+
+Questo metodo utilizza un bit per il segno e i restanti vengono usati per la rappresentazione come
+abbiamo visto fin ad ora.
+
+Per quanto riguarda i numeri positivi il bit di segno sarà a 0 e per i bit negativi sarà a 1. La
+restante rappresentazione del numero rimane invariata. Notiamo che adesso, con registri da $n$ bit
+ne possiamo usare $n-1$ per la rappresentazione e dunque avremo a disposizione i numeri da
+$-2^{n-1}$ a $+2^{n-1}$.
+
+Questa rappresentazione si porta dietro due problemi principali: il primo è che rappresenta due
+volte lo 0 (-0 e +0) e poi introduce la necessità di una componente in grado di fare le sottrazioni
+(necessaria quando si sottrae un numero più grande ad un numero più piccolo).
+
+Si è quindi passati alla rappresentazione in \textbf{complemento a 2}, la quale prevede che, per i
+numeri positivi si utilizzino i primi $n-1$ bit per la rappresentazione e l'$n$-esimo bit messo a 0
+e per i numeri negativi si devono compiere alcuni passaggi:
+\begin{enumerate}
+	\item Rappresentare il modulo del numero.
+	\item Negare tutti i bit.
+	\item Sommare 1.
+\end{enumerate}
+Se ad esempio volessimo rappresentare $-3$ in complemento a 2 su 8 bit il risultato sarebbe il
+seguente:
+\begin{enumerate}
+	\item Rappresentazione di 3 $3_{10} = 00000011_2$.
+	\item Negazione di tutti i bit $00000011_2 \to 11111100_2$.
+	\item Sommiamo 1 al risultato
+	      \begin{center}
+		      \begin{tabular}{r c}
+			      11111100 & + \\
+			      1        & = \\ \hline
+			      11111101
+		      \end{tabular}
+	      \end{center}
+\end{enumerate}
+Come possiamo vedere otteniamo una rappresentazione in cui il numero più a sinistra è 1, e quindi
+capiamo che il numero è negativo. Se volessimo sapere di quale numero si tratta ci basta fare il
+procedimento inverso negando tutti i bit
+\[ 11111101 \to 00000010 \]
+e sommandoci 1
+\begin{center}
+	\begin{tabular}{r c}
+		00000010 & + \\
+		1        & = \\ \hline
+		00000011
+	\end{tabular}
+\end{center}
+che infatti è 3. Questo metodo ci permette di effettuare sottrazioni semplicemente facendo somme
+con numero negativi. Se per esempio volessimo effettuare $2 - 3$ otterremmo
+\begin{center}
+	\begin{tabular}{r c}
+		00000010 & + \\
+		11111101 & = \\ \hline
+		11111111
+	\end{tabular}
+\end{center}
+Che se convertiamo in modulo diventa $11111111 \to 00000000 + 1 = 00000001$ ovvero 1 e quindi
+deduciamo facilmente che il risultato della somma appena fatta è $-1$.
+
+Altro fatto importante è che l'unica rappresentazione dello 0 è quella con tutti i bit messi a 0,
+mentre la rappresentazione
+\[ 10000000 \]
+non è valida o comunque non viene mai generata da possibili calcoli in aritmetica binaria.
+
+\subsection{Shift dei bit}
+Quando si parla di moltiplicazioni e divisioni, un caso particolare è quello in cui si moltiplica
+o si divide un numero per la base di numerazione o per una sua potenza. Se ad esempio volessimo
+svolgere $123 \times 10$ è immediato riconoscere che il risultato è $1230$ poiché come sappiamo
+basta aggiungere uno zero a destra.
+
+Questo però implica uno \textbf{shift} delle cifre dalla lora posizione ad una posizione a peso
+maggiore (a sinistra). Allo stesso modo, vale $123 / 10 = 12.3$, ottenuto tramite un shift a destra
+delle cifre.
+
+In modo del tutto analogo questo è anche possibile in aritmetica binaria ma invece di moltiplicare
+o dividere per 10, moltiplichiamo o dividiamo per 2. Per esempio se dividiamo $10_{10} = 1010_2$
+per 2 abbiamo, in decimale che il risultato è 5 e in binario, dato che dividiamo per la base ci
+basterà shiftare tutti i bit a destra di una posizione ottenendo
+\[ 0101 = 2^2 + 2^0 = 4 + 1 = 5_{10} \]
+Se invece volessimo moltiplicare o dividere per una potenza di 2 dovremmo effettuare tanti shift
+(a destra o a sinistra) quanto vale l'esponente. Per esempio $10 \times 2^2$ equivale ad effettuare
+un doppio shift verso sinistra del numero $1010$, ottenendo così
+\[ 101000 = 2^5 + 2^3 = 32 + 8 = 40_{10} \]
+Questo ci sarà molto utile nell'indirizzamento della memoria che vedremo più avanti in quanto la
+memoria del computer è partizionata in un numero di blocchi pari ad una potenza di due. I blocchi
+sono a loro volta suddivisi in un numero di pagine sempre pari ad una potenza di 2. Questi ci
+permette di muoverci tra i blocchi o le pagine della memoria in modo molto più agevole e veloce
+tramite le operazioni di shift.
+
+Per quanto riguarda i numeri negativi rappresentati in complemento a 2 dobbiamo avere una piccola
+accortezza. Prendiamo per esempio l'operazione
+\[ -8 / 2^2 = -2 \]
+che in binario equivale a shiftare a destra di due posizioni il numero $11111000$ (-8 in
+complemento a 2). Dato che però, tramite un normale shift a destra otterremmo $00111110$, cioè un
+numero positivo, è chiaro che non è il risultato corretto. Semplicemente negli shift a destra di
+numeri negativi le posizioni a sinistra vengono rimpiazzate da 1 invece che da 0, otteniamo quindi
+$11111110$ che, se effettuiamo la conversione in complemento a 2, equivale a $00000010_2 = 2_{10}$.
+
+Per quanto riguarda invece gli shift a sinistra di numeri negativi in complemento a 2 si effettua
+un normale shift aggiungendo tanti 0 a destra quanto vale l'esponente della potenza per cui si
+vuole moltiplicare. Per esempio
+\[ -8 \times 2^2 = -32 \]
+per ottenere il calcolo in binario dobbiamo shiftare a sinistra il numero $11111000$. Otteniamo
+quindi $11100000$ che se convertito in modulo diventa $00100000_2 = 2^5 = 32_{10}$
