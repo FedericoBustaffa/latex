@@ -97,3 +97,35 @@ dire che ogni livello garantisce la ai livelli adiacenti determinati servizi.
 		DISPOSITIVI / FISICA \\ \hline
 	\end{tabular}
 \end{center}
+
+Questi livelli di astrazione forniscono diversi gradi di profondità della struttura del calcolatore,
+in particolare si scende più in profondità partendo dal livello applicativo (quello che vede
+l'utente) fino ad arrivare al livello dei dispositivi (composto dall'hardware vero e proprio).
+\begin{enumerate}
+	\item Il livello \textbf{applicativo} è il livello su cui girano i vari programmi che utilizza
+	      l'utente.
+	\item Il livello del \textbf{sistema operativo} è quello a cui si appoggiano le applicazioni
+	      per funzionare e che effettua delle operazioni (\textbf{chiamate di sistema}) per
+	      effettuare calcoli o per rendere la grafica sullo schermo nel modo corretto.
+	\item Il livello dell'\textbf{architettura} prende le chiamate effettuate dal sistema operativo
+	      e le converte in linguaggio assembler tramite il ciclo fetch-decode-execute.
+	\item Il livello della \textbf{microarchitettura} rappresenta l'architettura del processore
+	      in termini degli esempi già visti (single cycle, superscalare e così via).
+	\item Il livello dei \textbf{componenti logici} implementano i moduli della microarchitettura
+	      in termini di porte booleane o di registri in grado di mantenere 1 bit utilizzati per
+	      calcoli effettuati in un secondo momento.
+	\item Il livello dei \textbf{dispositivi} è sostanzialmente composto da \textbf{transistor}.
+\end{enumerate}
+
+\section{Principi di astrazione}
+I tre principi che seguiamo per semplificare il processo di astrazione di un calcolatore sono i
+seguenti:
+\begin{itemize}
+	\item \textbf{Gerarchia}: utilizzare un decomposizione gerarchica in modo che componenti più
+	      grandi siano formati da componenti più piccoli e ad un più basso livello di astrazione.
+	\item \textbf{Modularità}: avere delle interfacce ben definite per permettere la comunicazione
+	      agevole tra i vari livelli di astrazione.
+	\item \textbf{Regolarità}: utilizzo di componenti più uniformi possibile tra loro per garantire
+	      una maggiore qualità dell'insieme di componenti.
+\end{itemize}
+Questi tre principi ci permettono di definire al meglio tutti gli strati descritti in precedenza.
