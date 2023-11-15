@@ -64,26 +64,16 @@ volte lo 0 (-0 e +0) e poi introduce la necessità di una componente in grado di
 (necessaria quando si sottrae un numero più grande ad un numero più piccolo).
 
 Si è quindi passati alla rappresentazione in \textbf{complemento a 2}, la quale prevede che, per i
-numeri positivi si utilizzino i primi $n-1$ bit per la rappresentazione e l'$n$-esimo bit messo a 0
-e per i numeri negativi si devono compiere alcuni passaggi:
-\begin{enumerate}
-	\item Rappresentare il modulo del numero.
-	\item Negare tutti i bit.
-	\item Sommare 1.
-\end{enumerate}
+numeri positivi si utilizzino i primi $n-1$ bit per la rappresentazione e l'$n$-esimo bit messo a 0.
+Per i numeri negativi si deve invece rappresentare prima di tutto il modulo del numero, dopodiché
+si negano tutti i bit e infine si somma 1.
+
 Se ad esempio volessimo rappresentare $-3$ in complemento a 2 su 8 bit il risultato sarebbe il
 seguente:
 \begin{enumerate}
-	\item Rappresentazione di 3 $3_{10} = 00000011_2$.
+	\item Rappresentazione 3 in base 2: $00000011_2$.
 	\item Negazione di tutti i bit $00000011_2 \to 11111100_2$.
-	\item Sommiamo 1 al risultato
-	      \begin{center}
-		      \begin{tabular}{r c}
-			      11111100 & + \\
-			      1        & = \\ \hline
-			      11111101
-		      \end{tabular}
-	      \end{center}
+	\item Sommiamo 1 al risultato $11111100 + 1 = 11111101$.
 \end{enumerate}
 Come possiamo vedere otteniamo una rappresentazione in cui il numero più a sinistra è 1, e quindi
 capiamo che il numero è negativo. Se volessimo sapere di quale numero si tratta ci basta fare il
@@ -197,3 +187,15 @@ Se vogliamo implementare la possibilità di eseguire operazioni di addizione tra
 numeri in virgola mobile, abbiamo bisogno di una componente detta \textbf{ALU}. Per le operazioni
 tra interi si parla di \textbf{ALU-I}, mentre per le operazioni tra numeri in virgola mobile si
 parla di \textbf{ALU-FP}.
+
+\subsection{Rappresentazione di caratteri}
+In ultima battuta parliamo della rappresentazione di documenti testuali, i quali non sono altro
+che \textbf{sequenze di caratteri}. Tali caratteri seguono la rappresentazione \textbf{ASCII} che
+fa utilizzo di 8 o 16 bit.
+
+Per sapere cosa rappresenta la sequenza di bit si fa utilizzo di una \textbf{tabella ASCII} che
+mette in corrispondenza il numero rappresentato dalla sequenza di bit ad un carattere nella tabella.
+
+In questo ambito è possibile effettuare piccole operazioni come \textbf{ordinamenti lessicografici}
+poiché, per esempio, le lettere da "A" a "Z" hanno un codice che le mette in ordine una dopo
+l'altra.
