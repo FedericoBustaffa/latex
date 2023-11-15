@@ -154,3 +154,46 @@ vuole moltiplicare. Per esempio
 \[ -8 \times 2^2 = -32 \]
 per ottenere il calcolo in binario dobbiamo shiftare a sinistra il numero $11111000$. Otteniamo
 quindi $11100000$ che se convertito in modulo diventa $00100000_2 = 2^5 = 32_{10}$
+
+\subsection{Rappresentazione in virgola mobile}
+La rappresentazione in virgola mobile ha subito diverse variazioni negli anni fino ad arrivare ad
+uno standard che ad oggi prende il nome di IEEE 754, il quale prevede l'utilizzo di
+\begin{itemize}
+	\item Un bit per il \textbf{segno}.
+	\item Un certo numero di bit per l'\textbf{esponente}.
+	\item I restanti bit per la \textbf{mantissa}.
+\end{itemize}
+Il numero di bit per esponente e mantissa dipende dalla lunghezza dei registri che utilizziamo (se
+a 32 o a 64 bit).
+\begin{itemize}
+	\item Se il bit del segno è 0 il numero è positivo, se invece è 1 allora il numero è negativo.
+	\item L'esponente indica il numero a cui elevare la base.
+	\item La mantissa rappresenta il numero con una virgola in posizione \emph{"fissa"}.
+\end{itemize}
+Il numero $x$ cercato è rappresentato come
+\[ x = \text{sign}(x) \cdot b^e \cdot m \]
+L'esponente è rappresentato in \textbf{eccesso a k}, ovvero se l'esponente è $e$, il calcolatore
+rappresenta $e+k$ in modo che numeri più grandi di $k$ rappresentano numeri positivi mentre numeri
+più piccoli di $k$ rappresentano numeri negativi. Per lo standard IEEE 754, nel caso di numeri in
+virgola mobile a
+\begin{itemize}
+	\item 32 bit, l'esponente è rappresentato con 8 bit in eccesso a 127 e la mantissa ha a
+	      disposizione 23 bit.
+	\item 64 bit, l'esponente è rappresentato con 11 bit in eccesso a 1023 e la mantissa ha a
+	      disposizione 52 bit.
+\end{itemize}
+Aggiungiamo inoltre che lo standard vuole che la prima cifra per una rappresentazione in virgola
+mobile sia non nulla e tale che alla sua sinistra vi siano solo cifre non significative
+\[ 123.45 = 1.2345 \times 10^2 \]
+Questo implica che le operazioni tra numeri rappresentati in virgola mobile non sono così immediate
+nel caso in cui questi abbiano ordini di grandezza diversi.
+
+Quel che viene fatto è passarli ad un \textbf{incolonnatore} che, tramite alcune operazioni riesce
+a spostare la virgola e cambiare l'esponente dei due operandi in modo che il calcolo sia eseguibile
+nel modo classico. Una volta effettuato il calcolo, il risultato passa da un \textbf{normalizzatore}
+che riporta il risultato ad una rappresentazione che soddisfa lo standard.
+
+Se vogliamo implementare la possibilità di eseguire operazioni di addizione tra numeri interi e tra
+numeri in virgola mobile, abbiamo bisogno di una componente detta \textbf{ALU}. Per le operazioni
+tra interi si parla di \textbf{ALU-I}, mentre per le operazioni tra numeri in virgola mobile si
+parla di \textbf{ALU-FP}.
