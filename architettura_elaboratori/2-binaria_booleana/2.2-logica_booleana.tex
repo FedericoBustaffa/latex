@@ -1,0 +1,23 @@
+\section{Logica booleana}
+Nel corso non andremo a trattare l'ultimo livello di astrazione, ossia quello più basso, ma andremo
+a trattare lo strato soprastante, che tramite delle \textbf{porte logiche} e delle operazioni
+aritmetiche binarie riesce a rappresentare quello che succede. Le tre operazioni implmentate dalle
+porte logiche sono
+\begin{itemize}
+	\item \verb|AND(x, y)|: 1 se $x = y = 1$, 0 altrimenti.
+	\item \verb|OR(x,y)|: 0 se $x = y = 0$, 1 altrimenti.
+	\item \verb|NOT(x)|: 1 se $x = 0$, 0 se $x = 1$.
+\end{itemize}
+Altro strumento utile per capire meglio come funzionano tali porte e per vedere come funzionano
+altre porte che risultano essere una combinazione di esse, sono le \textbf{tabelle di verità}.
+Nelle tabelle di verità immettiamo tutti i possibili valori di input e calcoliamo i relativi output.
+Per esempio, la tabella di verità di una porta logica \verb|AND| è la seguente
+\begin{center}
+	\begin{tabular}{c c | c}
+		x & y & z \\ \hline
+		0 & 0 & 0 \\
+		0 & 1 & 0 \\
+		1 & 0 & 0 \\
+		1 & 1 & 1
+	\end{tabular}
+\end{center}
