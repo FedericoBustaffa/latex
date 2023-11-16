@@ -2,3 +2,52 @@
 Per introdurre l'\textbf{algebra di Boole} introduciamo i seguenti \textbf{assiomi} che determinano
 il comportamento dell'alfabeto $\{0, 1\}$ in relazione a delle operazioni di base che possiamo
 fare con i suoi elementi.
+\begin{gather*}
+	a = 0 \implies a \neq 1 \quad \land \quad a = 1 \implies a \neq 0 \\
+	a = 0 \implies \bar{a} = 1 \quad \land \quad a = 1 \implies \bar{a} = 0 \\
+	0 \cdot 1 = 0 \quad \land \quad 1 \cdot 0 = 0 \\
+	0 \cdot 0 = 0 \quad \land \quad 1 \cdot 1 = 1 \\
+	0 + 1 = 1 \quad \land \quad 1 + 0 = 1 \\
+	0 + 0 = 0 \quad \land \quad 1 + 1 = 1
+\end{gather*}
+Da questi deduciamo anche che
+\begin{gather*}
+	A \cdot 1 = A \quad \land \quad A + 0 = A \\
+	A \cdot 0 = 0 \quad \land \quad A + 1 = 1 \\
+	A \cdot A = A \quad \land \quad A + A = A \\
+	A \cdot \bar{A} = 0 \quad \land \quad A + \bar{A} = 1 \\
+	\bar{\bar{A}} = A
+\end{gather*}
+Le altre proprietà fondamentali per le operazioni di \verb|AND| e \verb|OR| nell'algebra booleana
+sono
+\begin{itemize}
+	\item \textbf{Commutatività} per l'\verb|AND|: $A \cdot B = B \cdot A$
+	\item \textbf{Commutatività} per l'\verb|OR|: $A + B = B + A$
+	\item \textbf{Distributività}: $A \cdot (B + C) = A \cdot B + A \cdot C$ e la formula duale
+	      $A + (B \cdot C) = (A \cdot B) + (A \cdot C)$
+	\item \textbf{De Morgan}: $\overline{A \cdot B} = \bar{A} + \bar{B}$ e la formula duale
+	      $\overline{A + B} = \bar{A} \cdot \bar{B}$
+\end{itemize}
+Con queste proprietà è possibile semplificare alcune delle formule generate da alcune tabelle di
+verità come abbiamo fatto nel caso del multiplexer. Supponiamo che per un qualche motivo otteniamo
+una funzione di $a$, $b$ e $c$ tale che
+\[ f(a,b,c) = \bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c \]
+Se volessimo implementare questa formula tramite un circuito avremmo bisogno di tre porte
+\verb|AND3| e di 1 porta \verb|OR3|. Usando le proprietà possiamo ottenere
+\[
+	\bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c
+	= \bar{b} \bar{c} (\bar{a} + a) + a \bar{b} c
+	= \bar{b} \bar{c} + a \bar{b} c
+\]
+Passando così ad una formula che ci permette di implementare un circuito tramite due porte
+\verb|AND3| e una porta \verb|OR3|. Proviamo un altro modo di procedere
+\begin{align*}
+	\bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c
+	 & = \bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c         \\
+	 & = \bar{b} \bar{c} (\bar{a} + a) + a \bar{b} (c + \bar{c}) = \bar{b} \bar{c} + a \bar{b}
+\end{align*}
+ottenendo così la possibilità di implementare un circuito tramite due porte \verb|AND2| e una porta
+\verb|OR2|.
+
+Come possiamo vedere, a seconda di come usiamo queste proprietà, è possibile diminuire notevolmente
+la dimensione dei circuiti e quindi la complessità di ciò che stiamo calcolando.
