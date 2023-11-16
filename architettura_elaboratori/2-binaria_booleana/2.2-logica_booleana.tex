@@ -4,9 +4,9 @@ a trattare lo strato soprastante, che tramite delle \textbf{porte logiche} e del
 aritmetiche binarie riesce a rappresentare quello che succede. Le tre operazioni implmentate dalle
 porte logiche sono
 \begin{itemize}
-	\item \verb|AND(x, y)|: 1 se $x = y = 1$, 0 altrimenti.
-	\item \verb|OR(x,y)|: 0 se $x = y = 0$, 1 altrimenti.
-	\item \verb|NOT(x)|: 1 se $x = 0$, 0 se $x = 1$.
+	\item \verb|AND(x,y)|: 1 se \verb|x=y=1|, 0 altrimenti.
+	\item \verb|OR(x,y)|: 0 se \verb|x=y=0|, 1 altrimenti.
+	\item \verb|NOT(x)|: 1 se \verb|x=0|, 0 se \verb|x=1|.
 \end{itemize}
 Altro strumento utile per capire meglio come funzionano tali porte e per vedere come funzionano
 altre porte che risultano essere una combinazione di esse, sono le \textbf{tabelle di verità}.
@@ -20,4 +20,146 @@ Per esempio, la tabella di verità di una porta logica \verb|AND| è la seguente
 		1 & 0 & 0 \\
 		1 & 1 & 1
 	\end{tabular}
+\end{center}
+Per una questione legata alla circuiteria sottostante e alla leggi fisiche che regolano il
+funzionamento dei transistor, il numero di ingressi delle porte è, in genere, al più 8 poiché
+averne di più introduce troppo ritardo nell'elaborazione dei segnali.
+
+Quello che useremo d'ora in poi saranno delle funzioni che hanno un certo numero di ingressi e
+uscite booleani che realizzeremo come \textbf{reti combinatorie}, ossia composizioni di porte
+\verb|AND|, \verb|OR| e \verb|NOT| a seconda delle necessità.
+
+Supponiamo ad esempio di voler calcolare il numero di bit a 1 su 2 ingressi, ciascuno da 1 bit. In
+questo caso i possibili valori di output sono 3 (0, 1 e 2) e abbiamo quindi bisogno di un numero
+di uscite pari a $\lceil \log_2 (3) \rceil = 2$ uscite. La tabella di verità del nostro circuito
+avrà la seguente tabella di verità
+\begin{center}
+	\begin{tabular}{c c | c c}
+		$x_0$ & $x_1$ & $z_0$ & $z_1$ \\ \hline
+		0     & 0     & 0     & 0     \\
+		0     & 1     & 0     & 1     \\
+		1     & 0     & 0     & 1     \\
+		1     & 1     & 1     & 0
+	\end{tabular}
+\end{center}
+Per trovare il circuito desiderato c'è una procedura standard, la quale utilizza il fatto che un
+\verb|AND| logico corrisponde al prodotto tra due numeri mentre l'\verb|OR| logico corrisponde alla
+somma:
+\begin{enumerate}
+	\item Per ogni riga in cui una delle colonne d'uscita presenta almeno un 1 mettiamo in
+	      \verb|AND| gli ingressi, negandoli se uguali a 0.
+	\item Per ogni colonna si mettono in \verb|OR| tutti i risultati ottenuti al passo precedente.
+\end{enumerate}
+Nel nostro caso la colonna $z_0$ ha un 1 sull'ultima riga e i relativi valori di $x_0$ e $x_1$ sono
+entrambi 1 quindi possiamo dire che
+\[ z_0 = x_0 \cdot x_1 \]
+ossia
+\begin{center}
+	\verb|z0 = AND(x0, x1)|
+\end{center}
+Per quanto riguarda invece la colonna $z_1$ abbiamo due 1 e in corrispondenza della seconda e terza
+riga. Ma in entrambi i casi uno dei due valori in ingresso è 0 e l'altro è 1 e dunque il risultato
+finale è
+\[ z_1 = \bar{x_0} \cdot x_1 + x_0 \cdot \bar{x_1} \]
+ossia
+\begin{center}
+	\verb|z1 = OR(AND(NOT(x0), x1), AND(x0, NOT(x1)))|
+\end{center}
+Il circuito logico che ne deriva è il seguente
+
+% \begin{tikzpicture}[label distance=2mm]
+
+% 	\node (x3) at (0,0) {$x_3$};
+% 	\node (x2) at (1,0) {$x_2$};
+% 	\node (x1) at (2,0) {$x_1$};
+% 	\node (x0) at (3,0) {$x_0$};
+
+% 	\node[not gate US, draw, rotate=-90] at ($(x2)+(0.5,-1)$) (Not2) {};
+% 	\node[not gate US, draw, rotate=-90] at ($(x1)+(0.5,-1)$) (Not1) {};
+% 	\node[not gate US, draw, rotate=-90] at ($(x0)+(0.5,-1)$) (Not0) {};
+
+% 	\node[or gate US, draw, logic gate inputs=nnn] at ($(x0)+(2,-2)$) (Or1) {};
+% 	\node[or gate US, draw, logic gate inputs=nnnn] at ($(Or1)+(0,-1)$) (Or2) {};
+% 	\node[or gate US, draw, logic gate inputs=nnn] at ($(Or2)+(0,-1)$) (Or3) {};
+% 	\node[xor gate US, draw, logic gate inputs=nn] at ($(Or3)+(0,-1)$) (Xor1) {};
+% 	\node[and gate US, draw, logic gate inputs=nn, anchor=input 1] at ($(Or3.output)+(1,0)$) (And1) {};
+% 	\node[nor gate US, draw, logic gate inputs=nn, anchor=input 1] at ($(Or2.output -| And1.output)+(1,0)$) (Nor1) {};
+% 	\node[and gate US, draw, logic gate inputs=nn, anchor=input 1] at ($(Or1.output -| Nor1.output)+(1,0)$) (And2) {};
+
+% 	\foreach \i in {2,1,0}
+% 		{
+% 			\path (x\i) -- coordinate (punt\i) (x\i |- Not\i.input);
+% 			\draw (punt\i) node[branch] {} -| (Not\i.input);
+% 		}
+% 	\draw (x3) |- (Or2.input 1);
+% 	\draw (x3 |- Or1.input 1) node[branch] {} -- (Or1.input 1);
+% 	\draw (x2) |- (Xor1.input 1);
+% 	\draw (x2 |- Or3.input 1) node[branch] {} -- (Or3.input 1);
+% 	\draw (Not2.output) |- (Or2.input 2);
+% 	\draw (x1) |- (Or3.input 2);
+% 	\draw (x1 |- Or1.input 2) node[branch] {} -- (Or1.input 2);
+% 	\draw (Not1.output) |- (Xor1.input 2);
+% 	\draw (Not1.output |- Or2.input 3) node[branch] {} -- (Or2.input 3);
+% 	\draw (x0) |- (Or2.input 4);
+% 	\draw (Not0.output) |- (Or3.input 3);
+% 	\draw (Not0.output |- Or1.input 3) node[branch] {} -- (Or1.input 3);
+% 	\draw (Or3.output) -- (And1.input 1);
+% 	\draw (Xor1.output) -- ([xshift=0.5cm]Xor1.output) |- (And1.input 2);
+% 	\draw (Or2.output) -- (Nor1.input 1);
+% 	\draw (And1.output) -- ([xshift=0.5cm]And1.output) |- (Nor1.input 2);
+% 	\draw (Or1.output) -- (And2.input 1);
+% 	\draw (Nor1.output) -- ([xshift=0.5cm]Nor1.output) |- (And2.input 2);
+% 	\draw (And2.output) -- ([xshift=0.5cm]And2.output) node[above] {$f_1$};
+
+% \end{tikzpicture}
+
+
+\begin{center}
+	\begin{circuitikz}
+		% gate
+		\node[and port] (and1) at (3.5, -1) {};
+		\node[and port] (and2) at (3.5, -2.5) {};
+		\node[and port] (and3) at (3.5, -4) {};
+		\node[or port] (or) at (6, -3.25) {};
+
+		% connessioni
+		\draw (0, 0) node[label=above:$x_0$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and2.in 1) to[short, -o] (and2.in 1);
+		\draw (0, 52 |- and2.in 1) to[short, -*] (0, 52 |- and3.in 1) -- (and3.in 1);
+
+		\draw (1, 0) node[label=above:$x_1$] {} to[short, -*] (1, 52 |- and1.in 2) -- (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+		\draw (1, 52 |- and2.in 2) to[short, -*] (1, 52 |- and3.in 2) to[short, -o] (and3.in 2);
+
+		\draw (and2.out) |- (or.in 1);
+		\draw (and3.out) |- (or.in 2);
+
+		\draw (and1.out) -- (6.5, 52 |- and1.out) node[label=above:$z_0$] {};
+		\draw (or.out) -- (6.5, 52 |- or.out) node[label=above:$z_1$] {};
+	\end{circuitikz}
+\end{center}
+sul quale è possibile provare ad inserire vari input di $x_0$ e $x_1$ per verificarne la
+correttezza.
+
+Supponiamo ora di dover scegliere uno tra due ingressi possibili a seconda di un ingresso di
+controllo regolato da un \textbf{multiplexer}. La nostra tabella di verità ssarà qualcosa del tipo
+\begin{center}
+	\begin{tabular}{c c c | c}
+		$x_0$ & $x_1$ & $c$ & $z$ \\ \hline
+		0     & -     & 0   & 0   \\
+		1     & -     & 0   & 1   \\
+		-     & 0     & 1   & 0   \\
+		-     & 1     & 1   & 1
+	\end{tabular}
+\end{center}
+che se notiamo da come risultato il valore di $x_0$ quando $c=0$ e da come risultato il valore
+$x_1$ quando $c=1$. Il circuito che ne deriva è di questo tipo
+\begin{center}
+	\begin{circuitikz}
+		\draw[thick] (0, -1) -- (0, 1) -- (1, 0.5) -- (1, -0.5) -- cycle;
+		\draw (-1, 0.5) node[label=left:$x_0$] {} -- (0, 0.5);
+		\draw (-1, -0.5) node[label=left:$x_1$] {} -- (0, -0.5);
+		\draw (0.5, 1.5) node[label=above:$c$] {} -- (0.5, 0.75);
+		\draw (1, 0) -- (2, 0) node[label=right:$z$] {};
+	\end{circuitikz}
 \end{center}
