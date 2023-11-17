@@ -47,7 +47,178 @@ Passando così ad una formula che ci permette di implementare un circuito tramit
 	 & = \bar{b} \bar{c} (\bar{a} + a) + a \bar{b} (c + \bar{c}) = \bar{b} \bar{c} + a \bar{b}
 \end{align*}
 ottenendo così la possibilità di implementare un circuito tramite due porte \verb|AND2| e una porta
-\verb|OR2|.
+\verb|OR2|. Come possiamo vedere, a seconda di come usiamo queste proprietà, è possibile diminuire
+notevolmente la dimensione dei circuiti e quindi la complessità di ciò che stiamo calcolando.
+\begin{center}
+	\begin{circuitikz}
+		% gates
+		\node[and port] (and1) at (3.5, 1) {};
+		\node[and port] (and2) at (3.5, -1) {};
+		\node[or port] (or) at (5.5, 0) {};
 
-Come possiamo vedere, a seconda di come usiamo queste proprietà, è possibile diminuire notevolmente
-la dimensione dei circuiti e quindi la complessità di ciò che stiamo calcolando.
+		\draw (0, 2) node[label=above:$a$] {} to[short, -*] (0, 52 |- and2.in 1) -- (and2.in 1);
+		\draw (0.5, 2) node[label=above:$b$] {} to[short, -*] (0.5, 52 |- and1.in 1) to[short, -o] (and1.in 1);
+		\draw (0.5, 52 |- and1.in 1) to[short, -*] (0.5, 52 |- and2.in 2) to[short, -o] (and2.in 2);
+		\draw (1, 2) node[label=above:$c$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
+
+		\draw (and1.out) |- (or.in 1);
+		\draw (and2.out) |- (or.in 2);
+	\end{circuitikz}
+\end{center}
+A questo punto sarebbe possibile semplificare ulteriormente la formula raccogliendo $\bar{b}$ e
+implementando il circuito descritto da
+\[ \bar{b} \cdot (\bar{c} + a) \]
+ma questo introduce un problema in quanto il circuito generato è asimmetrico, ossia i segnali in
+ingresso non attraversano tutti lo stesso numero di porte come possiamo vedere in figura
+\begin{center}
+	\begin{circuitikz}
+		\node[or port] (or) at (3.5, 1) {};
+		\node[and port] (and) at (5.5, 0) {};
+
+		\draw (0, 2) node[label=above:$a$] {} to[short, -*] (0, 52 |- or.in 1) -- (or.in 1);
+		\draw (0.5, 2) node[label=above:$b$] {} to[short, -*] (0.5, 52 |- and.in 2) to[short, -o] (and.in 2);
+		\draw (1, 2) node[label=above:$c$] {} to[short, -*] (1, 52 |- or.in 2) to[short, -o] (or.in 2);
+
+		\draw (or.out) |- (and.in 1);
+	\end{circuitikz}
+\end{center}
+Questo si traduce in un intervallo di tempo in cui la porta \verb|AND| riceve, da una parte il
+vecchio segnale trasmesso dalla porta \verb|OR| prodotto al calcolo precedente, dall'altra l'ultimo
+segnale prodotto dall'ingresso $b$.
+
+Fino a che la porta \verb|OR| non finisce di elaborare i segnali in arrivo da $a$ e $c$ la porta
+\verb|AND| potrebbe produrre risultati errati, dovuti a quello che viene chiamato \textbf{glitch}.
+
+\subsection{Mappe di Karnaugh}
+Come abbiamo appena visto, non sempre ridurre la complessità della nostra formula in modo
+\emph{monotòno} ci porta alla migliore ottimizzazione. A volte conviene aumentare la complessità
+per poi giungere ad un modello migliore.
+
+Le \textbf{mappe di Karnaugh} forniscono un metodo grafico per riuscire a semplificare le formule
+booleane senza però garantire la miglior minimizzazione di quest'ultime. Nell'esempio di prima
+abbiamo una funzione booleana con la seguente tabella di verità
+\begin{center}
+	\begin{tabular}{c c c | c}
+		$a$ & $b$ & $c$ & $f(a,b,c)$ \\ \hline
+		0   & 0   & 0   & 1          \\
+		0   & 0   & 1   & 0          \\
+		0   & 1   & 0   & 0          \\
+		0   & 1   & 1   & 0          \\
+		1   & 0   & 0   & 1          \\
+		1   & 0   & 1   & 1          \\
+		1   & 1   & 0   & 0          \\
+		1   & 1   & 1   & 0
+	\end{tabular}
+\end{center}
+che possiamo rappresentare in forma più compatta tramite la seguente mappa di Karnaugh
+\begin{center}
+	\begin{tabular}{| c | c | c | c | c |}
+		\hline
+		\diagbox{$a$}{$bc$} & 00 & 01 & 11 & 10 \\ \hline
+		0                   & 1  & 0  & 0  & 0  \\ \hline
+		1                   & 1  & 1  & 0  & 0  \\ \hline
+	\end{tabular}
+\end{center}
+ottenuta prendendo tutti i possibili valori di $a$ e mettendoli nella prima colonna e poi prendendo
+tutti i possibili valori della coppia $bc$ e mettendoli sulla prima riga disponendoli in modo che
+ogni valore differisca dal precedente al più di un bit.
+
+Il nostro obbiettivo è quello di individuare i quadrati o rettangoli contenenti un numero di 1 pari
+ad una potenza di 2 e raggrupparli. Per tale raggruppamento è possibile
+\begin{itemize}
+	\item Uscire dalla tabella e rientrare dall'altra parte se ho degli 1 agli estremi.
+	\item Includere degli 1 già raccolti in un precedente raggruppamento.
+\end{itemize}
+Nel nostro caso abbiamo due rettangoli da due 1: il primo verticale che prende la prima colonna per
+intero e il secondo orizzontale che prende la prima metà della seconda riga. A questo punto siamo
+in grado di semplificare la formula di partenza
+\begin{enumerate}
+	\item Mettendo in \verb|AND| le variabili facenti parte dello stesso raggruppamento che
+	      rimangono costanti e negando quelle con valore 0.
+	\item Sommando tra di loro i raggruppamenti.
+\end{enumerate}
+Otteniamo così la formula ottenuta in precedenza con le proprietà dell'algebra booleana
+\[ \bar{b} \bar{c} + a \bar{b} \]
+in modo meccanico. Il primo termine della somma è ottenuto prendendo in considerazione il
+raggruppamento verticale di 1 e considerando che $b$ e $c$ non variano ed essendo a 0 vengono
+negati. Il secondo termini si ottiene similmente notando che $a$ e $b$ sono la parte costante del
+raggruppamento ed inoltre $b$ è a 0 e dunque deve essere negato.
+
+Prendiamo ora come esempio un \textbf{sommatore} di 2 bit con riporto, il cui funzionamento dipende
+da tre parametri di ingresso: $x_1$ e $x_2$ i bit che vogliamo sommare e $r_0$ il possibile riporto
+da aggiungere. Abbiamo inoltre due uscite: il risultato $s$ della somma e il possibile riporto $r_1$
+generato da essa.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0, 0) rectangle (2, 1.5);
+
+		\draw (0.5, 2) node[label=above:$x_1$] {} to[short, o-] (0.5, 1.5);
+		\draw (1.5, 2) node[label=above:$x_2$] {} to[short, o-] (1.5, 1.5);
+		\draw (2.5, 0.75) node[label=right:$r_0$] {} to[short, o-] (2, 0.75);
+		\draw (0, 0.75) -- (-0.5, 0.75) -- (-0.5, -0.75) node[label=below:$r_1$] {};
+		\draw (1, 0) -- (1, -0.75) node[label=below:$s$] {};
+	\end{tikzpicture}
+\end{center}
+In questo caso la tabella di verità di tale oggetto è
+\begin{center}
+	\begin{tabular}{c c c | c | c }
+		$x_1$ & $x_2$ & $r_0$ & $s$ & $r_1$ \\ \hline
+		0     & 0     & 0     & 0   & 0     \\
+		0     & 0     & 1     & 1   & 0     \\
+		0     & 1     & 0     & 1   & 0     \\
+		0     & 1     & 1     & 0   & 1     \\
+		1     & 0     & 0     & 1   & 0     \\
+		1     & 0     & 1     & 0   & 1     \\
+		1     & 1     & 0     & 0   & 1     \\
+		1     & 1     & 1     & 1   & 1
+	\end{tabular}
+\end{center}
+La mappa di Karnaugh per $s$ risulta la seguente
+\begin{center}
+	\begin{tabular}{| c | c | c | c | c |}
+		\hline
+		\diagbox{$r_0$}{$x_1 x_2$} & 00 & 01 & 11 & 10 \\ \hline
+		0                          & 0  & 1  & 0  & 1  \\ \hline
+		1                          & 1  & 0  & 1  & 0  \\ \hline
+	\end{tabular}
+\end{center}
+da cui ricaviamo l'espressione booleana
+\[ r_0 \bar{x_1} \bar{x_2} + \bar{r_0} \bar{x_1} x_2 + r_0 x_1 x_2 + \bar{r_0} x_1 \bar{x_2} \]
+La mappa di Karnaugh per $r_1$ risulta invece essere
+\begin{center}
+	\begin{tabular}{| c | c | c | c | c |}
+		\hline
+		\diagbox{$r_0$}{$x_1 x_2$} & 00 & 01 & 11 & 10 \\ \hline
+		0                          & 0  & 0  & 1  & 0  \\ \hline
+		1                          & 0  & 1  & 1  & 1  \\ \hline
+	\end{tabular}
+\end{center}
+da cui ricaviamo l'espressione booleana
+\[ x_1 x_2 + r_0 x_2 + r_0 x_1 \]
+implementata dal seguente circuito
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (3.5, 1.5) {};
+		\node[and port] (and2) at (3.5, 0) {};
+		\node[and port] (and3) at (3.5, -1.5) {};
+		\node[or port, number inputs=3] (or) at (5.5, 0) {};
+
+		\draw (0, 2) node[label=above:$x_1$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and3.in 2) -- (and3.in 2);
+
+		\draw (0.5, 2) node[label=above:$x_2$] {} to[short, -*] (0.5, 52 |- and1.in 2) -- (and1.in 2);
+		\draw (0.5, 52 |- and1.in 2) to[short, -*] (0.5, 52 |- and2.in 2) -- (and2.in 2);
+
+		\draw (1, 2) node[label=above:$r_0$] {} to[short, -*] (1, 52 |- and2.in 1) -- (and2.in 1);
+		\draw (1, 52 |- and2.in 1) to[short, -*] (1, 52 |- and3.in 1) -- (and3.in 1);
+
+		\draw (and1.out) -- (or.in 1);
+		\draw (and2.out) -- (or.in 2);
+		\draw (and3.out) -- (or.in 3);
+		\draw (or.out) --++ (0.5, 0) node[label=right:$r_1$] {};
+	\end{circuitikz}
+\end{center}
+Per riassumere possiamo usare sia le regole e gli assiomi dell'algebra booleana per semplificare le
+formule ma questo potrebbe portarci sia alla minima forma possibile sia ad un'espressione più
+complessa. Con le mappe di Karnaugh non abbiamo la certezza di ottenere la miglior minimizzazione
+ma ci offre un modo meccanico per ridurre la complessità.
