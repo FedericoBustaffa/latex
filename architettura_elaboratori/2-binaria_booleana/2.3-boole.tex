@@ -110,18 +110,10 @@ abbiamo una funzione booleana con la seguente tabella di verità
 		1   & 1   & 1   & 0
 	\end{tabular}
 \end{center}
-che possiamo rappresentare in forma più compatta tramite la seguente mappa di Karnaugh
-\begin{center}
-	\begin{tabular}{| c | c | c | c | c |}
-		\hline
-		\diagbox{$a$}{$bc$} & 00 & 01 & 11 & 10 \\ \hline
-		0                   & 1  & 0  & 0  & 0  \\ \hline
-		1                   & 1  & 1  & 0  & 0  \\ \hline
-	\end{tabular}
-\end{center}
-ottenuta prendendo tutti i possibili valori di $a$ e mettendoli nella prima colonna e poi prendendo
-tutti i possibili valori della coppia $bc$ e mettendoli sulla prima riga disponendoli in modo che
-ogni valore differisca dal precedente al più di un bit.
+Da questa tabella possiamo ricavare una mappa di Karnaugh prendendo tutti i possibili valori di $a$
+e mettendoli nella prima colonna e poi prendendo tutti i possibili valori della coppia $bc$ e
+mettendoli sulla prima riga, disponendoli in modo che ogni valore differisca dal precedente al più
+di un bit.
 
 Il nostro obbiettivo è quello di individuare i quadrati o rettangoli contenenti un numero di 1 pari
 ad una potenza di 2 e raggrupparli. Per tale raggruppamento è possibile
@@ -130,7 +122,16 @@ ad una potenza di 2 e raggrupparli. Per tale raggruppamento è possibile
 	\item Includere degli 1 già raccolti in un precedente raggruppamento.
 \end{itemize}
 Nel nostro caso abbiamo due rettangoli da due 1: il primo verticale che prende la prima colonna per
-intero e il secondo orizzontale che prende la prima metà della seconda riga. A questo punto siamo
+intero e il secondo orizzontale che prende la prima metà della seconda riga.
+\begin{center}
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\maxterms{1, 2, 3, 6, 7}
+\minterms{0, 4, 5}
+\implicant{0}{4}
+\implicant{4}{5}
+\end{karnaugh-map}
+\end{center}
+A questo punto siamo
 in grado di semplificare la formula di partenza
 \begin{enumerate}
 	\item Mettendo in \verb|AND| le variabili facenti parte dello stesso raggruppamento che
@@ -173,29 +174,37 @@ In questo caso la tabella di verità di tale oggetto è
 		1     & 1     & 1     & 1   & 1
 	\end{tabular}
 \end{center}
-La mappa di Karnaugh per $s$ risulta la seguente
-\begin{center}
-	\begin{tabular}{| c | c | c | c | c |}
-		\hline
-		\diagbox{$r_0$}{$x_1 x_2$} & 00 & 01 & 11 & 10 \\ \hline
-		0                          & 0  & 1  & 0  & 1  \\ \hline
-		1                          & 1  & 0  & 1  & 0  \\ \hline
-	\end{tabular}
-\end{center}
-da cui ricaviamo l'espressione booleana
-\[ r_0 \bar{x_1} \bar{x_2} + \bar{r_0} \bar{x_1} x_2 + r_0 x_1 x_2 + \bar{r_0} x_1 \bar{x_2} \]
-La mappa di Karnaugh per $r_1$ risulta invece essere
-\begin{center}
-	\begin{tabular}{| c | c | c | c | c |}
-		\hline
-		\diagbox{$r_0$}{$x_1 x_2$} & 00 & 01 & 11 & 10 \\ \hline
-		0                          & 0  & 0  & 1  & 0  \\ \hline
-		1                          & 0  & 1  & 1  & 1  \\ \hline
-	\end{tabular}
-\end{center}
-da cui ricaviamo l'espressione booleana
-\[ x_1 x_2 + r_0 x_2 + r_0 x_1 \]
-implementata dal seguente circuito
+Le mappe di Karnaugh per $s$ ed $r_1$ risultano le seguenti
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\centering
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\minterms{1,2,4,7}
+\maxterms{0,3,5,6}
+\implicant{1}{1}
+\implicant{2}{2}
+\implicant{4}{4}
+\implicant{7}{7}
+\end{karnaugh-map}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\minterms{3,5,7,6}
+\maxterms{0,1,2,4}
+\implicant{3}{7}
+\implicant{7}{6}
+\implicant{5}{6}
+\end{karnaugh-map}
+\end{subfigure}
+\end{figure}
+
+Da tali mappe di Karnaugh ricaviamo le seguenti formule per $s$ ed $r_1$
+\begin{align*}
+	s   & = r_0 \bar{x_1} \bar{x_2} + \bar{r_0} \bar{x_1} x_2 + r_0 x_1 x_2 + \bar{r_0} x_1 \bar{x_2} \\
+	r_1 & = x_1 x_2 + r_0 x_2 + r_0 x_1
+\end{align*}
+Di seguito raffiguriamo il circuito ricavato dalla formula per $r_1$.
 \begin{center}
 	\begin{circuitikz}
 		\node[and port] (and1) at (3.5, 1.5) {};
