@@ -152,6 +152,7 @@ generato da essa.
 \begin{center}
 	\begin{tikzpicture}
 		\draw[thick] (0, 0) rectangle (2, 1.5);
+		\node (label) at (1, 0.75) {ADD};
 
 		\draw (0.5, 2) node[label=above:$x_1$] {} to[short, o-] (0.5, 1.5);
 		\draw (1.5, 2) node[label=above:$x_2$] {} to[short, o-] (1.5, 1.5);
@@ -231,3 +232,55 @@ Per riassumere possiamo usare sia le regole e gli assiomi dell'algebra booleana 
 formule ma questo potrebbe portarci sia alla minima forma possibile sia ad un'espressione più
 complessa. Con le mappe di Karnaugh non abbiamo la certezza di ottenere la miglior minimizzazione
 ma ci offre un modo meccanico per ridurre la complessità.
+
+Vogliamo ora implementare un \textbf{moltiplicatore} che moltiplica due sequenze da 2 bit dando
+come risultato una sequenza da 4 bit. Per capire come calcolare tale sequenza possiamo procedere
+tramite una tabella di verità che però, avendo 4 bit di ingresso risulta avere 16 righe. Cerchiamo
+quindi di rappresentare solo le righe significative.
+\begin{center}
+	\begin{tabular}{c c c c | c c c c}
+		$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
+		-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
+		0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
+		      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
+		1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
+		      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
+		1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
+		      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
+		      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
+	\end{tabular}
+\end{center}
+A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ che abbiamo,
+limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\centering
+\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+\minterms{15}
+\maxterms{0,1, 3, 2, 4, 5, 7, 6, 12, 13, 14, 8, 9, 11, 10}
+\implicant{15}{15}
+\end{karnaugh-map}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+\minterms{6, 7, 15, 13, 9, 10}
+\maxterms{0, 1, 3, 2, 4, 5, 12, 14, 8, 11}
+\implicant{7}{15}
+\implicant{7}{6}
+\implicant{13}{9}
+\implicant{10}{10}
+\end{karnaugh-map}
+\end{subfigure}
+\end{figure}
+
+Come possiamo vedere anche dalle formule che seguono, per il calcolo di $z_1$ è sufficiente una
+porta \verb|AND| mentre per il calcolo di $z_3$ sono necessarie 4 porte \verb|AND| e 1 porta
+\verb|OR|. C'è quindi un ritardo tra il calcolo di $z_1$ e $z_3$.
+\begin{align*}
+	z_1 & = x_1 x_2 y_1 y_2                                                                   \\
+	z_3 & = x_1 \bar{y_1} y_2 + x_2 y_1 y_2 + \bar{x_1} x_2 y_1 + x_1 \bar{x_2} y_1 \bar{y_2}
+\end{align*}

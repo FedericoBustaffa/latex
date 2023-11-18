@@ -144,13 +144,14 @@ correttezza.
 Supponiamo ora di dover scegliere uno tra due ingressi possibili a seconda di un ingresso di
 controllo regolato da un \textbf{multiplexer} che ha una forma di questo tipo
 \begin{center}
-	\begin{circuitikz}
-		\draw[thick] (0, -1) -- (0, 1) -- (1, 0.5) -- (1, -0.5) -- cycle;
-		\draw (-1, 0.5) node[label=left:$x_0$] {} -- (0, 0.5);
-		\draw (-1, -0.5) node[label=left:$x_1$] {} -- (0, -0.5);
-		\draw (0.5, 1.5) node[label=above:$c$] {} -- (0.5, 0.75);
-		\draw (1, 0) -- (2, 0) node[label=right:$z$] {};
-	\end{circuitikz}
+	\begin{tikzpicture}
+		\draw[thick] (-1.25, 1) -- (1.25, 1) -- (0.75, 0) -- (-0.75, 0) -- cycle;
+		\node (mux) at (0, 0.5) {MUX};
+		\draw (-0.5, 1.5) node[label=left:$x_0$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=right:$x_1$] {} to[short, o-] (0.5, 1);
+		\draw (-1.75, 0.5) node[label=left:$c$] {} to[short, o-] (-1, 0.5);
+		\draw (0, 0) -- (0, -0.75) node[label=right:$z$] {};
+	\end{tikzpicture}
 \end{center}
 Di fatto dobbiamo implementare un circuito che da come risultato il valore di $x_0$ quando $c=0$ e
 da come risultato il valore di $x_1$ quando $c=1$.
