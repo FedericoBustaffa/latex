@@ -351,3 +351,37 @@ Questo si traduce in un maggior numero di componenti e in un maggior tempo di el
 compenso facciamo uso di due componenti standard che abbiamo già implementato e non dobbiamo
 ricorrere alla costruzione di tabelle di verità, mappe di Karnaugh ecc.
 
+Altro circuito considerato standard è il \textbf{codificatore} il quale ha $n$ bit in ingresso e
+$2^n$ bit in uscita, e mette a 1 solo l'$n$-esimo bit lasciando tutti gli altri a 0. Se ad esempio
+avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-0.8, 1) -- (0.8, 1) -- (1.5, 0) -- (-1.5, 0) -- cycle;
+		\node (mux) at (0, 0.5) {ENCODER};
+
+		\draw (-0.5, 1.5) node[label=above:$x_1$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=above:$x_2$] {} to[short, o-] (0.5, 1);
+
+		\draw (-1.25, 0) -- (-1.25, -0.5) node[label=below:$z_1$] {};
+		\draw (-0.5, 0) -- (-0.5, -0.5) node[label=below:$z_2$] {};
+		\draw (0.5, 0) -- (0.5, -0.5) node[label=below:$z_3$] {};
+		\draw (1.25, 0) -- (1.25, -0.5) node[label=below:$z_4$] {};
+	\end{tikzpicture}
+\end{center}
+e la tabella di verità corrispondente sarebbe la solita
+\begin{center}
+	\begin{tabular}{c c | c c c c}
+		$x_1$ & $x_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		0     & 0     & 1     & 0     & 0     & 0     \\
+		0     & 1     & 0     & 1     & 0     & 0     \\
+		1     & 0     & 0     & 0     & 1     & 0     \\
+		1     & 1     & 0     & 0     & 0     & 1
+	\end{tabular}
+\end{center}
+Le formule risultanti da questa tabella sono
+\begin{align*}
+	z_1 & = \bar{x_1} \bar{x_2} \\
+	z_2 & = \bar{x_1} x_2       \\
+	z_3 & = x_1 \bar{x_2}       \\
+	z_4 & = x_1 x_2
+\end{align*}
