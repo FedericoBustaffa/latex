@@ -152,7 +152,7 @@ generato da essa.
 \begin{center}
 	\begin{tikzpicture}
 		\draw[thick] (0, 0) rectangle (2, 1.5);
-		\node (label) at (1, 0.75) {ADD};
+		\node (add) at (1, 0.75) {ADD};
 
 		\draw (0.5, 2) node[label=above:$x_1$] {} to[short, o-] (0.5, 1.5);
 		\draw (1.5, 2) node[label=above:$x_2$] {} to[short, o-] (1.5, 1.5);
@@ -294,5 +294,60 @@ modo
 		1 & 1 & 0
 	\end{tabular}
 \end{center}
-possiamo notare che se il bit al moltiplicatore è 0 allora avrò tutti 0 mentre se abbiamo 1 il
-risultato sarà esattamente il moltiplicando.
+possiamo notare che se il bit al moltiplicatore è 0 allora avremo tutti 0 mentre se abbiamo 1 il
+risultato sarà esattamente il moltiplicando. Possiamo quindi calcolarci separatamente
+$x_1 x_2 \cdot y_1$ e $x_1 x_2 \cdot y_2$ tramite due multiplexer di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-1.25, 1) -- (1.25, 1) -- (0.75, 0) -- (-0.75, 0) -- cycle;
+		\node (mux) at (0, 0.5) {MUX};
+		\draw (-0.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=right:$00$] {} to[short, o-] (0.5, 1);
+		\draw (-1.75, 0.5) node[label=left:$y_i$] {} to[short, o-] (-1, 0.5);
+		\draw (0, 0) -- (0, -0.75);
+	\end{tikzpicture}
+\end{center}
+Dove $x_1 x_2$ è un ingresso da 2 bit e dove l'altro ingresso è la costante 00. Questo multiplexer
+effettua esattamente la scelta di cui abbiamo parlato prima: se $y_i = 0$ dà come risultato 00, se
+invece $y_i = 1$ dà come risultato $x_1 x_2$.
+
+Per implementare un moltiplicare $2 \times 2$ dobbiamo sostanzialmente affiancare due di questi
+multiplexer, uno per $y_1$ e uno per $y_2$, aggiungere degli zeri dove necessario e poi effettuare
+una somma con un bit di riporto $R$ che viene messo in cima alla sequenza generata. Il circuito che
+ne risulta è un qualcosa di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-4.25, 1) -- (-1.75, 1) -- (-2.25, 0) -- (-3.75, 0) -- cycle;
+		\node (mux) at (-3, 0.5) {MUX};
+		\draw (-3.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (-3.5, 1);
+		\draw (-2.5, 1.5) node[label=right:$00$] {} to[short, o-] (-2.5, 1);
+		\draw (-4.75, 0.5) node[label=left:$y_1$] {} to[short, o-] (-4, 0.5);
+		\draw (-3, 0) -- (-3, -1) node[label=above left:$z_1 z_2$] {};
+
+		\draw[thick] (4.25, 1) -- (1.75, 1) -- (2.25, 0) -- (3.75, 0) -- cycle;
+		\node (mux) at (3, 0.5) {MUX};
+		\draw (2.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (2.5, 1);
+		\draw (3.5, 1.5) node[label=right:$00$] {} to[short, o-] (3.5, 1);
+		\draw (4.75, 0.5) node[label=right:$y_2$] {} to[short, o-] (4, 0.5);
+		\draw (3, 0) -- (3, -1) node[label=above right:$z_3 z_4$] {};
+
+		\draw (-1.5, -0.5) node[label=right:$0$] {} to[short, o-] (-1.5, -1) to[short, -*] (-2.25, -1);
+		\draw (-3, -1) -- (-2.25, -1) -- (-2.25, -1.75) -- (-0.5, -1.75) -- (-0.5, -2.5);
+
+		\draw (1.5, -0.5) node[label=left:$0$] {} to[short, o-] (1.5, -1) to[short, -*] (2.25, -1);
+		\draw (3, -1) -- (2.25, -1) -- (2.25, -1.75) -- (0.5, -1.75) -- (0.5, -2.5);
+
+		\draw[thick] (-1, -2.5) rectangle (1, -3.75);
+		\node (add) at (0, -3.125) {ADD};
+		\draw (0, -3.75) -- (0, -4.25);
+		\draw (-1, -3.125) -- (-1.5, -3.125) -- node[label=left:$r$] {} (-1.5, -4.25);
+	\end{tikzpicture}
+\end{center}
+In questo modo, dato che, come abbiamo visto in precendenza, sia il multiplexer che l'addizionatore
+sono implementati tramite un circuito a due livelli di porte logiche abbiamo in totale un circuito
+costituito da quattro livelli di porte logiche.
+
+Questo si traduce in un maggior numero di componenti e in un maggior tempo di elaborazione ma in
+compenso facciamo uso di due componenti standard che abbiamo già implementato e non dobbiamo
+ricorrere alla costruzione di tabelle di verità, mappe di Karnaugh ecc.
+
