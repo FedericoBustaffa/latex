@@ -385,3 +385,28 @@ Le formule risultanti da questa tabella sono
 	z_3 & = x_1 \bar{x_2}       \\
 	z_4 & = x_1 x_2
 \end{align*}
+da cui si ricava il seguente circuito
+\begin{center}
+	\begin{circuitikz}
+		% gates
+		\node[and port] (and1) at (3.5, 3) {};
+		\node[and port] (and2) at (3.5, 1) {};
+		\node[and port] (and3) at (3.5, -1) {};
+		\node[and port] (and4) at (3.5, -3) {};
+
+		\draw (0, 4) node[label=above:$x_1$] {} to[short, -*] (0, 52 |- and1.in 1) to[short, -o] (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and2.in 1) to[short, -o] (and2.in 1);
+		\draw (0, 52 |- and2.in 1) to[short, -*] (0, 52 |- and3.in 1) -- (and3.in 1);
+		\draw (0, 52 |- and3.in 1) to[short, -*] (0, 52 |- and4.in 1) -- (and4.in 1);
+
+		\draw (1, 4) node[label=above:$x_2$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+		\draw (1, 52 |- and2.in 2) to[short, -*] (1, 52 |- and3.in 2) to[short, -o] (and3.in 2);
+		\draw (1, 52 |- and3.in 2) to[short, -*] (1, 52 |- and4.in 2) -- (and4.in 2);
+
+		\draw (and1.out) --++ (0.5, 0) node[label=right:$z_1$] {};
+		\draw (and2.out) --++ (0.5, 0) node[label=right:$z_2$] {};
+		\draw (and3.out) --++ (0.5, 0) node[label=right:$z_3$] {};
+		\draw (and4.out) --++ (0.5, 0) node[label=right:$z_4$] {};
+	\end{circuitikz}
+\end{center}
