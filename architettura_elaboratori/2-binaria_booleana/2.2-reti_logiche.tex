@@ -1,4 +1,156 @@
-\section{Algebra di Boole}
+\section{Reti logiche}
+Nel corso non andremo a trattare l'ultimo livello di astrazione, ossia quello più basso, ma andremo
+a trattare lo strato soprastante, che tramite delle \textbf{porte logiche} e delle operazioni
+aritmetiche binarie riesce a rappresentare quello che succede. Le tre operazioni implmentate dalle
+porte logiche sono
+\begin{itemize}
+	\item \verb|AND(x,y)|: 1 se \verb|x=y=1|, 0 altrimenti.
+	\item \verb|OR(x,y)|: 0 se \verb|x=y=0|, 1 altrimenti.
+	\item \verb|NOT(x)|: 1 se \verb|x=0|, 0 se \verb|x=1|.
+\end{itemize}
+Altro strumento utile per capire meglio come funzionano tali porte e per vedere come funzionano
+altre porte che risultano essere una combinazione di esse, sono le \textbf{tabelle di verità}.
+Nelle tabelle di verità immettiamo tutti i possibili valori di input e calcoliamo i relativi output.
+Per esempio, la tabella di verità di una porta logica \verb|AND| è la seguente
+\begin{center}
+	\begin{tabular}{c c | c}
+		x & y & z \\ \hline
+		0 & 0 & 0 \\
+		0 & 1 & 0 \\
+		1 & 0 & 0 \\
+		1 & 1 & 1
+	\end{tabular}
+\end{center}
+Per una questione legata alla circuiteria sottostante e alla leggi fisiche che regolano il
+funzionamento dei transistor, il numero di ingressi delle porte è, in genere, al più 8 poiché
+averne di più introduce troppo ritardo nell'elaborazione dei segnali.
+
+Quello che useremo d'ora in poi saranno delle funzioni che hanno un certo numero di ingressi e
+uscite booleani che realizzeremo come \textbf{reti combinatorie}, ossia composizioni di porte
+\verb|AND|, \verb|OR| e \verb|NOT| a seconda delle necessità.
+
+Supponiamo ad esempio di voler calcolare il numero di bit a 1 su 2 ingressi, ciascuno da 1 bit. In
+questo caso i possibili valori di output sono 3 (0, 1 e 2) e abbiamo quindi bisogno di un numero
+di uscite pari a $\lceil \log_2 (3) \rceil = 2$ uscite. La tabella di verità del nostro circuito
+avrà la seguente tabella di verità
+\begin{center}
+	\begin{tabular}{c c | c c}
+		$x_0$ & $x_1$ & $z_0$ & $z_1$ \\ \hline
+		0     & 0     & 0     & 0     \\
+		0     & 1     & 0     & 1     \\
+		1     & 0     & 0     & 1     \\
+		1     & 1     & 1     & 0
+	\end{tabular}
+\end{center}
+Per trovare il circuito desiderato c'è una procedura standard, la quale utilizza il fatto che un
+\verb|AND| logico corrisponde al prodotto tra due numeri mentre l'\verb|OR| logico corrisponde alla
+somma:
+\begin{enumerate}
+	\item Per ogni riga in cui una delle colonne d'uscita presenta almeno un 1 mettiamo in
+	      \verb|AND| gli ingressi, negandoli se uguali a 0.
+	\item Per ogni colonna si mettono in \verb|OR| tutti i risultati ottenuti al passo precedente.
+\end{enumerate}
+Nel nostro caso la colonna $z_0$ ha un 1 sull'ultima riga e i relativi valori di $x_0$ e $x_1$ sono
+entrambi 1 quindi possiamo dire che
+\[ z_0 = x_0 \cdot x_1 \]
+ossia
+\begin{center}
+	\verb|z0 = AND(x0, x1)|
+\end{center}
+Per quanto riguarda invece la colonna $z_1$ abbiamo due 1 e in corrispondenza della seconda e terza
+riga. Ma in entrambi i casi uno dei due valori in ingresso è 0 e l'altro è 1 e dunque il risultato
+finale è
+\[ z_1 = \bar{x_0} \cdot x_1 + x_0 \cdot \bar{x_1} \]
+ossia
+\begin{center}
+	\verb|z1 = OR(AND(NOT(x0), x1), AND(x0, NOT(x1)))|
+\end{center}
+Il circuito logico che ne deriva è il seguente
+\begin{center}
+	\begin{circuitikz}
+		% gate
+		\node[and port] (and1) at (3.5, -1) {};
+		\node[and port] (and2) at (3.5, -2.5) {};
+		\node[and port] (and3) at (3.5, -4) {};
+		\node[or port] (or) at (5.5, -3.25) {};
+
+		% connessioni
+		\draw (0, 0) node[label=above:$x_0$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and2.in 1) to[short, -o] (and2.in 1);
+		\draw (0, 52 |- and2.in 1) to[short, -*] (0, 52 |- and3.in 1) -- (and3.in 1);
+
+		\draw (1, 0) node[label=above:$x_1$] {} to[short, -*] (1, 52 |- and1.in 2) -- (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+		\draw (1, 52 |- and2.in 2) to[short, -*] (1, 52 |- and3.in 2) to[short, -o] (and3.in 2);
+
+		\draw (and2.out) |- (or.in 1);
+		\draw (and3.out) |- (or.in 2);
+
+		\draw (and1.out) -- (6.5, 52 |- and1.out) node[label=above:$z_0$] {};
+		\draw (or.out) -- (6.5, 52 |- or.out) node[label=above:$z_1$] {};
+	\end{circuitikz}
+\end{center}
+sul quale è possibile provare ad inserire vari input di $x_0$ e $x_1$ per verificarne la
+correttezza.
+
+\subsubsection{Multiplexer}
+Supponiamo ora di dover scegliere uno tra due ingressi possibili a seconda di un ingresso di
+controllo regolato da un \textbf{multiplexer} che ha una forma di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-1.25, 1) -- (1.25, 1) -- (0.75, 0) -- (-0.75, 0) -- cycle;
+		\node (mux) at (0, 0.5) {MUX};
+		\draw (-0.5, 1.5) node[label=left:$x_0$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=right:$x_1$] {} to[short, o-] (0.5, 1);
+		\draw (-1.75, 0.5) node[label=left:$c$] {} to[short, o-] (-1, 0.5);
+		\draw (0, 0) -- (0, -0.75) node[label=right:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Di fatto dobbiamo implementare un circuito che da come risultato il valore di $x_0$ quando $c=0$ e
+da come risultato il valore di $x_1$ quando $c=1$.
+
+In questo caso abbiamo tre ingressi e un'uscita, dovremmo quindi scrivere una tabella di verità con
+8 righe, ma dato che uno dei valori viene scartato a seconda del valore di $c$ il risultato è una
+tabella più compatta.
+
+Avere una tabella più compatta significa anche avere un circuito più compatto e con meno componenti.
+Questo si traduce in un minor numero di nodi di calcolo e quindi una computazione più veloce, ma
+anche in un minor consumo di energia e minor bisogno di spazio sul processore.
+\begin{center}
+	\begin{tabular}{c c c | c}
+		$x_0$ & $x_1$ & $c$ & $z$ \\ \hline
+		0     & -     & 0   & 0   \\
+		1     & -     & 0   & 1   \\
+		-     & 0     & 1   & 0   \\
+		-     & 1     & 1   & 1
+	\end{tabular}
+\end{center}
+Svolgiamo lo stesso procedimento di prima e ricaviamo un circuito di questo tipo
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (3.5, 0.75) {};
+		\node[and port] (and2) at (3.5, -0.75) {};
+		\node[or port] (or) at (5.5, 0) {};
+
+		% connessioni
+		\draw (0, 1.5) node[label=above:$x_0$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+
+		\draw (0.5, 1.5) node[label=above:$x_1$] {} to[short, -*] (0.5, 52 |- and2.in 1) -- (and2.in 1);
+
+		\draw (1, 1.5) node[label=above:$c$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+
+		\draw (and1.out) |- (or.in 1);
+		\draw (and2.out) |- (or.in 2);
+
+		\draw (or.out) -- (6.5, 52 |- or.out) node[label=above:$z$] {};
+	\end{circuitikz}
+\end{center}
+che calcola esattamente
+\[ z = x_0 \cdot \bar{c} + x_1 \cdot c \]
+ossia il valore del canale scelto dal multiplexer.
+
+\subsection{Algebra di Boole}
 Per introdurre l'\textbf{algebra di Boole} introduciamo i seguenti \textbf{assiomi} che determinano
 il comportamento dell'alfabeto $\{0, 1\}$ in relazione a delle operazioni di base che possiamo
 fare con i suoi elementi.
@@ -145,10 +297,10 @@ raggruppamento verticale di 1 e considerando che $b$ e $c$ non variano ed essend
 negati. Il secondo termini si ottiene similmente notando che $a$ e $b$ sono la parte costante del
 raggruppamento ed inoltre $b$ è a 0 e dunque deve essere negato.
 
-Prendiamo ora come esempio un \textbf{sommatore} di 2 bit con riporto, il cui funzionamento dipende
-da tre parametri di ingresso: $x_1$ e $x_2$ i bit che vogliamo sommare e $r_0$ il possibile riporto
-da aggiungere. Abbiamo inoltre due uscite: il risultato $s$ della somma e il possibile riporto $r_1$
-generato da essa.
+Prendiamo ora come esempio un \textbf{addizionatore} di 2 bit con riporto, il cui funzionament
+dipende da tre parametri di ingresso: $x_1$ e $x_2$ i bit che vogliamo sommare e $r_0$ il possibile
+riporto da aggiungere. Abbiamo inoltre due uscite: il risultato $s$ della somma e il possibile
+riporto $r_1$ generato da essa.
 \begin{center}
 	\begin{tikzpicture}
 		\draw[thick] (0, 0) rectangle (2, 1.5);
@@ -160,20 +312,6 @@ generato da essa.
 		\draw (0, 0.75) -- (-0.5, 0.75) -- (-0.5, -0.75) node[label=below:$r_1$] {};
 		\draw (1, 0) -- (1, -0.75) node[label=below:$s$] {};
 	\end{tikzpicture}
-\end{center}
-In questo caso la tabella di verità di tale oggetto è
-\begin{center}
-	\begin{tabular}{c c c | c | c }
-		$x_1$ & $x_2$ & $r_0$ & $s$ & $r_1$ \\ \hline
-		0     & 0     & 0     & 0   & 0     \\
-		0     & 0     & 1     & 1   & 0     \\
-		0     & 1     & 0     & 1   & 0     \\
-		0     & 1     & 1     & 0   & 1     \\
-		1     & 0     & 0     & 1   & 0     \\
-		1     & 0     & 1     & 0   & 1     \\
-		1     & 1     & 0     & 0   & 1     \\
-		1     & 1     & 1     & 1   & 1
-	\end{tabular}
 \end{center}
 Le mappe di Karnaugh per $s$ ed $r_1$ risultano le seguenti
 \begin{center}
@@ -232,49 +370,53 @@ formule ma questo potrebbe portarci sia alla minima forma possibile sia ad un'es
 complessa. Con le mappe di Karnaugh non abbiamo la certezza di ottenere la miglior minimizzazione
 ma ci offre un modo meccanico per ridurre la complessità.
 
+\subsubsection{Moltiplicatore}
 Vogliamo ora implementare un \textbf{moltiplicatore} che moltiplica due sequenze da 2 bit dando
 come risultato una sequenza da 4 bit. Per capire come calcolare tale sequenza possiamo procedere
 tramite una tabella di verità che però, avendo 4 bit di ingresso risulta avere 16 righe. Cerchiamo
 quindi di rappresentare solo le righe significative.
 \begin{center}
-	\begin{tabular}{c c c c | c c c c}
-		$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
-		0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
-		-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
-		0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
-		      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
-		      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
-		1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
-		      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
-		      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
-		1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
-		      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
-		      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
-	\end{tabular}
+		\begin{tabular}{c c c c | c c c c}
+			$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+			0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
+			-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
+			0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
+			      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
+			      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
+			1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
+			      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
+			      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
+			1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
+			      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
+			      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
+		\end{tabular}
 \end{center}
 A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ che abbiamo,
 limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
-\begin{center}
-\begin{figure}[h!]\centering
-\begin{subfigure}[b]{0.4\textwidth}
-\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
-\minterms{15}
-\maxterms{0,1, 3, 2, 4, 5, 7, 6, 12, 13, 14, 8, 9, 11, 10}
-\implicant{15}{15}
-\end{karnaugh-map}
-\end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
-\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
-\minterms{6, 7, 15, 13, 9, 10}
-\maxterms{0, 1, 3, 2, 4, 5, 12, 14, 8, 11}
-\implicant{7}{15}
-\implicant{7}{6}
-\implicant{13}{9}
-\implicant{10}{10}
-\end{karnaugh-map}
-\end{subfigure}
+% \begin{center}
+\begin{figure}[!h]\centering
+\resizebox{.5\textwidth}{!}{
+	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+	\minterms{15}
+	\maxterms{0,1, 3, 2, 4, 5, 7, 6, 12, 13, 14, 8, 9, 11, 10}
+	\implicant{15}{15}
+	\end{karnaugh-map}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+	\minterms{6, 7, 15, 13, 9, 10}
+	\maxterms{0, 1, 3, 2, 4, 5, 12, 14, 8, 11}
+	\implicant{7}{15}
+	\implicant{7}{6}
+	\implicant{13}{9}
+	\implicant{10}{10}
+	\end{karnaugh-map}
+	\end{subfigure}
+}
 \end{figure}
-\end{center}
+% \end{center}
+
 Come possiamo vedere anche dalle formule che seguono, per il calcolo di $z_1$ è sufficiente una
 porta \verb|AND| mentre per il calcolo di $z_3$ sono necessarie 4 porte \verb|AND| e 1 porta
 \verb|OR|. C'è quindi un ritardo tra il calcolo di $z_1$ e $z_3$ e il ritardo complessivo è dovuto
@@ -351,6 +493,7 @@ Questo si traduce in un maggior numero di componenti e in un maggior tempo di el
 compenso facciamo uso di due componenti standard che abbiamo già implementato e non dobbiamo
 ricorrere alla costruzione di tabelle di verità, mappe di Karnaugh ecc.
 
+\subsubsection{Codificatore}
 Altro circuito considerato standard è il \textbf{codificatore} il quale ha $n$ bit in ingresso e
 $2^n$ bit in uscita, e mette a 1 solo l'$n$-esimo bit lasciando tutti gli altri a 0. Se ad esempio
 avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
@@ -385,28 +528,3 @@ Le formule risultanti da questa tabella sono
 	z_3 & = x_1 \bar{x_2}       \\
 	z_4 & = x_1 x_2
 \end{align*}
-da cui si ricava il seguente circuito
-\begin{center}
-	\begin{circuitikz}
-		% gates
-		\node[and port] (and1) at (3.5, 3) {};
-		\node[and port] (and2) at (3.5, 1) {};
-		\node[and port] (and3) at (3.5, -1) {};
-		\node[and port] (and4) at (3.5, -3) {};
-
-		\draw (0, 4) node[label=above:$x_1$] {} to[short, -*] (0, 52 |- and1.in 1) to[short, -o] (and1.in 1);
-		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and2.in 1) to[short, -o] (and2.in 1);
-		\draw (0, 52 |- and2.in 1) to[short, -*] (0, 52 |- and3.in 1) -- (and3.in 1);
-		\draw (0, 52 |- and3.in 1) to[short, -*] (0, 52 |- and4.in 1) -- (and4.in 1);
-
-		\draw (1, 4) node[label=above:$x_2$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
-		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
-		\draw (1, 52 |- and2.in 2) to[short, -*] (1, 52 |- and3.in 2) to[short, -o] (and3.in 2);
-		\draw (1, 52 |- and3.in 2) to[short, -*] (1, 52 |- and4.in 2) -- (and4.in 2);
-
-		\draw (and1.out) --++ (0.5, 0) node[label=right:$z_1$] {};
-		\draw (and2.out) --++ (0.5, 0) node[label=right:$z_2$] {};
-		\draw (and3.out) --++ (0.5, 0) node[label=right:$z_3$] {};
-		\draw (and4.out) --++ (0.5, 0) node[label=right:$z_4$] {};
-	\end{circuitikz}
-\end{center}
