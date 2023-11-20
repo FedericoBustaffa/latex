@@ -8,13 +8,20 @@ module test();
 		$dumpfile("test.vcd");
 		$dumpvars;
 
-		for (a = 0; a <= 1; a=a+1) begin
-			for (b = 0; b <= 1; b=b+1) begin
-				#4;
-			end
-		end
-		#5;
+		a = 0;
+		b = 0;
 		
+		#3 // attendi 3 unità di tempo
+		b = 1;
+		
+		#3
+		a = 1;
+		b = 0;
+		
+		#3
+		b = 1;
+		
+		#5		
 		$finish;
 	end
 endmodule
