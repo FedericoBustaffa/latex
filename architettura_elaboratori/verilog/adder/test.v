@@ -1,23 +1,23 @@
-module test;
-    reg  a = 0;
-    reg  b = 0;
-    reg r_in = 0;
-    wire r_out;
-    wire c;
+module test_add();
+	reg [1:0]a = 0;
+	reg [1:0]b = 0;
+	reg r_in = 0;
 
-    integer i = 0;
+	wire [1:0]s;
+	wire r_out;
 
-    adder add(r_out, c, a, b, r_in);
+  adder2 add2(s, r_out, r_in, a, b);
 
-    initial begin
-		$dumpfile("test_main.vcd");
+	integer i = 0;
+
+	initial begin
+		$dumpfile("add.vcd");
 		$dumpvars;
 
-		$display("a b r");
-		for(i = 0; i < 8; i = i + 1) begin
-				#3 {a, b, r_in} = i;
-				#1 $display("%b %b %b => somma: %b, riporto: %b", a, b, r_in, c, r_out);
-			end
+		for (i = 0; i < 32; i = i + 1) begin
+			{a, b, r_in} = i; #3;
+	        $display("%b %b %b => somma: %b, riporto: %b", a, b, r_in, s, r_out);
+		end
 		$finish;
-     end
+	end
 endmodule
