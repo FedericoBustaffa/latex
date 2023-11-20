@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{module}\PYG{+w}{ }\PYG{n}{rete}\PYG{p}{(}\PYG{k}{output}\PYG{+w}{ }\PYG{n}{out}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{	}\PYG{k}{assign}\PYG{+w}{ }\PYG{n}{z}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZti{}}\PYG{n}{a}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{o}{\PYGZti{}}\PYG{n}{b}\PYG{p}{;}
+\PYG{k}{endmodule}
+\end{Verbatim}

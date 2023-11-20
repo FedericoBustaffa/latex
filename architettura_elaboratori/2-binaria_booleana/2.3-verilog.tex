@@ -4,7 +4,7 @@ piccole reti logiche. Nello specifico andremo a vedere com'è possibile implemen
 visti fino ad ora, senza specificare come funziona il linguaggio. Iniziamo con il rappresentare un
 circuito qualsiasi tramite la sua tabella di verità.
 \begin{minted}{verilog}
-primitive rete(output z, input x, input y);
+primitive rete(output out, input a, input b);
 	table
 		0 0 : 1;
 		0 1 : 1;
@@ -23,8 +23,8 @@ nel modo descritto nei paragrafi precedenti, ottenendo
 In verilog possiamo usare una sintassi che ci permette di scrivere espressioni booleane in questo
 modo
 \begin{minted}{verilog}
-module rete(output z, input x, input y);
-	assign z = (~x & ~y) | (~x & y) | (x & ~y);
+module rete(output out, input a, input b);
+	assign out = ~a & ~b | ~a & b | a & ~b;
 endmodule
 \end{minted}
 A questo punto non ci rimane che testare la nostra rete tramite un programma "\verb|main|" che
@@ -32,8 +32,8 @@ possiamo definire in questo modo
 \begin{minted}{verilog}
 module test();
 	reg a, b;
-	wire c;
-	rete r(c, a, b); // istanziazione della rete 
+	wire out;
+	rete r(out, a, b); // istanziazione della rete 
 	
 	initial begin // main
 		$dumpfile("test.vcd"); // file con i risultati delle simulazione
@@ -47,3 +47,44 @@ module test();
 	end
 endmodule
 \end{minted}
+Come abbiamo già fatto possiamo però usare le regole dell'algebra booleana per semplificare
+l'espressione
+\[ z = \bar{x} \bar{y} + \bar{x} y + x \bar{y} \]
+e farla diventare
+\[ z = \bar{x} + \bar{y} \]
+e dunque possiamo creare un altro modulo di questo tipo
+\begin{minted}{verilog}
+module rete(output out, input a, input b);
+	assign z = ~a | ~b;
+endmodule
+\end{minted}
+che calcola la stessa cosa di prima.
+
+\subsection{Multiplexer}
+Vogliamo ora implementare un multiplexer come quello visto in precedenza, in cui si hanno tre
+ingressi, $x$, $y$ e $c$ e una sola uscita $z$ che dipende da $c$. Come in precendenza, possiamo
+scrivere una forma contratta della tabella di verità tramite il simbolo \verb|?| per indicare i
+valori \textbf{non specificati}.
+\begin{minted}{verilog}
+primitive multiplexer(output out, input c, input a, input b);
+	table
+		0 0 ? : 0;
+		0 1 ? : 1;
+		1 ? 0 : 0;
+		1 ? 1 : 1;
+	endtable
+endprimitive
+\end{minted}
+Se volessimo riscrivere la cosa in forma di algebra booleana abbiamo
+\begin{minted}{verilog}
+module multiplexer(output out, input c, input a, input b);
+	assign out = ~c & a | c & b;
+endmodule
+\end{minted}
+In maniera molto simile a prima testiamo il nostro circuito con un modulo che non fa altro che
+provare tutte le possibili combinazioni dei valori di \verb|a|, \verb|b| e \verb|c|.
+
+\subsection{Addizionatore}
+Nel caso volessimo implementare un \textbf{addizionatore} di due sequenze, entrambe da 2 bit, le
+cose si complicano leggermente in quanto abbiamo bisogno di un modo per manipolare più bit
+aggregati.
