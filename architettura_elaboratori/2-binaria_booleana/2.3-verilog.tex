@@ -1,0 +1,18 @@
+\section{Verilog}
+Introduciamo brevemente il linguaggio \textbf{Verilog} per la simulazione e implementazione di
+piccole reti logiche. Nello specifico andremo a vedere com'è possibile implementare i circuiti
+visti fino ad ora.
+
+Per cominciare possiamo implementare un qualsiasi componente tramite una \verb|primitive| e
+definendo la sua tabella di verità
+
+\begin{minted}{verilog}
+primitive rete1(output z, input x, input y);
+	table
+		0 0 : 1;
+		0 1 : 1;
+		1 0 : 1;
+		1 1 : 0;
+	endtable
+endprimitive
+\end{minted}

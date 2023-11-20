@@ -7,3 +7,4 @@ primitive rete1(output z, input x, input y);
 		1 1 : 0;
 	endtable
 endprimitive
+
