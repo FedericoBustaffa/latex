@@ -1,0 +1,49 @@
+\section{Verilog}
+Introduciamo brevemente il linguaggio \textbf{Verilog} per la simulazione ed implementazione di
+piccole reti logiche. Nello specifico andremo a vedere com'è possibile implementare i circuiti
+visti fino ad ora, senza specificare come funziona il linguaggio. Iniziamo con il rappresentare un
+circuito qualsiasi tramite la sua tabella di verità.
+\begin{minted}{verilog}
+primitive rete(output z, input x, input y);
+	table
+		0 0 : 1;
+		0 1 : 1;
+		1 0 : 1;
+		1 1 : 0;
+	endtable
+endprimitive
+\end{minted}
+In verilog, una \verb|primitive| può avere più ingressi ma una sola uscita, quindi nel caso
+avessimo bisogno di una tabella di verità a più uscite dovremmo riscrivere una \verb|primitive| per
+ogni uscita.
+
+Dalla tabella di verità scritta sopra è possibile estrapolare un'espressione dell'algebra booleana
+nel modo descritto nei paragrafi precedenti, ottenendo
+\[ z = \bar{x} \bar{y} + \bar{x} y + x \bar{y} \]
+In verilog possiamo usare una sintassi che ci permette di scrivere espressioni booleane in questo
+modo
+\begin{minted}{verilog}
+module rete(output z, input x, input y);
+	assign z = (~x & ~y) | (~x & y) | (x & ~y);
+endmodule
+\end{minted}
+A questo punto non ci rimane che testare la nostra rete tramite un programma "\verb|main|" che
+possiamo definire in questo modo
+\begin{minted}{verilog}
+module test();
+	reg a, b;
+	wire c;
+	rete r(c, a, b); // istanziazione della rete 
+	
+	initial begin // main
+		$dumpfile("test.vcd"); // file con i risultati delle simulazione
+		$dumpvars;
+
+		a = 0; b = 0; #3 // attendi 3 unità di tempo
+		b = 1; #3
+		a = 1; b = 0; #3
+		b = 1; #5
+		$finish; // fine simulazione
+	end
+endmodule
+\end{minted}

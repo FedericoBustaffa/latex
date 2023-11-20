@@ -1,12 +1,12 @@
-\section{Reti logiche}
+\section{Reti combinatorie}
 Nel corso non andremo a trattare l'ultimo livello di astrazione, ossia quello più basso, ma andremo
 a trattare lo strato soprastante, che tramite delle \textbf{porte logiche} e delle operazioni
 aritmetiche binarie riesce a rappresentare quello che succede. Le tre operazioni implmentate dalle
 porte logiche sono
 \begin{itemize}
-	\item \verb|AND(x,y)|: 1 se \verb|x=y=1|, 0 altrimenti.
-	\item \verb|OR(x,y)|: 0 se \verb|x=y=0|, 1 altrimenti.
-	\item \verb|NOT(x)|: 1 se \verb|x=0|, 0 se \verb|x=1|.
+	\item \verb|AND(x,y)|: 1 se $x = y = 1$, 0 altrimenti.
+	\item \verb|OR(x,y)|: 0 se $x = y = 0$, 1 altrimenti.
+	\item \verb|NOT(x)|: 1 se $x=0$, 0 se $x=1$.
 \end{itemize}
 Altro strumento utile per capire meglio come funzionano tali porte e per vedere come funzionano
 altre porte che risultano essere una combinazione di esse, sono le \textbf{tabelle di verità}.
@@ -25,14 +25,14 @@ Per una questione legata alla circuiteria sottostante e alla leggi fisiche che r
 funzionamento dei transistor, il numero di ingressi delle porte è, in genere, al più 8 poiché
 averne di più introduce troppo ritardo nell'elaborazione dei segnali.
 
-Quello che useremo d'ora in poi saranno delle funzioni che hanno un certo numero di ingressi e
-uscite booleani che realizzeremo come \textbf{reti combinatorie}, ossia composizioni di porte
-\verb|AND|, \verb|OR| e \verb|NOT| a seconda delle necessità.
+Quelle che useremo d'ora in poi saranno \textbf{reti combinatorie}, ossia delle funzioni che hanno
+un certo numero di ingressi e un certo numero di uscite, formate da una composizione di porte
+\verb|AND|, \verb|OR| e \verb|NOT|.
 
-Supponiamo ad esempio di voler calcolare il numero di bit a 1 su 2 ingressi, ciascuno da 1 bit. In
-questo caso i possibili valori di output sono 3 (0, 1 e 2) e abbiamo quindi bisogno di un numero
-di uscite pari a $\lceil \log_2 (3) \rceil = 2$ uscite. La tabella di verità del nostro circuito
-avrà la seguente tabella di verità
+Supponiamo ad esempio di voler implementare una rete combinatoria in grado di calcolare il numero
+di bit a 1 su 2 ingressi, ciascuno da 1 bit. In questo caso i possibili valori di output sono 3 (0,
+1 e 2) e abbiamo quindi bisogno di un numero di uscite pari a $\lceil \log_2 (3) \rceil = 2$. La
+tabella di verità del nostro circuito sarà la seguente
 \begin{center}
 	\begin{tabular}{c c | c c}
 		$x_0$ & $x_1$ & $z_0$ & $z_1$ \\ \hline
@@ -376,20 +376,20 @@ come risultato una sequenza da 4 bit. Per capire come calcolare tale sequenza po
 tramite una tabella di verità che però, avendo 4 bit di ingresso risulta avere 16 righe. Cerchiamo
 quindi di rappresentare solo le righe significative.
 \begin{center}
-		\begin{tabular}{c c c c | c c c c}
-			$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
-			0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
-			-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
-			0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
-			      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
-			      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
-			1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
-			      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
-			      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
-			1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
-			      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
-			      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
-		\end{tabular}
+	\begin{tabular}{c c c c | c c c c}
+		$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
+		-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
+		0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
+		      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
+		1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
+		      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
+		1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
+		      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
+		      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
+	\end{tabular}
 \end{center}
 A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ che abbiamo,
 limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.

@@ -1,5 +1,4 @@
-
-primitive rete1(output z, input x, input y);
+primitive rete(output z, input x, input y);
 	table
 		0 0 : 1;
 		0 1 : 1;
@@ -7,4 +6,3 @@ primitive rete1(output z, input x, input y);
 		1 1 : 0;
 	endtable
 endprimitive
-

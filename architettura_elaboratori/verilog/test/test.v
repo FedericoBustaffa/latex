@@ -1,27 +1,20 @@
-module test_rete1();
+module test();
 	reg a, b;
 	wire c;
 
-	rete1 r1(c, a, b);
+	rete r(c, a, b);
 
 	initial begin
 		$dumpfile("test.vcd");
 		$dumpvars;
 
-		a = 0;
-		b = 0;
-
-		#3
-		b = 1;
-
-		#3
-		a = 1;
-		b = 0;
-
-		#3
-		b = 1;
-
-		#5
+		for (a = 0; a <= 1; a=a+1) begin
+			for (b = 0; b <= 1; b=b+1) begin
+				#4;
+			end
+		end
+		#5;
+		
 		$finish;
 	end
 endmodule
