@@ -1,28 +1,16 @@
 module test_mux();
-	reg c, a, b;
+	reg c = 0, a = 0, b = 0;
 	wire out;
-	multiplexer mux(out, c, a, b); // istanziazione della rete 
+	multiplexer mux(out, c, a, b); // istanziazione della rete
+	integer i = 0;
 	
 	initial begin // main
 		$dumpfile("mux.vcd"); // file con i risultati delle simulazione
 		$dumpvars;
 
-		a = 0;
-		b = 1;
-		c = 0;
-		#3 // attendi 3 unità di tempo
-		
-		c = 1;
-		#3
-		
-		a = 1;
-		b = 0;
-		c = 0;
-		#3
-
-		c = 1;
-		#5
-		
+		for(i = 0; i < 8; i = i + 1) begin
+            {c, a, b} = i; #3;
+        end		
 		$finish; // fine simulazione
 	end
 endmodule

@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{primitive}\PYG{+w}{ }\PYG{n}{adder\PYGZus{}riporto}\PYG{p}{(}\PYG{k}{output}\PYG{+w}{ }\PYG{n}{r\PYGZus{}out}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{);}
+\PYG{+w}{	}\PYG{k}{table}
+\PYG{+w}{		}\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{0}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{p}{;}
+\PYG{+w}{		}\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mh}{1}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{endtable}
+\PYG{k}{endprimitive}
+\end{Verbatim}

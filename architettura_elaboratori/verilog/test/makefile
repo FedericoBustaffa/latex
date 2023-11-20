@@ -7,3 +7,6 @@ expr1:
 
 expr2:
 	iverilog expr2.v test.v -o expr2.out
+
+clean:
+	-rm *.out *.vcd

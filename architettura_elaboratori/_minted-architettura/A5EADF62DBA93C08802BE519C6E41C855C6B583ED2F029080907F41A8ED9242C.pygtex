@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{module}\PYG{+w}{ }\PYG{n}{adder}\PYG{p}{(}\PYG{k}{output}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{output}\PYG{+w}{ }\PYG{n}{r\PYGZus{}out}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{input}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{);}
+\PYG{+w}{	}\PYG{n}{adder\PYGZus{}somma}\PYG{+w}{ }\PYG{n}{somma}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{);}
+\PYG{+w}{	}\PYG{n}{adder\PYGZus{}riporto}\PYG{+w}{ }\PYG{n}{riporto}\PYG{p}{(}\PYG{n}{r\PYGZus{}out}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{);}
+\PYG{k}{endmodule}
+\end{Verbatim}

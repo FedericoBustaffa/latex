@@ -7,4 +7,3 @@ expr:
 
 clean:
 	-rm *.out *.vcd
-

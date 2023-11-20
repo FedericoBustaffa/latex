@@ -31,19 +31,19 @@ A questo punto non ci rimane che testare la nostra rete tramite un programma "\v
 possiamo definire in questo modo
 \begin{minted}{verilog}
 module test();
-	reg a, b;
+	reg a = 0, b = 0;
 	wire out;
-	rete r(out, a, b); // istanziazione della rete 
+	rete r(out, a, b); // istanziazione della rete
+	integer i = 0;
 	
 	initial begin // main
 		$dumpfile("test.vcd"); // file con i risultati delle simulazione
 		$dumpvars;
 
-		a = 0; b = 0; #3 // attendi 3 unità di tempo
-		b = 1; #3
-		a = 1; b = 0; #3
-		b = 1; #5
-		$finish; // fine simulazione
+		for(i = 0; i < 4; i = i + 1) begin
+            {a, b} = i; #3;
+        end
+    	$finish;
 	end
 endmodule
 \end{minted}
@@ -86,5 +86,48 @@ provare tutte le possibili combinazioni dei valori di \verb|a|, \verb|b| e \verb
 
 \subsection{Addizionatore}
 Nel caso volessimo implementare un \textbf{addizionatore} di due sequenze, entrambe da 2 bit, le
-cose si complicano leggermente in quanto abbiamo bisogno di un modo per manipolare più bit
-aggregati.
+cose si complicano leggermente. Un primo metodo per riuscire ad implementare tale oggetto consiste
+nell'implementazione di un modulo addizionatore
+\begin{minted}{verilog}
+module adder(output s, output r_out, input a, input b, input r_in);
+	adder_somma somma(s, a, b, r_in);
+	adder_riporto riporto(r_out, a, b, r_in);
+endmodule
+\end{minted}
+Dove \verb|adder_somma| è definito in questo modo
+\begin{minted}{verilog}
+primitive adder_somma(output s, input a, input b, input r_in);
+	table
+		0 0 0 : 0;
+		0 0 1 : 1;
+		0 1 0 : 1;
+		0 1 1 : 0;
+		1 0 0 : 1;
+		1 0 1 : 0;
+		1 1 0 : 0;
+		1 1 1 : 1;
+	endtable
+endprimitive
+\end{minted}
+e \verb|adder_riporto| in questo modo
+\begin{minted}{verilog}
+primitive adder_riporto(output r_out, input a, input b, input r_in);
+	table
+		0 0 0 : 0;
+		0 0 1 : 0;
+		0 1 0 : 0;
+		0 1 1 : 1;
+		1 0 0 : 0;
+		1 0 1 : 1;
+		1 1 0 : 1;
+		1 1 1 : 1;
+	endtable
+endprimitive
+\end{minted}
+A questo punto abbiamo un modulo che somma 2 bit con un 1 bit di riporto e ritorna 2 bit (somma e
+riporto). Per effettuare la somma di due sequenze da 2 bit possiamo usare due di questi moduli
+sommando i due bit meno significativi di ognuna delle due sequenze e dirottare il riporto
+nell'ingresso del riporto del secondo modulo.
+\begin{minted}{verilog}
+
+\end{minted}

@@ -1,26 +1,16 @@
 module test();
-	reg a, b;
+	reg a = 0, b = 0;
 	wire out;
-	rete r(out, a, b); // istanziazione della rete 
+	rete r(out, a, b); // istanziazione della rete
+	integer i = 0;
 	
 	initial begin // main
 		$dumpfile("test.vcd"); // file con i risultati delle simulazione
 		$dumpvars;
 
-		a = 0;
-		b = 0;
-		#3 // attendi 3 unità di tempo
-		
-		b = 1;
-		#3
-		
-		a = 1;
-		b = 0;
-		#3
-		
-		b = 1;
-		#5
-		
-		$finish; // fine simulazione
+		for(i = 0; i < 4; i = i + 1) begin
+            {a, b} = i; #3;
+        end
+    	$finish;
 	end
 endmodule
