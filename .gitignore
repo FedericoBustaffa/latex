@@ -9,5 +9,6 @@
 *.snm
 *.nav
 *.pgf
+*.vcd
 
 .vscode/
