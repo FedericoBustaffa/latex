@@ -1,0 +1,80 @@
+\section{Componenti standard}
+Andiamo ora a definire alcune delle componenti, con relativa implementazione, che andremo ad
+utilizzare molto spesso d'ora in poi e che considereremo \textbf{componenti standard}.
+
+Possiamo dividere tali componenti in \textbf{componenti di reti combinatorie} e
+\textbf{componenti di reti sequenziali}.
+
+\subsection{Componenti di reti combinatorie}
+Le componenti che andremo a vedere sono le componenti principali per lo svolgimento dei calcoli
+aritmetici e per la valutazione di espressioni booleane.
+
+\subsubsection{Addizionatore}
+La prima componente che andiamo a vedere è l'addizionatore di due sequenza da $n$ bit ciascuna che
+restituisce una sequenza da $n$ bit e un riporto. Il componente lo indicheremo d'ora in poi in
+questo modo
+\begin{center}
+	\begin{tikzpicture}[scale=0.75]
+		\draw[thick] (-1, 0) -- (-1.5, 1.5) -- (-0.2, 1.5) -- (0, 1.25) -- (0.2, 1.5) -- (1.5, 1.5) -- (1, 0) -- cycle;
+		\node (add) at (0, 0.75) {+};
+
+		\draw (-1, 2) node[label=above:$x$] {} to[short, o-] (-1, 1.5);
+		\draw (1, 2) node[label=above:$y$] {} to[short, o-] (1, 1.5);
+		\draw (2, 0.75) node[label=right:$r_\text{in}$] {} to[short, o-] (1.25, 0.75);
+		\draw[->, >=Stealth] (-1.25, 0.75) -- (-2, 0.75) -- (-2, -0.75) node[label=below:$r_\text{out}$] {};
+		\draw[->, >=Stealth] (0, 0) -- (0, -0.75) node[label=below:$s$] {};
+	\end{tikzpicture}
+\end{center}
+Come abbiamo visto in Verilog, è possibile implementare un addizionatore di due sequenze da 2 bit
+ciascuna, concatenando due addizionatori da 1 bit. Questo però implica che ogni addizionatore
+inizia il calcolo quando quello che ha calcolato la cifra meno significativa ha finito il suo
+calcolo e generato un prodotto.
+
+Dato che ogni addizionatore da 1 bit deve attraversare due livelli di porte logiche, se
+concantenassimo $n$ addizionatori da 1 bit dovrebbe attendere $2 n \Delta t$ per effettuare una
+somma a $n$ bit.
+
+Si prova quindi a calcolare il riporto in anticipo con una tecnica chiamata \textbf{Carry look ahead}.
+Questa tecnica tiene di conto che una somma tra due bit $x$ e $y$
+\begin{itemize}
+	\item \textbf{Genera} un riporto se e solo $x = y = 1$.
+	\item \textbf{Propoaga} un riporto se e solo se $x = 1$ o $y = 1$.
+\end{itemize}
+Vale quindi che, data una certa colonna della somma, abbiamo un riporto se generiamo o propaghiamo
+un riporto. Da questa considerazione ricaviamo la formula ricorsiva
+\[ C_{i+1} = G_i + P_i \cdot C_i \]
+dove $G_i = x_i \cdot y_i$ e $P_i = x_i + y_i$, che ci permette di calcolare il riporto $C$
+generato da una somma di due sequenze di $i+1$ bit.
+
+Così facendo abbiamo un circuito con $k$ porte in cascata per ogni sottosequenza di bit e a seconda
+di quanto è lunga la sequenza principale e di quante sottosequenze abbiamo generato si dovrebbe
+ottenere una leggera ottimizzazione in termini di livelli di porte da attraversare.
+
+In questo modo il calcolo del riporto è indipendente dal calcolo della somma e dunque il calcolo
+della somma successiva può iniziare in anticipo.
+
+\subsubsection{Comparatore}
+Componente utile per capire se due sequenza di bit $x$ e $y$ sono uguali oppure no. Per la
+comparazione di due bit singoli abbiamo già la porta \verb|XNOR| che ritorna 1 se e solo se i due
+bit hanno lo stesso valore. Un circuito in grado di comparare due sequenze di $n$ bit sarebbe
+\begin{center}
+	\begin{circuitikz}
+		\node[xnor port] (xnor1) at (-0.5, 1.25) {};
+		\node[xnor port] (xnor2) at (-0.5, -1.25) {};
+		\node[and port] (and) at (2, 0) {};
+
+		\draw (-3, 52 |- xnor1.in 1) node[label=left:$x_0$] {} -- (xnor1.in 1);
+		\draw (-3, 52 |- xnor1.in 2) node[label=left:$y_0$] {} -- (xnor1.in 2);
+
+		\node at (-1.5, 0) {$\vdots$};
+		\node at (-3.5, 0) {$\vdots$};
+
+		\draw (-3, 52 |- xnor2.in 1) node[label=left:$x_{n-1}$] {} -- (xnor2.in 1);
+		\draw (-3, 52 |- xnor2.in 2) node[label=left:$y_{n-1}$] {} -- (xnor2.in 2);
+
+		\draw (xnor1.out) -- (and.in 1);
+		\draw (xnor2.out) -- (and.in 2);
+		\draw (and.out) --++ (0.75, 0) node[label=right:$z$] {};
+	\end{circuitikz}
+\end{center}
+D'ora in poi sarà rappresentato in questo modo

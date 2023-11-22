@@ -43,7 +43,7 @@ la più grande potenza minore o uguale di 1. Eseguiamo $1-1 = 0$ e concludiamo. 
 \[ 17_{10} = 10001_2 \]
 dove gli 1 si trovano rispettivamente in posizione 1 e 5 ossia le posizioni di peso $2^0$ e $2^4$.
 
-\subsection{Rappresentazione in macchina}
+\section{Rappresentazione in macchina}
 Se volessimo rappresentare numeri in macchina avendo a disposizione registri di $n$ bit potremmo
 rappresentare $2^n$ possibili numeri (in particolare in numeri da 0 a $2^n - 1$).
 
@@ -63,6 +63,7 @@ Questa rappresentazione si porta dietro due problemi principali: il primo è che
 volte lo 0 (-0 e +0) e poi introduce la necessità di una componente in grado di fare le sottrazioni
 (necessaria quando si sottrae un numero più grande ad un numero più piccolo).
 
+\subsection{Rappresentazione in complemento a 2}
 Si è quindi passati alla rappresentazione in \textbf{complemento a 2}, la quale prevede che, per i
 numeri positivi si utilizzino i primi $n-1$ bit per la rappresentazione e l'$n$-esimo bit messo a 0.
 Per i numeri negativi si deve invece rappresentare prima di tutto il modulo del numero, dopodiché

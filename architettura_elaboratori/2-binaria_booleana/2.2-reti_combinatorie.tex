@@ -93,7 +93,6 @@ Il circuito logico che ne deriva è il seguente
 sul quale è possibile provare ad inserire vari input di $x_0$ e $x_1$ per verificarne la
 correttezza.
 
-\subsubsection{Multiplexer}
 Supponiamo ora di dover scegliere uno tra due ingressi possibili a seconda di un ingresso di
 controllo regolato da un \textbf{multiplexer} che ha una forma di questo tipo
 \begin{center}
@@ -151,9 +150,10 @@ che calcola esattamente
 ossia il valore del canale scelto dal multiplexer.
 
 \subsection{Algebra di Boole}
-Per introdurre l'\textbf{algebra di Boole} introduciamo i seguenti \textbf{assiomi} che determinano
-il comportamento dell'alfabeto $\{0, 1\}$ in relazione a delle operazioni di base che possiamo
-fare con i suoi elementi.
+L'\textbf{algebra di Boole}, tramite gli \textbf{assiomi} che determinano il comportamento
+dell'alfabeto $\{0, 1\}$ in relazione a delle operazioni di base che possiamo fare con i suoi
+elementi, ci permette di semplificare o più in generale di manipolare le espressioni dell'algebra
+booleana per andare quindi a modellare anche i nostri circuiti. Di seguito andremo ad elencarli
 \begin{gather*}
 	a = 0 \implies a \neq 1 \quad \land \quad a = 1 \implies a \neq 0 \\
 	a = 0 \implies \bar{a} = 1 \quad \land \quad a = 1 \implies \bar{a} = 0 \\
@@ -170,8 +170,8 @@ Da questi deduciamo anche che
 	A \cdot \bar{A} = 0 \quad \land \quad A + \bar{A} = 1 \\
 	\bar{\bar{A}} = A
 \end{gather*}
-Le altre proprietà fondamentali per le operazioni di \verb|AND| e \verb|OR| nell'algebra booleana
-sono
+Le operazioni di \verb|AND|, \verb|OR| e \verb|NOT| dell'algebra booleana godono di alcune
+proprietà molto utili per la manipolazione delle espressioni boooleane:
 \begin{itemize}
 	\item \textbf{Commutatività} per l'\verb|AND|: $A \cdot B = B \cdot A$
 	\item \textbf{Commutatività} per l'\verb|OR|: $A + B = B + A$
@@ -370,7 +370,6 @@ formule ma questo potrebbe portarci sia alla minima forma possibile sia ad un'es
 complessa. Con le mappe di Karnaugh non abbiamo la certezza di ottenere la miglior minimizzazione
 ma ci offre un modo meccanico per ridurre la complessità.
 
-\subsubsection{Moltiplicatore}
 Vogliamo ora implementare un \textbf{moltiplicatore} che moltiplica due sequenze da 2 bit dando
 come risultato una sequenza da 4 bit. Per capire come calcolare tale sequenza possiamo procedere
 tramite una tabella di verità che però, avendo 4 bit di ingresso risulta avere 16 righe. Cerchiamo
@@ -395,7 +394,7 @@ A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ ch
 limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
 % \begin{center}
 \begin{figure}[!h]\centering
-\resizebox{.5\textwidth}{!}{
+\resizebox{.6\textwidth}{!}{
 	\begin{subfigure}[b]{0.4\textwidth}
 	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
 	\minterms{15}
@@ -493,14 +492,13 @@ Questo si traduce in un maggior numero di componenti e in un maggior tempo di el
 compenso facciamo uso di due componenti standard che abbiamo già implementato e non dobbiamo
 ricorrere alla costruzione di tabelle di verità, mappe di Karnaugh ecc.
 
-\subsubsection{Codificatore}
-Altro circuito considerato standard è il \textbf{codificatore} il quale ha $n$ bit in ingresso e
+Altro circuito considerato standard è il \textbf{demultiplexer} il quale ha $n$ bit in ingresso e
 $2^n$ bit in uscita, e mette a 1 solo l'$n$-esimo bit lasciando tutti gli altri a 0. Se ad esempio
 avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
 \begin{center}
 	\begin{tikzpicture}
 		\draw[thick] (-0.8, 1) -- (0.8, 1) -- (1.5, 0) -- (-1.5, 0) -- cycle;
-		\node (mux) at (0, 0.5) {ENCODER};
+		\node (mux) at (0, 0.5) {DEMUX};
 
 		\draw (-0.5, 1.5) node[label=above:$x_1$] {} to[short, o-] (-0.5, 1);
 		\draw (0.5, 1.5) node[label=above:$x_2$] {} to[short, o-] (0.5, 1);
@@ -528,3 +526,29 @@ Le formule risultanti da questa tabella sono
 	z_3 & = x_1 \bar{x_2}       \\
 	z_4 & = x_1 x_2
 \end{align*}
+Il circuito risultante sarebbe molto semplicemente
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (0, 2.25) {};
+		\node[and port] (and2) at (0, 0.75) {};
+		\node[and port] (and3) at (0, -0.75) {};
+		\node[and port] (and4) at (0, -2.25) {};
+
+		\draw (-4, 0.75) node[label=left:$x_1$] {} to[short, o-*] (-2.5, 0.75) --
+		(-2.5, 52 |- and1.in 1) to[short, -o] (and1.in 1)
+		(-2.5, 0.5) -- (-2.5, 52 |- and2.in 1) to[short, *-o] (and2.in 1)
+		(-2.5, 0.5) to[short, -*] (-2.5, 52 |- and3.in 1) -- (and3.in 1)
+		(-2.5, 0.5) -- (-2.5, 52 |- and4.in 1) -- (and4.in 1);
+
+		\draw (-4, -0.75) node[label=left:$x_2$] {} to[short, o-*] (-3.5, -0.75) --
+		(-3.5, 52 |- and1.in 2) to[short, -o] (and1.in 2)
+		(-3.5, 0.5) -- (-3.5, 52 |- and2.in 2) to[short, *-] (and2.in 2)
+		(-3.5, 0.5) to[short, -*] (-3.5, 52 |- and3.in 2) to[short, -o] (and3.in 2)
+		(-3.5, 0.5) -- (-3.5, 52 |- and4.in 2) -- (and4.in 2);
+
+		\draw (and1.out) --++ (0.5, 0) node[label=right:$z_1$] {};
+		\draw (and2.out) --++ (0.5, 0) node[label=right:$z_2$] {};
+		\draw (and3.out) --++ (0.5, 0) node[label=right:$z_3$] {};
+		\draw (and4.out) --++ (0.5, 0) node[label=right:$z_4$] {};
+	\end{circuitikz}
+\end{center}
