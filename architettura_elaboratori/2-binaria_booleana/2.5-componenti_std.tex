@@ -78,3 +78,14 @@ bit hanno lo stesso valore. Un circuito in grado di comparare due sequenze di $n
 	\end{circuitikz}
 \end{center}
 D'ora in poi sarà rappresentato in questo modo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-0.75, -0.5) rectangle(0.75, 0.5);
+		\node (eq) at (0, 0) {=};
+
+		\draw (-0.5, 1) node[label=above:$x$] {} to[short, o-] (-0.5, 0.5);
+		\draw (0.5,  1) node[label=above:$y$] {} to[short, o-] (0.5, 0.5);
+		\draw[->, >=Stealth] (0, -0.5) -- (0, -1) node[label=below:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Dove $x$ e $y$ sono entrambe due sequenze da $n$ bit e $z$ vale 0 se $x \neq y$ e vale 1 se $x = y$.
