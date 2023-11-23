@@ -89,3 +89,56 @@ D'ora in poi sarà rappresentato in questo modo
 	\end{tikzpicture}
 \end{center}
 Dove $x$ e $y$ sono entrambe due sequenze da $n$ bit e $z$ vale 0 se $x \neq y$ e vale 1 se $x = y$.
+
+\subsubsection{ALU}
+Altro componente fondamentale è la \textbf{ALU}, la quale ci permette di effettuare ben quattro
+operazioni tra due sequenze di $n$ bit $x$ e $y$: \verb|AND|, \verb|OR|, somma e sottrazione.
+
+Le prime tre operazioni hanno già un circuito che le implementa e che conosciamo, per la
+sottrazione facciamo prima una considerazione.
+
+Come abbiamo già anticipato, se abbiamo un numero positivo rappresentato in complemento a 2, per
+farlo diventare negativo dobbiamo negarlo e sommarci 1. Di conseguenza vale che
+\[ x - y = x + (\bar{y} + 1) \]
+Siamo quindi in grado di utilizzare un addizionatore per svolgere anche le sottrazioni e dunque non
+dobbiamo implementare un circuito apposito.
+\begin{center}
+	\begin{circuitikz}
+		\draw[thick] (2, -4.25) -- (2, -2.25) -- (2.75, -2.75) -- (2.75, -3.75) -- cycle;
+		\draw[thick] (4, -2.25) -- (4, -1.50) -- (4.25, -1.25) -- (4, -1) --
+		(4, -0.25) -- (5, -0.75) -- (5, -1.75) -- cycle;
+		\node at (4.625, -1.25) {+};
+		\node[or port] (or) at (5, 4) {};
+		\node[and port] (and) at (5, 2) {};
+		\draw[thick] (7, -1.5) -- (7, 1.5) -- (8, 1) -- (8, -1) -- cycle;
+
+		\draw[->, >=Stealth] (4.625, -5.5) node[label=below:OP] {} to[short, -*] (4.625, -4.75) --
+		(2.375, -4.75) -- (2.375, -4);
+		\draw[->, >=Stealth] (4.625, -4.75) -- (4.625, -2);
+		\draw[->, >=Stealth] (4.625, -4.75) -- (7.5, -4.75) -- (7.5, -1.25);
+
+		\draw[->, >=Stealth] (0, 1) node[label=left:$x$] {} to[short, -*]
+		(2.5, 1) -- (2.5, -0.625) -- (4, -0.625);
+		\draw (2.5, 1) -- (2.5, 52 |- or.in 1) -- (or.in 1);
+		\draw (2.5, 52 |- and.in 1) to[short, *-] (and.in 1);
+
+		\draw[->, >=Stealth] (0, -1) node[label=left:$y$] {} to[short, -*]
+		(1.25, -1) -- (1.25, -3.75) to[short, -o] (1.625, -3.75) -- (2, -3.75);
+		\draw[->, >=Stealth] (1.25, -2.75) to[short, *-] (2, -2.75);
+		\draw (1.25, -1) -- (1.25, 52 |- and.in 2) -- (and.in 2);
+		\draw (1.25, 52 |- and.in 2) to[short, *-] (1.25, 52 |- or.in 2) -- (or.in 2);
+
+		\draw[->, >=Stealth] (2.75, -3.25) -- (3.25, -3.25) -- (3.25, -1.875) -- (4, -1.875);
+		\draw[->, >=Stealth] (5, -1.25) -- (7, -1.25);
+		\draw[->, >=Stealth] (6, -1.25) to[short, *-] (6, -0.5) -- (7, -0.5);
+		\draw[->, >=Stealth] (4.5, -0.5) -- (4.5, 0) -- (5, 0);
+
+		\draw[->, >=Stealth] (and.out) -- (5.125, 0.5) -- (7, 0.5);
+		\draw[->, >=Stealth] (or.out) -- (6, 52 |- or.out) -- (6, 1) -- (7, 1);
+		\draw[->, >=Stealth] (8, 0) -- (8.75, 0);
+	\end{circuitikz}
+\end{center}
+L'entrata OP è un ingresso da 2 bit che ha come funzione principale la selezione dell'operazione
+tramite il multiplexer a destra. \`E inoltre usato, nel caso si voglia effettuare una sottrazione
+per rendere $y$ negativo tramite il multiplexer iniziale e tramite il riporto immesso
+nell'addizionatore.
