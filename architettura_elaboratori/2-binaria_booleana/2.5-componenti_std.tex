@@ -219,4 +219,94 @@ Dei registri da 1 bit abbiamo già parlato in precedenza, proseguiamo con le alt
 se riprenderemo il discorso sulle memorie più avanti in modo più approfondito.
 
 \subsubsection{Banco di registri}
-Il \textbf{banco di registri} vede server r
+I banchi di registri sono una prima forma di \textbf{memoria} in grado di memorizzare più
+\emph{parole} le quali sono accessibili tramite un \textbf{indirizzo}. Di seguito un banco da 2
+registri.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[->, >=Stealth] (0, 0) node[label=left:EN] {} -- (1, 0); % EN
+		\draw[thick] (1, -0.5) -- (1, 0.5) -- (1.5, 0.75) -- (1.5, -0.75) -- cycle; % DEMUX
+		\draw[thick] (2.5, 0.75) rectangle (3.5, 0.25); % R1
+		\draw[thick] (2.5, -0.75) rectangle (3.5, -0.25); % R2
+		\draw[thick] (4.5, -0.75) -- (4.5, 0.75) -- (5, 0.5) -- (5, -0.5) -- cycle; % MUX
+		\draw[->, >=Stealth] (5, 0) -- (6, 0) node[label=right:out] {}; % OUT
+		\draw[->, >=Stealth] (1.5, 0.375) -- (2.5, 0.375); % demux -> R1
+		\draw[->, >=Stealth] (1.5, -0.625) -- (2.5, -0.625); % demux -> R2
+
+		% clock
+		\draw[->, >=Stealth, dashed] (1.875, 0.625) -- (2.5, 0.625);
+		\draw[->, >=Stealth, dashed] (1.875, -0.375) -- (2.5, -0.375);
+		\draw[dashed] (1.875, 1.5) node[label=above:clock] {} -- (1.875, -0.375);
+
+		\draw[->, >=Stealth] (3.5, 0.5) -- (4.5, 0.5); % R1 -> MUX
+		\draw[->, >=Stealth] (3.5, -0.5) -- (4.5, -0.5); % R2 -> MUX
+
+		% INPUT
+		\draw[->, >=Stealth] (3, 1.5) node[label=above:IN] {} -- (3, 0.75);
+		\draw[->, >=Stealth] (3, 1.125) to[short, *-] (4, 1.125) -- (4, 0) -- (3, 0) -- (3, -0.25);
+
+		% INDIRIZZAMENTO
+		\draw[->, >=Stealth] (0, -1.25) node[label=left:IND] {} to[short, -*] (1.25, -1.25) --
+		(1.25, -0.625);
+		\draw[->, >=Stealth] (1.25, -1.25) -- (4.75, -1.25) -- (4.75, -0.625);
+	\end{tikzpicture}
+\end{center}
+Come possiamo vedere, tramite il segnale di IND riusciamo a scrivere IN su uno specifico registro
+scelto dal demultiplexer, lo stesso IND viene inviato al multiplexer alla fine per riuscire a
+leggere la locazione di memoria indirizzata.
+
+Questo metodo fa uso di registri così come li abbiamo definiti in precedenza e consuma un numero di
+transistor molto alto.
+
+\subsubsection{Memorie dinamiche}
+Le \textbf{memorie dinamiche} sono implementate in modo tale da permetterci di risparmiare più
+transistor ma hanno il continuo bisogno di essere \emph{"rinfrescate"} andando a scrivere su di
+esse altrimenti si rischia di perdere il valore.
+
+Similmente ai banchi di memoria, abbiamo un demultiplexer a cui diamo in ingresso una parola da
+scrivere e l'indirizzo a cui scriverla. L'output del demultiplexer è collegato ad una griglia
+con un numero di righe pari al numero massimo di parole memorizzabili nella memoria e un numero
+di colonne pari alla lunghezza in bit di ognuna delle parole.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (1, -0.5) -- (1, 0.5) -- (1.5, 0.75) -- (1.5, -0.75) -- cycle; % DEMUX
+
+		% GRID
+		\foreach \i in {-0.5, -0.25, 0, 0.25, 0.5}
+		\draw[thick] (1.5, \i) -- (3, \i);
+
+		\foreach \i in {1.75, 2, 2.25, 2.5, 2.75}
+		\draw[thick] (\i, 0.75) -- (\i, -0.75);
+
+		\draw[->, >=Stealth] (0, 0) node[label=left:IN] {} -- (1, 0);
+		\draw[->, >=Stealth] (0, -1) node[label=left:IND] {} -- (1.25, -1) -- (1.25, -0.625);
+		\draw[->, >=Stealth] (2.25, -1) -- (2.25, -1.875) node[label=right:OUT] {};
+	\end{tikzpicture}
+\end{center}
+Tramite l'indirizzo scegliamo la riga, e la si attraversa per intero, se sulla colonna è presente
+un 1 allora questo viene trasmesso in output.
+
+\subsubsection{Memorie statiche}
+Delle memorie statiche diciamo solo che non hanno il problema di dover essere costantemente
+rinfrescate per mantenere i bit e sono più veloci delle memorie dinamiche ma occupano più spazio
+sul silicio.
+\begin{center}
+	\begin{circuitikz}
+		\node[not port] (not1) at (0, 1) {};
+		\node[not port, rotate=180] (not2) at (0, -1) {};
+
+		\draw (-2, 0) node[label=left:T1] {} -- (-1, 0) -- (-1, 1) -- (not1.in);
+		\draw (not1.out) -- (1, 1) -- (1, 0);
+		\draw (2, 0) node[label=right:T2] {} -- (1, 0) -- (1, -1) -- (not2.in);
+		\draw (not2.out) -- (-1, -1) -- (-1, 0);
+	\end{circuitikz}
+\end{center}
+
+\subsubsection{ROM}
+Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle memorie dinamiche.
+
+Per quanto riguarda una comparazione tra i tre tipi di memoria che abbiamo visto fino ad ora
+possiamo dire che i registri sono i più veloci per quanto riguarda lettura e scrittura ma sono
+quelli occupano più spazio sul silicio a parità di capienza. Le memorie dinamiche sono quelle più
+lente ma che occupano meno spazio sul silicio e le memorie statiche si collocano nel mezzo per
+entrambe le caratteristiche.
