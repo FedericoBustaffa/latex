@@ -142,3 +142,81 @@ L'entrata OP è un ingresso da 2 bit che ha come funzione principale la selezion
 tramite il multiplexer a destra. \`E inoltre usato, nel caso si voglia effettuare una sottrazione
 per rendere $y$ negativo tramite il multiplexer iniziale e tramite il riporto immesso
 nell'addizionatore.
+
+Supponiamo infatti di avere come configurazione per la scelta delle operazioni della ALU quella
+indicata dalla seguente tabella
+\begin{center}
+	\begin{tabular}{c | c}
+		OP input & operazione \\ \hline
+		00       & +          \\
+		01       & -          \\
+		10       & \verb|AND| \\
+		11       & \verb|OR|
+	\end{tabular}
+\end{center}
+e inviamo in ingresso $x = 1$, $y = 1$ e $OP = 01$. Dato che $OP = 01$, il primo multiplexer
+sceglierà come uscita $\bar{y}$ e invierà all'addizionatore un riporto di 1. Come risultato avremo
+che l'addizionatore sommerà $x$ e $\bar{y} + 1$ ottenendo 0. Dato che l'ultimo multiplexer è
+impostato per dare come uscita la sottrazione quando $OP = 01$ avremo il risultato richiesto.
+
+\subsubsection{Shift}
+In precedenza abbiamo parlato di \textbf{shift logico} e \textbf{shift aritmetico}. Vediamo ora
+come è possibile implementare un circuito che ci permette di shiftare a destra una sequenza di bit
+di un certo numero di posizioni con una sequenza di esempio di 4 bit.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (4.25, 3.625) -- (4.25, 1.625) -- (5, 2.125) -- (5, 3.125) -- cycle;
+
+		\draw (0, 5) node[label=above:$x_3$] {} to[short, -*] (0, 4.5) -- (2.5, 4.5);
+		\draw (0.5, 5) node[label=above:$x_2$] {} to[short, -*] (0.5, 4.25) -- (2.5, 4.25);
+		\draw (1, 5) node[label=above:$x_1$] {} to[short, -*] (1, 4)   -- (2.5, 4);
+		\draw (1.5, 5) node[label=above:$x_0$] {} to[short, -*] (1.5, 3.75) -- (2.5, 3.75);
+
+
+		\draw (2.25, 3.5) node[label=left:\footnotesize0] {} -- (2.5, 3.5);
+		\draw (0, 4.5) to[short, -*] (0, 3.25) -- (2.5, 3.25);
+		\draw (0.5, 4.25) to[short, -*] (0.5, 3) -- (2.5, 3);
+		\draw (1, 4) to[short, -*] (1, 2.75) -- (2.5, 2.75);
+
+		\draw (2.25, 2.5) node[label=left:\footnotesize0] {} -- (2.5, 2.5);
+		\draw (2.25, 2.25) node[label=left:\footnotesize0] {} -- (2.5, 2.25);
+		\draw (0, 3.25) to[short, -*] (0, 2) -- (2.5, 2);
+		\draw (0.5, 3) -- (0.5, 1.75) -- (2.5, 1.75);
+
+		\draw (2.25, 1.5) node[label=left:\footnotesize0] {} -- (2.5, 1.5);
+		\draw (2.25, 1.25) node[label=left:\footnotesize0] {} -- (2.5, 1.25);
+		\draw (2.25, 1) node[label=left:\footnotesize0] {} -- (2.5, 1);
+		\draw (0, 2) -- (0, 0.75) -- (2.5, 0.75);
+
+		\draw[very thick] (2.5, 4.5) -- (2.5, 3.75);
+		\draw[very thick] (2.5, 3.5) -- (2.5, 2.75);
+		\draw[very thick] (2.5, 2.5) -- (2.5, 1.75);
+		\draw[very thick] (2.5, 1.5) -- (2.5, 0.75);
+
+		\draw[->, >=Stealth] (2.5, 4.125) -- (3.5, 4.125) -- (3.5, 3.375) -- (4.25, 3.375);
+		\draw[->, >=Stealth] (2.5, 3.125) -- (3, 3.125) -- (3, 2.875) -- (4.25, 2.875);
+		\draw[->, >=Stealth] (2.5, 2.125) -- (3, 2.125) -- (3, 2.375) -- (4.25, 2.375);
+		\draw[->, >=Stealth] (2.5, 1.125) -- (3.5, 1.125) -- (3.5, 1.875) -- (4.25, 1.875);
+		\draw[->, >=Stealth] (4.625, 1) -- (4.625, 1.875);
+		\draw[->, >=Stealth] (5, 2.625) --++ (1, 0) node[label=right:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Come è possibile notare quando si shifta a destra si aggiungono tanti 0 a sinistra quanto
+necessario e si ridirezionano i bit più significativi. Per uno shift aritmetico a destra avremmo
+dovuto collegare l'ingresso del bit più significativo al posto degli 0.
+
+Se avessimo voluto effettuare degli shift a sinistra lo schema sarebbe stato uguale tranne per il
+fatto che sarebbero stati i bit più significativi i primi ad andare a 0.
+
+\subsection{Componenti di reti sequenziali}
+Le componenti standard implementate sotto forma di rete sequenziale sono di fatto registri e
+memorie. In particolare andremo a parlare di
+\begin{itemize}
+	\item Registri e banchi di registri.
+	\item Memorie: statiche dinamiche e ROM.
+\end{itemize}
+Dei registri da 1 bit abbiamo già parlato in precedenza, proseguiamo con le altre componenti anche
+se riprenderemo il discorso sulle memorie più avanti in modo più approfondito.
+
+\subsubsection{Banco di registri}
+Il \textbf{banco di registri} vede server r
