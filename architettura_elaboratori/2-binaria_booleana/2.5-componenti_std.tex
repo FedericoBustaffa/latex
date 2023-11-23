@@ -286,6 +286,11 @@ di colonne pari alla lunghezza in bit di ognuna delle parole.
 Tramite l'indirizzo scegliamo la riga, e la si attraversa per intero, se sulla colonna è presente
 un 1 allora questo viene trasmesso in output.
 
+\subsubsection{ROM}
+Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle memorie dinamiche. La
+differenza sostanziale è che sulle colonne dove sono presenti gli 0 non c'è il collegamento con le
+righe (NON CI HO CAPITO UNA SEGA).
+
 \subsubsection{Memorie statiche}
 Delle memorie statiche diciamo solo che non hanno il problema di dover essere costantemente
 rinfrescate per mantenere i bit e sono più veloci delle memorie dinamiche ma occupano più spazio
@@ -302,11 +307,11 @@ sul silicio.
 	\end{circuitikz}
 \end{center}
 
-\subsubsection{ROM}
-Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle memorie dinamiche.
-
-Per quanto riguarda una comparazione tra i tre tipi di memoria che abbiamo visto fino ad ora
-possiamo dire che i registri sono i più veloci per quanto riguarda lettura e scrittura ma sono
-quelli occupano più spazio sul silicio a parità di capienza. Le memorie dinamiche sono quelle più
-lente ma che occupano meno spazio sul silicio e le memorie statiche si collocano nel mezzo per
-entrambe le caratteristiche.
+Se volessimo comparare i tre tipi di memoria che abbiamo visto fino ad ora possiamo dire che
+\begin{itemize}
+	\item I registri sono i più veloci per quanto riguarda lettura e scrittura ma sono quelli
+	      occupano più spazio sul silicio a parità di capienza.
+	\item Le memorie dinamiche sono quelle più lente ma che occupano meno spazio sul silicio.
+	\item Le memorie statiche si collocano a metà tra queste due per quanto riguarda velocità e
+	      spazio occupato.
+\end{itemize}
