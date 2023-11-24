@@ -346,3 +346,97 @@ Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle RAM v
 ma non abbiamo alcun meccanismo di controllo sui transistor che collegano le righe alle colonne
 della griglia. Abbiamo un collegamento diretto (nel caso volessimo trasmettere un 1) oppure
 l'assenza di quest'ultimo (nel caso volessimo trasmettere uno 0).
+
+\subsubsection{Memorie modulari}
+Da questo momento considereremo i registri come una sorta di vettore di registri, il quale prende
+ad esempio in input tre indirizzi e ha 2 uscite. Questo perché se, come vedremo più avanti, in
+assembler volessimo eseguire un'operazione di \verb|ADD| tra un registro \verb|R2| e un registro
+\verb|R3| e volessimo salvare il risultato in un registro \verb|R1|, questo schema ci sarà molto
+utile
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-0.5, -0.5) rectangle (0.5, 0.5);
+		\node at (0, 0) {\footnotesize{REG}};
+		\draw[->, >=Stealth] (-1.5, 0.25) node[label=left:\scriptsize{IND1}]	{} -- (-0.5, 0.25);
+		\draw[->, >=Stealth] (-1.5, 0) node[label=left:\scriptsize{IND2}] {} -- (-0.5, 0);
+		\draw[->, >=Stealth] (-1.5, -0.25) node[label=left:\scriptsize{IND3}]{} -- (-0.5, -0.25);
+
+		\draw[->, >=Stealth] (-1.5, 0.75) node[label=left:\scriptsize{IN}] {} -- (0, 0.75) -- (0, 0.5);
+
+		\draw[->, >=Stealth] (0.5, 0.25) -- (1.5, 0.25) node[label=right:\scriptsize{OUT1}] {};
+		\draw[->, >=Stealth] (0.5, -0.25) -- (1.5, -0.25) node[label=right:\scriptsize{OUT2}] {};
+	\end{tikzpicture}
+\end{center}
+Possiamo quindi leggere o scrivere più indirizzi di memoria in un singolo ciclo di clock. Per le
+RAM invece dobbiamo, in generale, eseguire più cicli di clock. Possiamo anche vedere le memorie
+come moduli di parole da $n$ bit, concatenabili e a cui è possibile inviare in uno stesso ciclo di
+clock lo stesso indirizzo e il segnale di \verb|ENABLE|. In questo modo otteniamo una parola che
+è più lunga del singolo modulo.
+
+Se ad esempio avessimo a disposizione moduli da 1M parole di 32 bit e volessimo una memoria da 2M
+parole, sarebbe possibile concatenare due di questi moduli.
+
+Prima di tutto consideriamo che per indirizzare 1M servono $\log_2 (1 \times 10^6) = 20$ bit,
+quindi per indirizzarne 2 servono 21 bit. Avremmo quindi 1 bit che sceglie quale dei due moduli
+andare a leggere o scrivere e i restanti bit che andranno ad accedere la locazione di memoria
+corretta.
+
+% CIRCUITO
+
+Se il bit che determina quale modulo andare a leggere o scrivere è il più significativo parleremo
+di memoria modulare \textbf{sequenziale}, il cui schema logico è il seguente
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0, 0) rectangle (1, 2);
+		\draw[thick] (3, 0) rectangle (4, 2);
+
+		\foreach \i in {1.5, 1, 0.5}{
+				\draw[thick] (0, \i) -- (1, \i);
+				\draw[thick] (3, \i) -- (4, \i);
+			}
+
+		\node at (0.5, 1.75) {0};
+		\node at (0.5, 1.25) {1};
+		\node at (0.5, 0.75) {2};
+		\node at (0.5, 0.25) {3};
+
+		\node at (3.5, 1.75) {4};
+		\node at (3.5, 1.25) {5};
+		\node at (3.5, 0.75) {6};
+		\node at (3.5, 0.25) {7};
+	\end{tikzpicture}
+\end{center}
+Se invece il bit in questione fosse il meno significativo dell'indirizzo quella che otteniamo è una
+memoria modulare \textbf{interlacciata}, il cui schema logico è il seguente
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0, 0) rectangle (1, 2);
+		\draw[thick] (3, 0) rectangle (4, 2);
+
+		\foreach \i in {1.5, 1, 0.5}{
+				\draw[thick] (0, \i) -- (1, \i);
+				\draw[thick] (3, \i) -- (4, \i);
+			}
+
+		\node at (0.5, 1.75) {0};
+		\node at (0.5, 1.25) {2};
+		\node at (0.5, 0.75) {4};
+		\node at (0.5, 0.25) {6};
+
+		\node at (3.5, 1.75) {1};
+		\node at (3.5, 1.25) {3};
+		\node at (3.5, 0.75) {5};
+		\node at (3.5, 0.25) {7};
+	\end{tikzpicture}
+\end{center}
+Come possiamo vedere, in questo caso abbiamo che le locazioni di memoria sono enumerate saltando
+costantemente da un modulo all'altro. Questo significa che se avessimo bisogno di scrivere in
+memoria una parola da 64 bit potremmo farlo andando a scrivere prima nella locazione $m_i$ e poi in
+quella $m_{i+1}$ che si troverà sull'altro modulo ma allo stesso livello.
+
+Se adessimo eliminassimo il multiplexer alla fine del circuito mostrato in precedenza otterremmo
+due uscite da 32 bit, ognuna con metà della parola da 64 bit. \`E quindi possibile leggere due
+parole in un singolo ciclo di clock in questo modo.
+
+Con il modello sequenziale avremmo avuto bisogno di due cicli di clock in quanto la locazione
+$m_{i+1}$ si sarebbe trovata all'interno dello stesso modulo.
