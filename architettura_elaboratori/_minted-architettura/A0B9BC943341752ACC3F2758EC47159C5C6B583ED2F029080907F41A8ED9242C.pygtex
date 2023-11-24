@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{module}\PYG{+w}{ }\PYG{n}{adder2}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r\PYGZus{}out}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{	}\PYG{k}{output}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{o}{:}\PYG{l+m+mh}{0}\PYG{p}{]}\PYG{n}{s}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{output}\PYG{+w}{ }\PYG{n}{r\PYGZus{}out}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{input}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{input}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{o}{:}\PYG{l+m+mh}{0}\PYG{p}{]}\PYG{n}{a}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{input}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{o}{:}\PYG{l+m+mh}{0}\PYG{p}{]}\PYG{n}{b}\PYG{p}{;}
+
+\PYG{+w}{	}\PYG{k+kt}{wire}\PYG{+w}{ }\PYG{n}{rip}\PYG{p}{;}
+\PYG{+w}{	}\PYG{n}{adder}\PYG{+w}{ }\PYG{n}{a1}\PYG{p}{(}\PYG{n}{s}\PYG{p}{[}\PYG{l+m+mh}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{rip}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{r\PYGZus{}in}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{l+m+mh}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{[}\PYG{l+m+mh}{0}\PYG{p}{]);}
+\PYG{+w}{	}\PYG{n}{adder}\PYG{+w}{ }\PYG{n}{a2}\PYG{p}{(}\PYG{n}{s}\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{r\PYGZus{}out}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rip}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{[}\PYG{l+m+mh}{1}\PYG{p}{]);}
+\PYG{k}{endmodule}
+\end{Verbatim}

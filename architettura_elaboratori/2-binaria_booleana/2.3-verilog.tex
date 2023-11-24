@@ -129,12 +129,16 @@ riporto). Per effettuare la somma di due sequenze da 2 bit possiamo usare due di
 sommando i due bit meno significativi di ognuna delle due sequenze e dirottare il riporto
 nell'ingresso del riporto del secondo modulo.
 \begin{minted}{verilog}
-module adder2(output [1:0]s, output r_out,
-	input r_in, input [1:0]a, input [1:0]b);
-    
+module adder2(s, r_out, r_in, a, b);
+	output [1:0]s;
+	output r_out;
+	input r_in;
+	input [1:0]a;
+	input [1:0]b;
+
 	wire rip;
-    adder a1(s[0], rip, r_in, a[0], b[0]);
-    adder a2(s[1], r_out, rip, a[1], b[1]);
+	adder a1(s[0], rip, r_in, a[0], b[0]);
+	adder a2(s[1], r_out, rip, a[1], b[1]);
 endmodule
 \end{minted}
 Ovviamente è possibile implementare \verb|adder_somma| e \verb|adder_riporto| sotto forma di
