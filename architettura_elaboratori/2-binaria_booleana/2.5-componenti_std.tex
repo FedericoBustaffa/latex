@@ -213,7 +213,7 @@ Le componenti standard implementate sotto forma di rete sequenziale sono di fatt
 memorie. In particolare andremo a parlare di
 \begin{itemize}
 	\item Registri e banchi di registri.
-	\item Memorie: statiche dinamiche e ROM.
+	\item Memorie: statiche, dinamiche e ROM.
 \end{itemize}
 Dei registri da 1 bit abbiamo già parlato in precedenza, proseguiamo con le altre componenti anche
 se riprenderemo il discorso sulle memorie più avanti in modo più approfondito.
@@ -260,8 +260,8 @@ transistor molto alto.
 
 \subsubsection{Memorie dinamiche}
 Le \textbf{memorie dinamiche} sono implementate in modo tale da permetterci di risparmiare più
-transistor ma hanno il continuo bisogno di essere \emph{"rinfrescate"} andando a scrivere su di
-esse altrimenti si rischia di perdere il valore.
+transistor ma hanno il continuo bisogno di \emph{"rinfrescare"} il loro contenuto per evitare che
+questo vada perso.
 
 Similmente ai banchi di memoria, abbiamo un demultiplexer a cui diamo in ingresso una parola da
 scrivere e l'indirizzo a cui scriverla. L'output del demultiplexer è collegato ad una griglia
@@ -283,18 +283,36 @@ di colonne pari alla lunghezza in bit di ognuna delle parole.
 		\draw[->, >=Stealth] (2.25, -1) -- (2.25, -1.875) node[label=right:OUT] {};
 	\end{tikzpicture}
 \end{center}
-Tramite l'indirizzo scegliamo la riga, e la si attraversa per intero, se sulla colonna è presente
-un 1 allora questo viene trasmesso in output.
+Se volessimo vedere più da vicino la griglia, nello specifico i punti di incrocio, saremmo in grado
+di osservare che è presente un transistor il quale si comporta come un condensatore (mantiene una
+carica elettrica) e come un interruttore poiché, quando è chiuso, mette in collegamento la riga con
+la colonna, viceversa, quando è aperto non c'è alcun contatto.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0, 0) -- (1.5, 0);
+		\draw[thick] (1.25, 0.25) -- (1.25, -1.25);
+		\draw[thick, red] (0.75, 0) -- (1.25, -0.5);
+		\draw[->, >=Stealth] (0, -1) node[label=left:transistor] {} -- (0.875, -0.375);
+	\end{tikzpicture}
+\end{center}
+Le linee orizzontali e verticali non si toccano a meno che il transistor non sia chiuso. Quando
+facciamo passare un segnale 1 su una certa riga, questo incontra tutti i transistor, per tutti
+quelli trovati chiusi, l'1 viene trasmesso sulla rispettiva colonna e inviato in output. Per ogni
+transistor aperto, l'1 non si propagherà e dunque avremmo uno 0 in output. In questo modo è
+possibile \textbf{leggere} la parola all'indirizzo IND.
 
-\subsubsection{ROM}
-Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle memorie dinamiche. La
-differenza sostanziale è che sulle colonne dove sono presenti gli 0 non c'è il collegamento con le
-righe (NON CI HO CAPITO UNA SEGA).
+Se invece volessimo \textbf{scrivere} una parola all'indirizzo IND dovremmo manipolare i bit sulle
+colonne in modo tale che formino la parola desiderata. Come prima inviamo un segnale 1 all'indirizzo
+scelto e i transistor chiusi tratterrano una carica elettrica in grado di memorizzare tutti gli 1
+della parola. Sui bit messi a 0 i transistor avranno una configurazione aperta e quindi daranno in
+output uno 0.
 
 \subsubsection{Memorie statiche}
-Delle memorie statiche diciamo solo che non hanno il problema di dover essere costantemente
-rinfrescate per mantenere i bit e sono più veloci delle memorie dinamiche ma occupano più spazio
-sul silicio.
+Le memorie statiche hanno una struttura a griglia come quelle dinamiche ma hanno una struttura più
+complessa per quanto riguarda il collegamento tra righe e colonne. Si usano infatti due porte
+\verb|NOT| e due transistor (T1 e T2) per la lettura e la scrittura dei bit. Come conseguenze
+abbiamo un maggior consumo di spazio sul silicio ma anche una maggiore velocità nell'accesso alla
+memoria.
 \begin{center}
 	\begin{circuitikz}
 		\node[not port] (not1) at (0, 1) {};
@@ -306,8 +324,13 @@ sul silicio.
 		\draw (not2.out) -- (-1, -1) -- (-1, 0);
 	\end{circuitikz}
 \end{center}
+Inotre non è più necessario \emph{rinfrescare} il contenuto della memoria in continuazione poiché
+questo tipo di memoria è in grado di trattenere l'informazione in modo autonomo.
 
-Se volessimo comparare i tre tipi di memoria che abbiamo visto fino ad ora possiamo dire che
+\subsubsection{Considerazioni sulle RAM}
+Queste appena descritte sono dette memorie \textbf{RAM} (Random Access Memory) poiché non è
+necessario leggere tutte le locazioni in sequenza ma possiamo accedere direttamente alla locazione
+desiderate. Comparando i tre tipi di RAM che abbiamo visto fino ad ora possiamo dire che
 \begin{itemize}
 	\item I registri sono i più veloci per quanto riguarda lettura e scrittura ma sono quelli
 	      occupano più spazio sul silicio a parità di capienza.
@@ -315,3 +338,11 @@ Se volessimo comparare i tre tipi di memoria che abbiamo visto fino ad ora possi
 	\item Le memorie statiche si collocano a metà tra queste due per quanto riguarda velocità e
 	      spazio occupato.
 \end{itemize}
+A seconda dell'uso che se ne fa e dei contesti sarà necessario scegliere un tipo di RAM piuttosto
+che l'altro.
+
+\subsubsection{ROM}
+Le \textbf{ROM} (Read Only Memory) sono molto simili, come struttura, alle RAM viste fino ad ora
+ma non abbiamo alcun meccanismo di controllo sui transistor che collegano le righe alle colonne
+della griglia. Abbiamo un collegamento diretto (nel caso volessimo trasmettere un 1) oppure
+l'assenza di quest'ultimo (nel caso volessimo trasmettere uno 0).
