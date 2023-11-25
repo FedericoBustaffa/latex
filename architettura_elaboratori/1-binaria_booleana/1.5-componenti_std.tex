@@ -355,16 +355,16 @@ assembler volessimo eseguire un'operazione di \verb|ADD| tra un registro \verb|R
 utile
 \begin{center}
 	\begin{tikzpicture}
-		\draw[thick] (-0.5, -0.5) rectangle (0.5, 0.5);
-		\node at (0, 0) {\footnotesize{REG}};
-		\draw[->, >=Stealth] (-1.5, 0.25) node[label=left:\scriptsize{IND1}]	{} -- (-0.5, 0.25);
-		\draw[->, >=Stealth] (-1.5, 0) node[label=left:\scriptsize{IND2}] {} -- (-0.5, 0);
-		\draw[->, >=Stealth] (-1.5, -0.25) node[label=left:\scriptsize{IND3}]{} -- (-0.5, -0.25);
+		\draw[thick] (-0.75, -0.75) rectangle (0.75, 0.75);
+		\node at (0, 0) {REG};
+		\draw[->, >=Stealth] (-1.75, 0.5) node[label=left:\scriptsize{IND1}]	{} -- (-0.75, 0.5);
+		\draw[->, >=Stealth] (-1.75, 0) node[label=left:\scriptsize{IND2}] {} -- (-0.75, 0);
+		\draw[->, >=Stealth] (-1.75, -0.5) node[label=left:\scriptsize{IND3}]{} -- (-0.75, -0.5);
 
-		\draw[->, >=Stealth] (-1.5, 0.75) node[label=left:\scriptsize{IN}] {} -- (0, 0.75) -- (0, 0.5);
+		\draw[->, >=Stealth] (-1.5, 1) node[label=left:\scriptsize{IN}] {} -- (0, 1) -- (0, 0.75);
 
-		\draw[->, >=Stealth] (0.5, 0.25) -- (1.5, 0.25) node[label=right:\scriptsize{OUT1}] {};
-		\draw[->, >=Stealth] (0.5, -0.25) -- (1.5, -0.25) node[label=right:\scriptsize{OUT2}] {};
+		\draw[->, >=Stealth] (0.75, 0.25) -- (1.75, 0.25) node[label=right:\scriptsize{OUT1}] {};
+		\draw[->, >=Stealth] (0.75, -0.25) -- (1.75, -0.25) node[label=right:\scriptsize{OUT2}] {};
 	\end{tikzpicture}
 \end{center}
 Possiamo quindi leggere o scrivere più indirizzi di memoria in un singolo ciclo di clock. Per le
@@ -457,3 +457,22 @@ parole in un singolo ciclo di clock in questo modo.
 
 Con il modello sequenziale avremmo avuto bisogno di due cicli di clock in quanto la locazione
 $m_{i+1}$ si sarebbe trovata all'interno dello stesso modulo.
+
+\subsection{Da rete combinatoria a sequenziale}
+Ogni rete combinatoria si può implementare tramite una memoria. In generale, se abbiamo una rete
+combinatoria con un certo numero di ingressi e un certo numero di uscite, sarà possibile salvare
+ognuna delle possibili usciti in memoria utilizzando come indirizzo gli ingressi che generano tali
+uscite.
+
+Implementare tutte le componenti in questo modo è ovviamente svantaggioso. Il vantaggio si ha se
+teniamo di conto che la memoria può essere riscritta e quindi, a patto di rispettare il numero di
+bit in ingresso, in uscita e quelli memorizzabili sulla memoria sarebbe possibile implementare più
+moduli su una singola memoria, riscrivendola quando necessario. Per riuscire nell'intento possiamo
+\begin{enumerate}
+	\item Derivare l'automa.
+	\item Derivare la funzione che calcola le uscite.
+	\item Derivare la funzione che calcola lo stato successivo.
+	\item Implementare la rete sequenziale (di Mealy o Moore).
+\end{enumerate}
+In alternativa è possibile realizzare direttamente una rete combinatoria cercando di capire come
+effettuare una conversione a rete sequenziale.
