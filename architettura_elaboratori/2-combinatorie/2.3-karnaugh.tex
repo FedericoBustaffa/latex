@@ -1,0 +1,252 @@
+\section{Mappe di Karnaugh}
+Come abbiamo appena visto, non sempre ridurre la complessità della nostra formula in modo
+\emph{monotòno} ci porta alla migliore ottimizzazione. A volte conviene aumentare la complessità
+per poi giungere ad un modello migliore.
+
+Le \textbf{mappe di Karnaugh} forniscono un metodo grafico per riuscire a semplificare le formule
+booleane senza però garantire la miglior minimizzazione di quest'ultime. Nell'esempio di prima
+abbiamo una funzione booleana con la seguente tabella di verità
+\begin{center}
+	\begin{tabular}{c c c | c}
+		$a$ & $b$ & $c$ & $f(a,b,c)$ \\ \hline
+		0   & 0   & 0   & 1          \\
+		0   & 0   & 1   & 0          \\
+		0   & 1   & 0   & 0          \\
+		0   & 1   & 1   & 0          \\
+		1   & 0   & 0   & 1          \\
+		1   & 0   & 1   & 1          \\
+		1   & 1   & 0   & 0          \\
+		1   & 1   & 1   & 0
+	\end{tabular}
+\end{center}
+Da questa tabella possiamo ricavare una mappa di Karnaugh prendendo tutti i possibili valori di $a$
+e mettendoli nella prima colonna e poi prendendo tutti i possibili valori della coppia $bc$ e
+mettendoli sulla prima riga, disponendoli in modo che ogni valore differisca dal precedente al più
+di un bit.
+
+Il nostro obbiettivo è quello di individuare gli \textbf{implicanti}, ossia quei quadrati o
+rettangoli contenenti un numero di 1 pari ad una potenza di 2 e raggrupparli. Per tale
+raggruppamento è possibile
+\begin{itemize}
+	\item Uscire dalla tabella e rientrare dall'altra parte se ho degli 1 agli estremi.
+	\item Includere degli 1 già raccolti in un precedente raggruppamento.
+\end{itemize}
+Nel nostro caso abbiamo due rettangoli da due 1:
+\begin{center}
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\maxterms{1, 2, 3, 6, 7}
+\minterms{0, 4, 5}
+\implicant{0}{4}
+\implicant{4}{5}
+\end{karnaugh-map}
+\end{center}
+A questo punto siamo
+in grado di semplificare la formula di partenza
+\begin{enumerate}
+	\item Mettendo in \verb|AND| le variabili facenti parte dello stesso raggruppamento che
+	      rimangono costanti e negando quelle con valore 0.
+	\item Sommando tra di loro i raggruppamenti.
+\end{enumerate}
+Otteniamo così la formula ottenuta in precedenza con le proprietà dell'algebra booleana
+\[ \bar{b} \bar{c} + a \bar{b} \]
+in modo meccanico. Il primo termine della somma è ottenuto prendendo in considerazione il
+raggruppamento verticale di 1 e considerando che $b$ e $c$ non variano ed essendo a 0 vengono
+negati. Il secondo termine si ottiene similmente notando che $a$ e $b$ sono la parte costante del
+raggruppamento ed inoltre $b$ è a 0 e dunque deve essere negato.
+
+Prendiamo ora come esempio un \textbf{addizionatore} di 2 bit con riporto, il cui funzionamento
+dipende da tre parametri di ingresso: $x_1$ e $x_2$, i bit che vogliamo sommare, e $r_0$, il
+possibile riporto da aggiungere. Abbiamo inoltre due uscite: il risultato $s$ della somma e il
+possibile riporto $r_1$ generato da essa.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0, 0) rectangle (2, 1.5);
+		\node (add) at (1, 0.75) {ADD};
+
+		\draw (0.5, 2) node[label=above:$x_1$] {} to[short, o-] (0.5, 1.5);
+		\draw (1.5, 2) node[label=above:$x_2$] {} to[short, o-] (1.5, 1.5);
+		\draw (2.5, 0.75) node[label=right:$r_0$] {} to[short, o-] (2, 0.75);
+		\draw (0, 0.75) -- (-0.5, 0.75) -- (-0.5, -0.75) node[label=below:$r_1$] {};
+		\draw (1, 0) -- (1, -0.75) node[label=below:$s$] {};
+	\end{tikzpicture}
+\end{center}
+Le mappe di Karnaugh per $s$ ed $r_1$ risultano le seguenti
+\begin{center}
+\begin{figure}[h!] \centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\minterms{1,2,4,7}
+\maxterms{0,3,5,6}
+\implicant{1}{1}
+\implicant{2}{2}
+\implicant{4}{4}
+\implicant{7}{7}
+\end{karnaugh-map}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
+\minterms{3,5,7,6}
+\maxterms{0,1,2,4}
+\implicant{3}{7}
+\implicant{7}{6}
+\implicant{5}{6}
+\end{karnaugh-map}
+\end{subfigure}
+\end{figure}
+\end{center}
+Da tali mappe di Karnaugh ricaviamo le seguenti formule per $s$ ed $r_1$
+\begin{align*}
+	s   & = r_0 \bar{x_1} \bar{x_2} + \bar{r_0} \bar{x_1} x_2 + r_0 x_1 x_2 + \bar{r_0} x_1 \bar{x_2} \\
+	r_1 & = x_1 x_2 + r_0 x_2 + r_0 x_1
+\end{align*}
+Di seguito raffiguriamo il circuito ricavato dalla formula per $r_1$.
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (3.5, 1.5) {};
+		\node[and port] (and2) at (3.5, 0) {};
+		\node[and port] (and3) at (3.5, -1.5) {};
+		\node[or port, number inputs=3] (or) at (5.5, 0) {};
+
+		\draw (0, 2) node[label=above:$x_1$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and3.in 2) -- (and3.in 2);
+
+		\draw (0.5, 2) node[label=above:$x_2$] {} to[short, -*] (0.5, 52 |- and1.in 2) -- (and1.in 2);
+		\draw (0.5, 52 |- and1.in 2) to[short, -*] (0.5, 52 |- and2.in 2) -- (and2.in 2);
+
+		\draw (1, 2) node[label=above:$r_0$] {} to[short, -*] (1, 52 |- and2.in 1) -- (and2.in 1);
+		\draw (1, 52 |- and2.in 1) to[short, -*] (1, 52 |- and3.in 1) -- (and3.in 1);
+
+		\draw (and1.out) -- (or.in 1);
+		\draw (and2.out) -- (or.in 2);
+		\draw (and3.out) -- (or.in 3);
+		\draw (or.out) --++ (0.5, 0) node[label=right:$r_1$] {};
+	\end{circuitikz}
+\end{center}
+
+\begin{tcolorbox}
+	Possiamo quindi usare sia le regole e gli assiomi dell'algebra booleana per semplificare le
+	formule ma questo potrebbe portarci sia alla minima forma possibile sia ad un'espressione più
+	complessa. Con le mappe di Karnaugh non abbiamo la certezza di ottenere la miglior minimizzazione
+	ma ci offrono un modo meccanico per ridurre la complessità.
+\end{tcolorbox}
+
+Vogliamo ora implementare un \textbf{moltiplicatore} che moltiplica due sequenze da 2 bit dando
+come risultato una sequenza da 4 bit. Per capire come calcolare tale sequenza possiamo procedere
+tramite una tabella di verità che però, avendo 4 bit di ingresso risulta avere 16 righe. Cerchiamo
+quindi di rappresentare solo le righe significative.
+\begin{center}
+	\begin{tabular}{c c c c | c c c c}
+		$x_1$ & $x_2$ & $y_1$ & $y_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		0     & 0     & -     & -     & 0     & 0     & 0     & 0     \\
+		-     & -     & 0     & 0     & 0     & 0     & 0     & 0     \\ \hline
+		0     & 1     & 0     & 1     & 0     & 0     & 0     & 1     \\
+		      &       & 1     & 0     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 1     & 0     & 0     & 1     & 1     \\ \hline
+		1     & 0     & 0     & 1     & 0     & 0     & 1     & 0     \\
+		      &       & 1     & 0     & 0     & 1     & 0     & 0     \\
+		      &       & 1     & 1     & 0     & 1     & 1     & 0     \\ \hline
+		1     & 1     & 0     & 1     & 0     & 0     & 1     & 1     \\
+		      &       & 1     & 0     & 0     & 1     & 1     & 0     \\
+		      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
+	\end{tabular}
+\end{center}
+A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ che abbiamo.
+Limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
+
+\begin{figure}[!h]\centering
+\resizebox{0.55\textwidth}{!}{
+	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+	\minterms{15}
+	\maxterms{0,1, 3, 2, 4, 5, 7, 6, 12, 13, 14, 8, 9, 11, 10}
+	\implicant{15}{15}
+	\end{karnaugh-map}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
+	\minterms{6, 7, 15, 13, 9, 10}
+	\maxterms{0, 1, 3, 2, 4, 5, 12, 14, 8, 11}
+	\implicant{7}{15}
+	\implicant{7}{6}
+	\implicant{13}{9}
+	\implicant{10}{10}
+	\end{karnaugh-map}
+	\end{subfigure}
+}
+\end{figure}
+
+Come possiamo vedere anche dalle formule che seguono, per il calcolo di $z_1$ è sufficiente una
+porta \verb|AND| mentre per il calcolo di $z_3$ sono necessarie 4 porte \verb|AND| e 1 porta
+\verb|OR|. C'è quindi un ritardo tra il calcolo di $z_1$ e $z_3$ e il ritardo complessivo è dovuto
+al passaggio del calcolo da 2 livelli di porte logiche.
+\begin{align*}
+	z_1 & = x_1 x_2 y_1 y_2                                                                   \\
+	z_3 & = x_1 \bar{y_1} y_2 + x_2 y_1 y_2 + \bar{x_1} x_2 y_1 + x_1 \bar{x_2} y_1 \bar{y_2}
+\end{align*}
+In alternativa, considerando che una moltiplicazione tra due sequenze di 2 bit si svolge in questo
+modo
+\begin{center}
+	\begin{tabular}{c c c c}
+		  & 1 & 1 & $\times$ \\
+		  & 1 & 0 & =        \\ \hline
+		  & 0 & 0 & +        \\
+		1 & 1 & - & =        \\ \hline
+		1 & 1 & 0
+	\end{tabular}
+\end{center}
+possiamo notare che se il bit al moltiplicatore è 0 allora avremo tutti 0 mentre se abbiamo 1 il
+risultato sarà esattamente il moltiplicando. Possiamo quindi calcolarci separatamente
+$x_1 x_2 \cdot y_1$ e $x_1 x_2 \cdot y_2$ tramite due multiplexer di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-1.25, 1) -- (1.25, 1) -- (0.75, 0) -- (-0.75, 0) -- cycle;
+		\node (mux) at (0, 0.5) {MUX};
+		\draw (-0.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=right:$00$] {} to[short, o-] (0.5, 1);
+		\draw (-1.75, 0.5) node[label=left:$y_i$] {} to[short, o-] (-1, 0.5);
+		\draw [->, >=Stealth] (0, 0) -- (0, -0.625);
+	\end{tikzpicture}
+\end{center}
+Dove $x_1 x_2$ è un ingresso da 2 bit e dove l'altro ingresso è la costante 00. Questo multiplexer
+effettua esattamente la scelta di cui abbiamo parlato prima: se $y_i = 0$ dà come risultato 00, se
+invece $y_i = 1$ dà come risultato $x_1 x_2$.
+
+Per implementare un moltiplicare $2 \times 2$ dobbiamo sostanzialmente affiancare due di questi
+multiplexer, uno per $y_1$ e uno per $y_2$, aggiungere degli zeri dove necessario e poi effettuare
+una somma con un bit di riporto $r$ che viene messo in cima alla sequenza generata. Il circuito che
+ne risulta è un qualcosa di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-4.25, 1) -- (-1.75, 1) -- (-2.25, 0) -- (-3.75, 0) -- cycle;
+		\node (mux) at (-3, 0.5) {MUX};
+		\draw (-3.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (-3.5, 1);
+		\draw (-2.5, 1.5) node[label=right:$00$] {} to[short, o-] (-2.5, 1);
+		\draw (-4.75, 0.5) node[label=left:$y_1$] {} to[short, o-] (-4, 0.5);
+		\draw (-3, 0) -- (-3, -1) node[label=above left:$z_1 z_2$] {};
+
+		\draw[thick] (4.25, 1) -- (1.75, 1) -- (2.25, 0) -- (3.75, 0) -- cycle;
+		\node (mux) at (3, 0.5) {MUX};
+		\draw (2.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (2.5, 1);
+		\draw (3.5, 1.5) node[label=right:$00$] {} to[short, o-] (3.5, 1);
+		\draw (4.75, 0.5) node[label=right:$y_2$] {} to[short, o-] (4, 0.5);
+		\draw (3, 0) -- (3, -1) node[label=above right:$z_3 z_4$] {};
+
+		\draw (-1.5, -0.5) node[label=right:$0$] {} to[short, o-] (-1.5, -1) to[short, -*] (-2.25, -1);
+		\draw (-3, -1) -- (-2.25, -1) -- (-2.25, -1.75) -- (-0.5, -1.75) -- (-0.5, -2.5);
+
+		\draw (1.5, -0.5) node[label=left:$0$] {} to[short, o-] (1.5, -1) to[short, -*] (2.25, -1);
+		\draw (3, -1) -- (2.25, -1) -- (2.25, -1.75) -- (0.5, -1.75) -- (0.5, -2.5);
+
+		\draw[thick] (-1, -2.5) rectangle (1, -3.75);
+		\node (add) at (0, -3.125) {ADD};
+		\draw (0, -3.75) -- (0, -4.25);
+		\draw (-1, -3.125) -- (-1.5, -3.125) -- node[label=left:$r$] {} (-1.5, -4.25);
+	\end{tikzpicture}
+\end{center}
+In questo modo, dato che, come abbiamo visto in precendenza, sia il multiplexer che l'addizionatore
+sono implementati tramite un circuito a due livelli di porte logiche abbiamo in totale un circuito
+costituito da quattro livelli di porte logiche.
+
+Questo si traduce in un maggior numero di componenti e in un maggior tempo di elaborazione ma in
+compenso facciamo uso di due componenti standard che abbiamo già implementato e non dobbiamo
+ricorrere alla costruzione di tabelle di verità, mappe di Karnaugh ecc.

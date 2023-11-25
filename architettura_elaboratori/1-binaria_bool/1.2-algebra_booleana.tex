@@ -1,0 +1,59 @@
+\section{Algebra booleana}
+Nel corso non andremo a trattare l'ultimo livello di astrazione, ossia quello più basso, ma andremo
+a trattare lo strato soprastante, che tramite delle \textbf{porte logiche} e delle operazioni
+aritmetiche binarie riesce a rappresentare quello che succede. Le tre operazioni implementate dalle
+porte logiche sono
+\begin{itemize}
+	\item \verb|AND(x,y)|: 1 se $x = y = 1$, 0 altrimenti.
+	\item \verb|OR(x,y)|: 0 se $x = y = 0$, 1 altrimenti.
+	\item \verb|NOT(x)|: 1 se $x=0$, 0 se $x=1$.
+\end{itemize}
+Altro strumento utile per capire meglio come funzionano tali porte e per vedere come funzionano
+altre porte che risultano essere una combinazione di esse, sono le \textbf{tabelle di verità}.
+Nelle tabelle di verità immettiamo tutti i possibili valori di input e calcoliamo i relativi output.
+Per esempio, la tabella di verità di una porta logica \verb|AND| è la seguente
+\begin{center}
+	\begin{tabular}{c c | c}
+		x & y & z \\ \hline
+		0 & 0 & 0 \\
+		0 & 1 & 0 \\
+		1 & 0 & 0 \\
+		1 & 1 & 1
+	\end{tabular}
+\end{center}
+Per una questione legata alla circuiteria sottostante e alla leggi fisiche che regolano il
+funzionamento dei transistor, il numero di ingressi delle porte è, in genere, al più 8 poiché
+averne di più introduce troppo ritardo nell'elaborazione dei segnali.
+
+L'algebra di booleana, tramite gli \textbf{assiomi} che determinano il comportamento dell'alfabeto
+$\{0, 1\}$ in relazione a delle operazioni di base che possiamo fare con i suoi elementi, ci
+permette di semplificare o più in generale di manipolare le espressioni dell'algebra booleana per
+andare quindi a modellare anche i nostri circuiti. Di seguito andremo ad elencarli
+\begin{gather*}
+	a = 0 \implies a \neq 1 \quad \land \quad a = 1 \implies a \neq 0 \\
+	a = 0 \implies \bar{a} = 1 \quad \land \quad a = 1 \implies \bar{a} = 0 \\
+	0 \cdot 1 = 0 \quad \land \quad 1 \cdot 0 = 0 \\
+	0 \cdot 0 = 0 \quad \land \quad 1 \cdot 1 = 1 \\
+	0 + 1 = 1 \quad \land \quad 1 + 0 = 1 \\
+	0 + 0 = 0 \quad \land \quad 1 + 1 = 1
+\end{gather*}
+Da questi deduciamo anche che
+\begin{gather*}
+	A \cdot 1 = A \quad \land \quad A + 0 = A \\
+	A \cdot 0 = 0 \quad \land \quad A + 1 = 1 \\
+	A \cdot A = A \quad \land \quad A + A = A \\
+	A \cdot \bar{A} = 0 \quad \land \quad A + \bar{A} = 1 \\
+	\bar{\bar{A}} = A
+\end{gather*}
+Le operazioni di \verb|AND|, \verb|OR| e \verb|NOT| dell'algebra booleana godono di alcune
+proprietà molto utili per la manipolazione delle espressioni boooleane:
+\begin{itemize}
+	\item \textbf{Commutatività} per l'\verb|AND|: $A \cdot B = B \cdot A$
+	\item \textbf{Commutatività} per l'\verb|OR|: $A + B = B + A$
+	\item \textbf{Distributività}: $A \cdot (B + C) = A \cdot B + A \cdot C$ e la formula duale
+	      $A + (B \cdot C) = (A \cdot B) + (A \cdot C)$
+	\item \textbf{De Morgan}: $\overline{A \cdot B} = \bar{A} + \bar{B}$ e la formula duale
+	      $\overline{A + B} = \bar{A} \cdot \bar{B}$
+\end{itemize}
+Con queste proprietà è possibile semplificare alcune delle formule generate da alcune tabelle di
+verità come abbiamo fatto nel caso del multiplexer.

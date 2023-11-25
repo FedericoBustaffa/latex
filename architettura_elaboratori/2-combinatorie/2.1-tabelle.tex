@@ -1,0 +1,120 @@
+\chapter{Reti combinatorie}
+Le \textbf{reti combinatorie} sono delle funzioni che hanno un certo numero di ingressi e un certo
+numero di uscite, formate da una composizione di porte \verb|AND|, \verb|OR| e \verb|NOT|.
+
+Vedremo nello specifico alcune tecniche per riuscire a derivare dei circuiti logici da tabelle di
+verità e formule booleane in modo che questi rappresentino un'implementazione ragionevole.
+
+\section{Derivazione dalle tabelle di verità}
+Supponiamo ad esempio di voler implementare una rete combinatoria in grado di calcolare il numero
+di bit a 1 su 2 ingressi ciascuno da 1 bit. In questo caso i possibili valori di output sono 3 (0,
+1 e 2) e abbiamo quindi bisogno di un numero di uscite pari a $\lceil \log_2 (3) \rceil = 2$. La
+tabella di verità del nostro circuito sarà la seguente
+\begin{center}
+	\begin{tabular}{c c | c c}
+		$x_0$ & $x_1$ & $z_0$ & $z_1$ \\ \hline
+		0     & 0     & 0     & 0     \\
+		0     & 1     & 0     & 1     \\
+		1     & 0     & 0     & 1     \\
+		1     & 1     & 1     & 0
+	\end{tabular}
+\end{center}
+Per trovare il circuito desiderato c'è una procedura standard, la quale utilizza il fatto che un
+\verb|AND| logico corrisponde al prodotto tra due numeri mentre l'\verb|OR| logico corrisponde alla
+somma:
+\begin{enumerate}
+	\item Per ogni riga in cui una delle colonne d'uscita presenta almeno un 1 mettiamo in
+	      \verb|AND| gli ingressi, negandoli se uguali a 0.
+	\item Per ogni colonna si mettono in \verb|OR| tutti i risultati ottenuti al passo precedente.
+\end{enumerate}
+Nel nostro caso la colonna $z_0$ ha un 1 sull'ultima riga e i relativi valori di $x_0$ e $x_1$ sono
+entrambi 1 quindi possiamo dire che
+\[ z_0 = x_0 \cdot x_1 \]
+Per quanto riguarda invece la colonna $z_1$ abbiamo due 1 e in corrispondenza della seconda e terza
+riga. Ma in entrambi i casi uno dei due valori in ingresso è 0 e l'altro è 1 e dunque il risultato
+finale è
+\[ z_1 = \bar{x_0} \cdot x_1 + x_0 \cdot \bar{x_1} \]
+Il circuito logico che ne deriva è il seguente
+\begin{center}
+	\begin{circuitikz}
+		% gate
+		\node[and port] (and1) at (3.5, -1) {};
+		\node[and port] (and2) at (3.5, -2.5) {};
+		\node[and port] (and3) at (3.5, -4) {};
+		\node[or port] (or) at (5.5, -3.25) {};
+
+		% connessioni
+		\draw (0, 0) node[label=above:$x_0$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+		\draw (0, 52 |- and1.in 1) to[short, -*] (0, 52 |- and2.in 1) to[short, -o] (and2.in 1);
+		\draw (0, 52 |- and2.in 1) to[short, -*] (0, 52 |- and3.in 1) -- (and3.in 1);
+
+		\draw (1, 0) node[label=above:$x_1$] {} to[short, -*] (1, 52 |- and1.in 2) -- (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+		\draw (1, 52 |- and2.in 2) to[short, -*] (1, 52 |- and3.in 2) to[short, -o] (and3.in 2);
+
+		\draw (and2.out) |- (or.in 1);
+		\draw (and3.out) |- (or.in 2);
+
+		\draw (and1.out) -- (6.5, 52 |- and1.out) node[label=above:$z_0$] {};
+		\draw (or.out) -- (6.5, 52 |- or.out) node[label=above:$z_1$] {};
+	\end{circuitikz}
+\end{center}
+Su tale circuito è possibile provare ad inserire vari input di $x_0$ e $x_1$ per verificarne la
+correttezza.
+
+Supponiamo ora di dover scegliere uno tra due ingressi possibili a seconda di un ingresso di
+controllo regolato da un \textbf{multiplexer} che ha una forma di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-1.25, 1) -- (1.25, 1) -- (0.75, 0) -- (-0.75, 0) -- cycle;
+		\node (mux) at (0, 0.5) {MUX};
+		\draw (-0.5, 1.5) node[label=left:$x_0$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=right:$x_1$] {} to[short, o-] (0.5, 1);
+		\draw (-1.75, 0.5) node[label=left:$c$] {} to[short, o-] (-1, 0.5);
+		\draw (0, 0) -- (0, -0.75) node[label=right:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Di fatto dobbiamo implementare un circuito che da come risultato il valore di $x_0$ quando $c=0$ e
+da come risultato il valore di $x_1$ quando $c=1$.
+
+In questo caso abbiamo tre ingressi e un'uscita, dovremmo quindi scrivere una tabella di verità con
+8 righe, ma dato che uno dei valori viene scartato a seconda del valore di $c$ il risultato è una
+tabella più compatta.
+
+Avere una tabella più compatta significa anche avere un circuito più compatto e con meno componenti.
+Questo si traduce in un minor numero di nodi di calcolo e quindi una computazione più veloce, ma
+anche in un minor consumo di energia e minor bisogno di spazio sul processore.
+\begin{center}
+	\begin{tabular}{c c c | c}
+		$x_0$ & $x_1$ & $c$ & $z$ \\ \hline
+		0     & -     & 0   & 0   \\
+		1     & -     & 0   & 1   \\
+		-     & 0     & 1   & 0   \\
+		-     & 1     & 1   & 1
+	\end{tabular}
+\end{center}
+Svolgiamo lo stesso procedimento di prima e ricaviamo un circuito di questo tipo
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (3.5, 0.75) {};
+		\node[and port] (and2) at (3.5, -0.75) {};
+		\node[or port] (or) at (5.5, 0) {};
+
+		% connessioni
+		\draw (0, 1.5) node[label=above:$x_0$] {} to[short, -*] (0, 52 |- and1.in 1) -- (and1.in 1);
+
+		\draw (0.5, 1.5) node[label=above:$x_1$] {} to[short, -*] (0.5, 52 |- and2.in 1) -- (and2.in 1);
+
+		\draw (1, 1.5) node[label=above:$c$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
+		\draw (1, 52 |- and1.in 2) to[short, -*] (1, 52 |- and2.in 2) -- (and2.in 2);
+
+		\draw (and1.out) |- (or.in 1);
+		\draw (and2.out) |- (or.in 2);
+
+		\draw (or.out) -- (6.5, 52 |- or.out) node[label=above:$z$] {};
+	\end{circuitikz}
+\end{center}
+che calcola esattamente
+\[ z = x_0 \cdot \bar{c} + x_1 \cdot c \]
+ossia il valore del canale scelto dal multiplexer.
+

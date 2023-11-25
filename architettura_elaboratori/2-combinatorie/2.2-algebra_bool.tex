@@ -1,0 +1,59 @@
+\section{Derivazione tramite algebra booleana}
+Supponiamo che per un qualche motivo otteniamo una funzione di $a$, $b$ e $c$ tale che
+\[ f(a,b,c) = \bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c \]
+Se volessimo implementare questa formula tramite un circuito avremmo bisogno di tre porte
+\verb|AND3| e di 1 porta \verb|OR3|. Usando però le proprietà dell'algebra booleana otteniamo
+\[
+	\bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c
+	= \bar{b} \bar{c} (\bar{a} + a) + a \bar{b} c
+	= \bar{b} \bar{c} + a \bar{b} c
+\]
+Passando così ad una formula che ci permette di implementare un circuito tramite due porte
+\verb|AND3| e una porta \verb|OR3|. Se procedessimo invece in questo modo
+\begin{align*}
+	\bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c
+	 & = \bar{a} \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} \bar{c} + a \bar{b} c         \\
+	 & = \bar{b} \bar{c} (\bar{a} + a) + a \bar{b} (c + \bar{c}) = \bar{b} \bar{c} + a \bar{b}
+\end{align*}
+otterremmo la possibilità di implementare un circuito tramite due porte \verb|AND2| e una porta
+\verb|OR2|. Come possiamo vedere, a seconda di come usiamo queste proprietà, è possibile diminuire
+notevolmente la dimensione dei circuiti e quindi la complessità di ciò che stiamo calcolando.
+\begin{center}
+	\begin{circuitikz}
+		% gates
+		\node[and port] (and1) at (3.5, 1) {};
+		\node[and port] (and2) at (3.5, -1) {};
+		\node[or port] (or) at (5.5, 0) {};
+
+		\draw (0, 2) node[label=above:$a$] {} to[short, -*] (0, 52 |- and2.in 1) -- (and2.in 1);
+		\draw (0.5, 2) node[label=above:$b$] {} to[short, -*] (0.5, 52 |- and1.in 1) to[short, -o] (and1.in 1);
+		\draw (0.5, 52 |- and1.in 1) to[short, -*] (0.5, 52 |- and2.in 2) to[short, -o] (and2.in 2);
+		\draw (1, 2) node[label=above:$c$] {} to[short, -*] (1, 52 |- and1.in 2) to[short, -o] (and1.in 2);
+
+		\draw (and1.out) |- (or.in 1);
+		\draw (and2.out) |- (or.in 2);
+	\end{circuitikz}
+\end{center}
+A questo punto sarebbe possibile semplificare ulteriormente la formula raccogliendo $\bar{b}$ e
+implementando il circuito descritto da
+\[ \bar{b} \cdot (\bar{c} + a) \]
+ma questo introduce un problema in quanto il circuito generato è asimmetrico e dunque i segnali in
+ingresso non attraversano tutti lo stesso numero di porte come possiamo vedere in figura
+\begin{center}
+	\begin{circuitikz}
+		\node[or port] (or) at (3.5, 1) {};
+		\node[and port] (and) at (5.5, 0) {};
+
+		\draw (0, 2) node[label=above:$a$] {} to[short, -*] (0, 52 |- or.in 1) -- (or.in 1);
+		\draw (0.5, 2) node[label=above:$b$] {} to[short, -*] (0.5, 52 |- and.in 2) to[short, -o] (and.in 2);
+		\draw (1, 2) node[label=above:$c$] {} to[short, -*] (1, 52 |- or.in 2) to[short, -o] (or.in 2);
+
+		\draw (or.out) |- (and.in 1);
+	\end{circuitikz}
+\end{center}
+Questo si traduce in un intervallo di tempo in cui la porta \verb|AND| riceve, da una parte il
+vecchio segnale trasmesso dalla porta \verb|OR| prodotto al calcolo precedente, dall'altra l'ultimo
+segnale prodotto dall'ingresso $b$.
+
+Fino a che la porta \verb|OR| non finisce di elaborare i segnali in arrivo da $a$ e $c$ la porta
+\verb|AND| potrebbe produrre risultati errati, dovuti a quello che viene chiamato \textbf{glitch}.

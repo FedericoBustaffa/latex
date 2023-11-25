@@ -1,0 +1,271 @@
+\chapter{Componenti standard}
+Andiamo ora a definire alcune delle componenti, con relativa implementazione, che andremo ad
+utilizzare molto spesso d'ora in poi e che considereremo \textbf{componenti standard}.
+
+Possiamo dividere tali componenti in \textbf{componenti di reti combinatorie} e
+\textbf{componenti di reti sequenziali}.
+
+\section{Componenti di reti combinatorie}
+Le componenti che andremo a vedere sono le componenti principali per lo svolgimento dei calcoli
+aritmetici e per la valutazione di espressioni booleane.
+
+\subsection{Addizionatore}
+La prima componente che andiamo a vedere è l'addizionatore di due sequenza da $n$ bit ciascuna che
+restituisce una sequenza da $n$ bit e un riporto. Il componente lo indicheremo d'ora in poi in
+questo modo
+\begin{center}
+	\begin{tikzpicture}[scale=0.75]
+		\draw[thick] (-1, 0) -- (-1.5, 1.5) -- (-0.2, 1.5) -- (0, 1.25) -- (0.2, 1.5) -- (1.5, 1.5) -- (1, 0) -- cycle;
+		\node (add) at (0, 0.75) {+};
+
+		\draw (-1, 2) node[label=above:$x$] {} to[short, o-] (-1, 1.5);
+		\draw (1, 2) node[label=above:$y$] {} to[short, o-] (1, 1.5);
+		\draw (2, 0.75) node[label=right:$r_\text{in}$] {} to[short, o-] (1.25, 0.75);
+		\draw[->, >=Stealth] (-1.25, 0.75) -- (-2, 0.75) -- (-2, -0.75) node[label=below:$r_\text{out}$] {};
+		\draw[->, >=Stealth] (0, 0) -- (0, -0.75) node[label=below:$s$] {};
+	\end{tikzpicture}
+\end{center}
+Come abbiamo visto in Verilog, è possibile implementare un addizionatore di due sequenze da 2 bit
+ciascuna, concatenando due addizionatori da 1 bit. Questo però implica che ogni addizionatore
+inizia il calcolo quando quello che ha calcolato la cifra meno significativa ha finito il suo
+calcolo e generato un prodotto.
+
+Dato che ogni addizionatore da 1 bit deve attraversare due livelli di porte logiche, se
+concantenassimo $n$ addizionatori da 1 bit dovrebbe attendere $2 n \Delta t$ per effettuare una
+somma a $n$ bit.
+
+Si prova quindi a calcolare il riporto in anticipo con una tecnica chiamata \textbf{Carry look ahead}.
+Questa tecnica tiene di conto che una somma tra due bit $x$ e $y$
+\begin{itemize}
+	\item \textbf{Genera} un riporto se e solo $x = y = 1$.
+	\item \textbf{Propaga} un riporto se e solo se $x = 1$ o $y = 1$.
+\end{itemize}
+Vale quindi che, data una certa colonna della somma, abbiamo un riporto se generiamo o propaghiamo
+un riporto. Da questa considerazione ricaviamo la formula ricorsiva
+\[ C_{i+1} = G_i + P_i \cdot C_i \]
+dove $G_i = x_i \cdot y_i$ e $P_i = x_i + y_i$, che ci permette di calcolare il riporto $C$
+generato da una somma di due sequenze di $i+1$ bit.
+
+Così facendo abbiamo un circuito con $k$ porte in cascata per ogni sottosequenza di bit e a seconda
+di quanto è lunga la sequenza principale e di quante sottosequenze abbiamo generato si dovrebbe
+ottenere una leggera ottimizzazione in termini di livelli di porte da attraversare.
+
+In questo modo il calcolo del riporto è indipendente dal calcolo della somma e dunque il calcolo
+della somma successiva può iniziare in anticipo.
+
+\subsection{Comparatore}
+Componente utile per capire se due sequenza di bit $x$ e $y$ sono uguali oppure no. Per la
+comparazione di due bit singoli abbiamo già la porta \verb|XNOR| che ritorna 1 se e solo se i due
+bit hanno lo stesso valore. Un circuito in grado di comparare due sequenze di $n$ bit sarebbe
+\begin{center}
+	\begin{circuitikz}
+		\node[xnor port] (xnor1) at (-0.5, 1.25) {};
+		\node[xnor port] (xnor2) at (-0.5, -1.25) {};
+		\node[and port] (and) at (2, 0) {};
+
+		\draw (-3, 52 |- xnor1.in 1) node[label=left:$x_0$] {} -- (xnor1.in 1);
+		\draw (-3, 52 |- xnor1.in 2) node[label=left:$y_0$] {} -- (xnor1.in 2);
+
+		\node at (-1.5, 0) {$\vdots$};
+		\node at (-3.5, 0) {$\vdots$};
+
+		\draw (-3, 52 |- xnor2.in 1) node[label=left:$x_{n-1}$] {} -- (xnor2.in 1);
+		\draw (-3, 52 |- xnor2.in 2) node[label=left:$y_{n-1}$] {} -- (xnor2.in 2);
+
+		\draw (xnor1.out) -- (and.in 1);
+		\draw (xnor2.out) -- (and.in 2);
+		\draw (and.out) --++ (0.75, 0) node[label=right:$z$] {};
+	\end{circuitikz}
+\end{center}
+D'ora in poi sarà rappresentato in questo modo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-0.75, -0.5) rectangle(0.75, 0.5);
+		\node (eq) at (0, 0) {=};
+
+		\draw (-0.5, 1) node[label=above:$x$] {} to[short, o-] (-0.5, 0.5);
+		\draw (0.5,  1) node[label=above:$y$] {} to[short, o-] (0.5, 0.5);
+		\draw[->, >=Stealth] (0, -0.5) -- (0, -1) node[label=below:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Dove $x$ e $y$ sono entrambe due sequenze da $n$ bit e $z$ vale 0 se $x \neq y$ e vale 1 se $x = y$.
+
+\subsection{ALU}
+Altro componente fondamentale è la \textbf{ALU}, la quale ci permette di effettuare ben quattro
+operazioni tra due sequenze di $n$ bit $x$ e $y$: \verb|AND|, \verb|OR|, somma e sottrazione.
+
+Le prime tre operazioni hanno già un circuito che le implementa e che conosciamo, per la
+sottrazione facciamo prima una considerazione.
+
+Come abbiamo già anticipato, se abbiamo un numero positivo rappresentato in complemento a 2, per
+farlo diventare negativo dobbiamo negarlo e sommarci 1. Di conseguenza vale che
+\[ x - y = x + (\bar{y} + 1) \]
+Siamo quindi in grado di utilizzare un addizionatore per svolgere anche le sottrazioni e dunque non
+dobbiamo implementare un circuito apposito.
+\begin{center}
+	\begin{circuitikz}
+		\draw[thick] (2, -4.25) -- (2, -2.25) -- (2.75, -2.75) -- (2.75, -3.75) -- cycle;
+		\draw[thick] (4, -2.25) -- (4, -1.50) -- (4.25, -1.25) -- (4, -1) --
+		(4, -0.25) -- (5, -0.75) -- (5, -1.75) -- cycle;
+		\node at (4.625, -1.25) {+};
+		\node[or port] (or) at (5, 4) {};
+		\node[and port] (and) at (5, 2) {};
+		\draw[thick] (7, -1.5) -- (7, 1.5) -- (8, 1) -- (8, -1) -- cycle;
+
+		\draw[->, >=Stealth] (4.625, -5.5) node[label=below:OP] {} to[short, -*] (4.625, -4.75) --
+		(2.375, -4.75) -- (2.375, -4);
+		\draw[->, >=Stealth] (4.625, -4.75) -- (4.625, -2);
+		\draw[->, >=Stealth] (4.625, -4.75) -- (7.5, -4.75) -- (7.5, -1.25);
+
+		\draw[->, >=Stealth] (0, 1) node[label=left:$x$] {} to[short, -*]
+		(2.5, 1) -- (2.5, -0.625) -- (4, -0.625);
+		\draw (2.5, 1) -- (2.5, 52 |- or.in 1) -- (or.in 1);
+		\draw (2.5, 52 |- and.in 1) to[short, *-] (and.in 1);
+
+		\draw[->, >=Stealth] (0, -1) node[label=left:$y$] {} to[short, -*]
+		(1.25, -1) -- (1.25, -3.75) to[short, -o] (1.625, -3.75) -- (2, -3.75);
+		\draw[->, >=Stealth] (1.25, -2.75) to[short, *-] (2, -2.75);
+		\draw (1.25, -1) -- (1.25, 52 |- and.in 2) -- (and.in 2);
+		\draw (1.25, 52 |- and.in 2) to[short, *-] (1.25, 52 |- or.in 2) -- (or.in 2);
+
+		\draw[->, >=Stealth] (2.75, -3.25) -- (3.25, -3.25) -- (3.25, -1.875) -- (4, -1.875);
+		\draw[->, >=Stealth] (5, -1.25) -- (7, -1.25);
+		\draw[->, >=Stealth] (6, -1.25) to[short, *-] (6, -0.5) -- (7, -0.5);
+		\draw[->, >=Stealth] (4.5, -0.5) -- (4.5, 0) -- (5, 0);
+
+		\draw[->, >=Stealth] (and.out) -- (5.125, 0.5) -- (7, 0.5);
+		\draw[->, >=Stealth] (or.out) -- (6, 52 |- or.out) -- (6, 1) -- (7, 1);
+		\draw[->, >=Stealth] (8, 0) -- (8.75, 0);
+	\end{circuitikz}
+\end{center}
+L'entrata OP è un ingresso da 2 bit che ha come funzione principale la selezione dell'operazione
+tramite il multiplexer a destra. \`E inoltre usato, nel caso si voglia effettuare una sottrazione
+per rendere $y$ negativo tramite il multiplexer iniziale e tramite il riporto immesso
+nell'addizionatore.
+
+Supponiamo infatti di avere come configurazione per la scelta delle operazioni della ALU quella
+indicata dalla seguente tabella
+\begin{center}
+	\begin{tabular}{c | c}
+		OP input & operazione \\ \hline
+		00       & +          \\
+		01       & -          \\
+		10       & \verb|AND| \\
+		11       & \verb|OR|
+	\end{tabular}
+\end{center}
+e inviamo in ingresso $x = 1$, $y = 1$ e $OP = 01$. Dato che $OP = 01$, il primo multiplexer
+sceglierà come uscita $\bar{y}$ e invierà all'addizionatore un riporto di 1. Come risultato avremo
+che l'addizionatore sommerà $x$ e $\bar{y} + 1$ ottenendo 0. Dato che l'ultimo multiplexer è
+impostato per dare come uscita la sottrazione quando $OP = 01$ avremo il risultato richiesto.
+
+\subsection{Shift}
+In precedenza abbiamo parlato di \textbf{shift logico} e \textbf{shift aritmetico}. Vediamo ora
+come è possibile implementare un circuito che ci permette di shiftare a destra una sequenza di bit
+di un certo numero di posizioni con una sequenza di esempio di 4 bit.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (4.25, 3.625) -- (4.25, 1.625) -- (5, 2.125) -- (5, 3.125) -- cycle;
+
+		\draw (0, 5) node[label=above:$x_3$] {} to[short, -*] (0, 4.5) -- (2.5, 4.5);
+		\draw (0.5, 5) node[label=above:$x_2$] {} to[short, -*] (0.5, 4.25) -- (2.5, 4.25);
+		\draw (1, 5) node[label=above:$x_1$] {} to[short, -*] (1, 4)   -- (2.5, 4);
+		\draw (1.5, 5) node[label=above:$x_0$] {} to[short, -*] (1.5, 3.75) -- (2.5, 3.75);
+
+
+		\draw (2.25, 3.5) node[label=left:\footnotesize0] {} -- (2.5, 3.5);
+		\draw (0, 4.5) to[short, -*] (0, 3.25) -- (2.5, 3.25);
+		\draw (0.5, 4.25) to[short, -*] (0.5, 3) -- (2.5, 3);
+		\draw (1, 4) to[short, -*] (1, 2.75) -- (2.5, 2.75);
+
+		\draw (2.25, 2.5) node[label=left:\footnotesize0] {} -- (2.5, 2.5);
+		\draw (2.25, 2.25) node[label=left:\footnotesize0] {} -- (2.5, 2.25);
+		\draw (0, 3.25) to[short, -*] (0, 2) -- (2.5, 2);
+		\draw (0.5, 3) -- (0.5, 1.75) -- (2.5, 1.75);
+
+		\draw (2.25, 1.5) node[label=left:\footnotesize0] {} -- (2.5, 1.5);
+		\draw (2.25, 1.25) node[label=left:\footnotesize0] {} -- (2.5, 1.25);
+		\draw (2.25, 1) node[label=left:\footnotesize0] {} -- (2.5, 1);
+		\draw (0, 2) -- (0, 0.75) -- (2.5, 0.75);
+
+		\draw[very thick] (2.5, 4.5) -- (2.5, 3.75);
+		\draw[very thick] (2.5, 3.5) -- (2.5, 2.75);
+		\draw[very thick] (2.5, 2.5) -- (2.5, 1.75);
+		\draw[very thick] (2.5, 1.5) -- (2.5, 0.75);
+
+		\draw[->, >=Stealth] (2.5, 4.125) -- (3.5, 4.125) -- (3.5, 3.375) -- (4.25, 3.375);
+		\draw[->, >=Stealth] (2.5, 3.125) -- (3, 3.125) -- (3, 2.875) -- (4.25, 2.875);
+		\draw[->, >=Stealth] (2.5, 2.125) -- (3, 2.125) -- (3, 2.375) -- (4.25, 2.375);
+		\draw[->, >=Stealth] (2.5, 1.125) -- (3.5, 1.125) -- (3.5, 1.875) -- (4.25, 1.875);
+		\draw[->, >=Stealth] (4.625, 1) -- (4.625, 1.875);
+		\draw[->, >=Stealth] (5, 2.625) --++ (1, 0) node[label=right:$z$] {};
+	\end{tikzpicture}
+\end{center}
+Come è possibile notare quando si shifta a destra si aggiungono tanti 0 a sinistra quanto
+necessario e si ridirezionano i bit più significativi. Per uno shift aritmetico a destra avremmo
+dovuto collegare l'ingresso del bit più significativo al posto degli 0.
+
+Se avessimo voluto effettuare degli shift a sinistra lo schema sarebbe stato uguale tranne per il
+fatto che sarebbero stati i bit più significativi i primi ad andare a 0.
+
+\subsection{Demultiplexer}
+Altro circuito considerato standard è il \textbf{demultiplexer} il quale ha $n$ bit in ingresso e
+$2^n$ bit in uscita, e mette a 1 solo l'$n$-esimo bit lasciando tutti gli altri a 0. Se ad esempio
+avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-0.8, 1) -- (0.8, 1) -- (1.5, 0) -- (-1.5, 0) -- cycle;
+		\node (mux) at (0, 0.5) {DEMUX};
+
+		\draw (-0.5, 1.5) node[label=above:$x_1$] {} to[short, o-] (-0.5, 1);
+		\draw (0.5, 1.5) node[label=above:$x_2$] {} to[short, o-] (0.5, 1);
+
+		\draw (-1.25, 0) -- (-1.25, -0.5) node[label=below:$z_1$] {};
+		\draw (-0.5, 0) -- (-0.5, -0.5) node[label=below:$z_2$] {};
+		\draw (0.5, 0) -- (0.5, -0.5) node[label=below:$z_3$] {};
+		\draw (1.25, 0) -- (1.25, -0.5) node[label=below:$z_4$] {};
+	\end{tikzpicture}
+\end{center}
+e la tabella di verità corrispondente sarebbe la solita
+\begin{center}
+	\begin{tabular}{c c | c c c c}
+		$x_1$ & $x_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		0     & 0     & 1     & 0     & 0     & 0     \\
+		0     & 1     & 0     & 1     & 0     & 0     \\
+		1     & 0     & 0     & 0     & 1     & 0     \\
+		1     & 1     & 0     & 0     & 0     & 1
+	\end{tabular}
+\end{center}
+Le formule risultanti da questa tabella sono
+\begin{align*}
+	z_1 & = \bar{x_1} \bar{x_2} \\
+	z_2 & = \bar{x_1} x_2       \\
+	z_3 & = x_1 \bar{x_2}       \\
+	z_4 & = x_1 x_2
+\end{align*}
+Il circuito risultante sarebbe molto semplicemente
+\begin{center}
+	\begin{circuitikz}
+		\node[and port] (and1) at (0, 2.25) {};
+		\node[and port] (and2) at (0, 0.75) {};
+		\node[and port] (and3) at (0, -0.75) {};
+		\node[and port] (and4) at (0, -2.25) {};
+
+		\draw (-4, 0.75) node[label=left:$x_1$] {} to[short, o-*] (-2.5, 0.75) --
+		(-2.5, 52 |- and1.in 1) to[short, -o] (and1.in 1)
+		(-2.5, 0.5) -- (-2.5, 52 |- and2.in 1) to[short, *-o] (and2.in 1)
+		(-2.5, 0.5) to[short, -*] (-2.5, 52 |- and3.in 1) -- (and3.in 1)
+		(-2.5, 0.5) -- (-2.5, 52 |- and4.in 1) -- (and4.in 1);
+
+		\draw (-4, -0.75) node[label=left:$x_2$] {} to[short, o-*] (-3.5, -0.75) --
+		(-3.5, 52 |- and1.in 2) to[short, -o] (and1.in 2)
+		(-3.5, 0.5) -- (-3.5, 52 |- and2.in 2) to[short, *-] (and2.in 2)
+		(-3.5, 0.5) to[short, -*] (-3.5, 52 |- and3.in 2) to[short, -o] (and3.in 2)
+		(-3.5, 0.5) -- (-3.5, 52 |- and4.in 2) -- (and4.in 2);
+
+		\draw (and1.out) --++ (0.5, 0) node[label=right:$z_1$] {};
+		\draw (and2.out) --++ (0.5, 0) node[label=right:$z_2$] {};
+		\draw (and3.out) --++ (0.5, 0) node[label=right:$z_3$] {};
+		\draw (and4.out) --++ (0.5, 0) node[label=right:$z_4$] {};
+	\end{circuitikz}
+\end{center}

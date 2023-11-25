@@ -1,4 +1,4 @@
-\section{Reti sequenziali}
+\chapter{Reti sequenziali}
 Le \textbf{reti sequenziali} ci servono ad implementare \textbf{macchine con stato} o
 \textbf{automi}, i quali hanno bisogno di una componente di \textbf{memoria} che ci permetta di
 salvare per l'appunto un certo \textbf{stato}.
@@ -6,11 +6,11 @@ salvare per l'appunto un certo \textbf{stato}.
 Per riuscire ad implementare un automa abbiamo prima bisogno di un componente in grado di
 memorizzare lo stato e questo è detto \textbf{registro}.
 
-\subsection{Registri}
+\section{Registri}
 Per implementare un registro in grado di salvare lo stato di uno o più bit abbiamo prima bisogno
 di implementare altre componenti.
 
-\subsubsection{Latch SR}
+\subsection{Latch SR}
 Il primo oggetto di cui andiamo a parlare è chiamato \textbf{latch SR} dove SR sta per \emph{Set} e
 \emph{Reset} ed è implementato in questo modo
 \begin{center}
@@ -42,7 +42,7 @@ metodo di memorizzazione presenta due problemi:
 Dato che $Q$ e $\bar{Q}$ dovrebbero essere l'uno l'opposto dell'altro e che si crea questa
 situazione di ambiguità si è passati al D latch.
 
-\subsubsection{D latch}
+\subsection{D latch}
 Il \textbf{D latch} introduce un \textbf{segnale di clock} costante e riduce il numero di ingressi
 significativi ad uno, ossia $D$.
 
@@ -78,7 +78,7 @@ Vogliamo quindi avere un qualcosa che ci permetta di decidere quando scrivere si
 riscrivere continuamente lo stesso valore anche quando questo non cambia, sia per evitare di avere
 costantemente un $D$ significativo in ingresso.
 
-\subsubsection{Flip Flop}
+\subsection{Flip Flop}
 Prima di ottenere il circuito sperato introduiciamo brevemente il circuito \textbf{Flip Flop}, il
 quale, tramite due D latch concatenati (un \emph{master} e uno \emph{slave}), evita transizioni di
 stato indesiderate salvando il dato significativo nel D latch slave.
@@ -102,7 +102,7 @@ stato indesiderate salvando il dato significativo nel D latch slave.
 	\end{tikzpicture}
 \end{center}
 
-\subsubsection{Registro da 1 bit}
+\subsection{Registro da 1 bit}
 Possiamo finalmente implementare, sulla base di quest'ultimo componente il nostro \textbf{registro}
 da 1 bit introducendo un segnale di \textbf{enable} che regola le tempistiche di scrittura quando
 necessario.
@@ -151,119 +151,3 @@ clock ed \verb|ENABLE|.
 Per registri da 32 o 64 bit in realtà non si accostando 32 o 64 registri da un bit ma si procede in
 un altro modo risparmiando molte componenti.
 
-\subsection{Automi}
-Questi registri ci permettono di implementare degli \textbf{automi} che ad esempio ci permettono
-di riconoscere sottostringhe di un certo tipo. Se ad esempio avessimo un vocabolario $\{a, b, c\}$
-e volessimo implementare un automa in grado di riconoscere la presenza di sottosequenze del tipo
-$abb$ avremmo un qualcosa di questo tipo
-\begin{center}
-	\begin{tikzpicture}[
-			->, >=Stealth,
-			node distance=3cm,
-			main node/.style={circle, draw, thick, font=\Large}
-		]
-		\node[state, main node] (init) {Init};
-		\node[state, main node] (A) [below left of=init] {A};
-		\node[state, main node] (AB) [below right of=init] {AB};
-
-		\draw
-		(init) edge node[->, below right, black] {a/0} (A)
-		(init) edge[loop above] node{b,c/0} (init)
-		(A) edge[above right] node{b/0} (AB)
-		(A) edge[loop left] node{a/0} (A)
-		(A) edge[bend left] node[above left, black] {c/0} (init)
-		(AB) edge[bend right] node[above right, black] {b/1, c/0} (init)
-		(AB) edge[bend left] node[below, black] {a/0} (A);
-	\end{tikzpicture}
-\end{center}
-Quello che ora vorremmo essere in grado di fare è implementarlo su un circuito. Per farlo dobbiamo
-soddisfare 4 requisiti fondamentali, i quali prevedono la definizione di
-\begin{enumerate}
-	\item Una rappresentazione delle stringhe in ingresso.
-	\item Una rappresentazione per gli stati.
-	\item Una funzione che, dato uno stato e un valore (un carattere nel nostro caso), restituisce
-	      un valore d'uscita significativo.
-	\item Una funzione che, dato uno stato e un valore, restituisce il prossimo stato in cui
-	      passare.
-\end{enumerate}
-Iniziamo con il fornire una rappresentazione delle stringhe in ingresso
-\begin{center}
-	\begin{tabular}{c | c}
-		a & 00 \\ \hline
-		b & 01 \\ \hline
-		c & 11
-	\end{tabular}
-\end{center}
-Similmente la rappresentazione dei vari stati sarà
-\begin{center}
-	\begin{tabular}{c | c}
-		Init & 00 \\ \hline
-		A    & 01 \\ \hline
-		AB   & 11
-	\end{tabular}
-\end{center}
-Per definire la funzione in grado di dirci se abbiamo riconosciuto la sequenza oppure no abbiamo
-bisogno di di due bit di stato $S_1$ ed $S_0$ e poi di due bit che rappresentano gli ingressi $I_1$
-e $I_0$. Non stiamo a scrivere la tabella di verità deducibile dallo schema dell'automa stesso
-ma alla fine ricaviamo che l'uscita $Z$ è definita da
-\[ Z = S_1 \cdot S_0 \cdot \bar{I}_1 \cdot I_0 \]
-In ultima battuta definiamo la funzione che ci permette di dedurre il prossimo stato in cui ci
-troveremo basandosi sullo stato attuale e sugli ingressi.
-\begin{align*}
-	S_1' = & \bar{S}_1 S_0 	\bar{I}_1 I_0                                                    \\
-	S_0' = & \bar{S}_1 		\bar{S}_0 \bar{I}_1 \bar{I}_0 + \bar{S}_1  S_0 \bar{I}_1 \bar{I}_0 +
-	\bar{S}_1  S_0 \bar{I}_1 I_0 + S_1 S_0 \bar{I}_1 \bar{I}_0
-\end{align*}
-Non ci rimane che implementare il nostro automa tramite un circuito composto da due moduli che
-calcolano rispettivamente $Z$ ed $S'$ e da un registro in grado di memorizzare 2 bit di stato.
-\begin{center}
-	\begin{tikzpicture}[->, >=Stealth]
-		\draw[thick] (-2.5, 0) rectangle (-1, 1) (-1.75, 0.5) node{$S'$};
-		\draw[thick] (0.5, 0) rectangle (1.5, 1) (1, 0.5) node{R2};
-		\draw[thick] (3, 0) rectangle (4.5, 1) (3.75, 0.5) node{$Z$};
-
-		\draw (-4, 0.5) node[label=left:$I$] {} -- (-2.5, 0.5);
-		\draw (-3.25, 0.5) to[short, *-] (-3.25, 1.5) -- (3.75, 1.5) -- (3.75, 1);
-
-		\draw (-1, 0.5) -- (0.5, 0.5);
-		\draw (1.5, 0.5) -- (3, 0.5);
-		\draw (2.25, 0.5) to[short, *-] (2.25, -0.5) -- (-1.75, -0.5) -- (-1.75, 0);
-		\draw (4.5, 0.5) -- (5.5, 0.5);
-		\draw (1.25, -1) node[label=right:EN] {} -- (1.25, 0);
-		\draw[dashed] (0.75, -1) node[label=left:clock] {} -- (0.75, 0);
-	\end{tikzpicture}
-\end{center}
-Questa che vediamo è detta \textbf{rete sequenziale di Mealy} in quanto implementa un automa di
-Mealy. Se non avessimo la diramazione dell'ingresso $I$ che va in $Z$ avremmo parlato di
-\textbf{rete sequenziale di Moore}, la quale implementa un automa di Moore che è definito in
-maniera leggermente diversa.
-
-\subsection{Sincronizzazione}
-Un altro tipo di rete non prevede l'utilizzo del registro R2 ma così fancendo si rende instabile
-tutto il circuito per motivi non di nostro interesse. In realtà anche la versione sopra descritta
-dovrebbe essere resa stabile tramite un \textbf{sincronizzatore} che può essere sia un componente
-specializzato sia un registro come quelli che abbiamo già descritto.
-\begin{center}
-	\begin{tikzpicture}[->, >=Stealth]
-		\draw[thick] (-5.5, 0) rectangle (-4, 1) (-4.75, 0.5) node{Synch};
-		\draw[thick] (-2.5, 0) rectangle (-1, 1) (-1.75, 0.5) node{$S'$};
-		\draw[thick] (0.5, 0) rectangle (1.5, 1) (1, 0.5) node{R2};
-		\draw[thick] (3, 0) rectangle (4.5, 1) (3.75, 0.5) node{$Z$};
-
-		\draw (-6.5, 0.5) node[label=left:$I_1$] {} -- (-5.5, 0.5);
-		\draw (-4, 0.5) -- (-2.5, 0.5);
-		\node[label=below:$I_2$] at (-3.25, 0.5) {};
-		\draw (-3.25, 0.5) to[short, *-] (-3.25, 1.5) -- (3.75, 1.5) -- (3.75, 1);
-
-		\draw (-1, 0.5) -- (0.5, 0.5);
-		\draw (1.5, 0.5) -- (3, 0.5);
-		\draw (2.25, 0.5) to[short, *-] (2.25, -0.5) -- (-1.75, -0.5) -- (-1.75, 0);
-		\draw (4.5, 0.5) -- (5.5, 0.5);
-		\draw (1.25, -1) node[label=right:EN] {} -- (1.25, 0);
-		\draw[dashed] (-4.75, -1) to[short, *-] (-4.75, 0);
-		\draw[dashed] (-6, -1) node[label=left:clock] {} -- (0.75, -1) -- (0.75, 0);
-	\end{tikzpicture}
-\end{center}
-Quello che vogliamo è che il valore degli ingressi sia stabile sul \emph{fronte di salita} del
-ciclo di clock. Il blocco Synch serve proprio a stabilizzare e sincronizzare gli ingressi variandoli solo
-quando il clock va alto.
