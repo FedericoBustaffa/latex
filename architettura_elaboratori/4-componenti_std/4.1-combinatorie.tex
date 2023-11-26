@@ -15,27 +15,28 @@ restituisce una sequenza da $n$ bit e un riporto. Il componente lo indicheremo d
 questo modo
 \begin{center}
 	\begin{tikzpicture}[scale=0.75]
-		\draw[thick] (-1, 0) -- (-1.5, 1.5) -- (-0.2, 1.5) -- (0, 1.25) -- (0.2, 1.5) -- (1.5, 1.5) -- (1, 0) -- cycle;
+		\draw[thick] (-1, 0) -- (-1.5, 1.5) -- (-0.2, 1.5) --
+		(0, 1.25) -- (0.2, 1.5) -- (1.5, 1.5) -- (1, 0) -- cycle;
 		\node (add) at (0, 0.75) {+};
 
 		\draw (-1, 2) node[label=above:$x$] {} to[short, o-] (-1, 1.5);
 		\draw (1, 2) node[label=above:$y$] {} to[short, o-] (1, 1.5);
 		\draw (2, 0.75) node[label=right:$r_\text{in}$] {} to[short, o-] (1.25, 0.75);
-		\draw[->, >=Stealth] (-1.25, 0.75) -- (-2, 0.75) -- (-2, -0.75) node[label=below:$r_\text{out}$] {};
+		\draw[->, >=Stealth] (-1.25, 0.75) -- (-2, 0.75) --
+		(-2, -0.75) node[label=below:$r_\text{out}$] {};
 		\draw[->, >=Stealth] (0, 0) -- (0, -0.75) node[label=below:$s$] {};
 	\end{tikzpicture}
 \end{center}
-Come abbiamo visto in Verilog, è possibile implementare un addizionatore di due sequenze da 2 bit
-ciascuna, concatenando due addizionatori da 1 bit. Questo però implica che ogni addizionatore
-inizia il calcolo quando quello che ha calcolato la cifra meno significativa ha finito il suo
-calcolo e generato un prodotto.
+Per implementare un addizionatore di due sequenze da 2 bit ciascuna, possiamo concatenare due
+addizionatori da 1 bit. Questo però implica che ogni addizionatore inizia il calcolo quando quello
+che ha calcolato la cifra meno significativa ha finito il suo calcolo e generato un prodotto.
 
 Dato che ogni addizionatore da 1 bit deve attraversare due livelli di porte logiche, se
-concantenassimo $n$ addizionatori da 1 bit dovrebbe attendere $2 n \Delta t$ per effettuare una
-somma a $n$ bit.
+concantenassimo $n$ addizionatori da 1 bit dovrebbe attendere $2 \cdot n \cdot \Delta t$ per
+effettuare una somma a $n$ bit.
 
-Si prova quindi a calcolare il riporto in anticipo con una tecnica chiamata \textbf{Carry look ahead}.
-Questa tecnica tiene di conto che una somma tra due bit $x$ e $y$
+Si prova quindi a calcolare il riporto in anticipo con una tecnica chiamata
+\textbf{Carry look ahead}. Questa tecnica tiene di conto che una somma tra due bit $x$ e $y$
 \begin{itemize}
 	\item \textbf{Genera} un riporto se e solo $x = y = 1$.
 	\item \textbf{Propaga} un riporto se e solo se $x = 1$ o $y = 1$.
