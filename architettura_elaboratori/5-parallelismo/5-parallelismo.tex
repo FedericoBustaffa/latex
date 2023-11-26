@@ -7,7 +7,7 @@ principali sono sostanzialmente due: \textbf{spaziale} e \textbf{temporale}.
 L'idea in questo caso è quella di suddividere il lavoro in più parti (\textbf{task}), ciascuna
 calcolata da un \textbf{worker}. In generale possiamo dire che se dobbiamo eseguire $m$ task e
 abbiamo a disposizione $n$ worker, per completare tutti i task ci metteremo un tempo pari a
-\[ T(n) = \frac{m}{n} \cdot t \]
+\[ T_\text{par} (n) = \frac{m}{n} \cdot t \]
 dove $t$ è il tempo di completamento di un singolo task.
 
 Il parallelismo spaziale può essere suddiviso in due ulteriori tipologie: \textbf{map} e
@@ -22,18 +22,17 @@ arrivano, i vari task ai worker liberi.
 Una grandezza in gioco per valutare l'aumento delle performance di un sistema parallelo è lo
 \textbf{speed-up}, il quale è calcolato come segue
 \[ \text{speed-up} (n) = \frac{T_\text{seq}}{T_\text{par} (n)} \]
-dove $T_\text{seq}$ è il tempo che impiegheremmo con un calcolo sequenziale e $T_\text{par} (n)$
-è il tempo impiegato con il calcolo parallelo usando $n$ worker. Nel caso di parallelismo spaziale
-avremmo uno speed-up pari a
+dove $T_\text{seq}$ è il tempo che impiegheremmo con un calcolo sequenziale. Nel caso di
+parallelismo spaziale avremmo uno speed-up pari a
 \[ \text{speed-up} (n) = \frac{m \cdot t}{\frac{m}{n} \cdot t} = n \]
 Altre grandezze in gioco sono la \textbf{latenza}, definita come il tempo assoluto di lavoro per il
-calcolo di un risultato e il \textbf{throghput}, definito come il numero di task terminati
+calcolo di un risultato e il \textbf{throughput}, definito come il numero di task terminati
 nell'unità di tempo.
 
 Quest'ultimo è definito in funzione del \textbf{tempo di servizio}, ossia il tempo che intercorre
-tra il termine di un task e il termine di un task successivo.
-\[ \text{throghput} = \frac{1}{T_s} \]
-Analogamente al throghput c'è il \textbf{tempo di completamento}, definito come il tempo di
+tra il termine di un task e il termine di un task successivo (in questo caso equivale a $t$).
+\[ \text{Throughput} = \frac{1}{T_s} \]
+Analogamente al throughput c'è il \textbf{tempo di completamento}, definito come il tempo di
 completamento di tutti i lavori. Se definiamo quindi $t_0$ come il tempo di inizio del primo task
 e $t_1$ come il tempo di fine dell'ultimo task, il tempo di completamento equivale a
 \[ T_c = t_1 - t_0 \]
@@ -46,24 +45,22 @@ Nel caso invece di map dobbiamo considerare che c'è un momento in cui si suddiv
 parti più piccole $T_\text{split}$ e un momento in cui si uniscono i risultati prodotti dai singoli
 worker per generare il risultato finale $T_\text{merge}$. Avremo quindi un tempo di completamento
 pari a
-\[ T_c = T_\text{split} + t + T_\text{merge} \]
+\[ T_c = T_\text{split} + \frac{m}{n} \cdot t + T_\text{merge} \]
 ma ancora una volta consideriamo $T_\text{split}$ e $T_\text{merge}$ come trascurabili e dunque
 avremmo un tempo di completamento pari a
-\[ T_c \approx \frac{T_\text{seq}}{n} \]
+\[ T_c \approx \frac{m}{n} \cdot t = \frac{T_\text{seq}}{n} \]
 Il parallelismo spaziale è quello implementato dai processori superscalari.
 
 \section{Parallelismo temporale}
-Questo tipo di parallelismo si addice di più ad un tipo di calcolo \emph{annidato}. Supponiamo
-infatti che il completamento di una computazione dipenda da due task $f$ e $g$ tali che il risultato
-è ottenuto calcolando
+Questa forma di parallelismo si addice di più ad un tipo di calcolo \emph{annidato}. Supponiamo
+infatti che il completamento di una computazione dipenda da due elaborazioni $f$ e $g$ dei dati,
+tali che il risultato è ottenuto calcolando
 \[ y = f(g(x)) \]
 dove $x$ è l'input. In questo caso possiamo assegnare ad un worker il calcolo di $f$ e ad un worker
 il calcolo di $g$. Quando il worker che calcola $g$ termina passa il risultato a quello in grado di
-calcolare $f$.
-
-Quando abbiamo $m$ lavori, vogliamo che ogni worker, una volta finito di calcolare la sua parte,
-passi il risultato al worker successivo ed inizi subito a calcolare l'altra parte del lavoro
-successivo.
+calcolare $f$. Scalando al caso in cui abbiamo $m$ lavori, quello che succede è che il primo worker
+calcola $g(x_i)$ e passa il risultato al secondo worker che calcola $f(g(x_i))$. Mentre quest'ultimo
+lavora il primo worker sta già calcolando $g(x_{i+1})$.
 \begin{center}
 	\begin{tikzpicture}
 		\node at(-0.5, 0.5) {$g$};
@@ -80,20 +77,22 @@ Come possiamo vedere dalla figura, mentre il worker $f$ lavora, il worker $g$ st
 la parte di un altro task. Il momento in cui tutti i worker eseguono un task in contemporanea si
 chiama \textbf{steady state}, o se vogliamo possiamo dire che siamo a \textbf{regime}.
 
-Con questo tipo di parallelismo, se abbiamo $m$ lavori suddivisibili in $n$ task impiegheremmo un
-tempo $m \cdot n \cdot t$ per il completamento, dove $t$ è il tempo richiesto per completare un
-task. Se però assegnamo ogni task ad un worker impiegheremmo un tempo di
-\[ t \cdot (n + m - 1) \]
-In questo caso, otteniamo uno speed-up di
+Con questo tipo di parallelismo, se abbiamo $m$ task, ognuno di questi suddivisibile in $n$
+\textbf{stadi}, impiegheremmo un tempo pari a
+\[ m \cdot n \cdot t \]
+per il completamento, dove $t$ è il tempo richiesto per completare uno stadio della computazione.
+Se però assegnamo ogni stadio ad un worker impiegheremmo un tempo di
+\[ t \cdot n + t \cdot (m - 1) = t \cdot (n + m - 1) \]
+In questo caso, se, come in genere succede, $m \gg n$, otteniamo uno speed-up di
 \[
 	\text{speed-up} (n) = \frac{m \cdot n \cdot t}{t \cdot (n + m - 1)}
 	= \frac{m \cdot n}{n + m - 1} \approx n
 \]
-se, come in genere succede, $m \gg n$. Il parallelismo temporale è in genere implementato come un
+Il parallelismo temporale è in genere implementato come un
 meccanismo di \textbf{pipeline} il cui tempo di completamento equivale a
 \[ T_c = m \cdot T_s + (n - 1) \cdot T_s \approx m \cdot T_s \]
-Dato che ogni worker calcola uno \textbf{stadio} differente della computazione, se i task ad ogni
-stadio necessitano dello stesso tempo di calcolo la formula sopra è valida. Se però i tempi di
+Dato che ogni worker calcola uno stadio differente della computazione, se i task ad ogni stadio
+necessitano dello stesso tempo di calcolo la formula sopra è valida. Se però i tempi di
 elaborazione ad ogni stadio sono differenti consideriamo questo tempo di completamento
 \[ T_c = m \cdot \max \{ t_i \} + \left( \sum_{i=1}^n t_i - \max \{ t_i \} \right) \]
 In questo caso il tempo di servizio sarà pari a
