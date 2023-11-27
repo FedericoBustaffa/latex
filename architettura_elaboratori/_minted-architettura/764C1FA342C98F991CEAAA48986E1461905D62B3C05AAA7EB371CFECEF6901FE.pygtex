@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYGZdl{}\PYG{+w}{ }sudo\PYG{+w}{ }apt\PYG{+w}{ }install\PYG{+w}{ }gcc\PYGZhy{}arm\PYGZhy{}linux\PYGZhy{}gnueabihf\PYG{+w}{ }qemu\PYGZhy{}user\PYG{+w}{ }gdb\PYGZhy{}multiarch
+\end{Verbatim}

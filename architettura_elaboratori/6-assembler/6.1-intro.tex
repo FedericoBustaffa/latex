@@ -1,0 +1,46 @@
+\part{Architettura}
+
+\chapter{Assembler}
+In questa parte tratteremo l'\textbf{architettura} saltando per il momento $\mu$-architettura che
+tratteremo più avanti. In particolare tratteremo i costrutti del linguaggio \textbf{assembly}
+versione \textbf{ARMv7} nel quale saranno disponibili 16 registri e memorie da 4GB con indirizzi da
+32 bit.
+
+L'assembler è un linguaggio a basso livello con il quale possiamo di fatto programmare il nostro
+processore eseguendo \textbf{istruzioni}
+\begin{itemize}
+	\item Di \textbf{calcolo}: come somme, sottrazioni, shift, operazioni booleane e così via. Tali
+	      istruzioni operano sui registri interni al processore.
+	\item Di \textbf{accesso alla memoria} come la \verb|load| e la \verb|store|, per manipolare
+	      l'informazione dai registri alla memoria e viceversa.
+	\item Di \textbf{controllo} o \textbf{salto}: costrutti equivalenti a \verb|IF-THEN-ELSE| e
+	      chiamate di funzione.
+\end{itemize}
+Questo set di istruzioni è di tipo \textbf{RISC} (Reduced Instruction Set Computer), ossia un set
+di istruzioni ridotto. I motivi per cui lo adottiamo sono
+\begin{itemize}
+	\item La regolarità favorisce la semplicità.
+	\item Il caso più comune deve essere implementato in modo più veloce.
+	\item Implementare un calcolatore più piccolo e semplice porta dei vantaggi.
+	\item Un buon progetto richiede buoni compromessi.
+\end{itemize}
+Tramite il linguaggio assembler andremo di fatto ad utilizzare le componenti descritte in
+precedenza tramite reti logiche.
+
+Come vedremo il linguaggio è composto di sole istruzioni elementari e quindi ci darà molto più
+controllo su ciò che stiamo facendo, pagando però il prezzo di scrivere molte più linee di codice
+rispetto a linguaggi di più alto livello come C o Java.
+
+
+\section{Strumenti per la programmazione}
+Per programmare in assembler ARM sotto Linux possiamo installare il cross-compiler per ARM e
+relativi tool di debugging tramite la seguente riga di codice
+\begin{minted}{bash}
+$ sudo apt install gcc-arm-linux-gnueabihf qemu-user gdb-multiarch
+\end{minted}
+Per la compilazione e l'esecuzione del debugger le istruzioni sono le seguenti
+\begin{minted}{bash}
+$ arm-linux-gnueabihf-gcc -ggdb3 -static <sorgenti> -o <eseguibile>
+$ qemu-arm -g <porta> <eseguibile> &
+$ gdb-multiarch -q --nh -ex "target remote localhost:<porta>" <eseguibile>
+\end{minted}

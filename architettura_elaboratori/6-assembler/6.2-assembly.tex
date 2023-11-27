@@ -1,0 +1,54 @@
+\section{Introduzione all'assembly}
+Le istruzioni di calcolo possiamo immaginarcele divise in quattro campi: \textbf{codice operativo},
+che ci dice sostanzialmente cosa fare e tre \textbf{operandi}, il primo è quello di
+\emph{destinazione}, il secondo e il terzo sono detti operandi \emph{sorgente}. Tipicamente gli
+operandi nelle istruzioni di calcolo sono dei registri indicati con \verb|r0|, \verb|r1| e così
+via fino a \verb|r15|. Per esempio l'istruzione
+\begin{minted}{gas}
+add r0, r0, r1
+\end{minted}
+prende il contenuto dei registri \verb|r0| ed \verb|r1|, li somma e mette il risultato in \verb|r0|.
+Se invece volessimo effettuare la comparazione di due registri, la sintassi sarebbe la seguente
+\begin{minted}{gas}
+cmp r0, r1
+\end{minted}
+la quale prende il contenuto dei due registri e scrive il risultato nella \textbf{parola di stato},
+che, come vedremo, è un registro interno al processore fatto per memorizzare proprio questo tipo
+di risultati e che sarà utile per le istruzioni di controllo, la cui sintassi sono del tipo
+\begin{minted}{c}
+bxx <etichetta>
+\end{minted}
+dove \verb|b| sta per \textbf{branch} e al posto di \verb|xx| possiamo mettere due caratteri che
+possono significare \textbf{uguaglianza} (\verb|EQ|), \textbf{disuguaglianza} (\verb|NE|),
+\textbf{minoranza a sinistra} (\verb|LT|) e così via. L'\textbf{etichetta}, seguita dai due punti,
+indica dove muovere il cursore della prossima istruzione.
+
+Proviamo ora a realizzare un programma che divide il numero che sta in un registro per il numero
+che sta in un registro \verb|r1| per il numero che sta in un altro registro \verb|r2|.
+
+Dato che non disponiamo dell'operazione di divisione in ARMv7, possiamo provare ad implementare un
+algoritmo servendoci solo di somme e sottrazioni. Possiamo sottrarre il divisore al dividendo,
+facendo diventare il risultato il nuovo dividendo, un numero di volte tale che quest'ultimo sia
+inferiore al divisore. Una volta arrivati a tal punto il risultato sarà dato dal numero di volte
+che abbiamo sottratto e il resto sarà dato dal risultato dell'ultima sottrazione.
+\begin{minted}{gas}
+.text
+.global main
+
+main:
+	mov r1, #7
+	mov r2, #3
+	mov r0, #0
+
+divisione:
+	cmp r1, r2
+	blt fine
+	sub r1, r1, r2
+	add r0, r0, #1
+	b divisione
+
+fine:
+	mov r0, r0
+\end{minted}
+Dove effettuiamo l'incremento del contatore in \verb|r0| è presente un'istruzione \verb|#1| che
+indica la \textbf{costante} 1.

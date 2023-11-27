@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYGZdl{}\PYG{+w}{ }arm\PYGZhy{}linux\PYGZhy{}gnueabihf\PYGZhy{}gcc\PYG{+w}{ }\PYGZhy{}ggdb3\PYG{+w}{ }\PYGZhy{}static\PYG{+w}{ }\PYGZlt{}sorgenti\PYGZgt{}\PYG{+w}{ }\PYGZhy{}o\PYG{+w}{ }\PYGZlt{}eseguibile\PYGZgt{}
+\PYGZdl{}\PYG{+w}{ }qemu\PYGZhy{}arm\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }\PYGZlt{}porta\PYGZgt{}\PYG{+w}{ }\PYGZlt{}eseguibile\PYGZgt{}\PYG{+w}{ }\PYG{p}{\PYGZam{}}
+\PYGZdl{}\PYG{+w}{ }gdb\PYGZhy{}multiarch\PYG{+w}{ }\PYGZhy{}q\PYG{+w}{ }\PYGZhy{}\PYGZhy{}nh\PYG{+w}{ }\PYGZhy{}ex\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}target remote localhost:\PYGZlt{}porta\PYGZgt{}\PYGZdq{}}\PYG{+w}{ }\PYGZlt{}eseguibile\PYGZgt{}
+\end{Verbatim}
