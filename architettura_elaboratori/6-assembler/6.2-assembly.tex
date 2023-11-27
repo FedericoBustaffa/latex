@@ -1,54 +1,112 @@
-\section{Introduzione all'assembly}
-Le istruzioni di calcolo possiamo immaginarcele divise in quattro campi: \textbf{codice operativo},
-che ci dice sostanzialmente cosa fare e tre \textbf{operandi}, il primo è quello di
-\emph{destinazione}, il secondo e il terzo sono detti operandi \emph{sorgente}. Tipicamente gli
-operandi nelle istruzioni di calcolo sono dei registri indicati con \verb|r0|, \verb|r1| e così
-via fino a \verb|r15|. Per esempio l'istruzione
+\section{Istruzioni}
+L'assembler è un linguaggio a basso livello con il quale possiamo programmare il nostro processore
+eseguendo \textbf{istruzioni}
+\begin{itemize}
+	\item Di \textbf{operative}: come somme, sottrazioni, shift, operazioni booleane e così via.
+	      Tali istruzioni operano sui registri interni al processore.
+	\item Di \textbf{accesso alla memoria} per manipolare i dati dai registri alla memoria e
+	      viceversa.
+	\item Di \textbf{controllo} o \textbf{salto}: costrutti equivalenti a \verb|IF-THEN-ELSE| e
+	      chiamate di funzione.
+\end{itemize}
+
+\subsection{Registri}
+I registri, in ARMv7, sono 16 (da 0 a 15), quelli da 0 a 12 hanno delle convenzioni ma sono sotto
+il completo controllo dell'utente, mentre gli ultimi tre sono registri \emph{speciali}:
+\begin{itemize}
+	\item \textbf{PC}: è il \textbf{program counter}, il quale contiene l'indirizzo dell'istruzione
+	      da eseguire.
+	\item \textbf{SP}: è lo \textbf{stack pointer}, utile per memorizzare l'indirizzo su cui si
+	      trova l'ultimo elemento inserito nello \emph{stack}.
+	\item \textbf{LR}: è il \textbf{link register} che viene utilizzato per le chiamate di funzione
+	      per mantenere l'\emph{indirizzo di ritorno}.
+\end{itemize}
+I restanti registri sono di più libero uso ma l'assembler ARM definisce delle \textbf{convenzioni}
+su di essi
+\begin{itemize}
+	\item I registri da 0 a 3 sono riservati per valori temporanei o per parametri di chiamate di
+	      funzione. Solitamente il registro 0 viene usato per il valore di ritorno di una funzione,
+	      mentre da 1 a 3 sono utilizzati come parametri attuali in una chiamata di funzione.
+	\item I registri da 4 a 11 servono a memorizzare le variabili. Dopo il loro utilizzo dobbiamo
+	      garantire che questi tornino ad avere il valore che avevano prima che venissero
+	      utilizzati salvandoli sullo stack.
+\end{itemize}
+Attenersi a tali convenzioni aiuta a garantire l'interoperabilità.
+
+\subsection{Istruzioni operative}
+Le istruzioni \textbf{operative} prendono come argomenti tre registri, il primo sarà il registro di
+\textbf{destinazione} e gli altri due saranno i registri \textbf{sorgente} da cui prenderemo i
+valori necessari a svolgere l'operazione desiderata. Tra le istruzioni più importanti abbiamo le
+operazioni di \textbf{calcolo}
+\begin{itemize}
+	\item \verb|ADD| e \verb|ADC|: addizione e addizione con riporto.
+	\item \verb|SUB| e \verb|RSB|: sottrazione e sottrazione inversa.
+\end{itemize}
+Tra le istruzioni \textbf{logiche} abbiamo invece
+\begin{itemize}
+	\item \verb|AND|: \verb|AND| logico
+	\item \verb|ORR|: \verb|OR| logico
+	\item \verb|EOR|: \verb|XOR|, sta per Exclusive OR.
+	\item \verb|BIC|: operazione di \emph{bit clear} la quale cancella dal secondo parametro i bit
+	      a 1 del terzo parametro.
+\end{itemize}
+Le istruzioni di \textbf{shift} sono sia di tipo logico che aritmetico
+\begin{itemize}
+	\item \verb|LSL| e \verb|LSR|: rispettivamente shift logico a sinistra e a destra.
+	\item \verb|ASL| e \verb|ASR|: rispettivamente shift aritmetico a sinistra e a destra.
+	\item \verb|ROR|: shift ciclico in cui i bit più a destra rientrano da sinistra.
+\end{itemize}
+Le istruzioni di \textbf{moltiplicazione} sono molteplici:
+\begin{itemize}
+	\item \verb|MUL|: come le altre istruzioni accetta tre parametri ma dato che il risultato
+	      sarebbe un numero a 64 bit considera solo i 32 bit meno significativi.
+	\item \verb|SMULL| e \verb|UMULL|: che eseguono rispettivamente la moltiplicazione per numeri
+	      con e senza segno ma stavolta mettono il risultato in due registri (infatti necessitano
+	      di quattro parametri di cui i primi due sono le destinazioni) restituendo così un valore
+	      a 64 bit.
+\end{itemize}
+Per quanto riguarda \textbf{la divisione non è supportata} nativamente dobbiamo quindi
+implementarla in qualche modo.
+
+Come ultima istruzione vediamo l'\textbf{assegnamento} (\verb|MOV|) che prende solo due parametri,
+la destinazione e la sorgente, andando a scrivere il valore della sorgente nella destinazione.
+
+\subsection{Istruzioni di accesso alla memoria}
+Per l'accesso alla memoria abbiamo due istruzioni principali (\verb|LOAD| e \verb|STORE|), le quali
+servono a muovere i dati dalla memoria ai registri e viceversa:
+\begin{itemize}
+	\item \verb|LDR|: da memoria a registro.
+	\item \verb|STR|: da registro a memoria.
+\end{itemize}
+L'istruzione di \verb|LOAD| prende come primo parametro un registro che sarà la destinazione,
+mentre la \verb|STORE| prenderà come primo parametro un registro che sarà la sorgente di cui
+leggeremo il contenuto.
+
+I parametri dopo il primo, sia per l'una che per l'altra istruzione possono variare a seconda dei
+casi, e servono ad definire l'indirizzo da cui leggere o scrivere dati.
 \begin{minted}{gas}
-add r0, r0, r1
+ldr r0, [r1]
 \end{minted}
-prende il contenuto dei registri \verb|r0| ed \verb|r1|, li somma e mette il risultato in \verb|r0|.
-Se invece volessimo effettuare la comparazione di due registri, la sintassi sarebbe la seguente
+va a leggere il contenuto della memoria all'indirizzo scritto in \verb|r1| e lo scrive in \verb|r0|.
+Supponiamo però di avere in \verb|r1| l'indirizzo in cui è presente un array, se volessimo prendere
+un valore all'interno dell'array senza perdere l'indirizzo in \verb|r1| possiamo fare in questo
+modo
 \begin{minted}{gas}
-cmp r0, r1
+ldr r0, [r1, r2]
 \end{minted}
-la quale prende il contenuto dei due registri e scrive il risultato nella \textbf{parola di stato},
-che, come vedremo, è un registro interno al processore fatto per memorizzare proprio questo tipo
-di risultati e che sarà utile per le istruzioni di controllo, la cui sintassi sono del tipo
-\begin{minted}{c}
-bxx <etichetta>
-\end{minted}
-dove \verb|b| sta per \textbf{branch} e al posto di \verb|xx| possiamo mettere due caratteri che
-possono significare \textbf{uguaglianza} (\verb|EQ|), \textbf{disuguaglianza} (\verb|NE|),
-\textbf{minoranza a sinistra} (\verb|LT|) e così via. L'\textbf{etichetta}, seguita dai due punti,
-indica dove muovere il cursore della prossima istruzione.
+andando a specificare con \verb|r2| un offset e andando di fatto a leggere la memoria all'indirzzo
+\verb|r1 + r2| lasciando questi ultimi invariati. Al posto di \verb|r2| possiamo usare anche una
+costante numerica.
 
-Proviamo ora a realizzare un programma che divide il numero che sta in un registro per il numero
-che sta in un registro \verb|r1| per il numero che sta in un altro registro \verb|r2|.
-
-Dato che non disponiamo dell'operazione di divisione in ARMv7, possiamo provare ad implementare un
-algoritmo servendoci solo di somme e sottrazioni. Possiamo sottrarre il divisore al dividendo,
-facendo diventare il risultato il nuovo dividendo, un numero di volte tale che quest'ultimo sia
-inferiore al divisore. Una volta arrivati a tal punto il risultato sarà dato dal numero di volte
-che abbiamo sottratto e il resto sarà dato dal risultato dell'ultima sottrazione.
+La memoria in ARMv7 è \textbf{indirizzata al byte} e dato che consideriamo locazioni di memoria da
+32 bit, ossia 4 byte, l'operazione
 \begin{minted}{gas}
-.text
-.global main
-
-main:
-	mov r1, #7
-	mov r2, #3
-	mov r0, #0
-
-divisione:
-	cmp r1, r2
-	blt fine
-	sub r1, r1, r2
-	add r0, r0, #1
-	b divisione
-
-fine:
-	mov r0, r0
+ldr r0, [r1, #4]
 \end{minted}
-Dove effettuiamo l'incremento del contatore in \verb|r0| è presente un'istruzione \verb|#1| che
-indica la \textbf{costante} 1.
+non legge il quarto elemento dell'array ma il secondo (abbiamo cioè un offset di una posizione).
+Per gestire gli indici in maniera più ragionevole esiste anche un altro modo per l'accesso alla
+memoria
+\begin{minted}{gas}
+ldr r0, [r1, r2, LSL #2]
+\end{minted}
+che va a leggere la memoria all'indirizzo $r1 + r2 \times 4$.
