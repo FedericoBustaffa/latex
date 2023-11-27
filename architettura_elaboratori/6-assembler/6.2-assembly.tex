@@ -109,4 +109,41 @@ memoria
 \begin{minted}{gas}
 ldr r0, [r1, r2, LSL #2]
 \end{minted}
-che va a leggere la memoria all'indirizzo $r1 + r2 \times 4$.
+che va a leggere la memoria all'indirizzo $r1 + r2 \times 4$. Supponiamo ora di voler scrivere in
+ARM un codice che in C scriveremmo in questo modo
+\begin{minted}{c}
+int x[16];
+sum = x[0] + x[1];	
+\end{minted}
+Supponiamo ora che la base di \verb|x| sia in \verb|r1| e vogliamo usare \verb|r2| come indice,
+quello che scriveremmo in ARM sarebbe
+\begin{minted}{gas}
+mov r2, #0
+ldr r3, [r1, r2]
+add r2, r2, #4
+ldr r4, [r1, r2]
+\end{minted}
+In termini più generali possiamo scrivere
+\begin{minted}{gas}
+ldr r3, [r1, r2]
+add r2, r2, #1
+ldr r3, [r1, r2, lsl #2]
+\end{minted}
+Dato che scorrere la memoria in modo sequenziale accade molto spesso abbiamo a disposizione dei
+costrutti che compattano il codice incrementando l'indice in automatico di una locazione di memoria
+\begin{minted}{gas}
+ldr r0, [r1, r2]!
+\end{minted}
+Questo di sopra è un meccanismo detto \textbf{pre-index} che va a mettere in \verb|r0| il contenuto
+della memoria all'indirizzo $r1 + r2$ e implicitamente mettiamo in \verb|r1| il valore di $r1 + r2$.
+In alternativa abbiamo il meccanismo di \textbf{post-index}
+\begin{minted}{gas}
+ldr r0, [r1], r2
+\end{minted}
+che, a differenza del pre-index, mette in \verb|r0| il valore in memoria all'indirizzo \verb|r1| e
+solo dopo aggiorna \verb|r1| con $r1 + r2$.
+
+Altre due implementazioni delle istruzioni di \verb|LOAD| e \verb|STORE| sono \verb|LDRB| e
+\verb|STRB| le quali caricano il primo byte indirizzato nella parte meno significativa del registro.
+
+Esistono anche delle istruzioni per l'assegnamento multiplo

@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n+nf}{mov}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZsh{}0}
+\PYG{n+nf}{ldr}\PYG{+w}{ }\PYG{n+no}{r3}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{]}
+\PYG{n+nf}{add}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZsh{}4}
+\PYG{n+nf}{ldr}\PYG{+w}{ }\PYG{n+no}{r4}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{]}
+\end{Verbatim}
