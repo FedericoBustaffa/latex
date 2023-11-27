@@ -44,3 +44,11 @@ $ arm-linux-gnueabihf-gcc -ggdb3 -static <sorgenti> -o <eseguibile>
 $ qemu-arm -g <porta> <eseguibile> &
 $ gdb-multiarch -q --nh -ex "target remote localhost:<porta>" <eseguibile>
 \end{minted}
+Una volta dentro il debugger possiamo impostare break points e usare le istruzioni
+\begin{itemize}
+	\item \verb|continue|: per eseguire il codice fino al prossimo break point.
+	\item \verb|next|: per eseguire le istruzioni una riga alla volta.
+	\item \verb|tui reg general|: per visualizzare un'interfaccia in grado di farci vedere il
+	      valore dei vari registri man mano che eseguiamo le istruzioni.
+\end{itemize}
+In alternativa è possibile usare lo strumento online \href{https://cpulator.01xz.net/}{CPUlator}.
