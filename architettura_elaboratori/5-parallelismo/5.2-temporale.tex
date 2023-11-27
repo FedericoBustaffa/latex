@@ -1,0 +1,55 @@
+\section{Parallelismo temporale}
+Questa forma di parallelismo si addice di più ad un tipo di calcolo \emph{annidato}. Supponiamo
+infatti che il completamento di una computazione dipenda da due elaborazioni $f$ e $g$ dei dati,
+tali che il risultato è ottenuto calcolando
+\[ y = f(g(x)) \]
+dove $x$ è l'input. In questo caso possiamo assegnare ad un worker il calcolo di $f$ e ad un worker
+il calcolo di $g$. Quando il worker che calcola $g$ termina passa il risultato a quello in grado di
+calcolare $f$. Scalando al caso in cui abbiamo $m$ lavori, quello che succede è che il primo worker
+calcola $g(x_i)$ e passa il risultato al secondo worker che calcola $f(g(x_i))$. Mentre quest'ultimo
+lavora il primo worker sta già calcolando $g(x_{i+1})$.
+\begin{center}
+	\begin{tikzpicture}
+		\node at(-0.5, 0.5) {$g$};
+		\node at(-0.5, -0.5) {$f$};
+		\draw[thick, red] (0, 0.5)  -- (1, 0.5);
+		\draw[thick, red] (1, -0.5) -- (2, -0.5);
+		\draw[thick, blue] (1, 0.5) -- (2, 0.5);
+		\draw[thick, blue] (2, -0.5) -- (3, -0.5);
+		\draw[thick, green] (2, 0.5) -- (3, 0.5);
+		\draw[thick, green] (3, -0.5) -- (4, -0.5);
+	\end{tikzpicture}
+\end{center}
+Come possiamo vedere dalla figura, mentre il worker $f$ lavora, il worker $g$ sta già elaborando
+la parte di un altro task. Il momento in cui tutti i worker eseguono un task in contemporanea si
+chiama \textbf{steady state}, o se vogliamo possiamo dire che siamo a \textbf{regime}.
+
+Con questo tipo di parallelismo, se abbiamo $m$ task, ognuno di questi suddivisibile in $n$
+\textbf{stadi}, impiegheremmo un tempo pari a
+\[ m \cdot n \cdot t \]
+per il completamento, dove $t$ è il tempo richiesto per completare uno stadio della computazione.
+Se però assegnamo ogni stadio ad un worker impiegheremmo un tempo di
+\[ t \cdot n + t \cdot (m - 1) = t \cdot (n + m - 1) \]
+In questo caso, se, come in genere succede, $m \gg n$, otteniamo uno speed-up di
+\[
+	\text{speed-up} (n) = \frac{m \cdot n \cdot t}{t \cdot (n + m - 1)}
+	= \frac{m \cdot n}{n + m - 1} \approx n
+\]
+Il parallelismo temporale è in genere implementato come un
+meccanismo di \textbf{pipeline} il cui tempo di completamento equivale a
+\[ T_c = m \cdot T_s + (n - 1) \cdot T_s \approx m \cdot T_s \]
+Dato che ogni worker calcola uno stadio differente della computazione, se i task ad ogni stadio
+necessitano dello stesso tempo di calcolo la formula sopra è valida. Se però i tempi di
+elaborazione ad ogni stadio sono differenti consideriamo questo tempo di completamento
+\[ T_c = m \cdot \max \{ t_i \} + \left( \sum_{i=1}^n t_i - \max \{ t_i \} \right) \]
+In questo caso il tempo di servizio sarà pari a
+\[ T_s = \max \{ t_i \} \]
+poiché lo stadio di elaborazione che richiede più tempo rallenta anche tutti gli altri. Possiamo
+quindi riscrivere la formula del tempo di completamento in questo modo
+\[ T_c = m \cdot T_s + \left( \sum_{i=1}^n t_i - T_s \right) \]
+dove $T_s$ equivale al tempo che il worker più lento impiega per terminare tutti i suoi task e dove
+la sommatoria rappresenta il tempo precedente al momento in cui il worker più lento ha iniziato a
+lavorare e quello successivo al momento in cui il worker più lento ha terminato il suo ultimo task.
+
+I processori pipeline implementano un parallelismo temporale per eseguire il ciclo
+fetch-decode-execute accennato all'inizio.
