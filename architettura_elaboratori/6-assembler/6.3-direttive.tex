@@ -1,0 +1,32 @@
+\section{Direttive}
+In assembler possiamo utilizzare delle \textbf{direttive} da dare all'assemblatore per svolgere
+determinati compiti e per suddividere il codice in sezioni adibite a compiti differenti, a noi
+interessano due direttive principali:
+\begin{itemize}
+	\item \verb|.data|: definisce una sezione di dati, ovvero con sole direttive che riservano aree
+	      di memoria. All'interno della sezione .data tipicamente troviamo direttive
+	      \begin{itemize}
+		      \item \verb|.word|: seguita da valori separati da virgole, riserva un'area di
+		            memoria di tante parole quanti sono i valori che seguono, inizializzata con i
+		            valori che seguono la .word.
+		      \item \verb|.byte|: seguita da valori separati da virgole, riserva un'area di
+		            memoria di tanti byte quanti sono i valori che seguono, inizializzata con i
+		            valori che seguono la .byte.
+		      \item \verb|.fill|: seguita da un numero intero (che deve essere un multiplo di 4),
+		            riserva un'area di memoria di tanti byte quanto vale il parametro intero.
+		      \item \verb|.string|: seguita da una stringa fra virgolette, riserva un'area di
+		            memoria sufficiente a contenere i caratteri della stringa seguiti da un
+		            carattere con codice 0.
+	      \end{itemize}
+	      Tutte queste direttive sono normalmente precedute da un'etichetta, che può essere
+	      utilizzata per reperirne l'indirizzo base.
+	\item \verb|.text|: definisce un'area di codice. All'interno della sezione troviamo normalmente
+	      una o più direttive
+	      \begin{itemize}
+		      \item \verb|.global <etichetta>|: che denota i simboli che devono essere resi noti al
+		            debugger.
+	      \end{itemize}
+	      oltre ovviamente al codice assembler vero e proprio.
+\end{itemize}
+Queste direttive ci permettono ad esempio di allocare oggetti in memoria e poi utilizzare ad
+esempio il comando \verb|ldr| che carica un registro con il valore di un'etichetta.
