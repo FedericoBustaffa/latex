@@ -6,6 +6,7 @@ funzione e come effettuare il \textbf{passaggio di parametri}.
 Vogliamo anche capire come riuscire a richiamare del codice già compilato e come generare codice
 che permette di essere eseguito da altri.
 
+\subsection{Passaggio di parametri}
 Se ad esempio volessimo scrivere una funzione in C che prende un parametro e ritorna il parametro
 stesso incrementato di 1, il codice sarebbe
 \begin{minted}{c}
@@ -17,3 +18,10 @@ ad implementare in assembler.
 
 L'istruzione \verb|return| restituisce un valore che dal nostro punto di vista può essere visto
 anch'esso come un problema di passaggio di parametri.
+
+Quando i parametri sono pochi possiamo usare i registri e, nello specifico se il
+\textbf{passaggio per valore} avviene scrivendo semplicemente in un registro il valore desiderato
+con una \verb|mov|. Nel caso in cui si voglia effettuare un passaggio per indirizzo un'operazione
+di \verb|load| è più indicata.
+
+Proviamo quindi ad implementare la funzione scritta sopra

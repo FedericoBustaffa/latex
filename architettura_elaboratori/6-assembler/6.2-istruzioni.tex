@@ -107,7 +107,7 @@ non legge il quarto elemento dell'array ma il secondo (abbiamo cioè un offset d
 Per gestire gli indici in maniera più ragionevole esiste anche un altro modo per l'accesso alla
 memoria
 \begin{minted}{gas}
-ldr r0, [r1, r2, LSL #2]
+ldr r0, [r1, r2, lsl #2]
 \end{minted}
 che va a leggere la memoria all'indirizzo $r1 + r2 \times 4$. Supponiamo ora di voler scrivere in
 ARM un codice che in C scriveremmo in questo modo
