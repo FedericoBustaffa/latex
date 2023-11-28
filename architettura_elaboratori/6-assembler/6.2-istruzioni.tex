@@ -176,3 +176,75 @@ modo è molto frequente e utile possiamo usare due istruzioni equivalenti
 pop {r1, r2, r3}
 push {r1, r2, r3}
 \end{minted}
+che scrivono e leggono lo stack pointer.
+
+\subsection{Esecuzione condizionale}
+Abbiamo a disposizione anche delle istruzioni condizionali che in sostanza vengono eseguite solo se
+una certa condizione è vera. Per esempio
+\begin{minted}{gas}
+addeq r0, r1, r2
+\end{minted}
+somma \verb|r1| ed \verb|r2| se e solo se i \textbf{flag di condizione} indicano che questi sono
+uguali. Se \verb|r1| ed \verb|r2| non sono uguali ma prima non si è fatto alcuna operazione per
+settare i flag di condizione se effettuerà la somma in ogni caso. Per ottenere il risultato atteso
+dovremmo fare in questo modo
+\begin{minted}{gas}
+cmp r1, r2
+addeq r0, r1, r2
+\end{minted}
+I flag di condizione sono quattro e sono contenuti nel registro chiamato \text{cpsw} (Current
+Program Status Word). I quattro flag sono \textbf{Negative}, \textbf{Zero}, \textbf{Carry} e
+\textbf{Overflow} e indicano se una specifica condizione si è verificata dopo un'operazione.
+
+Non solo l'operazione \verb|cmp| è in grado di settare i flag ma anche le operazioni aritmetiche
+seguite da una "\verb|s|", per esempio
+\begin{minted}{gas}
+adds r0, r1, r2
+\end{minted}
+setta i flag in base al risultato di $r1 + r2$. Supponiamo di voler implementare un programma
+equivalente al seguente programma C
+\begin{minted}{c}
+if (x + y == 0)
+	y++;
+\end{minted}
+Con le istruzioni ARM di base scriveremmo un codice di questo tipo
+\begin{minted}{gas}
+add r0, r1, r2
+cmp r0, #0
+bne fine // etichetta d'esempio
+add r2, r2, #1
+\end{minted}
+risparmiamo due righe di codice scrivendo
+\begin{minted}{gas}
+adds r0, r1, r2
+addeq r2, r2, #1
+\end{minted}
+Similmente al suffisso \verb|eq| abbiamo anche \verb|ne|, \verb|gt|, \verb|lt|, \verb|ge| e
+\verb|le| che rispettivamente fanno controlli su gli operandi tramite i seguenti operatori:
+$\neq$, $>$, $<$, $\geq$ e $\leq$.
+
+\subsection{Istruzioni di salto}
+Le istruzioni di salto le dividiamo in istruzioni di salto \textbf{condizionato} e
+\textbf{non condizionato}. Per quanto riguarda il salto incondizionato possiamo usare l'istruzione
+\verb|b| affiancata dall'etichetta a cui vogliamo andare
+\begin{minted}{gas}
+main:
+	b somma
+	sub r0, r1, r2
+
+somma:
+	add r0, r1, r2
+\end{minted}
+In questo esempio saltiamo l'operazione di sottrazione e saltiamo direttamente all'operazione di
+somma in modo incondizionato. Nel caso invece volessimo effettuare un salto condizionato potremmo
+fare in questo modo
+\begin{minted}{gas}
+main:
+	add r0, r1, r2
+	cmp r0, #0
+	bne azzera
+
+azzera:
+	mov r0, #0
+\end{minted}
+così che se il risultato della somma è diverso da 0 si salta all'etichetta che azzera il registro.
