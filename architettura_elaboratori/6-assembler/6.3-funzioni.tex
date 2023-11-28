@@ -1,0 +1,19 @@
+\section{Funzioni}
+Vediamo ora come sia possibile realizzare \textbf{funzioni} e \textbf{procedure} in assembler
+andando a capire come implementare una \textbf{chiamata} di funzione, il \textbf{ritorno} dalla
+funzione e come effettuare il \textbf{passaggio di parametri}.
+
+Vogliamo anche capire come riuscire a richiamare del codice già compilato e come generare codice
+che permette di essere eseguito da altri.
+
+Se ad esempio volessimo scrivere una funzione in C che prende un parametro e ritorna il parametro
+stesso incrementato di 1, il codice sarebbe
+\begin{minted}{c}
+int f(int x) { return x + 1; }
+\end{minted}
+In questo caso \verb|x| è un parametro formale ma nel momento in cui andremo a passare un valore
+al suo interno diventerà un parametro attuale e questo processo è un qualcosa che vogliamo riuscire
+ad implementare in assembler.
+
+L'istruzione \verb|return| restituisce un valore che dal nostro punto di vista può essere visto
+anch'esso come un problema di passaggio di parametri.

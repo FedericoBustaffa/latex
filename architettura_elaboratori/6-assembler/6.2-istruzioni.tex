@@ -259,4 +259,26 @@ a minare tutta l'ottimizzazione che questi due modelli offrono che invece hanno 
 le istruzioni in un certo ordine.
 
 Un'altra operazione di salto è la \textbf{branch and link} (\verb|bl|) che fa la stessa cosa del
-comando \verb|b| ma setta il link register scrivendoci dentro \verb|PC + 1|
+comando \verb|b| ma setta il link register scrivendoci dentro il valore del program counter
+avanzato di una posizione.
+\begin{minted}{gas}
+main:
+	mov r0, #0
+	mov r1, #1
+	mov r2, #2
+	
+	bl somma
+	cmp r0, #0
+	bne azzera
+	mov r0, r0
+
+somma:
+	add r0, r1, r2
+	mov pc, lr	// return
+
+azzera:
+	mov r0, #0
+\end{minted}
+Questo ci è molto utile per implementare chiamata e ritorno di funzione. L'ultima istruzione di
+salto che vediamo è la \verb|bx| seguita da un registro, che assegna al program counter il
+contenuto del registro.
