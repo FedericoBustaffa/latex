@@ -143,7 +143,36 @@ ldr r0, [r1], r2
 che, a differenza del pre-index, mette in \verb|r0| il valore in memoria all'indirizzo \verb|r1| e
 solo dopo aggiorna \verb|r1| con $r1 + r2$.
 
-Altre due implementazioni delle istruzioni di \verb|LOAD| e \verb|STORE| sono \verb|LDRB| e
-\verb|STRB| le quali caricano il primo byte indirizzato nella parte meno significativa del registro.
+Altre due implementazioni delle istruzioni di \verb|load| e \verb|store| sono \verb|ldrb| e
+\verb|strb| le quali caricano il primo byte indirizzato nella parte meno significativa del
+registro. Per esempio
+\begin{minted}{gas}
+ldrb r1, [r2]
+\end{minted}
+prende il primo byte del valore in memoria all'indirizzo \verb|r2| e lo scrive nella parte meno
+significativa del registro \verb|r1|.
 
-Esistono anche delle istruzioni per l'assegnamento multiplo
+Esistono anche delle istruzioni per effettuare \verb|load| e \verb|store| di più registri che sono
+rispettivamente \verb|ldmxx| e \verb|stmxx| dove i due caratteri \verb|xx| devono essere sostituiti
+da una combinazione delle seguenti alternative
+\begin{itemize}
+	\item Al primo posto possiamo specificare \verb|f| (full), se vogliamo che il registro punti
+	      all'ultima posizione piena o \verb|e| (empty) se vogliamo che il registro punti alla
+	      prima posizione vuota.
+	\item Al secondo posto possiamo specificare \verb|d| (descending) per caricare o scaricare i
+	      dati in ordine decrescente o \verb|a| (ascending) per caricare o scaricare i dati in
+	      ordine crescente.
+\end{itemize}
+e dove di seguito abbiamo il primo argomento che è un registro e il secondo argomento è una lista
+di registri tra parentesi graffe. Per esempio
+\begin{minted}{gas}
+ldmfd sp!, {r1, r2, r3}
+stmfd sp!, {r1, r2, r3}
+\end{minted}
+carica e scarica nello stack pointer i registri tra parentesi graffe in ordine decrescente e
+incrementa lo stack pointer tramite il punto esclamativo. Dato che usare lo stack pointer in questo
+modo è molto frequente e utile possiamo usare due istruzioni equivalenti
+\begin{minted}{gas}
+pop {r1, r2, r3}
+push {r1, r2, r3}
+\end{minted}
