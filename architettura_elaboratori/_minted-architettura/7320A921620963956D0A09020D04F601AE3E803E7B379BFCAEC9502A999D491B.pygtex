@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n+na}{.data}
+\PYG{n+nl}{fmt:}\PYG{+w}{ }\PYG{n+na}{.string}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}valore: \PYGZpc{}d\PYGZbs{}n\PYGZdq{}}
+\PYG{n+na}{.text}
+\PYG{n+nl}{main:}
+\PYG{+w}{	}\PYG{n+nf}{ldr}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{err}{=}\PYG{n+no}{fmt}
+\PYG{+w}{	}\PYG{n+nf}{mov}\PYG{+w}{ }\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZsh{}1}
+\PYG{+w}{	}\PYG{n+nf}{bl}\PYG{+w}{ }\PYG{n+no}{printf}
+\end{Verbatim}
