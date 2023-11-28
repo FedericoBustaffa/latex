@@ -235,7 +235,7 @@ main:
 somma:
 	add r0, r1, r2
 \end{minted}
-In questo esempio saltiamo l'operazione di sottrazione e saltiamo direttamente all'operazione di
+In questo esempio saltiamo l'operazione di sottrazione ed eseguiamo direttamente all'operazione di
 somma in modo incondizionato. Nel caso invece volessimo effettuare un salto condizionato potremmo
 fare in questo modo
 \begin{minted}{gas}
@@ -248,3 +248,15 @@ azzera:
 	mov r0, #0
 \end{minted}
 così che se il risultato della somma è diverso da 0 si salta all'etichetta che azzera il registro.
+Le lettere che possiamo inserire dopo "\verb|b|" sono le stesse che possiamo mettere dopo le
+operazioni aritmetiche condizionali.
+
+Se c'è la possibilità di implementare il nostro programma tramite istruzioni condizionali, queste
+sarebbero preferibili alle istruzioni di salto.
+
+Aggiungiamo inoltre che nel caso di processori pipeline e superscalari le operazioni di salto vanno
+a minare tutta l'ottimizzazione che questi due modelli offrono che invece hanno bisogno di eseguire
+le istruzioni in un certo ordine.
+
+Un'altra operazione di salto è la \textbf{branch and link} (\verb|bl|) che fa la stessa cosa del
+comando \verb|b| ma setta il link register scrivendoci dentro \verb|PC + 1|
