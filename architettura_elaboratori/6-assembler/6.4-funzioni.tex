@@ -35,11 +35,22 @@ di \verb|load| sarebbe più indicata.
 L'istruzione \verb|return| restituisce un valore che dal nostro punto di vista può essere visto
 anch'esso come un problema di passaggio di parametri.
 
-Siamo ora interessati a scrivere del codice che sia equivalente ad una funzione scritta in C che
-prende un parametro e lo incrementa di 1.
+Siamo ora interessati a scrivere una funzione in assembler a cui poter passare dei parametri. Nello
+specifico vogliamo scrivere del codice che sia equivalente ad una funzione scritta in C che prende
+un parametro e lo incrementa di 1.
 \begin{minted}{c}
-int f(int x) { return x + 1; }
+int incrementa(int x) { return x + 1; }
 \end{minted}
 In questo caso \verb|x| è un parametro formale ma nel momento in cui andremo a passare un valore
-al suo interno diventerà un parametro attuale e questo processo è un qualcosa che vogliamo riuscire
-ad implementare in assembler.
+al suo interno diventerà un parametro attuale.
+
+Quando definiamo una funzione dobbiamo sottostare alla convenzione che impone che i parametri siano
+enumerati nello stesso modo dei registri e, nel caso ci sia un valore di ritorno, questo venga
+scritto sul registro \verb|r0|. Possiamo quindi definire la nostra funzione in questo modo
+\begin{minted}{gas}
+incrementa:
+	add r0, r0, #1
+	mov pc, lr
+\end{minted}
+con il registro \verb|r0| che dev'essere inizializzato correttamente in modo da contenere il valore
+da incrementare.
