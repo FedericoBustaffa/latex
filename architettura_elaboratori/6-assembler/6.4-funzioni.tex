@@ -29,8 +29,8 @@ Questo codice chiama la funzione \verb|printf| del C passandogli come parametri 
 
 Quando i parametri sono pochi possiamo usare i registri e, nello specifico se il
 \textbf{passaggio per valore} avviene scrivendo semplicemente in un registro il valore desiderato
-con una \verb|mov|. Nel caso in cui si voglia effettuare un passaggio per indirizzo un'operazione
-di \verb|load| sarebbe più indicata.
+con una \verb|mov|. Nel caso in cui si voglia effettuare un \textbf{passaggio per indirizzo}
+un'operazione di \verb|load| sarebbe più indicata.
 
 L'istruzione \verb|return| restituisce un valore che dal nostro punto di vista può essere visto
 anch'esso come un problema di passaggio di parametri.
@@ -44,9 +44,8 @@ int incrementa(int x) { return x + 1; }
 In questo caso \verb|x| è un parametro formale ma nel momento in cui andremo a passare un valore
 al suo interno diventerà un parametro attuale.
 
-Quando definiamo una funzione dobbiamo sottostare alla convenzione che impone che i parametri siano
-enumerati nello stesso modo dei registri e, nel caso ci sia un valore di ritorno, questo venga
-scritto sul registro \verb|r0|. Possiamo quindi definire la nostra funzione in questo modo
+La convenzione impone che, nel caso ci sia un valore di ritorno, questo venga scritto sul registro
+\verb|r0|. Possiamo quindi definire la nostra funzione in questo modo
 \begin{minted}{gas}
 incrementa:
 	add r0, r0, #1
