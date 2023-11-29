@@ -53,3 +53,7 @@ incrementa:
 \end{minted}
 con il registro \verb|r0| che dev'essere inizializzato correttamente in modo da contenere il valore
 da incrementare.
+
+Nel caso avessimo più di quattro parametri, come anticipato in precedenza, dobbiamo recuperare i
+parametri che sono andati a finire nello stack. Se ad esempio avessimo una funzione che accetta
+cinque parametri, tramite una \verb|pop| otterremmo il quinto parametro.
