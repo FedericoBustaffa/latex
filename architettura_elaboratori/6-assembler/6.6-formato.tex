@@ -1,1 +1,119 @@
 \section{Formato delle istruzioni}
+Andiamo ora a trattare come viene gestito il \textbf{formato} delle istruzioni assembler in memoria,
+più precisamente il formato delle istruzioni nei file \verb|.o|, ossia i \textbf{file oggetto}.
+
+In generale possiamo dire che tali file sono composti da una parola per istruzione e un po' di
+memoria, eventualmente inizializzata, che contiene informazioni relative alle variabili globali.
+
+I formati delle istruzioni rispetta i principi di progettazione RISC e possiamo dividerli in tre
+gruppi in base alle tre famiglie principali di istruzioni. Tratteremo il formato a 32 bit e come
+vedremo avremo dei bit che indicheranno sempre la solita cosa per ogni tipo di istruzione:
+\begin{itemize}
+	\item I primi 4 bit indicano la \textbf{condizione} secondo cui l'istruzione deve essere
+	      eseguita. Sono i bit che riguardano l'esecuzione delle istruzioni condizionali.
+	\item I 2 bit che seguono ci dicono il tipo dell'istruzione, ovvero a quale famiglia di
+	      istruzioni questa appartiene.
+\end{itemize}
+Vediamo ora come variano i bit successivi e il loro significato in base all'appartenza ad una certa
+famiglia di istruzioni.
+\begin{itemize}
+	\item \textbf{Istruzioni operative}: per quanto riguarda le istruzioni operative abbiamo
+	      \begin{itemize}
+		      \item 6 bit che identificano l'istruzione. Del primo di questi 6 bit parleremo più
+		            avanti, i seguenti 4 bit sono il vero e proprio identificatore dell'istruzione
+		            e l'ultimo bit \verb|S| indica la necessità o meno di settare i flag nei primi
+		            4 bit di cui abbiamo parlato in precedenza
+		      \item 4 bit che indicano il registro \textbf{sorgente}.
+		      \item 4 bit che indicano il registro \textbf{destinazione}.
+		      \item I 12 bit rimanenti ci dice come è fatto l'ultimo operando.
+	      \end{itemize}
+	\item \textbf{Istruzioni di memoria}: la formattazione nel caso di istruzioni per la memoria è
+	      leggermente più complessa ma possiamo identificare comunque
+	      \begin{itemize}
+		      \item 6 bit che ci danno informazioni sull'istruzione di cui 1 bit per capire se
+		            stiamo eseguendo una \verb|load| o una \verb|store|, 1 bit ci dice se stiamo
+		            scrivendo/leggendo 1 byte o una parola e altri bit ci danno informazioni su
+		            come viene fatto l'indirizzamento.
+		      \item 4 bit che indicano il registro \textbf{sorgente}.
+		      \item 4 bit che indicano il registro \textbf{destinazione}.
+		      \item I 12 bit rimanenti ci dice come è fatto l'ultimo operando.
+	      \end{itemize}
+	\item \textbf{Istruzioni di salto}: in questo caso la formattazione è più semplice rispetto
+	      alle istruzioni operative e di memoria in quanto
+	      \begin{itemize}
+		      \item 2 bit identificano l'istruzione: \verb|b| o \verb|bl|.
+		      \item I restanti 24 bit indicano l'offset per muovere il program counter all'interno
+		            del nostro programma.
+	      \end{itemize}
+\end{itemize}
+L'assemblatore non fa altro che prendere del codice ASCII e tradurlo in questo formato binario. Per
+vedere il formato delle istruzioni è possibile compilare il nostro programma assembler con opzione
+\verb|-c| e poi eseguire il comando \verb|objdump -d|:
+\begin{minted}{bash}
+$ gcc -c file.s
+$ objdump -d file.o	
+\end{minted}
+Supponiamo che il nostro \verb|file.s| sia scritto in questo modo
+\begin{minted}{gas}
+main:
+	b fine
+	bl fine
+fine:
+	mov pc, lr
+\end{minted}
+l'output del comando \verb|objdump| sarà il seguente
+\begin{minted}{bash}
+00000000 <main>:
+	0:	ea000000	b	8 <fine>
+	4:	ebffffff	bl	8 <fine>
+
+00000008 <fine>:
+	8:	e1a0f00e	mov	pc, lr
+\end{minted}
+Il codice esadecimale prima del nome dell'istruzione può essere convertito in binario per
+verificare che effettivamente corrisponde al formato binario che abbiamo descritto in precedenza.
+Per esempio, nel caso dell'istruzione \verb|b| abbiamo
+\begin{center}
+	\verb|ea000000 = 11101010 00000000 00000000 00000000|
+\end{center}
+Come possiamo vedere i primi 4 bit sono \verb|1110|, che si traduce in un'istruzione incondizionata,
+i 2 bit che seguono sono \verb|10|, i quali ci dicono la famiglia dell'istruzione, in questo caso
+istruzione di salto. Gli ultimi due bit di interesse ci dicono qual'è l'operazione in questione,
+in questo caso \verb|10| equivale esattamente ad una \verb|b|.
+
+Il motivo per il quale gli ultimi 24 bit sono a 0 è che l'offset viene espresso in numero di parole
+per giungere all'etichetta desiderata, partendo dal valore corrente del program counter, che però
+una volta giunto all'istruzione \verb|b| non ha più l'indirizzo di \verb|b| al suo interno ma
+contiene l'indirizzo di \verb|b| più 8 che nel nostro caso è proprio 8, ovvero l'indirizzo
+dell'etichetta \verb|fine|. Per quanto riguarda l'operazione \verb|bl| l'offset vale \verb|ffffff|,
+ossia -1.
+
+\subsection{Campo SRC2}
+Il campo \verb|SRC2| è l'ultimo campo da 12 bit delle istruzioni operative e merita un discorso un
+po' più approfondito. Per capire questi 12 bit dobbiamo andare a considerare il campo \verb|I|,
+rappresentato tramite il primo dei 6 bit \emph{operativi} che abbiamo tralasciato in precedenza.
+
+Quando \verb|I = 0| i 12 bit si dividono in un primo campo \verb|rot| da 4 bit che, una volta
+moltiplicato per 2, indica il numero di \emph{rotazioni} a destra da effettuare sugli ultimi 8 bit
+per ottenere il risultato immediato.
+
+Se invece \verb|I = 1| dividiamo in due ulteriori casistiche, in ognuna delle quali gli ultimi 4
+bit rappresentano un registro e
+\begin{itemize}
+	\item Nel primo caso abbiamo
+	      \begin{itemize}
+		      \item 5 bit per indicare una costante.
+		      \item 2 bit che ci dicono come e di quanto fare lo shift.
+		      \item Un bit a 0 che ci dice come interpretare gli ultimi 4 bit.
+	      \end{itemize}
+	\item Nel secondo caso abbiamo
+	      \begin{itemize}
+		      \item 4 bit che indicano un registro.
+		      \item 1 bit a 0.
+		      \item 2 bit che ci dicono come e di quanto fare lo shift.
+		      \item Un bit a 0 che ci dice come interpretare gli ultimi 4 bit.
+	      \end{itemize}
+\end{itemize}
+Il campo \verb|SRC2| ci serve quindi per effettuare operazioni più complesse e serve
+all'assemblatore per capire se il terzo operando è un registro, e nel caso come trattarlo, oppure
+se è una costante.

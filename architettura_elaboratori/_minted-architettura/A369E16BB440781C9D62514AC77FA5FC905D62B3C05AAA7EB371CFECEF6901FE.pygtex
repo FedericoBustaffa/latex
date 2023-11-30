@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{l+m}{00000000}\PYG{+w}{ }\PYGZlt{}main\PYGZgt{}:
+\PYG{+w}{	}\PYG{l+m}{0}:\PYG{+w}{	}ea000000\PYG{+w}{	}b\PYG{+w}{	}\PYG{l+m}{8}\PYG{+w}{ }\PYGZlt{}fine\PYGZgt{}
+\PYG{+w}{	}\PYG{l+m}{4}:\PYG{+w}{	}ebffffff\PYG{+w}{	}bl\PYG{+w}{	}\PYG{l+m}{8}\PYG{+w}{ }\PYGZlt{}fine\PYGZgt{}
+
+\PYG{l+m}{00000008}\PYG{+w}{ }\PYGZlt{}fine\PYGZgt{}:
+\PYG{+w}{	}\PYG{l+m}{8}:\PYG{+w}{	}e1a0f00e\PYG{+w}{	}mov\PYG{+w}{	}pc,\PYG{+w}{ }lr
+\end{Verbatim}
