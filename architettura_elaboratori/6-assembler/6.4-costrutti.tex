@@ -1,0 +1,68 @@
+\section{Costrutti di programmazione strutturata}
+In assembler non esistono costrutti di programmazione a cui siamo abituati come \verb|if-else|,
+\verb|while| e \verb|for|, è comunque possibile implementarli seguendo alcune regole
+
+Per implementare un \verb|if-then| sostanzialmente eseguiamo una \verb|cmp| seguita da un comando
+di \emph{branching} e dal body
+\begin{minted}{gas}
+cmp cond
+b!cond endif
+// ...
+// then body
+// ...
+endif:
+\end{minted}
+per implementare un \verb|if-then-else|, il mancato verificarsi della condizione fa saltare al ramo
+\emph{else}, viceversa il verificarsi della condizione permette l'esecuzione del ramo \emph{then}
+seguito da un salto incondizionato alla fine dell'\emph{if}.
+\begin{minted}{gas}
+cmp cond
+b!cond else
+// ...
+// then body
+// ...
+b endif
+else:
+// ...
+// else body
+// ...
+\end{minted}
+Non andiamo a trattare costrutti come lo \verb|switch| perché sono analoghi. Per quanto riguarda
+invece i costrutti \textbf{iterativi} vediamo come implementare il \verb|while| e il \verb|for|.
+In assembler in realtà non si fa differenza tra un \verb|while| e un \verb|for| ma si parla più in
+generale di \textbf{loop} i quali si implementano tramite un'etichetta \verb|loop| dove andiamo a
+testare la condizione e, in caso questa non sia verificata si salta ad un'etichetta che rappresenta
+la fine del \verb|loop|.
+\begin{minted}{gas}
+loop:
+	cmp cond
+	b!cond endloop
+	// ...
+	// body
+	// ...
+	b loop
+endloop:
+\end{minted}
+ovviamente prima del salto che permette di tornare all'etichetta \verb|loop| dobbiamo eseguire una
+qualche operazione che permette di cambiare la condizione su cui stiamo iterando altrimenti
+rimarremmo bloccati in un ciclo infinito.
+
+A volte può essere utile definire un'etichetta \verb|next| (in genere alla fine del loop) dove
+andiamo a svolgere delle operazioni che definiscono l'iterazione e come questa varia
+\begin{minted}{gas}
+loop:
+	cmp cond
+	b!cond endloop
+	// ...
+	// body
+	// ...
+next:
+	// per esempio i++
+	b loop
+endloop:
+\end{minted}
+Questo risulta utile quando nel corpo del loop abbiamo un si verifica una condizione tale per cui
+vogliamo saltare direttamente all'iterazione successiva senza eseguire il resto delle istruzioni.
+
+Per implementare loop che eseguono almeno un'iterazione (\verb|do-while|) basta spostare il
+controllo della condizione d'uscita alla fine del loop.

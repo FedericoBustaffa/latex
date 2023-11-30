@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n+nf}{cmp}\PYG{+w}{ }\PYG{n+no}{cond}
+\PYG{n+nf}{b}\PYG{p}{!}\PYG{n+no}{cond}\PYG{+w}{ }\PYG{n+no}{else}
+\PYG{c+c1}{// ...}
+\PYG{c+c1}{// then body}
+\PYG{c+c1}{// ...}
+\PYG{n+nf}{b}\PYG{+w}{ }\PYG{n+no}{endif}
+\PYG{n+nl}{else:}
+\PYG{c+c1}{// ...}
+\PYG{c+c1}{// else body}
+\PYG{c+c1}{// ...}
+\end{Verbatim}

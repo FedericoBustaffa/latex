@@ -57,3 +57,24 @@ da incrementare.
 Nel caso avessimo più di quattro parametri, come anticipato in precedenza, dobbiamo recuperare i
 parametri che sono andati a finire nello stack. Se ad esempio avessimo una funzione che accetta
 cinque parametri, tramite una \verb|pop| otterremmo il quinto parametro.
+
+\subsection{Funzioni ricorsive}
+Per l'implementazione di funzioni ricorsive dobbiamo andare a lavorare con lo stack e con il
+\verb|link register| per riuscire a salvare tutti i punti di ritorno. Prendiamo ad esempio il
+seguente codice che implementa il calcolo del fattoriale
+\begin{minted}{gas}
+fact:
+	cmp r0, #0 // caso base n = 0
+	bne else
+	mov r0, #1
+	mov pc, lr
+else:
+	push {lr, r0} // salvataggio indirizzo di ritorno e parametro n
+	sub r0, r0, #1 // n-1
+	bl fact // fact(n-1)
+	pop {r1, lr} // recupero n e indirizzo di ritorno
+	mul r0, r0, r1 // n * fact(n-1)
+	mov pc, lr
+\end{minted}
+la cui parte importante è il salvataggio sullo stack dell'indirizzo di ritorno e di eventuali
+parametri che non devono andare persi.
