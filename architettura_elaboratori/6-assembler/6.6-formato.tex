@@ -117,3 +117,46 @@ bit rappresentano un registro e
 Il campo \verb|SRC2| ci serve quindi per effettuare operazioni più complesse e serve
 all'assemblatore per capire se il terzo operando è un registro, e nel caso come trattarlo, oppure
 se è una costante.
+
+\subsection{Istruzioni SIMD}
+Il set di istruzioni \textbf{SIMD} (Single Instruction Multiple Data) permettono di utilizzare un
+registro dividendolo in più parti indipendenti l'una dall'altra per effettuare operazioni multiple
+in un singolo ciclo di clock.
+
+Possiamo infatti effettuare due somme contemporaneamente prendendo due registri divisi a metà,
+sommando alla prima metà del primo registro la prima metà del secondo e registro e poi facendo lo
+stesso con la seconda metà dei registri. Il risultato sarà memorizzato in un registro, anch'esso
+diviso a metà e contenente due risultati di due somme totalmente indipendenti.
+
+Ovviamente nel caso la parte meno significativa dei registri produca un riporto, questo non va ad
+influenzare la metà più significativa del registro dove memorizziamo il risultato.
+
+Fino ad ora abbiamo sempre usato registri ad 32 bit ma in ARM sono comunque presenti dei registri
+a 64 bit, che altro non sono che l'unione di due registri a 32 bit, con i quali è possibile
+effettuare queste operazioni avendo lo stesso numero di bit disponibili per la rappresentazione.
+
+Nel caso in cui volessimo effettuare le stesse operazioni con registri da 32 bit dobbiamo tenere di
+conto che avremo a disposizione solo 16 bit per rappresentare il risultato.
+
+\subsection{Istruzioni THUMB}
+Le istruzioni \textbf{THUMB} fanno parte di un set di istruzioni più compatto e la cui
+rappresentazione avviene su 16 bit.
+
+Sono istruzioni utili per contrarre la forma del codice che scriviamo, come per esempio quando si
+vuole effettuare l'incremento di una variabile per una costante
+\begin{minted}{gas}
+add r0, r0, #1
+\end{minted}
+Le istruzioni THUMB permettono di considerare il registro \verb|r0| (in questo caso) come registro
+sia sorgente che destinazione. Il codice risultante è il seguente
+\begin{minted}{gas}
+add r0, #1
+\end{minted}
+Tali istruzioni permettono di leggere due istruzioni alla volta in quanto sono presenti su un unico
+registro da 32 bit ma sono più limitate in quanto si rinuncia ad operazioni condizionali,
+operazioni in cui si settano i flag e i bit a disposizione per gli immediati (campo \verb|SRC2|)
+sono di meno.
+
+In compenso abbiamo meno traffico per la lettura e scrittura delle memoria da e verso il processore
+e dunque un \emph{fetch} più rapido e un'esecuzione più agile. Sono istruzioni molto utili per
+quanto riguarda il mondo dei microcontrollori che hanno capacità hardware molto limitate.
