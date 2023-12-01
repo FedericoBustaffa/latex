@@ -1,6 +1,18 @@
 \chapter{Microarchitettura}
-Torniamo ora indietro nello stack dell'astrazione cercando di capire come implementare un qualcosa
-che, mettendo insieme i circuiti visti nella prima parte del corso riesce ad interpretare ed
-eseguire alcune semplici istruzioni assembler.
+Vogliamo ora mettere insieme ciò che abbiamo visto nella parte di reti logiche e in quella di
+assembler e cercare di progettare ed implementare un piccolo processore in grado di eseguire
+il famoso ciclo \emph{fetch-decode-execute} di cui abbiamo parlato all'inizio.
+
+Partiremo dalla modellazione di un processore di tipo \textbf{single cycle} e andando avanti
+andremo ad modellare anche processori di tipo \textbf{multi-cycle}, \textbf{pipeline} e
+\textbf{superscalari}.
 
 \section{Processore Single cycle}
+Proviamo ora a capire come modellare e dunque definire la $\mu$-architettura di un processore
+single cycle in grado di eseguire alcune istruzioni di base tramite le reti combinatorie e
+sequenziali viste in precedenza.
+
+Al fine di ottenere il prima possibile una rappresentazione più generale della cosa ometteremo
+alcune cose che però andranno ad arricchire più avanti il nostro modello.
+
+Come abbiamo visto in assembler, abbiamo bisogno di
