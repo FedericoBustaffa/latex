@@ -89,7 +89,7 @@ Il bit che serve al multiplexer per effettuare la selezione è il campo \verb|I|
 assembler convertita in binario.
 
 \subsubsection{Incrementare il program counter}
-Siamo quindi in grado di eseguire un'istruzione di manipolazione della memoria ma non di eseguirne
+Siamo quindi in grado di eseguire un'istruzione di lettura della memoria ma non di eseguirne
 tante in sequenza. Dobbiamo infatti riuscire ad implementare un ciclo infinito dentro il quale
 effettuiamo le operazioni di fetch-decode-execute. Per farlo è necessario incrementare il \verb|PC|
 di 4 (poiché le istruzioni di 32 bit sono indirizzate al byte) tramite una ALU.
@@ -99,3 +99,31 @@ di 4 (poiché le istruzioni di 32 bit sono indirizzate al byte) tramite una ALU.
 Ora dobbiamo immaginarci che all'interno di un ciclo di clock abbiamo tutte le fasi descritte da
 questo circuito e solo quando le abbiamo completate, il clock torna alto, incrementiamo \verb|PC| e
 appena il clock torna stabile possiamo eseguire una nuova istruzione.
+
+\subsection{Scrittura della memoria}
+Quello che abbiamo visto fino ad ora permette solamente di effettuare un'operazione di \verb|ldr|
+che, come sappiamo, prende come primo parametro il registro di destinazione su cui scrivere. Se
+invece volessimo effettuare un'operazione di \verb|str|, il primo parametro sarebbe il registro
+sorgente.
+
+Con un'operazione di \verb|str| cambia anche l'interpretazione dell'istruzione in linguaggio
+macchina e dunque anche il modo di interazione con il modulo \verb|REG|.
+
+Abbiamo infatti che, nel caso di una \verb|ldr| mandiamo nell'ingresso \verb|ind B| di \verb|REG|
+l'indirizzo nel campo $R_m$ (sorgente), nel caso di una \verb|str| mandiamo nell'ingresso
+\verb|ind B| l'indirizzo nel campo $R_d$ (destinazione). Aggiungiamo quindi un multiplexer in grado
+di effettuare tale scelta.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/store.svg}
+\end{center}
+Ancora una volta il bit di scelta sarà ricavabile dall'istruzione in linguaggio macchina.
+
+\subsection{Istruzioni operative}
+Supponiamo ora di effettuare un'operazione
+\begin{minted}{gas}
+add r1, r2, r3
+\end{minted}
+
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/operative.svg}
+\end{center}
