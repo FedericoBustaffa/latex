@@ -15,4 +15,80 @@ sequenziali viste in precedenza.
 Al fine di ottenere il prima possibile una rappresentazione più generale della cosa ometteremo
 alcune cose che però andranno ad arricchire più avanti il nostro modello.
 
-Come abbiamo visto in assembler, abbiamo bisogno di
+Come abbiamo visto in assembler, abbiamo bisogno di lavorare con i registri del processore e, a
+seconda dei casi, dobbiamo interagire con la memoria per aggiornare o salvare tali valori. Il
+processore ha quindi bisogno di un modulo \verb|REG| per mantenere lo stato interno dei registri.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/reg.svg}
+\end{center}
+Abbiamo quindi un modulo per leggere e scrivere i registri del processore e che sarà indispensabile
+per compiere le operazioni aritmetico-logiche.
+
+Come sappiamo il registro \verb|r15| è il program counter ma quello che si trova all'interno del
+modulo \verb|REG| è una copia di un registro indipendente \verb|PC|.
+
+Per quanto riguarda la memoria, possiamo dividerla in due moduli principali per il momento: memoria
+\textbf{dati} (\verb|MD|) e memoria \textbf{istruzioni} (\verb|MI|). La memoria dati contiene tutte
+le variabili globali del nostro programma mentre la memoria istruzioni mantiene una sorta di
+tabella in cui troviamo una corrispondenza tra l'istruzione assembler e la rispettiva
+rappresentazione in linguaggio macchina.
+
+\subsection{Fetch-Decode-Execute di un'istruzione}
+Vogliamo ora modellare una $\mu$-architettura che riesca ad eseguire il fetch-decode-execute per la
+lettura della memoria tramite l'istruzione
+\begin{minted}{gas}
+ldr r1, [r2, #4]
+\end{minted}
+Tramite i moduli precedentemente definiti siamo in grado di produrre un modello in primo luogo
+dando come ingresso a \verb|MI| il contenuto di \verb|PC|
+\begin{center}
+	\includesvg[inkscapelatex=false]{circuiti/PC_to_MI.svg}
+\end{center}
+A questo punto l'uscita di \verb|MI| viene inoltrata in un modulo che chiameremo \verb|ISTR| che
+effettua la traduzione da codice assembler a linguaggio macchina, generando l'istruzione nel
+\hyperref[sz: formato]{formato} binario interpretabile dal processore.
+
+Una volta effettuata la conversione avremo un'istruzione in linguaggio macchina contenente (in
+questo caso) l'indirizzo di destinazione (\verb|r1|), il primo indirizzo sorgente (\verb|r2|) e
+l'offset (\verb|#4|). I primi due diventeranno l'input del modulo \verb|REG| mentre l'offset,
+rappresentato a 12 bit nel campo \verb|SRC2|, viene esteso a 32 bit tramite un modulo \verb|EXT|
+apposito.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/arch0.svg}
+\end{center}
+Fino ad ora abbiamo solo scritto i valori nei registri e esteso il valore dell'offset in formato a
+32 bit. Dato che vogliamo andare a scrivere nel registro \verb|r1| l'indirizzo di memoria in $r2+4$
+ci serve una ALU in grado di effettuare tale somma.
+
+Una volta effettuata la somma abbiamo a disposizione l'indirizzo $r2 + 4$ con il quale possiamo
+accedere il modulo \verb|MD|, ricavare l'informazione desiderata e andarla a scrivere nel registro
+\verb|r1|.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/arch1.svg}
+\end{center}
+Come possiamo vedere dal disegno l'output di \verb|MD| diventa l'input di \verb|REG| che, avendo
+come tra gli ingressi l'indirizzo \verb|r1| come registro destinazione, va a scrivere il valore
+ricavato da \verb|MD| in \verb|r1|.
+
+Questa prima bozza rappresenta ovviamente un modello parziale che potremmo arricchire andando per
+esempio ad aggiungere la possibilità di eseguire un'istruzione di lettura dalla memoria di questo
+tipo
+\begin{minted}{gas}
+ldr r1, [r2, r0]
+\end{minted}
+In questo caso il campo \verb|SRC2| avrà negli ultimi 4 bit l'indirizzo del registro \verb|r0| da
+cui sarà possibile andare a leggere il valore dell'offset.
+
+Quello che dobbiamo fare ora è aggiungere al circuito la seconda uscita di \verb|REG| e mandarla in
+un multiplexer in grado di decidere se usare il valore di quell'uscita o il valore \emph{immediato}
+in uscita da \verb|EXT|.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/arch2.svg}
+\end{center}
+Il bit che serve al multiplexer per effettuare la selezione è il campo \verb|I| dell'istruzione
+assembler convertita in binario.
+
+\subsubsection{Incrementare il program counter}
+Siamo quindi in grado di eseguire un'istruzione ma non di eseguire tante in sequenza. Dobbiamo
+infatti riuscire ad implementare un ciclo infinito dentro il quale effettuiamo le operazioni di
+fetch-decode-execute. Per farlo dobbiamo sostanzialmente riuscire ad incrementare il \verb|PC|.
