@@ -89,6 +89,13 @@ Il bit che serve al multiplexer per effettuare la selezione è il campo \verb|I|
 assembler convertita in binario.
 
 \subsubsection{Incrementare il program counter}
-Siamo quindi in grado di eseguire un'istruzione ma non di eseguire tante in sequenza. Dobbiamo
-infatti riuscire ad implementare un ciclo infinito dentro il quale effettuiamo le operazioni di
-fetch-decode-execute. Per farlo dobbiamo sostanzialmente riuscire ad incrementare il \verb|PC|.
+Siamo quindi in grado di eseguire un'istruzione di manipolazione della memoria ma non di eseguirne
+tante in sequenza. Dobbiamo infatti riuscire ad implementare un ciclo infinito dentro il quale
+effettuiamo le operazioni di fetch-decode-execute. Per farlo è necessario incrementare il \verb|PC|
+di 4 (poiché le istruzioni di 32 bit sono indirizzate al byte) tramite una ALU.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/cycle.svg}
+\end{center}
+Ora dobbiamo immaginarci che all'interno di un ciclo di clock abbiamo tutte le fasi descritte da
+questo circuito e solo quando le abbiamo completate, il clock torna alto, incrementiamo \verb|PC| e
+appena il clock torna stabile possiamo eseguire una nuova istruzione.
