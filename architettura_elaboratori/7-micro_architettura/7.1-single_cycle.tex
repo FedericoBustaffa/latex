@@ -179,4 +179,9 @@ La ALU che effettua istruzioni operative produce inoltre i flag di condizione (m
 registro \verb|cpsr|) che invia alla parte controllo in modo che questa abbia tutte le informazioni
 necessarie anche per operazioni condizionali.
 
-All'interno della parte controllo abbiamo due componenti principali c
+All'interno della parte controllo abbiamo due componenti principali: un \textbf{decoder} e una rete
+combinatoria che implementa la \textbf{logica condizionale}.
+
+Sia l'uno che l'altro, come possiamo vedere hanno diversi ingressi provenienti dalla memeoria
+istruzioni hanno vari ingressi provenienti dalla memoria istruzioni o dalla ALU che potrebbe
+settare i flag per le istruzioni condizionali.
