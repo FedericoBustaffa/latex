@@ -119,11 +119,62 @@ di effettuare tale scelta.
 Ancora una volta il bit di scelta sarà ricavabile dall'istruzione in linguaggio macchina.
 
 \subsection{Istruzioni operative}
-Supponiamo ora di effettuare un'operazione
+Supponiamo ora di eseguire un'istruzione operativa, come una somma di questo tipo
 \begin{minted}{gas}
 add r1, r2, r3
 \end{minted}
+Abbiamo un registro destinazione \verb|r1|, dunque dovremo scrivere nel modulo \verb|REG| e abbiamo
+due registri sorgente di cui vogliamo sommare i valori.
 
+Usando lo schema costruito fino ad ora siamo in grado di effettuare tale somma tramite la ALU posta
+alle uscite di \verb|REG| e \verb|EXT|. Il problema è che il risultato viene mandato all'interno
+della memoria dati e dunque non scriveremmo in \verb|r1| il valore \verb|r2 + r3| ma andremmo a
+prendere il valore che in memoria si trova all'indirizzo \verb|r2 + r3|.
+
+Per riuscire a distinguere dunque istruzioni operative da quelle di accesso alla memoria è
+sufficiente aggiungere un multiplexer che prende come ingressi sia l'uscita della memoria dati sia
+l'uscita della ALU.
 \begin{center}
 	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/operative.svg}
 \end{center}
+Così facendo, tramite un bit di controllo è possibile selezionare uno o l'altro risultato e andarlo
+a scrivere nel modulo \verb|REG|.
+
+Se avessimo volutto effettuare un'operazione di \verb|sub| il circuito rimarrebbe il solito ma
+dobbiamo aggiungere un bit di controllo sulla ALU per decidere se effettuare una somma o una
+sottrazione.
+
+\subsection{Istruzioni di salto}
+Se volessimo eseguire istruzioni di salto dovremmo sostanzialmente andare a cambiare il valore del
+program counter. Questo però non può essere fatto prima di essere passati dalla memoria istruzioni
+e aver tradotto l'istruzione in binario in modo da reperire l'immediato che definisce come
+effettuare il salto.
+
+Ricordiamoci inoltre che dentro il modulo \verb|REG| abbiamo il registro \verb|r15| che è una copia
+del valore del program counter. Andando quindi a reperire quel valore e sommandolo all'immediato
+definito negli ultimi 24 bit dell'istruzione otteniamo il nuovo valore di \verb|PC|.
+
+Per effettuare operazioni di salto dobbiamo sostanzialmente aggiungere due multiplexer: il primo in
+grado di capire se leggere o meno il registro \verb|r15| e il secondo in grado di distinguere il
+caso in cui il program counter viene incrementato normalmente o tramite un'istruzione di salto.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/salto.svg}
+\end{center}
+Come possiamo vedere il multiplexer che regola il primo ingresso di \verb|REG| può avere come
+uscita la costante 15 in quanto, nel caso di un'istruzione di salto, non andiamo a specificare in
+modo esplicito che vogliamo variare il \verb|PC|.
+
+L'altro multiplexer prende come ingressi le uscite delle due ALU, quella che effettua l'incremento
+standard e quella che somma al \verb|PC| l'offset specificato nell'istruzione.
+
+\subsection{Parte controllo}
+Come possiamo vedere, tra multiplexer, ALU e memorie abbiamo un bel po' di moduli che hanno bisogno
+di un segnale di controllo in grado di definire il loro comportamento.
+
+Tali segnali sono generati e gestiti da una rete combinatoria chiamata \textbf{parte controllo} che
+tramite l'istruzione la sequenza di bit rappresentante l'istruzione assembler riesce a inviare
+bit di controllo a multiplexer e ALU e segnali di \verb|WE| alle memorie esattamente quando serve.
+
+La ALU che effettua istruzioni operative produce inoltre i flag di condizione (memorizzati nel
+registro \verb|cpsr|) che invia alla parte controllo in modo che questa abbia tutte le informazioni
+necessarie anche per operazioni condizionali.
