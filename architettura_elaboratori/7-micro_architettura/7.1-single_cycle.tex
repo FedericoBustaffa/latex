@@ -178,10 +178,11 @@ bit di controllo a multiplexer e ALU e segnali di \verb|WE| alle memorie esattam
 La ALU che effettua istruzioni operative produce inoltre i flag di condizione (memorizzati nel
 registro \verb|cpsr|) che invia alla parte controllo in modo che questa abbia tutte le informazioni
 necessarie anche per operazioni condizionali.
-
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/ctrl_unit.svg}
+\end{center}
 All'interno della parte controllo abbiamo due componenti principali: un \textbf{decoder} e una rete
 combinatoria che implementa la \textbf{logica condizionale}.
 
-Sia l'uno che l'altro, come possiamo vedere hanno diversi ingressi provenienti dalla memeoria
-istruzioni hanno vari ingressi provenienti dalla memoria istruzioni o dalla ALU che potrebbe
-settare i flag per le istruzioni condizionali.
+Sia l'uno che l'altro hanno diversi ingressi provenienti dalla memoria istruzioni o dalla ALU che
+potrebbe settare i flag per le istruzioni condizionali.
