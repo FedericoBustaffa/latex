@@ -5,10 +5,11 @@
 \PYG{+w}{	}\PYG{n+nf}{mov}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZsh{}1}
 \PYG{+w}{	}\PYG{n+nf}{mov}\PYG{+w}{ }\PYG{n+no}{pc}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{lr}
 \PYG{n+nl}{else:}
-\PYG{+w}{	}\PYG{n+nf}{push}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{lr}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// salvataggio indirizzo di ritorno e parametro n}
+\PYG{+w}{	}\PYG{n+nf}{push}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{lr}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{	}\PYG{n+nf}{push}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{r0}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// salvataggio indirizzo di ritorno e parametro n}
 \PYG{+w}{	}\PYG{n+nf}{sub}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZsh{}1}\PYG{+w}{ }\PYG{c+c1}{// n\PYGZhy{}1}
 \PYG{+w}{	}\PYG{n+nf}{bl}\PYG{+w}{ }\PYG{n+no}{fact}\PYG{+w}{ }\PYG{c+c1}{// fact(n\PYGZhy{}1)}
-\PYG{+w}{	}\PYG{n+nf}{pop}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{lr}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// recupero n e indirizzo di ritorno}
+\PYG{+w}{	}\PYG{n+nf}{pop}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{r1}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// recupero n e indirizzo di ritorno}
 \PYG{+w}{	}\PYG{n+nf}{mul}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r1}\PYG{+w}{ }\PYG{c+c1}{// n * fact(n\PYGZhy{}1)}
-\PYG{+w}{	}\PYG{n+nf}{mov}\PYG{+w}{ }\PYG{n+no}{pc}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{lr}
+\PYG{+w}{	}\PYG{n+nf}{pop}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+no}{pc}\PYG{p}{\PYGZcb{}}
 \end{Verbatim}

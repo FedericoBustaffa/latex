@@ -69,12 +69,13 @@ fact:
 	mov r0, #1
 	mov pc, lr
 else:
-	push {lr, r0} // salvataggio indirizzo di ritorno e parametro n
+	push {lr}
+	push {r0} // salvataggio indirizzo di ritorno e parametro n
 	sub r0, r0, #1 // n-1
 	bl fact // fact(n-1)
-	pop {r1, lr} // recupero n e indirizzo di ritorno
+	pop {r1} // recupero n e indirizzo di ritorno
 	mul r0, r0, r1 // n * fact(n-1)
-	mov pc, lr
+	pop {pc}
 \end{minted}
 la cui parte importante è il salvataggio sullo stack dell'indirizzo di ritorno e di eventuali
 parametri che non devono andare persi.
