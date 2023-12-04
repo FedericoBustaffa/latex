@@ -1,0 +1,30 @@
+\section{Multi-cycle}
+La $\mu$-architettura di tipo \textbf{multi-cyle} prova a risolvere uno dei principali problemi di
+prestazioni della $\mu$-architettura single cycle, ovvero la necessità di effettuare tutte le
+operazioni all'interno di un ciclo di clock.
+
+Per istruzioni più semplici, come ad esempio quelle di salto, percorrere tutto il circuito passando
+per moduli del tutto irrilevanti ai fine del completamento dell'istruzione è inutile.
+
+Il modello multi-cycle accorcia il ciclo di clock e \emph{"spezza"} il circuito in più pezzi. La
+durata del ciclo di clock diventa il massimo tra i tempi che ogni pezzo impiega a completare il suo
+compito. Per implementare un processore del genere andiamo a
+\begin{itemize}
+	\item Unire la memoria istruzioni e la memoria dati.
+	\item Aggiungere dei registri alla fine di ognuna delle fasi importanti.
+	\item Modificare opportunamente l'unità di controllo
+\end{itemize}
+Il risultato è un automa in grado di passare da uno stato all'altro basandosi sullo stato corrente
+e soprattutto in grado di cambiare stato solo il numero di volte necessario al completamento
+dell'sitruzione.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/multi-cycle.svg}
+\end{center}
+Nella figura qui sopra non abbiamo riportato l'unità di controllo ma, come nel caso single cycle
+si occupa di gestire tutta la parte dei segnali di controllo e, in particolare, per il caso
+multi-cycle, si occupa di gestire tutti i segnali di \verb|WE| dei registri che abbiamo aggiunto.
+
+La vera forza di un processore multi-cycle è che, nel caso un'istruzione necessiti di pochi cicli
+di clock per essere completata, possiamo iniziare ad eseguire la prossima in anticipo rispetto al
+modello single cycle che invece completava tutte le istruzioni nello stesso tempo (un unico ciclo
+di clock grande).
