@@ -32,3 +32,25 @@ similmente al processore multi-cycle, abbiamo diverse zone del circuito separate
 Come possiamo vedere dall'immagine, i registri colorati servono proprio separare le varie fasi di
 elaborazione.
 
+Nell'immagine manca l'unità di controllo che è molto più complessa rispetto a quella vista in
+precedenza e gioca un ruolo chiave per il funzionamento corretto del processore pipeline.
+
+Come anticipato, abbiamo un problema di dipendenze dato non solo dai flags ma anche dal semplice
+fatto di eseguire più istruzioni in sequenza. Supponiamo infatti di voler eseguire
+\begin{minted}{gas}
+add r1, r2, r3
+sub r1, r2, r3
+\end{minted}
+In questo caso, dopo la decodifica dell'istruzione andremo a scrivere nell'unità di controllo in
+modo che questa invii alla ALU il segnale corretto per effettuare la somma. Ma dato che siamo nel
+caso pipeline, una volta terminata la decodifica di \verb|add|, si esegue la decodifica di
+\verb|sub| e si rischia di andare a sovrascrivere le informazioni di decodifica precedentemente
+generate.
+
+Il problema si risolve andando a scrivere tali informazioni nel registro successivo (in figura
+linea rossa in uscita da \verb|ISTR|). In questo, arrivati al ciclo di clock successivo si
+sovrascrivono i dati nell'unità controllo ma i dati vecchi sono già passati alla fase successiva.
+
+Possiamo quindi dire che il processore pipeline è riceve i segnali in modo ritardato dall'unità di
+controllo, poiché ogni volta questi devono attraversare i vari registri. Una volta attraversato un
+registro, i segnali diventano disponibili alla parte successiva al registro.
