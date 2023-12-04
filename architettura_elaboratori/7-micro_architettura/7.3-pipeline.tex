@@ -1,1 +1,34 @@
 \section{Pipeline}
+Il processore \textbf{pipeline} si organizza (al livello logico) più moduli in grado eseguire le
+fasi di fetch, decode ed execute sfruttando il parallelismo di tipo temporale.
+
+Come già anticipato nel capitolo \ref{ch: parallelismo}, una volta che riusciamo a far lavorare
+tutti i moduli contemporaneamente andiamo \emph{a regime} e questo ci permette di ottenere un
+risultato di un'istruzione ogni ciclo di clock.
+
+Chiariamo che anche il processore single cycle esegue termina un'istruzione per ogni ciclo di clock
+ma ha un ciclo di clock più lungo. Semplificando, dividiamo un processore pipeline in tre moduli,
+uno per il fetch, uno per il decode e uno per l'execute e supponiamo che tutti e tre impieghino lo
+stesso tempo per terminare.
+
+Così facendo possiamo immaginarci di ridurre il ciclo di clock ad $1 / 3$ del ciclo di clock di un
+processore single cycle.
+
+Questo tipo di architettura porta con se delle complicazioni legati principalmente alla separazione
+dei moduli e all'introduzione del parallelismo.
+\begin{itemize}
+	\item Ci sono più stadi che nello specifico sono, fetch, decode, execute, passaggio dalla
+	      memoria e fase di \emph{write back} in cui andiamo a scrivere i risultati dell'esecuzione
+	      nei registri.
+	\item Possono esserci \textbf{dipendenze} tra i dati. Per esempio se andiamo ad eseguire se
+	      abbiamo un'istruzione \verb|CMP| seguita da una \verb|BEQ|, dobbiamo andare a settare
+	      i flags di condizione prima che avvenga la decodifica dell'istruzione \verb|BEQ|.
+\end{itemize}
+In un processore pipeline abbiamo di nuovo la memoria istruzioni e la memoria dati separate ma,
+similmente al processore multi-cycle, abbiamo diverse zone del circuito separate da registri.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.65] {circuiti/pipeline.svg}
+\end{center}
+Come possiamo vedere dall'immagine, i registri colorati servono proprio separare le varie fasi di
+elaborazione.
+
