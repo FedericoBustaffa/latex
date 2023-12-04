@@ -167,22 +167,43 @@ modo esplicito che vogliamo variare il \verb|PC|.
 L'altro multiplexer prende come ingressi le uscite delle due ALU, quella che effettua l'incremento
 standard e quella che somma al \verb|PC| l'offset specificato nell'istruzione.
 
-\subsection{Parte controllo}
+\subsection{Unità di controllo}
 Come possiamo vedere, tra multiplexer, ALU e memorie abbiamo un bel po' di moduli che hanno bisogno
 di un segnale di controllo in grado di definire il loro comportamento.
 
-Tali segnali sono generati e gestiti da una rete combinatoria chiamata \textbf{parte controllo} che
-tramite l'istruzione la sequenza di bit rappresentante l'istruzione assembler riesce a inviare
+Tali segnali sono generati e gestiti da una rete combinatoria chiamata \textbf{unità do controllo}
+che tramite l'istruzione la sequenza di bit rappresentante l'istruzione assembler riesce a inviare
 bit di controllo a multiplexer e ALU e segnali di \verb|WE| alle memorie esattamente quando serve.
 
 La ALU che effettua istruzioni operative produce inoltre i flag di condizione (memorizzati nel
-registro \verb|cpsr|) che invia alla parte controllo in modo che questa abbia tutte le informazioni
-necessarie anche per operazioni condizionali.
+registro \verb|cpsr|) che invia all'unità di controllo in modo che questa abbia tutte le
+informazioni necessarie anche per operazioni condizionali.
 \begin{center}
 	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/ctrl_unit.svg}
 \end{center}
-All'interno della parte controllo abbiamo due componenti principali: un \textbf{decoder} e una rete
-combinatoria che implementa la \textbf{logica condizionale}.
+All'interno dell'unità di controllo abbiamo due componenti principali: un \textbf{decoder} e una
+rete combinatoria che implementa la \textbf{logica condizionale}.
 
 Sia l'uno che l'altro hanno diversi ingressi provenienti dalla memoria istruzioni o dalla ALU che
 potrebbe settare i flag per le istruzioni condizionali.
+
+Affinché un'istruzione venga eseguita correttamente abbiamo bisogno che tutte le operazioni
+attuabili da questo modello (nel caso peggiore) stiano all'interno di un ciclo di clock. Se il
+ciclo di clock è ben definito, una volta che il segnale torna alto possiamo scrivere o leggere
+registri o memoria ed eseguire operazioni aritmetico-logiche.
+
+Supponendo di avere un ciclo di clock della durata di 1ns, possiamo dire di avere un frequenza di
+clock di 1GHz. Questo significa che se abbiamo un programma di $n$ istruzioni, il tempo di
+completamento sarà $n$ volte il ciclo di clock.
+
+Solitamente non consideriamo quanto tempo il singolo programma impiega a terminare ma consideriamo
+il \textbf{CPI} (Clock per Instruction) che, nel caso single cycle, equivale a 1.
+
+\subsection{Shift}
+Per le operazioni di \textbf{shift} in genere si usa un modulo chiamato \textbf{barrel shifter}
+posizionato tra \verb|REG| e la \verb|ALU|. Non lo si mette all'interno della ALU perché, come
+abbiamo visto, esistono delle istruzioni di accesso alla memoria che effettuano degli shift sul
+valore dei registri per trovare l'indirizzo giusto.
+
+Dobbiamo quindi effettuare prima gli eventuali shift logici o aritmetici e poi effettuare eventuali
+somme o sottrazioni.
