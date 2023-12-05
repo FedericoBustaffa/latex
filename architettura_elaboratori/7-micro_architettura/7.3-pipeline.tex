@@ -72,6 +72,7 @@ stalli. Uno stallo è uno \textbf{stop} momentaneo del funzionamento del pipelin
 cui, in un certo stadio, produciamo qualcosa di necessario ad uno degli stadi precedenti per
 funzionare correttamente.
 
+\subsubsection{Stalli}
 In sostanza blocchiamo il passaggio del risultato da un certo stadio al successivo finché non
 abbiamo scritto le informazioni necessarie nello stadio che ne ha bisogno. Nel frattempo gli stadi
 in attesa ricevono un segnale \verb|WE| a 0 impedendo quindi di andare avanti nel processo,
@@ -79,12 +80,24 @@ rallentando tutta la catena.
 \begin{center}
 	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/stallo.svg}
 \end{center}
-In questo caso l'operazione \verb|beq| è subito dopo \verb|cmp| ma, in generale potrebbe essere
-eseguita più avanti. A seconda dei casi potremmo aver bisogno di provocare uno stallo o meno.
+In questo caso blocchiamo l'istruzione \verb|beq| nello stadio di fetch poiché, per eseguire una
+decodifica corretta abbiamo bisogno che i flag di condizione siano scritti correttamente.
 
-Se per esempio dopo la \verb|cmp| avremmo delle semplici operazioni aritmetiche non sarebbe
-necessario uno stallo poiché i flags sarebbero già stati scritti e una volta arrivato il momento di
-eseguire la \verb|beq| avremmo già tutto ciò che ci serve.
+Per riuscire ad implementare gli stalli si aggiunge un modulo detta \textbf{hazard unit} che
+gestisce, un po' come l'unità di controllo, i segnali di \verb|WE| e bit di controllo appositamente
+nei casi di stallo. Se consideriamo ad esempio il seguente codice
+\begin{minted}{gas}
+ldr r0, [r1]
+add r1, r0, r2
+\end{minted}
+avremmo una dipendenza tra le due istruzioni poiché per eseguire la \verb|add| dovremmo aspettare
+che il valore \verb|r0| sia stato caricato e scritto nel modulo \verb|REG|. Come possiamo notare
+dallo schema del processore pipeline, dal momento in cui ricaviamo il valore di \verb|r0| dalla
+memoria dati a quando lo andiamo a scrivere in \verb|REG| passano diversi cicli di clock.
+
+Quello che possiamo fare, aiutandoci con l'hazard unit è inviare il valore \verb|r0| direttamente
+ad uno degli ingressi della ALU permettendoci così di eseguire la \verb|add| un ciclo di clock in
+anticipo.
 
 \begin{tcolorbox}
 	Possiamo quindi dire che il processore pipeline è riceve i segnali in modo ritardato dall'unità
@@ -92,17 +105,43 @@ eseguire la \verb|beq| avremmo già tutto ciò che ci serve.
 	attraversato un registro, i segnali diventano disponibili alla parte successiva al registro.
 \end{tcolorbox}
 
-% Possiamo avere questo problema di dipendenza nel caso in cui vogliamo eseguire due istruzioni
-% operative in sequenza. Supponiamo infatti di voler eseguire
-% \begin{minted}{gas}
-% add r1, r2, r3
-% sub r1, r2, r3
-% \end{minted}
-% In questo caso, dopo la decodifica dell'istruzione andremo a scrivere nell'unità di controllo in
-% modo che questa invii alla ALU il segnale corretto per effettuare la somma. Dato che siamo nel caso
-% pipeline, una volta terminata la decodifica di \verb|add|, si esegue la decodifica di \verb|sub| e
-% si rischia di andare a sovrascrivere le informazioni di decodifica precedentemente generate.
+Considerando ancora l'esempio appena fatto l'operazione \verb|beq| è subito dopo \verb|cmp| ma, in
+generale potrebbe essere eseguita più avanti. A seconda dei casi potremmo aver bisogno di provocare
+uno stallo o meno.
 
-% Il problema si risolve andando a scrivere tali informazioni nel registro successivo (in figura
-% linea rossa in uscita da \verb|ISTR|). In questo, arrivati al ciclo di clock successivo si
-% sovrascrivono i dati nell'unità controllo ma i dati vecchi sono già passati alla fase successiva.
+Se per esempio dopo la \verb|cmp| avremmo delle semplici operazioni aritmetiche non sarebbe
+necessario uno stallo poiché i flags sarebbero già stati scritti e una volta arrivato il momento di
+eseguire la \verb|beq| avremmo già tutto ciò che ci serve.
+
+Questo tipo di ottimizzazioni possono essere fatte sia dal programmatore che dal compilatore che,
+tramite alcune regole, cambia l'ordine delle istruzioni, senza alterare la semantica del programma,
+in modo da evitare il più possibile gli stalli e non sprecare cicli di clock. Il codice
+\begin{minted}{gas}
+mov r0, #0
+cmp r1, r2
+beq end
+\end{minted}
+è equivalente a
+\begin{minted}{gas}
+cmp r1, r2
+mov r0, #0
+beq end
+\end{minted}
+ma nel primo caso creiamo uno stallo e nel secondo caso no. Per capire se possiamo cambiare
+l'ordine di alcune istruzioni consideriamo un insieme di due istruzioni \verb|istr1| e \verb|istr2|
+e consideriamo
+\begin{gather*}
+	R_1 = \{ \text{registri letti da istr1} \} \\
+	W_1 = \{ \text{registri scritti da istr1} \} \\
+	R_2 = \{ \text{registri letti da istr2} \} \\
+	W_2 = \{ \text{registri scritti da istr2} \}
+\end{gather*}
+Possiamo invertire l'ordine di esecuzione di \verb|istr1| e \verb|istr2| senza alterare la
+semantica del programma se e solo se valgono le seguenti tre regole
+\begin{gather*}
+	R_1 \cap W_2 = \emptyset \\
+	W_1 \cap R_2 = \emptyset \\
+	W_1 \cap W_2 = \emptyset
+\end{gather*}
+In genere i compilatori sono in grado di effettuare queste ottimizzazioni in modo da evitare, per
+quanto possibile gli stalli.
