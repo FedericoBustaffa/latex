@@ -57,9 +57,34 @@ situazione di questo tipo
 \begin{center}
 	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/dipendenze2.svg}
 \end{center}
-Come possiamo vedere, durante il secondo clock ci ritroviamo in una situazione in cui vogliamo
-decodificare l'istruzione \verb|beq| ma la \verb|cmp| non ha ancora scritto i flag necessari, che
-invece andrà a scrivere alla fine del ciclo di clock.
+Come possiamo vedere, durante il secondo ciclo clock ci ritroviamo in una situazione in cui
+vogliamo decodificare l'istruzione \verb|beq| ma la \verb|cmp| non ha ancora scritto i flag
+necessari, che invece andrà a scrivere alla fine del ciclo di clock.
+
+Le due principali soluzioni sono il \textbf{forwarding} e creare situazioni di \textbf{stallo}.
+Dato che i flag in uscita dalla ALU vengono scritti nel registro \verb|CPSR| e solo al giro di
+clock successivo verrebbero trasmessi all'unità di controllo per effettuare correttamente la fase
+di decodifica, potremmo creare un collegamento che manda l'uscita della ALU direttamente all'unità
+di controllo gestendo le due casistiche tramite un multiplexer.
+
+Il forwarding complica un po' il circuito ed è per questo che si è pensato di provocare degli
+stalli. Uno stallo è uno \textbf{stop} momentaneo del funzionamento del pipeline nel momento in
+cui, in un certo stadio, produciamo qualcosa di necessario ad uno degli stadi precedenti per
+funzionare correttamente.
+
+In sostanza blocchiamo il passaggio del risultato da un certo stadio al successivo finché non
+abbiamo scritto le informazioni necessarie nello stadio che ne ha bisogno. Nel frattempo gli stadi
+in attesa ricevono un segnale \verb|WE| a 0 impedendo quindi di andare avanti nel processo,
+rallentando tutta la catena.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/stallo.svg}
+\end{center}
+In questo caso l'operazione \verb|beq| è subito dopo \verb|cmp| ma, in generale potrebbe essere
+eseguita più avanti. A seconda dei casi potremmo aver bisogno di provocare uno stallo o meno.
+
+Se per esempio dopo la \verb|cmp| avremmo delle semplici operazioni aritmetiche non sarebbe
+necessario uno stallo poiché i flags sarebbero già stati scritti e una volta arrivato il momento di
+eseguire la \verb|beq| avremmo già tutto ciò che ci serve.
 
 \begin{tcolorbox}
 	Possiamo quindi dire che il processore pipeline è riceve i segnali in modo ritardato dall'unità
