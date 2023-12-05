@@ -27,7 +27,7 @@ dei moduli e all'introduzione del parallelismo.
 In un processore pipeline abbiamo di nuovo la memoria istruzioni e la memoria dati separate ma,
 similmente al processore multi-cycle, abbiamo diverse zone del circuito separate da registri.
 \begin{center}
-	\includesvg[inkscapelatex=false, scale=0.65] {circuiti/pipeline.svg}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/pipeline.svg}
 \end{center}
 Come possiamo vedere dall'immagine, i registri colorati servono proprio separare le varie fasi di
 elaborazione.
@@ -35,22 +35,49 @@ elaborazione.
 Nell'immagine manca l'unità di controllo che è molto più complessa rispetto a quella vista in
 precedenza e gioca un ruolo chiave per il funzionamento corretto del processore pipeline.
 
-Come anticipato, abbiamo un problema di dipendenze dato non solo dai flags ma anche dal semplice
-fatto di eseguire più istruzioni in sequenza. Supponiamo infatti di voler eseguire
+\subsection{Dipendenze}
+Si ha un problema di \textbf{dipendenza} tra le istruzioni quando una certa unità deve leggere un
+dato che ancora non è stato prodotto da un'altra unità. Tale dipendenza prende il nome di
+\textbf{Read After Write}, la quale ci dice che dobbiamo leggere solo dopo aver scritto il dato
+corretto. Questo tipo di dipendenza si verifica ad esempio con istruzioni di tipo condizionale,
+come ad esempio
 \begin{minted}{gas}
-add r1, r2, r3
-sub r1, r2, r3
+cmp r1, r2
+beq end
 \end{minted}
-In questo caso, dopo la decodifica dell'istruzione andremo a scrivere nell'unità di controllo in
-modo che questa invii alla ALU il segnale corretto per effettuare la somma. Ma dato che siamo nel
-caso pipeline, una volta terminata la decodifica di \verb|add|, si esegue la decodifica di
-\verb|sub| e si rischia di andare a sovrascrivere le informazioni di decodifica precedentemente
-generate.
+Nel caso single cycle, l'esecuzione delle due istruzioni viene iniziata e terminata in due cicli di
+clock differenti. In questo modo non si creano situazioni di dipendenza poiché tutto quello che
+deve leggere l'istruzione \verb|beq| è stato già scritto al ciclo di clock precedente.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/dipendenze1.svg}
+\end{center}
+Se non facessimo le opportune modifiche, nel caso pipeline incapperemmo in un problema di
+dipendenze non soddisfatte. Se eseguissimo le stesse istruzioni in processore pipeline avremmo una
+situazione di questo tipo
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/dipendenze2.svg}
+\end{center}
+Come possiamo vedere, durante il secondo clock ci ritroviamo in una situazione in cui vogliamo
+decodificare l'istruzione \verb|beq| ma la \verb|cmp| non ha ancora scritto i flag necessari, che
+invece andrà a scrivere alla fine del ciclo di clock.
 
-Il problema si risolve andando a scrivere tali informazioni nel registro successivo (in figura
-linea rossa in uscita da \verb|ISTR|). In questo, arrivati al ciclo di clock successivo si
-sovrascrivono i dati nell'unità controllo ma i dati vecchi sono già passati alla fase successiva.
+\begin{tcolorbox}
+	Possiamo quindi dire che il processore pipeline è riceve i segnali in modo ritardato dall'unità
+	di controllo, poiché ogni volta questi devono attraversare i vari registri. Una volta
+	attraversato un registro, i segnali diventano disponibili alla parte successiva al registro.
+\end{tcolorbox}
 
-Possiamo quindi dire che il processore pipeline è riceve i segnali in modo ritardato dall'unità di
-controllo, poiché ogni volta questi devono attraversare i vari registri. Una volta attraversato un
-registro, i segnali diventano disponibili alla parte successiva al registro.
+% Possiamo avere questo problema di dipendenza nel caso in cui vogliamo eseguire due istruzioni
+% operative in sequenza. Supponiamo infatti di voler eseguire
+% \begin{minted}{gas}
+% add r1, r2, r3
+% sub r1, r2, r3
+% \end{minted}
+% In questo caso, dopo la decodifica dell'istruzione andremo a scrivere nell'unità di controllo in
+% modo che questa invii alla ALU il segnale corretto per effettuare la somma. Dato che siamo nel caso
+% pipeline, una volta terminata la decodifica di \verb|add|, si esegue la decodifica di \verb|sub| e
+% si rischia di andare a sovrascrivere le informazioni di decodifica precedentemente generate.
+
+% Il problema si risolve andando a scrivere tali informazioni nel registro successivo (in figura
+% linea rossa in uscita da \verb|ISTR|). In questo, arrivati al ciclo di clock successivo si
+% sovrascrivono i dati nell'unità controllo ma i dati vecchi sono già passati alla fase successiva.
