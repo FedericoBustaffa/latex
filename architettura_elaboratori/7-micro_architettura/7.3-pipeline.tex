@@ -55,7 +55,7 @@ Se non facessimo le opportune modifiche, nel caso pipeline incapperemmo in un pr
 dipendenze non soddisfatte. Se eseguissimo le stesse istruzioni in processore pipeline avremmo una
 situazione di questo tipo
 \begin{center}
-	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/dipendenze2.svg}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/dipendenze2.svg}
 \end{center}
 Come possiamo vedere, durante il secondo ciclo clock ci ritroviamo in una situazione in cui
 vogliamo decodificare l'istruzione \verb|beq| ma la \verb|cmp| non ha ancora scritto i flag
@@ -78,14 +78,15 @@ abbiamo scritto le informazioni necessarie nello stadio che ne ha bisogno. Nel f
 in attesa ricevono un segnale \verb|WE| a 0 impedendo quindi di andare avanti nel processo,
 rallentando tutta la catena.
 \begin{center}
-	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/stallo.svg}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/stallo.svg}
 \end{center}
 In questo caso blocchiamo l'istruzione \verb|beq| nello stadio di fetch poiché, per eseguire una
 decodifica corretta abbiamo bisogno che i flag di condizione siano scritti correttamente.
 
 Per riuscire ad implementare gli stalli si aggiunge un modulo detta \textbf{hazard unit} che
 gestisce, un po' come l'unità di controllo, i segnali di \verb|WE| e bit di controllo appositamente
-nei casi di stallo. Se consideriamo ad esempio il seguente codice
+nei casi di stallo. L'hazard unit ci è utile anche per implementare del forwarding come nel caso in
+cui volessimo eseguire il seguente codice
 \begin{minted}{gas}
 ldr r0, [r1]
 add r1, r0, r2
