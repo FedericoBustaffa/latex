@@ -144,5 +144,26 @@ semantica del programma se e solo se valgono le seguenti tre regole
 	W_1 \cap R_2 = \emptyset \\
 	W_1 \cap W_2 = \emptyset
 \end{gather*}
-In genere i compilatori sono in grado di effettuare queste ottimizzazioni in modo da evitare, per
-quanto possibile gli stalli.
+Queste sono dette \textbf{condizioni di Bernstein} sono sfruttate dai compilatori per effettuare
+ottimizzazioni in modo da evitare, per quanto possibile gli stalli.
+
+\subsubsection{Dipendenze di controllo}
+Quando effettuiamo delle istruzioni di salto, dobbiamo andare ad modificare il valore del program
+counter. A tal proposito l'istruzione viene decodificata e sarà poi la ALU a produrre il nuovo
+valore.
+
+Il problema è che nel frattempo, il program counter è andato avanti normalmente avviando il fetch e
+la decodifica delle istruzioni successive al salto (quello immediatamente sotto al salto). Eseguire
+in modo parziale queste istruzioni non è problema, l'importante è disabilitare i segnali di
+\verb|WE| della memoria e/o del register file, di modo che i risultati non vengano consolidati.
+
+Come possiamo vedere, le istruzioni di salto consumano un intero ciclo fetch-decode-execute per la
+loro esecuzione andando a creare una \textbf{dipendenza di controllo} senza permettere il normale
+funzionamento pipeline.
+
+L'effetto di un salto è detto \textbf{flush} di quattro istruzioni, in quanto tali istruzioni
+vengono eseguite ma non si consolida il risultato.
+
+Ancora una volta possiamo creare un'uscita dalla ALU che, non appena calcola l'offset del salto
+rimanda indietro il risultato (forwarding) permettendoci di ridurre il flush da quattro a due
+istruzioni.
