@@ -265,3 +265,20 @@ sbagliata e scriviamo \verb|r1| prima di rendercene conto abbiamo un errore. Per
 In ogni caso sbagliare un salto ci fa sprecare cicli di clock ma non più di quelli sprecati per
 eventuali flush o stalli. In compenso predire correttamente il salto ci permette di mantenere
 attivo il flusso del pipeline.
+
+\subsection{Esecuzione Out of Order}
+L'esecuzione \textbf{Out of Order} è molto utile quando abbiamo una sequenza di istruzioni senza
+salti e servendoci delle regole di Bernstein che abbiamo visto in precedenza vogliamo provare a
+modificare l'ordine d'esecuzione per risolvere possibili dipendenze RAW. Supponiamo infatti di
+avere 4 istruzioni
+\begin{minted}{gas}
+istr1
+istr2
+istr3
+istr4
+\end{minted}
+tali per cui l'insieme dei registri letti da \verb|istr1| appartiene all'insieme dei registri
+scritti da \verb|istr2| e letti da \verb|istr3|.
+
+Per implementare ciò che vogliamo abbiamo bisogno di un fetch multiplo delle istruzioni e di un
+buffer dal quale sia possibile leggerle e
