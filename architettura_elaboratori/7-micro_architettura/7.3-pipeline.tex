@@ -167,3 +167,101 @@ vengono eseguite ma non si consolida il risultato.
 Ancora una volta possiamo creare un'uscita dalla ALU che, non appena calcola l'offset del salto
 rimanda indietro il risultato (forwarding) permettendoci di ridurre il flush da quattro a due
 istruzioni.
+
+Ancora una volta introduciamo un modulo (\textbf{control hazard}) che gestisce i segnali dei vari
+multiplexer e di \verb|WE|.
+
+Fino ad ora abbiamo sostanzialmente definito n stadi del pipeline: fetch, decode, execute, lettura
+o scrittura nella memoria dati e \emph{write back}.
+
+Ognuna di queste operazioni può essere messa in pipeline a sua volta, per esempio mettendo in
+pipeline le operazioni interne alla ALU.
+
+Questo ci permette di aumentare le prestazioni, un po' come abbiamo visto nel multi-cycle, poiché
+aumentiamo gli stadi del pipeline per riuscire ad accorciare il clock e generando un throughput
+maggiore.
+
+Il problema è che in questo modo aumenta anche il peso delle dipendenza poiché ci saranno più
+istruzioni che saranno contemporaneamente in uno degli stadi del pipeline e che quindi
+richiederanno di leggere o scrivere dei registri comuni. Abbiamo quindi bisogno di una hazard unit
+più complessa.
+
+\subsection{Micro-operazioni}
+Un modo per rendere la progettazione delle varie unità di controllo più facile è tramite la
+definizione di un insieme di \textbf{$\mu$-operazioni}. Molte delle istruzioni assembler che
+abbiamo visto non sono $\mu$-operazioni, ad esempio
+\begin{minted}{gas}
+ldr r1, [r2], r3
+\end{minted}
+è equivalente ad eseguire le due $\mu$-operazioni
+\begin{minted}{gas}
+ldr r1, [r2]
+add r2, r2, r3
+\end{minted}
+Interpretare ed eseguire un insieme di $\mu$-operazioni è molto conveniente in quanto la decodifica
+di molte delle istruzioni corrisponde a più $\mu$-operazioni. Un esempio classico di
+$\mu$-operazione è l'incremento del \verb|PC| di 4, che non viene mai esplicitato ma viene eseguito
+per ogni istruzione diversa da un salto.
+
+Un insieme di $\mu$-operazioni scelto bene permette una semplificazione significativa di dell'unità
+di controllo in quanto è necessario implementare solo i segnali di controllo e \verb|WE| per
+operazioni più basilari di quelle composte come una \verb|ldr| con post-incremento.
+
+\subsection{Predizione dei salti}
+Il sistema di \textbf{predizione dei salti} serve ad alleggerire il peso delle dipendenze di
+controllo cercando di capire se un salto condizionato verrà effettuato o no. Si aggiunge un po' di
+logica per memorizzare direzione, target del salto e se è stato già preso oppure no.
+
+Memorizzando il target non abbiamo bisogno di andare a calcolare l'offset ma possiamo modificare
+direttamente il \verb|PC| evitando il flush delle istruzioni causato dalle dipendenze di controllo.
+
+Il sistema di predizione è implementato tramite un automa a quattro stati che rappresentano la
+nostra predizione: forse preso, sicuramente preso, forse non preso, sicuramente non preso.
+\begin{center}
+	\begin{tikzpicture}[
+			scale = 0.8,
+			->, >=Stealth,
+			node distance=3cm,
+			main node/.style={circle, draw, thick, font=\Large}
+		]
+		\node[state, main node] (SP) {SP};
+		\node[state, main node] (FP) [right of=SP] {FP};
+		\node[state, main node] (FNP) [below of=FP] {FNP};
+		\node[state, main node] (SNP) [left of=FNP] {SNP};
+
+		\draw
+		(FP) edge[bend right] node[->, above, black] {preso} (SP)
+		(SP) edge[bend right] node[->, above, black] {non preso} (FP)
+		(FP) edge[bend left] node[->, right, black] {non preso} (FNP)
+		(FNP) edge[bend left] node[->, below, black] {non preso} (SNP)
+		(FNP) edge[bend left] node[->, left, black] {preso} (FP)
+		(SNP) edge[bend left] node[->, below, black] {preso} (FNP);
+	\end{tikzpicture}
+\end{center}
+Come possiamo vedere ogni volta che il salto viene preso o non preso ci muoviamo in una stato che
+rappresenta la probabilità che in un certo momento il salto venga preso o non preso.
+
+Ovviamente questo sistema \emph{cerca} di predire i salti ma potrebbe sbagliare e, in tal caso,
+dobbiamo essere pronti a riparare all'errore prima di scrivere i registri. A tal proposito possiamo
+introdurre ritardi tramite stalli oppure scrivere in registri temporanei per poi scrivere su
+registri significativi solo dopo aver avuto la certezza sull'esito del salto.
+
+Supponiamo di voler eseguire il seguente codice
+\begin{minted}{gas}
+main:
+	beq target
+	add r2, r1, #2
+	sub r2, r2, #1
+target:
+	ldr r1, r3
+\end{minted}
+e supponiamo che il sistema di predizione ci dica che il salto vada preso. Se la predizione è
+sbagliata e scriviamo \verb|r1| prima di rendercene conto abbiamo un errore. Per risolvere possiamo
+\begin{itemize}
+	\item azzerare il segnale di \verb|WE| prima che \verb|ldr| faccia l'operazione di write back.
+	\item scrivere il valore raccolto da \verb|ldr| in un registro temporaneo e poi trasferire il
+	      valore in \verb|r1| solo se abbiamo la certezza che la predizione è stata corretta.
+\end{itemize}
+In ogni caso sbagliare un salto ci fa sprecare cicli di clock ma non più di quelli sprecati per
+eventuali flush o stalli. In compenso predire correttamente il salto ci permette di mantenere
+attivo il flusso del pipeline.
