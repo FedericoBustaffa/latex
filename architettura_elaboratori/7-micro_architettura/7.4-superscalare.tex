@@ -20,6 +20,20 @@ diramazione dalle uscite delle ALU, ridirezionandola come ingresso dell'altra AL
 Il secondo tipo di problematica di un superscalare è la dipendenza tra $n$-uple di istruzioni
 eseguite in cicli di clock differenti. Supponiamo di voler eseguire
 \begin{minted}{gas}
-add r1
+ldr r1, [r2, r3]
+add r4, r5, r6
+
+sub r1, r1, #1
+add r4, r4, #2
 \end{minted}
-con un processore superscalare a due livelli.
+con un processore superscalare a due livelli. La prima coppia di per se non ha un problema di
+dipendenze, così come la seconda coppia ma se consideriamo che il processore superscalare a due
+livelli, questo cerca di eseguire coppie di istruzioni in una volta sola.
+
+Se consideriamo ora la prima istruzione di ogni coppia notiamo che la \verb|ldr| scrive \verb|r1|
+e \verb|sub| legge e scrive \verb|r1| (discorso analogo per \verb|r4| nella seconda istruzione di
+ogni coppia). Si ha quindi una dipendenza RAW tra le due coppie.
+
+Questo complica ovviamente la logica di controllo come unità di controllo, hazard unit e così via
+ma, se la situazione viene opportunamente gestita, si ha un incremento delle prestazioni notevole
+soprattutto se andiamo ad aggiungere livelli al nostro processore superscalare.
