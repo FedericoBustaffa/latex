@@ -17,4 +17,9 @@ registro \verb|r1| mentre la seconda lo legge. Abbiamo quindi compresso la dipen
 contemporanei. Un modo per ovviare a questo problema effettuare del forwarding aggiungendo una
 diramazione dalle uscite delle ALU, ridirezionandola come ingresso dell'altra ALU.
 
-Il secondo tipo di problematica di un superscalare è la dipendenza tra $n$-uple
+Il secondo tipo di problematica di un superscalare è la dipendenza tra $n$-uple di istruzioni
+eseguite in cicli di clock differenti. Supponiamo di voler eseguire
+\begin{minted}{gas}
+add r1
+\end{minted}
+con un processore superscalare a due livelli.
