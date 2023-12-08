@@ -27,7 +27,43 @@ Quello che viene fatto è alternare, secondo politiche scelte in fase di progett
 di uno o l'altro flusso di esecuzione utilizzando unità di controllo che determinano il
 comportamento dei multiplexer.
 
+\subsection{Dipendenze}
 Si potrebbe pensare che uno stile architetturale del genere possa essere ancora più pesante dal
-punto di vista delle dipendenze ma in realtà può addirittura alleggerire il carico sulle unità di
+punto di vista delle dipendenze ma, in realtà, può addirittura alleggerire il carico sulle unità di
 controllo dedicate alla gestione delle dipendenze.
 
+Una prima politica per il cambio del flusso di esecuzione è detta \textbf{Hyper-threading}, la
+quale, ad ogni ciclo di clock alterna i vari flussi di esecuzione. In questo modo riusciamo ad
+allontanare le istruzioni che hanno delle dipendenze tenendo occupato il processore nell'esecuzione
+di istruzioni appartenenti ad un altro flusso d'esecuzione.
+
+Con l'Hyper-threading abbiamo l'effetto di eliminare gli stalli da 1 clock e di dimezzare stalli da
+2 cicli clock.
+
+Sebbene l'Hyper-threading sia un buon modo per alleggerire il peso delle dipendenze, esiste un'altra
+politica che prevede l'esecuzione continua dello stesso flusso di esecuzione finché non ci si
+imbatte in una dipendenza che causerebbe uno stallo. In quel caso cambiamo flusso di esecuzione e
+proseguiamo allo stesso modo.
+
+\subsection{Multicore}
+Il modello multicore nasce dall'esigenza di eseguire più processi contemporaneamente. Abbiamo
+infatti più \textbf{core} che a loro volta posso implementare del multithreading e possono essere
+di tipo superscalare, pipeline e così via.
+
+Ognuno di questi core lavora indipendentemente dall'altro e, sebbene tutti i core accedano alla
+stessa memoria, lo spazio di indirizzamento accessibile dai singoli core è differente.
+
+L'effetto che si vuole ottenere con un processore multicore è quello di avere un processore per
+ogni processo. Ovviamente non è possibile se pensiamo a quanti processi lavorano contemporaneamente
+su un computer ma, tramite meccanismi che si occupano di distribuire i vari processi tra i core in
+modo più efficace possibile otteniamo una buona simulazione.
+
+\subsubsection{Multicore ARM}
+Dato che i processori ARM sono spesso utilizzati su dispositivi mobili si è adottato una politica
+chiamata \textbf{big.LITTLE}, che prevede un'eterogeneità tra i core della macchina per ottimizzare
+il consumo energetico delle batterie.
+
+Abbiamo infatti core più potenti per calcoli più pesanti e che però consumano più energia, che
+vengono spenti quando non sono necessari. Abbiamo poi core meno potenti che invece sono sufficienti
+a gestire le funzionalità più semplici di dispositivi come ad esempio smartphone. Se necessario
+tutti i core possono lavorare simultaneamente per avere la massima potenza di calcolo.
