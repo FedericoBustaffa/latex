@@ -1,0 +1,33 @@
+\section{Multicore e multithreading}
+Una nuova classe di processori è quella dei processori \textbf{multithread} e \textbf{multicore}
+(o multiprocess), i quali amplificano ancora di più il grado di parallelismo spaziale ma in un modo
+differente dai superscalari.
+
+Entrambi i modelli gestiscono flussi di controllo \textbf{indipendenti} ma differiscono per lo
+spazio di indirizzamento che vanno ad accedere.
+\begin{itemize}
+	\item I processori multithread eseguono istruzioni appartenenti allo stesso spazio di
+	      indirizzamento \textbf{condiviso}.
+	\item I processori multicore eseguono istruzioni appartenenti a spazi di indirizzamento
+	      \textbf{differenti}.
+\end{itemize}
+A differenza del superscalare che provava a eseguire più istruzioni contemporaneamente ma comunque
+era legato al flusso di esecuzione del nostro programma, questi modelli si propongono di eseguire
+flussi di esecuzioni differenti in modo indipendente.
+
+\subsection{Multithreading}
+Il modello multithread cerca di eseguire più flussi in contemporanea che però condividono lo stesso
+spazio di indirizzamento. Nella pratica andiamo a replicare lo stato architetturale $n$ volte. Se
+per esempio avessimo un livello di multithreading pari a 2 avremmo grosso modo un modello in cui
+parti come \verb|PC| e \verb|REG| sono doppie ma in cui la memoria rimane unica.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/multithread.svg}
+\end{center}
+Quello che viene fatto è alternare, secondo politiche scelte in fase di progettazione, l'esecuzione
+di uno o l'altro flusso di esecuzione utilizzando unità di controllo che determinano il
+comportamento dei multiplexer.
+
+Si potrebbe pensare che uno stile architetturale del genere possa essere ancora più pesante dal
+punto di vista delle dipendenze ma in realtà può addirittura alleggerire il carico sulle unità di
+controllo dedicate alla gestione delle dipendenze.
+
