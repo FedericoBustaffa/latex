@@ -1,0 +1,20 @@
+\section{Superscalare}
+Il processore \textbf{superscalare} aggiunge una forma di parallelismo spaziale al modello pipeline
+cercando di parallelizzare $n$ processori pipeline effettuando il fetch di $n$ istruzioni in
+parallelo e cercando quindi di eseguire $n$ istruzioni per ciclo di clock. Un processore
+superscalare a due livelli avrebbe più o meno questa forma
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/superscalare.svg}
+\end{center}
+Aumentare il parallelismo aumenta anche il peso delle dipendenze tra le istruzioni in due modi. Se
+ad esempio abbiamo due istruzioni di questo tipo
+\begin{minted}{gas}
+add r1, r2, r3
+sub r4, r1, r5
+\end{minted}
+Un processore superscalare a due livelli cercherà di eseguirle in parallelo ma la prima scrive il
+registro \verb|r1| mentre la seconda lo legge. Abbiamo quindi compresso la dipendenza su due passi
+contemporanei. Un modo per ovviare a questo problema effettuare del forwarding aggiungendo una
+diramazione dalle uscite delle ALU, ridirezionandola come ingresso dell'altra ALU.
+
+Il secondo tipo di problematica di un superscalare è la dipendenza tra $n$-uple

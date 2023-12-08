@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n+nf}{add}\PYG{+w}{ }\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r3}
+\PYG{n+nf}{sub}\PYG{+w}{ }\PYG{n+no}{r4}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{r5}
+\end{Verbatim}
