@@ -1,0 +1,56 @@
+\chapter{Memoria}
+Fino ad ora abbiamo parlato di \textbf{memoria} considerandola quasi come un modulo interno alla
+ma come abbiamo visto all'inizio del corso nel modello Von Neumann, la memoria è un qualcosa di
+esterno che comunica con il processore.
+
+Nel tempo c'è stata una rapida evoluzione delle $\mu$-architetture dei processori con conseguente
+aumento delle prestazioni. Sebbene anche le memorie si siano evolute non si può dire che siano
+riuscite a reggere il confronto.
+
+Sempre come abbiamo visto nello schema iniziale del modello Von Neumann, un divario di prestazioni
+tra CPU e memoria, va a creare quello che prende il nome di \textbf{Von Neumann bottleneck} che
+rallenta anche le prestazioni del processore.
+
+Questo perché per quanto il nostro processore sia prestante, se non riusciamo a leggere e scrivere
+la memoria altrettanto velocemente, non riusciremo a sfruttare a pieno le potenzialità del
+processore.
+
+Quando abbiamo parlato di memoria abbiamo fatto distinzione tra \textbf{registri}, come latch, flip
+flop, registri da 1 bit e così via. Quelle che vogliamo trattare ora sono le \textbf{memorie} che
+in precedenza abbiamo distinto tra \emph{statiche} (array di registri) e \emph{dinamche} (array di
+transistor).
+
+Quello che vogliamo fare è sostanzialmente definire un \textbf{sistema di memoria} composto in
+maniera gerarchica
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.9]{circuiti/memorie.svg}
+\end{center}
+Come possiamo vedere abbiamo inserito un elemento di cui non avevamo mai parlato prima, ovvero la
+\textbf{cache} che, come vedremo ci aiuterà ad agevolare le interazioni con la memoria.
+
+\section{Cache}
+La memoria \textbf{cache} è una memoria piccola e molto veloce anche se non quanto i registri.
+Ci serve per memorizzare le istruzioni o i dati che soddisfano due criteri fondamentali:
+\begin{itemize}
+	\item \textbf{Località spaziale}: se accediamo una locazione di memoria è molto probabile che
+	      accederemo nel breve periodo anche le locazioni vicine.
+	\item \textbf{Località temporale}: se accediamo una locazione di memoria al tempo $t_0$ è molto
+	      probabile che ad un certo tempo $t_k$, con $k$ piccolo, acceda nuovamente alla stessa
+	      locazione di memoria.
+\end{itemize}
+La cache non fa parte dello schema che di solito facciamo per la $\mu$-architettura di un
+processore ma fa comunque parte della CPU. Possiamo infatti definire un ulteriore schema gerarchico
+di cache in questo modo
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/cache_gen.svg}
+\end{center}
+Come possiamo vedere abbiamo tre livelli di cache, il primo livello è diviso in cache per le
+istruzioni e cache per i dati. Ora però dobbiamo capire come
+\begin{enumerate}
+	\item Muovere i dati tra i vari livelli della gerarchia.
+	\item Trovare i dati nella cache dato che non possiamo aspettarci di trovarli allo stesso
+	      indirizzo che usavamo per reperire i dati in RAM.
+\end{enumerate}
+Al fine di risolvere questi problemi introduciamo tre metodi
+
+\subsection{Cache ad accesso diretto}
