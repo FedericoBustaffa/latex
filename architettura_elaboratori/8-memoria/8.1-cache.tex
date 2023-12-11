@@ -113,7 +113,7 @@ una volta confrontati i tag otterremo un discrepanza.
 Il tag dunque non serve per cercare le parole memorizzate nella cache ma serve per evitare possibili
 ambiguità.
 
-\subsection{Implementazione indirizzamento diretto}
+\subsubsection{Implementazione indirizzamento diretto}
 Una cache ad indirizzamento diretto utilizza $n+1$ moduli di memoria , dove $n$ è il numero di
 parole memorizzabili in ogni linea della cache. Nel nostro caso avremo quindi 5 moduli di memoria,
 un modulo per la memorizzazione dei tag e bit di presenza e gli altri 4 per la memorizzazione di
@@ -138,3 +138,46 @@ Lo schema di sopra non è completo, infatti ci permette solamente di leggere par
 che si tratti di istruzioni sia che si tratti di dati. Per riuscire a scrivere in cache non si fa
 altro che aggiungere un demultiplexer sopra i moduli di memoria, il quale, tramite il segnale di
 controllo dato dall'offset, inoltra un segnale di \verb|WE| al modulo su cui si desidera scrivere.
+
+Riassumendo, il procedimento per la lettura della cache di primo livello consiste in tre passaggi
+principali:
+\begin{enumerate}
+	\item Eseguire il fetch dell'istruzione.
+	\item Provare a leggere la cache per un accesso più rapido.
+	\item Da qui abbiamo due possibilità che dipendono dal verificarsi di un fault o meno:
+	      \begin{itemize}
+		      \item Se non si verificano fault si legge dalla cache e abbiamo terminato.
+		      \item Se si verifica un fault si leggono dalla memoria la parola cercata e tutte
+		            quelle che entrano in una linea. Si aggiorna infine la cache con i nuovi valori
+		            letti.
+	      \end{itemize}
+\end{enumerate}
+
+\subsubsection{Trashing}
+Il problema principale che affligge le cache a indirizzamento diretto è detto \textbf{trashing} e
+si presenta quando dobbiamo mappare sulla stessa linea degli indirizzi che servono nello stesso
+periodo dell'esecuzione del programma.
+
+Quando abbiamo parlato del tag abbiamo parlato del fatto che una stessa linea di cache potesse
+essere riscritta ciclicamente con indirizzi contenenti stesso numero di blocco ma diverso tag.
+
+Supponendo di avere un codice in cui viene eseguito molte volte un loop abbastanza lungo, è facile
+intuire che se la cache è piccola per il numero di istruzioni presenti nel loop questa verrà
+riempita e poi continuamente sovrascritta con le istruzioni del loop.
+
+Quando due istruzioni continuano a sovrascriversi a vicenda ad ogni ciclo, si ha una situazione di
+\emph{trashing} che, in una cache a indirizzamento diretto, non è possibile risolvere.
+
+\subsubsection{Interfaccia con la memoria principale}
+Rimane da capire come trasferire i dati dalla memoria principale alla cache. In realtà è molto
+semplice e basta usare uno schema simile a quello che abbiamo usato per leggere dati dalla cache e
+scriverli nei registri del processore.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/ram_to_cache.svg}
+\end{center}
+Se una linea di cache può contenere $\sigma$ parole, quando si verifica un fault, dobbiamo
+effettuare $\sigma$ accessi alla memoria per aggiornare la cache e rispettare i criteri di località.
+
+Come possiamo notare però, si tratta di un modulo di memoria interlacciata (sez. \ref{ss: modulari})
+dal quale è possibile rimuovere il multiplexer scrivendo così in un colpo solo tutte le $\sigma$
+parole.
