@@ -202,4 +202,9 @@ Così facendo effettuiamo un confronto simultaneo tra tutte le linee delle cache
 \end{itemize}
 Per ottenere il fault vero e proprio manca in realtà un passaggio, ossia mettere le $\sigma$ uscite
 dei confrontatori in \verb|AND| con il bit di validità. A questo punto possiamo mettere tutto in un
-\verb|NOR| il cui output a 1 equivale un fault.
+\verb|NOR| il cui output a 1 equivale ad un fault.
+
+\subsubsection{Leggere parole dalla cache}
+Nel caso non si verifichi un fault dobbiamo riuscire a recuperare la parola desiderata e per farlo
+sfruttiamo un \textbf{codificatore}, il quale possiede $2^k$ ingressi e produce $k$ bit in uscita,
+i rappresentano in binario la posizione dell'unico bit a 1.
