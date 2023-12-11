@@ -181,3 +181,25 @@ effettuare $\sigma$ accessi alla memoria per aggiornare la cache e rispettare i 
 Come possiamo notare però, si tratta di un modulo di memoria interlacciata (sez. \ref{ss: modulari})
 dal quale è possibile rimuovere il multiplexer scrivendo così in un colpo solo tutte le $\sigma$
 parole.
+
+\subsection{Indirizzamento associativo}
+Per una cache a indirizzamento associativo non abbiamo più i bit per identificare il numero di
+blocco: manteniamo i bit per l'offset e i rimanenti bit sono utilizzati per il tag e per il bit
+di presenza.
+
+Stavolta abbiamo uno schema in cui, ogni volta che effettuiamo una lettura dalla cache mandiamo
+contemporaneamente tutti i tag della cache ognuno in un confrontatore insieme al tag dell'indirizzo.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/cache_associativo.svg}
+\end{center}
+Così facendo effettuiamo un confronto simultaneo tra tutte le linee delle cache.
+\begin{itemize}
+	\item Nel caso tutti i confrontatori restituiscano 0 si ha un fault. Questo significa che
+	      il tag dell'indirizzo cercato non corrisponde con nessuno di quelli presenti nella cache.
+	\item Se invece si ottiene un 1 significa che l'indirizzo cercato è presente in cache e, per
+	      effettuare il test di validità, come prima mettiamo l'uscita del confrontatore in
+	      \verb|AND| con il bit di validità.
+\end{itemize}
+Per ottenere il fault vero e proprio manca in realtà un passaggio, ossia mettere le $\sigma$ uscite
+dei confrontatori in \verb|AND| con il bit di validità. A questo punto possiamo mettere tutto in un
+\verb|NOR| il cui output a 1 equivale un fault.
