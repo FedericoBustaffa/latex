@@ -97,4 +97,44 @@ valore trovato. Per recuperare dati da una cache il procedimento prevede quindi 
 	\item Confrontare i tag dell'indirizzo e della linea.
 	\item Se i tag corrispondono si usa l'offset per ricavare la parola.
 \end{enumerate}
-Detto così non è molto chiaro il perché si debba usare un tag.
+Ancora però non è chiaro l'utilità del campo \emph{tag} dato che abbiamo già un campo che
+identifica le righe e uno che identifica le colonne della cache.
+
+Per capirlo dobbiamo considerare che la nostra cache può contenere al massimo 16 parole. Se in
+cache abbiamo la parola all'indirizzo \verb|main + 0|, e ad un certo punto decidessimo di
+effettuare il fetch dell'istruzione \verb|main + 16|, otterremmo gli ultimi 4 bit uguali a quelli
+di \verb|main + 0|.
+
+Questo porterebbe ad un errore in quanto, cercando di recuperare la parola \verb|main + 16|, la
+ricerca nella cache ci fornirebbe la parola \verb|main + 0|. Notiamo però che \verb|main + 16| ha
+il quintultimo bit differente da \verb|main + 0| e, dato che quel bit andrebbe a far parte del tag,
+una volta confrontati i tag otterremo un discrepanza.
+
+Il tag dunque non serve per cercare le parole memorizzate nella cache ma serve per evitare possibili
+ambiguità.
+
+\subsection{Implementazione indirizzamento diretto}
+Una cache ad indirizzamento diretto utilizza $n+1$ moduli di memoria , dove $n$ è il numero di
+parole memorizzabili in ogni linea della cache. Nel nostro caso avremo quindi 5 moduli di memoria,
+un modulo per la memorizzazione dei tag e bit di presenza e gli altri 4 per la memorizzazione di
+parole ad offset diversi.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7]{circuiti/cache_diretto.svg}
+\end{center}
+Come detto in precedenza, tramite il numero di blocco accediamo la riga di tutti i moduli. Ciò che
+viene letto dal modulo dei tag viene confrontato con il tag dell'indirizzo. Il risultato del
+confronto viene infine messo in \verb|NAND| con il bit di presenza. L'uscita del \verb|NAND| è 1
+in due casi:
+\begin{itemize}
+	\item Il bit di presenza è a 0 e dunque le parole nella linea non sono valide.
+	\item I tag sono diversi.
+\end{itemize}
+In entrambi i casi, quando l'uscita del \verb|NAND| è 1 viene generato quello che si dice un
+\textbf{fault}
+Se non viene generato alcun \emph{fault} possiamo andare a scegliere la parola corretta tra le 4
+lette, usando un multiplexer che prende come ingresso di controllo l'offset dell'indirizzo.
+
+Lo schema di sopra non è completo, infatti ci permette solamente di leggere parole dalla cache, sia
+che si tratti di istruzioni sia che si tratti di dati. Per riuscire a scrivere in cache non si fa
+altro che aggiungere un demultiplexer sopra i moduli di memoria, il quale, tramite il segnale di
+controllo dato dall'offset, inoltra un segnale di \verb|WE| al modulo su cui si desidera scrivere.
