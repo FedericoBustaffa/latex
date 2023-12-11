@@ -58,8 +58,43 @@ più campi ma divisa in due parti principali:
 	\item L'ultima parte composta da un certo numero di parole.
 	\item La prima parte composta da informazioni riguardanti tali parole.
 \end{itemize}
-Supponendo di avere una cache capace di memorizzare $n \cdot k$ parole e che tale cache sia
-composta da $k$ linee, ciascuna da $n$ parole. Il risultato sarebbe una cache in cui ogni linea è
-composta da un campo \textbf{tag}, $\log_2 (\# \text{blocchi})$ rappresentanti il numero di linea
-e $\log_2 (n)$ che rappresentano un offset, necessario a scegliere una delle $n$ parole nella linea.
-L'ultima parte della linea, come già detto, è composta dalle $n$ parole.
+Supponendo di avere una cache capace di memorizzare $n \cdot k$ parole e composta da $k$ linee,
+ciascuna da $n$ parole. Il risultato sarebbe una cache in cui ogni linea è composta da un campo
+\textbf{tag} (che approfondiremo più avanti), $\log_2 (\# \text{blocchi})$ bit rappresentanti il
+numero di linea e $\log_2 (n)$ bit che rappresentano un offset, necessario a scegliere una delle
+$n$ parole nella linea. L'ultima parte della linea, come già detto, è composta dalle $n$ parole.
+
+\subsection{Indirizzamento diretto}
+Supponiamo di avere un programma \verb|main| caricato in memoria principale e supponiamo di
+disporre di una cache da 4 linee, ciascuna in grado di memorizzare 4 parole.
+
+Abbiamo quindi che ogni linea della cache ha una prima parte composta da 28 bit di \emph{tag}, 2
+bit per l'identificazione del numero di linea e 2 bit per l'offset.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/cache_word.svg}
+\end{center}
+
+Se ora effettuiamo il fetch della prima istruzione di \verb|main|, per i criteri di località
+precedentemente descritti, vorremmo memorizzare nella cache, non solo tale istruzione ma anche le
+successive 3, dato che in una linea della cache possiamo inserire 4 istruzioni.
+
+Per capire dove memorizzare queste parole nella cache utilizziamo il loro indirizzo e per ognuna di
+esse andiamo a vedere i 2 bit che indicano il numero di linea (supponiamo siano 01 per tutte e 4
+le parole) e gli ultimi 2 bit (da 00 a 11) per andare a trovare la colonna corretta.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/cache_load.svg}
+\end{center}
+Il campo \emph{tag} viene riempito con i primi 28 bit di \verb|main + 0| e inoltre si aggiunge un
+\textbf{bit di presenza} o \textbf{validità} per capire se il contenuto della linea è significativo
+o meno.
+
+Se ora eseguissimo il fetch di \verb|main + 1|, leggeremmo che gli ultimi 4 bit sono 0101, il che
+significa che dobbiamo andare a leggere la cache nella linea 1 con un offset di 1 per ottenere
+\verb|main + 1|. Se il tag della linea corrisponde al tag dell'indirizzo allora possiamo usare il
+valore trovato. Per recuperare dati da una cache il procedimento prevede quindi di
+\begin{enumerate}
+	\item Usare il numero di blocco dell'indirizzo per accedere alla linea corretta.
+	\item Confrontare i tag dell'indirizzo e della linea.
+	\item Se i tag corrispondono si usa l'offset per ricavare la parola.
+\end{enumerate}
+Detto così non è molto chiaro il perché si debba usare un tag.
