@@ -57,3 +57,113 @@ che implementa la cache in una parte adibita alla gestione dei fault
 e in una parte per l'elaborazione del risultato (in questo caso la pagina fisica) la quale prende
 le uscite degli \verb|AND| di sopra e le manda in un codificatore che genererà il segnale di
 controllo per un multiplexer che andrà a produrre infine l'indirizzo di pagina fisica desiderato.
+
+Per quanto riguarda la logica che si occupa di gestire possibili fault distinguiamo due casistiche:
+\begin{itemize}
+	\item \textbf{Cache fault}: l'indirizzo cercato non è presente nella cache e dunque, tramite
+	      una politica LRU andiamo ad aggiornare la TLB.
+	\item \textbf{Page fault}: questo si verifica quando sappiamo come effettuare la traduzione ma
+	      il bit di validità è a 0, sintomo del fatto che la pagina cercata non è presente in
+	      memoria principale e dobbiamo andare a caricarla. Di questo si occupa il sistema
+	      operativo che, tramite chiamate di sistema, va ad aggiornare la tabella delle pagine.
+\end{itemize}
+
+\subsection{MMU}
+Fino ad ora abbiamo parlato di traduzione di indirizzi da virtuali a fisici senza però approfondire
+la questione.
+
+Tale processo è affidato ad una componente facente parte della CPU, la quale prende il nome di
+\textbf{MMU} (Memory Management Unit) la quale si occupa di gestire le richieste di accesso alla
+memoria generate dal processore.
+
+Possiamo vedere la MMU come un automa i cui stati rappresentano le varie situazioni in cui ci
+possiamo trovare quando riceviamo una richiesta di traduzione di un indirizzo da parte del
+processore.
+\begin{center}
+	\begin{tikzpicture}[
+			->, >=Stealth,
+			node distance=3cm,
+			main node/.style={circle, draw, thick, font=\normalsize}
+		]
+		\node[state, main node] (hit) {Hit};
+		\node[state, main node] (cache fault) [below left of=hit] {Cache fault};
+		\node[state, main node] (page fault) [below right of=hit] {Page fault};
+
+		\draw
+		(hit) edge[loop above] node{PF} (hit)
+		(hit) edge[bend right] node[->, above left, black] {PL non presente} (cache fault)
+		(hit) edge[bend left] node[->, above right, black] {bit V a 0} (page fault)
+		(cache fault) edge node[->, below right, black] {PF} (hit)
+		(page fault) edge node[->, below left, black] {PF} (hit);
+	\end{tikzpicture}
+\end{center}
+L'automa così definito non è proprio corretto ma serve a dare un'idea di quello che accade nella
+MMU. Ovviamente il caso più comune è quello dei cache fault e dunque è quello che deve essere
+gestito in modo più rapido.
+
+\subsubsection{Politiche di scrittura per la TLB}
+Siamo interessati ad un aspetto relative alle istruzioni come quella di \verb|str| in cui andiamo
+a modificare il valore in memoria principale. Quando eseguiamo
+\begin{minted}{gas}
+str r0, [r1, r2]
+\end{minted}
+andiamo a cercare nella cache l'indirizzo \verb|r1 + r2| ma andiamo anche a modificare il valore a
+tale indirizzo. Supponendo di non trovarci in una situazione di fault, possiamo modificare il
+valore all'indirizzo cercato direttamente nella cache. Da qui però si aprono due possibili scenari:
+\begin{itemize}
+	\item \textbf{Write Through}: si aggiornano la cache e la memoria principale in modo asincrono.
+	\item \textbf{Write Back}: si aggiorna la cache e si mette a 1 di un \textbf{bit di modifica}.
+	      Quando la linea deve essere rimpiazzata, se questa presenta il bit di modifica a 1, si
+	      riporta la modifica anche in memoria principale.
+\end{itemize}
+Con il metodo \emph{Write Through} dobbiamo essere sicuri che tra due operazioni di \verb|str|
+consecutive intercorra almeno un tempo di accesso alla memoria. Questo perché l'interfaccia di
+comunicazione con la memoria deve essere libera.
+
+Con il metodo \emph{Write Back} lavoriamo sempre all'interno della cache ma il procedimento di
+rimpiazzo in caso di fault prevede
+\begin{enumerate}
+	\item Selezione di una linea da rimpiazzare.
+	\item Se il bit di modifica è uguale a 0 si sovrascrive la linea con quello che leggiamo in
+	      memoria. Se invece il bit di modifica è a 1 andiamo ad aggiornare anche la memoria
+	      principale in modo sincrono.
+\end{enumerate}
+Qui paghiamo la scrittura in memoria principale ma si tratta di un evento raro.
+
+\subsubsection{Cache coherence}
+Un problema che affligge i processori multicore è il cosiddetto \textbf{cache coherence}, in quanto
+questi hanno in genere una cache di primo livello privata per ognuno dei core.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/cache_coherence.svg}
+\end{center}
+Supponiamo che entrambi i core stiano lavorando sullo stesso programma ma su flussi di esecuzione
+separati e supponiamo che il primo core sia incaricato di eseguire
+\begin{minted}{gas}
+ldr r1, r2
+str r1, r2
+\end{minted}
+mentre il secondo sia incaricato di eseguire
+\begin{minted}{gas}
+ldr r1, r2
+\end{minted}
+Supponiamo ovviamente che all'indirizzo \verb|r2| ci sia un qualcosa di condiviso. Nell'eventualità
+che entrambi i core effettuino la \verb|ldr| avrebbero nella loro cache privata il valore trovato
+all'indirizzo \verb|r2|.
+
+Se adesso il primo core effettuasse la \verb|str| andando a modificare quel valore, a prescindere
+dal tipo di politica usata per l'aggiornamento di cache e memoria, il cambiamento non sarebbe
+percepito dalla cache di primo livello del secondo processore.
+
+Per riuscire a risolvere questo problema, ogni volta che scriviamo qualcosa di potenzialmente
+condiviso, usiamo dei meccanismi di \textbf{cache coherence} che replicano la scrittura sulle copie
+nelle altre cache.
+\begin{itemize}
+	\item Il primo metodo prevede l'utilizzo di un \textbf{bus} che collega tutte le cache, le
+	      quali vedono e riconoscono le situazioni simili a quella descritta in precedenza. Quando
+	      un core effettua una modifica in cache, nel caso riconosca che un altro core ha lo stesso
+	      valore all'interno della sua cache sfrutta il bus per replicare la modifica.
+	\item Il secondo metodo consiste nell'implementazione di una \textbf{struttura dati} in memoria
+	      adibita alla memorizzazione di variabili condivise. Nel momento in cui una variabile
+	      all'interno di questa struttura viene modificata, si notificano le altre cache che
+	      aggiorneranno il valore memorizzato.
+\end{itemize}
