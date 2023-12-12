@@ -1,0 +1,36 @@
+\chapter{Input/Output}
+Parliamo in ultima battuta di I/O e del ruolo che ricopre all'interno del modello Von Neumann che
+abbiamo visto all'inizio del corso. Nello specifico andremo a trattare \textbf{Memory Mapped I/O},
+\textbf{DMA} e \textbf{interruzioni}.
+
+\section{Memory Mapped I/O}
+Con il \textbf{Memory Mapped I/O} riusciamo a vedere, all'interno dello spazio di indirizzamento
+della nostra macchina, la memoria delle \textbf{periferiche} come tastiere, mouse, dischi ecc.
+
+Possiamo vedere ognuna delle periferiche come oggetti hardware con una parte di controllo e una
+parte operativa. Al loro interno possiamo trovare delle piccole unità di memoria che servono a
+comunicare con il calcolatore.
+
+Tramite il Memory Mapped I/O il processore è in grado di leggere o scrivere le locazioni di memoria
+di queste periferiche. Nei processori RISC come ad esempio quelli con architettura ARM quello che
+viene fatto è avere una parte dello spazio di indirizzamento dedicata alle operazioni di I/O.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.9] {circuiti/mem_map_IO.svg}
+\end{center}
+Quello che viene fatto è utilizzare la MMU per ricevere o inviare le informazioni da o verso le
+varie periferiche, utilizzanod un bus collegato ad esse. La MMU è dunque incaricata di capire se
+l'indirizzo ricevuto appartiene allo spazio di indirizzamento per le operazioni di I/O o meno.
+
+La MMU non decide però con quale delle periferiche comunicare. Per riuscire a recapitare le
+informazioni alla periferica corretta è necessario confrontare il prefisso degli indirizzi privati
+della periferica con quello dell'informazione in viaggio sul bus. Se il confrontatore ritorna 1
+allora abbiamo trovato la periferica desiderata.
+\begin{center}
+	\includesvg[inkscapelatex=false] {circuiti/bus_periferiche.svg}
+\end{center}
+Il problema è che l'interazione con le periferiche fatta in questo modo richiede un ciclo in cui
+ogni volta interroghiamo la periferica per constatare lo stato della periferica.
+
+Considerando inoltre che il tempo di accesso della CPU è dell'ordine dei nanosecondi, mentre quello
+del disco (per esempio) è dell'ordine dei millisecondi, è facile constatare che perdiamo milioni
+di cicli di clock per constatare lo stato della periferica.
