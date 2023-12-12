@@ -27,13 +27,33 @@ Quando vogliamo caricare una pagina in memoria traduciamo l'indirizzo della prim
 pagina in un indirizzo fisico della memoria principale, basandoci sulle pagine libere di
 quest'ultima.
 
-La corrispondenza tra indirizzo virtuale e indirizzo fisico viene memorizzata in una tabella detta
-\textbf{TLB} (Translation Lookaside Buffer), di cui è provvisto ogni processo che carichiamo in
-memoria. Questo metodo ci permette di allocare pagine in memoria principale senza che esse siano
-contigue.
+La corrispondenza tra indirizzo virtuale e indirizzo fisico viene memorizzata nella
+\textbf{tabella delle pagine}, di cui è provvisto ogni processo che carichiamo in memoria.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/paginazione.svg}
+\end{center}
+Questo metodo ci permette di allocare pagine in memoria principale senza che esse siano contigue.
 
-Possiamo supporre che il contenuto della TLB rimanga tale fin tanto che il programma è in
-esecuzione. Parti del suo contenuto sono però lette e scritte di continuo sulle varie cache
-all'interno della CPU.
+\subsubsection{TLB}
+Possiamo supporre che il contenuto della tabella delle pagine rimanga tale fin tanto che il
+programma è in esecuzione.
 
-In particolare abbiamo una cache associativa che effettua
+Vogliamo però definire un \textbf{working set}, ossia un insieme di istruzioni e dati utili in un
+certo tempo dell'esecuzione del programma, e metterli in una cache. Questa cache ci aiuta nella
+traduzione degli indirizzi e ci permette di evitare di accedere l'intera tabella delle pagine.
+
+La cache adottata per questo tipo di lavoro è detta \textbf{TLB} (Translation Lookaside Buffer) ed
+è una cache completamente associativa che mantiene delle entry con le associazioni tra pagine
+logiche e pagine fisiche e, per ognuna di esse, un bit di validità.
+
+Per riuscire ad accedere una certa istruzione o dato, abbiamo bisogno di un indirizzo composto dal
+numero di pagina logica e dall'offset per capire di quanto muoversi all'interno di tale pagina.
+
+In maniera analoga a ciò che abbiamo visto per le cache associative, possiamo dividere la logica
+che implementa la cache in una parte adibita alla gestione dei fault
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.7] {circuiti/tlb.svg}
+\end{center}
+e in una parte per l'elaborazione del risultato (in questo caso la pagina fisica) la quale prende
+le uscite degli \verb|AND| di sopra e le manda in un codificatore che genererà il segnale di
+controllo per un multiplexer che andrà a produrre infine l'indirizzo di pagina fisica desiderato.
