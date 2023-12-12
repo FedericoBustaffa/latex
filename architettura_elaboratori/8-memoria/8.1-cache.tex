@@ -183,8 +183,8 @@ dal quale è possibile rimuovere il multiplexer scrivendo così in un colpo solo
 parole.
 
 \subsection{Indirizzamento associativo}
-Per una cache a indirizzamento associativo non abbiamo più i bit per identificare il numero di
-blocco: manteniamo i bit per l'offset e i rimanenti bit sono utilizzati per il tag e per il bit
+Per una cache a \textbf{indirizzamento associativo} non abbiamo più i bit per identificare il numero
+di blocco: manteniamo i bit per l'offset e i rimanenti bit sono utilizzati per il tag e per il bit
 di presenza.
 
 Stavolta abbiamo uno schema in cui, ogni volta che effettuiamo una lettura dalla cache mandiamo
@@ -208,3 +208,69 @@ dei confrontatori in \verb|AND| con il bit di validità. A questo punto possiamo
 Nel caso non si verifichi un fault dobbiamo riuscire a recuperare la parola desiderata e per farlo
 sfruttiamo un \textbf{codificatore}, il quale possiede $2^k$ ingressi e produce $k$ bit in uscita,
 i rappresentano in binario la posizione dell'unico bit a 1.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/encoder.svg}
+\end{center}
+L'uscita del codificatore viene utilizzata come segnale di controllo per un multiplexer che va a
+scegliere la linea giusta.
+
+Per riuscire a scegliere la parola tra le $\sigma$ parole presenti sulla linea dobbiamo fare
+affidamento su un secondo multiplexer che riceve come ingresso di controllo l'offset. Un primo modo
+consiste nel posizionare il secondo multiplexer subito dopo il primo
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8]{circuiti/associativo1.svg}
+\end{center}
+In questo modo però dobbiamo attendere l'esecuzione completa di tutta la logica dietro ai fault e
+solo dopo saremo in grado di inviare il segnale al primo multiplexer ed infine al secondo
+multiplexer per ottenere la parola cercata.
+
+Un secondo metodo prevede l'utilizzo di tanti multiplexer quante sono le linee della cache, il cui
+segnale di controllo è sempre l'offset. Facendo in questo modo il calcolo dell'offset può essere
+fatto parallelamente alla logica di fault.
+
+Una volta terminata quella parte possiamo inviare le uscite dei vari multiplexer al multiplexer che
+si occupa della scelta della linea corretta tramite il segnale ricevuto dal codificatore.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.8] {circuiti/associativo2.svg}
+\end{center}
+Questo secondo metodo è quello che viene più comunemente usato in quanto molto più rapido.
+
+Il problema delle cache a indirizzamento associativo è che sono incredibilmente costose. Andiamo
+infatti ad impiegare un numero di comparatori e multiplexer pari a quello delle righe. Abbiamo
+inoltre bisogno di un decodificatore con altrettanti ingressi.
+
+\subsection{Indirizzamento set-associativo}
+Per riuscire a trovare un buon compromesso tra prestazioni e componenti hardware si usa un modello
+ibrido chiamato \textbf{indirizzamento set-associativo}.
+
+La cache viene divisa in \textbf{insiemi} composti dallo stesso numero di righe. Quando si vuole
+leggere una parola nella cache si usa l'indirizzamento diretto per accedere all'insieme corretto e,
+una volta al suo interno utilizziamo l'indirizzamento associativo per leggere la parola.
+
+Questo metodo permette di ridurre drasticamente l'hardware usato infatti, come abbiamo visto il
+metodo diretto non richiede quasi niente a livello hardware e per quanto riguarda il metodo
+associativo possiamo usare un numero di confrontatori pari al numero di linee di un singolo insieme
+dato che effettuiamo sempre una lettura per volta della cache.
+
+\subsubsection{Trashing}
+Con questo metodo usiamo il tag per identificare l'insieme corretto e dunque abbiamo un singolo tag
+(quello dell'insieme) per tutte le righe dello stesso insieme.
+
+Il problema di \emph{trashing} che avevamo con il metodo diretto viene dunque mitigato dal poter
+inserire nello stesso insieme più indirizzi con lo stesso tag.
+
+\subsection{Politiche di scrittura nella cache}
+Quando la cache è piena bisogna andare a rimpiazzare una qualche linea. La scelta ricade ovviamente
+sulle linee più vecchie in quanto è probabile che stiano uscendo dalla località temporale e dunque
+potrebbero non servire più.
+
+Per farlo si adotta una politica \textbf{LRU} (\textbf{Last Recently Used}) che prevede l'utilizzo
+di un bit aggiuntivo per le linee, detto \textbf{bit d'uso}.
+
+Ogni volta che accediamo ad una parola della linea il bit d'uso viene messo ad 1 e periodicamente
+viene azzerato. Quando abbiamo bisogno di aggiornare la cache la nostra scelta ricadrà su una delle
+linee con il bit d'uso a 0.
+
+Questo metodo magari non è il più corretto per l'aggiornamento ma sicuramente necessario se lo
+paragoniamo all'alternativa in cui eseguiamo una scansione lineare della cache per individuare la
+linea più vecchia.
