@@ -1,0 +1,39 @@
+\section{Memoria virtuale}
+Come dovrebbe essere chiaro, quando compiliamo un programma questo possiede alcune informazioni
+necessarie per la sua esecuzione. Tra queste abbiamo gli indirizzi ai quali è possibile trovare
+istruzioni e dati del nostro eseguibile.
+
+Quando eseguiamo un programma questo viene caricato in memoria principale utilizzando tali indirzzi
+e sempre tramite gli stessi indirizzi è possibile andare a reperire, all'occorrenza, istruzioni e
+dati.
+
+Ovviamente gli indirizzi che un programma si porta dietro non sono assoluti, non andiamo quindi a
+specificare l'esatto indirizzo in memoria fisica poiché si dovrebbe ricompilare il programma ogni
+volta per ottenere sempre nuovi indirizzi.
+
+Quello che si fa è assegnare a istruzioni e dati del nostro programma degli
+\textbf{indirizzi virtuali}. Per farla semplice, se il nostro programma ha $n$ istruzioni, la prima
+istruzione ha indirizzo 0 e l'ultima ha indirizzo $n-1$.
+
+Dato che però tutti i programmi sono compilati in questo modo, abbiamo bisogno di un modo per
+tradurre indirizzi virtuali (o logici) in \textbf{indirizzi fisici}.
+
+\subsection{Paginazione}
+Per la precisione non andiamo a caricare in memoria le istruzioni una per una, ma andiamo a caricare
+delle \textbf{pagine}, ossia porzioni tutte uguali (in genere 4KB) del nostro codice in memoria,
+anch'essa divisa in pagine della stessa dimensione.
+
+Quando vogliamo caricare una pagina in memoria traduciamo l'indirizzo della prima istruzione della
+pagina in un indirizzo fisico della memoria principale, basandoci sulle pagine libere di
+quest'ultima.
+
+La corrispondenza tra indirizzo virtuale e indirizzo fisico viene memorizzata in una tabella detta
+\textbf{TLB} (Translation Lookaside Buffer), di cui è provvisto ogni processo che carichiamo in
+memoria. Questo metodo ci permette di allocare pagine in memoria principale senza che esse siano
+contigue.
+
+Possiamo supporre che il contenuto della TLB rimanga tale fin tanto che il programma è in
+esecuzione. Parti del suo contenuto sono però lette e scritte di continuo sulle varie cache
+all'interno della CPU.
+
+In particolare abbiamo una cache associativa che effettua
