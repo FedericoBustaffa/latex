@@ -5,13 +5,44 @@ sono passati in uno stato di \emph{pronto}.
 
 Fino ad ora abbiamo eseguito le varie operazioni in \textbf{modalità utente} ma ogni processore ha
 a disposizione diversi \textbf{stati di esecuzione} che differiscono sostanzialmente per i alcuni
-privilegi di cui possono godere o meno.
+privilegi di cui possono godere o meno. Tra le modalità disponibili in un processore ARM abbiamo:
+\begin{itemize}
+	\item \textbf{User}: modalità normale.
+	\item \textbf{FIQ}: modalità \emph{fast interrupt} per gestire interruzioni brevi.
+	\item \textbf{IRQ}: modalità normale per la gestione di interruzioni.
+	\item \textbf{Supervisor}: privilegi massimi utilizzato per le routine del sistema operativo.
+\end{itemize}
+Questi stati del processore sono rappresentati nella \textbf{parola di stato}, ossia il registro
+\verb|cpsr| che, se ricordiamo mantiene nei primi 4 bit lo stato dei flag. Negli ultimi 4 bit è
+rappresentato lo stato in cui si trova il processore e nei tre bit precedenti abbiamo altre
+informazioni come
+\begin{itemize}
+	\item \verb|I| e \verb|F|: bit per sapere se dobbiamo gestire le interruzioni. Il bit \verb|F|
+	      ci fa entrare in modalità FIQ mentre il bit \verb|I| ci fa entrare in modalità IRQ.
+	\item \verb|T|: serve ad entrare in modalità THUMB per la gestione di interruzioni che generano
+	      codice più compatto.
+\end{itemize}
+Quando ci troviamo in modalità FIQ i primi 8 registri rimangono inalterati mentre da \verb|r8| fino
+a \verb|lr| abbiamo una copia. Memorizziamo inoltre la parola di stato precedente al passaggio in
+modalità FIQ in un registro apposito.
 
-Quando si verifica un'interruzione il processore, il processore passa nello in uno stato detto
-\textbf{stato interruzione} che interrompe ciò che il processore stava facendo fino a quel momento
-per permettergli di gestire l'interruzione.
+In modalità FIQ gli unici registri ad essere copiati sono lo stack pointer e il link register
+poiché la gestione di interruzioni più lunghe potrebbe richiedere l'utilizzo di più registri.
+Un'interruzione causa innesca dunque un procedimento di gestione in cui
+\begin{enumerate}
+	\item Vengono salvati program counter e parola di stato.
+	\item La parola di stato viene settata opportunamente.
+	\item \`E possibile disabilitare ulteriori interruzioni settando la parola di stato.
+	\item Esecuzione del codice all'indirizzo dato dall'indirizzo dell'interruzione.
+\end{enumerate}
+Quando invece terminiamo il trattamento dell'interruzione dobbiamo ripristinare la parola di stato,
+se necessario riabilitiamo le interruzioni e ripristiniamo il program counter.
 
-Quando il processore entra in questa modalità è in grado di usare una copia dei registri generali
-in modo da non sporcare i veri registri generali ed inoltre è in grado di utilizzare il Memory
-Mapped I/O che in modalità utente non è possibile usare.
+Quando si verifica un'interruzione il processore passa in modalità \textbf{interruzione}, la quale
+interrompe ciò che il processore stava facendo fino a quel momento per permettergli di gestire
+l'interruzione. In questa modalità è inoltre possibile utilizzare il Memory Mapped I/O.
 
+Viene inoltre messo in esecuzione un \textbf{handler} delle interruzioni che, nel caso la gestione
+dell'interruzione sia troppo complessa, delega ad \textbf{processo gestore}.
+
+\subsection{Direct Memory Access}
