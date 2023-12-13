@@ -46,3 +46,24 @@ Viene inoltre messo in esecuzione un \textbf{handler} delle interruzioni che, ne
 dell'interruzione sia troppo complessa, delega ad \textbf{processo gestore}.
 
 \subsection{Direct Memory Access}
+Quando abbiamo parlato di come avviene la comunicazione dal processore verso i dispositivi di I/O
+abbiamo parlato di un bus lungo il quale viaggiano le informazioni. Abbiamo inoltre parlato delle
+modalità con cui questi dispositivi sono in grado di generare interruzioni per far sì che il
+processore prenda visione di ciò che sta accadendo e gestisca di conseguenza tali interruzioni.
+
+Tramite la tecnologia \textbf{DMA} (Direct Memory Access) riusciamo ad avere una gestione delle
+interruzioni più snella andando ad alleggerire il carico del processore.
+
+Tutto quello che dobbiamo fare è aggiungere un bus che collega direttamente le periferiche di I/O
+alla memoria.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.9] {circuiti/dma.svg}
+\end{center}
+Quando il processore per esempio vuole effettuare una lettura dal disco, invece di gestire
+personalmente la lettura delega il lavoro alla periferica. Lo fa specificando l'indirizzo di un
+buffer in memoria principale in cui il disco può andare direttamente a scrivere.
+
+In questo modo il processore non prende in carico la lettura dei dati dal disco e continua ad
+eseguire le istruzioni con cui era impegnato in precedenza. Una volta che il disco termina di
+scrivere quanto richiesto in memoria principale, lo segnala al processore tramite un'interruzione e
+questo sarà dunque in grado di leggere direttamente da quest'ultima.
