@@ -1,1 +1,17 @@
 \section{Interruzioni}
+Vogliamo quindi ottimizzare l'interazione con i dispositivi di I/O e per farlo entrano in gioco le
+\textbf{interruzioni}. Un modo per permettere a tali dispositivi di notificare al processore che
+sono passati in uno stato di \emph{pronto}.
+
+Fino ad ora abbiamo eseguito le varie operazioni in \textbf{modalità utente} ma ogni processore ha
+a disposizione diversi \textbf{stati di esecuzione} che differiscono sostanzialmente per i alcuni
+privilegi di cui possono godere o meno.
+
+Quando si verifica un'interruzione il processore, il processore passa nello in uno stato detto
+\textbf{stato interruzione} che interrompe ciò che il processore stava facendo fino a quel momento
+per permettergli di gestire l'interruzione.
+
+Quando il processore entra in questa modalità è in grado di usare una copia dei registri generali
+in modo da non sporcare i veri registri generali ed inoltre è in grado di utilizzare il Memory
+Mapped I/O che in modalità utente non è possibile usare.
+
