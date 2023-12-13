@@ -220,16 +220,16 @@ Se avessimo voluto effettuare degli shift a sinistra lo schema sarebbe stato ugu
 fatto che sarebbero stati i bit più significativi i primi ad andare a 0.
 
 \subsection{Demultiplexer}
-Altro circuito considerato standard è il \textbf{demultiplexer} il quale ha $n$ bit in ingresso e
-$2^n$ bit in uscita, e mette a 1 solo l'$n$-esimo bit lasciando tutti gli altri a 0. Se ad esempio
-avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
+Altro componente considerato standard è il \textbf{demultiplexer} il quale ha un ingresso principale
+che viene rediretto su una delle $2^k$ uscite. L'uscita su cui viene rediretto l'input è scelta
+tramite un ingresso di controllo a $k$ bit, i quali codificano il numero dell'uscita in binario.
 \begin{center}
 	\begin{tikzpicture}
 		\draw[thick] (-0.8, 1) -- (0.8, 1) -- (1.5, 0) -- (-1.5, 0) -- cycle;
 		\node (mux) at (0, 0.5) {DEMUX};
 
-		\draw (-0.5, 1.5) node[label=above:$x_1$] {} to[short, o-] (-0.5, 1);
-		\draw (0.5, 1.5) node[label=above:$x_2$] {} to[short, o-] (0.5, 1);
+		\draw (0, 1.5) node[label=above:$x$] {} to[short, o-] (0, 1);
+		\draw (-2, 0.5) node[label=left:$c$] {} to[short, o-] (-1.15, 0.5);
 
 		\draw (-1.25, 0) -- (-1.25, -0.5) node[label=below:$z_1$] {};
 		\draw (-0.5, 0) -- (-0.5, -0.5) node[label=below:$z_2$] {};
@@ -240,39 +240,45 @@ avessimo in ingresso 2 bit, avremo di conseguenza un circuito di questo tipo
 e la tabella di verità corrispondente sarebbe la solita
 \begin{center}
 	\begin{tabular}{c c | c c c c}
-		$x_1$ & $x_2$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
-		0     & 0     & 1     & 0     & 0     & 0     \\
-		0     & 1     & 0     & 1     & 0     & 0     \\
-		1     & 0     & 0     & 0     & 1     & 0     \\
-		1     & 1     & 0     & 0     & 0     & 1
+		$x$ & $c$ & $z_1$ & $z_2$ & $z_3$ & $z_4$ \\ \hline
+		1   & 00  & 1     & 0     & 0     & 0     \\
+		1   & 01  & 0     & 1     & 0     & 0     \\
+		1   & 10  & 0     & 0     & 1     & 0     \\
+		1   & 11  & 0     & 0     & 0     & 1
 	\end{tabular}
 \end{center}
 Le formule risultanti da questa tabella sono
 \begin{align*}
-	z_1 & = \bar{x_1} \bar{x_2} \\
-	z_2 & = \bar{x_1} x_2       \\
-	z_3 & = x_1 \bar{x_2}       \\
-	z_4 & = x_1 x_2
+	z_1 & = x \cdot \overline{c_1} \cdot \overline{c_2} \\
+	z_2 & = x \cdot \overline{c_1} \cdot c_2            \\
+	z_3 & = x \cdot c_1 \cdot \overline{c_2}            \\
+	z_4 & = x \cdot c_1 \cdot c_2
 \end{align*}
-Il circuito risultante sarebbe molto semplicemente
+Il circuito risultante sarebbe
 \begin{center}
 	\begin{circuitikz}
-		\node[and port] (and1) at (0, 2.25) {};
-		\node[and port] (and2) at (0, 0.75) {};
-		\node[and port] (and3) at (0, -0.75) {};
-		\node[and port] (and4) at (0, -2.25) {};
+		\node[and port, number inputs=3] (and1) at (0, 2.25) {};
+		\node[and port, number inputs=3] (and2) at (0, 0.75) {};
+		\node[and port, number inputs=3] (and3) at (0, -0.75) {};
+		\node[and port, number inputs=3] (and4) at (0, -2.25) {};
 
-		\draw (-4, 0.75) node[label=left:$x_1$] {} to[short, o-*] (-2.5, 0.75) --
-		(-2.5, 52 |- and1.in 1) to[short, -o] (and1.in 1)
-		(-2.5, 0.5) -- (-2.5, 52 |- and2.in 1) to[short, *-o] (and2.in 1)
-		(-2.5, 0.5) to[short, -*] (-2.5, 52 |- and3.in 1) -- (and3.in 1)
-		(-2.5, 0.5) -- (-2.5, 52 |- and4.in 1) -- (and4.in 1);
+		\draw (-4, 52 |- and2.in 1) node[label=left:$x$] {} to[short, o-*] (-2, 52 |- and2.in 1) --
+		(-2, 52 |- and1.in 1) -- (and1.in 1)
+		(-2, 52 |- and2.in 1) -- (and2.in 1)
+		(-2, 52 |- and2.in 1) to[short, -*] (-2, 52 |- and3.in 1) -- (and3.in 1)
+		(-2, 52 |- and3.in 1) -- (-2, 52 |- and4.in 1) -- (and4.in 1);
 
-		\draw (-4, -0.75) node[label=left:$x_2$] {} to[short, o-*] (-3.5, -0.75) --
-		(-3.5, 52 |- and1.in 2) to[short, -o] (and1.in 2)
-		(-3.5, 0.5) -- (-3.5, 52 |- and2.in 2) to[short, *-] (and2.in 2)
-		(-3.5, 0.5) to[short, -*] (-3.5, 52 |- and3.in 2) to[short, -o] (and3.in 2)
-		(-3.5, 0.5) -- (-3.5, 52 |- and4.in 2) -- (and4.in 2);
+		\draw (-4, 52 |- and2.in 2) node[label=left:$c_1$] {} to[short, o-*] (-2.25, 52 |- and2.in 2) --
+		(-2.25, 52 |- and1.in 2) to[short, -o] (and1.in 2)
+		(-2.25, 52 |- and2.in 2) to[short, -o] (and2.in 2)
+		(-2.25, 52 |- and2.in 2) to[short, -*] (-2.25, 52 |- and3.in 2) -- (and3.in 2)
+		(-2.25, 52 |- and3.in 2) -- (-2.25, 52 |- and4.in 2) -- (and4.in 2);
+
+		\draw (-4, 52 |- and2.in 3) node[label=left:$c_2$] {} to[short, o-*] (-2.5, 52 |- and2.in 3) --
+		(-2.5, 52 |- and1.in 3) to[short, -o] (and1.in 3)
+		(-2.5, 52 |- and2.in 3) -- (and2.in 3)
+		(-2.5, 52 |- and2.in 3) to[short, -*] (-2.5, 52 |- and3.in 3) to[short, -o] (and3.in 3)
+		(-2.5, 52 |- and3.in 3) -- (-2.5, 52 |- and4.in 3) -- (and4.in 3);
 
 		\draw (and1.out) --++ (0.5, 0) node[label=right:$z_1$] {};
 		\draw (and2.out) --++ (0.5, 0) node[label=right:$z_2$] {};
