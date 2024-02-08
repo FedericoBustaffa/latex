@@ -3,19 +3,21 @@ Fino ad ora abbiamo scelto come funzione $g$ per il metodo iterativo qualcosa ne
 \[ g(x) = x - f(x) \]
 Per il metodo che vedremo tra poco scegliamo invece $g$ nella forma
 \[ g(x) = x - \frac{f(x)}{h(x)} \]
-Dove $h(x)$ ricordiamo essere una funzione definita sugli \emph{zeri} di $f$. Il metodo che vediamo è chiamato
-\textbf{metodo delle tangenti} o \textbf{metodo di Newton} e prende $h(x) = f'(x)$ definendo $g(x)$ come segue
+Dove $h(x)$ ricordiamo essere una funzione definita sugli \emph{zeri} di $f$. Il metodo che vediamo
+è chiamato \textbf{metodo delle tangenti} o \textbf{metodo di Newton} e prende $h(x) = f'(x)$
+definendo $g(x)$ come segue
 \[ g(x) = x - \frac{f(x)}{f'(x)} \]
 Otteniamo quindi il seguente metodo iterativo
 \[ x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)} \]
-Supponiamo di avere una funzione $f$ e di voler trovare $\alpha$ tale che $f(\alpha) = 0$. Supponiamo ora di
-avere un punto $x_0$ e il valore della funzione calcolata in tale punto, ossia $f(x_0)$. Otteniamo così il
-punto $(x_0, f(x_0)) \in f$.
+Supponiamo di avere una funzione $f$ e di voler trovare $\alpha$ tale che $f(\alpha) = 0$.
+Supponiamo ora di avere un punto $x_0$ e il valore della funzione calcolata in tale punto, ossia
+$f(x_0)$. Otteniamo così il punto $(x_0, f(x_0)) \in f$.
 
-Definiamo ora la retta tangente alla funzione passante per tale punto. L'equazione della tangente alla funzione
-è la seguente
+Definiamo ora la retta tangente alla funzione passante per tale punto. L'equazione della tangente
+alla funzione è la seguente
 \[ y - f(x_0) = f'(x_0)(x - x_0) \]
-Andiamo ora a calcolare l'intersezione della tangente con l'asse delle ascisse trovando così il nuovo punto $x_1$.
+Andiamo ora a calcolare l'intersezione della tangente con l'asse delle ascisse trovando così il
+nuovo punto $x_1$.
 \[
 	\begin{cases}
 		y - f(x_0) = f'(x_0)(x_1 - x_0) \\
@@ -28,8 +30,8 @@ Sostituendo $y = 0$ nella prima equazione otteniamo
 	-\frac{f(x_0)}{f'(x_0)} = & x_1 - x_0                    \\
 	x_1 =                     & x_0 - \frac{f(x_0)}{f'(x_0)}
 \end{align*}
-Ecco che abbiamo ottenuto l'equazione di partenza del metodo. A questo punto non ci rimane che ripetere il
-procedimento per $x_1$ fino a quando il metodo non converge.
+Ecco che abbiamo ottenuto l'equazione di partenza del metodo. A questo punto non ci rimane che
+ripetere il procedimento per $x_1$ fino a quando il metodo non converge.
 
 La derivata di $g(x) = x - \frac{f(x)}{f'(x)}$, in questo caso, è la seguente
 \[ g'(x) = 1 - \frac{f'(x) f'(x) - f''(x) f(x)}{f'(x)^2} = \frac{f''(x) f(x)}{f'(x)^2} \]
@@ -44,10 +46,10 @@ se $f'(\alpha) \neq 0$.Dunque, sotto quest'ipotesi, il metodo converge localment
 	\[ f(x) = e^{-x} - x = 0 \]
 	con il metodo delle tangenti. Calcoliamo la derivata prima
 	\[ f'(x) = -e^{-x} - 1 \]
-	Supponiamo di scegliere $x_0 = 0$ e valutiamo la funzione in $x_0$, ottenendo il punto $(0, 1)$ da cui
-	iniziare a iterare. La tangente $t_0$ alla funzione nel punto trovato ha equazione
+	Supponiamo di scegliere $x_0 = 0$ e valutiamo la funzione in $x_0$, ottenendo il punto $(0, 1)$
+	da cui iniziare a iterare. La tangente $t_0$ alla funzione nel punto trovato ha equazione
 	\[ y = -2x + 1 \]
-	Calcoliamo quindi il punto $x_1$ ponendo $y=0$ e otteniamo $x_1 = \frac{1}{2}$
+	Calcoliamo quindi il punto $x_1$ ponendo $y=0$ e otteniamo $x_1 = \frac{1}{2}$.
 	Se adesso ripetiamo il procedimento otteniamo la tangente $t_1$ della funzione nel punto
 	$(x_1, f(x_1)) = \left( \frac{1}{2}, \frac{1}{\sqrt{e}} - \frac{1}{2} \right)$, ossia
 	\[ y = - x \left( \frac{1}{\sqrt{e}} + 1 \right) + \frac{3}{2 \sqrt{e}} \]

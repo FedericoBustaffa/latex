@@ -49,19 +49,18 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					font=\normalsize,
 					width=9cm,
 					height=6cm,
-					axis lines = center,
-					xlabel = $x$,
-					ylabel = $y$,
-					xtick = {1/2, sqrt(1/2), 1},
-					ytick = {sqrt(1/2), 1},
-					ymin = 0, ymax = 1,
-					xmin = 0, xmax = 1,
-					grid = both,
-					grid style = dashed,
-					legend pos = north west,
+					axis lines=center,
+					xlabel=$x$,
+					ylabel=$y$,
+					xtick={0.5, sqrt(0.5), 1},
+					ytick={sqrt(0.5), 1},
+					ymin=0, ymax=1,
+					xmin=0, xmax=1,
+					grid=both,
+					grid style=dashed,
+					legend pos=north west,
 					enlargelimits
 				]
-
 				\addplot [
 					domain=0:1.1,
 					samples=100,
@@ -102,8 +101,8 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					axis lines = center,
 					xlabel = $x$,
 					ylabel = $y$,
-					xtick = {1/2, sqrt(1/2), sqrt(0.71), 1},
-					ytick = {sqrt(1/2), sqrt(0.71), 1},
+					xtick = {0.5, sqrt(0.5), sqrt(0.71), 1},
+					ytick = {sqrt(0.5), sqrt(0.71), 1},
 					ymin = 0, ymax = 1,
 					xmin = 0, xmax = 1,
 					grid = both,
@@ -111,7 +110,6 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					legend pos = north west,
 					enlargelimits
 				]
-
 				\addplot [
 					domain=0:1.1,
 					samples=100,
@@ -119,7 +117,6 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					color=blue
 				]
 				{sqrt(x)};
-
 				\addplot [
 					domain=-0.1:1.1,
 					samples=20,
@@ -127,7 +124,6 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					color=red
 				]
 				{x};
-
 				\addplot [
 					domain=-0.1:1.1,
 					samples=20,
@@ -135,8 +131,7 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 					color=red,
 					mark=square
 				]
-				coordinates { (1/2, 1/2) (0.71, 0.71) (0.84, 0.84) };
-
+				coordinates { (0.5, 0.5) (0.71, 0.71) (0.84, 0.84) };
 				\legend{
 					$\sqrt{x}$,
 					$x$

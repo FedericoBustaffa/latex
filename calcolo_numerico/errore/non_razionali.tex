@@ -1,9 +1,8 @@
 \section{Errori nel calcolo di funzioni non razionali}
-Nel caso in cui si abbia a che fare con \textbf{funzioni non razionali} dobbiamo, prima di procedere al
-calcolo in macchina, approssimarla con una funzione razionale.
-
-Dobbiamo quindi trovare una funzione $h$ che approssima $f$, la quale introduce un nuovo tipo di errore, detto
-\textbf{errore analitico} dato dalla formula
+Nel caso in cui si abbia a che fare con una \textbf{funzione non razionale} dobbiamo, prima di
+procedere al calcolo in macchina, approssimarla con una funzione razionale. Dobbiamo trovare una
+funzione $h$ che approssima $f$, la quale introduce un nuovo tipo di errore, detto
+\textbf{errore analitico}
 \[ \ean = \frac{h(x) - f(x)}{f(x)} \]
 Un possibile modo di approssimare la funzione $f$ è tramite lo sviluppo di Taylor arrestato ad un certo ordine.
 
@@ -15,7 +14,7 @@ e algoritmico di funzioni non razionali.
 	\[ f(x) = \frac{e^x - 1}{x} \]
 	per $x \to 0^+$. Come sappiamo l'errore inerente, in un'analisi al primo ordine, equivale a
 	\[ \ein = \frac{f'(x)}{f(x)} \epsilon_x x \]
-	Mentre l'errore di rappresentazione sul dato iniziale equivale a
+	mentre l'errore di rappresentazione sul dato iniziale equivale a
 	\[ \epsilon_x = \frac{\tx - x}{x} \]
 	con $|\epsilon_x| \leq u$. Per prima cosa dobbiamo calcolare la derivata della funzione $f$
 	\[ f'(x) = \frac{x e^x - 1 (e^x - 1)}{x^2} = \frac{x e^x - e^x + 1}{x^2} \]
