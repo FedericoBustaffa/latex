@@ -33,12 +33,14 @@ e da questo fatto si può poi dimostrare che se $Q_k \sim \chi_k^2$, allora
 		\frac{\sum_{i=1}^n (X_i - \bar{X}_n)^2}{\chi_{\alpha, n-1}^2} \right] \right.
 	\end{equation*}
 	è un intervallo di fiducia per $\sigma^2$ con livello di fiducia $1-\alpha$, con
-	$\chi_{\alpha, n-1}^2$ che è il quantile di ordine $\alpha$ di $\chi_{n-1}^2$. Analogamente
-	\begin{equation*}
-		\left[ \left. \frac{(n-1) \cdot S_n^2}{\chi_{1-\alpha, n-1}^2},
-		\quad +\infty \right) \right. =
-		\left[ \left. \frac{\sum_{i=1}^n (X_i - \bar{X}_n)^2}{\chi_{1-\alpha, n-1}^2},
-		\quad +\infty \right) \right.
-	\end{equation*}
-	è un intervallo di fiducia per $\sigma^2$ con livello di fiducia $1-\alpha$.
+	$\chi_{\alpha, n-1}^2$ che è il quantile di ordine $\alpha$ di $\chi_{n-1}^2$.
 \end{proposition}
+
+Analogamente
+\begin{equation*}
+	\left[ \left. \frac{(n-1) \cdot S_n^2}{\chi_{1-\alpha, n-1}^2},
+	\quad +\infty \right) \right. =
+	\left[ \left. \frac{\sum_{i=1}^n (X_i - \bar{X}_n)^2}{\chi_{1-\alpha, n-1}^2},
+	\quad +\infty \right) \right.
+\end{equation*}
+è un intervallo di fiducia per $\sigma^2$ con livello di fiducia $1-\alpha$.

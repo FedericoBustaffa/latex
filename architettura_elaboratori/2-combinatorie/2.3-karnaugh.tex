@@ -72,7 +72,7 @@ possibile riporto $r_1$ generato da essa.
 \end{center}
 Le mappe di Karnaugh per $s$ ed $r_1$ risultano le seguenti
 \begin{center}
-\begin{figure}[h!] \centering
+\begin{figure}[!ht] \centering
 \begin{subfigure}[b]{0.4\textwidth}
 \begin{karnaugh-map}[4][2][1][$c$][$b$][$a$]
 \minterms{1,2,4,7}
@@ -150,19 +150,28 @@ quindi di rappresentare solo le righe significative.
 		      &       & 1     & 1     & 1     & 0     & 0     & 1     \\
 	\end{tabular}
 \end{center}
+
+Come possiamo vedere anche dalle formule che seguono, per il calcolo di $z_1$ è sufficiente una
+porta \verb|AND| mentre per il calcolo di $z_3$ sono necessarie 4 porte \verb|AND| e 1 porta
+\verb|OR|. C'è quindi un ritardo tra il calcolo di $z_1$ e $z_3$ e il ritardo complessivo è dovuto
+al passaggio del calcolo da 2 livelli di porte logiche.
+\begin{align*}
+	z_1 & = x_1 x_2 y_1 y_2                                                                   \\
+	z_3 & = x_1 \bar{y_1} y_2 + x_2 y_1 y_2 + \bar{x_1} x_2 y_1 + x_1 \bar{x_2} y_1 \bar{y_2}
+\end{align*}
 A questo punto possiamo disegnare una mappa di Karnaugh per ogni uscita $z_i$ che abbiamo.
 Limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
 
-\begin{figure}[!h]\centering
-\resizebox{0.55\textwidth}{!}{
-	\begin{subfigure}[b]{0.4\textwidth}
+\begin{figure}[!ht]\centering
+\resizebox{0.8\textwidth}{!}{
+	\begin{subfigure}[b]{0.5\textwidth}
 	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
 	\minterms{15}
 	\maxterms{0,1, 3, 2, 4, 5, 7, 6, 12, 13, 14, 8, 9, 11, 10}
 	\implicant{15}{15}
 	\end{karnaugh-map}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.5\textwidth}
 	\begin{karnaugh-map}[4][4][1][$y_2$][$y_1$][$x_2$][$x_1$]
 	\minterms{6, 7, 15, 13, 9, 10}
 	\maxterms{0, 1, 3, 2, 4, 5, 12, 14, 8, 11}
@@ -175,14 +184,6 @@ Limitiamoci per il momento a disegnare solo quelle di $z_1$ e $z_3$.
 }
 \end{figure}
 
-Come possiamo vedere anche dalle formule che seguono, per il calcolo di $z_1$ è sufficiente una
-porta \verb|AND| mentre per il calcolo di $z_3$ sono necessarie 4 porte \verb|AND| e 1 porta
-\verb|OR|. C'è quindi un ritardo tra il calcolo di $z_1$ e $z_3$ e il ritardo complessivo è dovuto
-al passaggio del calcolo da 2 livelli di porte logiche.
-\begin{align*}
-	z_1 & = x_1 x_2 y_1 y_2                                                                   \\
-	z_3 & = x_1 \bar{y_1} y_2 + x_2 y_1 y_2 + \bar{x_1} x_2 y_1 + x_1 \bar{x_2} y_1 \bar{y_2}
-\end{align*}
 In alternativa, considerando che una moltiplicazione tra due sequenze di 2 bit si svolge in questo
 modo
 \begin{center}
@@ -216,7 +217,7 @@ multiplexer, uno per $y_1$ e uno per $y_2$, aggiungere degli zeri dove necessari
 una somma con un bit di riporto $r$ che viene messo in cima alla sequenza generata. Il circuito che
 ne risulta è un qualcosa di questo tipo
 \begin{center}
-	\begin{tikzpicture}
+	\begin{tikzpicture}[scale=0.7]
 		\draw[thick] (-4.25, 1) -- (-1.75, 1) -- (-2.25, 0) -- (-3.75, 0) -- cycle;
 		\node (mux) at (-3, 0.5) {MUX};
 		\draw (-3.5, 1.5) node[label=left:$x_1 x_2$] {} to[short, o-] (-3.5, 1);
