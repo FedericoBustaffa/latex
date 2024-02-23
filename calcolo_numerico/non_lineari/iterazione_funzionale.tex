@@ -1,5 +1,5 @@
 \section{Metodi di iterazione funzionale}
-Per trovare altri metodi, differenti da quello di bisezione, possiamo osservare che la nostra funzione
+per trovare altri metodi, differenti da quello di bisezione, possiamo osservare che la nostra funzione
 $f(x) = 0$ possiamo riscriverla in diversi modi:
 \begin{align*}
 	x = & x - f(x)              \\
@@ -8,7 +8,7 @@ $f(x) = 0$ possiamo riscriverla in diversi modi:
 dove $h$ è una funzione definita sugli \emph{zeri} di $f$. Questo ci dice che il problema di trovare $x$ tale
 che $f(x) = 0$ lo possiamo vedere come il problema nel trovare $x$ tale che
 \[ x = g(x) \]
-dove $g(x)$ potrebbe essere $x - f(x)$ oppure $x - \frac{f(x)}{h(x)}$. Posto in questi termini il problema non
+dove $g(x)$ potrebbe essere $x - f(x)$ oppure $x - \frac{f(x)}{h(x)}$. posto in questi termini il problema non
 è più quello di trovare gli zeri di $f$ ma diventa quello di trovare i \textbf{punti fissi} di $g$, ossia quei
 punti $x$ di $g$ che si mandano in se stessi.
 
@@ -26,7 +26,7 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 \begin{example}
 	Consideriamo l'equazione
 	\[ \sqrt{x} - x = 0 \]
-	Prima di tutto notiamo che la funzione è definita per $x \geq 0$ e poi, sviluppando l'equazione, possiamo
+	prima di tutto notiamo che la funzione è definita per $x \geq 0$ e poi, sviluppando l'equazione, possiamo
 	scrivere
 	\begin{align*}
 		\sqrt{x} - x = & 0   \\
@@ -41,8 +41,8 @@ allora $g(\alpha) = \alpha$, quindi $\alpha$ è un punto fisso di $g$ e uno zero
 	\[ g_1(x) = \sqrt{x} \]
 	Riconducendoci al sistema di prima possiamo scrivere
 	\[ x_{k+1} = g_1(x_k) = \sqrt{x_k} \]
-	prendendo un qualsiasi $x_0 \in \R^+$. Proviamo a capire a cosa converge la successione che calcoliamo.
-	Prima di tutto disegnamo un grafico per la funzione $g_1$ e per la retta $x$
+	prendendo un qualsiasi $x_0 \in \R^+$. proviamo a capire a cosa converge la successione che calcoliamo.
+	prima di tutto disegnamo un grafico per la funzione $g_1$ e per la retta $x$
 	\begin{center}
 		\begin{tikzpicture}
 			\begin{axis}[
@@ -225,7 +225,7 @@ indipendenti dalla scelta del punto iniziale.
 Cerchiamo quindi di individuare dei criteri in grado di stabilire delle condizioni di convergenza per i metodi
 che scegliamo di implementare.
 
-\begin{theorem}[Punto fisso]\label{th: punto_fisso}
+\begin{theorem}[punto fisso]\label{th: punto_fisso}
 	Sia $g : [a, b] \to \R$ di classe $C^1 ([a, b])$ e sia $g(\alpha) = \alpha$ con $\alpha \in (a,b)$. Se esiste
 	$\rho > 0$ tale che $|g'(x)| < 1$ per ogni $x \in [\alpha - \rho, \alpha + \rho] = I_\alpha$ allora la
 	successione generata dal metodo
@@ -237,7 +237,7 @@ che scegliamo di implementare.
 		intorno circolare dove $|g'(x)| < 1$. Dato che la derivata prima è una funzione continua, il modulo
 		della derivata prima è ancora continua.
 
-		Per il teorema di Weierstrass sappiamo che una funzione continua in un intervallo chiuso e limitato
+		per il teorema di Weierstrass sappiamo che una funzione continua in un intervallo chiuso e limitato
 		ammette massimo e minimo. Esiste quindi il massimo $\lambda$ di $|g'(x)|$ per $x \in I_\alpha$.
 		Dato che $|g'(x)| < 1$ anche $\lambda < 1$.
 
@@ -252,7 +252,7 @@ che scegliamo di implementare.
 		\[ \lim_{k \to +\infty} \lambda^k \rho = 0\]
 		allora, per il teorema dei carabinieri, anche
 		\[ \lim_{k \to +\infty} |x_k - \alpha| = 0 \]
-		e quindi $x_k \to \alpha$. Per riuscire a dimostrare la proprietà per induzione procediamo in questo modo:
+		e quindi $x_k \to \alpha$. per riuscire a dimostrare la proprietà per induzione procediamo in questo modo:
 		\begin{enumerate}
 			\item Il passo base consiste nel dimostrare che
 			      \[ |x_0 - \alpha| \leq \lambda^0 \rho = \rho \]
@@ -283,10 +283,10 @@ più debole del teorema il quale si occupa di verificare la proprietà nel punto
 		\item $x_k \to \alpha$.
 	\end{itemize}
 	\begin{proof}
-		Prendiamo $h(x) = |g'(x)| - 1$ che è una funzione continua. Dato che $h(\alpha) = |g'(\alpha)| - 1$ e
+		prendiamo $h(x) = |g'(x)| - 1$ che è una funzione continua. Dato che $h(\alpha) = |g'(\alpha)| - 1$ e
 		per le ipotesi del teorema vale che
 		\[ |g'(\alpha)| - 1 < 0 \]
-		Per il teorema di permanenza del segno esiste un intervallo $I_\alpha$ tale che
+		per il teorema di permanenza del segno esiste un intervallo $I_\alpha$ tale che
 		\[ h(x) < 0 \quad \forall x \in I_\alpha \]
 		il quale ci dice che se una funzione continua è negativa in un punto possiamo trovare circolare del punto
 		in cui la funzione è negativa. Nel nostro caso dire che la funzione è negativa equivale a dire
@@ -296,13 +296,13 @@ più debole del teorema il quale si occupa di verificare la proprietà nel punto
 \end{corollary}
 
 Il corollario \ref{coro: punto_fisso} ci dice che se $|g'(\alpha)| < 1$ allora il metodo è
-\textbf{localmente convergente} in $\alpha$. Possiamo quindi trovare un intorno sufficientemente piccolo che
+\textbf{localmente convergente} in $\alpha$. possiamo quindi trovare un intorno sufficientemente piccolo che
 permetta la convergenza.
 
 \begin{example}
 	Vogliamo determinare quante soluzioni reali ha l'equazione
 	\[ e^{-x} = x \]
-	Procediamo per separazione grafica tracciando il grafico del sistema
+	procediamo per separazione grafica tracciando il grafico del sistema
 	\[
 		\begin{cases}
 			y = e^{-x} \\
@@ -334,7 +334,7 @@ permetta la convergenza.
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
-	Possiamo quindi concludere che esiste ed è unica una soluzione $\alpha$ reale tale che
+	possiamo quindi concludere che esiste ed è unica una soluzione $\alpha$ reale tale che
 	\[ e^{-\alpha} = \alpha \]
 	Tale soluzione è compresa tra 0 e un punto in cui la funzione $x$ vale di più della funzione $e^{-x}$.
 	Se valutiamo le due funzioni per $x = 1$ otteniamo
@@ -344,13 +344,13 @@ permetta la convergenza.
 			1
 		\end{cases}
 	\]
-	Possiamo quindi concludere che $\alpha \in [0, 1]$. Per risolvere l'equazione non lineare consideriamo il
+	possiamo quindi concludere che $\alpha \in [0, 1]$. per risolvere l'equazione non lineare consideriamo il
 	metodo iterativo
 	\[ x_{k+1} = g(x_k) = e^{-x_k} \]
-	con $k \geq 0$ e vogliamo capire se il metodo è \emph{localmente convergente} in $\alpha$. Per riuscire a
+	con $k \geq 0$ e vogliamo capire se il metodo è \emph{localmente convergente} in $\alpha$. per riuscire a
 	capirlo dobbiamo applicare il corollario \ref{coro: punto_fisso}.
 
-	Per prima cosa verifichiamo che $g \in C^1([0, 1])$ ma questo è verificato poiché $e^{-x}$ è una funzione
+	per prima cosa verifichiamo che $g \in C^1([0, 1])$ ma questo è verificato poiché $e^{-x}$ è una funzione
 	di classe $C^\infty(\R)$. Dobbiamo ora valutare $|g'(\alpha)|$
 	\[ |g'(\alpha)| = |-e^{-\alpha}| = e^{-\alpha} \]
 	ma dato che $\alpha$ è un punto fisso
@@ -368,7 +368,7 @@ permetta la convergenza.
 	In questo caso possiamo facilmente dedurre che
 	\[ e^{-x} < 1 \quad \Leftrightarrow \quad x > 0 \]
 	Concludiamo quindi che possiamo prendere un qualsiasi intorno circolare di $\alpha$ contenuto nella semiretta
-	positiva. Per trovare questo intorno procediamo valutando la funzione per esempio in $\frac{1}{2}$
+	positiva. per trovare questo intorno procediamo valutando la funzione per esempio in $\frac{1}{2}$
 	\[
 		f \left( \frac{1}{2} \right) = \begin{cases}
 			e^{-\frac{1}{2}} = \frac{1}{\sqrt{e}} \\
@@ -385,7 +385,7 @@ permetta la convergenza.
 	\begin{itemize}
 		\item Se $|g'(\alpha)| < 1$ il punto fisso $\alpha$ è detto \textbf{attrattivo}.
 		\item Se $|g'(\alpha)| > 1$ il punto fisso $\alpha$ è detto \textbf{repulsivo}.
-		\item Se $|g'(\alpha)| = 1$ non possiamo dire niente, il punto potrebbe essere attrattivo o repulsivo. Per
+		\item Se $|g'(\alpha)| = 1$ non possiamo dire niente, il punto potrebbe essere attrattivo o repulsivo. per
 		      determinarlo serve un'analisi più accurata.
 	\end{itemize}
 \end{definition}
@@ -395,7 +395,7 @@ permetta la convergenza.
 	\[ e^{-x} = x \]
 	è un punto attrattivo o repulsivo per il metodo
 	\[ x_{k+1} = g(x_k) = -\ln (x_k) \]
-	con $k \geq 0$. Prima di tutto calcoliamo la derivata della funzione $g$
+	con $k \geq 0$. prima di tutto calcoliamo la derivata della funzione $g$
 	\[ g'(x_k) = -\frac{1}{x_k} \]
 	Valutiamo ora il modulo della derivata valutata in $\alpha$
 	\[ |g'(\alpha)| = \left| -\frac{1}{\alpha} \right| = \frac{1}{\alpha} \]

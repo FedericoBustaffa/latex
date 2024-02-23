@@ -90,10 +90,11 @@ Ho una \textbf{sottostima} quando \[ h(n) \leq h^*(n) \] ovvero quando il valore
 \emph{migliore} di quello di $h^*$ ma non pu\`o tuttavia essere quello \emph{reale}.
 
 \begin{example}
-	Se voglio muovermi da una citt\`a ad un'altra la distanza fra le due sar\`a sicuramente
+	Se vogliamo muoverci da una città ad un'altra la distanza fra le due sar\`a sicuramente
 	minore in linea d'aria ma nella pratica posso muovermi solo lungo le strade. Nel caso
 	in cui ci sia una strada perfettamente dritta che corrisponde alla linea d'aria tra le
-	due citt\`a avr\`o che $h(n) = h^*(n)$.
+	due citt\`a avr\`o che
+	\[ h(n) = h^*(n) \]
 \end{example}
 
 \subsubsection{Sovrastima}
@@ -101,8 +102,8 @@ Ho una \textbf{sovrastima} quando \[ h(n) \geq h^*(n) \] ovvero quando il valore
 \emph{peggiore} di quello di $h^*$.
 
 \begin{definition}
-	Un'euristica $h$ \`e detta \textbf{ammissibile} se
-	\[ \forall n \quad h(n) \leq h^*(n) \]
+	Un'euristica $h$ \`e detta \textbf{ammissibile} se per ogni $n$, vale
+	\[ h(n) \leq h^*(n) \]
 	cio\`e se $h$ \`e una sottostima.
 \end{definition}
 
@@ -209,8 +210,7 @@ I problemi sono
 	\item La complessit\`a in spazio, che \`e $O(b^{d+1})$ per via della frontiera.
 \end{itemize}
 
-\section{Costruzione di euristiche}
-\subsection{Valutazione di funzioni euristiche}
+\section{Costruzione e valutazione di euristiche}
 A parit\`a di ammissibilit\`a, un'euristica pu\`o essere pi\`u efficiente di un'altra nel
 trovare il cammino soluzione migliore. Questo dipende da quanto \`e informata l'euristica.
 Pi\`u l'euristica \`e informata pi\`u \`e efficiente
