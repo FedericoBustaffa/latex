@@ -1,0 +1,39 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=1.25in]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{minted}
+\usepackage{svg}
+
+\definecolor{minted_bg}{rgb}{0.9, 0.9, 0.9}
+\usemintedstyle{colorful}
+
+\setminted[sql]{
+	tabsize=4,
+	% linenos=true,
+	bgcolor=minted_bg,
+	fontsize=\small,
+	mathescape=true
+}
+
+\title{Progetto basi di dati}
+\author{Federico Bustaffa}
+\date{01/03/2024}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{dominio.tex}
+
+\end{document}
