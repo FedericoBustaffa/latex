@@ -1,2 +1,22 @@
 \section{Descrizione del dominio}
-Il sistema ha il compito di gestire la vendita online di occhiali.
+Il sistema ha il compito di gestire la vendita online di occhiali. La prima entità rappresenta
+gli \textbf{occhiali} inteso come il modello e tutte le sue caratteristiche. Ogni modello è
+identificato da un identificatore univoco che permette di ottenere le sue caratteristiche e la
+quantità disponibile per la vendita.
+
+Ogni \textbf{cliente} può sfogliare il catalogo senza avere un \textbf{account} ma, nel caso
+voglia effettuare acquisti deve effettuare la registrazione. Ogni cliente può possedere quanti
+account desidera a patto che l'indirizzo email sia differente per ogni account.
+
+Ogni account è identificato univocamente dall'indirizzo email e ha delle proprietà come nome,
+cognome e il \textbf{carrello} ad esso associato.
+
+Per effettuare gli acquisti, si devono prima spostare gli articoli nel \textbf{carrello} dal quale
+sarà poi possibile effettuare l'\textbf{ordine}.
+
+Ogni ordine possiede alcune proprietà come un identificatore, la data in cui è stato è effettuato,
+lo stato (confermato, in viaggio, in consegna, consegnato) e la data di consegna.
+
+Abbiamo infine un'entità \textbf{staff} che gestisce il sistema ed è in grado di gestire delle
+\textbf{offerte} che possono essere di vario tipo (gerarchia?).
+
