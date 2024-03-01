@@ -34,6 +34,88 @@
 \maketitle
 \tableofcontents
 
-\include{dominio.tex}
+\section{Descrizione del dominio}
+Il sistema ha il compito di gestire la vendita online di occhiali. La prima entità rappresenta gli
+\textbf{utenti} registrati nel sistema e i loro dati. Quello che interessa principalmente è
+l'indirizzo email, diverso per ogni utente.
+
+Ogni utente può \emph{visualizzare} i vari \textbf{modelli} di occhiali, ciascuno dei quali
+possiede delle caratteristiche come la categoria, il marchio, il materiale, prezzo, quantità
+disponibile e così via.
+
+L'utente può inoltre \textbf{personalizzare} il modello che sta visualizzando specificando colore
+e forma di lenti e montatura tra quelli disponibili per quel modello. Ogni modello ha almeno una
+personalizzazione possibile e all'utente ne viene mostrata una di default.
+
+Ogni utente possiede un \textbf{carrello} che può \emph{modificare}, come preferisce, andando ad
+aggiungere o eliminare prodotti e andando prorogare, se lo desidera, il tempo in cui un certo
+prodotto può rimanere nel carrello.
+
+Ogni carrello possiede quindi una lista di modelli con il relativo timestamp del momento in cui
+sono stati inseriti e un valore booleano che indica se è stata specificata la volontà di prorogare
+il tempo oltre il quale il prodotto verrebbe eliminato automaticamente dal carrello.
+
+Sono inoltre presenti valori come il costo totale dei prodotti nel carrello e il costo di
+spedizione.
+
+L'utente può inoltre \emph{ordinare} ciò che ha nel carrello \emph{generando} un \textbf{ordine},
+contenente le informazioni relative all'acquisto come il metodo di pagamento, la data, lo stato e
+la data in cui è avvenuta la consegna. Se l'acquisto viene confermato sarà il sistema ad inviare
+un'email di conferma all'utente.
+
+L'utente è anche in grado di \emph{effettuare} una \textbf{recensione} se lo desidera, dando una
+valutazione e, se lo desidera scrivendo un commento. Ogni recensione \emph{riguarda} un solo
+modello di occhiali.
+
+Abbiamo infine un'entità \textbf{amministratore} con cui ci riferiamo alle figure che gestiscono
+il sistema e che dunque sono in grado di \emph{gestire} vari tipi di \textbf{promozione}. Le
+promozioni possono essere di tre tipologie:
+\begin{itemize}
+	\item \textbf{Sconti}: quando si vuole applicare una certa percentuale di sconto su uno o più
+	      modelli.
+	\item \textbf{Offerte}: sono della tipologia in cui se si fanno almeno un certo numero di
+	      acquisti si riceve qualcosa in omaggio o un sconto sul totale.
+	\item \textbf{Codice promozionale}: sono codici che l'utente può usare in un secondo momento
+	      per ottenere vantaggi su futuri acquisti.
+\end{itemize}
+Non ci possono essere promozioni generiche ma solo di una di queste tre tipologie e ognuna riguarda
+uno o più modelli di occhiali.
+
+Il sistema è inoltre in grado di \emph{segnalare} agli amministratori quando si verificano cali o
+impennate delle vendite per un certo modello.
+
+\section{Schema concettuale}
+Di seguito lo schema concettuale descritto nella sezione precedente
+
+\includesvg[inkscapelatex=false, scale=0.425] {schema/concettuale.svg}
+
+\subsection{Vincoli intrarelazionali}
+
+\subsubsection{Carrello}
+Ogni prodotto può rimanere all'interno del carrello per un periodo massimo di trenta minuti, a
+meno che non sia stata richiesta una proroga. Una volta scaduto il tempo disponibile all'interno
+del carrello, questo viene eliminato automaticamente.
+
+\subsubsection{Gerarchia}
+Per quanto riguarda la gerarchia delle promozioni abbiamo un vincolo di copertura in quanto ogni
+promozione deve essere di uno e uno soltanto dei tre tipi specificati dalle sottoclassi e non può
+essere una promozione generica.
+
+\subsection{Vincoli interrelazionali}
+\subsubsection{Carrello}
+Un modello mantenuto più di due ore nel carrello e dunque rimosso, non può essere reinserito nel
+caso in cui sia sotto il livello di scorta. In tal caso si devono attendere altre due ore prima di
+poter reinserire il prodotto.
+
+La proroga del tempo di mantenimento all'interno del carrello non può essere effettuata più volte,
+una volta richiesta si hanno due ore di tempo prima che il prodotto venga rimosso.
+
+\subsubsection{Personalizzazioni}
+L'utente può personalizzare gli occhiali solo con personalizzazioni relative al modello che sta
+visionando.
+
+\subsubsection{Segnalazioni vendite}
+La notifica che il sistema invia agli amministratori, nel caso ci sia un'impennata di vendite,
+deve avvenire nel caso in cui si verifichi un aumento del 20\% in 3 giorni.
 
 \end{document}
