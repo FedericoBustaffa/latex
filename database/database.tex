@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
-\usepackage[margin=1.25in]{geometry}
+\usepackage[margin=1in]{geometry}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -34,74 +34,8 @@
 \maketitle
 \tableofcontents
 
-\section{Descrizione del dominio}
-Il sistema ha il compito di gestire la vendita online di occhiali. La prima entità rappresenta
-gli \textbf{utenti} registrati nel sistema e i loro dati. Quello che interessa principalmente
-è l'indirizzo email, diverso per ogni utente.
-
-Ogni utente può visualizzare i vari \textbf{modelli} di occhiali, ciascuno dei quali possiede
-delle caratteristiche come la categoria, il marchio, il materiale, prezzo, quantità disponibile
-e così via.
-
-L'utente può inoltre applicare delle \textbf{personalizzazioni} al modello che sta visualizzando
-specificando colore e forma di lenti e montatura tra quelli disponibili per quel modello. Ogni
-modello ha almeno una personalizzazione possibile e una viene applicata di default quando viene
-visualizzato.
-
-Ogni utente \emph{modifica} un \textbf{carrello}, al quale è possibile \emph{aggiungere}, o
-\emph{rimuovere} modelli di occhiali con la relativa personalizzazione e specificando la quantità
-(con relativa personalizzazione e quantità). L'utente può inoltre \emph{prorogare}, se lo desidera,
-il tempo in cui un certo prodotto può rimanere nel carrello.
-
-Ogni carrello può quindi contenere più modelli e, nel caso l'utente sia interessato ad acquistare
-più pezzi di un modello con la stessa personalizzazione, è sufficiente indicare la quantità
-desiderata. Abbiamo quindi che ogni elemento del carrello è composto dal modello, una sua
-personalizzazione e il numero di pezzi che si è interessati ad acquistare.
-
-Quando un elemento viene inserito nel carrello gli viene associato il timestamp del momento in cui
-è stato inserito e un valore booleano che indica la volontà di prorogare il mantenimento nel
-carrello o meno.
-
-L'utente può \emph{effettuare} un \textbf{ordine}, acquistando ciò che ha nel carrello.
-Ogni ordine contiene le informazioni relative all'acquisto come il metodo di pagamento, la data,
-lo stato e la data in cui è avvenuta la consegna.
-
-L'utente è anche in grado di \emph{scrivere} una \textbf{recensione} se lo desidera, dando una
-valutazione e scrivendo un commento. Ogni recensione \emph{riguarda} un solo modello di occhiali.
-
-Abbiamo infine un'entità \textbf{responsabile} con cui ci riferiamo alle figure che sono in
-grado di \emph{gestire} vari tipi di \textbf{promozione}, le quali possono essere di 3 tipologie:
-\begin{itemize}
-	\item \textbf{Sconti}: quando si vuole applicare una certa percentuale di sconto su uno o più
-	      modelli.
-	\item \textbf{Offerte}: sono della tipologia in cui se si fanno almeno un certo numero di
-	      acquisti si riceve qualcosa in omaggio o un sconto sul totale.
-	\item \textbf{Codice promozionale}: sono codici che l'utente può usare in un secondo momento
-	      per ottenere vantaggi su futuri acquisti.
-\end{itemize}
-Non ci possono essere promozioni generiche ma solo di una di queste tre tipologie e ognuna riguarda
-uno o più modelli di occhiali.
-
-\section{Schema concettuale}
-Di seguito lo schema concettuale descritto nella sezione precedente
-
-\includesvg[inkscapelatex=false, scale=0.4875] {schema/concettuale.svg}
-
-\subsection{Vincoli intrarelazionali}
-Ogni prodotto può rimanere all'interno del carrello per un periodo di trenta minuti, a meno che
-non sia stata richiesta una proroga, che aumenta il tempo massimo fino a 2 ore. Una volta
-scaduto il tempo disponibile all'interno del carrello, questo viene eliminato automaticamente.
-
-\subsection{Vincoli interrelazionali}
-In caso di proroga, un modello mantenuto più di due ore nel carrello viene rimosso e non può
-essere reinserito nel caso in cui sia sotto il livello di scorta. In tal caso si devono attendere
-altre due ore prima di poter reinserire il prodotto.
-
-La notifica che il sistema invia agli amministratori, nel caso ci sia un'impennata di vendite,
-deve avvenire nel caso in cui si verifichi un aumento del 20\% in 3 giorni.
-
-Per quanto riguarda la gerarchia delle promozioni abbiamo un vincolo di copertura in quanto ogni
-promozione deve essere di uno e uno soltanto dei tre tipi specificati dalle sottoclassi e non può
-essere una promozione generica.
+\include{dominio}
+\include{concettuale}
+\include{logico}
 
 \end{document}
