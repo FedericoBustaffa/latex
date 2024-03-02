@@ -45,30 +45,32 @@ e così via.
 
 L'utente può inoltre applicare delle \textbf{personalizzazioni} al modello che sta visualizzando
 specificando colore e forma di lenti e montatura tra quelli disponibili per quel modello. Ogni
-modello ha almeno una personalizzazione possibile.
+modello ha almeno una personalizzazione possibile e una viene applicata di default quando viene
+visualizzato.
 
-Ogni utente \emph{possiede} un \textbf{carrello}, al quale si possono \emph{aggiungere}, o
-\emph{rimuovere} modelli di occhiali (con relativa personalizzazione) e andando a prorogare, se
-lo desidera, il tempo in cui un certo prodotto può rimanere nel carrello.
+Ogni utente \emph{modifica} un \textbf{carrello}, al quale è possibile \emph{aggiungere}, o
+\emph{rimuovere} modelli di occhiali con la relativa personalizzazione e specificando la quantità
+(con relativa personalizzazione e quantità). L'utente può inoltre \emph{prorogare}, se lo desidera,
+il tempo in cui un certo prodotto può rimanere nel carrello.
 
-Ogni carrello possiede quindi tre liste da intendere \emph{parallele}: una con i modelli, una con
-il timestamp del momento in cui ogni modello è stato inseriti e una di valori booleano che indicano
-se è stata specificata la volontà di prorogare il tempo oltre il quale il prodotto verrebbe
-eliminato automaticamente dal carrello.
+Ogni carrello può quindi contenere più modelli e, nel caso l'utente sia interessato ad acquistare
+più pezzi di un modello con la stessa personalizzazione, è sufficiente indicare la quantità
+desiderata. Abbiamo quindi che ogni elemento del carrello è composto dal modello, una sua
+personalizzazione e il numero di pezzi che si è interessati ad acquistare.
 
-Sono inoltre presenti valori come il costo totale dei prodotti nel carrello e il costo di
-spedizione.
+Quando un elemento viene inserito nel carrello gli viene associato il timestamp del momento in cui
+è stato inserito e un valore booleano che indica la volontà di prorogare il mantenimento nel
+carrello o meno.
 
 L'utente può \emph{effettuare} un \textbf{ordine}, acquistando ciò che ha nel carrello.
-Ogni ordine contiene le informazioni relative all'acquisto come un identificatore dell'utente, il
-metodo di pagamento, la data, lo stato e la data in cui è avvenuta la consegna.
+Ogni ordine contiene le informazioni relative all'acquisto come il metodo di pagamento, la data,
+lo stato e la data in cui è avvenuta la consegna.
 
-L'utente è anche in grado di \emph{effettuare} una \textbf{recensione} se lo desidera, dando una
+L'utente è anche in grado di \emph{scrivere} una \textbf{recensione} se lo desidera, dando una
 valutazione e scrivendo un commento. Ogni recensione \emph{riguarda} un solo modello di occhiali.
 
-Abbiamo infine un'entità \textbf{amministratore} con cui ci riferiamo alle figure che gestiscono
-il sistema e che dunque sono in grado di \emph{gestire} vari tipi di \textbf{promozione}. Le
-promozioni possono essere di tre tipologie:
+Abbiamo infine un'entità \textbf{responsabile} con cui ci riferiamo alle figure che sono in
+grado di \emph{gestire} vari tipi di \textbf{promozione}, le quali possono essere di 3 tipologie:
 \begin{itemize}
 	\item \textbf{Sconti}: quando si vuole applicare una certa percentuale di sconto su uno o più
 	      modelli.
@@ -83,35 +85,23 @@ uno o più modelli di occhiali.
 \section{Schema concettuale}
 Di seguito lo schema concettuale descritto nella sezione precedente
 
-\includesvg[inkscapelatex=false, scale=0.475] {schema/concettuale.svg}
+\includesvg[inkscapelatex=false, scale=0.4875] {schema/concettuale.svg}
 
 \subsection{Vincoli intrarelazionali}
+Ogni prodotto può rimanere all'interno del carrello per un periodo di trenta minuti, a meno che
+non sia stata richiesta una proroga, che aumenta il tempo massimo fino a 2 ore. Una volta
+scaduto il tempo disponibile all'interno del carrello, questo viene eliminato automaticamente.
 
-\subsubsection{Carrello}
-Ogni prodotto può rimanere all'interno del carrello per un periodo massimo di trenta minuti, a
-meno che non sia stata richiesta una proroga. Una volta scaduto il tempo disponibile all'interno
-del carrello, questo viene eliminato automaticamente.
+\subsection{Vincoli interrelazionali}
+In caso di proroga, un modello mantenuto più di due ore nel carrello viene rimosso e non può
+essere reinserito nel caso in cui sia sotto il livello di scorta. In tal caso si devono attendere
+altre due ore prima di poter reinserire il prodotto.
 
-\subsubsection{Gerarchia}
+La notifica che il sistema invia agli amministratori, nel caso ci sia un'impennata di vendite,
+deve avvenire nel caso in cui si verifichi un aumento del 20\% in 3 giorni.
+
 Per quanto riguarda la gerarchia delle promozioni abbiamo un vincolo di copertura in quanto ogni
 promozione deve essere di uno e uno soltanto dei tre tipi specificati dalle sottoclassi e non può
 essere una promozione generica.
-
-\subsection{Vincoli interrelazionali}
-\subsubsection{Carrello}
-Un modello mantenuto più di due ore nel carrello e dunque rimosso, non può essere reinserito nel
-caso in cui sia sotto il livello di scorta. In tal caso si devono attendere altre due ore prima di
-poter reinserire il prodotto.
-
-La proroga del tempo di mantenimento all'interno del carrello non può essere effettuata più volte,
-una volta richiesta si hanno due ore di tempo prima che il prodotto venga rimosso.
-
-\subsubsection{Personalizzazioni}
-L'utente può personalizzare gli occhiali solo con personalizzazioni relative al modello che sta
-visionando.
-
-\subsubsection{Segnalazioni vendite}
-La notifica che il sistema invia agli amministratori, nel caso ci sia un'impennata di vendite,
-deve avvenire nel caso in cui si verifichi un aumento del 20\% in 3 giorni.
 
 \end{document}
