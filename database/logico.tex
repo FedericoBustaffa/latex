@@ -12,8 +12,8 @@ Di seguito lo schema logico in formato testuale.
 	\item Carrelli (\underline{IdCarrello})
 	\item Modelli (\underline{CodiceModello}, Categoria, Marchio, Materiale, Gradazione, Prezzo,
 	      Quantità)
-	\item Personalizzazioni (\underline{CodicePersonalizzazione}, ColoreMontatura, ColoreLenti,
-	      FormaMontatura, FormaLenti, Immagini)
+	\item Personalizzazioni (\underline{CodicePersonalizzazione}, ColoreMontatura, FormaMontatura,
+	      ColoreLenti, FormaLenti, Immagini)
 	\item ModelliNelCarrello (\underline{Modello*}, \underline{Carrello*}, TimestampInserimento,
 	      Proroga, Quantità)
 	\item PersonalizzazioniModello (\underline{Personalizzazione*}, \underline{Modello*})
@@ -48,7 +48,7 @@ Di seguito sono riportate le dipendenze funzionali ricavate dallo schema logico.
 	\item \textbf{CodiciPromozionali}: \underline{CodicePromozione} $\rightarrow$ Codice,
 	      Descrizione
 	\item \textbf{ModelliNelCarrello}: \underline{Modello*}, \underline{Carrello*} $\rightarrow$
-	      TimestampInserimento, Proroga, Quantità
+	      Proroga, Quantità, TimestampInserimento
 	\item \textbf{ModelliOrdinati}: \underline{Ordine*}, \underline{Modello*} $\rightarrow$ Quantità
 \end{itemize}
 Tutte le dipendenze funzionali rispettano la forma normale di Boyce-Codd.
