@@ -8,36 +8,47 @@ Di seguito lo schema logico derivante dallo schema concettuale proposto nella se
 \subsection{Formato testuale}
 Di seguito lo schema logico in formato testuale.
 \begin{itemize}
-	\item Utente (\underline{IndirizzoEmail}, Nome, Cognome, \underline{carrello*})
-	\item Carrello (\underline{IdCarrello})
-	\item Modello (\underline{CodiceModello}, Categoria, Marchio, Materiale, Gradazione, Prezzo)
-	\item Personalizzazione (\underline{CodicePersonalizzazione}, ColoreMontatura, FormaMontatura,
-	      ColoreLenti, FormaLenti, Quantità, Immagini)
-	\item ModelloCarrello (\underline{Modello*}, \underline{Carrello*}, TimestampInserimento,
+	\item Utenti (\underline{IndirizzoEmail}, Nome, Cognome, \underline{Carrello*})
+	\item Carrelli (\underline{IdCarrello})
+	\item Modelli (\underline{CodiceModello}, Categoria, Marchio, Materiale, Gradazione, Prezzo,
+	      Quantità)
+	\item Personalizzazioni (\underline{CodicePersonalizzazione}, ColoreMontatura, ColoreLenti,
+	      FormaMontatura, FormaLenti, Immagini)
+	\item ModelliNelCarrello (\underline{Modello*}, \underline{Carrello*}, TimestampInserimento,
 	      Proroga, Quantità)
 	\item PersonalizzazioniModello (\underline{Personalizzazione*}, \underline{Modello*})
-	\item Recensione (\underline{Utente*}, \underline{Modello*}, Valutazione, Commento)
-	\item Ordine (\underline{CodiceOrdine}, \underline{Utente*}, MetodoPagamento, Data, Stato,
-	      DataConsegna, CostoSpedizione)
-	\item OrdineModello (\underline{Ordine*}, \underline{Modello*}, Quantità)
-	\item Responsabile (\underline{Matricola}, Nome, Cognome)
-	\item Promozione (\underline{CodicePromozione}, \underline{Responsabile*})
-	\item Sconto (\underline{CodicePromozione*}, Percentuale)
-	\item Offerta (\underline{CodicePromozione*}, Descrizione)
-	\item CodicePromozionale (\underline{CodicePromozione*}, Codice, Descrizione)
+	\item Recensioni (\underline{Utente*}, \underline{Modello*}, Valutazione, Commento)
+	\item Ordini (\underline{CodiceOrdine}, \underline{Utente*}, MetodoPagamento, DataOrdine,
+	      Stato, DataConsegna, CostoSpedizione)
+	\item ModelliOrdinati (\underline{Ordine*}, \underline{Modello*}, Quantità)
+	\item Responsabili (\underline{Matricola}, Nome, Cognome)
+	\item Promozioni (\underline{CodicePromozione}, \underline{Responsabile*})
+	\item Sconti (\underline{CodicePromozione*}, Percentuale)
+	\item Offerte (\underline{CodicePromozione*}, Descrizione)
+	\item CodiciPromozionali (\underline{CodicePromozione*}, Codice, Descrizione)
 \end{itemize}
 
 \subsection{Dipendenze funzionali}
 Di seguito sono riportate le dipendenze funzionali ricavate dallo schema logico.
-
 \begin{itemize}
-	\item \textbf{Utente}: \underline{IndirizzoEmail} $\rightarrow$ Nome, Cognome,
+	\item \textbf{Utenti}: \underline{IndirizzoEmail} $\rightarrow$ Nome, Cognome,
 	      \underline{Carrello*}
-	\item \textbf{Modello}:
-	\item \textbf{Personalizzazione}:
-	\item \textbf{Recensione}:
-	\item \textbf{Ordine}:
-	\item \textbf{Responsabile}:
-	\item \textbf{Promozione}:
-	\item \textbf{ModelloCarrello}:
+	\item \textbf{Modelli}: \underline{CodiceModello} $\rightarrow$ Categoria, Marchio, Materiale,
+	      Gradazione, Prezzo
+	\item \textbf{Personalizzazioni}: \underline{CodicePersonalizzazione} $\rightarrow$
+	      ColoreMontatura, FormaMontatura, ColoreLenti, FormaLenti, Quantità, Immagini
+	\item \textbf{Recensioni}: \underline{Utente*}, \underline{Modello*} $\rightarrow$ Valutazione,
+	      Commento
+	\item \textbf{Ordini}: \underline{CodiceOrdine} $\rightarrow$ \underline{Utente*},
+	      MetodoPagamento, DataOrdine, Stato, DataConsegna, CostoSpedizione
+	\item \textbf{Responsabili}: \underline{Matricola} $\rightarrow$ Nome, Cognome
+	\item \textbf{Promozioni}: \underline{CodicePromozione} $\rightarrow$ \underline{Responsabile*}
+	\item \textbf{Sconti}: \underline{CodicePromozione} $\rightarrow$ Percentuale
+	\item \textbf{Offerte}: \underline{CodicePromozione} $\rightarrow$ Descrizione
+	\item \textbf{CodiciPromozionali}: \underline{CodicePromozione} $\rightarrow$ Codice,
+	      Descrizione
+	\item \textbf{ModelliNelCarrello}: \underline{Modello*}, \underline{Carrello*} $\rightarrow$
+	      TimestampInserimento, Proroga, Quantità
+	\item \textbf{ModelliOrdinati}: \underline{Ordine*}, \underline{Modello*} $\rightarrow$ Quantità
 \end{itemize}
+Tutte le dipendenze funzionali rispettano la forma normale di Boyce-Codd.

@@ -1,7 +1,44 @@
 \section{Interrogazioni SQL}
 
-\begin{minted}{sql}
-SELECT R.Valutazione
-FROM Recensione as R, Modello as M
+\begin{enumerate}[label=\Alph*.]
+	\item Trovare tutti i commenti relativi ai modelli Ray-Ban che hanno 5 stelle come valutazione.
+	      \begin{minted}{sql}
+SELECT R.Commento
+FROM Recensioni AS R, Modelli AS M
 WHERE M.Marchio = "Ray-Ban" AND R.Valutazione = 5
+	\end{minted}
+	\item Trovare tutte le categorie e i marchi che offrono occhiali di plastica tutti al di sotto
+	      dei 100 euro, ordinando dal più costoso al meno costoso.
+	      \begin{minted}{sql}
+SELECT M.Categoria, M.Marchio, MAX(M.Prezzo) as PrezzoMassimo
+FROM Modelli AS M
+WHERE M.Materiale = "Plastica"
+GROUP BY M.Categoria, M.Marchio
+HAVING MAX(Prezzo) <= 100.0
+ORDER BY MAX(M.Prezzo) DESC
 \end{minted}
+	\item Trovare il numero di modelli disponibile per ciascun colore di lenti che abbiano la
+	      montatura nera. Non vengono visualizzati i colori di lenti applicati a meno di 10
+	      modelli di occhiali.
+	      \begin{minted}{sql}
+SELECT P.ColoreLenti, COUNT(PM.Modello) AS NumeroModelli
+FROM Personalizzazioni AS P
+JOIN PersonalizzazioniModello AS PM 
+	ON P.CodicePersonalizzazione = PM.Personalizzazione
+WHERE P.ColoreMontatura = "Nero"
+GROUP BY P.ColoreLenti
+HAVING COUNT(PM.Modello) >= 10
+		  \end{minted}
+	\item Trovare Nome, Cognome e IndirizzoEmail degli utenti che hanno effettuato almeno un
+	      acquisto con PayPal.
+	      \begin{minted}{sql}
+SELECT U.Nome, U.Cognome, U.IndirizzoEmail
+FROM Utenti AS U
+WHERE EXISTS (
+	SELECT *
+	FROM Ordini AS O
+	WHERE U.IndirizzoEmail = O.Utente
+		AND O.MetodoPagamento = "PayPal"
+)
+	\end{minted}
+\end{enumerate}
