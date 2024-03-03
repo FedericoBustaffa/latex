@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{Modello}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{ModelliNelCarrello}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{MC}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{MC}\PYG{p}{.}\PYG{n}{Quantità}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{k}{ALL}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{MC2}\PYG{p}{.}\PYG{n}{Quantità}
+\PYG{+w}{    }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{ModelliNelCarrello}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{MC2}
+\PYG{+w}{	}\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{MC}\PYG{p}{.}\PYG{n}{Carrello}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{MC2}\PYG{p}{.}\PYG{n}{Carrello}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{MC2}\PYG{p}{.}\PYG{n}{Proroga}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{TRUE}
+\PYG{p}{)}
+\end{Verbatim}

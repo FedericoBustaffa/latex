@@ -40,8 +40,12 @@ grado di \emph{gestire} vari tipi di \textbf{promozione}, le quali possono esser
 	      modelli.
 	\item \textbf{Offerte}: sono della tipologia in cui se si fanno almeno un certo numero di
 	      acquisti si riceve qualcosa in omaggio o un sconto sul totale.
-	\item \textbf{Codice promozionale}: sono codici che l'utente può usare in un secondo momento
-	      per ottenere vantaggi su futuri acquisti.
+	\item \textbf{Codice promozionale}: sono codici alfanuemrici che l'utente può usare in un
+	      secondo momento per ottenere vantaggi su futuri acquisti.
 \end{itemize}
 Ogni promozione viene gestita da un solo responsabile e non ci possono essere promozioni generiche
 ma solo di una di queste tre tipologie e ognuna riguarda uno o più modelli di occhiali.
+
+Per evitare confusione, specifico che il codice promozionale prevede un codice che lo identifica
+all'interno del database e che l'utente non può vedere (viene chiamato "CodicePromozione"). Quello
+che invece è il codice vero e proprio utilizzato dall'utente è riferito come "Codice".

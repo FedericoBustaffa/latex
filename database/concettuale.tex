@@ -10,6 +10,16 @@ Ogni prodotto può rimanere all'interno del carrello per un periodo di trenta mi
 non sia stata richiesta una proroga, che aumenta il tempo massimo fino a 2 ore. Una volta
 scaduto il tempo disponibile all'interno del carrello, questo viene eliminato automaticamente.
 
+Per quanto riguarda gli ordini ho immaginato che ognuno di essi potesse avere diversi stati:
+AttesaConferma, Confermato, InViaggio e Consegnato.
+
+All'interno dell'entità Ordine abbiamo anche un campo DataConsegna che non indica la data prevista
+ma la data in cui è effettivamente avvenuta la consegna.
+
+Abbiamo quindi che l'ordine ha il campo DataConsegna nullo finché lo stato dell'ordine è diverso
+da Consegnato. Una volta avvenuta la consegna lo stato deve passare in Consegnato e DataConsegna
+deve assumere un valore non nullo.
+
 \subsection{Vincoli interrelazionali}
 In caso di proroga, un modello mantenuto più di due ore nel carrello viene rimosso e non può
 essere reinserito nel caso in cui sia sotto il livello di scorta. In tal caso si devono attendere
