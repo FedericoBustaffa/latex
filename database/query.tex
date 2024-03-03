@@ -1,0 +1,7 @@
+\section{Interrogazioni SQL}
+
+\begin{minted}{sql}
+SELECT R.Valutazione
+FROM Recensione as R, Modello as M
+WHERE M.Marchio = "Ray-Ban" AND R.Valutazione = 5
+\end{minted}
