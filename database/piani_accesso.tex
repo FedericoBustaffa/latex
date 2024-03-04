@@ -111,7 +111,7 @@ Trovare tutti i commenti relativi ai modelli Ray-Ban.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
 		\node (M) at (-4, 0) {\verb|TableScan(Modelli M)|};
-		\node (R) at (4, -1) {\verb|IndexFilter(Recensioni R, Idx_R, M.CodiceModello = R.Modello)|};
+		\node (R) at (4, -1) {\verb|IndexFilter(Recensioni R, R_Idx, M.CodiceModello = R.Modello)|};
 		\node (mrb) at (-4, 1.5) {\verb|Filter(M.Marchio = "Ray-Ban")|};
 		\node (j) at (0, 3) {\verb|IndexNestedLoop(M.CodiceModello = R.Modello)|};
 		\node (pc) at (0, 4.5) {\verb|Project(R.Commento)|};
@@ -126,7 +126,7 @@ Trovare tutte le categorie e i marchi che offrono occhiali di plastica tutti al 
 euro, ordinando dal più costoso al meno costoso.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
-		\node (plastica) at (0, 1.5) {\verb|IndexFilter(Modelli, Materiale = "Plastica")|};
+		\node (plastica) at (0, 1.5) {\verb|IndexFilter(Modelli, Modelli_Idx, Materiale = "Plastica")|};
 		\node (sort1) at (0, 3) {\verb|Sort({Categoria, Marchio})|};
 		\node (group) at (0, 4.5) {\verb|GroupBy({Categoria, Marchio}, MAX(Prezzo))|};
 		\node (having) at (0, 6) {\verb|Filter(MAX(Prezzo <= 100.0))|};
@@ -143,7 +143,7 @@ Non vengono visualizzati i colori di lenti applicati a meno di 10 modelli di occ
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
 		\node (P) at (-4, 0) {\verb|TableScan(Personalizzazioni P)|};
-		\node (PM) at (2, -1.5) {\scriptsize\verb|IndexFilter(PersonalizzazioniModello PM, P.CodicePersonalizzazione = PM.Personalizzazione)|};
+		\node (PM) at (2, -1.5) {\scriptsize\verb|IndexFilter(PersonalizzazioniModello PM, PM_Idx, P.CodicePersonalizzazione = PM.Personalizzazione)|};
 		\node (join) at (0, 1.5) {\verb|IndexNestedLoop(P.CodicePersonalizzazione = PM.Personalizzazione)|};
 		\node (nero) at (0, 3) {\verb|Filter(P.ColoreMontatura = "Nero")|};
 		\node (sort) at (0, 4.5) {\verb|Sort(P.ColoreLenti)|};
