@@ -1,61 +1,79 @@
 \chapter{Modelli lineari}
-Introduciamo ora i \textbf{modelli lineari}, molto utili per risolvere \textbf{problemi di regressione}, che, come
-abbiamo gi\`a anticipato hanno una funzione obbiettivo che restituisce un valore target di tipo \textbf{numerico reale}.
+Introduciamo ora i \textbf{modelli lineari}, molto utili per 
+risolvere \textbf{problemi di regressione}, che, come abbiamo 
+gi\`a anticipato, hanno una funzione obbiettivo che restituisce
+un valore target di tipo \textbf{numerico reale}.
 
-Per un problema di regressione il nostro obbiettivo \`e quello di riuscire ad approssimare una funzione a valori reali
-e continui che potrebbe comprendere anche dati imprecisi o \textbf{rumorosi}. Un tipico esempio di coppia presente nel
+Per un problema di regressione il nostro obbiettivo \`e quello 
+di riuscire ad approssimare una funzione a valori reali e
+continui che potrebbe comprendere anche dati imprecisi o
+\textbf{rumorosi}. Un tipico esempio di coppia presente nel 
 training set sar\`a del tipo:
-\[ (x, c(x) + noise) \]
-con $noise \geq 0$ che indica l'errore sul dato del training set. Se il rumore \`e nullo, il dato avr\`a un valore
-perfettamente consistente con la funzione che vogliamo approssimare. Pi\`u il rumore \`e alto e pi\`u il dato in questione
-si allontaner\`a da tale funzione.
+\[ \begin{pmatrix} x, &  c(x) + \text{noise} \end{pmatrix} \]
+con $\text{noise} \geq 0$ che indica l'errore sul dato del 
+training set. Se il rumore \`e nullo, il dato avr\`a un valore 
+perfettamente consistente con la funzione che vogliamo
+approssimare. Pi\`u il rumore \`e alto e pi\`u il dato in 
+questione si allontaner\`a da tale funzione.
 
-Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, ossia trovare un'approssimazione di $c$ che restituisca
-risultati quanto pi\`u simili possibile a quelli che restituirebbe $c$ con lo stesso input.
+Quello che vogliamo fare \`e un'operazione di \textbf{fitting}, 
+ossia trovare un'approssimazione di $c$ che restituisca 
+risultati quanto pi\`u simili possibile a quelli che 
+restituirebbe $c$ con lo stesso input.
 
-Nello specifico, vogliamo costruire un algoritmo di apprendimento che riesca a stimare valori di  $y$ corrispondente ad
-altri valori di input $x$ non ancora osservati, \emph{minimizzando} l'errore o perdita di precisione.
+Nello specifico, vogliamo costruire un algoritmo di 
+apprendimento che riesca a stimare valori di $y$ corrispondente
+ad altri valori di input $x$ non ancora osservati, 
+\emph{minimizzando} l'errore o perdita di precisione.
 
 \section{Funzione di errore}
-Il valore dell'errore accumulato su dati del training set \`e definito dalla seguente funzione:
+Il valore dell'errore accumulato su dati del training set \`e
+definito dalla seguente funzione:
 \[ loss(h_w) = E(w) = \sum_{p=1}^l (y_p - h_w(x_p))^2 \]
-dove $l$ \`e il numero di esempi presenti nel training set e dove $w$ \`e il vettore dei coefficienti di $h$.
+dove $l$ \`e il numero di esempi presenti nel training set e 
+dove $w$ \`e il vettore dei coefficienti di $h$.
 
-In pratica non si fa altro che misurare la differenza tra il valore target del training set e il valore che restituisce
-una certa approssimazione $h$.
+In pratica non si fa altro che misurare la differenza tra il
+valore target del training set e il valore che restituisce una 
+certa approssimazione $h$.
 
 Il valore trovato viene elevato al quadrato per due motivi:
 \begin{enumerate}
-	\item L'idea \`e che la funzione $E$ sommi tutti gli errori sui singoli dati. Il valore ottenuto potrebbe tuttavia
-	      essere sia positivo che negativo e questo potrebbe portare ad un'errata diminuzione dell'errore o addirittura
-	      ad un annullamento.
+	\item L'idea \`e che la funzione $E$ sommi tutti gli errori
+        sui singoli dati. Il valore ottenuto potrebbe tuttavia 
+        essere sia positivo che negativo e questo potrebbe
+	      portare ad un'errata diminuzione dell'errore o addirittura ad un annullamento.
 
-	      Per evitare questo eleviamo l'errore al quadrato in modo da avere sempre un valore positivo.
-	\item Una volta letto il punto precedente ci si potrebbe chidere perch\'e non usare il valore assoluto. Il motivo \`e
-	      che vogliamo trovare il minimo della funzione $E$ e per farlo occorre calcolarne la derivata.
+	      Per evitare questo eleviamo l'errore al quadrato in modo da avere sempre un valore
+	      positivo.
+	\item Una volta letto il punto precedente ci si potrebbe chidere perch\'e non usare il
+	      valore assoluto. Il motivo \`e che vogliamo trovare il minimo della funzione $E$
+	      e per farlo occorre calcolarne la derivata.
 
-	      La derivata di un  polinomio elevato al quadrato \`e semplicemente pi\`u comoda e pi\`u semplice da calcolare
-	      rispetto a quella di un valore assoluto.
+	      La derivata di un  polinomio elevato al quadrato \`e semplicemente pi\`u comoda
+	      e pi\`u semplice da calcolare rispetto a quella di un valore assoluto.
 \end{enumerate}
 
 \section{Regressione lineare univariata}
-Per capire meglio i modelli lineari facciamo riferimento ad una della classe di problemi molto semplice, ovvero
-la \textbf{regressione lineare univariata}, in cui si considerano modelli composti da funzioni lineari, che hanno una
-sola variabile $x$ in input.
+Per capire meglio i modelli lineari facciamo riferimento ad una della classe di
+problemi molto semplice, ovvero la \textbf{regressione lineare univariata}, in cui
+si considerano modelli composti da funzioni lineari, che hanno una sola variabile $x$
+in input.
 
 Per questa classe di problemi si assume un modello espresso tramite l'equazione
 \[ h_w(x) = w_1 x + w_0 \]
 dove i $w_i$ sono coefficienti reali o parametri liberi detti \textbf{pesi}.
 
-L'obbiettivo sar\`a dunque, quello di minimizzare la funzione d'errore $E$ che abbiamo visto prima, che, se andiamo a
-sostituire con la sua forma esplicita diventa:
+L'obbiettivo sar\`a dunque, quello di minimizzare la funzione d'errore $E$ che abbiamo visto
+prima, che, se andiamo a sostituire con la sua forma esplicita diventa:
 \[ E(w) = \sum_{p=1}^l (y_p - (w_1 x + w_0))^2 \]
-Dato che il training set ci fornisce una serie di input con relativo output (coppie del tipo $d_p = (x_p, y_p)$), le nostre
-incognite diventano $w_0$ e $w_1$.
+Dato che il training set ci fornisce una serie di input con relativo output (coppie del
+tipo $d_p = (x_p, y_p)$), le nostre incognite diventano $w_0$ e $w_1$.
 
 \subsection{LMS - risoluzione analitica}
-Con la tecnica di minimizzazione dell'errore detta \textbf{Least Mean Square} o \textbf{LMS} andiamo a trovare i
-coefficienti $w$ tali da minimizzare l'errore quadratico medio sul training set.
+Con la tecnica di minimizzazione dell'errore detta \textbf{Least Mean Square} o \textbf{LMS}
+andiamo a trovare i coefficienti $w$ tali da minimizzare l'errore quadratico medio sul
+training set.
 
 Per farlo abbiamo bisogno di uno strumento gi\`a introdotto in precedenza: il \textbf{gradiente}.
 
