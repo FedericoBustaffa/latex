@@ -1,0 +1,43 @@
+\documentclass[12pt]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz, pgfplots}
+
+\input{structure}
+
+\pgfplotsset{compat=newest}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\K}{\mathcal{K}}
+
+\newcommand{\tx}{\tilde{x}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\trn}{trn}
+\DeclareMathOperator{\arr}{arr}
+\DeclareMathOperator{\fl}{fl}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\nnz}{nnz}
+
+\title{Elementi di calcolabilità e complessità}
+\author{Federico Bustaffa}
+\date{15/04/2024}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\include{calcolabilita/introduzione}
+\include{calcolabilita/turing}
+
+\end{document}
