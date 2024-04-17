@@ -1,2 +1,160 @@
 \section{Linguaggi FOR e WHILE}
+Introduciamo ora un formalismo sicuramente a noi più
+familiare, che è quello di un semplice linguaggio
+\textbf{imperativo}, che dunque contenga il concetto di
+\textbf{memoria} e di \textbf{comando}.
 
+\subsection{Sintassi astratta}
+La sintassi proposta è \emph{ambigua}, abbiamo dunque diverse
+possibili interpretazioni per la stessa stringa. In realtà
+tale sintassi viene elaborata tramite alberi, che hanno proprio
+il compito di disambiguare.
+
+Come vedremo a breve si tratta di una sintassi molto semplice,
+comprendente costrutti condizionali di base, la possibilità
+di eseguire cicli e semplici operazioni aritmetiche e logiche.
+\begin{align*}
+	E \to                                 &
+	n | x | E_1 + E_2 | E_1 \times E_2 \vert E_1 - E_2
+	                                      &
+	\text{Espressioni aritmetiche}          \\
+	B \to                                 &
+	b | E_1 < E_2 | \lnot B | B_1 \lor B_2
+	                                      &
+	\text{Espressioni booleane}             \\
+	C\to                                  &
+	\text{skip} | x := E | C_1 ; C_2 | \text{if } B
+	\text{ then } C_1 \text{ else } C_2 | &
+	\text{Comandi}                          \\
+	                                      &
+	\text{for } x = E_1 \text{ to } E_2 \text{ do } C |
+	\text{while } B \text{ do } C
+\end{align*}
+dove $n \in \N$, $x \in \Var$ (insieme numerabile di
+variabili) e $b \in \text{Bool} = \{ tt, ff \}$.
+
+D'ora in poi chiameremo WHILE, il linguaggio descritto dalla
+grammatica BNF di sopra. Chiameremo invece FOR, il linguaggio
+risultante dall'omissione del comando \verb|while| della
+stessa grammatica.
+
+\subsection{Semantica}
+Prima di addentrarci nelle dinamiche del linguaggio appena
+definito, dobbiamo definire la \textbf{memoria}. Nel nostro
+caso lo facciamo tramite la funzione
+\[ \sigma : \Var \to \N \]
+che molto semplicemente, data una variabile in input
+restituisce il suo valore in memoria (operazione di lettura).
+Noi però siamo interessati anche a scrivere in memoria,
+definiamo quindi l'operazione di \textbf{aggiornamento}
+tramite la funzione, o meglio il funzionale a tre argomenti
+\[
+	- [ - / - ] : (\Var \to \N) \times
+	\N \times \Var \to (\Var \to \N)
+\]
+che è definita come
+\[
+	\sigma [n / x](y) = \begin{cases}
+		n         & \text{se } y = x  \\
+		\sigma(y) & \text{altrimenti}
+	\end{cases}
+\]
+che non ho capito cosa faccia. Probabilmente copre i due casi
+in cui vogliamo aggiungere una nuova variabile alla memoria
+e assegnargli un valore, e il caso in cui vogliamo cambiare
+il valore di una variabile già presente in memoria.
+
+La \textbf{semantica} di un'espressione aritmetica è data
+dalla seguente funzione di \textbf{valutazione}, in cui andremo
+a scrivere il suo argomento principale, l'espressione aritmetica,
+tra le parentesi $[[$ e $]]$, cui viene giustapposto il secondo
+argomento, cioè la memoria in cui l'espressione va valutata.
+\[ \xi [[-]] - : E \times (\Var \to \N) \to \N \]
+Proviamo a capire come questa funzione si comporta quando
+prende in input espressioni aritmetiche.
+\begin{align*}
+	\xi [[n]] \sigma              & = n         \\
+	\xi [[x]] \sigma              & = \sigma(x) \\
+	\xi [[E_1 + E_2]] \sigma      &
+	= \xi [[E_1]] \text{ più } [[E_2]] \sigma   \\
+	\xi [[E_1 \times E_2]] \sigma &
+	= \xi [[ E_1 ]] \text{ per } [[E_2]] \sigma \\
+	\xi [[E_1 - E_2]] \sigma      &
+	= \xi [[ E_1 ]] \text{ meno } [[E_2]] \sigma
+\end{align*}
+Per adesso limitiamoci a notare che se diamo alla funzione di
+valutazione un numero $n$, qualunque sia la memoria, questa
+ci restituirà il numero stesso.
+
+Se invece gli passiamo una variabile, questa ci restituirà
+il valore della variabile in memoria, si fa infatti uso della
+funzione $\sigma$.
+
+Se invece passiamo una qualche operazione aritmetica, questa
+verrà valutata come la somma (oppure sottrazione o prodotto)
+delle valutazioni degli operandi.
+
+\begin{example}
+	Proviamo a valutare l'espressione
+	\[ x \times 2 - ((y - 7) + 1) \]
+	nella memoria $\sigma$ tale che
+	\[ \sigma (x) = 3 \quad \text{e} \quad \sigma(y) = 5 \]
+	I passaggi per risolvere l'esercizio sono i seguenti
+	\begin{align*}
+		  & \xi [[ x \times 2 - ((y - 7) + 1) ]] \sigma \\
+		= & \xi [[ x \times 2 ]] \sigma \text{ meno }
+		\xi [[ (y - 7) + 1 ]] \sigma
+	\end{align*}
+	come possiamo notare, quando c'è un'ambiguità tra le
+	precedenze supponiamo di sapere quale sia l'ordine
+	corretto. In questo caso valutiamo "prima" il meno.
+	\begin{align*}
+		= & (\xi [[ x ]] \sigma \text{ per } 2) \text{ meno }
+		\xi [[ (y - 7) + 1 ]] \sigma                          \\
+		= & (\sigma(x) \text{ per } 2) \text{ meno }
+		\xi [[ (y - 7) + 1 ]] \sigma                          \\
+		= & (3 \text{ per } 2) \text{ meno }
+		\xi [[ (y - 7) + 1 ]] \sigma
+	\end{align*}
+	ora abbiamo semplicemente preso il valore $3$ dalla memoria
+	per sostituirlo a $x$.
+
+	\begin{align*}
+		= & 6 \text{ meno } (\xi [[y - 7]] \sigma
+		\text{ più } 1)                                  \\
+		= & 6 \text{ meno } ((\xi [[y]] \text{ meno } 7)
+		\text{ più } 1)                                  \\
+		= & 6 \text{ meno } ((\sigma(y) \text{ meno } 7)
+		\text{ più } 1)
+	\end{align*}
+	Di seguito $5 - 7 = 0$ perché stiamo utilizzando il
+	\emph{meno ridotto}, il quale ritorna $0$ quando il
+	minuendo è maggiore o uguale del sottraendo.
+	\begin{align*}
+		= & 6 \text{ meno } ((5 \text{ meno } 7)
+		\text{ più } 1)                          \\
+		= & 6 \text{ meno } (0 \text{ più } 1)   \\
+		= & 6 \text{ meno } 1 = 5
+	\end{align*}
+	Il calcolo per il resto è abbastanza banale.
+\end{example}
+
+Passiamo ora alla semantica delle operazioni booleane, che
+non si inventano nulla di diverso rispetto alle espressioni
+aritmetiche. Semplicemente la funzione di valutazione è
+definita in modo da restituire valori booleani.
+\[ \B[[-]] - : \B \times (\Var \to \N) \to \text{Bool} \]
+Come prima andiamo a vedere cosa succede per vari input a
+tale funzione di valutazione.
+\begin{align*}
+	\B [[t]] \sigma            & = tt                           \\
+	\B [[f]] \sigma            & = ff                           \\
+	\B [[E_1 < E_2]] \sigma    & =
+	\xi [[E_1]] \sigma \text{ minore } \xi [[E_2]] \sigma       \\
+	\B [[\lnot B]] \sigma      & = \text{ not } \B [[B]] \sigma \\
+	\B [[B_1 \lor B_2]] \sigma & = \B [[B_1]] \sigma
+	\text{ or } \B [[B_2]] \sigma
+\end{align*}
+Lo stile di definizione seguito fino ad ora prende il nome di
+stile \textbf{denotazionale} e si propone di associare una
+funzione a ciascun operatore.
