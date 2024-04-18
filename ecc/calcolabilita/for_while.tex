@@ -158,3 +158,134 @@ tale funzione di valutazione.
 Lo stile di definizione seguito fino ad ora prende il nome di
 stile \textbf{denotazionale} e si propone di associare una
 funzione a ciascun operatore.
+
+Ci sono vari modi per definire una semantica, noi per il
+momento andremo a definire la semantica tramite un approccio
+\textbf{operazionale}, ossia guidato dalla sintassi.
+
+Quello che andremo a fare è definire una sorta di macchina
+astratta che procede per passi discreti, apportando modifiche
+discrete alle sue configurazioni o stati, che possiamo
+immaginare come coppie $(\text{comando}, \sigma)$.
+
+Tale macchina, che definisce la semantica di un linguaggio
+di programmazione, prende il nome di
+\text{sistema di transizioni} ed è identificato dalla coppia.
+\[ (\Gamma, \to) \]
+dove $\Gamma$ è la classe delle \emph{configurazioni} (nel
+nostro caso sono coppie $(C, \sigma)$) e
+$\to \subseteq \Gamma \times \Gamma$ è una funzione detta
+\textbf{di transizione}.
+
+Tale coppia definisce come il nostro programma evolve in base
+ai comandi che dobbiamo eseguire e a come questi modificano
+la memoria.
+
+In realtà noi seguiremo un approccio di tipo
+\textbf{Structural Operational Semantics} (o
+\emph{small steps}), in cui ciascuna transizione
+\[ (c, \sigma) \to (c', \sigma') \]
+rappresenta un singolo passo di computazione, ossia la macchina
+ha attraversato lo stato $(c, \sigma)$ e \emph{transisce} nello
+stato $(c', \sigma')$.
+
+Possiamo allora fare considerazioni del tutto analoghe a quelle
+fatte per la MdT, ossia possiamo dire che una computazione è
+la chiusura riflessiva e transitiva della funzione di
+transizione. Formalmente
+\[ (c, \sigma) \to^* (c', \sigma') \]
+In questo caso una computazione termina (o converge) se
+\[ (c, \sigma) \to^* \sigma' \]
+Quello che si vuole è che la relazione descritta precedentemente
+come \emph{passo di computazione} soddisifi i seguenti assiomi
+e regole di inferenza
+\begin{center}
+	\includegraphics[scale=0.225]{images/assiomi.png}
+\end{center}
+Di particolare interesse è la regola di inferenza per
+l'assegnamento, poiché chiarisce l'operazione di
+\emph{aggiornamento} della memoria che avevamo lasciato in
+sospeso.
+
+Noi ci comportiamo come se la memoria fosse già inizializzata
+per il nostro programma. Non ci sono vere e proprie operazioni
+di scrittura della memoria. Ogni variabile esiste già in
+essa e l'unica che cosa che ci è concesso fare è modificare il
+suo valore.
+
+Con la notazione $\sigma[n/x]$ intendiamo modificare il valore
+della variabile $x$ presente in memoria con $n$. Stiamo in
+realtà modificando la funzione che associa a $x$ un certo
+valore (supponiamo $m$) con un altro valore ($n$).
+
+La notazione che avevamo visto in precedenza per l'operazione
+di aggiornamento significa che, se diamo $y$ in input a
+$\sigma$ modificata, ossia $\sigma [n / x]$, se $y = x$,
+allora stiamo in realtà cercando il valore di $x$ e dunque la
+funzione ritorna $n$. Altrimenti stiamo cercando il valore di
+$y$ presente in memoria e mai modificato dall'inizio
+dell'esecuzione.
+
+Per le altre regole teniamo a mente che, tutte quelle che
+presentano una condizione a destra, si potrebbero scrivere
+con la stessa condizione sopra.
+
+In ogni caso per leggere le regole di inferenza seguiamo un
+patter di questo tipo: se ci troviamo nello stato definito
+descritto sotto la riga e a sinistra della freccia, si
+transisce nello stato a destra della freccia se la condizione
+è verificata.
+
+\begin{example}
+	Proviamo a dimostrare che il comando $C_1 ; C_2$ termina,
+	tramite induzione.
+	\begin{proof}
+		Partiamo dalla regola di inferenza
+		\[
+			\frac{(C_1, \sigma) \to \sigma'}
+			{(C_1 ; C_2, \sigma) \to (C_2 , \sigma')}
+		\]
+		e come ipotesi induttiva usiamo il fatto che se
+		$C_1$ termina e $C_2$ termina, allora $C_1 ; C_2$
+		termina. Se consideriamo la regola di inferenza
+		\[
+			\frac{(C_1, \sigma) \to (C_1', \sigma')}
+			{(C_1 ; C_2, \sigma) \to (C_1' ; C_2 , \sigma')}
+		\]
+		il discorso è analogo con un passaggio in più. Se
+		$C_1'$ termina ci ritroviamo al caso precedente e
+		quindi anche $C_1 ; C_2$ termina.
+	\end{proof}
+\end{example}
+
+\begin{example}
+	Proviamo invece a dimostrare che il seguente programma
+	\[ \text{while } tt \text{ do} \text{ skip}, \sigma \]
+	non termina.
+	\begin{proof}
+		Per dimostrare che il programma non termina iniziamo
+		a prendere la nostra configurazione di comandi e
+		notiamo che corrisponde alla regola
+		\[
+			\frac{-}{(\text{while } B \text{ do } C, \sigma)
+				\to (\text{if } B \text{ then } C;
+				\text{ while } B \text{ do } C
+				\text{ else skip}, \sigma )}
+		\]
+		che ci fa transire nello stato
+		\[
+			\text{if } tt \text{ then skip}, \sigma;
+			\text{ while } tt \text{ do skip}, \sigma
+			\text{ else skip}, \sigma
+		\]
+		a questo punto usiamo l'assioma dell'\verb|if| e
+		otteniamo
+		\[
+			\text{skip}, \sigma ; \text{ while } tt
+			\text{ do skip}, \sigma
+		\]
+		il primo comando è uno \verb|skip| e dunque ritorniamo
+		al punto di partenza, ossia
+		\[ \text{while } tt \text{ do} \text{ skip}, \sigma \]
+	\end{proof}
+\end{example}
