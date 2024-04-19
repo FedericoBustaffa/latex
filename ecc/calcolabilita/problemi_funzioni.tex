@@ -1,0 +1,115 @@
+\section{Problemi e funzioni}
+Per il momento abbiamo usato i nostri costrutti per calcolare
+una funzione (la somma per esempio) o per decidere
+l'appartenenza di un elemento ad un insieme (decidere se una
+stringa è palindroma).
+
+In questa prima parte del corso andremo a definire meglio il
+concetto di \textbf{problema} e di \textbf{funzione} che, nel
+nostro caso, non hanno l'accezione cui siamo abituati.
+
+Un esempio di \emph{problema} è la domanda: "qual è il massimo
+comun divisore tra $x$ e $y$?". Se sostituiamo a $x$ e a $y$
+dei valori, per esempio 34 e 98, otteniamo un \textbf{caso}
+del problema.
+
+\begin{definition}
+	Siano $\Sigma$, $\Sigma_0$ e $\Sigma_1$ tali che
+	\[ \#, \start \notin \Sigma_0 \cup \Sigma_1 \]
+	e
+	\[ ]\Sigma_0 \cup \Sigma_1 \subset \Sigma \]
+	allora diciamo che una funzione
+	\[ f : \Sigma_0 \to \Sigma_1 \]
+	è \textbf{Turing calcolabile} o \textbf{T-calcolabile},
+	se e solo se
+	\begin{gather*}
+		\forall w \in \Sigma_0^* : f(w) = z \\
+		\Updownarrow \\
+		(q_0, \underline{\start} w) \to_M^*
+		(h, \start z \underline{\#})
+	\end{gather*}
+	Si dice anche che $f$ è T-calcolabile se esiste una MdT
+	$M$ che la calcola.
+\end{definition}
+
+Ora che abbiamo la definizione precisa di cosa sia una
+funzione T-calcolabile proviamo a fare una cosa analoga per
+il linguaggio WHILE che abbiamo definito in precedenza.
+
+\begin{definition}
+	Diciamo che una funzione
+	\[ f : \Var \to \N \]
+	è \textbf{WHILE-calcolabile} oppure diciamo che un comando
+	$C$ \textbf{calcola} $f$, se e solo se
+	\begin{gather*}
+		\forall \sigma \in \Var \to \N : f(x) = n \\
+		\Updownarrow \\
+		(C, \sigma) \to^* \sigma' \quad \land \quad
+		\sigma'(x) = n
+	\end{gather*}
+\end{definition}
+
+Notiamo che la variabile $x$ di input è anche la variabile
+di output, ossia quella che contiene il risultato.
+
+\subsection{Codifiche}
+Ci chiediamo ora se per una funzione $f$ che non opera su
+dati sotto formato di stringa, memorie o numeri naturali,
+le nozioni di calcolabilità che abbiamo definito fino ad ora
+sono ancora valide.
+
+Se così non fosse dovremmo ridefinire ogni volta tali nozioni
+per ogni dominio di ogni funzione con un formato differente da
+quelli che abbiamo già incontrato.
+
+Per superare il problema si fa uso di opportune
+\textbf{codifiche} dei dati, ossia funzioni che svolgono
+il seguente compito.
+\begin{enumerate}
+	\item Dato $x$ in formato $A$, lo si codifica in un formato
+	      $B$ con cui riusciamo a calcolare.
+	\item Si applica la MdT a $y$ e si ottiene il risultato $z$
+	      (se la computazione termina) in formato $B$.
+	\item Si traduce $z$ dal formato $B$ al formato $A$.
+\end{enumerate}
+D'ora in avanti considereremo solo i numeri naturali come i
+nostri dati. Abbiamo però bisogno che la funzione di codifica
+sia \emph{biunivoca}.
+
+\begin{example}
+	La seguente funzione codifica coppie di naturali come un
+	singolo naturale ed è detta codifica a
+	\textbf{coda di colomba}.
+	\[ (x, y) \to \frac{1}{2} (x^2 + 2 x y + y^2 + 3 x + y) \]
+	la cui decodifica, ossia la funzione inversa è la seguente
+	\[
+		n \to (n - \frac{1}{2} k \cdot (k + 1),
+		k - (n - \frac{1}{2} k \cdot (k + 1))
+	\]
+	dove $k=\lfloor \frac{1}{2}(\sqrt{1+8\cdot n}-1)\rfloor$.
+\end{example}
+
+A prescindere dall'esempio, possiamo dire che le proprietà
+basilari dei formalismi e della classe di funzioni calcolate,
+non cambiano al variare del formato dei dati su cui operano.
+
+\begin{definition}
+	Diciamo che una funzione $f : A \to B$, sottoinsieme di
+	$A \times B$ è una \textbf{funzione totale} se e solo se
+	\begin{itemize}
+		\item La funzione è \emph{definita ovunque}, ossia se
+		      $\forall a \in A$, $\exists b \in B$ tale che la
+		      coppia $(a, b) \in f$.
+		\item Vi è \emph{unicità}, ossia se, date le coppie
+		      $(a, b) \in f$ e $(a, c) \in f$, allora $b=c$.
+	\end{itemize}
+\end{definition}
+
+Una funzione può essere calcolabile ma non totale, per esempio
+la macchina di Turing che non termina mai vista all'inizio del
+corso.
+
+\begin{definition}
+	Diciamo che una funzione è \textbf{parziale}
+\end{definition}
+
