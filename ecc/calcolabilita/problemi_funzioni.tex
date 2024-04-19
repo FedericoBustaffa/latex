@@ -110,6 +110,82 @@ la macchina di Turing che non termina mai vista all'inizio del
 corso.
 
 \begin{definition}
-	Diciamo che una funzione è \textbf{parziale}
+	Diciamo che una funzione $f : A \to B$ è \textbf{parziale}
+	se è un sottoinsieme di $A \times B$ tale che
+	\begin{itemize}
+		\item Vi è \emph{unicità}, ossia se, date le coppie
+		      $(a, b) \in f$ e $(a, c) \in f$, allora $b=c$.
+		\item Esiste al più un $b \in B$ tale che $f(a) = b$.
+	\end{itemize}
+	e quindi non si richiede che $f$ sia definita ovunque.
 \end{definition}
+
+Introduciamo ora un po' di notazione utile a quello che faremo
+più avanti. Data una funzione $f : A \to B$
+\begin{itemize}
+	\item Diremo che $f$ è \textbf{definita} o
+	      \textbf{converge su $a$} ($f(a) \downarrow$) se
+	      $\exists b$ tale che $(a, b) \in f$ (cioè
+	      $f(a) = b$).
+	\item Diremo che $f$ \textbf{non è definita} o che
+	      \textbf{diverge} ($f(a) \uparrow$) se $\nexists b$
+	      tale che $(a, b) \in f$.
+\end{itemize}
+Chiamiamo inoltre
+\begin{itemize}
+	\item \textbf{Dominio} di $f$ l'insieme
+	      \[ \{ a \in A | f(a) \downarrow \} \]
+	      che coincide con lo spazio di partenza ($A$) se e
+	      solo se la funzione è totale.
+	\item \textbf{Codominio} di $f$ l'insieme $B$.
+	\item \textbf{Immagine} di $f$ l'insieme
+	      \[ \{ b \in B | \exists a \in A : f(a) = b \} \]
+\end{itemize}
+
+Detto questo vogliamo capire qual è la relazione tra funzioni
+e algoritmi. Una funzione possiamo vederla come un insieme di
+coppie (\emph{argomento}, \emph{risultato}) (o (\emph{input},
+\emph{output}) se preferiamo la notazione più informatica) ma
+non ci dice come il risultato (o l'output) venga calcolato.
+
+Di conseguenza non ci sono due funzioni diverse che per uno
+stesso argomento restituiscono lo stesso risultato. In termini
+insiemistici possiamo dire che non esistono due insiemi diversi
+che hanno gli stessi elementi.
+\begin{tcolorbox}
+	Un algoritmo è invece una \textbf{rappresentazione finita}
+	di una funzione, in quanto specifica come si calcola il
+	risultato a partire dall'argomento. In questo caso possiamo
+	certamente avere più algoritmi che calcolano la stessa
+	funzione.
+\end{tcolorbox}
+
+\subsection{Funzioni calcolabili}
+D'ora in avanti proveremo a capire
+\begin{itemize}
+	\item Quali sono le \textbf{funzioni calcolabili} e di
+	      quali proprietà godono.
+	\item Se esistono funzioni totali o parziali che non sono
+	      calcolabili. Ovvero per cui si dimostra che non esiste
+	      un algoritmo che le calcoli.
+\end{itemize}
+
+\begin{example}
+	Prendiamo ora come esempio la
+	\textbf{congettura di Goldbach}, la quale ci dice che ogni
+	numero pari maggiore di 2 è esprimibile come somma di due
+	numeri primi.
+
+	Da questa congettura (mai dimostrata) nasce la
+	\textbf{funzione di Goldbach}, definita come segue con
+	$gb : \N \to \N$
+	\[
+		gb(n) = \begin{cases}
+			0 & \text{se la congettura è vera} \\
+			1 & \text{altrimenti}
+		\end{cases}
+	\]
+	La congettura non è stata ancora dimostrata ma un algoritmo
+	per calcolarla esiste, solo che non sappiamo quale sia.
+\end{example}
 
