@@ -59,9 +59,9 @@ sono i suoi argomenti.
 		      e restituisce il suo successore
 		      \[ \lambda x . x + 1 \]
 		\item \textbf{Identità}: che prende $k$ argomenti e
-		      restituisce gli argomenti così come sono
+		      ritorna l'argomento $i$-esimo con $1\leq i\leq k$.
 		      \[ \lambda x_1, \dots, x_k . x_i \]
-		      con $1 \leq i \leq k$.
+		      Viene anche chiamata \textbf{proiezione}.
 	\end{itemize}
 	Questi sono anche detti \textbf{schemi primitivi di base}.
 	La classe $\C$ che stiamo provando a definire è inoltre
@@ -93,19 +93,38 @@ sono i suoi argomenti.
 	\end{itemize}
 \end{definition}
 
-Dato che $\C$ è la \emph{minima} classe che soddisfa le
-condizioni espresse sopra, affinché $f$ sia ricorsiva
-primitiva, occorre e basta che sia una successione finita, o
-\textbf{derivazione}, della seguente forma
-\[ f_1, \dots, f_n \]
-tale che $f = f_n$ e per ogni $i$ tale che $1 \leq i \leq n$
-vale uno dei seguenti casi:
-\begin{itemize}
-	\item $f_i \in C$ è uno \emph{Zero} o è l'\emph{Identità}.
-	\item $f_i$ è ottenibile tramite l'applicazione delle
-	      regole di \emph{Combinazione} e
-	      \emph{Ricorsione primitiva} da $f_j$ con $j < i$.
-\end{itemize}
+\begin{tcolorbox}
+	Dato che $\C$ è la \emph{minima} classe che soddisfa le
+	condizioni espresse sopra, affinché $f$ sia ricorsiva
+	primitiva, occorre e basta che sia una successione finita,
+	o \textbf{derivazione}, della seguente forma
+	\[ f_1, \dots, f_n \]
+	tale che $f = f_n$ e per ogni $i$ tale che
+	$1 \leq i \leq n$ vale uno dei seguenti casi:
+	\begin{itemize}
+		\item $f_i \in C$ è uno \emph{Zero} o è
+		      l'\emph{Identità}.
+		\item $f_i$ è ottenibile tramite l'applicazione delle
+		      regole di \emph{Combinazione} e
+		      \emph{Ricorsione primitiva} da $f_j$ con $j < i$.
+	\end{itemize}
+\end{tcolorbox}
+
+Tra i requisiti che abbiamo appena descritto perché una
+funzione venga definita \emph{ricorsiva primitiva}, quello
+meno intuitivo è sicuramente è quello che riguarda proprio
+la ricorsione primitiva.
+
+Come vediamo, noi possiamo definire una funzione di se stessa,
+ma con delle limitazioni. Come possiamo vedere abbiamo un
+primo caso in cui il primo argomento è $0$ e non c'è una
+chiamata ricorsiva, siamo quindi davanti ad un caso base.
+
+Più complesso è il secondo caso, in cui diciamo che la funzione
+su $k$ argomenti ritorna il primo argomento decrementato,
+effettua una chiamata ricorsiva su tutti gli argomenti e lascia
+i rimanenti invariati.
+
 Resistiamo per un esempio e proviamo a fare il punto della
 situazione. Prima di fare l'esempio definiamo la somma tramite
 le regole appena descritte.
@@ -147,8 +166,7 @@ numero tante volte quanto è il secondo numero.
 	non è più di tanto istruttivo.
 \end{example}
 
-Quello che a noi interessa è capire cos'è una funzione
-ricorsiva primitiva. Per farlo possiamo capire se, e nel caso 
-perché, il fattoriale è una funzione ricorsiva primitiva, o 
-per meglio dire vogliamo capire se possiamo definirlo come tale.
+Dunque quello che interessa principalmente sapere a noi è 
+cosa sia una funzione ricorsiva primitiva e a quali regole 
+sottostare per definirne una.
 
