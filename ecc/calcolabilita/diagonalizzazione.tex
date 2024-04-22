@@ -1,0 +1,86 @@
+\section{Diagonalizzazione}
+Fino ad ora abbiamo visto che formalismi come programmi FOR
+e funzioni ricorsive primitive calcolano \emph{solo} funzioni
+totali. Ci chiediamo adesso se esiste un formalismo che invece
+calcola \emph{tutte} le funzioni.
+
+La risposta è no, infatti se abbiamo un formalismo che calcola
+solo funzioni totali, allora c'è almeno una funzione che non
+il formalismo non riesce a calcolare. Un esempio è la
+\textbf{funzione di Ackermann} che è una funzione totale ma
+non è ricorsiva primitiva.
+
+Quel che vogliamo fare adesso è introdurre un metodo per
+dimostrare che le funzioni ricorsive primitive non sono tutte
+le funzioni calcolabili totali. Introduciamo quindi la
+\textbf{diagonalizzazione} che in realtà è indipendente dal
+formalismo sul quale viene applicata e si applica a tutti quei
+formalismi con cui è possibile definire \emph{solo} funzioni
+totali.
+\begin{enumerate}
+	\item Dato che stiamo ragionando in termini di funzioni
+	      ricorsive primitive chiameremo $f_n$ la funzione
+	      definita dalla $n$-esima derivazione. Stiamo quindi
+	      enumerando le funzioni (o gli algoritmi).
+	\item Definiamo la funzione
+	      \[ g(x) = f_x(x) + 1 \]
+	      che è una funzione calcolabile e totale.
+	\item Ci si rende però
+	      subito conto che $g$ non si trova nelle lista delle
+	      funzioni ricorsive primitive perché $\forall n$ vale
+	      che
+	      \[ g(n) = f_n(n) + 1 \]
+	      e quindi $\forall n$ vale che
+	      \[ g(n) \neq f_n(n) \]
+	      In altre parole la funzione $g$ usa l'$n$-esima
+	      funzione nella lista, gli applica $n$ e ci somma $1$,
+	      ma l'$n$-esima funzione nella lista ritorna un
+	      certo risultato $x$ e non $x + 1$.
+\end{enumerate}
+Ecco che la funzione $g$, che sicuramente è totale e calcolabile
+non appartiene alla lista che abbiamo definito, in particolare
+nel nostro caso non è una funzione ricorsiva primitiva.
+
+\subsection{Diagonalizzazione per funzioni parziali}
+Siamo quindi obbligati a considerare le funzioni
+\hyperref[def: funzione parziale]{parziali} le quali non sono
+definite su tutto $\N$. Cerchiamo quindi di dimostrare che
+la diagonalizzazione non si applica anche a queste funzioni.
+Come prima possiamo enumerare tutte le nostre funzioni e
+dunque prendiamo $\psi_n$, l'$n$-esima funzione presente nella
+nostra lista delle funzioni, e proviamo a diagonalizzare.
+Poniamo dunque
+\[ \varphi (x) = \psi_x (x) + 1 \]
+Supponiamo ora che $\varphi$ sia rappresentata dall'$n$-esimo
+algoritmo: non possiamo tuttavia concludere che
+\[ \varphi \neq \psi_n \]
+perché $\psi_n(n)$ potrebbe non essere definita e dunque
+divergere. Se $\psi_n(n)$ diverge, lo fa anche $\psi_n(n)+1$
+e dunque le due funzioni sono equivalenti.
+
+Prendiamo ad esempio la seguente funzione
+\[ div(x,y) = \lfloor x / y \rfloor \]
+che è definita solo se $y \neq 0$. Ci chiediamo quindi se sia
+possibile estendere tutte le funzioni parziali a totali. Come
+vedremo più avanti la risposta è no perché non sempre c'è un
+algoritmo che calcola la versione estesa.
+
+Torniamo però al caso della divisione. Se ad esempio definissimo
+accuratamente il dominio della funzione, per esempio in questo
+modo
+\[ div : \N \times \N \backslash \{ 0 \} \to \N \]
+avremmo comunque il problema che non tutte le coppie di naturali
+sono coperte. Introduciamo quindi un simbolo speciale
+$* \notin \N$ in modo da avere ancora una funzione per tutte le
+possibili coppie di naturali
+\[ div^* : \N \times \N \to \N \cup \{ * \} \]
+definita in questo modo
+\[
+	div^* (x, y) = \begin{cases}
+		div(x, y) & \text{se } y \neq 0 \\
+		*         & \text{se } y = 0
+	\end{cases}
+\]
+Non vogliamo però liberarci della parzialità e dunque abbiamo
+bisogno di un modo per definire anche le funzioni parziali.
+

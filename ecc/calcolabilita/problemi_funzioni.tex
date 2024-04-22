@@ -13,7 +13,7 @@ comun divisore tra $x$ e $y$?". Se sostituiamo a $x$ e a $y$
 dei valori, per esempio 34 e 98, otteniamo un \textbf{caso}
 del problema.
 
-\begin{definition}
+\begin{definition} \label{def: T-calcolabile}
 	Siano $\Sigma$, $\Sigma_0$ e $\Sigma_1$ tali che
 	\[ \#, \start \notin \Sigma_0 \cup \Sigma_1 \]
 	e
@@ -36,7 +36,7 @@ Ora che abbiamo la definizione precisa di cosa sia una
 funzione T-calcolabile proviamo a fare una cosa analoga per
 il linguaggio WHILE che abbiamo definito in precedenza.
 
-\begin{definition}
+\begin{definition} \label{def: while-calcolabile}
 	Diciamo che una funzione
 	\[ f : \Var \to \N \]
 	è \textbf{WHILE-calcolabile} oppure diciamo che un comando
@@ -93,7 +93,7 @@ A prescindere dall'esempio, possiamo dire che le proprietà
 basilari dei formalismi e della classe di funzioni calcolate,
 non cambiano al variare del formato dei dati su cui operano.
 
-\begin{definition}
+\begin{definition} \label{def: funzione totale}
 	Diciamo che una funzione $f : A \to B$, sottoinsieme di
 	$A \times B$ è una \textbf{funzione totale} se e solo se
 	\begin{itemize}
@@ -109,7 +109,7 @@ Una funzione può essere calcolabile ma non totale, per esempio
 la macchina di Turing che non termina mai vista all'inizio del
 corso.
 
-\begin{definition}
+\begin{definition} \label{def: funzione parziale}
 	Diciamo che una funzione $f : A \to B$ è \textbf{parziale}
 	se è un sottoinsieme di $A \times B$ tale che
 	\begin{itemize}

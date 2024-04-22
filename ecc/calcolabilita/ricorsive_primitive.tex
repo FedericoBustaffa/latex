@@ -7,18 +7,18 @@ Iniziamo con il \emph{fattoriale}, definito come una coppia
 di equazioni, la prima per il caso base, ossia quando $x = 0$
 e la seconda per tutti gli altri casi, ossia per ogni $x > 0$.
 \[
-	!(x) = \begin{cases}
-		1        & \text{se } x = 0 \\
-		!(n - 1) & \text{se } x > 0
+	\begin{cases}
+		!(0)     & = 1                  \\
+		!(x + 1) & = (x + 1) \cdot !(x)
 	\end{cases}
 \]
 Proviamo a scrivere una versione WHILE e una versione FOR del
 fattoriale
 \begin{verbatim}
-    fatt = 1;
+    fatt := 1;
     while x > 0 do
-        fatt = fatt * x;
-        x = x - 1;
+        fatt := fatt * x;
+        x := x - 1;
 \end{verbatim}
 in questo caso salviamo il risultato nella variabile
 \verb|fatt| che è la stessa che usiamo per ritornare il
@@ -166,7 +166,110 @@ numero tante volte quanto è il secondo numero.
 	non è più di tanto istruttivo.
 \end{example}
 
-Dunque quello che interessa principalmente sapere a noi è 
-cosa sia una funzione ricorsiva primitiva e a quali regole 
-sottostare per definirne una.
+Dunque quello che interessa principalmente a noi è cosa sia
+una funzione ricorsiva primitiva e a quali regole sottostare
+per definirne una.
+
+Come abbiamo visto, siamo riusciti a definire la somma tramite
+questo formalismo, ne segue che possiamo usare la somma per
+definire anche il prodotto. Possiamo ora tornare alla formula
+con cui abbiamo definito il fattoriale in precedenza, ossia
+\[
+	\begin{cases}
+		!(0)     & = 1                  \\
+		!(x + 1) & = (x + 1) \cdot !(x)
+	\end{cases}
+\]
+che, come possiamo vedere, rispetta i vincoli necessari ad
+essere una funzione ricorsiva primitiva.
+
+\begin{definition}
+	Diciamo che la relazione $P(x_1, \dots, x_k) \subseteq \N^k$
+	è \textbf{ricorsiva primitiva} se lo è la sua
+	\textbf{funzione caratteristica} $\chi_P$, definita come
+	\[
+		\chi_P (x_1, \dots, x_k) = \begin{cases}
+			1 & \text{se } (x_1, \dots, x_k) \in P \\
+			0 & \text{altrimenti}
+		\end{cases}
+	\]
+\end{definition}
+
+Vediamo come esempio di relazione ricorsiva primitiva,
+l'eguaglianza, definendo la sua funzione caratteristica
+$\chi_=$ in questo modo
+\begin{align*}
+	\chi_= (0, 0)     & = 1           \\
+	\chi_= (x+1, y+1) & = \chi_=(x,y) \\
+	\chi_= (0, y+1)   & = 0           \\
+	\chi_= (x+1, 0)   & = 0
+\end{align*}
+L'idea alla base è diminuire entrambi i valori di $1$ fino a
+che uno dei due o entrambi sono sono $0$. Se uno solo dei due
+vale $0$, allora non erano uguali, se entrambi sono $0$, allora
+erano uguali.
+
+Altre tre cose che ci servirà sapere sono che
+\begin{itemize}
+	\item $R = \{ x \in \N | x \text{ è un numero primo} \}$
+	      è ricorsiva primitiva.
+	\item \emph{Teorema di unica fattorizzazione}: Se
+	      $p_0 < \dots < p_k < \dots$ sono i numeri primi,
+	      cioè $R = \{ p_0, \dots, p_k, \dots \}$, allora per
+	      ogni $x \in \N$ esiste un numero finito di esponenti
+	      $x_i \neq 0$ tali che
+	      \[
+		      x = p_0^{x_0} \cdot p_1^{x_1} \cdots
+		      p_n^{x_n} \cdots
+	      \]
+	\item La funzione $(x)_i$ l'esponente dell'$i$-esimo
+	      fattore $p_i$ della fattorizzazione di $x$ è
+	      ricorsiva primitiva.
+\end{itemize}
+La conseguenza fondamentale del teorema è che ogni sequenza
+di naturali può essere codificata come un singolo numero
+\[
+	n = p_0^{n_0 + 1} \cdot p_1^{n_1 + 1} \cdots
+	p_k^{n_k + 1}
+\]
+ovvero come il prodotto di un numero finito di fattori (con
+ogni $p_i$ che è un numero primo), e viceversa.
+
+In altre parole stiamo dicendo che esiste un solo numero $n$
+che, data una sequenza $n_0 n_1 \dots n_k$, verifica
+l'uguaglianza
+\[
+	n = p_0^{n_0 + 1} \cdot p_1^{n_1 + 1} \cdots
+	p_k^{n_k + 1}
+\]
+e viceversa. Questa è la base per dimostrare che le funzioni
+di codifica sono ricorsive primitive.
+
+\subsection{Enumerazione di Macchine di Turing}
+Prendiamo ora una MdT
+\[ M = (Q, \Sigma, \delta, q_0) \]
+con
+\[
+	Q = \{ q_0, \dots, q_n \} \text { e }
+	\Sigma = \{ \sigma_0, \dots, \sigma_m \}
+\]
+Possiamo codificare ogni quintupla
+$(q_i, \sigma_j, q_k, \sigma_l, D) \in \delta$ come
+\[
+	p_0^{i+1} \cdot p_1^{j+1} \cdot
+	p_2^{k+1} \cdot p_3^{l+1} \cdot p_4^{m_D}
+\]
+Ordiniamo in qualche modo l'insieme dei suoi stati e l'insieme
+dei suoi simboli e vedremo che tale ordinamento si riflette
+anche sulle quintuple della funzione di transizione.
+
+Dato che la quintupla altro non è che una successione di cinque
+simboli, allora possiamo codificarla tramite la formula appena
+descritta. Se codifichiamo tutte le possibili quintuple di una
+MdT otteniamo una nuova sequenza, anch'essa codificabile.
+
+Codificando quest'ultima sequenza otteniamo un numero $i$,
+detto anche \textbf{indice}, che identifica $M$. Siamo quindi
+riusciti a codificare una MdT come un numero. Nulla ci vieta
+di quindi di codificare ogni MdT come un numero.
 
