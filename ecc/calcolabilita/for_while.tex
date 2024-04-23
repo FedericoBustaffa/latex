@@ -1,34 +1,35 @@
 \section{Linguaggi FOR e WHILE}
-Introduciamo ora un formalismo sicuramente a noi più
-familiare, che è quello di un semplice linguaggio
-\textbf{imperativo}, che dunque contenga il concetto di
-\textbf{memoria} e di \textbf{comando}.
+Introduciamo ora un formalismo sicuramente a noi più familiare,
+che è quello di un semplice linguaggio \textbf{imperativo} e
+che quindi riesce ad esprimere i concetti di \textbf{memoria}
+e di \textbf{comando}.
 
 \subsection{Sintassi astratta}
 La sintassi proposta è \emph{ambigua}, abbiamo dunque diverse
 possibili interpretazioni per la stessa stringa. In realtà
 tale sintassi viene elaborata tramite alberi, che hanno proprio
-il compito di disambiguare.
+il compito di eliminare eventuali ambiguità.
 
 Come vedremo a breve si tratta di una sintassi molto semplice,
 comprendente costrutti condizionali di base, la possibilità
 di eseguire cicli e semplici operazioni aritmetiche e logiche.
 \begin{align*}
-	E \to                                 &
-	n | x | E_1 + E_2 | E_1 \times E_2 \vert E_1 - E_2
-	                                      &
-	\text{Espressioni aritmetiche}          \\
-	B \to                                 &
-	b | E_1 < E_2 | \lnot B | B_1 \lor B_2
-	                                      &
-	\text{Espressioni booleane}             \\
-	C\to                                  &
-	\text{skip} | x := E | C_1 ; C_2 | \text{if } B
-	\text{ then } C_1 \text{ else } C_2 | &
-	\text{Comandi}                          \\
-	                                      &
-	\text{for } x = E_1 \text{ to } E_2 \text{ do } C |
-	\text{while } B \text{ do } C
+	E \to                                                 &
+	\; n \; | \; x \; | \; E_1 + E_2 \; | \;
+	E_1 \times E_2 \; | \; E_1 - E_2
+	                                                      &
+	\text{Espressioni aritmetiche}                          \\
+	B \to                                                 &
+	\; b \; | \; E_1 < E_2 \; | \; \lnot B \; | \;
+	B_1 \lor B_2
+	                                                      &
+	\text{Espressioni booleane}                             \\
+	C\to                                                  &
+	\; \text{skip} \; | \; x := E \; | \; C_1 ; C_2 \; | \;
+	\text{if } B \text{ then } C_1 \text{ else } C_2 \; | &
+	\text{Comandi}                                          \\ &
+	\; \text{for } x = E_1 \text{ to } E_2 \text{ do } C \; |
+	\; \text{while } B \text{ do } C
 \end{align*}
 dove $n \in \N$, $x \in \Var$ (insieme numerabile di
 variabili) e $b \in \text{Bool} = \{ tt, ff \}$.
@@ -287,7 +288,7 @@ transisce nello stato a destra della freccia se la condizione
 		il primo comando è uno \verb|skip| e dunque ritorniamo
 		al punto di partenza, ossia
 		\[ \text{while } tt \text{ do} \text{ skip}, \sigma \]
-        Ne concludiamo quindi che siamo entrati in un ciclo
-        infinito.
+		Ne concludiamo quindi che siamo entrati in un ciclo
+		infinito.
 	\end{proof}
 \end{example}

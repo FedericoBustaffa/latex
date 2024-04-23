@@ -1,13 +1,18 @@
 \section{Macchina di Turing}
-La \textbf{macchina di Turing} si offre come uno dei primi
-modelli per descrivere la realtà.
+Introduciamo il primo formalismo per esprimere algoritmi, ideato
+da Alan Turing nel 1936 e che prende il nome di
+\textbf{macchina di Turing}.
 
-La realtà di cui parliamo può essere un sottoinsieme della
-realtà effettiva che però deve poter essere descritta in
-termini matematici.
+L'idea di base è quella di avere un \textbf{nastro} di lunghezza
+infinita su cui disporre una stringa di cratteri, rappresentante
+l'input dell'algoritmo. Tale macchina è dotata di un
+\textbf{cursore} che, partendo dall'inizio della stringa, legge
+i caratteri che incontra e, in base a cosa legge, cambia stato
+e si muove. La computazione termina quando si giunge finalmente
+in uno stato speciale di terminazione.
 
 \begin{definition}
-	Una macchina di Turing (MdT) è una
+	Una \textbf{macchina di Turing} (MdT) è definita come una
 	quadrupla di questo tipo
 	\[
 		M = \begin{pmatrix}
@@ -16,29 +21,40 @@ termini matematici.
 	\]
 	dove
 	\begin{itemize}
-		\item $Q$ è l'insieme \emph{finito} degli stati in
+		\item $Q$ è l'\textbf{insieme finito degli stati} in
 		      cui si può trovare la macchina. Tra gli stati
 		      abbiamo uno stato speciale $h$, con cui
-		      indicheremo la corretta terminazione di un
-		      calcolo $M$.
+		      indicheremo la corretta terminazione del calcolo
+		      della macchina $M$.
 		\item $\Sigma = \{ \sigma, \sigma', \dots \}$ è
-		      l'insieme \emph{finito} dei simboli, ossia,
+		      l'\textbf{insieme finito dei simboli}, ossia,
 		      l'\textbf{alfabeto} utilizzato per esprimere
-		      i calcoli. Tra i simboli, abbiamo
+		      gli algoritmi. Il numero e e i simboli stessi
+		      possono variare da una MdT all'altra, tuttavia
+		      ci sono dei simboli considerato speciali che sono
+		      sempre presenti:
 		      \begin{itemize}
-			      \item $\#$ indica il \textbf{bianco}.
-			      \item $\triangleright$ è detto
-			            \textbf{respingente} ed è la
-			            \emph{marca} di inizio stringa.
-			      \item $L$, $R$ e $-$ che non appartengono a
-			            $\Sigma$ e indicano rispettivamente
-			            le \emph{mosse}: \emph{Left},
-			            \emph{Right} e \emph{None}.
+			      \item \textbf{Bianco}: indicato con $\#$ è
+			            come un carattere nullo.
+			      \item \textbf{Respingente}: indicato con
+			            $\start$, simboleggia l'inizio delle
+			            stringa. Il cursore della macchina non
+			            può andare mai a sinistra di questo
+			            simbolo.
+			      \item \textbf{Spostamento}: simboli che non
+			            appartengono a $\Sigma$ e indicano come
+			            e in che direzione muovere il cursore.
+			            Sono rispettivamnete $L$, $R$ e $-$ che
+			            stanno per \verb|Left|, \verb|Right| e
+			            \verb|Hold| (non muovere il cursore).
 		      \end{itemize}
-		\item $q_0 \in Q$ è lo stato iniziale in cui si
-		      trova la macchina.
-		\item $\delta$ è la \textbf{funzione di transizione}
-		      dello stato
+		\item \textbf{Stato iniziale}: indicato con $q_0 \in Q$
+		      è lo stato iniziale in cui si trova la macchina.
+		\item \textbf{Funzione di transizione}: indicata con
+		      $\delta$ è la funzione che definisce la
+		      transizione da uno stato all'altro della macchina
+		      in base a quel che viene letto dal cursore e in
+		      base a quel che è stato letto fino a quel momento.
 		      \[
 			      \delta \subseteq (Q \times \Sigma) \to
 			      (Q \cup \{ h \}) \times \Sigma \times
@@ -49,45 +65,34 @@ termini matematici.
 	\end{itemize}
 \end{definition}
 
-Arrivati a questo punto non si capisce già più niente,
-cerchiamo quindi di fare ordine. L'idea è quella di
-implementareLa una macchina con
+\subsection{Funzione di transizione}
+La \textbf{funzione di transizione} $\delta$ è necessaria a
+far progredire il calcolo. Come possiamo vedere dalla
+definizione che ne abbiamo dato, questa prende in input una
+coppia di valori.
 \begin{itemize}
-	\item Un certo numero di stati in cui trovarsi.
-	\item Un certo numero di simboli che è in grado di
-	      interpretare.
-	\item Delle \emph{mosse} che può fare in base allo
-	      stato e al simbolo correnti.
+	\item Lo \textbf{stato corrente} $q$ della macchina.
+	\item Un simbolo $\sigma$ dell'alfabeto
 \end{itemize}
-Ecco che la funzione $\delta$ diventa necessaria a far
-progredire il calcolo. Come possiamo vedere dalla definizione
-che ne abbiamo dato, questa prende in input una coppia di
-valori. Il primo valore è uno stato, ossia lo stato
-\textbf{corrente} della macchina. Il secondo valore è un
-simbolo dell'alfabeto che andrà ad identificare un qualcosa
-del nostro algoritmo che per ora facciamo rimanere vago.
 
 Notiamo inoltre che la funzione $\delta$ prende in input una
 coppia di valori ma ritorna una tripla composta da uno stato
-$q$, che può essere anche $h$ in caso il calcolo sia terminato
-con successo, un simbolo $\sigma$ e una tra le 3 mosse $L$,
+$q'$, che può essere anche $h$ in caso il calcolo sia terminato
+con successo, un simbolo $\sigma'$ e una tra le 3 mosse $L$,
 $R$ e $-$.
-
-Come vedremo, possiamo immaginare i nostri simboli disposti
-su un \textbf{nastro} di lunghezza infinita, sul quale è
-possibile rimanere fermi, oppure muoversi verso sinistra o
-verso destra.
 
 Ad ogni passo del calcolo, $\delta$ elabora la coppia in input
 e restituisce una tripla contente il nuovo stato, il nuovo
-simbolo da scrivere alla posizione attuale e come ci si deve
-muovere al passo successivo.
+simbolo da scrivere alla posizione attuale del cursore e come
+ci si deve muovere al passo successivo.
 
-Qualcuno potrebbe associare la MdT ad un automa a stati finiti
-ma questo è in generale sbagliato perché, come vedremo, anche
-se condividono alcune caratteristiche la MdT è più potente in
-quanto non ha le stesse limitazioni di un automa.
+Qualcuno potrebbe aver notato la similitudine con un automa a
+stati finiti. In quanto vi è sempre uno stato corrente e, in
+base a quello e ad una nuova parte dell'input ci si muove in
+un nuovo stato o si rimane nello stesso. Non è tuttavia
+corretto dire che una MdT è un automa.
 
+\subsubsection{Considerazioni}
 Ora che abbiamo le idee più chiare, facciamo qualche
 considerazione in più su $\delta$. Essa è \textbf{iniettiva},
 vale cioè che, prese due triple $(q', \sigma', D')$ e
@@ -101,15 +106,15 @@ Questo ci dice sostanzialmente che, dato uno stato e un simbolo
 c'è un solo altro stato in cui possiamo andare. Un'altra cosa
 da specificare è che per $\delta$ vale sempre che se
 \[ \delta(q, \start) = (q', \sigma, D) \]
-allora $\sigma = \start$ e $D = R$. Questo ci dice
-sostanzialmente che se ci troviamo all'inizio del nastro
-possiamo andare solo a destra.
+allora $\sigma = \start$ e $D = R$. Questo ci dice che se ci
+troviamo all'inizio del nastro possiamo andare solo a destra.
 
-Dato che $Q$ e $\Sigma$ sono insiemi finiti, anche gli elementi
-di $\delta$ sono finiti e dunque che, come ricordiamo sono le
-condizioni necessarie descritte nell'idea intuitiva di
-algoritmo.
-
+Ritornando velocemente
+all'\hyperref[sec: algoritmo]{idea intuitiva di algoritmo},
+possiamo facilmente verificare la prima e seconda condizione
+sono verificate poiché, sia $Q$ che $\Sigma$ sono insiemi
+finiti e di conseguenza anche $\delta$ contiene un numero
+finito di elementi.
 
 \subsection{Alfabeto}
 I dati su cui opera una MdT sono stringhe $w$ di caratteri
@@ -131,9 +136,9 @@ la stringa vuota.
 \end{example}
 
 \subsection{Computazione}
-Iniziamo ora a vedere come opera una MdT su qualche problema
-di esempio. La \textbf{configurazione corrente} di una MdT
-viene identificata $(q, u, \sigma, v)$ dove
+Finalmente vediamo come opera una MdT su qualche problema di
+esempio. La \textbf{configurazione corrente} di una MdT viene
+identificata $(q, u, \sigma, v)$ dove
 \begin{itemize}
 	\item $q$ è lo stato corrente.
 	\item $u$ è la stringa a sinistra del carattere attuale.
@@ -147,55 +152,67 @@ una MdT appare in questo modo
 \begin{center}
 	\includegraphics[scale=0.225]{images/turing.png}
 \end{center}
-Tenendo a mente questa figura possiamo provare a fare il primo
-esempio di calcolo eseguito da una MdT.
+Tenendo a mente questa figura possiamo provare a costruire la
+nostra prima MdT.
 
-\begin{example}
-	Iniziamo con il fare l'esempio di una MdT i cui stati
-	possibili sono due $Q = \{ q_0, q_1 \}$ e il cui alfabeto
-	è composto come segue $\Sigma = \{ \#, \start, a \}$.
-	La funzione $\delta$ di transizione è invece rappresentata
-	dalla seguente tabella.
+\begin{example} \label{ex: 11}
+	Vogliamo costruire una MdT in grado di dirci se la stringa
+	binaria in input contiene una sottosequenza composta da
+	due $1$ consecutivi.
+
+	Per costruire la nostra macchina abbiamo bisogno di due
+	stati ($q_0$ e $q_1$), di due simboli ($0$ e $1$) e di
+	una funzione di transizione $\delta$.
+
+	Per capire se la stringa in input contiene almeno una
+	sottostringa composta da due $1$ consecutivi, iniziamo
+	con lo stato iniziale $q_0$, il quale indica sia lo stato
+	inziale della macchina sia lo stato in cui la macchina
+	deve transire ogni qual volta incontra uno $0$.
+
+	Abbiamo poi bisogno di uno stato $q_1$ in cui la macchina
+	transisce quando incontra un $1$ nella sequenza dopo essere
+	stata in uno stato $q_0$.
+
+	Se ci troviamo nello stato $q_1$ e incontriamo un altro $1$
+	la macchina transisce nello stato $h$ di terminazione. La
+	funzione $\delta$ di transizione che deriva dai seguenti
+	ragionamenti è la seguente
 	\begin{center}
-		\begin{tabular}{| c | c | c |}
+		\begin{tabular}{|c|c|c|}
 			\hline
 			$q$   & $\sigma$ & $\delta(q, \sigma)$ \\
 			\hline
 			$q_0$ & $\start$ & $q_0, \start, R$    \\
-			$q_0$ & $\#$     & $h, \#, -$          \\
-			$q_0$ & $a$      & $q_1, \#, L$        \\
-			$q_1$ & $\#$     & $q_0, \#, L$        \\
-			$q_1$ & $a$      & $q_0, a, -$         \\
+			$q_0$ & $0$      & $q_0, \#, R$        \\
+			$q_0$ & $1$      & $q_1, \#, R$        \\
+			$q_1$ & $0$      & $q_0, \#, R$        \\
+			$q_1$ & $1$      & $h, \#, -$          \\
 			\hline
 		\end{tabular}
 	\end{center}
-	A questo punto cerchiamo di capire cosa fa questa MdT
-	quando si introduce una stringa (valida) in input.
-	Come \textbf{configurazione} iniziale prendiamo
-	\[ q_0/ \start \# \# a \# a \underline{a} \# \]
-	dove $\underline{a}$ indica che il \textbf{cursore} è
-	posizionato su quel carattere. La tabella ci dice che
-	\[ \delta (q_0, a) = q_1, \#, L \]
-	questo significa che dobbiamo passare allo stato $q_1$,
-	rimpiazzare $a$ con $\#$ e muovere il cursore a sinistra.
-	La nuova configurazione sarà quindi
-	\[ q_1/ \start \# \# a \# \underline{a} \# \# \]
-	A questo punto, seguendo la tabella, i restanti passaggi
-	seguono tutti la solita progressione.
-	\begin{gather*}
-		q_1/ \start \# \# a \# \underline{a} \# \# \\
-		q_0/ \start \# \# a \# \underline{a} \# \# \\
-		q_1/ \start \# \# a \underline{\#} \# \# \# \\
-		q_1/ \start \# \# \underline{a} \# \# \# \# \\
-		q_0/ \start \# \# \underline{a} \# \# \# \# \\
-		q_1/ \start \# \underline{\#} \# \# \# \# \# \\
-		q_0/ \start \underline{\#} \# \# \# \# \# \# \\
-		h/ \start \underline{\#} \# \# \# \# \# \#
-	\end{gather*}
-	Come possiamo vedere il calcolo è terminato con successo
-	e questa macchina aveva lo scopo di cancellare ogni
-	carattere della stringa iniziale.
+	Come possiamo notare, ogni volta che incontriamo un
+	carattere lo "cancelliamo" scrivendo $\#$ ma avremmo potuto
+	lasciare il numero che incontravamo. Vediamo una possibile
+	simulazione di esecuzione con la seguente stringa binaria
+	in input
+	\[ 01011 \]
+	La nostra configurazione iniziale è
+	\[ q_0 / \underline{\start} 01011 \]
+	dove il simbolo sottolineato è quello su cui si trova il
+	cursore. La sequenza di operazioni sarà quindi la seguente
+	\begin{align*}
+		q_0 / & \underline{\start} 01011       \\
+		q_0 / & \start \underline{0} 1011      \\
+		q_0 / & \start \# \underline{1} 011    \\
+		q_1 / & \start \#\# \underline{0} 11   \\
+		q_0 / & \start \#\#\# \underline{1} 1  \\
+		q_1 / & \start \#\#\#\# \underline{1}  \\
+		h /   & \start \#\#\#\# \underline{\#}
+	\end{align*}
+	Il calcolo è dunque terminato con successo.
 \end{example}
+
 Per vedere una MdT in azione è possibile visitare questo
 \href{https://turingmachinesimulator.com/}{sito} in cui è
 possibile programmare una MdT oppure eseguire esempi già
@@ -211,8 +228,8 @@ appartengono al seguente insieme
 	\gamma \in (Q \cup \{ h \}) \times
 	\Sigma^* \times \Sigma \times \Sigma^F
 \]
-L'ultimo insieme ($\Sigma^F$) è un po' particolare, infatti
-tale insieme è definito come
+L'ultimo insieme ($\Sigma^F$) è un po' particolare, è infatti
+definito come
 \[
 	\Sigma^F = \Sigma^* \cdot \left( \Sigma \backslash
 	\{ \# \} \right) \cup \{ \epsilon \}
@@ -227,7 +244,7 @@ può essere $\#$ ed inoltre la stringa $u$ può essere vuota
 solo quando il carattere corrente è $\start$. La convenzione
 impone quindi di scrivere la configurazione iniziale del primo
 esempio fatto, in questo modo
-\[ (q_0, \start \# \# a \# a, a, \epsilon) \]
+\[ (q_0, \start 01011, \epsilon) \]
 
 \begin{definition}
 	Una \textbf{computazione} è una successione finita di
@@ -238,9 +255,9 @@ esempio fatto, in questo modo
 	è lunga $n$ e dunque scriveremo $\to^n$.
 \end{definition}
 
-Definiamo meglio cos'è un \textbf{passo di computazione}.
-Proviamo a definire un passo di computazione per casi,
-considerando $a, b, c$ elementi generici di $\Sigma$.
+Definiamo meglio cos'è un \textbf{passo di computazione},
+procedendo per casi e considerando $a$, $b$ e $c$ come elementi
+generici di $\Sigma$.
 \begin{itemize}
 	\item $(q, u \underline{a} v) \to (q', u \underline{b} v)$
 	      se $\delta (q, a) = (q', b, -)$.
@@ -258,16 +275,18 @@ considerando $a, b, c$ elementi generici di $\Sigma$.
 \end{itemize}
 In questo modo garantiamo che ciascun passo abbia effetto
 limitato sulle configurazioni, come richiesto dalla seconda
-parte del punto 2 nell'idea intuitiva dell'algoritmo.
+parte del punto 2 nell'\hyperref[sec: algoritmo]{idea intuitiva
+	dell'algoritmo}.
 
 Allo stesso modo possiamo immaginarci che se partiamo da uno
 stato iniziale $(q_0, \underline{\start} w)$, dopo un certo
 numero di passi arriviamo in uno stato $(q', w')$.
 
-\begin{definition}
+\begin{definition} \label{def: convergenza}
 	Diciamo che una computazione \textbf{termina} o
 	\textbf{converge} ($\downarrow$) se e solo se lo stato
-	finale è $h$. Nell'esempio fatto qui sopra $q' = h$.
+	finale è $h$. Nell'esempio \ref{ex: 11} fatto qui sopra
+	$q' = h$.
 
 	Diciamo invece che la computazione \textbf{non termina}
 	o \textbf{diverge} ($\uparrow$) se e solo se per ogni
@@ -275,7 +294,8 @@ numero di passi arriviamo in uno stato $(q', w')$.
 	\[ (q_0, w) \to^* (q', w') \]
 	esistono $q''$ e $w''$ tali che
 	\[ (q', w') \to^* (q'', w'') \]
-	ovvero tali che si continua sempre a fare un passo.
+	ovvero tali che è sempre possibile fare un nuovo passo di
+	computazione.
 \end{definition}
 
 Come possiamo vedere, le MdT definite in questo modo,

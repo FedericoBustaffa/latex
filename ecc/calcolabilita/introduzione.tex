@@ -1,29 +1,18 @@
 \chapter{Calcolabilità}
-Lo scopo del corso è quello di stabilire le potenzialità e i
-limiti del calcolo, formalizzando in modo esatto l'intuizione.
+Iniziamo con la \textbf{teoria della calcolabilità} la quale 
+si pone come obbiettivo quello di definire cosa siano problemi, 
+funzioni e algoritmi, cercando di dare una definizione formale 
+di questi ultimi. Una volta definiti questi concetti sarà di 
+nostro interesse capire quali sono i problemi 
+\textbf{calcolabili} e quali invece no. 
 
-\section{Idea intuitiva di algoritmo} \label{sec: algoritmo}
-Tralasciando i molti formalismi proposti per esprimere
-algoritmi, in ognuno di essi, gli algoritmi devono soddisfare
-i seguenti requisiti
-\begin{itemize}
-	\item Deve essere costituito da un insieme \emph{finito} di
-	      istruzioni.
-	\item Le istruzioni possibili sono in numero \emph{finito}
-	      e hanno effetto \emph{limitato} su dati discreti,
-	      esprimibili in maniera finita.
-	\item Una computazione è eseguita per \emph{passi discreti},
-	      senza ricorrere a sistemi analogici o metodi continui,
-	      ciascuno dei quali impiega un tempo \emph{finito}.
-	\item Ogni passo dipende solo dai precedenti e da una
-	      porzione finita dei dati, in modo
-	      \emph{deterministico}.
-	\item Non c'è limite al numero di passi necessari
-	      all'esecuzione di un algoritmo, né alla memoria
-	      richiesta per contenere i dati iniziali, intermedi ed
-	      eventualmente finali.
-\end{itemize}
-Sotto queste ipotesi, tutte le formulazioni fino ad ora
-sviluppate sono equivalenti e si postula che lo saranno anche
-tutte le future.
+In questa prima parte non è di nostro interesse tenere di conto 
+le limitazioni che hanno i calcolatori reali. Ragioneremo quindi 
+supponendo che non questi non abbiamo limiti in tempo o spazio 
+per effettuare il calcolo.
 
+Cercheremo quindi di capire quali sono i problemi 
+\textbf{calcolabili} mediante una \textbf{procedura effettiva}, 
+quali invece \textbf{non} sono calcolabili per capire se ce ne 
+sono di interessanti, se ne esistono di reali o se sono solo 
+artificiali e puramente teorici.
