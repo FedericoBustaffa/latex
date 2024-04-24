@@ -5,7 +5,7 @@ aggiungere, agli schemi primitivi di base di \emph{combinazione}
 e \emph{ricorsione primitiva} (\ref{def: ricorsive primitive}),
 lo schema di \textbf{minimizzazione}.
 
-Prima però dobbiamo introdurre un po' di notazione: l'operatore
+Dobbiamo prima però introdurre un po' di notazione: l'operatore
 $\mu$, detto \textbf{operatore di minimizzazione}, applicato
 ad un insieme di numeri naturali, ne restituisce il minimo, se
 presente.
@@ -15,8 +15,7 @@ presente.
 	\textbf{ricorsive generali}) è la minima classe
 	$\RR$ tale che soddisfa le condizioni di
 	\begin{itemize}
-		\item \emph{Zero} e di \emph{ricorsione primitiva} per
-		      le funzioni ricorsive primitive.
+		\item \emph{Zero} e \emph{ricorsione primitiva}.
 		\item \textbf{Minimizzazione}: se
 		      $\varphi (x_1, \dots, x_n, y) \in \RR$ in $n+1$
 		      variabili, allora la funzione $\psi$ in $n$
@@ -43,7 +42,7 @@ l'algoritmo \emph{intuitivo} che la calcola è composto da un
 ciclo in cui si incrementa la variabile $y$ (inizialmente posta
 a $0$), si calcola la $\varphi$ e si ripetono questi passi
 finché il risultato non è $0$. I primi passi dell'esecuzione
-di questo algoritmo potrebbero dunque:
+di questo algoritmo potrebbero dunque essere:
 \begin{enumerate}
 	\item Calcolare $\varphi(x_1, \dots, x_n, 0)$. Se il
 	      risultato è $0$, allora $\psi (x_1, \dots, x_n) = 0$.
@@ -52,6 +51,22 @@ di questo algoritmo potrebbero dunque:
 	      $\psi(x_1, \dots, x_n)=1$.
 	\item ...
 \end{enumerate}
+Intuitivamente l'algoritmo potrebbe non terminare mai perché
+\begin{itemize}
+	\item Per ogni valore di $y$ esiste un $m_y$ tale che
+	      \[ \varphi (x_1, \dots, x_n, y) = m_y \neq 0 \]
+	\item Per i primi $k$ numeri naturali vale che
+	      \[
+		      \varphi (x_1, \dots, x_n, z) = n_z \neq 0
+		      \quad \land \quad
+		      \varphi (x_1, \dots, x_n, k) \uparrow
+	      \]
+\end{itemize}
+Nel primo caso infatti continuiamo a calcolare
+$\varphi(x_1, \dots, x_n, y)$ per valori crescenti di $y$ senza
+quindi terminare mai. Nel secondo caso non ci arrestiamo mai nel
+calcolo di $\varphi (x_1, \dots, x_n, k) \uparrow$ poiché la
+funzione diverge: da qui la parzialità di $\psi$.
 
 \begin{example}
 	Prendiamo ad esempio la seguente funzione

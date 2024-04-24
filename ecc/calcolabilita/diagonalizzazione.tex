@@ -47,13 +47,18 @@ non appartiene alla lista che abbiamo definito, in particolare
 nel nostro caso non è una funzione ricorsiva primitiva.
 
 \subsection{Diagonalizzazione per funzioni parziali}
-Siamo quindi obbligati a considerare le funzioni
-\hyperref[def: funzione parziale]{parziali} le quali non sono
-definite su tutto $\N$. Cerchiamo quindi di dimostrare che
-la diagonalizzazione non si applica anche a queste funzioni.
-Come prima possiamo enumerare tutte le nostre funzioni e
-dunque prendiamo $\psi_n$, l'$n$-esima funzione presente nella
-nostra lista delle funzioni, e proviamo a diagonalizzare.
+A questo punto non ci rimane che capire se i formalismi che
+abbiamo definito fino ad ora possono esprimere almeno tutte
+le funzioni parziali calcolabili.
+
+Come sappiamo dalla definizione \ref{def: funzione parziale}
+le funzioni parziali non richiedono di essere definite ovunque
+e questo ci tornerà comodo.
+
+Cerchiamo quindi di dimostrare che la diagonalizzazione non si
+applica anche a queste funzioni. Come prima possiamo enumerare
+tutte le funzioni e prendere $\psi_n$, ossia l'$n$-esima
+funzione nella lista, e applichiamo la diagonalizzazione.
 Poniamo dunque
 \[ \varphi (x) = \psi_x (x) + 1 \]
 Supponiamo ora che $\varphi$ sia rappresentata dall'$n$-esimo
@@ -63,16 +68,15 @@ perché $\psi_n(n)$ potrebbe non essere definita e dunque
 divergere. Se $\psi_n(n)$ diverge, lo fa anche $\psi_n(n)+1$
 e dunque le due funzioni sono equivalenti.
 
-Prendiamo ad esempio la seguente funzione
-\[ div(x,y) = \lfloor x / y \rfloor \]
+Le funzioni parziali, per fortuna, hanno senso, prendiamo ad
+esempio la seguente funzione che definisce la divisione
+\[ div (x,y) = \lfloor x / y \rfloor \]
 che è definita solo se $y \neq 0$. Ci chiediamo quindi se sia
 possibile estendere tutte le funzioni parziali a totali. Come
 vedremo più avanti la risposta è no perché non sempre c'è un
-algoritmo che calcola la versione estesa.
-
-Torniamo però al caso della divisione. Se ad esempio definissimo
-accuratamente il dominio della funzione, per esempio in questo
-modo
+algoritmo che calcola la versione estesa. Torniamo però al caso
+della divisione. Se ad esempio definissimo accuratamente il
+dominio della funzione, per esempio in questo modo
 \[ div : \N \times \N \backslash \{ 0 \} \to \N \]
 avremmo comunque il problema che non tutte le coppie di naturali
 sono coperte. Introduciamo quindi un simbolo speciale
@@ -86,6 +90,8 @@ definita in questo modo
 		*         & \text{se } y = 0
 	\end{cases}
 \]
-Non vogliamo però liberarci della parzialità e dunque abbiamo
-bisogno di un modo per definire anche le funzioni parziali.
+Non vogliamo però liberarci della parzialità, dato che, come
+abbiamo appena visto, la diagonalizzazione non funziona in
+questo caso. Abbiamo quindi bisogno di un formalismo per
+definire anche le funzioni parziali.
 
