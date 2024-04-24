@@ -44,11 +44,11 @@ Prima di addentrarci nelle dinamiche del linguaggio appena
 definito, dobbiamo definire la \textbf{memoria}. Nel nostro
 caso lo facciamo tramite la funzione
 \[ \sigma : \Var \to \N \]
-che molto semplicemente, data una variabile in input
-restituisce il suo valore in memoria (operazione di lettura).
-Noi però siamo interessati anche a scrivere in memoria,
-definiamo quindi l'operazione di \textbf{aggiornamento}
-tramite la funzione, o meglio il funzionale a tre argomenti
+che, data una variabile in input, restituisce il suo valore
+in memoria (operazione di lettura). Noi però siamo interessati
+anche a modificare la memoria, definiamo quindi l'operazione
+di \textbf{aggiornamento} tramite la funzione, o meglio il
+funzionale a tre argomenti
 \[
 	- [ - / - ] : (\Var \to \N) \times
 	\N \times \Var \to (\Var \to \N)
@@ -60,10 +60,9 @@ che è definita come
 		\sigma(y) & \text{altrimenti}
 	\end{cases}
 \]
-che non ho capito cosa faccia. Probabilmente copre i due casi
-in cui vogliamo aggiungere una nuova variabile alla memoria
-e assegnargli un valore, e il caso in cui vogliamo cambiare
-il valore di una variabile già presente in memoria.
+e cambia il valore della variabile $x$ con $n$. Quando 
+cercheremo di accedere nuovamente alla variabile $x$ in 
+memoria, la funzione $\sigma$ ci ritornerà il valore aggiornato.
 
 La \textbf{semantica} di un'espressione aritmetica è data
 dalla seguente funzione di \textbf{valutazione}, in cui andremo

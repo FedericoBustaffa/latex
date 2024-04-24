@@ -17,7 +17,7 @@ del problema.
 	Siano $\Sigma$, $\Sigma_0$ e $\Sigma_1$ tali che
 	\[ \#, \start \notin \Sigma_0 \cup \Sigma_1 \]
 	e
-	\[ ]\Sigma_0 \cup \Sigma_1 \subset \Sigma \]
+	\[ \Sigma_0 \cup \Sigma_1 \subset \Sigma \]
 	allora diciamo che una funzione
 	\[ f : \Sigma_0 \to \Sigma_1 \]
 	è \textbf{Turing calcolabile} o \textbf{T-calcolabile},
@@ -67,7 +67,9 @@ Per superare il problema si fa uso di opportune
 il seguente compito.
 \begin{enumerate}
 	\item Dato $x$ in formato $A$, lo si codifica in un formato
-	      $B$ con cui riusciamo a calcolare.
+	      $B$ che ci permette di effettuare il calcolo con un
+	      formalismo che conosciamo, per esempio le MdT e
+	      otteniamo $y$.
 	\item Si applica la MdT a $y$ e si ottiene il risultato $z$
 	      (se la computazione termina) in formato $B$.
 	\item Si traduce $z$ dal formato $B$ al formato $A$.
@@ -89,32 +91,34 @@ sia \emph{biunivoca}.
 	dove $k=\lfloor \frac{1}{2}(\sqrt{1+8\cdot n}-1)\rfloor$.
 \end{example}
 
-A prescindere dall'esempio, possiamo dire che le proprietà
-basilari dei formalismi e della classe di funzioni calcolate,
-non cambiano al variare del formato dei dati su cui operano.
+Possiamo quindi dire che le proprietà basilari dei formalismi
+e delle classi di funzioni calcolate, non cambiano al variare
+del formato dei dati su cui operano.
 
 \begin{definition} \label{def: funzione totale}
 	Diciamo che una funzione $f : A \to B$, sottoinsieme di
 	$A \times B$ è una \textbf{funzione totale} se e solo se
 	\begin{itemize}
-		\item La funzione è \emph{definita ovunque}, ossia se
+		\item \`E \emph{definita ovunque}, ossia se
 		      $\forall a \in A$, $\exists b \in B$ tale che la
 		      coppia $(a, b) \in f$.
 		\item Vi è \emph{unicità}, ossia se, date le coppie
 		      $(a, b) \in f$ e $(a, c) \in f$, allora $b=c$.
 	\end{itemize}
+	Una funzione totale è quindi suriettiva ma potrebbe non
+	essere iniettiva.
 \end{definition}
 
 Una funzione può essere calcolabile ma non totale, per esempio
-la macchina di Turing che non termina mai vista all'inizio del
-corso.
+la macchina di Turing che non termina mai vista nell'esempio
+\ref{ex: non termina}.
 
 \begin{definition} \label{def: funzione parziale}
 	Diciamo che una funzione $f : A \to B$ è \textbf{parziale}
 	se è un sottoinsieme di $A \times B$ tale che
 	\begin{itemize}
 		\item Vi è \emph{unicità}, ossia se, date le coppie
-		      $(a, b) \in f$ e $(a, c) \in f$, allora $b=c$.
+		      $(a, b) \in f$ e $(a, c) \in f$, allora $b = c$.
 		\item Esiste al più un $b \in B$ tale che $f(a) = b$.
 	\end{itemize}
 	e quindi non si richiede che $f$ sia definita ovunque.
@@ -134,12 +138,14 @@ più avanti. Data una funzione $f : A \to B$
 Chiamiamo inoltre
 \begin{itemize}
 	\item \textbf{Dominio} di $f$ l'insieme
-	      \[ \{ a \in A | f(a) \downarrow \} \]
+	      \[ \{ a \in A \; | \; f(a) \downarrow \} \]
 	      che coincide con lo spazio di partenza ($A$) se e
 	      solo se la funzione è totale.
 	\item \textbf{Codominio} di $f$ l'insieme $B$.
 	\item \textbf{Immagine} di $f$ l'insieme
-	      \[ \{ b \in B | \exists a \in A : f(a) = b \} \]
+	      \[ \{ b \in B \; | \; \exists a \in A : f(a) = b \} \]
+	      Quando immagine e codominio coincidono abbiamo una
+	      funzione suriettiva.
 \end{itemize}
 
 Detto questo vogliamo capire qual è la relazione tra funzioni
@@ -159,6 +165,9 @@ che hanno gli stessi elementi.
 	certamente avere più algoritmi che calcolano la stessa
 	funzione.
 \end{tcolorbox}
+Per esempio possiamo scrivere infiniti programmi \verb|WHILE|
+che calcolano la stessa funzione aggiungendo dei comandi
+\verb|skip| ad ognuno di essi.
 
 \subsection{Funzioni calcolabili}
 D'ora in avanti proveremo a capire
@@ -169,15 +178,16 @@ D'ora in avanti proveremo a capire
 	      calcolabili. Ovvero per cui si dimostra che non esiste
 	      un algoritmo che le calcoli.
 \end{itemize}
+Per farlo andremo a focalizzarci più sul concetto di funzione
+rispetto al concetto di algoritmo andando quindi ad analizzare
+\emph{cosa} si calcola e non \emph{come} lo si calcola.
 
 \begin{example}
 	Prendiamo ora come esempio la
 	\textbf{congettura di Goldbach}, la quale ci dice che ogni
 	numero pari maggiore di 2 è esprimibile come somma di due
-	numeri primi.
-
-	Da questa congettura (mai dimostrata) nasce la
-	\textbf{funzione di Goldbach}, definita come segue con
+	numeri primi. Da questa congettura (mai dimostrata) nasce
+	la \textbf{funzione di Goldbach}, definita come segue con
 	$gb : \N \to \N$
 	\[
 		gb(n) = \begin{cases}
