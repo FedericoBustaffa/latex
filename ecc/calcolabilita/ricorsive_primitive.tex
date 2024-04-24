@@ -1,6 +1,6 @@
 \section{Funzioni ricorsive primitive}
-Iniziamo con il definire due delle funzioni definite per
-\emph{ricorrenza} più popolari, il fattoriale e la successione
+Iniziamo con il definire due delle più popolari funzioni
+definite per \emph{ricorrenza}: il fattoriale e la successione
 di Fibonacci.
 
 Iniziamo con il \emph{fattoriale}, definito come una coppia
@@ -28,10 +28,10 @@ La \emph{successione di Fibonacci} presenta invece due casi
 base e un caso definito per ricorrenza ed è definita come
 segue
 \[
-	fib(x) = \begin{cases}
-		0                       & \text{se } x = 0 \\
-		1                       & \text{se } x = 1 \\
-		fib(x - 1) + fib(x - 2) & \text{se } x > 1
+	\begin{cases}
+		fib(0)     & = 0                   \\
+		fib(1)     & = 1                   \\
+		fib(x + 2) & = fib(x + 1) + fib(x)
 	\end{cases}
 \]
 Ora vogliamo capire quali sono le regole per formare bene
@@ -50,7 +50,7 @@ sono i suoi argomenti.
 \begin{definition} \label{def: ricorsive primitive}
 	Le \textbf{funzioni ricorsive primitive} sono la minima
 	classe $\C$ da $\N^n$, con $n \geq 0$, in $\N$ cui
-	appartengono
+	appartengono le funzioni
 	\begin{itemize}
 		\item \textbf{Zero}: una funzione che prende $k \geq 0$
 		      di argomenti e ritorna 0.
