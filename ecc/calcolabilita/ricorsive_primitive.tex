@@ -102,7 +102,7 @@ sono i suoi argomenti.
 	tale che $f = f_n$ e per ogni $i$ tale che
 	$1 \leq i \leq n$ vale uno dei seguenti casi:
 	\begin{itemize}
-		\item $f_i \in C$ è uno \emph{Zero} o è
+		\item $f_i \in C$ è una funzione di \emph{Zero} o è
 		      l'\emph{Identità}.
 		\item $f_i$ è ottenibile tramite l'applicazione delle
 		      regole di \emph{Combinazione} e
@@ -115,39 +115,36 @@ funzione venga definita \emph{ricorsiva primitiva}, quello
 meno intuitivo è sicuramente è quello che riguarda proprio
 la ricorsione primitiva.
 
-Come vediamo, noi possiamo definire una funzione di se stessa,
-ma con delle limitazioni. Come possiamo vedere abbiamo un
-primo caso in cui il primo argomento è $0$ e non c'è una
-chiamata ricorsiva, siamo quindi davanti ad un caso base.
+Come vediamo possiamo definire una funzione in funzione di se
+stessa, ma con delle limitazioni. Abbiamo infatti un primo caso
+in cui il primo argomento è $0$ e non c'è una chiamata
+ricorsiva, siamo quindi davanti ad un caso base.
 
 Più complesso è il secondo caso, in cui diciamo che la funzione
-su $k$ argomenti ritorna il primo argomento decrementato,
-effettua una chiamata ricorsiva su tutti gli argomenti e lascia
-i rimanenti invariati.
-
-Resistiamo per un esempio e proviamo a fare il punto della
-situazione. Prima di fare l'esempio definiamo la somma tramite
-le regole appena descritte.
-\[
-	\begin{array}{ll}
-		f_1 & = \lambda x.x                    \\
-		f_2 & = \lambda x.x + 1                \\
-		f_3 & = \lambda x_1, x_2, x_3 . x_2    \\
-		f_4 & = f_2 (f_3 (x_1, x_2, x_3))      \\
-		f_5 & = \begin{cases}
-			        f_5 (0, x_2)     & = f_1 (x_2) \\
-			        f_5 (x + 1, x_2) & =
-			        f_4 (x_1, f_5(x_1, x_2), x_2)
-		        \end{cases}
-	\end{array}
-\]
-Qui l'idea, avendo come unica funzione di somma la funzione
-successore, è quella di calcolare il successore del primo
-numero tante volte quanto è il secondo numero.
+su $k$ argomenti ritorna il primo argomento decrementato, come
+secondo argomento ha una chiamata ricorsiva su tutti gli
+argomenti e il resto degli argomenti sono quelli che vanno dal
+secondo al $k$-esimo invariati.
 
 \begin{example}
-	Proviamo a calcolare $2 + 3$ con la somma che abbiamo
-	appena definito
+	Definiamo ora la somma tramite le regole appena descritte.
+	\[
+		\begin{array}{ll}
+			f_1 & = \lambda x.x                    \\
+			f_2 & = \lambda x.x + 1                \\
+			f_3 & = \lambda x_1, x_2, x_3 . x_2    \\
+			f_4 & = f_2 (f_3 (x_1, x_2, x_3))      \\
+			f_5 & = \begin{cases}
+				        f_5 (0, x_2)     & = f_1 (x_2) \\
+				        f_5 (x + 1, x_2) & =
+				        f_4 (x_1, f_5(x_1, x_2), x_2)
+			        \end{cases}
+		\end{array}
+	\]
+	Qui l'idea, avendo come unica funzione di somma la funzione
+	successore, è quella di calcolare il successore del primo
+	numero tante volte quanto è il secondo numero. A questo
+	punto proviamo a calcolare $2 + 3$.
 	\[
 		\begin{array}{l}
 			f_5(2, 3) =                         \\
@@ -162,18 +159,17 @@ numero tante volte quanto è il secondo numero.
 			f_2 (4) = 5
 		\end{array}
 	\]
-	Applicare la formula non è niente di difficile e forse
-	non è più di tanto istruttivo.
 \end{example}
-
-Dunque quello che interessa principalmente a noi è cosa sia
-una funzione ricorsiva primitiva e a quali regole sottostare
-per definirne una.
+Applicare la formula non è niente di difficile e forse
+non è più di tanto istruttivo. Quello che ci interessa
+principalmente è cosa sia una funzione ricorsiva primitiva e a
+quali regole sottostare per definirne una.
 
 Come abbiamo visto, siamo riusciti a definire la somma tramite
-questo formalismo, ne segue che possiamo usare la somma per
-definire anche il prodotto. Possiamo ora tornare alla formula
-con cui abbiamo definito il fattoriale in precedenza, ossia
+questo formalismo, ne segue che possiamo usarla per definire
+anche il prodotto come ricorsiva primitiva. Possiamo ora
+tornare alla formula con cui abbiamo definito il fattoriale
+in precedenza, ossia
 \[
 	\begin{cases}
 		!(0)     & = 1                  \\
@@ -181,7 +177,12 @@ con cui abbiamo definito il fattoriale in precedenza, ossia
 	\end{cases}
 \]
 che, come possiamo vedere, rispetta i vincoli necessari ad
-essere una funzione ricorsiva primitiva.
+essere una funzione ricorsiva primitiva in quanto abbiamo un
+caso base in cui il primo (e unico) argomento è $0$. Abbiamo
+inoltre un caso ricorsivo in cui si incrementa il primo
+argomento di $1$ e si effettua una ricorsione (possiamo vedere
+il prodotto come la funzione $h$ della definizione di ricorsione
+primitiva).
 
 \begin{definition}
 	Diciamo che la relazione $P(x_1, \dots, x_k) \subseteq \N^k$
@@ -196,13 +197,13 @@ essere una funzione ricorsiva primitiva.
 \end{definition}
 
 Vediamo come esempio di relazione ricorsiva primitiva,
-l'eguaglianza, definendo la sua funzione caratteristica
-$\chi_=$ in questo modo
+l'\textbf{uguaglianza}, definendo la sua funzione
+caratteristica $\chi_=$ in questo modo
 \begin{align*}
-	\chi_= (0, 0)     & = 1           \\
-	\chi_= (x+1, y+1) & = \chi_=(x,y) \\
-	\chi_= (0, y+1)   & = 0           \\
-	\chi_= (x+1, 0)   & = 0
+	\chi_= (0, 0)         & = 1             \\
+	\chi_= (x + 1, y + 1) & = \chi_= (x, y) \\
+	\chi_= (0, y + 1)     & = 0             \\
+	\chi_= (x + 1, 0)     & = 0
 \end{align*}
 L'idea alla base è diminuire entrambi i valori di $1$ fino a
 che uno dei due o entrambi sono sono $0$. Se uno solo dei due
@@ -213,7 +214,7 @@ Altre tre cose che ci servirà sapere sono che
 \begin{itemize}
 	\item $R = \{ x \in \N | x \text{ è un numero primo} \}$
 	      è ricorsiva primitiva.
-	\item \emph{Teorema di unica fattorizzazione}: Se
+	\item \textbf{Teorema di unica fattorizzazione}: Se
 	      $p_0 < \dots < p_k < \dots$ sono i numeri primi,
 	      cioè $R = \{ p_0, \dots, p_k, \dots \}$, allora per
 	      ogni $x \in \N$ esiste un numero finito di esponenti
@@ -247,7 +248,9 @@ di codifica sono ricorsive primitive.
 
 \subsection{Enumerazione di Macchine di Turing}
 \label{ssec: enum MdT}
-Prendiamo ora una MdT
+Quel che vogliamo fare adesso è utilizzare quanto appena detto
+per costruire una codifica delle macchine di Turing e delle
+loro computazioni. Prendiamo una MdT
 \[ M = (Q, \Sigma, \delta, q_0) \]
 con
 \[
@@ -255,22 +258,38 @@ con
 	\Sigma = \{ \sigma_0, \dots, \sigma_m \}
 \]
 Possiamo codificare ogni quintupla
-$(q_i, \sigma_j, q_k, \sigma_l, D) \in \delta$ come
+$(q_i, \sigma_j, q_k, \sigma_t, D) \in \delta$ come
 \[
 	p_0^{i+1} \cdot p_1^{j+1} \cdot
-	p_2^{k+1} \cdot p_3^{l+1} \cdot p_4^{m_D}
+	p_2^{k+1} \cdot p_3^{t+1} \cdot p_4^{m_D}
 \]
-Ordiniamo in qualche modo l'insieme dei suoi stati e l'insieme
-dei suoi simboli e vedremo che tale ordinamento si riflette
-anche sulle quintuple della funzione di transizione.
+dove $p_0 < \dots < p_4$ sono numeri primi. Ordiniamo in qualche
+modo l'insieme dei suoi stati e l'insieme dei suoi simboli e
+vedremo che tale ordinamento si riflette anche sulle quintuple
+della funzione di transizione.
 
 Dato che la quintupla altro non è che una successione di cinque
-simboli, allora possiamo codificarla tramite la formula appena
-descritta. Se codifichiamo tutte le possibili quintuple di una
-MdT otteniamo una nuova sequenza, anch'essa codificabile.
+simboli, allora possiamo codificarla tramite il teorema di unica
+fattorizzazione. Se codifichiamo tutte le possibili quintuple di
+una MdT otteniamo una nuova sequenza, anch'essa codificabile.
 
 Codificando quest'ultima sequenza otteniamo un numero $i$,
 detto anche \textbf{indice}, che identifica $M$. Siamo quindi
 riusciti a codificare una MdT come un numero. Nulla ci vieta
 di quindi di codificare ogni MdT come un numero.
 
+La funzione proposta non è suriettiva ma solo iniettiva: non
+sempre è infatti possibile, da un indice, ricavare una MdT
+ma questo non è un problema in quanto possiamo tranquillamente
+considerare l'indice non valido.
+
+In realtà un modo per avere una funzione biunivoca c'è e va
+sotto il nome di \textbf{g\"odelizzazione} la quale ci permette
+di enumerare le funzioni ma anche le computazioni.
+
+Per convincersi di questo è possibile notare che ora come ora
+siamo in grado di enumerare le MdT basandoci unicamente sui
+simboli usati per definirle. Ovviamente lo stesso procedimento
+è applicabile alle possibili configurazioni di una MdT e dunque
+alle computazioni (che altro non sono che una sequenza di
+configurazioni).

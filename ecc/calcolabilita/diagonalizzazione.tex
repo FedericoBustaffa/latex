@@ -1,41 +1,46 @@
 \section{Diagonalizzazione}
 Fino ad ora abbiamo visto che formalismi come programmi FOR
 e funzioni ricorsive primitive calcolano \emph{solo} funzioni
-totali. Ci chiediamo adesso se esiste un formalismo che invece
-calcola \emph{tutte} le funzioni.
+totali. Ci chiediamo adesso se esiste un formalismo che esprime
+tutte le funzioni calcolabili e per di più solo quelle totali.
 
-La risposta è no, infatti se abbiamo un formalismo che calcola
-solo funzioni totali, allora c'è almeno una funzione che non
-il formalismo non riesce a calcolare. Un esempio è la
-\textbf{funzione di Ackermann} che è una funzione totale ma
-non è ricorsiva primitiva.
+La risposta è no e la \textbf{funzione di Ackermann} ne è un
+esempio, la quale è totale ma non è ricorsiva primitiva.
+Potremmo quindi pensare di estendere il formalismo per far sì
+che anche questa funzione sia ricorsiva primitiva e chiederci
+se a questo punto esiste un formalismo in grado di esprimere
+tutte e sole le funzioni totali.
 
-Quel che vogliamo fare adesso è introdurre un metodo per
-dimostrare che le funzioni ricorsive primitive non sono tutte
-le funzioni calcolabili totali. Introduciamo quindi la
-\textbf{diagonalizzazione} che in realtà è indipendente dal
-formalismo sul quale viene applicata e si applica a tutti quei
-formalismi con cui è possibile definire \emph{solo} funzioni
-totali.
+La risposta è ancora no e proveremo a dimostrarlo tramite un
+metodo che prende il nome di \textbf{diagonalizzazione}. Questo
+metodo, independente dal formalismo sul quale viene applicato,
+a patto che quest'ultimo sia un formalismo con cui si possano
+definire solo funzioni totali, permette di dimostrare che quel
+formalismo non riesce ad esprimere tutte le funzioni calcolabili
+totali in quanto ne manca almeno una che intuitivamente lo è.
 \begin{enumerate}
-	\item Dato che stiamo ragionando in termini di funzioni
-	      ricorsive primitive chiameremo $f_n$ la funzione
-	      definita dalla $n$-esima derivazione. Stiamo quindi
-	      enumerando le funzioni (o gli algoritmi).
+	\item Ragioniamo in termini di funzioni ricorsive primitive
+	      e chiamiamo quindi $f_n$ la funzione definita dalla
+	      $n$-esima derivazione degli schemi primitivi di base.
+	      Dato che le funzioni ricorsive primitive e le sue
+	      possibili derivazioni sono stringhe finite prese da
+	      un alfabeto finito, possiamo (ad esempio tramite il
+	      processo di g\"odelizzazione) enumerarle.
 	\item Definiamo la funzione
 	      \[ g(x) = f_x(x) + 1 \]
-	      che è una funzione calcolabile e totale.
-	\item Ci si rende però
-	      subito conto che $g$ non si trova nelle lista delle
-	      funzioni ricorsive primitive perché $\forall n$ vale
-	      che
-	      \[ g(n) = f_n(n) + 1 \]
-	      e quindi $\forall n$ vale che
-	      \[ g(n) \neq f_n(n) \]
-	      In altre parole la funzione $g$ usa l'$n$-esima
-	      funzione nella lista, gli applica $n$ e ci somma $1$,
-	      ma l'$n$-esima funzione nella lista ritorna un
-	      certo risultato $x$ e non $x + 1$.
+	      che è una funzione calcolabile e totale in quanto
+	      $f_x$ è l'$x$-esima derivazione di una funzione
+	      ricorsiva primitiva.
+	\item Ci si rende conto che $g$ non si trova nelle lista
+	      delle funzioni ricorsive primitive perché $\forall x$
+	      vale che
+	      \[ g(x) = f_x(x) + 1 \]
+	      e quindi $\forall x$ vale che
+	      \[ g(x) \neq f_x(x) \]
+	      In altre parole la funzione $g$ usa l'$x$-esima
+	      funzione nella lista, gli applica $x$ e ci somma $1$,
+	      ma l'$x$-esima funzione nella lista ritorna un
+	      certo risultato $y$ e non $y + 1$.
 \end{enumerate}
 Ecco che la funzione $g$, che sicuramente è totale e calcolabile
 non appartiene alla lista che abbiamo definito, in particolare
