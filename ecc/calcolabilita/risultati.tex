@@ -21,11 +21,13 @@ indipendentemente dal loro formalismo.
 	\begin{proof}
 		Costruiamo $\#(\N)$ MdT $M_i$ che svuotano il nastro
 		dell'input e scrivono una stringa di tante $|$ quanto
-		vale $i$ e si arrestano. Che non siano più di $\#(\N)$
-		segue dal fatto che le $MdT$ si possono enumerare, come
-		mostrato in precedenza \hyperref[ssec: enum MdT]{qui}.
+		vale $i$ e si arrestano.
 	\end{proof}
 \end{theorem}
+
+Che non siano più di $\#(\N)$ segue dal fatto che le $MdT$
+si possono enumerare, come mostrato in precedenza
+(\ref{ssec: enum MdT}).
 
 \begin{theorem}
 	Esistono funzioni non calcolabili.
@@ -34,7 +36,7 @@ indipendentemente dal loro formalismo.
 		la classe dei sottoinsiemi di $\N$ non è numerabile,
 		si vede che
 		\[
-			\# \left( \{ f | f : \N \to \N \} \right) =
+			\# \left( \{ f \mid f : \N \to \N \} \right) =
 			2^{\#(\N)}
 		\]
 		segue dal teorema \ref{th: n calc} che esistono dunque
@@ -45,16 +47,16 @@ indipendentemente dal loro formalismo.
 Come abbiamo già visto, è possibile enumerare le MdT, associando
 loro un indice. Analogamente è possibile enumerare le funzioni
 ricorsive primitive e non è difficile pensare ad un'estensione
-per l'enumerazione di funzioni $\mu$ ricorsive.
+per l'enumerazione di funzioni $\mu$-ricorsive.
 
 I due metodi hanno in comune il fatto che si basano solamente
 sui simboli usati per definire gli algoritmi. Infatti, sotto
 ragionevoli ipotesi, per i nostri scopi non c'è differenza tra
 un metodo di enumerazione e l'altro, purché sia \emph{effettivo}.
 
-Data un'enumerazione effettiva, indicheremo con $\varphi$ la
-funzione parziale, che la macchina, o meglio l'algoritmo, $M_i$
-calcola e chiameremo $i$ \textbf{indice}. L'indice è riferito
+Data un'enumerazione effettiva, indicheremo con $\varphi_i$ la
+funzione parziale che la macchina, o meglio l'algoritmo, $M_i$
+calcola e chiameremo $i$ \emph{indice}. L'indice è riferito
 alla macchina e non alla funzione, infatti potrebbe darsi che
 per $i \neq j$, valga $\varphi_i = \varphi_j$, ma sicuramente
 vale $M_i \neq M_j$.
@@ -110,8 +112,9 @@ loro sono ottenibili \emph{facilmente} da un algoritmo dato.
 \end{theorem}
 
 Questo teorema ci dice che tra tutti gli algoritmi che calcolano
-la stessa funzione, uno di questi ha una forma privilegiata. Di
-conseguenza ogni funzione ha una forma privilegiata.
+la stessa funzione, uno di questi ha una forma privilegiata,
+ossia quella \emph{normale} e di conseguenza ogni funzione ha
+una forma normale.
 
 \begin{theorem}
 	Le funzioni T-calcolabili sono $\mu$-ricorsive.
