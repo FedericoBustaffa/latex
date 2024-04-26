@@ -93,11 +93,11 @@ loro sono ottenibili \emph{facilmente} da un algoritmo dato.
 		Definiamo $T(i,x,y)$, detto comunemente
 		\textbf{predicato di Kleene}, vero se e solo se $y$ è
 		la codifica di una computazione terminante di $M_i$
-		con dato iniziale $x$. Per calcolare $T$, dato $i$
+		con dato iniziale $x$. Per calcolare $T$ dato $i$,
 		recuperiamo $M_i$ dalla lista e cominciamo a scandire
-		i valori $y$. Decodifichiamo ognuno di essi, uno alla
-		volta, e, avendo come ingresso $x$ controlliamo se il
-		risultato è una computazione terminante della forma
+		i valori $y$. Decodifichiamo ognuno di essi e, avendo
+		come ingresso $x$ controlliamo se il risultato è una
+		computazione terminante della forma
 		\[ M_i(x) = c_0, c_1, \dots, c_n \]
 		Se lo è, allora $c_n = (h, \start z \underline{\#})$ e
 		definiamo $U$ in modo che $U(y) = z$.
@@ -115,6 +115,24 @@ Questo teorema ci dice che tra tutti gli algoritmi che calcolano
 la stessa funzione, uno di questi ha una forma privilegiata,
 ossia quella \emph{normale} e di conseguenza ogni funzione ha
 una forma normale.
+
+Proviamo ad uscire un minimo dal formalismo del teorema stesso 
+procedendo per step. Iniziamo dal predicato di Kleene: esso è 
+una funzione che semplicemente ritorna vero se $y$ è la codifica
+(in questo caso possiamo considerare l'enumerazione di G\"odel)
+di una computazione terminante della macchina $M_i$ che prende 
+in input $x$.
+
+Come abbiamo già visto una computazione, vista come una sequenza 
+finita di passi è anch'essa enumerabile ed è quindi possibile
+immaginare che valga 
+\[ M_i (x) = c_0, c_1, \dots, c_n \]
+dove i vari $c_i$ sono le varie configurazioni raggiunte dalla 
+macchina durante la computazione. Se la computazione termina 
+allora abbiamo che $T$ ritorna vero e che sicuramente l'ultima 
+configurazione, ossia $c_n$ è equivalente a 
+\[ c_n = (h, \start z \underline{\#}) \]
+poiché siamo sicuramente giunti nello stato speciale $h$, 
 
 \begin{theorem}
 	Le funzioni T-calcolabili sono $\mu$-ricorsive.
