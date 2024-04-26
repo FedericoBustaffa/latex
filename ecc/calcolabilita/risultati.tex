@@ -15,6 +15,11 @@ le cinque condizioni intuitive poste agli algoritmi definite
 nell'\hyperref[sec: algoritmo]{idea intuitiva di algoritmo},
 indipendentemente dal loro formalismo.
 
+\subsection{Cardinalità delle funzioni calcolabili}
+Iniziamo con un paio di teoremi che dovrebbe darci l'idea del
+numero di funzioni calcolabili e non, dimostrando anche
+l'esistenza di queste ultime.
+
 \begin{theorem} \label{th: n calc}
 	Le funzioni calcolabili sono $\#(\N)$, così come le funzioni
 	calcolabili totali.
@@ -44,6 +49,7 @@ si possono enumerare, come mostrato in precedenza
 	\end{proof}
 \end{theorem}
 
+\subsection{Forma normale ed equivalenze}
 Come abbiamo già visto, è possibile enumerare le MdT, associando
 loro un indice. Analogamente è possibile enumerare le funzioni
 ricorsive primitive e non è difficile pensare ad un'estensione
@@ -138,9 +144,41 @@ posizionato su un valore bianco in quanto, da quel che abbiamo
 visto fino ad ora, l'unico requisito affinché una computazione
 venga considerata terminata è che giunga nello stato $h$.
 
-\begin{theorem}
+Ciò che è importante capire è che $U$ è la parte di stringa
+della configurazione finale privata del respingente.
+
+\begin{example}
+	Riprendiamo l'esempio della MdT in grado di riconoscere la
+	presenza di una sequenza di due $1$ in una stringa data in
+	input.
+
+	In quell'esempio avevamo definito una funzione di
+	transizione che sovrascriveva qualunque valore incontrasse
+	con un $\#$. Per qualsiasi stringa in input che contenesse
+	una sequenza di due $1$ consecutivi, la macchina si sarebbe
+	sempre arrestata con la seguente configurazione finale
+	\[ h / \start \# \dots \underline{\#} \]
+	Per il teorema dobbiamo andare a prendere il \emph{minimo}
+	$y$ che rappresenta una computazione terminante della
+	macchina $i$-esima che prende un certo input $x$.
+
+	Nel caso delle macchina di Turing ci sarà in realtà un solo
+	$y$ del genere (discorso differente ad esempio per le
+	funzioni ricorsive in cui possiamo avere diverse politiche
+	di valutazione). Nel nostro specifico, tale $y$, sarà quello
+	che codifica la computazione della macchina $i$ (quella che
+	abbiamo scritto noi) che prende in input la stringa
+	$x = 01011$ e che quindi avrà come configurazione finale
+	\[ h / \start \# \# \# \# \underline{\#} \]
+	Secondo il teorema vale che
+	\[ \varphi_i (x) = \varphi (01011) = U(y) = \# \# \# \# \# \]
+	che in realtà andrebbe convertito in nel formalismo
+	ricorsivo perché abbiamo effettivamente più senso.
+\end{example}
+
+\begin{corollary}
 	Le funzioni T-calcolabili sono $\mu$-ricorsive.
-\end{theorem}
+\end{corollary}
 
 Questo corollario è una diretta conseguenza del teorema di
 forma normale. Possiamo quindi dire che ogni funzione calcolata
@@ -150,7 +188,31 @@ da una MdT ammette una definizione $\mu$-ricorsiva.
 	Le funzioni $\mu$-calcolabili sono T-calcolabili.
 \end{lemma}
 
+Possiamo a questo punto concludere che l'equivalenza tra MdT
+e funzioni $\mu$-ricorsive.
+
 \begin{theorem}
 	Una funzione è T-calcolabili se e solo se è
 	$\mu$-calcolabile.
 \end{theorem}
+
+Il teorema di forma normale e quello d'equivalenza tra MdT e
+funzioni $\mu$-ricorsive ha il seguente corollario interessante
+dal punto di vista informatico. La sua rilevanza nel nostro
+campo è legata al fatto che le funzioni primitive ricorsive
+si possono rappresentare come un programma in linguaggio
+\verb|FOR|, mentre le $\mu$-ricorsive con un programma in
+linguaggio \verb|WHILE|.
+
+\begin{corollary}
+	Ogni funzione calcolabile parziale può essere può essere
+	ottenuta da due funzioni ricorsive primitive e una sola
+	applicazione di dell'operatore $\mu$.
+\end{corollary}
+
+\subsection{Formalismo universale}
+Supponiamo ora di avere a disposizione un formalismo
+\textbf{universale}, in grado cioè di esprimere \emph{tutte}
+le funzione calcolabili. Questo sarebbe così potente da
+riuscire ad esprimere l'interprete dei propri programmi.
+
