@@ -116,23 +116,27 @@ la stessa funzione, uno di questi ha una forma privilegiata,
 ossia quella \emph{normale} e di conseguenza ogni funzione ha
 una forma normale.
 
-Proviamo ad uscire un minimo dal formalismo del teorema stesso 
-procedendo per step. Iniziamo dal predicato di Kleene: esso è 
+Proviamo ad uscire un minimo dal formalismo del teorema stesso
+procedendo per step. Iniziamo dal predicato di Kleene: esso è
 una funzione che semplicemente ritorna vero se $y$ è la codifica
 (in questo caso possiamo considerare l'enumerazione di G\"odel)
-di una computazione terminante della macchina $M_i$ che prende 
+di una computazione terminante della macchina $M_i$ che prende
 in input $x$.
 
-Come abbiamo già visto una computazione, vista come una sequenza 
+Come abbiamo già visto una computazione, vista come una sequenza
 finita di passi è anch'essa enumerabile ed è quindi possibile
-immaginare che valga 
+immaginare che valga
 \[ M_i (x) = c_0, c_1, \dots, c_n \]
-dove i vari $c_i$ sono le varie configurazioni raggiunte dalla 
-macchina durante la computazione. Se la computazione termina 
-allora abbiamo che $T$ ritorna vero e che sicuramente l'ultima 
-configurazione, ossia $c_n$ è equivalente a 
+dove i vari $c_i$ sono le varie configurazioni raggiunte dalla
+macchina durante la computazione. Se la computazione termina
+allora abbiamo che $T$ ritorna vero e che sicuramente l'ultima
+configurazione, ossia $c_n$ è equivalente a
 \[ c_n = (h, \start z \underline{\#}) \]
-poiché siamo sicuramente giunti nello stato speciale $h$, 
+poiché siamo sicuramente giunti nello stato speciale $h$. Ho
+qualche dubbio sul fatto che il cursore debba essere perforza
+posizionato su un valore bianco in quanto, da quel che abbiamo
+visto fino ad ora, l'unico requisito affinché una computazione
+venga considerata terminata è che giunga nello stato $h$.
 
 \begin{theorem}
 	Le funzioni T-calcolabili sono $\mu$-ricorsive.
