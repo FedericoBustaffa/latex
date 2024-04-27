@@ -216,3 +216,97 @@ Supponiamo ora di avere a disposizione un formalismo
 le funzione calcolabili. Questo sarebbe così potente da
 riuscire ad esprimere l'interprete dei propri programmi.
 
+\begin{theorem}[Enumerazione]
+	Esiste una funzione numerabile parziale $\varphi_z(i, x)$
+	tale che $\forall i,x$ vale
+	\[ \varphi_i(x) = \varphi_z (i, x) \]
+	\begin{proof}
+		Poiché la funzione $U(\mu y . T(i, x, y))$ usata nel
+		teorema \ref{th: fn} è definita per composizione e
+		$\mu$-ricorsione a partire da funzioni ricorsive
+		primitive, essa stessa è una una funzione calcolabile
+		in due argomenti $i$ e $x$. Avrà quindi un indice che
+		chiamiamo $z$ e per cui vale
+		\[ \varphi_z (i, x) = U(\mu y. T(i, x, y)) \]
+		Applichiamo quindi il teorema di forma normale per
+		ottenere
+		\[ U(\mu y . T(i, x, y)) = \varphi_i (x) \]
+		da qui otteniamo la tesi per transitività
+		dell'uguaglianza
+		\[
+			\varphi_z (i, x) = U(\mu y . T(i, x, y)) =
+			\varphi_i (x)
+		\]
+		Più informalmente la macchina $M_z$ recupera la
+		descrizione della macchina $M_i$ e la applica a $x$.
+	\end{proof}
+\end{theorem}
+
+Il teorema, scritto in forma molto compatta, in sostanza ci
+dice che esiste un algoritmo (o una MdT) $z$ che prende in
+input un altro algoritmo (o MdT) $i$, i dati $x$ su cui lavora
+$i$ e restituisce lo stesso risultato dell'algoritmo $i$-esimo
+applicato a $x$. In genere la macchina di Turing $z$ viene
+chiamata \textbf{macchina di Turing universale}.
+
+Passiamo ora ad un teorema che possiamo vedere un po' come il
+duale del teorema di enumerazione. Enunceremo una prima versione
+semplificata e poi la sua forma generale.
+
+\begin{theorem}[Teorema del parametro s-1-1]
+	\label{th: s-1-1}
+	Esiste una funzione $s$ calcolabile totale tale che per ogni
+	$i$, $x$ e $y$ vale
+	\[ \lambda y . \varphi_i (x, y) = \varphi_{s (i, x)} (y) \]
+	\begin{proof}
+		Da $i$ prendiamo l'$i$-esima MdT e scriviamo sul nastro
+		di $M_i$ l'input $x$ e $y$. Questi due passi definiscono
+		un algoritmo il quale ha un indice $j$ per la tesi di
+		Church-Turing. Tale indice mi identifica la macchina che
+		calcola
+		\[ \varphi_{s(i,x)} \]
+		A questo punto usiamo il padding lemma per trovare una
+		$h$ maggiore di tutti i valori ottenuti fino ad ora.
+		Otteniamo così una funzione strettamente crescente che
+		è anche iniettiva.
+	\end{proof}
+\end{theorem}
+
+Come possiamo notare nella prima funzione abbiamo due argomenti
+e nella seconda uno solo. Il fatto è che quando $x$ viene
+considerato come un \emph{parametro}, allora è possibile
+calcolare la prima funzione utilizzando un altra macchina a
+partire dall'indice $i$.
+
+\begin{example}
+	Prendiamo ad esempio la funzione
+	\[ x + y \]
+	Una volta fissata la $x$ ad un certo valore, supponiamo
+	$2$, la $x$ a questo punto non è più un argomento ma
+	diventa un parametro. A questo punto la funzione
+	\[ 2 + y \]
+	può essere calcolata da un'altra macchina che a regola
+	dovrebbe essere un po' più efficiente di quella di partenza.
+\end{example}
+
+Questo sta alla base della \textbf{valutazione parziale} che è
+molto utile in quei contesti in cui si vuole mantenere un alto
+livello di generalizzazione.
+
+\begin{theorem}[Teorema del parametro s-m-n]
+	\label{th: s-m-n}
+	Per ogni $m, n \geq 0$ esiste una funzione calcolabile
+	totale (iniettiva) $s_n^m$ con $m+1$ argomenti, tale che
+	per ogni $x, y_1, \dots, y_m$, vale
+	\[
+		\varphi_{s_n^m (x, y_1, \dots, y_m)}^{(n)} =
+		\lambda z_1, \dots, z_n .
+		\varphi_x^{(m+n)} (y_1, \dots, y_m, z_1, \dots, z_n)
+	\]
+\end{theorem}
+
+Si noti come il teorema del parametro e quello di enumerazione
+siano in un certo senso l'inverso l'uno dell'altro. Infatti
+l'uno "abbassa" un argomento nella posizione di indice, mentre
+l'altro "innalza" un indice nella posizione di argomento.
+
