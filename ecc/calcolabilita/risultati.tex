@@ -34,7 +34,7 @@ Che non siano più di $\#(\N)$ segue dal fatto che le $MdT$
 si possono enumerare, come mostrato in precedenza
 (\ref{ssec: enum MdT}).
 
-\begin{theorem}
+\begin{theorem} \label{th: exists non calc}
 	Esistono funzioni non calcolabili.
 	\begin{proof}
 		Con una costruzione analoga a quella di Cantor, in cui
@@ -310,7 +310,7 @@ siano in un certo senso l'inverso l'uno dell'altro. Infatti
 l'uno "abbassa" un argomento nella posizione di indice, mentre
 l'altro "innalza" un indice nella posizione di argomento.
 
-\begin{theorem}
+\begin{theorem}[Espressività]
 	Un formalismo è \textbf{Turing-equivalente}, ossia calcola
 	tutte e sole le funzioni T-calcolabili ed è universale, se
 	e solo se
@@ -324,4 +324,72 @@ l'altro "innalza" un indice nella posizione di argomento.
 Grazie al teorema del parametro si dimostra un altro teorema
 che ha un ruolo fondamentale sia in informatica che in teoria
 della calcolabilità.
+
+\begin{theorem}[Punto fisso]
+	per ogni funzione $f$ calcolabile totale $\exists n$ tale
+	che
+	\[ \varphi_n = \varphi_{f(n)} \]
+	\begin{proof}
+		Definiamo la seguente funzione
+		\[
+			\psi (u, z) = \varphi_{d(u)} (z) =
+			\begin{cases}
+				\varphi_{\varphi_u (u)} (z) &
+				\text{se } \varphi_u (u) \downarrow \\
+				\text{indefinita}           &
+				\text{altrimenti}
+			\end{cases}
+		\]
+		Per il teorema del parametro, $d(u)$ è totale e
+		iniettiva (e non dipende da $f$). Data $f$, allora
+		anche $f \circ d$ è calcolabile e sia $v$ proprio
+		un indice tale che
+		\[ \varphi_v(x) = f(d(x)) \]
+		Tale funzione è totale (perché sia $d$ che $f$ lo sono)
+		e quindi $\varphi_v (v)$ converge. Pertanto, in accordo
+		con la definizione data in precedenza di $\psi (u,z)$
+		abbiamo che
+		\[ \varphi_{d(v)} = \varphi_{\varphi_v(v)} \]
+		Calcoliamo ora $d(v)$ e supponiamo che il risultato sia
+		$n$, cioè poniamo
+		\[ n = d(v) \]
+		Dimostriamo che è un punto fisso di $f$. Infatti vale
+		la seguente catena di eguaglianze
+		\[
+			\varphi_n  = \varphi_{d(v)}
+			= \varphi_{\varphi_v (v)}
+			= \varphi_{f(d(v))}
+			= \varphi_{f(n)}
+		\]
+		Nell'eguaglianza più a sinistra si sfrutta l'iniettività
+		che viene garantita dal teorema del parametro.
+	\end{proof}
+\end{theorem}
+
+Un tale indice viene detto \textbf{punto fisso} di $f$. Il
+teorema inoltre ci dice che la funzione $f$ trasforma algoritmi
+in algoritmi, proprio come fa un compilatore.
+
+In altre parole il punto fisso non cambia la funzione calcolata
+ma trasforma l'algoritmo $P_n$ nell'algoritmo $P_{f(n)}$ con la
+stessa semantica.
+
+\begin{property}
+	Nelle ipotesi del teorema di ricorsione
+	\begin{itemize}
+		\item Il punto fisso è calcolabile mediante una funzione
+		      totale (iniettiva) $g$ a partire dall'indice di
+		      $f$.
+		\item Ci sono $\# (\N)$ punti fissi di $f$.
+	\end{itemize}
+	\begin{proof}
+		Per dimostrare il primo punto prendiamo $h(x)$
+		calcolabile totale tale che $\forall n$ vale
+		\[ \varphi_{h(x)} (n) = \varphi_x (d(n)) \]
+		Allora vale
+		\[ g(x) = d(h(x)) \]
+		Il secondo punto segue invece dal teorema
+		\ref{th: n calc}.
+	\end{proof}
+\end{property}
 
