@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{U}\PYG{p}{.}\PYG{n}{Nome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{U}\PYG{p}{.}\PYG{n}{Cognome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{U}\PYG{p}{.}\PYG{n}{IndirizzoEmail}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Utenti}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{U}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{k}{EXISTS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{	}\PYG{k}{SELECT}\PYG{+w}{ }\PYG{o}{*}
+\PYG{+w}{	}\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Ordini}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{O}
+\PYG{+w}{	}\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{U}\PYG{p}{.}\PYG{n}{IndirizzoEmail}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{O}\PYG{p}{.}\PYG{n}{Utente}
+\PYG{+w}{		}\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{O}\PYG{p}{.}\PYG{n}{MetodoPagamento}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZdq{}PayPal\PYGZdq{}}
+\PYG{p}{)}
+\end{Verbatim}

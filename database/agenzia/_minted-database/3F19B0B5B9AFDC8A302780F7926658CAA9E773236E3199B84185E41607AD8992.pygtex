@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{R}\PYG{p}{.}\PYG{n}{Commento}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Recensioni}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{R}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Modelli}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{M}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{M}\PYG{p}{.}\PYG{n}{CodiceModello}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{R}\PYG{p}{.}\PYG{n}{Modello}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{M}\PYG{p}{.}\PYG{n}{Marchio}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZdq{}Ray\PYGZhy{}Ban\PYGZdq{}}
+\end{Verbatim}
