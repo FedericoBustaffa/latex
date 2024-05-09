@@ -11,6 +11,7 @@
 *.pgf
 *.vcd
 *.vpp.bak*
+*.lck
 
 .vscode/
 
