@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{select}\PYG{+w}{ }\PYG{n}{nome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cognome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{matricola}
+\PYG{k}{from}\PYG{+w}{ }\PYG{n}{account\PYGZus{}temporanei}
+\PYG{k}{where}\PYG{+w}{ }\PYG{k}{exists}
+\PYG{+w}{  }\PYG{p}{(}\PYG{+w}{ }\PYG{k}{select}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{from}\PYG{+w}{ }\PYG{n}{esami\PYGZus{}sostenuti}
+\PYG{+w}{     }\PYG{k}{where}\PYG{+w}{ }\PYG{n}{esami\PYGZus{}sostenuti}\PYG{p}{.}\PYG{n}{studente}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{matricola}\PYG{p}{)}
+\end{Verbatim}

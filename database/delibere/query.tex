@@ -1,0 +1,116 @@
+\section{Interrogazioni in SQL}%
+\label{sec:Interrogazioni in SQL}
+
+\paragraph{1.a}%
+\label{par:1.a}
+
+Stampare codice, nome e valutazione degli esami sostenuti dallo
+studente con matricola '278233'.
+
+\begin{minted}{sql}
+select
+  es.esame as codice,
+  e.nome as 'Esame',
+  es.voto as 'Valutazione'
+from esami_sostenuti es
+join esami e
+on es.esame = e.codice
+where studente = '278233'
+\end{minted}
+
+\paragraph{1.b}%
+\label{par:1.b}
+
+Seleziona gli accounti attivi degli studenti che hanno gli
+stessi nomi e cognomi.
+
+\begin{minted}{sql}
+select nome, cognome, count(stato)
+from account_temporanei
+where stato = true
+group by nome, cognome
+having count(stato) >= 2
+order by nome, cognome
+\end{minted}
+
+\paragraph{1.c}%
+\label{par:1.c}
+
+Stampa matricola, nome completo e media degli studenti la cui
+media è superiore a 27.
+
+\begin{minted}{sql}
+select
+ e.studente as Matricola,
+ concat(s.nome, ' ', s.cognome) as 'Nome  Completo',
+ avg(voto) as 'Media Voti'
+from esami_sostenuti e
+join account_temporanei s
+on s.matricola = e.studente
+where stato = true
+group by studente
+having avg(voto) > 27
+order by avg(voto);
+\end{minted}
+
+
+\paragraph{1.d}%
+\label{par:1.d}
+
+Stampa nome e matricola degli studenti che hanno sostenuto almeno un esame.
+
+\begin{minted}{sql}
+select nome, cognome, matricola
+from account_temporanei
+where exists
+  ( select * from esami_sostenuti
+     where esami_sostenuti.studente = matricola)
+\end{minted}
+
+
+\paragraph{1.e}%
+\label{par:1.e}
+
+Stampa nome e matricola degli studenti che non hanno mai preso un voto minore di 26.
+
+\begin{minted}{sql}
+select nome, cognome, matricola
+from account_temporanei
+where matricola <> all
+  ( select es.studente
+     from esami_sostenuti es
+     where es.voto < 26)
+\end{minted}
+
+
+
+\paragraph{1.f}%
+\label{par:1.f}
+
+Trova tutti gli studenti la cui media sia maggiore della media degli studenti di matematica.
+
+
+\begin{minted}{sql}
+select
+	s.nome,
+	s.cognome,
+	avg(voto) as 'Media Studente',
+	c.nome as 'Corso'
+from account_temporanei s
+join esami_sostenuti e
+join corsi_di_studio c
+where s.matricola = e.studente
+and s.corso_di_studio = c.codice_corso
+group by e.studente
+having avg(voto) >
+	(select avg(media) as media_matematica
+	from (
+		select s.nome, s.cognome, avg(voto) as media
+		from account_temporanei s
+		join esami_sostenuti e
+		on s.matricola = e.studente
+		and s.corso_di_studio = 'L-35'
+		group by e.studente
+		) as medie
+	);
+\end{minted}

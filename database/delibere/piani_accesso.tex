@@ -1,0 +1,169 @@
+\section{Piani di accesso}
+\subsection{Piani di accesso logico}
+Stampare codice, nome e valutazione degli esami sostenuti dallo
+studente con matricola '278233'.
+
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\node (M) at (-3, 0) {EsamiSotenuti ES};
+		\node (R) at (3, 1.5) {Esami E};
+		\node (mrb) at (-3, 1.5) {$\sigma_\text{ES.Studente = 278233}$};
+		\node (j) at (0, 3) {$\bowtie_\text{ES.Esame = E.Codice}$};
+		\node (pc) at (0, 4.5) {$\pi_\text{ES.Esame, E.Nome, ES.Voto}$};
+
+		\path (M) edge[thick] (mrb)
+		(mrb) edge[thick] (j)
+		(R) edge[thick] (j)
+		(j) edge[thick] (pc);
+	\end{tikzpicture}
+\end{center}
+Seleziona gli accounti attivi degli studenti che hanno gli
+stessi nomi e cognomi.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\node (M) at (0, 0) {AccountTemporanei AT};
+		\node (plastica) at (0, 1.5) {$\sigma_\text{AT.Stato = true}$};
+		\node (group) at (0, 3) {$\prescript{}{\text{AT.Nome, AT.Cognome}}{\gamma}_\text{COUNT(AT.Stato)}$};
+		\node (having) at (0, 4.5) {$\sigma_{\text{COUNT(AT.Stato)} \geq 2}$};
+        \node (projection) at (0, 6) {$\pi_\text{AT.Nome, AT.Cognome, COUNT(AT.Stato)}$};
+		\node (order) at (0, 7.5) {$\tau_\text{AT.Nome, AT.Cognome}$};
+
+		\path (M) edge[thick] (plastica);
+		\path (plastica) edge[thick] (group);
+		\path (group) edge[thick] (having);
+        \path (having) edge[thick] (projection);
+		\path (projection) edge[thick] (order);
+	\end{tikzpicture}
+\end{center}
+Stampa matricola, nome completo e media degli studenti la cui
+media è superiore a 27.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\node (P) at (-4, 0) {AccountTemporanei AT};
+		\node (PM) at (4, 0) {EsamiSostenuti ES};
+        \node (join) at (-4, 1.5) {$\sigma_\text{AT.Stato = true}$};
+		\node (nero) at (0, 3) {$\bowtie_\text{AT.Matricola = ES.Studente}$};
+		\node (group) at (0, 4.5) {$\prescript{}{\text{ES.Studente}}{\gamma}_\text{AVG(ES.Voto)}$};
+		\node (having) at (0, 6) {$\sigma_{\text{AVG(ES.Voto)} > 27}$};
+        \node (projection) at (0, 7.5) {$\pi_\text{ES.Studente, AT.Nome, AT.Cognome, AVG(ES.Voto)}$};
+
+		\path (P) edge[thick] (join)
+		(PM) edge[thick] (nero)
+		(join) edge[thick] (nero)
+		(nero) edge[thick] (group)
+		(group) edge[thick] (having)
+        (having) edge[thick] (projection);
+	\end{tikzpicture}
+\end{center}
+\newpage
+
+\subsection{Piani di accesso fisico senza indice}
+Stampare codice, nome e valutazione degli esami sostenuti dallo
+studente con matricola '278233'.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+		\node (M) at (-4, 0) {\verb|TableScan(EsamiSostenuti ES)|};
+		\node (R) at (4, 1.5) {\verb|TableScan(Esami E)|};
+		\node (mrb) at (-4, 1.5) {\verb|Filter(ES.Studente = 278233)|};
+		\node (j) at (0, 3) {\verb|PageNestedLoop(ES.Esame = E.Codice)|};
+		\node (pc) at (0, 4.5) {\verb|Project(ES.Esame, E.Nome, ES.Voto)|};
+
+		\path (M) edge[thick] (mrb)
+		(mrb) edge[thick] (j)
+		(R) edge[thick] (j)
+		(j) edge[thick] (pc);
+	\end{tikzpicture}
+\end{center}
+Seleziona gli account attivi degli studenti che hanno gli
+stessi nomi e cognomi e li ordina in ordine alfabetico.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+		\node (M) at (0, 0) {\verb|TableScan(AccountTemporanei AT)|};
+		\node (stato) at (0, 1.5) {\verb|Filter(AT.Stato = true)|};
+		\node (sort1) at (0, 3) {\verb|Sort(AT.Nome, AT.Cognome)|};
+		\node (group) at (0, 4.5) {\verb|GroupBy({AT.Nome, AT.Cognome}, COUNT(AT.Stato))|};
+		\node (having) at (0, 6) {\verb|Filter(COUNT(AT.Stato) >= 2)|};
+        \node (projection) at (0, 7.5) {\verb|Project(Nome, Cognome, COUNT(AT.Stato))|};
+
+		\path (M) edge[thick] (stato);
+		\path (stato) edge[thick] (sort1);
+		\path (sort1) edge[thick] (group);
+		\path (group) edge[thick] (having);
+        \path (having) edge[thick] (projection);
+	\end{tikzpicture}
+\end{center}
+Stampa matricola, nome completo e media degli studenti la cui
+media è superiore a 27.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+		\node (P) at (-5, 0) {\verb|TableScan(AccountTemporanei AT)|};
+		\node (PM) at (5, 0) {\verb|TableScan(EsamiSostenuti ES)|};
+        \node (join) at (0, 3) {\verb|PageNestedLoop(AT.Matricola = ES.Studente)|};
+		\node (nero) at (-5, 1.5) {\verb|Filter(AT.Stato = true)|};
+		\node (sort) at (0, 4.5) {\verb|Sort(ES.Studente)|};
+		\node (group) at (0, 6) {\verb|GroupBy(ES.Studente, AVG(ES.Voto))|};
+		\node (having) at (0, 7.5) {\verb|Filter(AVG(ES.Voto) > 27)|};
+        \node (proj) at (0, 9) {\verb|Project(ES.Studente, AT.Nome, AT.Cognome, AVG(ES.Voto))|};
+
+		\path (P) edge[thick] (nero)
+		(PM) edge[thick] (join)
+		(nero) edge[thick] (join)
+		(join) edge[thick] (sort)
+		(sort) edge[thick] (group)
+		(group) edge[thick] (having)
+        (having) edge[thick] (proj);
+	\end{tikzpicture}
+\end{center}
+
+% \subsection{Piani di accesso fisico con indice}
+% Trovare tutti i commenti relativi ai modelli Ray-Ban.
+% \begin{center}
+% 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+% 		\node (M) at (-4, 0) {\verb|TableScan(Modelli M)|};
+% 		\node (R) at (4, -1) {\verb|IndexFilter(Recensioni R, R_Idx, M.CodiceModello = R.Modello)|};
+% 		\node (mrb) at (-4, 1.5) {\verb|Filter(M.Marchio = "Ray-Ban")|};
+% 		\node (j) at (0, 3) {\verb|IndexNestedLoop(M.CodiceModello = R.Modello)|};
+% 		\node (pc) at (0, 4.5) {\verb|Project(R.Commento)|};
+%
+% 		\path (M) edge[thick] (mrb)
+% 		(mrb) edge[thick] (j)
+% 		(R) edge[thick] (j)
+% 		(j) edge[thick] (pc);
+% 	\end{tikzpicture}
+% \end{center}
+% Trovare tutte le categorie e i marchi che offrono occhiali di plastica tutti al di sotto dei 100
+% euro, ordinando dal più costoso al meno costoso.
+% \begin{center}
+% 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+% 		\node (plastica) at (0, 1.5) {\verb|IndexFilter(Modelli, Modelli_Idx, Materiale = "Plastica")|};
+% 		\node (sort1) at (0, 3) {\verb|Sort({Categoria, Marchio})|};
+% 		\node (group) at (0, 4.5) {\verb|GroupBy({Categoria, Marchio}, MAX(Prezzo))|};
+% 		\node (having) at (0, 6) {\verb|Filter(MAX(Prezzo <= 100.0))|};
+% 		\node (order) at (0, 7.5) {\verb|Sort(MAX(Prezzo))|};
+%
+% 		\path (plastica) edge[thick] (sort1);
+% 		\path (sort1) edge[thick] (group);
+% 		\path (group) edge[thick] (having);
+% 		\path (having) edge[thick] (order);
+% 	\end{tikzpicture}
+% \end{center}
+% Trovare il numero di modelli disponibile per ciascun colore di lenti che abbiano la montatura nera.
+% Non vengono visualizzati i colori di lenti applicati a meno di 10 modelli di occhiali.
+% \begin{center}
+% 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+% 		\node (P) at (-4, 0) {\verb|TableScan(Personalizzazioni P)|};
+% 		\node (PM) at (2, -1.5) {\scriptsize\verb|IndexFilter(PersonalizzazioniModello PM, PM_Idx, P.CodicePersonalizzazione = PM.Personalizzazione)|};
+% 		\node (join) at (0, 1.5) {\verb|IndexNestedLoop(P.CodicePersonalizzazione = PM.Personalizzazione)|};
+% 		\node (nero) at (0, 3) {\verb|Filter(P.ColoreMontatura = "Nero")|};
+% 		\node (sort) at (0, 4.5) {\verb|Sort(P.ColoreLenti)|};
+% 		\node (group) at (0, 6) {\verb|GroupBy(P.ColoreLenti, COUNT(PM.Modello))|};
+% 		\node (having) at (0, 7.5) {\verb|Filter(COUNT(PM.Modello) >= 10)|};
+%
+% 		\path (P) edge[thick] (join)
+% 		(PM) edge[thick] (join)
+% 		(join) edge[thick] (nero)
+% 		(nero) edge[thick] (sort)
+% 		(sort) edge[thick] (group)
+% 		(group) edge[thick] (having);
+% 	\end{tikzpicture}
+% \end{center}

@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{select}
+\PYG{+w}{ }\PYG{n}{e}\PYG{p}{.}\PYG{n}{studente}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n}{Matricola}\PYG{p}{,}
+\PYG{+w}{ }\PYG{n}{concat}\PYG{p}{(}\PYG{n}{s}\PYG{p}{.}\PYG{n}{nome}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{.}\PYG{n}{cognome}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Nome  Completo\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{ }\PYG{k}{avg}\PYG{p}{(}\PYG{n}{voto}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Media Voti\PYGZsq{}}
+\PYG{k}{from}\PYG{+w}{ }\PYG{n}{esami\PYGZus{}sostenuti}\PYG{+w}{ }\PYG{n}{e}
+\PYG{k}{join}\PYG{+w}{ }\PYG{n}{account\PYGZus{}temporanei}\PYG{+w}{ }\PYG{n}{s}
+\PYG{k}{on}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{.}\PYG{n}{matricola}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{.}\PYG{n}{studente}
+\PYG{k}{where}\PYG{+w}{ }\PYG{n}{stato}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{true}
+\PYG{k}{group}\PYG{+w}{ }\PYG{k}{by}\PYG{+w}{ }\PYG{n}{studente}
+\PYG{k}{having}\PYG{+w}{ }\PYG{k}{avg}\PYG{p}{(}\PYG{n}{voto}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{27}
+\PYG{k}{order}\PYG{+w}{ }\PYG{k}{by}\PYG{+w}{ }\PYG{k}{avg}\PYG{p}{(}\PYG{n}{voto}\PYG{p}{);}
+\end{Verbatim}
