@@ -1,116 +1,90 @@
-\section{Interrogazioni in SQL}%
-\label{sec:Interrogazioni in SQL}
+\section{Interrogazioni in SQL}
 
-\paragraph{1.a}%
-\label{par:1.a}
-
+\paragraph{A.}
 Stampare codice, nome e valutazione degli esami sostenuti dallo
 studente con matricola '278233'.
 
 \begin{minted}{sql}
-select
-  es.esame as codice,
-  e.nome as 'Esame',
-  es.voto as 'Valutazione'
-from esami_sostenuti es
-join esami e
-on es.esame = e.codice
-where studente = '278233'
+SELECT ES.Esame AS Codice, E.Nome AS Esame, ES.Voto AS Valutazione
+FROM EsamiSostenuti AS ES
+JOIN Esami AS E ON ES.Esame = E.Codice
+WHERE ES.Studente = "278233"
 \end{minted}
 
-\paragraph{1.b}%
-\label{par:1.b}
-
+\paragraph{B.}
 Seleziona gli accounti attivi degli studenti che hanno gli
-stessi nomi e cognomi.
+stessi nomi e cognomi e li stampa in ordine alfabetico.
 
 \begin{minted}{sql}
-select nome, cognome, count(stato)
-from account_temporanei
-where stato = true
-group by nome, cognome
-having count(stato) >= 2
-order by nome, cognome
+SELECT Nome, Cognome, COUNT(Stato)
+FROM AccountTemporanei
+WHERE Stato = TRUE
+GROUP BY Nome, Cognome
+HAVING COUNT(Stato) >= 2
+ORDER BY Nome, Cognome
 \end{minted}
 
-\paragraph{1.c}%
-\label{par:1.c}
-
+\paragraph{C.}
 Stampa matricola, nome completo e media degli studenti la cui
 media è superiore a 27.
 
 \begin{minted}{sql}
-select
- e.studente as Matricola,
- concat(s.nome, ' ', s.cognome) as 'Nome  Completo',
- avg(voto) as 'Media Voti'
-from esami_sostenuti e
-join account_temporanei s
-on s.matricola = e.studente
-where stato = true
-group by studente
-having avg(voto) > 27
-order by avg(voto);
+select ES.Studente AS Matricola, 
+        CONCAT(S.Nome, ' ', S.Cognome) AS 'Nome  Completo',
+        AVG(Voto) AS 'Media Voti'
+FROM EsamiSostenuti AS ES
+JOIN AccountTemporanei AS S ON S.Matricola = ES.Studente
+WHERE S.Stato = TRUE
+GROUP BY ES.Studente
+HAVING AVG(ES.Voto) > 27
 \end{minted}
 
-
-\paragraph{1.d}%
-\label{par:1.d}
-
-Stampa nome e matricola degli studenti che hanno sostenuto almeno un esame.
+\paragraph{D.}
+Stampa nome e matricola degli studenti che hanno sostenuto
+almeno un esame.
 
 \begin{minted}{sql}
-select nome, cognome, matricola
-from account_temporanei
-where exists
-  ( select * from esami_sostenuti
-     where esami_sostenuti.studente = matricola)
+SELECT Nome, Cognome, Matricola
+FROM AccountTemporanei
+WHERE EXISTS (
+    SELECT * FROM EsamiSostenuti AS ES
+    WHERE ES.Studente = Matricola
+)
 \end{minted}
 
-
-\paragraph{1.e}%
-\label{par:1.e}
-
-Stampa nome e matricola degli studenti che non hanno mai preso un voto minore di 26.
+\newpage
+\paragraph{E.}
+Stampa nome e matricola degli studenti che non hanno mai preso
+un voto minore di 26.
 
 \begin{minted}{sql}
-select nome, cognome, matricola
-from account_temporanei
-where matricola <> all
-  ( select es.studente
-     from esami_sostenuti es
-     where es.voto < 26)
+SELECT Nome, Cognome, Matricola
+FROM AccountTemporanei
+WHERE Matricola <> ALL (
+    SELECT ES.Studente
+    FROM EsamiSostenuti AS ES
+    WHERE ES.Voto < 26
+)
 \end{minted}
 
-
-
-\paragraph{1.f}%
-\label{par:1.f}
-
-Trova tutti gli studenti la cui media sia maggiore della media degli studenti di matematica.
-
+\paragraph{F.}
+Trova tutti gli studenti la cui media sia maggiore della media
+degli studenti di matematica.
 
 \begin{minted}{sql}
-select
-	s.nome,
-	s.cognome,
-	avg(voto) as 'Media Studente',
-	c.nome as 'Corso'
-from account_temporanei s
-join esami_sostenuti e
-join corsi_di_studio c
-where s.matricola = e.studente
-and s.corso_di_studio = c.codice_corso
-group by e.studente
-having avg(voto) >
-	(select avg(media) as media_matematica
-	from (
-		select s.nome, s.cognome, avg(voto) as media
-		from account_temporanei s
-		join esami_sostenuti e
-		on s.matricola = e.studente
-		and s.corso_di_studio = 'L-35'
-		group by e.studente
-		) as medie
-	);
+SELECT S.Nome, S.Cognome, AVG(ES.Voto) AS "Media Studente", CS.Nome AS "Corso"
+FROM AccountTemporanei AS S
+JOIN EsamiSostenuti AS ES, CorsiDiStudio AS CS
+WHERE S.Matricola = ES.Studente AND S.CorsoDiStudio = CS.CodiceCorso
+GROUP BY ES.Studente
+HAVING AVG(ES.Voto) > (
+    SELECT AVG(Media) as MediaMatematica
+	FROM (
+        SELECT S.Nome, S.Cognome, AVG(ES.voto) AS Media
+		FROM AccountTemporanei AS S
+		JOIN EsamiSostenuti ES ON S.Matricola = ES.Studente
+        AND S.CorsoDiStudio = "L-35"
+		GROUP BY ES.Studente
+	) AS Medie
+)
 \end{minted}

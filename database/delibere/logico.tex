@@ -1,5 +1,14 @@
-\section{Schema Logico Relazionale}
+\section{Schema logico relazionale}
+Di seguito lo schema logico relazionale derivato dallo schema 
+concettuale.
 
+\begin{figure}[H]
+	\centering
+	\includesvg[inkscapelatex=false, scale=0.8]{logico.svg}
+	\caption{Schema logico relazionale}
+\end{figure}
+
+\subsection{Formato testuale}
 \begin{itemize}
 	\item Esami(\underline{CodiceEsame}, Nome, CFU, link)
 	\item AccountTemporanei(\underline{Matricola}, Nome,
@@ -29,14 +38,6 @@
 	      CorsoProvenienza*)
 \end{itemize}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{relazionale.png}
-	\caption{Schema logico relazionale}
-	\label{Schema logico relazionale}
-\end{figure}
-
 Lo schema soddisfa la forma normale di Boyce-Codd perchè in
 tutte le dipendenze funzionali della forma \(X \rightarrow Y\),
 X è superchiave.
-

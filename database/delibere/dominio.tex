@@ -3,16 +3,16 @@ La piattaforma mette a disposizione la possibilità di creare
 \textbf{account} di due tipologie:
 \begin{itemize}
 	\item \textbf{Temporaneo}: per gli studenti che richiedono
-	      una o più delibere (forse).
+	      una o più delibere.
 	\item \textbf{Amministrativo}: per i docenti che gestiscono
 	      una o più delibere.
 \end{itemize}
-Entrambi devono inserire nome, cognome, email e password per
-creare un account. Ciò che differenzia gli uni dagli altri è che
-lo studente deve inserire la propria matricola mentre il
-professore deve inserire un codice.
+Entrambi devono inserire nome, cognome, email e password. Ciò
+che differenzia gli uni dagli altri è che lo studente deve
+inserire la propria matricola mentre il professore deve inserire
+un codice.
 
-Ogni studente una volta fatto creato l'account e fatto l'accesso
+Ogni studente, una volta creato l'account e fatto l'accesso,
 deve inserire una lista contente gli esami da lui sostenuti,
 qualunque sia il tipo di delibera richiesta. Questo è necessario
 poiché ogni \textbf{delibera} avrà bisogno, in un modo o
@@ -44,20 +44,15 @@ codice e possono essere di quattro tipologie differenti:
 	      studenti che hanno già conseguito un titolo.
 	\item \textbf{Ricongiugimento dopo inattività}: per gli
 	      studenti che hanno effettuato la rinuncia agli studi
-	      (credo) e si riscrivono. L'ordinamento potrebbe essere
+	      e si riscrivono. L'ordinamento potrebbe essere
 	      cambiato ed è quindi necessario specificare l'anno in
 	      cui è stata effettuata la rinuncia.
 	\item \textbf{Riconoscimento dei crediti}: per gli studenti
 	      che hanno svolto attività extracurriculari che possono
-	      valere come esami e dunque hanno un loro peso in
-	      crediti.
+          valere come esami \emph{a libera scelta} e dunque 
+          hanno un loro peso in crediti.
 \end{itemize}
-Come sarà chiaro fra poco è necessario che ogni delibera abbia
-anche una data in cui questa è stata richiesta.
-
-Quando uno o più esami vengono convalidati dalla commissione
-è quest'ultima ha modificare la base di dati indicando che lo
-studente ha sostenuto un nuovo esame (o più esami in caso un
-esame venga convertito in più esami). Sarà sempre la
-commissisone a inserire il voto del nuovo esame convalidato.
-
+Ogni delibera contiene informazioni come lo studente richiedente,
+la data in cui è stata richiesta e la tipologia della richiesta.
+Le delibere sono gestite da più docenti, i quali decidono quali
+esami o attività extracurriculari convalidare.

@@ -2,9 +2,26 @@
 Di seguito lo schema concettuale descritto nella sezione
 precedente.
 
-\begin{center}
-	\includesvg[inkscapelatex=false, scale=0.5]
-	{schema/concettuale.svg}
-\end{center}
-\newpage
+\begin{figure}[!ht]
+	\centering
+	\includesvg[inkscapelatex=false, scale=0.6]{concettuale.svg}
+	\caption{Schema concettuale}
+\end{figure}
 
+\subsection{Vincoli intrarelazionali}
+Ogni esame ha un voto che deve essere compreso tra 18 e 32,
+ovviamente uno studente non può aver sostenuto e non gli può
+essere convalidato un esame con votazione inferiore a 18. In
+caso di lode viene invece considerato il voto 32 a prescindere
+dal peso che veniva dato alla lode nella precedente università,
+corso o ordinamento.
+
+\subsection{Vincoli interrelazionali}
+Gli esami inseriti dallo studente devono rispettare il numero
+e la tipologia dei crediti previsti dal corso di studi da cui
+proviene.
+
+Gli esami convalidati devono rispettare i vincoli imposti dal
+regolamento dell'anno accademico in corso. Non è quindi
+possibile convalidare esami che non rispettano i vincoli
+riguardanti i crediti (di qualsiasi tipo).
