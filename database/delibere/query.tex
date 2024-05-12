@@ -12,8 +12,8 @@ WHERE ES.Studente = "278233"
 \end{minted}
 
 \paragraph{B.}
-Seleziona gli accounti attivi degli studenti che hanno gli
-stessi nomi e cognomi e li stampa in ordine alfabetico.
+Selezionare gli accounti attivi degli studenti che hanno gli
+stessi nomi e cognomi e stamparli in ordine alfabetico.
 
 \begin{minted}{sql}
 SELECT Nome, Cognome, COUNT(Stato)
@@ -25,7 +25,7 @@ ORDER BY Nome, Cognome
 \end{minted}
 
 \paragraph{C.}
-Stampa matricola, nome completo e media degli studenti la cui
+Stampare matricola, nome completo e media degli studenti la cui
 media è superiore a 27.
 
 \begin{minted}{sql}
@@ -40,7 +40,7 @@ HAVING AVG(ES.Voto) > 27
 \end{minted}
 
 \paragraph{D.}
-Stampa nome e matricola degli studenti che hanno sostenuto
+Stampare nome e matricola degli studenti che hanno sostenuto
 almeno un esame.
 
 \begin{minted}{sql}
@@ -54,7 +54,7 @@ WHERE EXISTS (
 
 \newpage
 \paragraph{E.}
-Stampa nome e matricola degli studenti che non hanno mai preso
+Stampare nome e matricola degli studenti che non hanno mai preso
 un voto minore di 26.
 
 \begin{minted}{sql}
@@ -68,7 +68,7 @@ WHERE Matricola <> ALL (
 \end{minted}
 
 \paragraph{F.}
-Trova tutti gli studenti la cui media sia maggiore della media
+Trovare tutti gli studenti la cui media sia maggiore della media
 degli studenti di matematica.
 
 \begin{minted}{sql}

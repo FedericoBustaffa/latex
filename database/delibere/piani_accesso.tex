@@ -16,8 +16,8 @@ studente con matricola '278233'.
 		(j) edge[thick] (pc);
 	\end{tikzpicture}
 \end{center}
-Seleziona gli accounti attivi degli studenti che hanno gli
-stessi nomi e cognomi e li stampa in ordine alfabetico.
+Selezionare gli accounti attivi degli studenti che hanno gli
+stessi nomi e cognomi e stamparli in ordine alfabetico.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
 		\node (M) at (0, 0) {AccountTemporanei AT};
@@ -34,7 +34,7 @@ stessi nomi e cognomi e li stampa in ordine alfabetico.
 		\path (projection) edge[thick] (order);
 	\end{tikzpicture}
 \end{center}
-Stampa matricola, nome completo e media degli studenti la cui
+Stampare matricola, nome completo e media degli studenti la cui
 media è superiore a 27.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8]
@@ -72,7 +72,7 @@ studente con matricola '278233'.
 		(j) edge[thick] (pc);
 	\end{tikzpicture}
 \end{center}
-Seleziona gli account attivi degli studenti che hanno gli
+Selezionare gli account attivi degli studenti che hanno gli
 stessi nomi e cognomi e li stampa in ordine alfabetico.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
@@ -91,7 +91,7 @@ stessi nomi e cognomi e li stampa in ordine alfabetico.
 		\path (having) edge[thick] (projection);
 	\end{tikzpicture}
 \end{center}
-Stampa matricola, nome completo e media degli studenti la cui
+Stampare matricola, nome completo e media degli studenti la cui
 media è superiore a 27.
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
@@ -118,7 +118,8 @@ Stampare codice, nome e valutazione degli esami sostenuti dallo
 studente con matricola '278233'.
 
 \begin{center}
-	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+	\begin{tikzpicture}[scale=0.8, font=
+	\footnotesize]
 		\node (TS) at (-4, 1.5) {\verb|IndexScan(Esami E, Idy)|};
 		\node (IF) at (4, 0) {\verb|IndexFilter(EsamiSostenuti ES, Idx, ES.Esame = E.Codice)|};
 		\node (F) at (4, 1.5) {\verb|Filter(ES.Studente = 278233)|};
@@ -132,8 +133,11 @@ studente con matricola '278233'.
 
 	\end{tikzpicture}
 \end{center}
-Seleziona gli account attivi degli studenti che hanno gli
-stessi nomi e cognomi e li stampa in ordine alfabetico.
+
+Selezionare gli account attivi degli studenti che hanno gli
+stessi nomi e cognomi e stamparli in ordine alfabetico.
+In questo caso, la Sort prima della GroupBy non può essere evitata perchè l'indice Idx è definito sul campo stato, quindi non abbiamo garanzie che il risultato dell'IndexFilter sia ordinato per nome e cognome.
+
 \begin{center}
 	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
 		\node (M) at (0,0) {\verb|IndexFilter(AccountTemporanei AT, Idx, AT.Stato = true)|};
@@ -149,7 +153,7 @@ stessi nomi e cognomi e li stampa in ordine alfabetico.
 		\path (filter) edge[thick] (project);
 	\end{tikzpicture}
 \end{center}
-Stampa matricola, nome completo e media degli studenti la cui
+Stampare matricola, nome completo e media degli studenti la cui
 media è superiore a 27.
 \begin{center}
 	\begin{tikzpicture}[scale=0.675, font=\footnotesize]
@@ -172,4 +176,25 @@ media è superiore a 27.
 	\end{tikzpicture}
 \end{center}
 
-% non so se si può evitare il sort prima della group by perchè non ho capito come funziona indexnestedloop. Domani lo guardo... come ultima cosa.
+In questo caso, è possibile eliminare l'operazione di sort prima della GroupBy, utilizzando il seguente piano di accesso. L'operazione di SortScan restituisce le tuple ordinate sul campo ES.Studente, IndexFilter restituisce le tuple ordinate sul campo Matricola. Siccome i record sono ordinati sugli attributi di giunzione, si può usare SortMerge, che a sua volta restituirà un record ordinato sul campo ES.Studente.
+
+\begin{center}
+	\begin{tikzpicture}[scale=0.8, font=\footnotesize]
+		\node (P) at (5, -1.5) {\verb|IndexFilter(AccountTemporanei AT, Idy, AT.Matricola = ES.Studente)|};
+		\node (PM) at (-6, 0) {\verb|SortScan(EsamiSostenuti ES, ES.Studente)|};
+		\node (join) at (0, 3) {\verb|SortMerge(AT.Matricola = ES.Studente)|};
+		\node (nero) at (5, 1.5) {\verb|Filter(AT.Stato = true)|};
+		%\node (sort) at (0, 4.5) {\verb|Sort(ES.Studente)|};
+		\node (group) at (0, 4.5) {\verb|GroupBy(ES.Studente, AVG(ES.Voto))|};
+		\node (having) at (0, 6) {\verb|Filter(AVG(ES.Voto) > 27)|};
+		\node (proj) at (0, 7.5) {\verb|Project(ES.Studente, AT.Nome, AT.Cognome, AVG(ES.Voto))|};
+
+		\path (P) edge[thick] (nero)
+		(PM) edge[thick] (join)
+		(nero) edge[thick] (join)
+		(join) edge[thick] (group)
+		%(sort) edge[thick] (group)
+		(group) edge[thick] (having)
+		(having) edge[thick] (proj);
+	\end{tikzpicture}
+\end{center}
