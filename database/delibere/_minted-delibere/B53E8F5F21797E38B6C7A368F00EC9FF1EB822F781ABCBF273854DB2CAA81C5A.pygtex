@@ -1,8 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
-\PYG{k}{select}\PYG{+w}{ }\PYG{n}{nome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cognome}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{count}\PYG{p}{(}\PYG{n}{stato}\PYG{p}{)}
-\PYG{k}{from}\PYG{+w}{ }\PYG{n}{account\PYGZus{}temporanei}
-\PYG{k}{where}\PYG{+w}{ }\PYG{n}{stato}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{true}
-\PYG{k}{group}\PYG{+w}{ }\PYG{k}{by}\PYG{+w}{ }\PYG{n}{nome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cognome}
-\PYG{k}{having}\PYG{+w}{ }\PYG{k}{count}\PYG{p}{(}\PYG{n}{stato}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{2}
-\PYG{k}{order}\PYG{+w}{ }\PYG{k}{by}\PYG{+w}{ }\PYG{n}{nome}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cognome}
-\end{Verbatim}

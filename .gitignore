@@ -12,6 +12,8 @@
 *.vcd
 *.vpp.bak*
 *.lck
+*.pygtex
+*.pygstyle
 
 .vscode/
 
