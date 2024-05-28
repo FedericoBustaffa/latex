@@ -13,6 +13,7 @@ il compito di eliminare eventuali ambiguità.
 Come vedremo a breve si tratta di una sintassi molto semplice,
 comprendente costrutti condizionali di base, la possibilità
 di eseguire cicli e semplici operazioni aritmetiche e logiche.
+
 \begin{align*}
 	E \to                                                 &
 	\; n \; | \; x \; | \; E_1 + E_2 \; | \;
@@ -31,13 +32,14 @@ di eseguire cicli e semplici operazioni aritmetiche e logiche.
 	\; \text{for } x = E_1 \text{ to } E_2 \text{ do } C \; |
 	\; \text{while } B \text{ do } C
 \end{align*}
+
 dove $n \in \N$, $x \in \Var$ (insieme numerabile di
 variabili) e $b \in \text{Bool} = \{ tt, ff \}$.
 
-D'ora in poi chiameremo WHILE, il linguaggio descritto dalla
-grammatica BNF di sopra. Chiameremo invece FOR, il linguaggio
-risultante dall'omissione del comando \verb|while| della
-stessa grammatica.
+D'ora in poi chiameremo \verb|WHILE|, il linguaggio descritto
+dalla grammatica BNF di sopra. Chiameremo invece \verb|FOR|,
+il linguaggio risultante dall'omissione del comando \verb|while|
+della stessa grammatica.
 
 \subsection{Semantica}
 Prima di addentrarci nelle dinamiche del linguaggio appena
@@ -60,8 +62,8 @@ che è definita come
 		\sigma(y) & \text{altrimenti}
 	\end{cases}
 \]
-e cambia il valore della variabile $x$ con $n$. Quando 
-cercheremo di accedere nuovamente alla variabile $x$ in 
+e cambia il valore della variabile $x$ con $n$. Quando
+cercheremo di accedere nuovamente alla variabile $x$ in
 memoria, la funzione $\sigma$ ci ritornerà il valore aggiornato.
 
 La \textbf{semantica} di un'espressione aritmetica è data
