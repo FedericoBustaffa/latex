@@ -1,4 +1,4 @@
-\section{Diagonalizzazione}
+\chapter{Diagonalizzazione}
 Fino ad ora abbiamo visto che formalismi come programmi FOR
 e funzioni ricorsive primitive calcolano \emph{solo} funzioni
 totali. Ci chiediamo adesso se esiste un formalismo che esprime
@@ -45,53 +45,3 @@ totali in quanto ne manca almeno una che intuitivamente lo è.
 Ecco che la funzione $g$, che sicuramente è totale e calcolabile
 non appartiene alla lista che abbiamo definito, in particolare
 nel nostro caso non è una funzione ricorsiva primitiva.
-
-\subsection{Diagonalizzazione per funzioni parziali}
-A questo punto non ci rimane che capire se i formalismi che
-abbiamo definito fino ad ora possono esprimere almeno tutte
-le funzioni parziali calcolabili.
-
-Come sappiamo dalla definizione \ref{def: funzione parziale}
-le funzioni parziali non richiedono di essere definite ovunque
-e questo ci tornerà comodo.
-
-Cerchiamo quindi di dimostrare che la diagonalizzazione non si
-applica anche a queste funzioni. Come prima possiamo enumerare
-tutte le funzioni e prendere $\psi_n$, ossia l'$n$-esima
-funzione nella lista, e applichiamo la diagonalizzazione.
-Poniamo dunque
-\[ \varphi (x) = \psi_x (x) + 1 \]
-Supponiamo ora che $\varphi$ sia rappresentata dall'$n$-esimo
-algoritmo: non possiamo tuttavia concludere che
-\[ \varphi \neq \psi_n \]
-perché $\psi_n(n)$ potrebbe non essere definita e dunque
-divergere. Se $\psi_n(n)$ diverge, lo fa anche $\psi_n(n)+1$
-e dunque le due funzioni sono equivalenti.
-
-Le funzioni parziali, per fortuna, hanno senso, prendiamo ad
-esempio la seguente funzione che definisce la divisione
-\[ div (x,y) = \lfloor x / y \rfloor \]
-che è definita solo se $y \neq 0$. Ci chiediamo quindi se sia
-possibile estendere tutte le funzioni parziali a totali. Come
-vedremo più avanti la risposta è no perché non sempre c'è un
-algoritmo che calcola la versione estesa. Torniamo però al caso
-della divisione. Se ad esempio definissimo accuratamente il
-dominio della funzione, per esempio in questo modo
-\[ div : \N \times \N \backslash \{ 0 \} \to \N \]
-avremmo comunque il problema che non tutte le coppie di naturali
-sono coperte. Introduciamo quindi un simbolo speciale
-$* \notin \N$ in modo da avere ancora una funzione per tutte le
-possibili coppie di naturali
-\[ div^* : \N \times \N \to \N \cup \{ * \} \]
-definita in questo modo
-\[
-	div^* (x, y) = \begin{cases}
-		div(x, y) & \text{se } y \neq 0 \\
-		*         & \text{se } y = 0
-	\end{cases}
-\]
-Non vogliamo però liberarci della parzialità, dato che, come
-abbiamo appena visto, la diagonalizzazione non funziona in
-questo caso. Abbiamo quindi bisogno di un formalismo per
-definire anche le funzioni parziali.
-

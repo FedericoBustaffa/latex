@@ -1,0 +1,66 @@
+\chapter{Macchine di Turing}
+Introduciamo il primo formalismo per esprimere algoritmi, ideato
+da Alan Turing nel 1936 e che prende il nome di
+\textbf{macchina di Turing}.
+
+L'idea di base è quella di avere un \textbf{nastro} di lunghezza
+infinita su cui disporre una stringa di cratteri, rappresentante
+l'input dell'algoritmo. Tale macchina è dotata di un
+\textbf{cursore} che, partendo dall'inizio della stringa, legge
+i caratteri che incontra e, in base a cosa legge, cambia stato
+e si muove. La computazione termina quando si giunge finalmente
+in uno stato speciale di terminazione.
+
+\begin{definition}
+	Una \textbf{macchina di Turing} (MdT) è definita come una
+	quadrupla di questo tipo
+	\[
+		M = \begin{pmatrix}
+			Q, & \Sigma, & \delta, & q_0
+		\end{pmatrix}
+	\]
+	dove
+	\begin{itemize}
+		\item $Q$ è l'\textbf{insieme finito degli stati} in
+		      cui si può trovare la macchina. Tra gli stati
+		      abbiamo uno stato speciale $h$, con cui
+		      indicheremo la corretta terminazione del calcolo
+		      della macchina $M$.
+		\item $\Sigma = \{ \sigma, \sigma', \dots \}$ è
+		      l'\textbf{insieme finito dei simboli}, ossia,
+		      l'\textbf{alfabeto} utilizzato per esprimere
+		      gli algoritmi. Il numero e e i simboli stessi
+		      possono variare da una MdT all'altra, tuttavia
+		      ci sono dei simboli considerato speciali che sono
+		      sempre presenti:
+		      \begin{itemize}
+			      \item \textbf{Bianco}: indicato con $\#$ è
+			            come un carattere nullo.
+			      \item \textbf{Respingente}: indicato con
+			            $\start$, simboleggia l'inizio delle
+			            stringa. Il cursore della macchina non
+			            può andare mai a sinistra di questo
+			            simbolo.
+			      \item \textbf{Spostamento}: simboli che non
+			            appartengono a $\Sigma$ e indicano come
+			            e in che direzione muovere il cursore.
+			            Sono rispettivamnete $L$, $R$ e $-$ che
+			            stanno per \verb|Left|, \verb|Right| e
+			            \verb|Hold| (non muovere il cursore).
+		      \end{itemize}
+		\item \textbf{Stato iniziale}: indicato con $q_0 \in Q$
+		      è lo stato iniziale in cui si trova la macchina.
+		\item \textbf{Funzione di transizione}: indicata con
+		      $\delta$ è la funzione che definisce la
+		      transizione da uno stato all'altro della macchina
+		      in base a quel che viene letto dal cursore e in
+		      base a quel che è stato letto fino a quel momento.
+		      \[
+			      \delta \subseteq (Q \times \Sigma) \to
+			      (Q \cup \{ h \}) \times \Sigma \times
+			      \{ L, R, - \}
+		      \]
+		      che ci permette per l'appunto di cambiare lo
+		      stato della macchina e progredire nel calcolo.
+	\end{itemize}
+\end{definition}

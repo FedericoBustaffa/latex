@@ -1,0 +1,191 @@
+\section{Formalismo universale}
+Supponiamo ora di avere a disposizione un formalismo
+\textbf{universale}, in grado cioè di esprimere \emph{tutte}
+le funzione calcolabili. Questo sarebbe così potente da
+riuscire ad esprimere l'interprete dei propri programmi.
+
+\begin{theorem}[Enumerazione]
+	Esiste una funzione numerabile parziale $\varphi_z(i, x)$
+	tale che $\forall i,x$ vale
+	\[ \varphi_i(x) = \varphi_z (i, x) \]
+	\begin{proof}
+		Poiché la funzione $U(\mu y . T(i, x, y))$ usata nel
+		teorema \ref{th: fn} è definita per composizione e
+		$\mu$-ricorsione a partire da funzioni ricorsive
+		primitive, essa stessa è una una funzione calcolabile
+		in due argomenti $i$ e $x$. Avrà quindi un indice che
+		chiamiamo $z$ e per cui vale
+		\[ \varphi_z (i, x) = U(\mu y. T(i, x, y)) \]
+		Applichiamo quindi il teorema di forma normale per
+		ottenere
+		\[ U(\mu y . T(i, x, y)) = \varphi_i (x) \]
+		da qui otteniamo la tesi per transitività
+		dell'uguaglianza
+		\[
+			\varphi_z (i, x) = U(\mu y . T(i, x, y)) =
+			\varphi_i (x)
+		\]
+		Più informalmente la macchina $M_z$ recupera la
+		descrizione della macchina $M_i$ e la applica a $x$.
+	\end{proof}
+\end{theorem}
+
+Il teorema, scritto in forma molto compatta, in sostanza ci
+dice che esiste un algoritmo (o una MdT) $z$ che prende in
+input un altro algoritmo (o MdT) $i$, i dati $x$ su cui lavora
+$i$ e restituisce lo stesso risultato dell'algoritmo $i$-esimo
+applicato a $x$. In genere la macchina di Turing $z$ viene
+chiamata \textbf{macchina di Turing universale}.
+
+Passiamo ora ad un teorema che possiamo vedere un po' come il
+duale del teorema di enumerazione. Enunceremo una prima versione
+semplificata e poi la sua forma generale.
+
+\begin{theorem}[Teorema del parametro s-1-1]
+	\label{th: s-1-1}
+	Esiste una funzione $s$ calcolabile totale tale che per ogni
+	$i$, $x$ e $y$ vale
+	\[ \lambda y . \varphi_i (x, y) = \varphi_{s (i, x)} (y) \]
+	\begin{proof}
+		Da $i$ prendiamo l'$i$-esima MdT e scriviamo sul nastro
+		di $M_i$ l'input $x$ e $y$. Questi due passi definiscono
+		un algoritmo il quale ha un indice $j$ per la tesi di
+		Church-Turing. Tale indice mi identifica la macchina che
+		calcola
+		\[ \varphi_{s(i,x)} \]
+		A questo punto usiamo il padding lemma per trovare una
+		$h$ maggiore di tutti i valori ottenuti fino ad ora.
+		Otteniamo così una funzione strettamente crescente che
+		è anche iniettiva.
+	\end{proof}
+\end{theorem}
+
+Come possiamo notare nella prima funzione abbiamo due argomenti
+e nella seconda uno solo. Il fatto è che quando $x$ viene
+considerato come un \emph{parametro}, allora è possibile
+calcolare la prima funzione utilizzando un altra macchina a
+partire dall'indice $i$.
+
+\begin{example}
+	Prendiamo ad esempio la funzione
+	\[ x + y \]
+	Una volta fissata la $x$ ad un certo valore, supponiamo
+	$2$, la $x$ a questo punto non è più un argomento ma
+	diventa un parametro. A questo punto la funzione
+	\[ 2 + y \]
+	può essere calcolata da un'altra macchina che a regola
+	dovrebbe essere un po' più efficiente di quella di partenza.
+\end{example}
+
+Questo sta alla base della \textbf{valutazione parziale} che è
+molto utile in quei contesti in cui si vuole mantenere un alto
+livello di generalizzazione.
+
+\begin{theorem}[Teorema del parametro s-m-n]
+	\label{th: s-m-n}
+	Per ogni $m, n \geq 0$ esiste una funzione calcolabile
+	totale (iniettiva) $s_n^m$ con $m+1$ argomenti, tale che
+	per ogni $x, y_1, \dots, y_m$, vale
+	\[
+		\varphi_{s_n^m (x, y_1, \dots, y_m)}^{(n)} =
+		\lambda z_1, \dots, z_n .
+		\varphi_x^{(m+n)} (y_1, \dots, y_m, z_1, \dots, z_n)
+	\]
+\end{theorem}
+
+Si noti come il teorema del parametro e quello di enumerazione
+siano in un certo senso l'inverso l'uno dell'altro. Infatti
+l'uno "abbassa" un argomento nella posizione di indice, mentre
+l'altro "innalza" un indice nella posizione di argomento.
+
+\begin{theorem}[Espressività]
+	Un formalismo è \textbf{Turing-equivalente}, ossia calcola
+	tutte e sole le funzioni T-calcolabili ed è universale, se
+	e solo se
+	\begin{itemize}
+		\item Ha un algoritmo universale (vale cioè il teorema
+		      di enumerazione).
+		\item Vale il teorema del parametro.
+	\end{itemize}
+\end{theorem}
+
+Grazie al teorema del parametro si dimostra un altro teorema
+che ha un ruolo fondamentale sia in informatica che in teoria
+della calcolabilità.
+
+\begin{theorem}[Punto fisso]
+	per ogni funzione $f$ calcolabile totale $\exists n$ tale
+	che
+	\[ \varphi_n = \varphi_{f(n)} \]
+	\begin{proof}
+		Definiamo la seguente funzione
+		\[
+			\psi (u, z) = \varphi_{d(u)} (z) =
+			\begin{cases}
+				\varphi_{\varphi_u (u)} (z) &
+				\text{se } \varphi_u (u) \downarrow \\
+				\text{indefinita}           &
+				\text{altrimenti}
+			\end{cases}
+		\]
+		Per il teorema del parametro, $d(u)$ è totale e
+		iniettiva (e non dipende da $f$). Data $f$, allora
+		anche $f \circ d$ è calcolabile e sia $v$ proprio
+		un indice tale che
+		\[ \varphi_v(x) = f(d(x)) \]
+		Tale funzione è totale (perché sia $d$ che $f$ lo sono)
+		e quindi $\varphi_v (v)$ converge. Pertanto, in accordo
+		con la definizione data in precedenza di $\psi (u,z)$
+		abbiamo che
+		\[ \varphi_{d(v)} = \varphi_{\varphi_v(v)} \]
+		Calcoliamo ora $d(v)$ e supponiamo che il risultato sia
+		$n$, cioè poniamo
+		\[ n = d(v) \]
+		Dimostriamo che è un punto fisso di $f$. Infatti vale
+		la seguente catena di eguaglianze
+		\[
+			\varphi_n  = \varphi_{d(v)}
+			= \varphi_{\varphi_v (v)}
+			= \varphi_{f(d(v))}
+			= \varphi_{f(n)}
+		\]
+		Nell'eguaglianza più a sinistra si sfrutta l'iniettività
+		che viene garantita dal teorema del parametro.
+	\end{proof}
+\end{theorem}
+
+Un tale indice viene detto \textbf{punto fisso} di $f$. Il
+teorema inoltre ci dice che la funzione $f$ trasforma algoritmi
+in algoritmi, proprio come fa un compilatore.
+
+In altre parole il punto fisso non cambia la funzione calcolata
+ma trasforma l'algoritmo $P_n$ nell'algoritmo $P_{f(n)}$ con la
+stessa semantica.
+
+\begin{property}
+	Nelle ipotesi del teorema di ricorsione
+	\begin{itemize}
+		\item Il punto fisso è calcolabile mediante una funzione
+		      totale (iniettiva) $g$ a partire dall'indice di
+		      $f$.
+		\item Ci sono $\# (\N)$ punti fissi di $f$.
+	\end{itemize}
+\end{property}
+
+\begin{proof}
+	Per dimostrare il primo punto prendiamo $h(x)$
+	calcolabile totale tale che $\forall n$ vale
+	\[ \varphi_{h(x)} (n) = \varphi_x (d(n)) \]
+	Allora vale
+	\[ g(x) = d(h(x)) \]
+	Il secondo punto segue invece dal teorema
+	\ref{th: n calc}.
+\end{proof}
+
+C'è anche un altro modo per dimostrare il teorema del punto
+fisso, o meglio per specificare come deve essere implementata
+la ricorsione nei linguaggi di programmazione.
+
+Supponiamo di avere una procedura ricorsiva $P$ il cui corpo
+sia $C$, all'interno del quale ovviamente compare la chiamata
+a $P$ stessa.

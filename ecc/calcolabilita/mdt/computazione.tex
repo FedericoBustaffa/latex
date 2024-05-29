@@ -1,141 +1,4 @@
-\section{Macchina di Turing}
-Introduciamo il primo formalismo per esprimere algoritmi, ideato
-da Alan Turing nel 1936 e che prende il nome di
-\textbf{macchina di Turing}.
-
-L'idea di base è quella di avere un \textbf{nastro} di lunghezza
-infinita su cui disporre una stringa di cratteri, rappresentante
-l'input dell'algoritmo. Tale macchina è dotata di un
-\textbf{cursore} che, partendo dall'inizio della stringa, legge
-i caratteri che incontra e, in base a cosa legge, cambia stato
-e si muove. La computazione termina quando si giunge finalmente
-in uno stato speciale di terminazione.
-
-\begin{definition}
-	Una \textbf{macchina di Turing} (MdT) è definita come una
-	quadrupla di questo tipo
-	\[
-		M = \begin{pmatrix}
-			Q, & \Sigma, & \delta, & q_0
-		\end{pmatrix}
-	\]
-	dove
-	\begin{itemize}
-		\item $Q$ è l'\textbf{insieme finito degli stati} in
-		      cui si può trovare la macchina. Tra gli stati
-		      abbiamo uno stato speciale $h$, con cui
-		      indicheremo la corretta terminazione del calcolo
-		      della macchina $M$.
-		\item $\Sigma = \{ \sigma, \sigma', \dots \}$ è
-		      l'\textbf{insieme finito dei simboli}, ossia,
-		      l'\textbf{alfabeto} utilizzato per esprimere
-		      gli algoritmi. Il numero e e i simboli stessi
-		      possono variare da una MdT all'altra, tuttavia
-		      ci sono dei simboli considerato speciali che sono
-		      sempre presenti:
-		      \begin{itemize}
-			      \item \textbf{Bianco}: indicato con $\#$ è
-			            come un carattere nullo.
-			      \item \textbf{Respingente}: indicato con
-			            $\start$, simboleggia l'inizio delle
-			            stringa. Il cursore della macchina non
-			            può andare mai a sinistra di questo
-			            simbolo.
-			      \item \textbf{Spostamento}: simboli che non
-			            appartengono a $\Sigma$ e indicano come
-			            e in che direzione muovere il cursore.
-			            Sono rispettivamnete $L$, $R$ e $-$ che
-			            stanno per \verb|Left|, \verb|Right| e
-			            \verb|Hold| (non muovere il cursore).
-		      \end{itemize}
-		\item \textbf{Stato iniziale}: indicato con $q_0 \in Q$
-		      è lo stato iniziale in cui si trova la macchina.
-		\item \textbf{Funzione di transizione}: indicata con
-		      $\delta$ è la funzione che definisce la
-		      transizione da uno stato all'altro della macchina
-		      in base a quel che viene letto dal cursore e in
-		      base a quel che è stato letto fino a quel momento.
-		      \[
-			      \delta \subseteq (Q \times \Sigma) \to
-			      (Q \cup \{ h \}) \times \Sigma \times
-			      \{ L, R, - \}
-		      \]
-		      che ci permette per l'appunto di cambiare lo
-		      stato della macchina e progredire nel calcolo.
-	\end{itemize}
-\end{definition}
-
-\subsection{Funzione di transizione}
-La \textbf{funzione di transizione} $\delta$ è necessaria a
-far progredire il calcolo. Come possiamo vedere dalla
-definizione che ne abbiamo dato, questa prende in input una
-coppia di valori.
-\begin{itemize}
-	\item Lo \textbf{stato corrente} $q$ della macchina.
-	\item Un simbolo $\sigma$ dell'alfabeto
-\end{itemize}
-
-Notiamo inoltre che la funzione $\delta$ prende in input una
-coppia di valori ma ritorna una tripla composta da uno stato
-$q'$, che può essere anche $h$ in caso il calcolo sia terminato
-con successo, un simbolo $\sigma'$ e una tra le 3 mosse $L$,
-$R$ e $-$.
-
-Ad ogni passo del calcolo, $\delta$ elabora la coppia in input
-e restituisce una tripla contente il nuovo stato, il nuovo
-simbolo da scrivere alla posizione attuale del cursore e come
-ci si deve muovere al passo successivo.
-
-Qualcuno potrebbe aver notato la similitudine con un automa a
-stati finiti. In quanto vi è sempre uno stato corrente e, in
-base a quello e ad una nuova parte dell'input ci si muove in
-un nuovo stato o si rimane nello stesso. Non è tuttavia
-corretto dire che una MdT è un automa.
-
-\subsubsection{Considerazioni}
-Ora che abbiamo le idee più chiare, facciamo qualche
-considerazione in più su $\delta$. Essa è \textbf{iniettiva},
-vale cioè che, prese due triple $(q', \sigma', D')$ e
-$(q'', \sigma'', D'')$ tali che
-\begin{gather*}
-	\delta (q, \sigma) =  (q', \sigma', D') \\
-	\delta (q, \sigma) = (q'', \sigma'', D'')
-\end{gather*}
-allora $q' = q''$, $\sigma' = \sigma''$ e $D' = D''$.
-Questo ci dice sostanzialmente che, dato uno stato e un simbolo
-c'è un solo altro stato in cui possiamo andare. Un'altra cosa
-da specificare è che per $\delta$ vale sempre che se
-\[ \delta(q, \start) = (q', \sigma, D) \]
-allora $\sigma = \start$ e $D = R$. Questo ci dice che se ci
-troviamo all'inizio del nastro possiamo andare solo a destra.
-
-Ritornando velocemente
-all'\hyperref[sec: algoritmo]{idea intuitiva di algoritmo},
-possiamo facilmente verificare la prima e seconda condizione
-sono verificate poiché, sia $Q$ che $\Sigma$ sono insiemi
-finiti e di conseguenza anche $\delta$ contiene un numero
-finito di elementi.
-
-\subsection{Alfabeto}
-I dati su cui opera una MdT sono stringhe $w$ di caratteri
-appartenenti a $\Sigma$, più precisamente $w \in \Sigma^*$,
-dove $\Sigma^*$ comprende anche la stringa vuota $\epsilon$.
-
-Senza stare a incasinarsi con inutili formalismi matematici,
-se $\Sigma$ è l'alfabeto, allora $\Sigma^*$ è l'insieme di
-tutte le possibili stringhe generabili con quell'alfabeto e
-la stringa vuota.
-
-\begin{example}
-	Prendiamo ad esempio l'alfabeto binario
-	\begin{gather*}
-		\Sigma = \{ 0, 1 \} \\
-		\Downarrow \\
-		\Sigma^* = \{ \epsilon, 0, 1, 01, 10, 11, \dots \}
-	\end{gather*}
-\end{example}
-
-\subsection{Computazione}
+\section{Computazione}
 Finalmente vediamo come opera una MdT su qualche problema di
 esempio. La \textbf{configurazione corrente} di una MdT viene
 identificata $(q, u, \sigma, v)$ dove
@@ -218,7 +81,7 @@ Per vedere una MdT in azione è possibile visitare questo
 possibile programmare una MdT oppure eseguire esempi già
 proposti.
 
-\subsubsection{Configurazione e computazione}
+\subsection{Configurazione e computazione}
 Come abbiamo detto precedentemente, una \textbf{configurazione}
 è definita dalla quadrupla
 \[ \gamma = (q, u, \sigma, v) \]
@@ -384,4 +247,3 @@ caso descriviamo brevemente quale sarebbe l'idea.
 \end{enumerate}
 Si ripete il procedimento finché non si esaurisce tutta la
 stringa o finché non fallisce.
-
