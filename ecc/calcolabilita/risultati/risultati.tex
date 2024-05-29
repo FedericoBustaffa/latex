@@ -14,37 +14,3 @@ chiamare \emph{calcolabili} tutte le funzioni che rispettano
 le cinque condizioni intuitive poste agli algoritmi definite
 nell'\hyperref[sec: algoritmo]{idea intuitiva di algoritmo},
 indipendentemente dal loro formalismo.
-
-\section{Cardinalità delle funzioni calcolabili}
-Iniziamo con un paio di teoremi che dovrebbe darci l'idea del
-numero di funzioni calcolabili e non, dimostrando anche
-l'esistenza di queste ultime.
-
-\begin{theorem} \label{th: n calc}
-	Le funzioni calcolabili sono $\#(\N)$, così come le funzioni
-	calcolabili totali.
-	\begin{proof}
-		Costruiamo $\#(\N)$ MdT $M_i$ che svuotano il nastro
-		dell'input e scrivono una stringa di tante $|$ quanto
-		vale $i$ e si arrestano.
-	\end{proof}
-\end{theorem}
-
-Che non siano più di $\#(\N)$ segue dal fatto che le $MdT$
-si possono enumerare, come mostrato in precedenza
-(\ref{ssec: enum MdT}).
-
-\begin{theorem} \label{th: exists non calc}
-	Esistono funzioni non calcolabili.
-	\begin{proof}
-		Con una costruzione analoga a quella di Cantor, in cui
-		la classe dei sottoinsiemi di $\N$ non è numerabile,
-		si vede che
-		\[
-			\# \left( \{ f \mid f : \N \to \N \} \right) =
-			2^{\#(\N)}
-		\]
-		segue dal teorema \ref{th: n calc} che esistono dunque
-		delle funzioni non calcolabili.
-	\end{proof}
-\end{theorem}
