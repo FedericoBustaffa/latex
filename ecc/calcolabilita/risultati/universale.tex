@@ -10,11 +10,11 @@ riuscire ad esprimere l'interprete dei propri programmi.
 	\[ \varphi_i(x) = \varphi_z (i, x) \]
 	\begin{proof}
 		Poiché la funzione $U(\mu y . T(i, x, y))$ usata nel
-		teorema \ref{th: fn} è definita per composizione e
-		$\mu$-ricorsione a partire da funzioni ricorsive
-		primitive, essa stessa è una una funzione calcolabile
-		in due argomenti $i$ e $x$. Avrà quindi un indice che
-		chiamiamo $z$ e per cui vale
+		\hyperref[th: fn]{teorema di forma normale} è definita
+		per composizione e $\mu$-ricorsione a partire da
+		funzioni ricorsive primitive, essa stessa è una una
+		funzione calcolabile in due argomenti $i$ e $x$. Avrà
+		quindi un indice che chiamiamo $z$ e per cui vale
 		\[ \varphi_z (i, x) = U(\mu y. T(i, x, y)) \]
 		Applichiamo quindi il teorema di forma normale per
 		ottenere
@@ -35,7 +35,8 @@ dice che esiste un algoritmo (o una MdT) $z$ che prende in
 input un altro algoritmo (o MdT) $i$, i dati $x$ su cui lavora
 $i$ e restituisce lo stesso risultato dell'algoritmo $i$-esimo
 applicato a $x$. In genere la macchina di Turing $z$ viene
-chiamata \textbf{macchina di Turing universale}.
+chiamata \textbf{macchina di Turing universale}. In realtà
+esistono un'infinità numerabile di MdT universali.
 
 Passiamo ora ad un teorema che possiamo vedere un po' come il
 duale del teorema di enumerazione. Enunceremo una prima versione
@@ -43,20 +44,32 @@ semplificata e poi la sua forma generale.
 
 \begin{theorem}[Teorema del parametro s-1-1]
 	\label{th: s-1-1}
-	Esiste una funzione $s$ calcolabile totale tale che per ogni
-	$i$, $x$ e $y$ vale
+	Esiste una funzione $s$ calcolabile totale e iniettiva tale
+	che per ogni $i$, $x$ e $y$ vale
 	\[ \lambda y . \varphi_i (x, y) = \varphi_{s (i, x)} (y) \]
 	\begin{proof}
-		Da $i$ prendiamo l'$i$-esima MdT e scriviamo sul nastro
-		di $M_i$ l'input $x$ e $y$. Questi due passi definiscono
-		un algoritmo il quale ha un indice $j$ per la tesi di
-		Church-Turing. Tale indice mi identifica la macchina che
-		calcola
+		Iniziamo con il definire due passi:
+		\begin{enumerate}
+			\item Da $i$ prendiamo l'$i$-esima MdT.
+			\item Scriviamo sul nastro di $M_i$ l'input $x$ e
+			      $y$.
+		\end{enumerate}
+		Questi due passi definiscono un algoritmo il quale ha
+		indice $j$ per la tesi di Church-Turing. Tale indice
+		identifica la macchina che calcola
 		\[ \varphi_{s(i,x)} \]
-		A questo punto usiamo il padding lemma per trovare una
-		$h$ maggiore di tutti i valori ottenuti fino ad ora.
-		Otteniamo così una funzione strettamente crescente che
-		è anche iniettiva.
+		vale cioè
+		\[ j = s(i, x) \]
+		A questo punto dobbiamo evitare di trovarci nella
+		situazione in cui
+		\[ s(i, x) = s(i, x') \]
+		abbiamo quindi bisogno di una funzione per effettuare la
+		ricerca dell'indice $j$ che sia iniettiva. Per il
+		\hyperref[th: padding lemma]{padding lemma} sappiamo che
+		esiste un'infità numerabile di algoritmi che calcolano
+		la stessa funzione e dunque cerchiamo $h$ maggiore di
+		tutti i valori ottenuti fino ad ora. Otteniamo così una
+		funzione strettamente crescente e quindi iniettiva.
 	\end{proof}
 \end{theorem}
 
