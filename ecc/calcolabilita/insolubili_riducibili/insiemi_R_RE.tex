@@ -1,0 +1,40 @@
+\section{Insiemi ricorsivi e ricorsivamente enumerabili}
+Un esempio molto semplice di correlazione tra i due metodi è
+quello tra una funzione e il suo dominio.
+\[
+	\lambda x . 2 x \leftrightarrow \{ \N \} \qquad
+	\lambda x . x / 2 \leftrightarrow \{ 2n \mid n \in \N \}
+\]
+Oppure tra una funzione e la sua immagine
+\[
+	\lambda x . 2 x \leftrightarrow \{ 2 n \mid n \in \N \}
+	\qquad \lambda x . x / 2 \leftrightarrow \{ \N \}
+\]
+Si noti che ci sono infinite numerabili funzioni che hanno i
+naturali come dominio, ossia quelle totali, e altrettante che
+hanno i naturali come immagine. Si noti come la funzione che
+calcola il doppio è totale e che la sua immagine sono i numeri
+pari, quindi non tutti i naturali. In ogni caso per questi
+esempi sia i domini che le immagini sono
+\hyperref[def: relazione ricorsiva]{insiemi ricorsivi}.
+
+Facciamo ora un esempio di insiemi che si possono definire
+quando limitiamo il numero di passi nel calcolo di una MdT.
+
+\begin{example}
+	Siano dati $k, z \in \N$. Gli insiemi
+	\begin{align*}
+		I & = \{ (i, x, k) \mid \exists y, n . (x,n < k)
+		\land (M_i \text{ calcola } y = \varphi_i (x)
+		\text{ in meno di } n \text{ passi}) \}          \\
+		J & = \{ (i,x,k,z) \mid \exists n . (n < k)
+		\land (M_i \text{ calcola } z = \varphi_i (x)
+		\text{ in meno di } n \text{ passi}) \}
+	\end{align*}
+	sono entrambi ricorsivi, infatti la procedura calcolabile
+	totale che decide $I$ è la seguente:
+	\begin{enumerate}
+		\item Muoviamo il cursore della MdT $M_i$ su $x < k$
+		      per al massimo $n-1$ passi.
+	\end{enumerate}
+\end{example}

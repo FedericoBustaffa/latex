@@ -3,60 +3,18 @@ In quest'ultimo capitolo di questa prima parte di calcolabilità
 andremo a trattare i problemi in cui si cerca di capire se un
 elemento appartiene o no ad un dato insieme.
 
+Introdurremo infatti  nuovi insiemi con caratteristiche che ci
+saranno utili in futuro e andremo a riprendere alcuni dei vecchi
+argomenti come la diagonalizzazione e la codifica a coda di
+colomba.
+
 Fino ad ora ci siamo concentrati sulla risoluzione di problemi
 tramite il calcolo di una funzione. In questa fase proviamo
 invece un approccio alternativo, che però vedremo in seguito
 essere correlato al metodo a cui siamo stati abituati fino ad
 ora.
 
-Un esempio molto semplice di correlazione tra i due metodi è
-quello dato dalla correlazione tra una funzione e il suo dominio.
-\[
-	\lambda x . 2 x \leftrightarrow \{ \N \} \qquad
-	\lambda x . x / 2 \leftrightarrow \{ 2n \mid n \in \N \}
-\]
-Oppure tra una funzione e la sua immagine
-\[
-	\lambda x . 2 x \leftrightarrow \{ 2 n \mid n \in \N \}
-	\qquad \lambda x . x / 2 \leftrightarrow \{ \N \}
-\]
-Si noti che ci sono infinite numerabili funzioni che hanno i
-naturali come dominio, ossia quelle totali, e altrettante che
-hanno i naturali come immagine. Si noti come la funzione che
-calcola il doppio è totale e che la sua immagine sono i numeri
-pari, quindi non tutti i naturali. In ogni caso per questi
-esempi sia i domini che le immagini sono insiemi ricorsivi
-di cui abbiamo dato la definizione precedentemente
-(\ref{def: relazione ricorsiva}) ma che ripetiamo qui. Un
-insieme $I$ è ricorsivo (ovvero \emph{decidibile}) se e solo se
-la sua funzione caratteristica
-\[
-	\chi_I (x) = \begin{cases}
-		1 & \text{se } x \in I    \\
-		0 & \text{se } x \notin I
-	\end{cases}
-\]
-è calcolabile totale. Un altro esempio di insieme ricorsivo è
-costituito dai numeri che soddisfano la condizione di Goldbach,
-ovvero quelli che sono somma di due numeri primi
-\[ \{ n = p + q \mid p, q \text{ primi} \} \]
-Facciamo ora un esempio di insiemi che si possono definire
-quando limitiamo il numero di passi nel calcolo di una MdT.
-
-\begin{example}
-	Siano dati $k, z \in \N$. Gli insiemi
-	\begin{align*}
-		I & = \{ (i, x, k) \mid \exists y, n . (x,n < k)
-		\land (M_i \text{ calcola } y = \varphi_i (x)
-		\text{ in meno di } n \text{ passi}) \}          \\
-		J & = \{ (i,x,k,z) \mid \exists n . (n < k)
-		\land (M_i \text{ calcola } z = \varphi_i (x)
-		\text{ in meno di } n \text{ passi}) \}
-	\end{align*}
-	sono entrambi ricorsivi infatti la procedura calcolabile
-	totale che decide $I$ è la seguente:
-	\begin{enumerate}
-		\item Muoviamo il cursore della MdT $M_i$ su $x < k$
-		      per al massimo $n-1$ passi.
-	\end{enumerate}
-\end{example}
+Calcolare una funzione o verificare l'appartenenza di un
+elemento ad un insieme sono due metodi che in realtà sono
+strettamente correlati tra di loro, ma quest'ultimo ci può
+tornare più comodo per dimostrare alcuni risultati.
