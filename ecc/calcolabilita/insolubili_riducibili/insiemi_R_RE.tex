@@ -22,16 +22,33 @@ Facciamo ora un esempio di insiemi che si possono definire
 quando limitiamo il numero di passi nel calcolo di una MdT.
 
 \begin{example}
-	Siano dati $k, z \in \N$. Gli insiemi
-	\begin{align*}
-		I & = \{ (i, x, k) \mid \exists y, n . (x,n < k)
+	Dato $k \in \N$, l'insieme
+	\[
+		I = \{ (i, x, k) \mid \exists y, n . (x,n < k)
 		\land (M_i \text{ calcola } y = \varphi_i (x)
-		\text{ in meno di } n \text{ passi}) \}          \\
-		J & = \{ (i,x,k,z) \mid \exists n . (n < k)
+		\text{ in meno di } n \text{ passi}) \}
+	\]
+	è ricorsivo. Per determinarlo dobbiamo determinare se la
+	sua funzione caratteristica lo è. A tal proposito procediamo
+	in questo modo
+	\begin{enumerate}
+		\item Recuperiamo $M_i$ e calcoliamo $M_i(x)$.
+		\item Facciamo proseguire il calcolo per al massimo $n$
+		      passi.
+		\item Se la computazione termina in meno di $n$ passi
+		      e l'ouput è proprio $y$, allora l'insieme è
+		      ricorsivo.
+	\end{enumerate}
+\end{example}
+
+\begin{example}
+	Dato $z \in \N$, l'insieme
+	\[
+		J = \{ (i,x,k,z) \mid \exists n . (n < k)
 		\land (M_i \text{ calcola } z = \varphi_i (x)
 		\text{ in meno di } n \text{ passi}) \}
-	\end{align*}
-	sono entrambi ricorsivi, infatti la procedura calcolabile
+	\]
+	è ricorsivo, infatti la procedura calcolabile
 	totale che decide $I$ è la seguente:
 	\begin{enumerate}
 		\item Muoviamo il cursore della MdT $M_i$ su $x < k$
