@@ -15,7 +15,7 @@ quello dato dalla correlazione tra una funzione e il suo dominio.
 	\lambda x . 2 x \leftrightarrow \{ \N \} \qquad
 	\lambda x . x / 2 \leftrightarrow \{ 2n \mid n \in \N \}
 \]
-Oppure tra una funzione e la suna immagine
+Oppure tra una funzione e la sua immagine
 \[
 	\lambda x . 2 x \leftrightarrow \{ 2 n \mid n \in \N \}
 	\qquad \lambda x . x / 2 \leftrightarrow \{ \N \}
@@ -40,7 +40,7 @@ la sua funzione caratteristica
 costituito dai numeri che soddisfano la condizione di Goldbach,
 ovvero quelli che sono somma di due numeri primi
 \[ \{ n = p + q \mid p, q \text{ primi} \} \]
-Facciamo ora un esemppio di insiemi che si possono definire
+Facciamo ora un esempio di insiemi che si possono definire
 quando limitiamo il numero di passi nel calcolo di una MdT.
 
 \begin{example}
@@ -48,10 +48,10 @@ quando limitiamo il numero di passi nel calcolo di una MdT.
 	\begin{align*}
 		I & = \{ (i, x, k) \mid \exists y, n . (x,n < k)
 		\land (M_i \text{ calcola } y = \varphi_i (x)
-		\text{ in } n \text{ passi}) \}                  \\
+		\text{ in meno di } n \text{ passi}) \}          \\
 		J & = \{ (i,x,k,z) \mid \exists n . (n < k)
 		\land (M_i \text{ calcola } z = \varphi_i (x)
-		\text{ in } n \text{ passi}) \}
+		\text{ in meno di } n \text{ passi}) \}
 	\end{align*}
 	sono entrambi ricorsivi infatti la procedura calcolabile
 	totale che decide $I$ è la seguente:
