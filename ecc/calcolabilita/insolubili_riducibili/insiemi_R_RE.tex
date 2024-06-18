@@ -24,13 +24,24 @@ quando limitiamo il numero di passi nel calcolo di una MdT.
 \begin{example}
 	Dato $k \in \N$, l'insieme
 	\[
-		I = \{ (i, x, k) \mid \exists y, n . (x,n < k)
+		I = \{ (i, x, k) \mid \exists y, n . (x, n < k)
 		\land (M_i \text{ calcola } y = \varphi_i (x)
 		\text{ in meno di } n \text{ passi}) \}
 	\]
-	è ricorsivo. Per determinarlo dobbiamo determinare se la
-	sua funzione caratteristica lo è. A tal proposito procediamo
-	in questo modo
+	rappresenta l'insieme delle triple tali che, dato $k$,
+	esistono $y$ ed $n$ tali che
+	\begin{itemize}
+		\item $x$ e $n$ sono minori di $k$. Stiamo quindi
+		      limitando i possibili valori $x$ in input e stiamo
+		      limitando il numero massimo di passi che la
+		      macchina $M_i$ può svolgere per terminare la
+		      computazione.
+		\item $M_i$ calcola $y = \varphi_i (x)$ in meno di $n$
+		      passi.
+	\end{itemize}
+	Per determinare se tale insieme è ricorsivo dobbiamo
+	determinare se la sua funzione caratteristica lo è. A tal
+	proposito procediamo in questo modo
 	\begin{enumerate}
 		\item Recuperiamo $M_i$ e calcoliamo $M_i(x)$.
 		\item Facciamo proseguire il calcolo per al massimo $n$
@@ -39,19 +50,108 @@ quando limitiamo il numero di passi nel calcolo di una MdT.
 		      e l'ouput è proprio $y$, allora l'insieme è
 		      ricorsivo.
 	\end{enumerate}
+	Questa, come è facile notare, è una procedura finita di al
+	massimo $n$ passi, alla fine dei quali possiamo andare a
+	controllare se tutti i vincoli sono rispettati di modo da
+	stabilire se la tripla appartiene all'insieme o meno.
 \end{example}
 
+Prendiamo ora un altro esempio, molto simile, leggermente meno
+restrittivo, ma che ci permette di non effettuare il controllo
+sull'output.
+
 \begin{example}
-	Dato $z \in \N$, l'insieme
+	Dati $k, z \in \N$, l'insieme
 	\[
 		J = \{ (i,x,k,z) \mid \exists n . (n < k)
 		\land (M_i \text{ calcola } z = \varphi_i (x)
 		\text{ in meno di } n \text{ passi}) \}
 	\]
-	è ricorsivo, infatti la procedura calcolabile
-	totale che decide $I$ è la seguente:
-	\begin{enumerate}
-		\item Muoviamo il cursore della MdT $M_i$ su $x < k$
-		      per al massimo $n-1$ passi.
-	\end{enumerate}
+	è ricorsivo per lo stesso motivo di prima. Stavolta però
+	l'insieme è definito come l'insieme delle quadruple in cui
+	abbiamo aggiunto alla tupla $z$ che è il risultato della
+	funzione. In questo caso siamo solo interessati a vedere se
+	$M_i$ termina in meno di $n$ passi.
 \end{example}
+
+Notiamo che la proposizione $\varphi_i (x) \downarrow$ è vera se
+e solo se esiste un $n$ (senza limitazioni) tale che
+$M_i(x) \downarrow$ converge in meno di $n$ passi. Volendo è
+possibile vedere questo insieme come l'unione infita degli
+insiemi definiti come nell'ultimo esempio con $k$ che assume
+tutti i possibili valori in $\N$. Otteniamo così l'insieme di
+tutte le macchine che convergono su $x$.
+
+Come sappiamo, il dominio di una funzione è l'insieme dei punti
+sui quali la funzione converge. Quello che possiamo fare adesso
+è mettere in relazione una funzione con il suo dominio.
+
+\begin{definition} \label{def: rec_enum}
+	Diciamo che l'insieme $J$ è \textbf{ricorsivamente enumerabile}
+	se e solo se esiste $i$ tale che
+	\[ J = \text{dom}(\varphi_i) \]
+\end{definition}
+
+Le nozioni di insieme ricorsivo e ricorsivamente enumerabile
+sono leggermente differenti. Di seguito andiamo ad elencare
+alcune delle proprietà principali:
+\begin{itemize}
+	\item Se l'insieme $I$ è ricorsivo, allora è anche
+	      ricorsivamente enumerabile.
+	      \begin{proof}
+		      Questo è banale poiché $\varphi_i$ restituisce
+		      $1$ su $x$ se
+		      \[ \chi_I (x) = 1 \]
+		      altrimenti diverge.
+	      \end{proof}
+	\item L'insieme $I$ e il suo complemento $\overline{I}$
+	      sono ricorisvamente enumerabili se e solo se sono
+	      ricorsivi.
+	      \begin{proof}
+		      Prendiamo $\varphi_i$ con dominio $I$ e
+		      $\varphi_{\overline{i}}$ con dominio
+		      $\overline{I}$. A questo punto eseguiamo il
+		      seguente ciclo.
+		      \begin{enumerate}
+			      \item Si esegue un passo nel calcolo di
+			            $\varphi_i(x)$.
+			      \item Se $\varphi_i(x) \downarrow$ allora
+			            $x \in I$ e si pone $\chi_I(x) = 1$.
+			      \item Altrimenti si esegue un passo di
+			            $\varphi_{\overline{i}}(x)$
+			      \item Se $\varphi_{\overline{i}}(x) \downarrow$
+			            allora $x \notin I$ e si pone
+			            $\chi_I(x) = 0$.
+		      \end{enumerate}
+	      \end{proof}
+\end{itemize}
+
+\begin{theorem}
+	L'insieme $I$ è ricorsivamente enumerabile se e solo se è
+	vuoto oppure è l'immagine di una funzione calcolabile
+	totale.
+	\begin{proof}
+		Nel caso in cui
+		\[ I = \text{dom}(\varphi_i) \neq \emptyset \]
+		è necessario costruire una funzione calcolabile totale
+		$f$ tale che
+		\[ I = \text{imm}(f) \]
+		a partire da $\varphi_i$. Seguiamo quindi i seguenti
+		passi
+		\begin{enumerate}
+			\item Si cerca un elemento di $I$ mediante un
+			      procedimento a coda di colomba in cui
+			      \begin{itemize}
+				      \item L'indice di riga $m$ rappresenta il
+				            numero dei passi del calcolo di
+				            $\varphi_i$.
+				      \item L'indice di colonna $n$ rappresenta
+				            il suo argomento.
+			      \end{itemize}
+			\item Si eseguono $m$ passi nel calcolo di
+			      $\varphi_i(n)$ finché per qualche valore di
+			      $m$ e dell'argomento, sia $\overline{n}$ il
+			      calcolo si arresta.
+		\end{enumerate}
+	\end{proof}
+\end{theorem}
