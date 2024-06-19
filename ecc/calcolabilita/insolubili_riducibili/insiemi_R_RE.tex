@@ -136,10 +136,12 @@ alcune delle proprietà principali:
 		è necessario costruire una funzione calcolabile totale
 		$f$ tale che
 		\[ I = \text{imm}(f) \]
-		a partire da $\varphi_i$. Seguiamo quindi i seguenti
-		passi
+		a partire da $\varphi_i$. Dobbiamo quindi trovare un
+		elemento $\overline{n} \in \text{dom}(\varphi_i)$
+		tramite i seguenti passi:
 		\begin{enumerate}
-			\item Si cerca un elemento di $I$ mediante un
+			\item Si cerca un elemento di
+			      $I = \text{dom}(\varphi_i)$ mediante un
 			      procedimento a coda di colomba in cui
 			      \begin{itemize}
 				      \item L'indice di riga $m$ rappresenta il
@@ -150,8 +152,145 @@ alcune delle proprietà principali:
 			      \end{itemize}
 			\item Si eseguono $m$ passi nel calcolo di
 			      $\varphi_i(n)$ finché per qualche valore di
-			      $m$ e dell'argomento, sia $\overline{n}$ il
-			      calcolo si arresta.
+			      $m$ ed $n$ il caclolo si arresta. In caso di
+			      arresto abbiamo trovato un elemento $n$ nel
+			      dominio di $\varphi_i$, che chiamiamo
+			      $\overline{n}$.
 		\end{enumerate}
+		A questo punto, rappresentando con $\langle m,n \rangle$
+		la codifica della coppia $(m, n)$, si inizia un secondo
+		procedimento in cui
+		\begin{enumerate}
+			\item Si esegue $\varphi_i (n)$ per $m$ passi.
+			\item Se converge poniamo
+			      \[ f(\langle m,n \rangle) = n \]
+			      altrimenti si pone
+			      \[ f(\langle m,n \rangle) = \overline{n} \]
+			\item Si itera incrementando la codifica
+			      $\langle m,n \rangle$, considerando quindi
+			      $\langle m,n \rangle + 1$
+		\end{enumerate}
+		In questo modo vengono generati tutti gli elementi di
+		$I$.
 	\end{proof}
 \end{theorem}
+
+Non c'è un modo intuitivo di spiegare la dimostrazione.
+Semplicemente ci interessa costruire una funzione $f$ che sia
+calcolabile totale e che abbia $I$ come immagine. Il modo in cui
+viene fatto può sembrare un po' \emph{artificiale} ma non si fa
+altro che usare la diagonalizzazione per costruire tutti gli
+elementi dell'insieme di modo da rispettare le ipotesi del
+teorema.
+
+\begin{theorem}
+	L'insieme
+	\[ K = \{ x \mid \varphi_x(x) \downarrow \} \]
+	degli elementi $x$ tali che $\varphi_x (x)$ converge, è
+	ricorsivamente enumerabile ma non è ricorsivo.
+	\begin{proof}
+		Iniziamo con il dimostrare che l'insieme $K$ è
+		ricorsivamente enumerabile. Possiamo dire che $K$ è il
+		dominio della funzione
+		\[
+			\psi = \begin{cases}
+				x                 & \text{se } \varphi_x(x) \downarrow \\
+				\text{indefinita} & \text{altrimenti}
+			\end{cases}
+		\]
+		che è calcolabile poiché possiamo prendere $M_x$ e
+		dargli $x$. Se e quando $M_x$ si arresta si restituisce
+		$x$.
+	\end{proof}
+	\begin{proof}
+		Per dimostrare che $K$ non è ricorsivo prendiamo la sua
+		la funzione caratteristica $\chi_K$ di $K$ e per diciamo
+		per assurdo che sia calcolabile totale. Allora anche
+		\[
+			f(x) = \begin{cases}
+				\varphi_x (x) + 1 & \text{se } x \in K    \\
+				0                 & \text{se } x \notin K
+			\end{cases}
+		\]
+		sarebbe calcolabile totale. In questo modo otteniamo una
+		contraddizione perché $\forall x$ vale che
+		\[ f(x) \neq \varphi_x (x) \]
+		e dunque non troviamo alcun indice per $f$ che quindi
+		non è calcolabile.
+	\end{proof}
+\end{theorem}
+
+Il teorema appena enunciato ci vuole dire che non esiste un
+algoritmo per decidere se $x \in K$ o no. Questo problema viene
+quindi definito \textbf{insolubile} anche se dovremmo dire che
+è \textbf{semi-decidibile}.
+
+Se chiamiamo $\mathcal{R}$ l'insieme degli insiemi ricorsivi e
+$\mathcal{RE}$ quello degli insiemi ricorsivamente enumerabili
+possiamo dire che vale la seguente relazione gerarchica
+\[ \mathcal{R} \subset	\mathcal{RE} \]
+Altra considerazione da fare è che $\overline{K}$ non è
+ricorsivamente enumerabile poiché se lo fosse allora sia $K$
+che $\overline{K}$ sarebbe ricorsivi. Possiamo quindi dire che
+\[ \mathcal{R} \subset \mathcal{RE} \subset non\mathcal{RE} \]
+dove $non \mathcal{RE}$ è la classe degli insiemi non
+ricorsivamente enumerabili.
+
+Il problema dell'insieme $K$ potrebbe sembrare un po' artificiale
+in quanto si applica un programma a se stesso. Ma se ci pensiamo,
+questo è proprio quello che avviene con i \emph{compilatori}.
+
+Supponiamo di aver scritto un \emph{cross-compiler} in un certo
+linguaggio $L$ che traduce programmi scritti in $L$ in un altro
+linguaggio $A$. Rappresentiamo tale compilatore come
+\[ C_L^{L \rightarrow A} \]
+Supponiamo ora di voler scrivere il compilatore
+\[ C_A^{L \rightarrow A} \]
+scritto in $A$ e che fa la stessa cosa del compilatore
+precedente. Per ottenere quest'ultimo compilatore possiamo
+compilare il primo compilatore con se stesso
+\[
+	C_L^{L \rightarrow A} (C_L^{L \rightarrow A}) =
+	C_A^{L \rightarrow A}
+\]
+poiché il primo compilatore prende programmi scritti in $L$ e li
+traduce in programmi scritti in $A$. Questa procedura si chiama
+\textbf{Bootstrapping} e dovrebbe darci un esempio più concreto
+di cosa sia l'insieme $K$.
+
+Vogliamoa a questo punto scrivere un programma $P$ che, dato un
+altro programma $Q$ (individuato dal suo indice $y$) e un
+argomento $x$ ci assicura che la computazione di $Q$ su $x$
+termina.
+
+Questo problema prende il nome di \textbf{problema della fermata}
+ed è formulato come segue: dati $x, y$, possiamo dire che
+$\varphi_y (x)$ converge? In altre parole ci stiamo chiedendo se
+il programma $P_y (x)$ termina.
+
+Il problema della fermata si studia introducendo un altro
+problema, ossia
+\[ K_0 = \{ (x, y) \mid \varphi_y (x) \downarrow \} \]
+ovvero
+\[ K_0 = \{ (x, y) \mid \exists z \mid T(y,x,z) \} \]
+dove $T$ è il predicato di Kleene introdotto nel teorema
+\ref{th: fn} che ritorna vero se e solo se $z$ è la codifica di
+una computazione terminante di $M_y$ con $x$ in input.
+
+\begin{corollary}
+	L'insieme $K_0$ non è ricorsivo.
+	\begin{proof}
+		Si ha che $x \in K$ se e solamente se $(x, x) \in K_0$,
+		quindi se $K_0$ fosse ricorsivo lo sarebbe anche $K$.
+	\end{proof}
+\end{corollary}
+
+La dimostrazione in realtà si basa sulla nozione di
+\textbf{riducibilità} che introdurremo fra poco. Non appena 
+definiremo meglio tale concetto sarà più chiaro anche come 
+$K$ e $K_0$ sono collegati.
+
+Come abbiamo visto, il problema della fermata, formalizzato con
+$K_0$ è strettamente collegato a al problema di decidere
+l'appartenenza di un elemento a $K$, tanto da risultarne
+\textbf{equivalente}.
