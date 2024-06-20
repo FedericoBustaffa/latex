@@ -1,0 +1,93 @@
+\section{Riduzione}
+Il concetto di \textbf{riduzione} è fondamentale per riuscire
+a interagire con classi di problemi differenti.
+
+Una \textbf{riduzione} è una funzione che \emph{transforma}
+un problema $A$ (ovvero un insieme o una classe) $A$ in un
+altro problema $B$, in modo da mantenerne inalterata la
+caratteristica principale.
+
+\begin{definition}
+	Dati due problemi $A$ e $B$, diciamo che $A$ \textbf{si riduce}
+	a $B$ secondo la \textbf{riduzione} $f$ e si indica con
+	\[ A \leq_f B \]
+	se e solo se
+	\[ a \in A \iff f(a) \in B \]
+	ovvero
+	\[
+		f(A) \subseteq B \qquad \land
+		\qquad f(\overline{A}) \subseteq \overline{B}
+	\]
+\end{definition}
+
+\begin{property}
+	$A$ si riduce a $B$ secondo $f$ se e solo se
+	$\overline{A} \leq_f \overline{B}$.
+	\begin{proof}
+		Si ha che
+		\[
+			x \in \overline{A} \iff x \notin A \iff
+			f(x) \notin B \iff f(x) \in \overline{B}
+		\]
+	\end{proof}
+\end{property}
+
+Più in generale si può una \emph{relazione di riduzioni} o
+\emph{famiglia} $\leq_F$ dove $F$ è una particolare classe di
+funzioni. Allora scriveremo
+\[ A \leq_F B \iff \exists f \in F \mid A \leq_f B \]
+Noi siamo interessati a quelle riduzioni che $\leq_F$ che danno
+origine a classi di problemi in qualche modo \emph{omogenei}.
+
+\begin{definition}
+	Siano $\mathcal{D}$ e $\mathcal{E}$ due classi di problemi
+	con $\mathcal{D} \subseteq \mathcal{E}$. Una relazione di
+	riduzione $\leq_F$ \textbf{classifica} $\mathcal{D}$ e
+	$\mathcal{E}$ se e solo se, per ogni problema $A$, $B$ e $C$
+	\begin{itemize}
+		\item $A \leq_F A$
+		\item $A \leq_F B$ e $B \leq_F C$ implica $A \leq_F C$
+		\item $A \leq_F B$ e $B \in \mathcal{D}$ implica
+		      $A \in \mathcal{D}$
+		\item $A \leq_F B$ e $B \in \mathcal{E}$ implica
+		      $A \in \mathcal{E}$
+	\end{itemize}
+\end{definition}
+
+Di seguito vediamo una caratterizzazione differente ma del tutto
+equivalente per le riduzioni che classificano coppie di classi,
+l'una inclusa nell'altra.
+
+\begin{lemma}
+	Una relazione di riduzione $\leq_F$ classifica $\mathcal{D}$
+	e $\mathcal{E}$, con $\mathcal{D} \subseteq \mathcal{E}$, se
+	e solo se
+	\begin{itemize}
+		\item $id \in F$
+		\item $f, g \in F \implies f \circ g \in F$
+		\item $f \in F, \; B \in \mathcal{D} \implies
+			      \{ x \mid f(x) \in B \} \in \mathcal{D}$
+		\item $f \in F, \; B \in \mathcal{E} \implies
+			      \{ x \mid f(x) \in B \} \in \mathcal{E}$
+	\end{itemize}
+\end{lemma}
+
+Attraverso il concetto di relazione di riduzione che classifica
+due classi di problemi si possono definire le seguenti nozioni
+molto importanti.
+
+\begin{definition}
+	Se $\leq_F$ classifica $\mathcal{D}$ e $\mathcal{E}$, vale
+	che per ogni problema $A, B, H$
+	\begin{itemize}
+		\item $A \equiv B$ se $A \leq_F B$ e $B \leq_F A$.
+		\item $H$ è \textbf{$\leq_F$-arduo} per $\mathcal{E}$ se
+		      $\forall A \in \mathcal{E}$ vale $A \leq_F H$.
+		\item $H$ è \textbf{$\leq_F$-completo} per $\mathcal{E}$
+		      se $H$ è $\leq_F$-arduo per $\mathcal{E}$ e
+		      $H \in \mathcal{E}$.
+	\end{itemize}
+\end{definition}
+
+Diremo semplicemente $\mathcal{E}$-arduo o $\mathcal{E}$-completo
+quando la classe di riduzioni $F$ è fissata.
