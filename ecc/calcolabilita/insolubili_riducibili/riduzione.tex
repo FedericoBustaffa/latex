@@ -89,5 +89,52 @@ molto importanti.
 	\end{itemize}
 \end{definition}
 
-Diremo semplicemente $\mathcal{E}$-arduo o $\mathcal{E}$-completo
-quando la classe di riduzioni $F$ è fissata.
+Si dice anche che l'insieme
+\[ \{ B \mid A \equiv_F B \} \]
+è il \textbf{grado} di $A$ o anche che $A$ è equivalente a $B$
+rispetto alla riduzione $\leq_F$. Quando la classe di riduzioni
+$F$ è fissata, diremo semplicemente $\mathcal{E}$-arduo o
+$\mathcal{E}$-completo
+
+\begin{property}
+	Se $\leq_F$ \textbf{classifica} $\mathcal{D}$ ed $\mathcal{E}$
+	con $\mathcal{D} \subseteq \mathcal{E}$ e $C$ è completo per
+	$\mathcal{E}$, allora $C \in \mathcal{D}$ se e solo se
+	\[ \mathcal{D} = \mathcal{E} \]
+	\begin{proof}
+		La parte \emph{"se"} della dimostrazione è ovvia. La
+		parte \emph{"solo se"} si dimostra prendendo
+		$C \in \mathcal{D}$ e $A \in \mathcal{E}$. Per
+		la condizione di completezza di $\leq_F$, vale che
+		$A \leq_F C$ e $A \in \mathcal{D}$ vista prima che
+		classifica $\mathcal{D}$ ed $\mathcal{E}$. Quindi
+		$\mathcal{E} \subseteq \mathcal{D}$ e la tesi.
+	\end{proof}
+\end{property}
+
+Inoltre è facile capire quali siano gli elementi del grado di
+$A$, problema $\leq_F$-completo per $\mathcal{E}$.
+
+\begin{property}
+	Se $A$ è completo per $\mathcal{E}$, $A \leq_F B$ e
+	$B \in \mathcal{E}$, allora $B$ è completo per $\mathcal{E}$.
+	\begin{proof}
+		Per ogni $D \in \mathcal{E}$, $D \leq_F A$ per
+		completezza, ma $\leq_F$ classifica $\mathcal{D}$ ed
+		$\mathcal{E}$ e allora $D \leq_F A$ e $A \leq_F B$
+		implicano $D \leq_F B$ e quindi $B$ è arduo e, poiché
+		appartiene a $\mathcal{E}$, è completo.
+	\end{proof}
+\end{property}
+
+Un problema completo per $\mathcal{E}$ rappresenta la difficoltà
+massima dei problemi di $\mathcal{E}$. Infatti, è facile vedere
+che il grado di un problema $A$ completo per $\mathcal{E}$ è il
+grado massimo di $\mathcal{E}$ in  $\leq_F$. Valgono inoltre le
+seguenti affermazioni (anche per problemi non completi):
+\begin{itemize}
+	\item Se $B \leq_F A$ allora $B$ al più ha il grado di $A$,
+	      cioè è più facile o altrettanto difficile di $A$.
+	\item Se $A \leq_F B$ allora $B$ ha almeno il grado di $A$,
+	      cioè è di difficoltà maggiore o uguale a quella di $A$.
+\end{itemize}
