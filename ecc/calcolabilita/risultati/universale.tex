@@ -126,12 +126,12 @@ Grazie al teorema del parametro si dimostra un altro teorema
 che ha un ruolo fondamentale sia in informatica che in teoria
 della calcolabilità.
 
-\begin{theorem}[Punto fisso]
-	per ogni funzione $f$ calcolabile totale $\exists n$ tale
+\begin{theorem}[Punto fisso] \label{th: punto_fisso}
+	Per ogni funzione $f$ calcolabile totale $\exists n$ tale
 	che
 	\[ \varphi_n = \varphi_{f(n)} \]
 	\begin{proof}
-		Definiamo la seguente funzione
+		Definiamo la seguente funzione calcolabile "diagonale"
 		\[
 			\psi (u, z) = \varphi_{d(u)} (z) =
 			\begin{cases}
