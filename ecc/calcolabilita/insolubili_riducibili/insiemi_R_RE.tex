@@ -47,13 +47,17 @@ quando limitiamo il numero di passi nel calcolo di una MdT.
 		\item Facciamo proseguire il calcolo per al massimo $n$
 		      passi.
 		\item Se la computazione termina in meno di $n$ passi
-		      e l'ouput è proprio $y$, allora l'insieme è
-		      ricorsivo.
+		      allora $(i, x, k) \in I$ e quindi
+		      \[ \chi_I (i, x, k) = 1 \]
+		      se invece la computazione non termina la funzione
+		      caratteristica ritorna $0$.
 	\end{enumerate}
 	Questa, come è facile notare, è una procedura finita di al
 	massimo $n$ passi, alla fine dei quali possiamo andare a
 	controllare se tutti i vincoli sono rispettati di modo da
-	stabilire se la tripla appartiene all'insieme o meno.
+	stabilire se la tripla appartiene all'insieme o meno. Ne
+	segue che la funzione caratteristica è ricorsiva e dunque
+	anche l'insieme $I$ lo è.
 \end{example}
 
 Prendiamo ora un altro esempio, molto simile, leggermente meno
@@ -69,18 +73,18 @@ sull'output.
 	\]
 	è ricorsivo per lo stesso motivo di prima. Stavolta però
 	l'insieme è definito come l'insieme delle quadruple in cui
-	abbiamo aggiunto alla tupla $z$ che è il risultato della
-	funzione. In questo caso siamo solo interessati a vedere se
-	$M_i$ termina in meno di $n$ passi.
+	abbiamo aggiunto $z$ che è il risultato della funzione. In
+	questo caso siamo solo interessati a vedere se $M_i$ termina
+	in meno di $n$ passi.
 \end{example}
 
 Notiamo che la proposizione $\varphi_i (x) \downarrow$ è vera se
 e solo se esiste un $n$ (senza limitazioni) tale che
-$M_i(x) \downarrow$ converge in meno di $n$ passi. Volendo è
-possibile vedere questo insieme come l'unione infita degli
-insiemi definiti come nell'ultimo esempio con $k$ che assume
-tutti i possibili valori in $\N$. Otteniamo così l'insieme di
-tutte le macchine che convergono su $x$.
+$M_i(x)$ converge in meno di $n$ passi. Volendo è possibile
+vedere questo insieme come l'unione infita degli insiemi
+definiti come nell'ultimo esempio con $k$ che assume tutti i
+possibili valori in $\N$. Otteniamo così l'insieme di tutte le
+macchine che convergono su $x$.
 
 Come sappiamo, il dominio di una funzione è l'insieme dei punti
 sui quali la funzione converge. Quello che possiamo fare adesso
@@ -92,39 +96,50 @@ sui quali la funzione converge. Quello che possiamo fare adesso
 	\[ I = \text{dom}(\varphi_i) \]
 \end{definition}
 
-Le nozioni di insieme ricorsivo e ricorsivamente enumerabile
-sono leggermente differenti. Di seguito andiamo ad elencare
-alcune delle proprietà principali:
-\begin{itemize}
-	\item Se l'insieme $I$ è ricorsivo, allora è anche
-	      ricorsivamente enumerabile.
-	      \begin{proof}
-		      Questo è banale poiché $\varphi_i$ restituisce
-		      $1$ su $x$ se
-		      \[ \chi_I (x) = 1 \]
-		      altrimenti diverge.
-	      \end{proof}
-	\item L'insieme $I$ e il suo complemento $\overline{I}$
-	      sono ricorisvamente enumerabili se e solo se sono
-	      ricorsivi.
-	      \begin{proof}
-		      Prendiamo $\varphi_i$ con dominio $I$ e
-		      $\varphi_{\overline{i}}$ con dominio
-		      $\overline{I}$. A questo punto eseguiamo il
-		      seguente ciclo.
-		      \begin{enumerate}
-			      \item Si esegue un passo nel calcolo di
-			            $\varphi_i(x)$.
-			      \item Se $\varphi_i(x) \downarrow$ allora
-			            $x \in I$ e si pone $\chi_I(x) = 1$.
-			      \item Altrimenti si esegue un passo di
-			            $\varphi_{\overline{i}}(x)$
-			      \item Se $\varphi_{\overline{i}}(x) \downarrow$
-			            allora $x \notin I$ e si pone
-			            $\chi_I(x) = 0$.
-		      \end{enumerate}
-	      \end{proof}
-\end{itemize}
+Un insieme ricorsivamente enumerabile (detto anche
+\textbf{semi-decidibile}) è quindi il dominio di una funzione
+calcolabile (il più delle volte parziale, infatti se fosse
+totale $I = \N$) che è anche detta \textbf{semi-caratteristica}.
+di $I$. Similmente a quest'ultima classe di insiemi, anche gli
+insiemi ricorsivi vengono spesso chiamati \textbf{decidibili}.
+
+
+\begin{property} \label{prop: r_re}
+	Le nozioni di insieme ricorsivo e ricorsivamente enumerabile
+	sono leggermente differenti. Andiamo quindi ad elencare
+	alcune delle proprietà principali:
+	\begin{itemize}
+		\item Se l'insieme $I$ è ricorsivo, allora è anche
+		      ricorsivamente enumerabile.
+		      \begin{proof}
+			      Questo è banale poiché $\varphi_i$ restituisce
+			      $1$ su $x$ se
+			      \[ \chi_I (x) = 1 \]
+			      altrimenti diverge.
+		      \end{proof}
+		\item L'insieme $I$ e il suo complemento $\overline{I}$
+		      sono ricorsivamente enumerabili se e solo se sono
+		      ricorsivi.
+		      \begin{proof}
+			      Prendiamo $\varphi_i$ con dominio $I$ e
+			      $\varphi_{\overline{i}}$ con dominio
+			      $\overline{I}$. A questo punto eseguiamo il
+			      seguente ciclo.
+			      \begin{enumerate}
+				      \item Si esegue un passo nel calcolo di
+				            $\varphi_i(x)$.
+				      \item Se $\varphi_i(x) \downarrow$ allora
+				            $x \in I$ e si pone $\chi_I(x) = 1$.
+				      \item Altrimenti si esegue un passo di
+				            $\varphi_{\overline{i}}(x)$
+				      \item Se $\varphi_{\overline{i}}(x) \downarrow$
+				            allora $x \notin I$ e si pone
+				            $\chi_I(x) = 0$.
+			      \end{enumerate}
+		      \end{proof}
+	\end{itemize}
+\end{property}
+
 
 \begin{theorem}
 	L'insieme $I$ è ricorsivamente enumerabile se e solo se è
@@ -175,13 +190,11 @@ alcune delle proprietà principali:
 	\end{proof}
 \end{theorem}
 
-Non c'è un modo intuitivo di spiegare la dimostrazione.
-Semplicemente ci interessa costruire una funzione $f$ che sia
-calcolabile totale e che abbia $I$ come immagine. Il modo in cui
-viene fatto può sembrare un po' \emph{artificiale} ma non si fa
-altro che usare la diagonalizzazione per costruire tutti gli
-elementi dell'insieme di modo da rispettare le ipotesi del
-teorema.
+Questa dimostrazione si basa sul fatto che se $I$ è un insieme
+ricorsivamente enumerabile, ed è quindi il dominio di una certa
+funzione $\varphi_i$, è sempre possibile, tramite il procedimento
+illustrato, costruire una funzione $f$ calcolabile totale che ha
+$I$ come immagine.
 
 \begin{theorem}
 	L'insieme
@@ -204,34 +217,43 @@ teorema.
 	\end{proof}
 	\begin{proof}
 		Per dimostrare che $K$ non è ricorsivo prendiamo la sua
-		la funzione caratteristica $\chi_K$ di $K$ e per diciamo
-		per assurdo che sia calcolabile totale. Allora anche
+		la funzione caratteristica $\chi_K$ di $K$ e per
+		supponiamo per assurdo che sia calcolabile totale. Se
+		così fosse sarebbe possibile costruire la seguente
+		funzione
 		\[
 			f(x) = \begin{cases}
 				\varphi_x (x) + 1 & \text{se } x \in K    \\
 				0                 & \text{se } x \notin K
 			\end{cases}
 		\]
-		sarebbe calcolabile totale. In questo modo otteniamo una
-		contraddizione perché $\forall x$ vale che
+		anch'essa calcolabile totale in quanto, nel caso in cui
+		$x \in K$, ovvero $\chi_K(x) = 1$, avremmo che la
+		funzione è definita come
+		\[ \varphi_x (x) + 1 \]
+		Se invece $x \notin K$, la funzione è definita come $0$.
+		In questo modo otteniamo una contraddizione perché
+		$\forall x$ vale che
 		\[ f(x) \neq \varphi_x (x) \]
 		e dunque non troviamo alcun indice per $f$ che quindi
 		non è calcolabile.
 	\end{proof}
 \end{theorem}
 
-Il teorema appena enunciato ci vuole dire che non esiste un
-algoritmo per decidere se $x \in K$ o no. Questo problema viene
-quindi definito \textbf{insolubile} anche se dovremmo dire che
-è \textbf{semi-decidibile}.
+Il teorema appena enunciato ci dice che non esiste un algoritmo
+per decidere se $x \in K$ o no. Questo problema viene quindi
+definito \textbf{insolubile} anche se dovremmo dire che è
+\textbf{semi-decidibile}.
 
-Se chiamiamo $\mathcal{R}$ l'insieme degli insiemi ricorsivi e
-$\mathcal{RE}$ quello degli insiemi ricorsivamente enumerabili
-possiamo dire che vale la seguente relazione gerarchica
+Se chiamiamo $\mathcal{R}$ la classe degli insiemi ricorsivi e
+$\mathcal{RE}$ la classe degli insiemi ricorsivamente
+enumerabili, possiamo dire che vale la seguente relazione
+gerarchica
 \[ \mathcal{R} \subset	\mathcal{RE} \]
 Altra considerazione da fare è che $\overline{K}$ non è
 ricorsivamente enumerabile poiché se lo fosse allora sia $K$
-che $\overline{K}$ sarebbe ricorsivi. Possiamo quindi dire che
+che $\overline{K}$ sarebbe ricorsivi (\ref{prop: r_re}).
+Possiamo quindi dire che
 \[ \mathcal{R} \subset \mathcal{RE} \subset non\mathcal{RE} \]
 dove $non \mathcal{RE}$ è la classe degli insiemi non
 ricorsivamente enumerabili.
