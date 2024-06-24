@@ -1,13 +1,11 @@
 \section{Riduzione}
-Il concetto di \textbf{riduzione} è fondamentale per riuscire
-a interagire con classi di problemi differenti.
+Il concetto di riduzione è fondamentale per riuscire a interagire
+con classi di problemi differenti. Una \textbf{riduzione} è una
+funzione che \emph{transforma} un problema $A$ (ovvero un insieme
+o una classe) $A$ in un altro problema $B$, in modo da mantenerne
+inalterata la caratteristica principale.
 
-Una \textbf{riduzione} è una funzione che \emph{transforma}
-un problema $A$ (ovvero un insieme o una classe) $A$ in un
-altro problema $B$, in modo da mantenerne inalterata la
-caratteristica principale.
-
-\begin{definition}
+\begin{definition} \label{def: riduzione}
 	Dati due problemi $A$ e $B$, diciamo che $A$ \textbf{si riduce}
 	a $B$ secondo la \textbf{riduzione} $f$ e si indica con
 	\[ A \leq_f B \]
@@ -32,14 +30,14 @@ caratteristica principale.
 	\end{proof}
 \end{property}
 
-Più in generale si può una \emph{relazione di riduzioni} o
-\emph{famiglia} $\leq_F$ dove $F$ è una particolare classe di
+Più in generale si definisce una \emph{relazione di riduzioni}
+o \emph{famiglia} $\leq_F$ dove $F$ è una particolare classe di
 funzioni. Allora scriveremo
 \[ A \leq_F B \iff \exists f \in F \mid A \leq_f B \]
 Noi siamo interessati a quelle riduzioni che $\leq_F$ che danno
 origine a classi di problemi in qualche modo \emph{omogenei}.
 
-\begin{definition}
+\begin{lemma} \label{def: classificazione}
 	Siano $\mathcal{D}$ e $\mathcal{E}$ due classi di problemi
 	con $\mathcal{D} \subseteq \mathcal{E}$. Una relazione di
 	riduzione $\leq_F$ \textbf{classifica} $\mathcal{D}$ e
@@ -52,13 +50,13 @@ origine a classi di problemi in qualche modo \emph{omogenei}.
 		\item $A \leq_F B$ e $B \in \mathcal{E}$ implica
 		      $A \in \mathcal{E}$
 	\end{itemize}
-\end{definition}
+\end{lemma}
 
 Di seguito vediamo una caratterizzazione differente ma del tutto
 equivalente per le riduzioni che classificano coppie di classi,
 l'una inclusa nell'altra.
 
-\begin{lemma}
+\begin{lemma} \label{lemma: classificazione}
 	Una relazione di riduzione $\leq_F$ classifica $\mathcal{D}$
 	e $\mathcal{E}$, con $\mathcal{D} \subseteq \mathcal{E}$, se
 	e solo se
@@ -95,6 +93,17 @@ Si dice anche che l'insieme
 rispetto alla riduzione $\leq_F$. Quando la classe di riduzioni
 $F$ è fissata, diremo semplicemente $\mathcal{E}$-arduo o
 $\mathcal{E}$-completo
+
+La relazione di riduzione $\leq_F$ è quello che viene chiamato
+\textbf{pre-ordine parziale}, cioè un ordinamento parziale,
+riflessivo e transitivo ma non anti-simmetrico. Nello specifico
+\begin{itemize}
+	\item Ogni elemento è in relazione con se stesso: $a \leq a$.
+	\item Vale la transitività: $a \leq b$ e $b \leq c$ implicano
+	      $a \leq c$.
+	\item Non vale l'anti-simmetria: se $a \leq b$ e $b \leq a$
+	      non possiamo dedurre che $a = b$.
+\end{itemize}
 
 \begin{property}
 	Se $\leq_F$ \textbf{classifica} $\mathcal{D}$ ed $\mathcal{E}$
@@ -138,3 +147,44 @@ seguenti affermazioni (anche per problemi non completi):
 	\item Se $A \leq_F B$ allora $B$ ha almeno il grado di $A$,
 	      cioè è di difficoltà maggiore o uguale a quella di $A$.
 \end{itemize}
+
+Passiamo ora riformulare le definizioni di \hyperref[def: riduzione]{riduzione}
+e \hyperref[def: classificazione]{classificazione} per ottenere
+il concetto di riducibilità che ci interessa. Per farlo diamo
+un nome alla classe di funzioni calcolabili
+\[ rec = \{ \varphi_x \mid \forall y \in \N . \varphi_x(y) \downarrow \} \]
+
+\begin{definition}
+	Il problema $A$ è \textbf{riducibile} a $B$ ($A \leq_{rec} B$)
+	se e solamente se esiste una funzione calcolabile totale
+	$f : \N \to \N$ tale che $x \in A$ se e solamente se
+	$f(x) \in B$.
+\end{definition}
+
+Vogliamo vedere ora come le relazioni di riduzione conservano la
+ricorsività e la ricorsiva enumerabilità. D'ora in poi ci 
+riferiremo agli insiemi $\mathcal{R}$ ed $\mathcal{RE}$, che
+abbiamo definito in precedenza, come le classi di problemi
+rispettivamente ricorsivi e ricorsivamente enumerabili.
+
+\begin{theorem}
+	La relazione di riduzione $\leq_{rec}$ classifica
+	$\mathcal{R}$ ed $\mathcal{RE}$.
+	\begin{proof}
+		Sappiamo già che $\mathcal{R} \subseteq \mathcal{RE}$
+		grazie alla proprietà \ref{prop: r_re}. Possiamo quindi
+		usare il lemma \ref{lemma: classificazione} verificando
+		che tutte le proprietà siano soddisfatte:
+		\begin{itemize}
+			\item L'identità appartiene a $rec$ poiché una
+			      funzione calcolabile è $\mu$-ricorsiva.
+			\item La composizione preserva la totalità.
+			\item La funzione caratteristica di
+			      $\{ x \mid f(x) \in B \}$ è $\chi_B \circ f$
+			      che è calcolabile totale perché $f$ e $\chi_B$
+			      lo sono.
+			\item Analogo al punto precedente ma con la
+			      semi-caratteristica di $B$.
+		\end{itemize}
+	\end{proof}
+\end{theorem}
