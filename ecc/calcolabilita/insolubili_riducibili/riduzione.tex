@@ -203,3 +203,51 @@ Come abbiamo già visto, questo viene fatto giocando sul tempo
 necessario a decidere un problema: \textbf{finito} nel caso
 in cui sia ricorsivo, \textbf{infinito} in caso contrario.
 
+Notiamo anche che ci basta trovare un problema che sia
+$\leq_{rec}$-completo per $\mathcal{R}$ per poter vedere quali
+problemi sono decidibili e quali no.
+
+Ancora più interessante è trovare un problema
+$\leq_{rec}$-completo per $\mathcal{RE}$, così da capire quali
+problemi sono al più semi-decidibili e quali nemmeno
+semi-decidibili. Basta infatti ridurre il problema da studiare a
+quello completo sapere che è ricorsivamente enumerabile oppure
+ridurre il problema completo a quello da studiare e sapremo che
+quest'ultimo, ben che vada, è ricorsivamente enumerabile.
+
+% Impossibile ridurre K a K^- o viceversa
+
+
+\begin{theorem}
+	L'insieme $K$ è $\mathcal{RE}$-completo, ovvero
+	$\leq_{rec}$-completo per $\mathcal{RE}$.
+	\begin{proof}
+		Dobbiamo dimostrare che se $A \in \mathcal{RE}$ allora
+		$A \leq_{rec} K$. Per definizione $A$ è il dominio di
+		una funzione calcolabile $\psi$, ovvero
+		\[ A = \{ x \mid \psi (x) \downarrow \} \]
+		A partire da $\psi$ definiamo la funzione $\psi'$ a due
+		variabili di cui ignoriamo la seconda
+		\[ \psi' (x, y) = \psi(x) \]
+		che è calcolabile, dunque ha un indice $i$ tale che
+		$\psi' = \varphi_i$, allora per il teorema del parametro
+		\[ \psi' (x, y) = \varphi_i(x, y) = \varphi_{s(i, x)} (y) \]
+		con $s$ calcolabile, iniettiva e totale. Possiamo quindi
+		scrivere la definizione di $A$ come segue
+		\begin{align*}
+			A & = \{ x \mid \psi(x) \downarrow \}                    \\
+			  & = \{ x \mid \psi'(x, y) \downarrow \}                \\
+			  & = \{ x \mid \varphi_i(x, y) \downarrow \}            \\
+			  & = \{ x \mid \varphi_{s(i, x)}(y) \downarrow \}       \\
+			  & = \{ x \mid \varphi_{s(i, x)}(s(i, x)) \downarrow \} \\
+			  & = \{ x \mid s(i, x) \in K \}
+		\end{align*}
+		quindi $x \in A$ se e solo se $f(x) \in K$ con
+		$f(x) = \lambda x . s(i, x)$ che è calcolabile, totale
+		e iniettiva perché $s(i, x)$ lo è.
+	\end{proof}
+\end{theorem}
+
+Questo teorema ci dice che tutti gli insiemi ricorsivamente
+enumerabili si riducono, per mezzo di una funzione calcolabile,
+totale a $K$.
