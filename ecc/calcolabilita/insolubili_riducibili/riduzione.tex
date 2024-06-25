@@ -18,7 +18,7 @@ inalterata la caratteristica principale.
 	\]
 \end{definition}
 
-\begin{property}
+\begin{property} \label{prop: riduzione_comp}
 	$A$ si riduce a $B$ secondo $f$ se e solo se
 	$\overline{A} \leq_f \overline{B}$.
 	\begin{proof}
@@ -189,7 +189,7 @@ rispettivamente ricorsivi e ricorsivamente enumerabili.
 	\end{proof}
 \end{theorem}
 
-Nei teoremi e negli esericizi useremo principalmente funzioni
+Nei teoremi e negli esercizi useremo principalmente funzioni
 di riduzione iniettive di solito ricavate tramite il teorema
 del parametro.
 
@@ -215,8 +215,27 @@ quello completo sapere che è ricorsivamente enumerabile oppure
 ridurre il problema completo a quello da studiare e sapremo che
 quest'ultimo, ben che vada, è ricorsivamente enumerabile.
 
-% Impossibile ridurre K a K^- o viceversa
+Prima di andare avanti vediamo che $K$ non si riduce, con
+funzioni calcolabili totali, a $\overline{K}$ né il viceversa.
+Ci interessa vedere che un insieme ricorsivamente enumerabile
+può non essere confrontabile con uno non ricorsivamente
+enumerabile, usando $\leq_{rec}$. Dobbiamo quindi mostrare che
+\[
+	\overline{K} \not\leq_{rec} K \qquad \text{e}
+	\qquad K \not\leq_{rec} \overline{K}
+\]
+La prima disuguaglianza dev'essere vera, altrimenti per la
+proprietà \ref{prop: r_re}, la quale ci dice che un insieme e
+il suo complemento sono ricorsivamente enumerabili se e solo se
+sono ricorsivi. Abbiamo però dimostrato nel teorema
+\ref{th: K_re_not_r} che $K$ non è ricorsivo.
 
+La seconda disuguaglianza si dimostra vera ricorrendo alla
+proprietà \ref{prop: riduzione_comp} la quale ci dice che
+\[ A \leq_f B \iff \overline{A} \leq_f \overline{B} \]
+e dunque se $K \leq_{rec} \overline{K}$ allora anche
+$\overline{K} \leq_{rec} K$ che però è appena stato dimostrato
+falso.
 
 \begin{theorem}
 	L'insieme $K$ è $\mathcal{RE}$-completo, ovvero
@@ -251,3 +270,90 @@ quest'ultimo, ben che vada, è ricorsivamente enumerabile.
 Questo teorema ci dice che tutti gli insiemi ricorsivamente
 enumerabili si riducono, per mezzo di una funzione calcolabile,
 totale a $K$.
+
+\begin{definition}
+	L'insieme $A$ è un \textbf{insieme di indici} che
+	rappresentano le funzioni se e solo se $\forall x, y$
+	\[
+		x \in A \quad \land \quad \varphi_x = \varphi_y
+		\quad \implies \quad y \in A
+	\]
+\end{definition}
+
+Passiamo ora a studiare gli insiemi di indici $A$ che
+rappresentano le funzioni e tali per cui $K \leq_{rec} A$ (oppure
+$K \leq_{rec} \overline{A}$).
+
+In questo modo sapremo quali classi di funzioni sono al massimo
+semi-decidibili (ma non decidibili), perché, gli indici in $A$
+individuano esattamente le funzioni calcolate dalle macchine con
+indice in $A$.
+
+\begin{theorem} \label{th: indici}
+	Sia $A$ un insieme di indici che rappresentano le funzioni
+	tale che
+	\[ \emptyset \neq A \neq \N \]
+	allora $K \leq_{rec} A$ oppure $K \leq_{rec} \overline{A}$.
+	\begin{proof}
+		Iniziamo con il prendere l'indice $i_0$ tale che
+		$\varphi_{i_0}(y)$ sia ovunque indefinita. Supponiamo
+		che $i_0 \in \overline{A}$ e dimostriamo che
+		$K \leq_{rec} A$. Poiché $A \leq \emptyset$ prendiamo un
+		altro indice $i_1 \in A$.
+
+		Siamo d'accordo che $\varphi_{i_0} \neq \varphi_{i_1}$
+		poiché gli indici provengono da due insiemi di indici
+		differenti. Definiamo ora la seguente funzione
+		\[
+			\psi (x, y) = \varphi_{f(x)} (y) = \begin{cases}
+				\varphi_{i_1} (y)                      & \text{se } x \in K \\
+				\text{indefinita } = \varphi_{i_0} (y) & \text{altrimenti}
+			\end{cases}
+		\]
+		dove usando il \hyperref[th: s-m-n]{teorema del parametro}
+		abbiamo determinato la $f$ funzione calcolabile totale e
+		iniettiva. Vale allora la seguente catena di implicazioni
+		\[
+			x \in K \implies \varphi_{f(x)} = \varphi_{i_1}
+			\implies f(x) \in A
+		\]
+		perché $i_1 \in A$ e $A$ è un insieme di indici che
+		rappresentano le funzioni, dunque anche $f(x) \in A$ e
+		dunque abbiamo dimostrato vera la prima disuguaglianza.
+		Viceversa, dato che $i_0 \in \overline{A}$ vale questa
+		catena di uguaglianze
+		\[
+			x \notin K \implies \varphi_{f(x)} = \varphi_{i_0}
+			\implies f(x) \in \overline{A} \implies f(x) \notin A
+		\]
+	\end{proof}
+\end{theorem}
+
+In realtà nella dimostrazione appena vista si può procedere in
+modo simmetrico e del tutto analogo prendendo $i_0 \in A$.
+
+Esistono anche insiemi $B$ tali che $K \leq_{rec} B$ \textbf{e}
+$K \leq_{rec} \overline{B}$ e cioè esistono funzioni $f$ e $g$
+calcolabili totali e iniettive tali che $x \in K$ se e solo se
+$f(x) \in B$ e $x \in K$ se e solo se $g(x) \in \overline{B}$.
+
+\begin{theorem} [Rice] \label{th: rice}
+	Sia $\mathcal{A}$ una classe di funzioni calcolabili.
+	L'insieme
+	\[ A = \{ n \mid \varphi_n \in \mathcal{A} \} \]
+	è ricorsivo se e solo se $\mathcal{A} = \emptyset$ oppure
+	$\mathcal{A}$ è la classe di tutte le funzioni calcolabili.
+	\begin{proof}
+		Si noti che $A$ è un insieme di indice mentre
+		$\mathcal{A}$ è una classe di funzioni. La dimostrazione
+		è immediata per i casi banali in cui
+		$\mathcal{A} = \emptyset$ oppure quando è la classe di
+		tutte le funzioni calcolabili.
+
+		Negli altri casi, basta applicare il teorema
+		\ref{th: indici} appena visto. Dato che $A$ è un insieme
+		di indici non vuoto perché $\mathcal{A}$ contiene almeno
+		una funzione e non coincide con $\N$, dunque non contiene
+		tutte le funzioni calcolabili.
+	\end{proof}
+\end{theorem}
