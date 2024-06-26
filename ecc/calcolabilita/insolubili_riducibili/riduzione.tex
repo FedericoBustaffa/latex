@@ -358,3 +358,21 @@ $f(x) \in B$ e $x \in K$ se e solo se $g(x) \in \overline{B}$.
 		tutte le funzioni calcolabili.
 	\end{proof}
 \end{theorem}
+
+Questo teorema si ripercuote sulle proprietà dimostrabili sui
+programmi in quanto ogni metodo di prova si scontra
+inevitabilmente con il problema della fermata.
+
+In realtà, per aggirare il problema sono stati sviluppati metodi
+di \textbf{analisi statica} del codice, i quali riescono ad
+analizzare il testo del programma parsandolo e raccogliendo
+informazioni sugli oggetti che compaiono nel programma e come
+questi verrano usati a tempo di esecuzione.
+
+Se per esempio (in contesto single-thread) volessimo verificare
+se un programma con all'interno un \verb|while| entra in un
+ciclo infinito oppure no possiamo fare dei controlli sulle
+variabili che decretano l'uscita dal ciclo. Se a queste variabili
+non vengono mai assegnati nuovi valori dentro il ciclo allora
+possiamo affermare con un certo grado di sicurezza che il
+programma andrà in ciclo.
