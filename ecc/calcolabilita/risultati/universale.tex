@@ -4,7 +4,7 @@ Supponiamo ora di avere a disposizione un formalismo
 le funzione calcolabili. Questo sarebbe così potente da
 riuscire ad esprimere l'interprete dei propri programmi.
 
-\begin{theorem}[Enumerazione]
+\begin{theorem}[Enumerazione] \label{th: enum}
 	Esiste una funzione numerabile parziale $\varphi_z(i, x)$
 	tale che $\forall i,x$ vale
 	\[ \varphi_i(x) = \varphi_z (i, x) \]
@@ -38,6 +38,26 @@ applicato a $x$. In genere la macchina di Turing $z$ viene
 chiamata \textbf{macchina di Turing universale}. In realtà
 esistono un'infinità numerabile di MdT universali.
 
+\subsection{Costruzione di una MdT universale}
+Proviamo ora a costruire una MdT universale a tre nastri per
+riuscire ad avere una visione più concreta di ciò di cui stiamo
+parlando. Lo facciamo anche per riuscire ad apprezzare meglio la
+differenza tra \emph{sintassi} e \emph{semantica} ed inoltre
+tale costruzione ci tornerà utile più avanti per lo studio della
+complessità.
+
+Se ci pensiamo un attimo, un qualsiasi calcolatore fisico è una
+macchina di turing universale, in quanto prende i nostri
+programmi e li esegue ritornando lo stesso risultato che
+darebbero se fossero eseguiti a mano da un operatore umano.
+
+Come abbiamo appena visto, i teoremi di
+\hyperref[th: fn]{forma normale} e di
+\hyperref[th: enum]{teorema di enumerazione} ci forniscono una
+prova dell'esistenza di una MdT universale, noi ora vogliamo
+costruirne una.
+
+% ----
 Passiamo ora ad un teorema che possiamo vedere un po' come il
 duale del teorema di enumerazione. Enunceremo una prima versione
 semplificata e poi la sua forma generale.
