@@ -57,6 +57,213 @@ Come abbiamo appena visto, i teoremi di
 prova dell'esistenza di una MdT universale, noi ora vogliamo
 costruirne una.
 
+Chiariamo che avere tre nastri non aumenta in alcun modo né la
+capacirtà espressiva né le prestazioni della macchina. Serve
+solo a noi per riuscire a scrivere il programma più comodamente.
+
+\subsubsection{Codifica}
+Supponiamo di avere i seguenti insiemi ausiliari
+\begin{gather*}
+	Q_* = \{ q_0, q_1, \dots \} \\
+	\Sigma_* = \{ \sigma_0, \sigma_1, \dots \}
+\end{gather*}
+con $h \notin Q_*$ e $L, R, - \notin \Sigma_*$. In questo modo
+ogni MdT $M_k$ avrà l'insieme degli stati $Q_k$ e l'insieme dei
+simboli $\Sigma_k$ inclusi rispettivamente in $Q_*$ e $\Sigma_*$.
+
+Il prossimo passo consiste nel rappresentare gli elementi di
+$Q_*$ e $\Sigma_*$ come stringhe generate dalla concatenazione
+del simbolo $\mid$. Vogliamo quindi definire una funzione di
+codifica
+\[
+	\kappa : Q_* \cup \{ h \} \cup \Sigma_* \cup \{ L, R, - \}
+	\rightarrow \{ \mid \}^*
+\]
+in grado di codificare stati e simboli della nostra MdT in
+questo modo:
+\begin{gather*}
+	q_i \mapsto \mid^{i+2}      \quad h \mapsto \mid \\
+	\sigma_i \mapsto \mid^{i+4} \quad L \mapsto \mid \quad
+	R \mapsto \mid \mid \quad - \mapsto \mid \mid \mid
+\end{gather*}
+Il motivo per cui $q_i \mapsto \mid^{i+2}$ è che abbiamo già $h$
+codificato come $\mid$ e dunque, partendo da $q_0$ abbiamo che
+$q_0 \mapsto \mid^2 = \mid \mid$. Discorso analogo per la
+codifica dei simboli.
+
+\`E immediato notare però che la funzione $\kappa$ non è
+biunivoca in quanto sia $h$ che $L$ vengono codificati in $\mid$
+(così come tanti altri stati e simboli che condividono la stessa
+codifica). In realtà a noi interessa considerare $\kappa$
+ristretta all'insieme di appartenenza dell'oggetto che vogliamo
+codificare. Ecco che la funzione diventa biunivoca se, tramite
+l'aggiunta di una marca $c$, separiamo la codifica dei vari
+insiemi, consideriamo solo quello di interesse. Passiamo adesso
+a fissare una MdT
+\[ M = (Q, \Sigma, \delta, s) \]
+con $s$ stato iniziale e cerchiamo di codificarla andando per
+prima cosa ad ordinare l'insieme degli stati
+\[ Q = \{ q_{i_1}, \dots, q_{i_k} \} \]
+e l'insieme dei simboli
+\[ \Sigma = \{ \sigma_{j_1}, \dots, \sigma_{j_k} \} \]
+in modo tale che
+\[
+	p \leq p' \implies i_p \leq i_{p'} \quad
+	\land \quad j_p \leq j_{p'}
+\]
+Consideriamo ora l'alfabeto $\{ \mid, c, d, \#, \start \}$ sotto
+l'ipotesi che l'intersezione tra questo e $\Sigma_* \cup Q_*$
+sia vuota. La codifica di ogni $n$-upla avviene in questo modo
+\[
+	S_{p,q} = c \; \kappa (q_{i_p})
+	\; c \; \kappa (\sigma_{j_q})
+	\; c \; \kappa (q)
+	\; c \; \kappa (\sigma)
+	\; c \; \kappa (D) \; c
+\]
+se $\delta (q_{i_p}, \sigma_{j_q}) = (q, \sigma, D)$. Completiamo
+con la codifica dei casi in cui $\delta$ non è definita:
+\[
+	S_{p,q} = c \; \kappa (q_{i_p})
+	\; c \; \kappa (\sigma_{j_q})
+	\; c \; d \; c \; d \; c \; d \; c
+\]
+se $\delta(q_{i_p}, \sigma_{j_q})$ non è definita.
+
+\begin{example}
+	Vediamo un esempio che applica la codifica appena descritta
+\end{example}
+
+Torniamo a noi e cerchiamo di definire una funzione $\rho$ che
+mandi una generica MdT $M$ in una stringa fatta di soli caratteri
+$\mid$, $c$ e $d$ che verrà racchiusa tra due $c$. Ciò che ci
+manca è sapere quale sia lo stato iniziale di $M$ che
+codificheremo e prefiggeremo alla codifica della funzione di
+transizione $\delta$, nel modo seguente:
+\[
+	\rho (M) = c \; \kappa (s) \; c \;
+	S_{1,1} S_{1,2} \dots
+	S_{1,l} S_{2,1} \dots S_{2,l} \dots
+	S_{k,1} S_{k,2} \dots S_{k,l} \; c
+\]
+In questo modo abbiamo generato una stringa da cui è possibile
+tornare indietro o ad una MdT o ad un qualcosa che non lo è in
+caso la stringa non sia l'immagine di una MdT.
+
+Siamo riusciti a codificare la MdT $M$ ma non abbiamo ancora
+finito in quanto ci serve anche la codifica del dato
+$w = \sigma'_0 \dots \sigma'_n$ in ingresso. L'ultimo passo
+della codifica è ottenuto tramite la funzione $\tau$ che ci
+permette di ottenere
+\[ \rho(M) \tau(w) \]
+ossia la codifica completa della macchina e del suo input. Dove
+la funzione $\tau$ è definita come segue
+\[
+	\tau(\sigma'_0 \dots \sigma'_n) =
+	c \; \kappa(\sigma'_0) \;
+	c \; \kappa(\sigma'_n) \; c
+\]
+Si noti che tre $c$ separano la codifica di $M$ da quella $w$.
+
+\subsubsection{Esecuzione}
+Quello che vogliamo dalla MdT universale
+\[ U = (Q_U, \Sigma_U, \delta_U, s_U) \]
+è che per ogni $M$ e per ogni $w \in \Sigma^*$ succeda che
+\begin{itemize}
+	\item Se $M$ termina su $w$ e da come risultato $uav$
+	      \[
+		      (s, \underline{\start}, w) \rightarrow^*_0
+		      (h, u \underline{a} v)
+	      \]
+	      allora $U$ termina su $\rho(M) \tau(w)$ e il nastro è
+	      la codifica di $uav$
+	      \[
+		      (s_U, \underline{\start} \rho(M) \tau(w))
+		      \rightarrow^*_U (h, \tau(uav) \underline{\#})
+	      \]
+	\item Viceversa se $U$ termina su $\rho(M) \tau(w)$ e da come
+	      risultato $u'a'v'$
+	      \[
+		      (s_U, \underline{\start} \rho(M) \tau(w))
+		      \rightarrow^*_U (h, u' \underline{a'}v')
+	      \]
+	      allora $a' = \#$ è il bianco, $v' = \epsilon$ è la
+	      marca di fine stringa e $u' = \tau(uav)$ è la codifica
+	      di $uav$ per quale $u$, $a$ e $v$ tali che $M$ termina
+	      su $w$ e da come risultato $uav$
+	      \[
+		      (s, \underline{\start}, w) \rightarrow^*_0
+		      (h, u \underline{a} v)
+	      \]
+\end{itemize}
+Nella nostra MdT universale abbiamo che nel primo nastro c'è la
+codifica $\tau(w)$ di $w$, nel secondo nastro la codifica di
+$\rho(M)$ di $M$ e nel terzo c'è la codifica dello stato in cui
+si trova $M$.
+
+Ovviamente, prima di iniziare il calcolo, la MdT universale deve
+attraversare una fase di inizializzazione in cui scrive sui vari
+nastri le codifiche di $M$, $w$ ed $s$.
+
+Dopo la fase di inizializzazione passiamo a descrivere coem
+avviene la fase di calcolo. Dato che abbiamo tre nastri, per
+simplicità chiameremo cursore $i$ (con $i = \{ 1, 2, 3\}$) il
+cursore sull'$i$-esimo nastro. Iniziamo con il calcolo:
+\begin{enumerate}
+	\item Se il terzo nastro (quello con lo stato) contiene la
+	      codifica di $q_{h_i}$, allora spostiamo il cursore $2$
+	      sul primo carattere della stringa che codifica $M$.
+	\item Se il cursore $1$ è all'inizio di
+	      $\kappa(\sigma_{k_j})$, allora spostiamo il cursore
+	      $2$ sulla "quitupla" $S_{i,j}$.
+	\item Se
+	      \[
+		      S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
+		      \mid^{p'} \; c \; \mid^{q'} \; c \; \mid^r \; c
+	      \]
+	      \begin{itemize}
+		      \item Si scrive sul terzo nastro $\mid^{p'}$ al
+		            posto di $\kappa(q_{h_i})$.
+		      \item Si scrive $\mid^{q'}$ sul primo nastro al
+		            posto di $\kappa(\sigma_{k_j})$,
+		            eventualmente spostando a destra o a
+		            sinistra la porzione di nastro a destra di
+		            $\kappa(\sigma_{k_j})$, a seconda che la
+		            lunghezza sia minore o maggiore di quella di
+		            $\mid^{q'}$.
+		      \item Si sposta il cursore $1$ al precedente o
+		            al successivo gruppo $c \; \mid^v \; c$,
+		            oppure lo si lascia dov'è a seconda del
+		            valore di $r$.
+	      \end{itemize}
+	      Se
+	      \[
+		      S_{i,j} = c \; \mid^p \; c \; \mid^q \;
+		      c \; d \; c \; d \; c \; d \; c
+	      \]
+	      abbiamo una condizione di terminazione con
+	      \textbf{errore}. Se invece
+	      \[
+		      S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
+		      \mid \; c \; \mid^{p'} \; c \; \mid^j \; c
+	      \]
+	      abbiamo una condizione di terminazione con
+	      \textbf{successo}.
+\end{enumerate}
+Se non fosse chiaro, un paragone con il comportamento di un
+classico interprete potrebbe chiarire alcuni concetti:
+\begin{itemize}
+	\item I primi due passi corrispondono al \verb|fetch|
+	      dell'istruzione. Attraverso il contenuto del terzo
+	      nastro e mediante il simbolo corrente si realizza
+	      il \verb|program counter|.
+	\item L'ultimo passo incorpora la decodifica dell'istruzione
+	      corrente e l'esecuzione vera e propria di quest'utima,
+	      con relativa memorizzazione del risultato. Questo se
+	      l'istruzione decodificata non è un errore o
+	      l'istruzione di fine esecuzione.
+\end{itemize}
+
 % ----
 Passiamo ora ad un teorema che possiamo vedere un po' come il
 duale del teorema di enumerazione. Enunceremo una prima versione
