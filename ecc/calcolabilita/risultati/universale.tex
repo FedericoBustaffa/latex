@@ -132,6 +132,26 @@ se $\delta(q_{i_p}, \sigma_{j_q})$ non è definita.
 
 \begin{example}
 	Vediamo un esempio che applica la codifica appena descritta
+	considerando la MdT
+	\[
+		\hat{M} = (\{ q_2 \}, \{ \sigma_1, \sigma_3, \sigma_5 \},
+		\delta, q_2)
+	\]
+	dove
+	\begin{gather*}
+		\delta(q_2, \sigma_1) = \quad (h, \sigma_5, -)
+		\quad \mapsto S_{1,1} \\
+		\delta(q_2, \sigma_3) = \quad (q_2, \sigma_1, R)
+		\quad \mapsto S_{1,2}
+	\end{gather*}
+	allora $k=1$ ($i_1=2$) e $l = 3$ ($j_1 = 1$, $j_2 = 3$,
+	$j_3 = 5$) e $S_{1,1}$, $S_{1,2}$, $S_{1,3}$ sono definiti
+	come segue
+	\begin{gather*}
+		S_{1,1} = c \mid^4 c \mid^5 c \mid c \mid^9 c \mid^3 c \\
+		S_{1,2} = c \mid^4 c \mid^7 c \mid^4 c \mid^5 c \mid^2 c \\
+		S_{1,3} = c \mid^4 c \mid^9 c \; d \; c \; d \; c \; d \; c
+	\end{gather*}
 \end{example}
 
 Torniamo a noi e cerchiamo di definire una funzione $\rho$ che
