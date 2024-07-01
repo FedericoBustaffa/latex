@@ -42,9 +42,9 @@ esistono un'infinità numerabile di MdT universali.
 Proviamo ora a costruire una MdT universale a tre nastri per
 riuscire ad avere una visione più concreta di ciò di cui stiamo
 parlando. Lo facciamo anche per riuscire ad apprezzare meglio la
-differenza tra \emph{sintassi} e \emph{semantica} ed inoltre
-tale costruzione ci tornerà utile più avanti per lo studio della
-complessità.
+differenza tra \emph{sintassi} e \emph{semantica}. Tale
+costruzione ci tornerà utile più avanti per lo studio della
+complessità e delle MdT non deterministiche.
 
 Se ci pensiamo un attimo, un qualsiasi calcolatore fisico è una
 macchina di turing universale, in quanto prende i nostri
@@ -53,15 +53,35 @@ darebbero se fossero eseguiti a mano da un operatore umano.
 
 Come abbiamo appena visto, i teoremi di
 \hyperref[th: fn]{forma normale} e di
-\hyperref[th: enum]{teorema di enumerazione} ci forniscono una
-prova dell'esistenza di una MdT universale, noi ora vogliamo
-costruirne una.
+\hyperref[th: enum]{teorema di enumerazione} ci forniscono la
+prova che una MdT universale esiste, passiamo ora alla
+costruzione di una possibile implementazione di essa.
 
 Chiariamo che avere tre nastri non aumenta in alcun modo né la
-capacirtà espressiva né le prestazioni della macchina. Serve
-solo a noi per riuscire a scrivere il programma più comodamente.
+capacità espressiva né le prestazioni della macchina (questo
+punto verrà trattato meglio nella parte di complessità). Serve
+solo a noi per riuscire a definire la macchina più comodamente.
 
 \subsubsection{Codifica}
+Per la costruzione della nostra MdT universale useremo la
+codifica \emph{unaria}, ossia codificheremo i vari stati, simboli
+ecc. tramite una sequenza di $\mid$.
+
+Dato che abbiamo tre nastri dobbiamo definire una funzione di
+transizione che tiene di conto dello stato della macchina (che
+rimane unico) e dei tre simboli su cui si trovano rispettivamente
+i tre cursori. In generale possiamo dire che, ad ogni passo di
+computazione, la macchina, si basa sullo stato corrente e su
+ognuno dei tre simboli indicati dal cursore. Sempre ad ogni passo
+(in generale) ogni cursore potrebbe muoversi, e lo stato potrebbe
+cambiare.
+
+Per codificare una MdT abbiamo bisogno di due funzioni di
+codifica, una per la codifica di una generica macchina $M$ e una
+per la codifica del dato $w$ su cui questa opera. Una volta
+codificata $M$ e il dato $w$ su cui opera, possiamo concatenare
+le due codifiche per ottenere una codifica completa su cui la
+MdT universale $U$ che andremo a costruire potrà operare.
 Supponiamo di avere i seguenti insiemi ausiliari
 \begin{gather*}
 	Q_* = \{ q_0, q_1, \dots \} \\
@@ -79,12 +99,11 @@ codifica
 	\kappa : Q_* \cup \{ h \} \cup \Sigma_* \cup \{ L, R, - \}
 	\rightarrow \{ \mid \}^*
 \]
-in grado di codificare stati e simboli della nostra MdT in
-questo modo:
+in grado di codificare le tuple della nostra MdT in questo modo:
 \begin{gather*}
 	q_i \mapsto \mid^{i+2}      \quad h \mapsto \mid \\
-	\sigma_i \mapsto \mid^{i+4} \quad L \mapsto \mid \quad
-	R \mapsto \mid \mid \quad - \mapsto \mid \mid \mid
+	\sigma_i \mapsto \mid^{i+4} \\
+	L \mapsto \mid \quad R \mapsto \mid^2 \quad - \mapsto \mid^3
 \end{gather*}
 Il motivo per cui $q_i \mapsto \mid^{i+2}$ è che abbiamo già $h$
 codificato come $\mid$ e dunque, partendo da $q_0$ abbiamo che
@@ -111,6 +130,12 @@ in modo tale che
 	p \leq p' \implies i_p \leq i_{p'} \quad
 	\land \quad j_p \leq j_{p'}
 \]
+Non è ben chiaro perché si usino gli indici $i$ e $j$ se poi c'è
+un ulteriore indice. Non ci stiamo nemmeno riferendo all'insieme
+degli stati della macchina $i$ o $j$ perché appunto gli indici
+sono diversi. Forse è così e basta. Anche per l'ordinamento di
+stati e simboli non sembra esserci bisogno di $i$ e $j$.
+
 Consideriamo ora l'alfabeto $\{ \mid, c, d, \#, \start \}$ sotto
 l'ipotesi che l'intersezione tra questo e $\Sigma_* \cup Q_*$
 sia vuota. La codifica di ogni $n$-upla avviene in questo modo
