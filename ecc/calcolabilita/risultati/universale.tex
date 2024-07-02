@@ -102,7 +102,7 @@ codifica
 in grado di codificare le tuple della nostra MdT in questo modo:
 \begin{gather*}
 	q_i \mapsto \mid^{i+2}      \quad h \mapsto \mid \\
-	\sigma_i \mapsto \mid^{i+4} \\
+	\sigma_j \mapsto \mid^{j+4} \\
 	L \mapsto \mid \quad R \mapsto \mid^2 \quad - \mapsto \mid^3
 \end{gather*}
 Il motivo per cui $q_i \mapsto \mid^{i+2}$ è che abbiamo già $h$
@@ -116,15 +116,15 @@ biunivoca in quanto sia $h$ che $L$ vengono codificati in $\mid$
 codifica). In realtà a noi interessa considerare $\kappa$
 ristretta all'insieme di appartenenza dell'oggetto che vogliamo
 codificare. Ecco che la funzione diventa biunivoca se, tramite
-l'aggiunta di una marca $c$, separiamo la codifica dei vari
-insiemi, consideriamo solo quello di interesse. Passiamo adesso
-a fissare una MdT
+l'aggiunta di una marca $c \notin \Sigma_*$, separiamo la
+codifica dei vari insiemi, consideriamo solo quello di interesse.
+Passiamo adesso a fissare una MdT
 \[ M = (Q, \Sigma, \delta, s) \]
 con $s$ stato iniziale e cerchiamo di codificarla andando per
 prima cosa ad ordinare l'insieme degli stati
 \[ Q = \{ q_{i_1}, \dots, q_{i_k} \} \]
 e l'insieme dei simboli
-\[ \Sigma = \{ \sigma_{j_1}, \dots, \sigma_{j_k} \} \]
+\[ \Sigma = \{ \sigma_{j_1}, \dots, \sigma_{j_l} \} \]
 in modo tale che
 \[
 	p \leq p' \implies i_p \leq i_{p'} \quad
@@ -133,12 +133,29 @@ in modo tale che
 Non è ben chiaro perché si usino gli indici $i$ e $j$ se poi c'è
 un ulteriore indice. Non ci stiamo nemmeno riferendo all'insieme
 degli stati della macchina $i$ o $j$ perché appunto gli indici
-sono diversi. Forse è così e basta. Anche per l'ordinamento di
-stati e simboli non sembra esserci bisogno di $i$ e $j$.
+sono diversi. Forse è solo una questione di notazione che non
+conosco. Anche per l'ordinamento di stati e simboli non sembra
+esserci bisogno di $i$ e $j$.
 
-Consideriamo ora l'alfabeto $\{ \mid, c, d, \#, \start \}$ sotto
-l'ipotesi che l'intersezione tra questo e $\Sigma_* \cup Q_*$
-sia vuota. La codifica di ogni $n$-upla avviene in questo modo
+Il doppio pedice per stati e simboli potrebbe portare un po' di
+confusione. Quando consideriamo ad esempio l'insieme degli stati
+$Q = \{ q_{i_1}, \dots, q_{i_k} \}$ probabilmente ci stiamo
+riferendo ad un certo insieme $Q_i$ con i vari stati $q_i$ a cui
+viene dato un ordine (il secondo pedice) ma non sono
+assolutamente certo.
+
+L'alfabeto su cui la MdT universale $U$ lavorerà sarà
+$\{ \mid, c, d, \#, \start \}$ sotto l'ipotesi che l'intersezione
+tra questo e $\Sigma_* \cup Q_*$ sia vuota. Tra i simboli a
+nostra disposizione abbiamo
+\begin{itemize}
+	\item La marca $c$ che ha la funzione di separare le
+	      codifiche di stati, simboli e così via.
+	\item Il carattere $d$ che serve a codificare i casi in cui
+	      la funzione $\delta$ non è definita.
+\end{itemize}
+La codifica di ogni $n$-upla avviene tramite una funzione
+$S_{p,q}$ in questo modo
 \[
 	S_{p,q} = c \; \kappa (q_{i_p})
 	\; c \; \kappa (\sigma_{j_q})
