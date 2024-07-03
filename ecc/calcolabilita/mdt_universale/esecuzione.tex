@@ -1,7 +1,9 @@
 \section{Esecuzione}
-Quello che vogliamo dalla MdT universale
+Passiamo ora a descrivere come avviene l'esecuzione di $U$ e
+cosa ci aspettiamo che succeda. Definiamo la macchina $U$ come
 \[ U = (Q_U, \Sigma_U, \delta_U, s_U) \]
-è che per ogni $M$ e per ogni $w \in \Sigma^*$ succeda che
+e diciamo che per ogni generica $M$ e per ogni dati in ingresso
+$w \in \Sigma^*$ ci aspettiamo che
 \begin{itemize}
 	\item Se $M$ termina su $w$ e da come risultato $uav$
 	      \[
@@ -49,11 +51,8 @@ cursore sull'$i$-esimo nastro. Iniziamo con il calcolo:
 	\item Se il cursore $1$ è all'inizio di
 	      $\kappa(\sigma_{k_j})$, allora spostiamo il cursore
 	      $2$ sulla "quitupla" $S_{i,j}$.
-	\item Se
-	      \[
-		      S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
-		      \mid^{p'} \; c \; \mid^{q'} \; c \; \mid^r \; c
-	      \]
+	\item Se $S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
+		      \mid^{p'} \; c \; \mid^{q'} \; c \; \mid^r \; c$
 	      \begin{itemize}
 		      \item Si scrive sul terzo nastro $\mid^{p'}$ al
 		            posto di $\kappa(q_{h_i})$.
@@ -69,19 +68,14 @@ cursore sull'$i$-esimo nastro. Iniziamo con il calcolo:
 		            oppure lo si lascia dov'è a seconda del
 		            valore di $r$.
 	      \end{itemize}
-	      Se
-	      \[
-		      S_{i,j} = c \; \mid^p \; c \; \mid^q \;
-		      c \; d \; c \; d \; c \; d \; c
-	      \]
+	\item Se $S_{i,j} = c \; \mid^p \; c \; \mid^q \;
+		      c \; d \; c \; d \; c \; d \; c$
 	      abbiamo una condizione di terminazione con
-	      \textbf{errore}. Se invece
-	      \[
-		      S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
-		      \mid \; c \; \mid^{p'} \; c \; \mid^j \; c
-	      \]
-	      abbiamo una condizione di terminazione con
-	      \textbf{successo}.
+	      \textbf{errore}.
+	\item Se invece $S_{i,j} = c \; \mid^p \; c
+		      \; \mid^q \; c \; \mid \; c \; \mid^{p'} \; c
+		      \; \mid^j \; c$ abbiamo una condizione di
+	      terminazione con \textbf{successo}.
 \end{enumerate}
 Se non fosse chiaro, un paragone con il comportamento di un
 classico interprete potrebbe chiarire alcuni concetti:
@@ -96,3 +90,21 @@ classico interprete potrebbe chiarire alcuni concetti:
 	      l'istruzione decodificata non è un errore o
 	      l'istruzione di fine esecuzione.
 \end{itemize}
+Questa è una delle infinite possibili implementazioni di una
+MdT universale, la quale può anche essere riscritta a singolo
+nastro o a più di tre nastri. Come vedremo nella parte di
+complessità il numero di nastri non aumenta in alcun modo la
+capacità espressiva della macchina anche se (almeno in teoria)
+è possibile implementare del \emph{"parallelismo"}.
+
+Concludiamo riprendendo quanto detto all'inizio sulla differenza
+tra semantica e sintassi. La semantica è, in generale, la
+funzione che vogliamo calcolare. La sintassi è invece come la
+calcoliamo, o per meglio dire, l'algoritmo che la calcola.
+Possiamo quindi avere diverse sintassi che fanno riferimento
+alla stessa semantica.
+
+Nel caso di una MdT universale le due cose sembrano mischiarsi
+ma non è così, la funzione rimane la stessa, semplicemente la
+sintassi della macchina $M$ viene convertita in quella della
+macchina $U$.

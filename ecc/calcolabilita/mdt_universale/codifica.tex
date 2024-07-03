@@ -70,6 +70,7 @@ funzione $\kappa$ che, se ristretta ad un certo insieme, è in
 gado di codificare stati, simboli e direzioni in una stringa
 composta da un certo numero di "$\mid$".
 
+\subsubsection{Codifica di una MdT}
 Quel che vogliamo fare ora è codificare tuple intere. Per farlo
 possiamo certamente usare la funzione $\kappa$ e codificare ogni
 singolo elemento della tupla. Il primo problema che salta
@@ -90,19 +91,20 @@ introdotti $c$ e $d$:
 	      iniziali e per certi simboli sul nastro. In quei casi
 	      la codifica restituisce il simbolo $d$.
 \end{itemize}
-Fatte queste premesse proviamo a codificare una generica MdT $M$
-definita come segue
+Fatte queste premesse, per riuscire a codificare una generica
+MdT $M$ definita come segue
 \[ M = (Q, \Sigma, \delta, s) \]
-con $s$ stato iniziale. Per prima cosa ordiniamo l'insieme degli
+con $s$ stato iniziale, dobbiamo prima ordinare l'insieme degli
 stati
 \[ Q = \{ q_{i_1}, \dots, q_{i_k} \} \]
 e l'insieme dei simboli
 \[ \Sigma = \{ \sigma_{j_1}, \dots, \sigma_{j_l} \} \]
-in modo tale che
+in modo tale che, presi due numeri $p$ e $p'$ vale che
 \[
 	p \leq p' \implies i_p \leq i_{p'} \quad
 	\land \quad j_p \leq j_{p'}
 \]
+% digressione sugli indici di Q e Sigma --------------
 Non è ben chiaro perché si usino gli indici $i$ e $j$ se poi c'è
 un ulteriore indice. Non ci stiamo nemmeno riferendo all'insieme
 degli stati della macchina $i$ o $j$ perché appunto gli indici
@@ -114,78 +116,91 @@ Il doppio pedice per stati e simboli potrebbe portare un po' di
 confusione. Quando consideriamo ad esempio l'insieme degli stati
 $Q = \{ q_{i_1}, \dots, q_{i_k} \}$ probabilmente ci stiamo
 riferendo ad un certo insieme $Q_i$ con i vari stati $q_i$ a cui
-viene dato un ordine (il secondo pedice) ma non sono
+viene dato un ordine (il secondo pedice) ma non ne sono
 assolutamente certo.
+% Fine digressione -------------
 
-La codifica di ogni $n$-upla avviene tramite una funzione
-$S_{p,q}$ in questo modo
-\[
-	S_{p,q} = c \; \kappa (q_{i_p})
-	\; c \; \kappa (\sigma_{j_q})
-	\; c \; \kappa (q)
-	\; c \; \kappa (\sigma)
-	\; c \; \kappa (D) \; c
-\]
-se $\delta (q_{i_p}, \sigma_{j_q}) = (q, \sigma, D)$. Completiamo
-con la codifica dei casi in cui $\delta$ non è definita:
-\[
-	S_{p,q} = c \; \kappa (q_{i_p})
-	\; c \; \kappa (\sigma_{j_q})
-	\; c \; d \; c \; d \; c \; d \; c
-\]
-se $\delta(q_{i_p}, \sigma_{j_q})$ non è definita.
+Ora che abbiamo definito l'ordinamento degli elementi di $Q$ e
+$\Sigma$ siamo in grado di codificare le varie tuple, tramite la
+seguente funzione $S_{p,q}$ che, dato lo stato $q_{i_p}$ e il
+simbolo $\sigma_{j_q}$ si può comportare in due possibili modi:
+\begin{itemize}
+	\item Nel caso in cui $\delta$ sia definita per lo stato e
+	      il simbolo in input, ovvero se
+	      \[
+		      \delta (q_{i_p}, \sigma_{j_q}) =
+		      (q, \sigma, D)
+	      \]
+	      abbiamo che
+	      \[
+		      S_{p,q} = c \; \kappa (q_{i_p})
+		      \; c \; \kappa (\sigma_{j_q})
+		      \; c \; \kappa (q)
+		      \; c \; \kappa (\sigma)
+		      \; c \; \kappa (D) \; c
+	      \]
+	\item Altrimenti, se $\delta(q_{i_p}, \sigma_{j_q})$ non è
+	      definita, abbiamo
+	      \[
+		      S_{p,q} = c \; \kappa (q_{i_p})
+		      \; c \; \kappa (\sigma_{j_q})
+		      \; c \; d \; c \; d \; c \; d \; c
+	      \]
+\end{itemize}
+Siamo quindi in grado di codificare la funzione $\delta$ tramite
+le funzioni $\kappa$ e $S_{p,q}$.
 
 \begin{example}
-	Vediamo un esempio che applica la codifica appena descritta
-	considerando la MdT
+	Consideriamo la MdT $\hat{M}$ definita in questo modo
 	\[
 		\hat{M} = (\{ q_2 \}, \{ \sigma_1, \sigma_3, \sigma_5 \},
 		\delta, q_2)
 	\]
 	dove
 	\begin{gather*}
-		\delta(q_2, \sigma_1) = \quad (h, \sigma_5, -)
-		\quad \mapsto S_{1,1} \\
-		\delta(q_2, \sigma_3) = \quad (q_2, \sigma_1, R)
-		\quad \mapsto S_{1,2}
+		\delta(q_2, \sigma_1) = (h, \sigma_5, -) \\
+		\delta(q_2, \sigma_3) = (q_2, \sigma_1, R)
 	\end{gather*}
-	allora $k=1$ ($i_1=2$) e $l = 3$ ($j_1 = 1$, $j_2 = 3$,
-	$j_3 = 5$) e $S_{1,1}$, $S_{1,2}$, $S_{1,3}$ sono definiti
-	come segue
+	In questo caso abbima un solo stato e dunque $k=1$ implica
+	che $i_1=2$. Abbiamo invece tre simboli e quindi $l = 3$
+	implica che $j_1 = 1$, $j_2 = 3$ e $j_3 = 5$. Possiamo quindi
+	codificare $\hat{M}$ come segue:
 	\begin{gather*}
 		S_{1,1} = c \mid^4 c \mid^5 c \mid c \mid^9 c \mid^3 c \\
 		S_{1,2} = c \mid^4 c \mid^7 c \mid^4 c \mid^5 c \mid^2 c \\
 		S_{1,3} = c \mid^4 c \mid^9 c \; d \; c \; d \; c \; d \; c
 	\end{gather*}
+	Come possiamo vedere nell'ultimo caso la funzione $\delta$
+	non è definita su $(q_2, \sigma_5)$ e dunque la codifica
+	del risultato sarà una serie di $d$.
 \end{example}
 
-Torniamo a noi e cerchiamo di definire una funzione $\rho$ che
-mandi una generica MdT $M$ in una stringa fatta di soli caratteri
-$\mid$, $c$ e $d$ che verrà racchiusa tra due $c$. Ciò che ci
-manca è sapere quale sia lo stato iniziale di $M$ che
-codificheremo e prefiggeremo alla codifica della funzione di
-transizione $\delta$, nel modo seguente:
-\[
-	\rho (M) = c \; \kappa (s) \; c \;
-	S_{1,1} S_{1,2} \dots
-	S_{1,l} S_{2,1} \dots S_{2,l} \dots
-	S_{k,1} S_{k,2} \dots S_{k,l} \; c
-\]
-In questo modo abbiamo generato una stringa da cui è possibile
-tornare indietro o ad una MdT o ad un qualcosa che non lo è in
-caso la stringa non sia l'immagine di una MdT.
+Ci manca solo la codifica dello stato iniziale $s$, che andremo
+semplicemente a porre davanti alla codifica di $\delta$ per
+riuscire a definire la funzione $\rho$ che permette di mandare
+una generica MdT $M$ in una stringa fatta di soli caratteri
+$\mid$, $c$ e $d$:
+\[ \rho(M) = c \; \kappa(s) \; c \; S_{1,1} \dots S_{k,l} \; c \]
+Tale funzione è invertibile ed è dunque possibile, tramite una
+stringa codificata, tornare alla sua rappresentazione iniziale.
 
-Siamo riusciti a codificare la MdT $M$ ma non abbiamo ancora
-finito in quanto ci serve anche la codifica del dato
-$w = \sigma'_0 \dots \sigma'_n$ in ingresso. L'ultimo passo
-della codifica è ottenuto tramite la funzione $\tau$ che ci
-permette di ottenere
-\[ \rho(M) \tau(w) \]
-ossia la codifica completa della macchina e del suo input. Dove
-la funzione $\tau$ è definita come segue
+\subsubsection{Codifica del dato in ingresso}
+Quello che manca adesso è codificare il dato in ingresso
+$w = \sigma'_0 \dots \sigma'_n$. Se ci pensiamo, il dato in
+ingresso, altro non è che una stringa di simboli, i quali
+sappiamo già codificare tramite la funzione $\kappa$. Possiamo
+quindi definire una funzione $\tau$, definita come segue
 \[
 	\tau(\sigma'_0 \dots \sigma'_n) =
 	c \; \kappa(\sigma'_0) \;
 	c \; \kappa(\sigma'_n) \; c
 \]
-Si noti che tre $c$ separano la codifica di $M$ da quella $w$.
+che concatena le codifiche dei simboli per comporre la stringa
+rappresentate il dato in input. L'ultimo passo della codifica
+consiste nel concatenare i risultati delle funzioni $\rho$ e
+$\tau$ in questo modo
+\[ \rho(M) \tau(w) \]
+ottenendo così la codifica completa della macchina e del suo
+input. Si noti che tre $c$ separano la codifica di $M$ da quella
+$w$, mentre abbiamo due caratteri $c$ che separano tra loro le
+tuple della funzione $\delta$.
