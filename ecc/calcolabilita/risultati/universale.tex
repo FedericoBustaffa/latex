@@ -54,12 +54,12 @@ semplificata e poi la sua forma generale.
 			\item Scriviamo sul nastro di $M_i$ l'input $x$ e
 			      $y$.
 		\end{enumerate}
-		Questi due passi definiscono un algoritmo il quale ha
-		indice $j$ per la tesi di Church-Turing. Tale indice
-		identifica la macchina che calcola
-		\[ \varphi_{s(i,x)} \]
-		vale cioè
+		Questi due passi definiscono un algoritmo il quale, per
+		la tesi di Church-Turing, ha un indice $j$ tale che
 		\[ j = s(i, x) \]
+		Abbiamo quindi trovato una macchina che calcola
+		Tale indice identifica la macchina che calcola
+		\[ \varphi_{s(i,x)} \]
 		A questo punto dobbiamo evitare di trovarci nella
 		situazione in cui
 		\[ s(i, x) = s(i, x') \]
@@ -73,11 +73,11 @@ semplificata e poi la sua forma generale.
 	\end{proof}
 \end{theorem}
 
-Come possiamo notare nella prima funzione abbiamo due argomenti
-e nella seconda uno solo. Il fatto è che quando $x$ viene
-considerato come un \emph{parametro}, allora è possibile
-calcolare la prima funzione utilizzando un altra macchina a
-partire dall'indice $i$.
+Il teorema ci dice che esiste una funzione $s$ calcolabile
+totale e iniettiva tale che, per ogni indice $i$ e per ogni
+\emph{parametro} $x$, questa individua una macchina $j$ in grado
+di calcolare $\varphi_i (x, y)$ qualora $x$ sia fissato, sia
+cioè un \textbf{parametro}.
 
 \begin{example}
 	Prendiamo ad esempio la funzione
