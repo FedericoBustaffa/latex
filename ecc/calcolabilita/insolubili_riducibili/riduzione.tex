@@ -1,8 +1,8 @@
 \section{Riduzioni}
 Il concetto di riduzione è fondamentale per riuscire a interagire
 con classi di problemi differenti. Una \textbf{riduzione} è una
-funzione che \emph{transforma} un problema $A$ (ovvero un insieme
-o una classe) $A$ in un altro problema $B$, in modo da mantenerne
+funzione che \emph{transforma} un problema (ovvero un insieme o
+una classe) $A$ in un altro problema $B$, in modo da mantenerne
 inalterata la caratteristica principale.
 
 \begin{definition} \label{def: riduzione}
@@ -17,6 +17,9 @@ inalterata la caratteristica principale.
 		\quad f(\overline{A}) \subseteq \overline{B}
 	\]
 \end{definition}
+
+Vediamo ora una la prima proprietà interessante delle riduzioni
+rispetto agli insiemi complementari degli insiemi di interesse.
 
 \begin{property} \label{prop: riduzione_comp}
 	$A$ si riduce a $B$ secondo $f$ se e solo se
@@ -34,7 +37,7 @@ Più in generale si definisce una \emph{relazione di riduzioni}
 o \emph{famiglia} $\leq_F$ dove $F$ è una particolare classe di
 funzioni. Allora scriveremo
 \[ A \leq_F B \iff \exists f \in F \mid A \leq_f B \]
-Noi siamo interessati a quelle riduzioni che $\leq_F$ che danno
+Noi siamo interessati a quelle riduzioni $\leq_F$ che danno
 origine a classi di problemi in qualche modo \emph{omogenei}.
 
 \begin{lemma} \label{def: classificazione}
@@ -78,7 +81,7 @@ molto importanti.
 	Se $\leq_F$ classifica $\mathcal{D}$ e $\mathcal{E}$, vale
 	che per ogni problema $A, B, H$
 	\begin{itemize}
-		\item $A \equiv B$ se $A \leq_F B$ e $B \leq_F A$.
+		\item $A \equiv_F B$ se $A \leq_F B$ e $B \leq_F A$.
 		\item $H$ è \textbf{$\leq_F$-arduo} per $\mathcal{E}$ se
 		      $\forall A \in \mathcal{E}$ vale $A \leq_F H$.
 		\item $H$ è \textbf{$\leq_F$-completo} per $\mathcal{E}$
@@ -87,12 +90,26 @@ molto importanti.
 	\end{itemize}
 \end{definition}
 
+Questa definizione sarà fondamentale anche in teoria della
+complessità, prendiamoci quindi un attimo per comprenderla
+meglio:
+\begin{itemize}
+	\item La prima definizione ci dice che due problemi $A$ e
+	      $B$ sono equivalenti se uno si riduce all'altro ed è
+	      vero anche il viceversa.
+	\item Un problema $H$ è \emph{arduo} per $\mathcal{E}$ se
+	      tutti i problemi appartenenti a $\mathcal{E}$ si
+	      riducono ad $H$ stesso.
+	\item Un problema $H$ è \emph{completo} per $\mathcal{E}$ se
+	      è arduo per $\mathcal{E}$ e fa inoltre parte di
+	      $\mathcal{E}$ stesso.
+\end{itemize}
 Si dice anche che l'insieme
 \[ \{ B \mid A \equiv_F B \} \]
-è il \textbf{grado} di $A$ o anche che $A$ è equivalente a $B$
-rispetto alla riduzione $\leq_F$. Quando la classe di riduzioni
-$F$ è fissata, diremo semplicemente $\mathcal{E}$-arduo o
-$\mathcal{E}$-completo
+è il \textbf{grado} di $A$ o anche che $A$ è \textbf{equivalente}
+a $B$ rispetto alla riduzione $\leq_F$. Quando la classe di
+riduzioni $F$ è fissata, diremo semplicemente $\mathcal{E}$-arduo
+o $\mathcal{E}$-completo
 
 La relazione di riduzione $\leq_F$ è quello che viene chiamato
 \textbf{pre-ordine parziale}, cioè un ordinamento parziale,
@@ -108,16 +125,26 @@ riflessivo e transitivo ma non anti-simmetrico. Nello specifico
 \begin{property}
 	Se $\leq_F$ \textbf{classifica} $\mathcal{D}$ ed $\mathcal{E}$
 	con $\mathcal{D} \subseteq \mathcal{E}$ e $C$ è completo per
-	$\mathcal{E}$, allora $C \in \mathcal{D}$ se e solo se
-	\[ \mathcal{D} = \mathcal{E} \]
+	$\mathcal{E}$, allora
+	\[ C \in \mathcal{D} \iff \mathcal{D} = \mathcal{E} \]
 	\begin{proof}
-		La parte \emph{"se"} della dimostrazione è ovvia. La
-		parte \emph{"solo se"} si dimostra prendendo
-		$C \in \mathcal{D}$ e $A \in \mathcal{E}$. Per
-		la condizione di completezza di $\leq_F$, vale che
-		$A \leq_F C$ e $A \in \mathcal{D}$ vista prima che
-		classifica $\mathcal{D}$ ed $\mathcal{E}$. Quindi
-		$\mathcal{E} \subseteq \mathcal{D}$ e la tesi.
+		La parte
+		\[ \mathcal{D} = \mathcal{E} \implies C \in \mathcal{D} \]
+		è ovvia poiché, $C \in \mathcal{E}$ dato che è
+		$\mathcal{E}$-completo.
+		Vogliamo invece dimostrare che
+		\[ C \in \mathcal{D} \implies \mathcal{D} = \mathcal{E} \]
+		Partiamo dal fatto che $C \in \mathcal{E}$ per condizione
+		di completezza. Dato che $\leq_F$ classifica
+		$\mathcal{D}$ ed $\mathcal{E}$ valgono in particolare
+		due proprietà per ogni problema $A$:
+		\begin{gather*}
+			A \leq_F C \land C \in \mathcal{E} \implies A \in \mathcal{E} \\
+			A \leq_F C \land C \in \mathcal{D} \implies A \in \mathcal{D}
+		\end{gather*}
+		Stiamo quindi considerando tutti i problemi $A$ che si
+		riducono a $C$ secondo $F$. Ma come possiamo vedere sono
+		tutti parte sia di $\mathcal{D}$ che di $\mathcal{E}$.
 	\end{proof}
 \end{property}
 
@@ -125,14 +152,20 @@ Inoltre è facile capire quali siano gli elementi del grado di
 $A$, problema $\leq_F$-completo per $\mathcal{E}$.
 
 \begin{property}
-	Se $A$ è completo per $\mathcal{E}$, $A \leq_F B$ e
-	$B \in \mathcal{E}$, allora $B$ è completo per $\mathcal{E}$.
+	Se $A$ è $\mathcal{E}$-completo, $A \leq_F B$ e
+	$B \in \mathcal{E}$, allora $B$ è $\mathcal{E}$-completo.
 	\begin{proof}
-		Per ogni $D \in \mathcal{E}$, $D \leq_F A$ per
-		completezza, ma $\leq_F$ classifica $\mathcal{D}$ ed
-		$\mathcal{E}$ e allora $D \leq_F A$ e $A \leq_F B$
-		implicano $D \leq_F B$ e quindi $B$ è arduo e, poiché
-		appartiene a $\mathcal{E}$, è completo.
+		Il fatto che $A$ sia $\mathcal{E}$-completo implica che
+		per ogni $C \in \mathcal{E}$ vale
+		\[ C \leq_F A \]
+		Inoltre, dato che $\leq_F$ classifica $\mathcal{E}$ vale
+		la transitività e quindi
+		\[
+			C \leq_F A \quad \land \quad A \leq_F B
+			\implies C \leq_F B
+		\]
+		Deduciamo quindi che $B$ è $\mathcal{E}$-arduo ma dato
+		che $B \in \mathcal{E}$ allora è $\mathcal{E}$-completo.
 	\end{proof}
 \end{property}
 
@@ -143,9 +176,9 @@ grado massimo di $\mathcal{E}$ in  $\leq_F$. Valgono inoltre le
 seguenti affermazioni (anche per problemi non completi):
 \begin{itemize}
 	\item Se $B \leq_F A$ allora $B$ al più ha il grado di $A$,
-	      cioè è più facile o altrettanto difficile di $A$.
+	      cioè è più facile o difficile quanto $A$.
 	\item Se $A \leq_F B$ allora $B$ ha almeno il grado di $A$,
-	      cioè è di difficoltà maggiore o uguale a quella di $A$.
+	      cioè è almeno difficile quanto $A$.
 \end{itemize}
 Passiamo ora riformulare le definizioni di
 \hyperref[def: riduzione]{riduzione} e
@@ -155,10 +188,10 @@ un nome alla classe di funzioni calcolabili
 \[ rec = \{ \varphi_x \mid \forall y \in \N . \varphi_x(y) \downarrow \} \]
 
 \begin{definition}
-	Il problema $A$ è \textbf{riducibile} a $B$ ($A \leq_{rec} B$)
-	se e solamente se esiste una funzione calcolabile totale
-	$f : \N \to \N$ tale che $x \in A$ se e solamente se
-	$f(x) \in B$.
+	Il problema $A$ è \textbf{riducibile} a $B$ se e solo se
+	esiste una funzione calcolabile totale $f : \N \to \N$ tale
+	che
+	\[ x \in A \iff f(x) \in B \]
 \end{definition}
 
 Vogliamo vedere ora come le relazioni di riduzione conservano la
@@ -177,7 +210,9 @@ enumerabili.
 		che tutte le proprietà siano soddisfatte:
 		\begin{itemize}
 			\item L'identità appartiene a $rec$ poiché una
-			      funzione calcolabile è $\mu$-ricorsiva.
+			      funzione calcolabile è $\mu$-ricorsiva e tra
+			      i costrutti di $\mu$-ricorsione vi è anche
+			      l'identità.
 			\item La composizione preserva la totalità.
 			\item La funzione caratteristica di
 			      $\{ x \mid f(x) \in B \}$ è $\chi_B \circ f$
@@ -211,9 +246,10 @@ Ancora più interessante è trovare un problema
 $\leq_{rec}$-completo per $\mathcal{RE}$, così da capire quali
 problemi sono al più semi-decidibili e quali nemmeno
 semi-decidibili. Basta infatti ridurre il problema da studiare a
-quello completo sapere che è ricorsivamente enumerabile oppure
-ridurre il problema completo a quello da studiare e sapremo che
-quest'ultimo, ben che vada, è ricorsivamente enumerabile.
+quello completo per sapere che è ricorsivamente enumerabile
+oppure ridurre il problema completo a quello da studiare e
+sapremo che quest'ultimo, ben che vada, è ricorsivamente
+enumerabile.
 
 Prima di andare avanti vediamo che $K$ non si riduce, con
 funzioni calcolabili totali, a $\overline{K}$ né il viceversa.
@@ -227,8 +263,9 @@ enumerabile, usando $\leq_{rec}$. Dobbiamo quindi mostrare che
 La prima disuguaglianza dev'essere vera, altrimenti per la
 proprietà \ref{prop: r_re}, la quale ci dice che un insieme e
 il suo complemento sono ricorsivamente enumerabili se e solo se
-sono ricorsivi. Abbiamo però dimostrato nel teorema
-\ref{th: K_re_not_r} che $K$ non è ricorsivo.
+sono ricorsivi, l'insieme $\overline{K}$ sarebbe ricorsivamente
+enumarabile e anche ricorsivo. Abbiamo però dimostrato nel
+teorema \ref{th: K_re_not_r} che $K$ non è ricorsivo.
 
 La seconda disuguaglianza si dimostra vera ricorrendo alla
 proprietà \ref{prop: riduzione_comp} la quale ci dice che
