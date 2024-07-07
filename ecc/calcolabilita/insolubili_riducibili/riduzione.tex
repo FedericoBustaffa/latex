@@ -291,22 +291,40 @@ falso.
 		con $s$ calcolabile, iniettiva e totale. Possiamo quindi
 		scrivere la definizione di $A$ come segue
 		\begin{align*}
-			A & = \{ x \mid \psi(x) \downarrow \}                    \\
-			  & = \{ x \mid \psi'(x, y) \downarrow \}                \\
-			  & = \{ x \mid \varphi_i(x, y) \downarrow \}            \\
-			  & = \{ x \mid \varphi_{s(i, x)}(y) \downarrow \}       \\
-			  & = \{ x \mid \varphi_{s(i, x)}(s(i, x)) \downarrow \} \\
-			  & = \{ x \mid s(i, x) \in K \}
+			A = & \{ x \mid \psi(x) \downarrow \}         \\
+			=   & \{ x \mid \psi'(x, y) \downarrow \}     \\
+			=   & \{ x \mid \varphi_i(x, y) \downarrow \}
 		\end{align*}
-		quindi $x \in A$ se e solo se $f(x) \in K$ con
-		$f(x) = \lambda x . s(i, x)$ che è calcolabile, totale
-		e iniettiva perché $s(i, x)$ lo è.
+		Adesso applichiamo il teorema del parametro e buttiamo
+		via $y$ sostituendola con $s(i, x)$:
+		\begin{align*}
+			= & \{ x \mid \varphi_{s(i, x)}(y) \downarrow \}       \\
+			= & \{ x \mid \varphi_{s(i, x)}(s(i, x)) \downarrow \}
+		\end{align*}
+		A questo punto è immediato notare che abbiamo ricreato
+		la stessa struttura degli elementi che appartengono
+		all'insieme $K$ e possiamo quindi concludere che
+		\[
+			\{ x \mid \varphi_{s(i, x)}(s(i, x)) \downarrow \}
+			= \{ x \mid s(i, x) \in K \}
+		\]
+		A questo punto, dato che vogliamo dimostrare che
+		\[ A \in \mathcal{RE} \implies A \leq_{rec} K \]
+		possiamo dire che $x \in A$ implica $f(x) \in K$ con
+		$f \in rec$ ovvero $f$ calcolabile totale. Abbiamo quindi
+		bisogno che $K$ sia immagine di una funzione calcolabile
+		totale. Ma abbiamo appena dimostrato che lo è per $s$
+		che abbiamo già visto essere calcolabile, totale (e
+		iniettiva). Rimane il problema che $s$ ha due argomenti
+		ma possiamo prendere 
+		\[ f = \lambda x . s(i, x) \]
+		che rimane calcolabile e totale perché $s$ lo è.
 	\end{proof}
 \end{theorem}
 
 Questo teorema ci dice che tutti gli insiemi ricorsivamente
-enumerabili si riducono, per mezzo di una funzione calcolabile,
-totale a $K$.
+enumerabili si riducono, per mezzo di una funzione calcolabile
+totale, a $K$.
 
 \begin{definition}
 	L'insieme $A$ è un \textbf{insieme di indici} che
@@ -382,7 +400,7 @@ $f(x) \in B$ e $x \in K$ se e solo se $g(x) \in \overline{B}$.
 	è ricorsivo se e solo se $\mathcal{A} = \emptyset$ oppure
 	$\mathcal{A}$ è la classe di tutte le funzioni calcolabili.
 	\begin{proof}
-		Si noti che $A$ è un insieme di indice mentre
+		Si noti che $A$ è un insieme di indici mentre
 		$\mathcal{A}$ è una classe di funzioni. La dimostrazione
 		è immediata per i casi banali in cui
 		$\mathcal{A} = \emptyset$ oppure quando è la classe di
