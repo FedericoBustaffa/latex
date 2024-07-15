@@ -1,0 +1,84 @@
+\subsection{INF si riduce secondo rec a CONST}
+
+Per dimostrare che $INF \leq_{rec} CONST$ ricordiamoci prima
+come sono definiti i vari insiemi
+
+\begin{gather*}
+	INF = \{ x \mid \dom (\varphi_x) \text{ è infinito} \} \\
+	CONST = \{ x \mid \varphi \text{ è totale e costante} \} \\
+	rec = \{ \varphi_x \mid \forall y \in \N . \varphi_x (y) \downarrow \}
+\end{gather*}
+
+Dire quindi che $INF \leq_{rec} CONST$ significa che esiste una funzione
+$f \in rec$ tale che
+\[ \forall x \in INF \implies f(x) \in CONST \]
+Dire che $x \in INF$ equivale a dire che $\dom (\varphi_x)$ è infinito,
+dire invece che $f(x) \in CONST$ equivale a dire che la funzione
+$\varphi_{f(x)}$ è totale e costante. L'obbiettivo della
+dimostrazione è quindi quello di trovare la $f$ tale per cui sia
+vera quest'ultima cosa. Iniziamo con il definire la funzione
+\[
+	\psi (x, y) = \begin{cases}
+		1                 & \text{se } \exists z > y .
+		\varphi_x(z) \downarrow                        \\
+		\text{indefinita} & \text{altrimenti}
+	\end{cases}
+\]
+In queste dimostrazioni vogliamo sempre creare una situazione
+in cui se $x \in A$ (in questo caso se $x \in INF$) allora
+prendiamo il primo ramo. Dire che $x \in INF$ equivale a dire
+che $\dom (\varphi_x)$ è infinito. Avere il dominio infinito
+non significa che la funzione è definita per ogni input ma
+significa che riesco sempre a trovare un certo $z$ per cui
+la funzione converge. In particolare, preso un qualsiasi $y$
+in input, è sempre possibile trovare un valore $z > y$ tale che
+$\varphi_x (z) \downarrow$. Ci chiediamo ora se $\psi$ è
+calcolabile. Intuitivamente possiamo prendere l'$x$-esima
+macchina $M_x$ e calcolare $M_x (z)$.
+\begin{itemize}
+	\item Se converge allora cadiamo nel primo ramo e
+	      $\psi(x, y) = 1$.
+	\item Se diverge cadiamo nel secondo ramo e
+	      $\psi(x,y)$ è indefinita.
+\end{itemize}
+Abbiamo quindi trovato una procedura che calcola $\psi$ che
+termina sempre e dunque la funzione è calcolabile. Dato che la
+funzione è calcolabile allora (per Church-Turing) ha un indice
+$i$ e possiamo quindi scrivere
+\[ \psi(x, y) = \varphi_i (x, y) \]
+A questo punto possiamo applicare il teorema del parametro per
+ottenere
+\[ \psi(x, y) = \varphi_i (x, y) = \varphi_{s(i,x)} (y) \]
+Se notiamo che $i$ è costante (è fissato perché la funzione
+$\psi$ è fissata), possiamo scrivere
+\[
+	\psi(x, y) = \varphi_i (x, y) =
+	\varphi_{s(i,x)} (y) = \varphi_{f(x)} (y)
+\]
+Ecco che abbiamo ritrovato la stessa struttura che avevamo messo
+in evidenza all'inizio. Avevamo detto che se $x \in INF$ allora
+$f(x) \in CONST$. Dire che $f(x) \in CONST$ equivale a dire che
+$f(x)$ è l'indice di una funzione ($\varphi_{f(x)}$) totale e
+costante.
+
+Vogliamo quindi dimostrare che se $x \in INF$, allora $f(x)$ è
+l'indice di una funzione totale e costante. Vediamo quindi che
+succede se $x \in INF$
+\[ x \in INF \implies \exists z > y \mid \varphi_x (z) \downarrow \]
+e quindi
+\[ \psi (x, y) = \varphi_{f(x)} (y) = 1 \]
+e quindi come possiamo vedere $f(x)$ è l'indice di una funzione
+$\varphi_{f(x)}$ che è totale e costante (in quanto uguale a $1$).
+Possiamo quindi concludere che $f(x) \in CONST$. Per terminare
+dobbiamo dimostrare che
+\[ x \notin INF \implies f(x) \notin CONST \]
+Seguiamo la stessa catena di implicazioni:
+\[ x \notin INF \implies \forall z > y . \varphi_x (z) \uparrow \]
+perché se $x \notin INF$ il dominio di $\varphi_x$ non è infinito
+e dunque esiste un $y$ tale per cui, per ogni $z > y$, la funzione
+$\varphi_x(z)$ diverge. Ecco che ci troviamo nel secondo caso
+\[ \psi (x, y) = \varphi_{f(x)} (y) = \text{indefinita} \]
+E dunque in questo caso $f(x)$ è l'indice di una funzione
+indefinita e dunque non totale (requisito necessario) affinché
+$f(x) \in CONST$. Concludiamo quindi che
+\[ x \notin K \implies f(x) \notin CONST \]

@@ -2,8 +2,8 @@
 
 \subsection{K si riduce secondo rec a CONST}
 
-Per dimostrare che $K \leq_{rec} CONST$ ricordiamoci prima cosa
-come sono definiti i vari insiemi
+Per dimostrare che $K \leq_{rec} CONST$ ricordiamoci prima come
+sono definiti i vari insiemi
 
 \begin{gather*}
 	K = \{ x \mid \varphi_x (x) \downarrow \} \\
@@ -11,7 +11,7 @@ come sono definiti i vari insiemi
 	rec = \{ \varphi_x \mid \forall y \in \N . \varphi_x (y) \downarrow \}
 \end{gather*}
 
-Dire che $K \leq_{rec} CONST$ significa che esiste una funzione
+Dire quindi che $K \leq_{rec} CONST$ significa che esiste una funzione
 $f \in rec$ tale che
 \[ \forall x \in K \implies f(x) \in CONST \]
 Dire che $x \in K$ equivale a dire che $\varphi_x (x)$ converge,
@@ -27,7 +27,7 @@ vera quest'ultima cosa. Iniziamo con il definire la funzione
 	\end{cases}
 \]
 Ci chiediamo ora se $\psi$ è calcolabile. Intuitivamente possiamo
-prendere l'$x$-esima macchina $M_x$ ed effettuare la più $z$
+prendere l'$x$-esima macchina $M_x$ ed effettuare al più $z$
 passi nel calcolo di $M_x(x)$.
 \begin{itemize}
 	\item Se converge in meno di $z$ passi allora cadiamo nel
