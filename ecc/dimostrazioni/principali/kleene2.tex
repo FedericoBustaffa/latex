@@ -1,0 +1,44 @@
+\section{Teorema di ricorsione (Kleene II)}
+
+Per ogni funzione $f$ calcolabile totale esiste $n$ tale che
+\[ \varphi_n = \varphi_{f(n)} \]
+
+\subsection{Dimostrazione}
+
+Dobbiamo quindi dimostrare che esiste questa $n$ per ogni $f$
+calcolabile totale. Per dimostrare che esiste andiamo a definire
+la funzione calcolabile
+\[
+	\psi (u, z) = \begin{cases}
+		\varphi_{\varphi_u(u)} (z) & \text{se } \varphi_u (u) \downarrow \\
+		\text{indefinita}          & \text{altrimenti}
+	\end{cases}
+\]
+Tale funzione è calcolabile poiché per calcolarla prendiamo
+$M_u$ e gli diamo $u$ in input
+\begin{itemize}
+	\item Se termina siamo nel primo ramo.
+	\item Se non termina siamo nel secondo ramo.
+\end{itemize}
+La funzione è inoltre totale poiché è ovunque definita (il
+calcolo di $\varphi_u (u)$ o termina o non termina).
+
+Se $\psi$ è calcolabile, per Church-Turing ha un indice $i$
+e dunque vale che
+\[ \psi (u, z) = \varphi_i (u, z) \]
+A questo punto possiamo applicare il teorema del parametro
+perché $u$ è costante e dunque otteniamo
+\[ \psi (u, z) = \varphi_i (u, z) = \varphi_{s(i, u)} (z) \]
+Ma la $\psi$ è fissata e dunque anche l'indice $i$ lo è. Possiamo
+allora scrivere che
+\[
+	\psi (u, z) = \varphi_i (u, z) = \varphi_{s(i, u)} (z) =
+	\varphi_{f(u)} (z)
+\]
+Abbiamo quindi che se $\varphi_u (u) \downarrow$ vale che
+\[
+	\psi (u, z) = \varphi_i (u, z) = \varphi_{s(i, u)} (z) =
+	\varphi_{f(u)} (z) = \varphi_{\varphi_u(u)} (z)
+\]
+da cui si deduce che
+\[ f(u) = \varphi_u(u) \]

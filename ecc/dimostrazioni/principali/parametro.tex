@@ -1,0 +1,92 @@
+\section{Teorema del parametro}
+
+Esiste una funzione $s$ calcolabile totale e iniettiva tale che
+$\forall i, x, y$ vale
+\[ \lambda y . \varphi_i(x, y) = \varphi_{s(i,x)} (y) \]
+
+\subsection{Dimostrazione}
+
+La dimostrazione si basa sul costruire una funzione $s$
+calcolabile, totale e iniettiva, tale per cui la funzione
+$\varphi_i$ valutata su $x$ e $y$, nel caso in cui il valore
+$x$ sia fissato (sia cioè un \textbf{parametro}), restituisca
+lo stesso risultato della funzione indicizzata dal valore di
+$s(i, x)$.
+
+In altre parole, nel momento in cui ci troviamo una funzione
+a 2 parametri e uno di questi sia fissato vogliamo trovare una
+funzione che ci ritorna lo stesso risultato ma in cui il
+parametro è parte della funzione stessa. Prendiamo l'esempio
+della funzione somma
+\[ f(x, y) = x + y \]
+e supponiamo che $x$ sia sempre fissato a 2. Possiamo sia
+calcolare $f(2, y)$ sia andare a cercare una seconda funzione
+$g$ che prende un solo parametro $y$ ed è definita in questo
+modo:
+\[ g(y) = 2 + y \]
+In sostanza stiamo definendo una funzione che prende un numero
+ed è solo in grado di sommargli 2.
+
+Per svolgere la dimostrazione replichiamo quindi quanto fatto
+con l'esempio. I passi che seguono (da quanto ho capito) hanno
+come intuizione la definizione di una nuova macchina
+"modificata".
+
+Dato che a primo membro abbiamo $\varphi_i (x,y)$ possiamo
+seguire lo stesso schema di sempre e dire che la macchina $M_i$
+calcola $\varphi_i$. Ma tale macchina prende ancora 2 argomenti
+ignoti a priori. Noi ci stiamo ponendo nell'ipotesi in cui $x$
+sia fissato a priori e ne conosciamo quindi il valore.
+
+Quello che stiamo cercando di fare è recuperare una macchina
+$M_j$, che prende un solo argomento $y$ e la quale (ad esempio)
+non ha l'istruzione che legge la variabile $x$ ma $x$ è
+direttamente scritta dentro la definizione della macchina $M_j$.
+Per trovare tale indice $j$ possiamo
+\begin{enumerate}
+	\item Recuperare l'$i$-esima macchina $M_i$.
+	\item Scrivere sul nastro di tale macchina il parametro $x$
+	      e la variabile $y$.
+\end{enumerate}
+Da notare che $x$ è un parametro e dunque non abbiamo bisogno di
+\emph{leggerlo}. Non abbiamo cioè bisogno di controllare quanto
+cose come la sua lunghezza o il suo tipo ecc. Il parametro $x$
+è dato e viene scritto direttamente sul nastro.
+
+Questa procedura definisce un algoritmo, in particolare
+l'algoritmo di indice $j$, il quale è identificato in funzione
+di $i$ e $x$ in quanto ci serve $i$ per recuperare l'$i$-esima
+macchina e ci serve $x$ il quale essendo noto viene scritto
+immediatamente sul suo nastro. A questo punto è facile
+convincersi che la procedura algoritmica che termina sempre e
+quindi esiste $s$ calcolabile totale tale che
+\[ j = s(i, x) \]
+In particolare $s$ è
+\begin{itemize}
+	\item Calcolabile poiché, come abbiamo appena detto, è
+	      possibile definire una procedura algoritmica che la
+	      calcola e che termina sempre.
+	\item Totale poiché è definita per ogni input. Non esistono
+	      infatti un indice $i \in \N$ e un input $x$ tali per
+	      cui la funzione $s$ non è definita. Siamo sempre in
+	      grado di trovare l'$i$-esima macchina e scrivere $x$
+	      sul suo nastro.
+\end{itemize}
+Ci rimane da dimostrare che $s$ è iniettiva. Per essere
+iniettiva abbiamo bisogno che non si verifichi mai una
+situazione di questo genere
+\[ s(i, x) = s(i', x') \]
+Per il padding lemma sappiamo però che esiste un'infinità
+numerabile di algoritmi che calcolano la stessa funzione o, se
+preferiamo, esiste un'infinità numerabile di indici che
+identificano una macchina in gradi di calcolare la stessa
+funzione. Premesso ciò è dunque possibile costruire una funzione
+$s'$ tale che
+\[ \varphi_{s(i, x)} = \varphi_{s'(i, x)} \]
+che genera indici in modo strettamente crescente. Deve quindi
+valere che
+\[ s'(i_0, x_0) < s'(i_1, x_1) \]
+dove la codifica della coppia $(i_0, x_0)$ è minore della
+codifica della coppia $(i_1, x_1)$. Come codifica possiamo ad
+esempio prendere la coda di colomba che mappa una coppia di
+naturali in un un'unico naturale.
