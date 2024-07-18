@@ -69,4 +69,24 @@ vuol dire assolutamente avere $k$ processori.
 	Data una MdT $M$ con $k$ nastri che decide $I$ in tempo
 	deterministico $f$, allora $\exists M'$ con $1$ nastro che
 	decide $I$ in tempo deterministico $\O (f^2)$.
+	\begin{proof}
+		Costruiamo $M'$ in modo che simuli la data $M$, in modo
+		analogo a quanto fatto per la costruzione della MdT
+		universale. Ogni configurazione di $M$ della forma
+		\[
+			(q, \start w_1 \sigma_1 u_1, \dots,
+			\start w_k \sigma_k u_k )
+		\]
+		viene simulata da
+		\[
+			(q', \start \start' w_1 \overline{\sigma_1} u_1
+			\triangleleft' \dots
+			\start' w_k \sigma_k u_k \triangleleft')
+		\]
+		racchiudiamo cioè ognuno dei nastri $w_i \sigma_i u_i$
+		tra due nuove parentesi $\start'$ e $\triangleleft'$ e
+		usiamo $\# \Sigma$ nuovi simboli $\overline{\sigma}_i$
+		per ricordarci qual era la posizione della testina
+		sull'$i$-esimo nastro.
+	\end{proof}
 \end{theorem}
