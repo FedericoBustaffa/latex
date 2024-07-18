@@ -25,6 +25,9 @@
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\K}{\mathcal{K}}
 \newcommand{\B}{\mathcal{B}}
+\renewcommand{\P}{\mathcal{P}}
+\newcommand{\NP}{\mathcal{NP}}
+\renewcommand{\O}{\mathcal{O}}
 
 \newcommand{\tx}{\tilde{x}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
@@ -39,6 +42,7 @@
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\nnz}{nnz}
 \DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\LS}{LOGSPACE}
 
 \title{Elementi di calcolabilità e complessità}
 \author{Federico Bustaffa}
@@ -106,5 +110,8 @@
 
 % -------------- COMPLESSITA' -------------------
 \include{complessita/introduzione/intro}
+\include{complessita/determinismo/determinismo}
+\include{complessita/determinismo/k_nastri}
+\include{complessita/determinismo/tempo}
 
 \end{document}

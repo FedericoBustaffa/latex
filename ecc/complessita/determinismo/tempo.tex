@@ -1,0 +1,72 @@
+\section{Complessità in tempo deterministico}
+
+Introduciamo adesso il modo necessario a determinare il tempo
+necessario alla soluzione di un problema, dove per problema
+intendiamo l'appartenenza o meno ad un insieme.
+
+\begin{definition}
+	Diciamo che $t$ è il tempo richiesto da una MdT $M$ a $k$
+	nastri per decidere il caso $x \in I$ se e solo se
+	\[
+		(q_0, \underline{\start} x, \underline{\start}, \dots,
+		\underline{\start}) \to (H, w_1, \dots, w_k)
+	\]
+	con $H \in \{ SI, NO \}$
+\end{definition}
+
+In altre parole diciamo che $t$ è il tempo necessario a decidere
+il caso $x$ se la macchina termina in $t$ passi in uno stato di
+terminazione (positivo o negativo che sia).
+
+Quello che però interessa a noi è ottenere una misura del tempo
+necessario alla decisione in funzione della taglia del problema.
+Vorremmo cioè, dato $x$ in ingresso, una funzione $f(|x|)$ che
+ci indica il tempo necessario alla risoluzione del problema.
+
+In ogni caso vogliamo che tale funzione sia calcolabile totale
+e che ci restituisca un numero naturale. Siamo inoltre
+interessati ad una funzione che non stimi il tempo \emph{esatto}
+alla risoluzione del problema ma una che lo maggiori. In sintesi
+vogliamo una funzione $f$ tale che $f(|x|)$ identifichi un limite
+superiore al numero di passi che la macchina $M$ compie per
+risolvere il problema sull'input $x$.
+
+\begin{definition}
+	Diciamo che $M$ decide $I$ in \textbf{tempo deterministico}
+	$f$ se per ogni dato di ingresso $x$, il tempo $t$ richiesto
+	da $M$ per decidere $x$ è minore o uguale a $f(|x|)$.
+\end{definition}
+
+Siamo quindi pronti per introdurre il concetto di classe di
+complessità in tempo deterministico.
+
+\begin{definition}
+	La classe di complessità in tempo deterministico
+	\[
+		\text{TIME}(f) = \{ I \mid \exists M \text{ che decide }
+		I \text{ in tempo deterministico } f \}
+	\]
+	è quindi l'insieme dei problemi $I$ tali che esiste almeno
+	una macchina $M$ che li decide in tempo deterministico $f$.
+\end{definition}
+
+Chiariamo brevemente che cosa intendiamo con \emph{ordine} di
+una funzione. Con la notazione $\O(f)$ intendiamo l'insieme
+\[
+	\{ g \mid \exists r \in \R^+ . g(x) < r \cdot f(x)
+	\text{ quasi ovunque} \}
+\]
+di tutte le funzioni tali per cui esiste una costante
+moltiplicativa per cui la funzione $f$ è maggiore di $g$
+da un certo punto in poi.
+
+Siamo ora interessati a capire quale sia il guadagno in tempo
+fornito da una MdT a $k$ nastri. Il risultato può risultare
+controintuitivo se non si è capito che avere $k$ nastri non
+vuol dire assolutamente avere $k$ processori.
+
+\begin{theorem}[Riduzione del numero dei nastri] \label{th: red_nastri}
+	Data una MdT $M$ con $k$ nastri che decide $I$ in tempo
+	deterministico $f$, allora $\exists M'$ con $1$ nastro che
+	decide $I$ in tempo deterministico $\O (f^2)$.
+\end{theorem}
