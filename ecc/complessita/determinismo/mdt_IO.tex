@@ -1,0 +1,55 @@
+\section{Macchine di Turing I/O}
+
+Una macchina di Turing di tipo I/O rappresenta un'estensione
+della MdT a $k$ nastri le quali ci consentono una trattazione
+più agevole della complessità in spazio.
+
+In questa specifica macchina abbiamo $k$ nastri di cui
+\begin{itemize}
+	\item Il primo, in sola lettura, è dedicato a contenere
+	      l'input.
+	\item Il secondo, in sola scrittura è dedicato a contenere
+	      l'output.
+	\item I $k-2$ nastri intermedi sono detti nastri di lavoro.
+\end{itemize}
+
+\begin{definition}
+	Una MdT a $k$ nastri è di tipo \textbf{I/O} se e solo se la
+	funzione di transizione $\delta$ è tale che, tutte le volte
+	che
+	\[
+		\delta (q, \sigma_1, \dots, \sigma_k) =
+		(q', (\sigma_1', D_1), \dots, (\sigma_k', D_k))
+	\]
+	deve valere che
+	\begin{itemize}
+		\item $\sigma_1' = \sigma_1$: primo nastro in sola
+		      lettura.
+		\item O $D_k = R$ o, quando $D_k = -$,
+		      $\sigma_k' = \sigma_k$: ultimo nastro in sola
+		      scrittura.
+		\item Se $\sigma_1 = \#$ allora $D_1 \in \{ L, - \}$: la
+		      macchina visita al massimo una cella bianca a
+		      destra del dato d'ingresso.
+	\end{itemize}
+\end{definition}
+
+Passiamo ad introdurre subito una proprietà interessante per
+queste macchine.
+
+\begin{property}
+	Per ogni MdT a $k$ nastri $M$ che decide $I$ in tempo
+	deterministico $f$ esiste una MdT $M'$ a $k+2$ nastri di
+	tipo I/O che decide $I$ in tempo deterministico $c \cdot f$
+	per qualche costante $c$.
+	\begin{proof}
+		La macchina $M'$ copia il primo nastro di $M$ sul suo
+		secondo nastro, impiegando $|x| + 1$ passi e opera come
+		$M$ senza più toccare il suo primo nastro. Quando $M$ si
+		arresta, $M'$ si arresta dopo aver copiato il risultato
+		sull'ultimo nastro, in al più $f(|x|)$ passi.
+	\end{proof}
+\end{property}
+
+Le MdT si dimostrano ancora robuste per trasformazioni del
+modello secondo modifiche algoritmicamente ragionevoli.
