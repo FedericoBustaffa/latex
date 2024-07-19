@@ -88,5 +88,31 @@ vuol dire assolutamente avere $k$ processori.
 		usiamo $\# \Sigma$ nuovi simboli $\overline{\sigma}_i$
 		per ricordarci qual era la posizione della testina
 		sull'$i$-esimo nastro.
+
+		% da finire
 	\end{proof}
 \end{theorem}
+
+Il teorema mostra che le MdT sono stabili, aggiungere dunque
+nastri e processori non modifica le funzione calcolate o il
+tempo deterministico richiesto se non polinomialmente.
+
+Facciamo ora un'osservazione fondamentale che mette in relazione
+spazio e tempo necessari a terminare un calcolo. Se una MdT
+richiede tempo $f(|x|)$ per decidere $x \in I$ significa che
+terminerà in un numero di passi inferiore a $f(|x|)$, e quindi
+non può aver visitato, in nessuno dei suoi nastri, un numero di
+caselle maggiore di $f(|x|)$ e quindi
+
+\begin{observation}
+	Non si può usare più spazio che tempo.
+\end{observation}
+
+Riprendendo il teorema appena dimostrato, è possibile fare una
+ulteriore osservazione riguardo al vantaggio che introducono le
+macchine parallele.
+
+\begin{corollary}
+	Le macchine parallele sono polinomialmente più veloci di
+	quelle sequenziali.
+\end{corollary}
