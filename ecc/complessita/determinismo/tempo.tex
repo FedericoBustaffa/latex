@@ -43,7 +43,7 @@ complessità in tempo deterministico.
 \begin{definition}
 	La classe di complessità in tempo deterministico
 	\[
-		\text{TIME}(f) = \{ I \mid \exists M \text{ che decide }
+		\TIME (f) = \{ I \mid \exists M \text{ che decide }
 		I \text{ in tempo deterministico } f \}
 	\]
 	è quindi l'insieme dei problemi $I$ tali che esiste almeno
@@ -125,4 +125,38 @@ ad ignorarle poiché per $n$ grande le costanti tendono a valere
 poco in relazione a $n$ e perché macchine sempre più potenti
 tendono a far rimpicciolire le costanti.
 
-Quest'ultimo fatto è sostenuto da un teorema
+Quest'ultimo fatto è sostenuto da un teorema la cui idea è che
+se $I \in \TIME (f)$ (quindi esiste una macchina che lo decide
+in tempo deterministico $f(n)$), allora $I$ appartiene anche a
+$\TIME (\epsilon \cdot f)$, qualunque sia la scelta di
+$\epsilon > 0$. In sostanza il teorema ci dice che, dato un
+algoritmo che decide un problema, è sempre possibile trovarne
+uno equivalente che è più veloce per una costante moltiplicativa
+$\epsilon < 1$.
+
+Ovviamente dobbiamo notare che se $I \in \TIME(2^n)$, ovvero se
+c'è un algoritmo che decide $I$ in tempo esponenziale, non è
+possibile trovare un algoritmo che decide $I$ in tempo
+deterministico polinomiale tramite il teorema che enunceremo tra
+poco. Analoghe osservazioni valgono per lo spazio.
+
+Il \emph{trucco} sta nel codificare l'alfabeto $\Sigma$ in un
+alfabeto più ricco $\Sigma^m$, con $m$ arbitario. Questo si
+traduce in macchine con parole di dimensioni maggiori (per
+esempio $2^m$ bit).
+
+\begin{theorem} [Accelerazione lineare] \label{th: acc_lin}
+	Se $I \in \TIME (f)$, allora $\forall \epsilon \in \R^+$ si
+	ha che $I \in \TIME(\epsilon \cdot f(n) + n + 2)$.
+\end{theorem}
+
+\begin{definition}
+	La classe dei problemi decidibili da MdT deterministiche
+	in tempo deterministico polinomiale è
+	\[ \P = \bigcup_{k \geq 1} \TIME (n^k) \]
+\end{definition}
+
+Questo definisce quindi l'insieme dei problemi decidibili in
+tempo polinomiale come i problemi per cui esiste una macchina
+che li decide in tempo definito da un polinomio, per qualunque
+polinomio di grado maggiore o uguale a $1$.
