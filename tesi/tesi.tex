@@ -1,0 +1,42 @@
+\documentclass[12pt]{report}
+
+\input{style}
+\input{math}
+\input{tikz}
+
+\usepackage{minted}
+\usepackage{diagbox}
+\usepackage[label=corner]{karnaugh-map}
+\usepackage{svg}
+
+\definecolor{minted_bg}{rgb}{0.9, 0.9, 0.9}
+\usemintedstyle{colorful}
+
+\setminted[c]{
+	tabsize=4,
+	% linenos=true,
+	bgcolor=minted_bg,
+	fontsize=\small,
+	mathescape=true
+}
+
+\setminted[bash]{
+	tabsize=4,
+	% linenos=true,
+	bgcolor=minted_bg,
+	fontsize=\small,
+	mathescape=true
+}
+
+\title{Tesi}
+\author{Federico Bustaffa}
+\date{01/09/2024}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+Ciao
+
+\end{document}
