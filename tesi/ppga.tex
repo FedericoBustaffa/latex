@@ -1,9 +1,13 @@
 \documentclass[12pt]{article}
 
-\input{style}
+% \input{style}
 \input{math}
 \input{tikz}
 
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=1.25in]{geometry}
 \usepackage{minted}
 \usepackage{diagbox}
 \usepackage{svg}
@@ -35,7 +39,7 @@
 	mathescape=true
 }
 
-\title{Progetto PPGA}
+\title{PPGA}
 \author{Federico Bustaffa}
 \date{01/09/2024}
 
@@ -44,6 +48,7 @@
 \maketitle
 \tableofcontents
 
-\include{introduzione}
+\include{intro}
+\include{parallel}
 
 \end{document}

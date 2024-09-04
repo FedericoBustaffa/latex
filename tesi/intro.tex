@@ -1,0 +1,90 @@
+\section{Algoritmo genetico}
+
+Cerchiamo di mettere a fuoco il problema per riuscire a strutturare un sistema
+di calcolo parallelo per algoritmi genetici. In generale, un algoritmo genetico,
+è composto da 5 parti fondamentali:
+\begin{enumerate}
+	\item \textbf{Generazione}: si genera in modo casuale la popolazione
+	      iniziale.
+	\item \textbf{Crossover}: metà degli individui vengono fatti accoppiare e
+	      si generano i figli.
+	\item \textbf{Mutazione}: Ogni figlio generato ha un certa probabilità di
+	      venire mutato.
+	\item \textbf{Valutazione}: si valuta il valore di \textbf{fitness} di ogni
+	      figlio.
+	\item \textbf{Rimpiazzo}: le politiche di rimpiazzo dipendono molto
+	      dall'implementazione. In generale possiamo sostituire interamente la
+	      vecchia generazione con la nuova (a favore di una maggiore varietà di
+	      individui), oppure si cerca di creare la nuova generazione prendendo
+	      il meglio di genitori e figli.
+\end{enumerate}
+Ovviamente conviene sempre mantenere almeno l'individuo migliore trovato
+durante le varie iterazione
+\begin{itemize}
+	\item Per non perdere una possibile soluzione ottima o molto buona.
+	\item Per implementare criteri di \textbf{convergenza}.
+\end{itemize}
+Per il momento non andremo a discutere le possibile implementazioni di ogni di
+questi punti, in quanto sono moltissime e potenzialmente infinite se inziamo a
+progettarne di specifiche per ogni problema che incontriamo.
+
+\subsection{Problematiche}
+
+Quello su cui vogliamo focalizzarci sono le criticità di un algoritmo genetico.
+Prima tra tutte l'\emph{inefficienza} nel caso in cui la dimensione del
+problema cresca troppo.
+
+Ovviamente possiamo tenere il tempo di esecuzione più basso possibile andando
+a progettare in modo furbo ogni step dell'algoritmo. Ci sono però delle fasi
+dell'algoritmo in cui non c'è via di scampo proprio per come un algoritmo
+genetico è strutturato alla base.
+
+\subsection{Problema del commesso viaggiatore}
+
+Prendiamo come esempio, il problema del commesso viaggiatore o TSP, in
+particolare nella sua formulazione in cui
+\begin{itemize}
+	\item Il grafo è \emph{indiretto} e \emph{completo}.
+	\item Ogni nodo possiede una coordinata $x$ e $y$.
+	\item La distanza tra due nodi $u$ e $v$ è data dalla formula
+	      \[ d(u, v) = \sqrt{(u_x - v_x)^2 + (u_y - v_y)^2} \]
+	      che rappresenta la distanza euclidea tra due punti sul piano.
+	\item Si deve attraversare ogni città presente nel grafo
+	\item Si può passare da ogni città una sola volta.
+	\item L'unico parametro su cui basare la scelta del cammino migliore è
+	      la distanza totale percorsa (la quale vogliamo minimizzare).
+\end{itemize}
+Per il momento ci concentreremo sull'analisi e sulla risoluzione efficiente di
+questo problema in quanto si presta bene ad un approccio \emph{genetico}.
+
+\subsubsection{Analisi}
+
+Vediamo una possibile soluzione al problema trovata tramite un algoritmo
+genetico considerando un caso con 50 città.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.5]{images/tsp_50.svg}
+\end{center}
+Per ottenere questa soluzione abbiamo lavorato con una popolazione iniziale
+composta da 500 individui e un limite massimo di 500 generazioni. Proviamo a
+vedere come sono distribuiti i tempi necessari ad ognuna delle fasi
+dell'algoritmo.
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.5]{images/tsp_50_time.svg}
+\end{center}
+Come possiamo vedere, le fasi che prendono più tempo sono certamente quelle di
+\emph{crossover} e di \emph{valutazione}. Subito a seguire le fasi di
+\emph{selezione} e \emph{mutazione}, trascurabili le fasi di \emph{rimpiazzo} e
+di \emph{generazione} della popolazione (che non compare nel grafico).
+
+\subsubsection{Ottimizzazioni}
+
+Quello che vorremmo riuscire a fare è sfruttare il potere computazionale che
+offre il \textbf{calcolo parallelo} per ottimizzare le varie fasi.
+Fortunatamente gli algoritmi genetici si predispongono bene ad una
+parallelizzazione del codice in quanto le operazioni sono spesso svolte su
+un singolo individuo alla volta e non dipendono dal resto della popolazione.
+
+Cercheremo unicamente soluzioni di tipo \emph{multi-thread} o
+\emph{multi-processo}, le quali trovano maggior riscontro su processori con
+molti core e non andremo a trattare argomenti come calcolo su GPU, FPGA o
+nodi multipli.
