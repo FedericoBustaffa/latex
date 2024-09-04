@@ -1,5 +1,32 @@
 \section{Calcolo parallelo}
 
 In questa parte cerchiamo di dare forma ad un sistema in grado di prendere
-in input un qualsiasi algoritmo genetico e sfruttare il parallelismo per
-ottenere uno \emph{speed-up}.
+in input un qualsiasi algoritmo genetico (nel nostro caso uno in grado di
+risolvere il problema del commesso viaggiatore) e, sfruttando il parallelismo,
+ottenere uno \emph{speed-up} significativo.
+
+\subsection{Generazione della popolazione iniziale}
+
+In questa prima fase andremo a generare una popolazione iniziale in modo del
+tutto casuale. In questa fase si generano gli individui ed è consigliabile
+inserire un controllo per evitare la generazione di duplicati. Questo perché
+vogliamo ottenere la massiamo \emph{biodiversità} possibile.
+
+Nel problema del commesso viaggiatore, così come lo abbiamo formulato, ogni
+individuo è un vettore di interi, tutti diversi, i cui valori vanno da $0$ a
+$T-1$, dove $T$ è il numero di città che stiamo considerando. Se consideriamo
+$T = 10$, un possibile individuo della popolazione è il seguente
+\begin{center}
+	\includesvg[inkscapelatex=false, scale=0.4]{images/chromosome_example.svg}
+\end{center}
+Per generare individui nel caso del problema del commesso viaggiatore possiamo
+\begin{enumerate}
+	\item Prendere i valori da $0$ a $T-1$.
+	\item Inserirli in un array.
+	\item Mescolare l'array.
+	\item In caso si generi un cromosoma già presente si ripete il processo.
+\end{enumerate}
+Questo processo è in genere abbastanza rapido e di conseguenza non richiede
+una parallelizzazione. Potrebbe essere comunque interessante capire se,
+lavorando in scenari in cui si necessita una popolazione iniziale molto ampia,
+possa aver senso ricorrere al parallelismo.
