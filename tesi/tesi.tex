@@ -1,4 +1,4 @@
-\documentclass[12pt]{report}
+\documentclass[12pt]{article}
 
 \input{style}
 \input{math}
@@ -6,15 +6,22 @@
 
 \usepackage{minted}
 \usepackage{diagbox}
-\usepackage[label=corner]{karnaugh-map}
 \usepackage{svg}
 
 \definecolor{minted_bg}{rgb}{0.9, 0.9, 0.9}
 \usemintedstyle{colorful}
 
-\setminted[c]{
+\setminted[py]{
 	tabsize=4,
-	% linenos=true,
+	linenos=true,
+	bgcolor=minted_bg,
+	fontsize=\small,
+	mathescape=true
+}
+
+\setminted[cpp]{
+	tabsize=4,
+	linenos=true,
 	bgcolor=minted_bg,
 	fontsize=\small,
 	mathescape=true
@@ -28,7 +35,7 @@
 	mathescape=true
 }
 
-\title{Tesi}
+\title{Progetto PPGA}
 \author{Federico Bustaffa}
 \date{01/09/2024}
 
@@ -37,6 +44,6 @@
 \maketitle
 \tableofcontents
 
-Ciao
+\include{introduzione}
 
 \end{document}
