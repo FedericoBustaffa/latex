@@ -8,9 +8,8 @@ ottenere uno \emph{speed-up} significativo.
 \subsection{Generazione della popolazione iniziale}
 
 In questa prima fase andremo a \textbf{generare} una popolazione iniziale in
-modo del tutto casuale. In questa fase si generano gli individui ed è
-consigliabile inserire un controllo per evitare la generazione di duplicati.
-Questo perché vogliamo ottenere la massiamo \emph{biodiversità} possibile.
+modo del tutto casuale. Evitare di generare duplicati è buona norma, almeno
+in questa fase, così da garantire un alto grado di \emph{biodiversità} iniziale.
 
 Nel problema del commesso viaggiatore, così come lo abbiamo formulato, ogni
 individuo è un vettore di interi, tutti diversi, i cui valori vanno da $0$ a
@@ -31,8 +30,12 @@ una parallelizzazione. Potrebbe essere comunque interessante capire se,
 lavorando in scenari in cui si necessita una popolazione iniziale molto ampia,
 possa aver senso ricorrere al parallelismo.
 
-\subsection{Crossover}
+\subsection{Valutazione}
 
-La prossima fase riguarda la fase di \textbf{crossover}, in cui andiamo a
-combinare tra di loro i migliori individui per generarne altri che,
-presumibilmente, saranno migliori.
+Per la valutazione
+
+% \subsection{Crossover}
+
+% La prossima fase riguarda la fase di \textbf{crossover}, in cui andiamo a
+% combinare tra di loro i migliori individui per generarne altri che,
+% presumibilmente, saranno migliori.

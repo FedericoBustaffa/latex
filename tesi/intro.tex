@@ -6,17 +6,20 @@ di calcolo parallelo per algoritmi genetici. In generale, un algoritmo genetico,
 \begin{enumerate}
 	\item \textbf{Generazione}: si genera in modo casuale la popolazione
 	      iniziale.
-	\item \textbf{Crossover}: metà degli individui vengono fatti accoppiare e
-	      si generano i figli.
-	\item \textbf{Mutazione}: Ogni figlio generato ha un certa probabilità di
-	      venire mutato.
 	\item \textbf{Valutazione}: si valuta il valore di \textbf{fitness} di ogni
 	      figlio.
+	\item \textbf{Selezione}: guidati dal valore di fitness si selezionano,
+	      cercando comunque di mantenere un minimo grado di casualità, gli
+	      individui per l'accoppiamento e la generazione di nuovi individui.
+	\item \textbf{Crossover}: gli individui selezionati vengono fatti
+	      accoppiare e si genera la prole.
+	\item \textbf{Mutazione}: ogni figlio generato ha un certa probabilità di
+	      subire una mutazione.
 	\item \textbf{Rimpiazzo}: le politiche di rimpiazzo dipendono molto
 	      dall'implementazione. In generale possiamo sostituire interamente la
 	      vecchia generazione con la nuova (a favore di una maggiore varietà di
 	      individui), oppure si cerca di creare la nuova generazione prendendo
-	      il meglio di genitori e figli.
+	      il meglio di genitori e prole.
 \end{enumerate}
 Ovviamente conviene sempre mantenere almeno l'individuo migliore trovato
 durante le varie iterazione
