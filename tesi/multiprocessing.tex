@@ -1,2 +1,45 @@
-\section{Multiprocessing}
+\section{Multiprocessing e memoria condivisa}
 
+Il modulo \verb|multiprocessing| di Python mette a disposizione varie
+funzionalità per la condivisione dei dati tramite memoria condivisa.
+
+La memoria in questione viene allocata al di fuori dello spazio di memoria dei
+vari processi ma è comunque visibile e modificabile dagli stessi. Il tutto in
+modo diretto e senza la necessità di coinvolgere meccanismi streaming dei dati.
+
+Il modello di calcolo risulta quindi essere differente da uno in cui si fa uso
+di meccanismi di stream, come ad esempio le pipe.
+
+Prima di iniziare facciamo alcune rapide considerazioni. Per riuscire a
+sfruttare al meglio il parallelismo e generare meno overhead possibile,
+dobbiamo tenere di conto che:
+\begin{itemize}
+	\item \textbf{Generazione dei processi}: I processi richiedono tanto tempo
+	      per essere istanziati. Non è quindi pensabile un approccio in cui
+	      questi vengono creati all'inizio di ogni iterazione e distrutti alla
+	      fine della stessa.
+	\item \textbf{Memoria}: I processi occupano più memoria. Per il momento non
+	      so quanto questo sia impattante. Probabilmente non sarà mai un vero e
+	      proprio problema in quanto il numero di processi in genere non supera
+	      il numero di core della macchina ed è ragionevole pensare che, per
+	      una macchina con un numero considerevole di core, non sia un problema
+	      la memoria.
+	\item \textbf{Strutture dati}: Le strutture dati, soprattutto quelle
+	      condivise tra i processi, dovrebbero subire modifiche mirate e il
+	      meno impattanti possibile. Questo sia per evitare possibile
+	      comportamenti indesiderati, sia per migliorare le prestazioni.
+\end{itemize}
+Punteremo quindi ad un approccio che mira a sfruttare al meglio le risorse già
+preallocate e meccanismi come il \emph{caching}.
+
+\subsection{Struttura}
+
+La struttura del modello di calcolo per il momento è molto semplice. Quello che
+si vuole riuscire a parallelizzare è la fase che va dal crossover, passando per
+la mutazione, fino ad arrivare alla valutazione dei nuovi individui. Se ad
+esempio volessimo parallelizzare a due processi otterremmo uno schema del
+genere:
+
+% \begin{center}
+% 	\includesvg[inkscapelatex=false, scale=0.5]{images/schema1.svg}
+% \end{center}
