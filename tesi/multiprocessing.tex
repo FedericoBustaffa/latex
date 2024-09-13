@@ -32,14 +32,30 @@ dobbiamo tenere di conto che:
 Punteremo quindi ad un approccio che mira a sfruttare al meglio le risorse già
 preallocate e meccanismi come il \emph{caching}.
 
-\subsection{Struttura}
+\subsection{Modello}
 
-La struttura del modello di calcolo per il momento è molto semplice. Quello che
-si vuole riuscire a parallelizzare è la fase che va dal crossover, passando per
-la mutazione, fino ad arrivare alla valutazione dei nuovi individui. Se ad
-esempio volessimo parallelizzare a due processi otterremmo uno schema del
-genere:
+La struttura del modello di calcolo per il momento è molto semplice e dovrebbe
+essere un qualcosa del genere:
 
-% \begin{center}
-% 	\includesvg[inkscapelatex=false, scale=0.5]{images/schema1.svg}
-% \end{center}
+\begin{wrapfigure}{r}{0.35\textwidth}
+	\includesvg[inkscapelatex=false, scale=0.3625]{images/schema1.svg}
+\end{wrapfigure}
+
+Come possiamo vedere in figura, quello che si vuole riuscire ad eseguire in
+parallelo solo le fasi di crossover, mutazione e valutazione. Il fatto che
+siano una dopo l'altra, come possiamo vedere, ci agevola molto in quanto si
+minimizzano il numero di processi coinvolti e si ottiene un bel guadagno in
+termini di prestazioni.
+
+Percorriamo brevemente l'algoritmo per capire quali strutture dati sono
+coinvolte:
+
+\begin{enumerate}
+	\item Viene generata una \textbf{lista di individui} e viene valutata.
+	\item Vengono selezionati gli individui per la riproduzione e si produce
+	      una \textbf{lista degli indici} degli individui selezionati.
+	\item La lista di indici generata viene usata per creare le coppie di
+	      genitori. Questa fase non può essere eseguita in parallelo perché
+	      la scelta dei genitori viene fatta casualmente su tutta la lista
+	      dei selezionati.
+\end{enumerate}
