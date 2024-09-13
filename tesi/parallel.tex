@@ -1,9 +1,13 @@
 \section{Calcolo parallelo}
 
-In questa parte cerchiamo di dare forma ad un sistema in grado di prendere
-in input un qualsiasi algoritmo genetico (nel nostro caso uno in grado di
-risolvere il problema del commesso viaggiatore) e, sfruttando il parallelismo,
-ottenere uno \emph{speed-up} significativo.
+Cerchiamo ora di definire lo scheletro del nostro modello di calcolo parallelo
+di modo da usarlo come riferimento per le possibili implementazioni che andremo
+a provare.
+
+Le fasi dell'algoritmo di maggiore interesse sono in realtà solo quelle di
+valutazione, crossover e mutazione. Sono tre fasi spesso molto pesanti ma
+abbiamo la fortuna che siano consecutive l'una all'altra e godono di un certo
+grado di indipendenza.
 
 \subsection{Generazione della popolazione iniziale}
 
