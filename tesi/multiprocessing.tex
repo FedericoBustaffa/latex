@@ -49,7 +49,6 @@ termini di prestazioni.
 
 Percorriamo brevemente l'algoritmo per capire quali strutture dati sono
 coinvolte:
-
 \begin{enumerate}
 	\item Viene generata una \textbf{lista di individui} e viene valutata.
 	\item Vengono selezionati gli individui per la riproduzione e si produce
@@ -59,3 +58,20 @@ coinvolte:
 	      la scelta dei genitori viene fatta casualmente su tutta la lista
 	      dei selezionati.
 \end{enumerate}
+
+\begin{enumerate}
+	\setcounter{enumi}{3}
+	\item La lista delle coppie sarà condivisa e divisa equamente tra i
+	      processi così che questi possano effettuare il crossover in parallelo
+	      come mostrato in figura.
+	\item Dopo il crossover si passa subito alla mutazione, la quale non
+	      necessita la condivisione degli individui creati. Ogni processo può
+	      effettuare la mutazione sugli individui appena generati.
+	\item Anche la fase di valutazione segue direttamente dalla fase di
+	      mutazione sempre agendo sugli individui generati e mutati ai passi
+	      precedenti.
+\end{enumerate}
+Di fatto i nuovi individui generati non avrebbero bisogno di appartenere ad una
+struttura dati condivisa ma arrivati alla fine della valutazione dobbiamo unire
+gli individui ottenuti in una sola lista. Possiamo far sì che i vari individui
+generati dai vari processi vengano riuniti.
