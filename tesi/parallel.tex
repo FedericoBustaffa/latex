@@ -1,45 +1,79 @@
-\section{Calcolo parallelo}
+\section{Modello di calcolo parallelo}
 
-Cerchiamo ora di definire lo scheletro del nostro modello di calcolo parallelo
-di modo da usarlo come riferimento per le possibili implementazioni che andremo
-a provare.
+Cerchiamo ora di definire lo scheletro del modello di calcolo parallelo, così
+da avere un riferimento per le possibili implementazioni che andremo a studiare.
 
-Le fasi dell'algoritmo di maggiore interesse sono in realtà solo quelle di
-valutazione, crossover e mutazione. Sono tre fasi spesso molto pesanti ma
-abbiamo la fortuna che siano consecutive l'una all'altra e godono di un certo
-grado di indipendenza.
+\subsection{API e utilizzo}
+
+Per quanto riguarda l'API messa a disposizione dell'utente vogliamo un qualcosa
+che sia il più semplice possibile e che prevenga errori o cattiva gestione
+delle strutture dati, fondamentali per la corretta esecuzione dell'algoritmo.
+
+L'idea sarebbe quella di istanziare l'algoritmo come un oggetto, al quale
+verranno forniti i vari metodi che compongono un algoritmo genetico.
+
+\begin{minted}{py}
+from genetic import GeneticAlgorithm
+
+if __name__ == "__main__":
+	ga = GeneticAlgorithm(
+		population_size
+		gen_func,
+		selection_func,
+		crossover_func,
+		mutation_func,
+		fitness_func,
+		replacement_func,
+		convergence_func
+	)
+
+	ga.run()
+	results = ga.get()
+\end{minted}
+
+In questo modo non si espongono le strutture dati all'esterno della classe se
+non come copie o come \emph{viste} dell'originale. Questo rende anche possibile
+il riutilizzo di strutture dati già allocate andando rendere più efficiente
+l'algoritmo in un senso che sarà più chiaro andando avanti.
+
+\subsection{Cromosomi}
+
+Prima di definire l'algoritmo, introduciamo brevemente come vengono
+rappresentati i \textbf{cromosomi}. Ogni cromosoma rappresenta un individuo
+della popolazione, il quale è generalmente identificato da un vettore di valori
+numerici e da un valore di fitness.
+
+\begin{minted}{py}
+class Chromosome:
+	def __init__(self, values, fitness) -> None:
+		self.values = values
+		self.fitness = fitness
+\end{minted}
+
+Noi tratteremo solo casi in cui abbiamo vettori numerici, sarà poi compito del
+programmatore mappare il cromosoma in ciò che gli serve per risolvere il suo
+problema.
+
+In questo modo abbiamo una rappresentazione chiara di cosa sia un cromosoma e
+anche un codice più pulito.
 
 \subsection{Generazione della popolazione iniziale}
 
-In questa prima fase andremo a \textbf{generare} una popolazione iniziale in
-modo del tutto casuale. Evitare di generare duplicati è buona norma, almeno
-in questa fase, così da garantire un alto grado di \emph{biodiversità} iniziale.
+In questa prima fase andiamo a generare una popolazione iniziale di $N$
+individui in modo del tutto casuale. Evitare di generare duplicati è buona
+norma, almeno in questa fase, così da garantire un alto grado di
+\emph{biodiversità} iniziale.
 
-Nel problema del commesso viaggiatore, così come lo abbiamo formulato, ogni
-individuo è un vettore di interi, tutti diversi, i cui valori vanno da $0$ a
-$T-1$, dove $T$ è il numero di città che stiamo considerando. Se consideriamo
-$T = 10$, un possibile individuo della popolazione è il seguente
-\begin{center}
-	\includesvg[inkscapelatex=false, scale=0.4]{images/chromosome_example.svg}
-\end{center}
-Per generare individui nel caso del problema del commesso viaggiatore possiamo
-\begin{enumerate}
-	\item Prendere i valori da $0$ a $T-1$.
-	\item Inserirli in un array.
-	\item Mescolare l'array.
-	\item In caso si generi un cromosoma già presente si ripete il processo.
-\end{enumerate}
-Questo processo è in genere abbastanza rapido e di conseguenza non richiede
-una parallelizzazione. Potrebbe essere comunque interessante capire se,
-lavorando in scenari in cui si necessita una popolazione iniziale molto ampia,
-possa aver senso ricorrere al parallelismo.
+Per la fase iniziale di generazione, lasciamo al programmatore il compito di
+definire come viene generato il singolo cromosoma. Sarà poi il modulo ad
+occupersi di gestire i duplicati e memorizzare la popolazione.
 
-\subsection{Valutazione}
+\begin{minted}{py}
+	def __generate(self) -> None:
+		for i in range(N):
+			values = self.gen_func()
+			while values in population:
+				values = self.gen_func()
+			self.population[i].values = values
+\end{minted}
 
-Per la valutazione
-
-% \subsection{Crossover}
-
-% La prossima fase riguarda la fase di \textbf{crossover}, in cui andiamo a
-% combinare tra di loro i migliori individui per generarne altri che,
-% presumibilmente, saranno migliori.
