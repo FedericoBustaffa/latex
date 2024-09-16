@@ -1,7 +1,8 @@
-\section{Modello di calcolo parallelo}
+\section{Algoritmo}
 
-Cerchiamo ora di definire lo scheletro del modello di calcolo parallelo, così
-da avere un riferimento per le possibili implementazioni che andremo a studiare.
+Cerchiamo ora di definire un algoritmo genetico sequenziale che sia una buona
+base per quello che andremo a fare dopo. Si vuole infatti costruire un modello
+su cui basare le possibili implementazioni che andremo a studiare.
 
 \subsection{API e utilizzo}
 
@@ -38,10 +39,8 @@ l'algoritmo in un senso che sarà più chiaro andando avanti.
 
 \subsection{Cromosomi}
 
-Prima di definire l'algoritmo, introduciamo brevemente come vengono
-rappresentati i \textbf{cromosomi}. Ogni cromosoma rappresenta un individuo
-della popolazione, il quale è generalmente identificato da un vettore di valori
-numerici e da un valore di fitness.
+Prima di definire le varie fasi dell'algoritmo, introduciamo brevemente come
+vengono rappresentati i \textbf{cromosomi}.
 
 \begin{minted}{py}
 class Chromosome:
@@ -50,12 +49,13 @@ class Chromosome:
 		self.fitness = fitness
 \end{minted}
 
-Noi tratteremo solo casi in cui abbiamo vettori numerici, sarà poi compito del
-programmatore mappare il cromosoma in ciò che gli serve per risolvere il suo
-problema.
+Ogni cromosoma rappresenta un individuo della popolazione, il quale è
+generalmente identificato da un vettore di valori numerici e da un valore di
+fitness.
 
-In questo modo abbiamo una rappresentazione chiara di cosa sia un cromosoma e
-anche un codice più pulito.
+Noi tratteremo solo casi in cui abbiamo vettori numerici, sarà poi compito del
+programmatore mappare il cromosoma in ciò che gli serve per risolvere il
+problema di interesse.
 
 \subsection{Generazione della popolazione iniziale}
 
@@ -64,10 +64,6 @@ individui in modo del tutto casuale. Evitare di generare duplicati è buona
 norma, almeno in questa fase, così da garantire un alto grado di
 \emph{biodiversità} iniziale.
 
-Per la fase iniziale di generazione, lasciamo al programmatore il compito di
-definire come viene generato il singolo cromosoma. Sarà poi il modulo ad
-occupersi di gestire i duplicati e memorizzare la popolazione.
-
 \begin{minted}{py}
 	def __generate(self) -> None:
 		for i in range(N):
@@ -75,5 +71,29 @@ occupersi di gestire i duplicati e memorizzare la popolazione.
 			while values in population:
 				values = self.gen_func()
 			self.population[i].values = values
+\end{minted}
+
+Per la fase iniziale di generazione, lasciamo al programmatore il compito di
+definire come viene generato il singolo cromosoma. Sarà poi il modulo ad
+occupersi di gestire i duplicati e memorizzare la popolazione.
+
+\subsection{Selezione}
+
+Le possibili implementazioni della fase di selezione degli individui per
+l'accoppiamento sono molto varie e potrebbero non avere parti in comune.
+
+Prendiamo ad esempio la selezione a \emph{torneo} in cui si scelgono a due a
+due degli individui e quello con fitness più alta viene scelto.
+
+In una soluzione a \emph{roulette} invece gli individui vengono scelti
+singolarmente e volta per volta. In ogni caso si lavora sempre sull'intera
+popolazione e non ci sono parti facilmente \emph{generalizzabili}.
+
+Ecco perché in questa fase si richiede al programmatore di implementare la fase
+di selezione per intero.
+
+\begin{minted}{py}
+	def __selection(self):
+		self.selected[:] = self.selection_func(self.population)
 \end{minted}
 
