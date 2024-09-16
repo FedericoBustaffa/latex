@@ -65,12 +65,12 @@ norma, almeno in questa fase, così da garantire un alto grado di
 \emph{biodiversità} iniziale.
 
 \begin{minted}{py}
-	def __generate(self) -> None:
-		for i in range(N):
+def __generate(self) -> None:
+	for i in range(N):
+		values = self.gen_func()
+		while values in population:
 			values = self.gen_func()
-			while values in population:
-				values = self.gen_func()
-			self.population[i].values = values
+		self.population[i].values = values
 \end{minted}
 
 Per la fase iniziale di generazione, lasciamo al programmatore il compito di
@@ -93,7 +93,73 @@ Ecco perché in questa fase si richiede al programmatore di implementare la fase
 di selezione per intero.
 
 \begin{minted}{py}
-	def __selection(self):
-		self.selected[:] = self.selection_func(self.population)
+def __selection(self):
+	self.selected = self.selection_func(self.population)
 \end{minted}
 
+Ciò che si richiede è che la funzione di selezione ritorni una lista di
+puntatori agli individui selezionati.
+
+\subsection{Crossover}
+
+La fase di crossover si rivelerà essere una delle più costose ed è quindi
+necessario implementare delle ottimizzazioni già nella progettazione
+dell'algoritmo sequenziale.
+
+Per la fase di crossover facciamo alcune assunzioni, necessarie per riuscire
+a parallelizzare l'algoritmo in seguito. Vogliamo infatti lasciare al
+programmatore solamente il compito di definire l'operatore di crossover, il
+quale prende in input solo due individui e restituisce (in genere due) nuovi
+individui. Il come vengono formate le coppie viene lasciato alle routine
+interne della classe che stiamo definendo.
+
+\begin{minted}{py}
+def __crossover(self) -> None:
+	for i in range(0, len(self.selected), 2):
+		father, mother = random.choices(self.selected, k=2)
+
+		offspring1, offspring2 = self.crossover_func(father, mother)
+		self.offsprings[i] = offspring1
+		self.offsprings[i+1] = offspring2
+
+		self.selected.remove(father)
+		try:
+			selected.remove(mother)
+		except ValueError:
+			pass
+\end{minted}
+
+Altra assunzione che fa l'algoritmo in questione è che il numero di nuovi
+individui generati non cambia mai. Questo ci permette di inizializzare una
+lista \verb|offsprings| a cui poi possiamo accedere tramite indice e senza
+quindi andare riallocare di continuo memoria per i nuovi individui generati.
+
+\subsection{Mutazione}
+
+Per quanto riguarda la fase di mutazione si lascia al programmatore il compito
+di definire una funzione che prende in input un cromosoma e applica una qualche
+tecnica di mutazione.
+
+\begin{minted}{py}
+def __mutation(self) -> None:
+	for i in range(len(self.offsprings)):
+		if random.random() < self.mutation_rate:
+			self.offsprings[i] = self.mutation_func(self.offsprings[i])
+\end{minted}
+
+Il modulo si occupa di gestire la probabilità che ogni individuo ha di essere
+mutato.
+
+\subsection{Valutazione}
+
+Fase abbastanza semplice ma che costituisce uno dei colli di bottiglia maggiori
+per le prestazioni
+
+\begin{minted}{py}
+def __evaluation(self) -> None:
+	for i in range(len(self.offsprings)):
+		self.offsprings[i].fitness = self.fitness_func(self.offsprings[i].values)
+\end{minted}
+
+Anche qui l'algoritmo non fa altro che applicare la funzione di fitness definita
+dall'utente ad ogni nuovo individuo della popolazione.
