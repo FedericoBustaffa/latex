@@ -1,4 +1,4 @@
-\chapter{Contesto}
+\chapter{Contesto}\label{cap: contesto}
 
 Come anticipato nell'introduzione, il contesto in cui si va a collocare il
 lavoro di tesi è molteplice. Abbiamo infatti a che fare con algoritmi genetici,
@@ -23,22 +23,22 @@ generalmente strutturato come un vettore o una stringa, i cui elementi
 rappresentano una possibile soluzione al problema o una sua codifica. Una delle
 implementazioni più semplici è composta dalle seguenti fasi:
 \begin{enumerate}
-    \item Generazione: viene generata in modo casuale una popolazione i cui
-          individui rappresentano possibili soluzioni al problema.
-    \item Selezione: vengono selezionati $k$ individui utilizzando metodi
-          basati sul valore di fitness.
-    \item Crossover: i cromosomi di due o più individui vengono combinati per
-          generare nuovi individui che condividono parte del materiale genetico
-          dei genitori.
-    \item Mutazione: vengono applicate piccole variazioni casuali al cromosoma
-          di un individuo, permettendo così l'esplorazione di nuove soluzioni e
-          favorendo così la diversità genetica all'interno della popolazione.
-    \item Valutazione: ad ogni individuo viene attribuito un valore di
-          \textit{fitness} in base alla qualità della soluzione che questo
-          rappresenta.
-    \item Rimpiazzo: viene attuata una politica di rimpiazzo (in alcuni casi
-          chiamata \quotes{di sopravvivenza}), che prevede la scelta degli
-          individui da mantenere da una generazione all'altra.
+      \item Generazione: viene generata in modo casuale una popolazione i cui
+            individui rappresentano possibili soluzioni al problema.
+      \item Selezione: vengono selezionati $k$ individui utilizzando metodi
+            basati sul valore di fitness.
+      \item Crossover: i cromosomi di due o più individui vengono combinati per
+            generare nuovi individui che condividono parte del materiale genetico
+            dei genitori.
+      \item Mutazione: vengono applicate piccole variazioni casuali al cromosoma
+            di un individuo, permettendo così l'esplorazione di nuove soluzioni e
+            favorendo così la diversità genetica all'interno della popolazione.
+      \item Valutazione: ad ogni individuo viene attribuito un valore di
+            \textit{fitness} in base alla qualità della soluzione che questo
+            rappresenta.
+      \item Rimpiazzo: viene attuata una politica di rimpiazzo (in alcuni casi
+            chiamata \quotes{di sopravvivenza}), che prevede la scelta degli
+            individui da mantenere da una generazione all'altra.
 \end{enumerate}
 Tutte le fasi tranne la prima sono eseguite in un ciclo che termina quando
 viene soddisfatto un criterio di convergenza, che può essere definito in
@@ -46,10 +46,10 @@ termini dei valori di fitness della popolazione, della sua biodiversità o, più
 semplicemente, definendo un limite massimo al numero delle iterazioni.
 L'algoritmo risulta quindi essere strutturato come segue
 \begin{figure}
-    \centering
-    \includesvg[scale=0.7]{immagini/genetic_algorithm.svg}
-    \caption{Struttura di un algoritmo genetico semplice}
-    \label{fig:simple_ga}
+      \centering
+      \includesvg[scale=0.7]{immagini/genetic_algorithm.svg}
+      \caption{Struttura di un algoritmo genetico semplice}
+      \label{fig:simple_ga}
 \end{figure}
 Vista la natura stocastica dell'algoritmo, è inoltre buona norma avere a
 disposizione una struttura dati in grado di memorizzare le migliori $k$
@@ -64,10 +64,10 @@ fasi di crossover, mutazione e valutazione, le quali rappresentavano
 caso d'uso di riferimento. Il modello di calcolo ha quindi assunto la seguente
 forma
 \begin{figure}
-    \centering
-    \includesvg[scale=0.65]{immagini/parallel_ga.svg}
-    \caption{Algoritmo genetico parallelo}
-    \label{fig: parallel_ga}
+      \centering
+      \includesvg[scale=0.65]{immagini/parallel_ga.svg}
+      \caption{Algoritmo genetico parallelo}
+      \label{fig: parallel_ga}
 \end{figure}
 che mira ad implementare un paradigma di tipo \textit{map}. Queste fasi
 si prestano bene a questo tipo di paradigma poiché consistono
