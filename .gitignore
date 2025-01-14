@@ -4,6 +4,9 @@
 *.toc
 *.log
 *.out
+*.bbl
+*.lof
+*.blg
 *.gz
 *.pdf
 *.snm
@@ -17,4 +20,5 @@
 *.Identifier
 
 .vscode/
+svg-inkscape/
 
