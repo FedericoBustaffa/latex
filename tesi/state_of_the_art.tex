@@ -1,0 +1,114 @@
+\chapter{Stato dell'arte}
+
+% 1. Iniziare a definire qui le possibili opzioni per l'implementazione di
+% algoritmi paralleli in Python? Come multiprocessing, Cython, C/C++ extensions,
+% e subinterpreters
+
+% 2. PARALLELISMO: Spiegare solo il modello di parallelismo offerto dalla
+% combinazione di DEAP e multiprocessing o anche di parallelismo generale (map)?
+
+Allo stato dell'arte, un'implementazione di quanto citato nel capitolo
+precedente è già presente. Abbiamo infatti \textit{LORE}~\cite{guidotti2018LORE}
+come metodo di XIA, un'implementazione di algoritmo genetico fornita da
+\textit{DEAP}~\cite{fortin2012DEAP}, e un metodo per parallelizzare tale
+algoritmo, tramite la combinazione di \textit{DEAP} e del modulo
+\verb|multiprocessing| di Python.
+
+\section{LORE}
+
+Il metodo proposto da \textit{LORE}~\cite{guidotti2018LORE} rientra nella
+categoria dei metodi locali. Opera infatti sulle singole istanze dei dati,
+lavorando sotto l'assunzione che i confini di classificazione locali siano
+generalmente meno complessi di quelli globali, riuscendo così ad ottenere % verificare
+spiegazioni più accurate.
+
+Il modo in cui opera \textit{LORE} prevede l'esecuzione di un algoritmo genetico
+su ognuna delle istanze classificate dal modello e di cui si vogliono ottenere
+fattuali e controfattuali. In una prima fase si vuole quindi generare un
+vicinato sintetico i cui individui siano classificati allo stesso modo
+dell'istanza di riferimento, si cerca poi di generare individui sintetici
+classificati diversamente da essa, minimizzando in entrambi i casi la distanza
+tra i vicini sintetici e l'istanza stessa.
+
+Una volta generati, i dati sintetici vengono usati per allenare un albero di
+decisione contenente delle regole che andranno poi a costituire la spiegazione
+della scelta fatta e le possibili modifiche sui dati, di modo da cambiare tale
+scelta. Le diramazioni di un albero decisionale corrispondono infatti a valori
+soglia delle feature che determinano una scelta piuttosto che un'altra. Seguendo
+quindi i cammini che portano alla stessa decisione effettuata dal modello si
+ottiene la spiegazione di tale scelta, seguendo invece cammini alternativi è
+possibile capire come cambiare tale scelta.
+
+\section{DEAP}
+
+La libreria \textit{DEAP} fornisce un'API molto flessibile ma richiede un fase
+di inizializzazione in cui vengono definiti tipi, strutture dati e funzioni
+necessarie al corretto funzionamento dell'algoritmo.
+
+\subsection{Inizializzazione}
+
+Come prima cosa è necessario definire la struttura di un generico cromosoma, il
+tipo di ciascun gene e i pesi da assegnare a ciascun parametro da ottimizzare.
+A tal fine vengono messi a disposizione il modulo \verb|creator| e la classe
+\verb|Toolbox|.
+
+Tramite \verb|creator| è possibile definire nuove classi con caratteristiche
+personalizzate e che si adattano alle proprie esigenze. La classe \verb|Toolbox|
+serve invece per immagazzinare funzioni e relativi parametri, di modo da poter
+essere utilizzati con facilità in seguito. Tramite tale classe è infatti
+possibile definire operatori genetici e metodi di inizializzazione, selezione e
+valutazione degli individui. Ad eccezione però della funzione di valutazione,
+che è strettamente legata al problema di interesse e deve essere quindi definita
+dall'utente caso per caso, \textit{DEAP} fornisce implementazioni per tutte le
+componenti appena citate, lasciando quindi il solo compito di scegliere quale
+si addice di più al problema in questione. Rimane comunque la possibilità di
+definire ciascuna delle componenti dell'algoritmo come meglio si crede nel caso
+ci siano esigenze particolari.
+
+\subsection{Algoritmi}
+
+Una volta definite tutte le componenti dell'algoritmo, è possibile invocare
+direttamente i metodi registrati nell'istanza della classe \verb|Toolbox|,
+andando a definire un comportamento personalizzato per esso. Una seconda opzione
+consiste invece nel ricorrere alle implementazioni fornite da \textit{DEAP},
+tramite il modulo \verb|algorithms|, che presenta diverse implementazioni
+possibili, tra cui \verb|eaSimple|, che ha una struttura molto simile a quella
+definita in figura \ref{fig:simple_ga} ed è l'algoritmo attualmente impiegato
+da \textit{LORE}.
+
+L'algoritmo prende in input l'istanza della classe \verb|Toolbox| precedentemente
+definita, una popolazione iniziale, il numero massimo di iterazioni da compiere
+e le probabilità di crossover e mutazione. \`E possibile passare anche parametri
+opzionali per registrare dati statistici sui valori di fitness e una struttura
+dati per registrare i migliori $k$ individui mai prodotti durante le varie
+generazioni, ossia la \verb|HallOfFame|.
+
+\subsection{Multi-processing}
+
+La classe \verb|Toolbox| ha anche dei metodi predefiniti, tra cui il metodo
+\verb|map|, la cui implementazione è data dall'omonima funzione standard di
+Python. Nel caso dell'algoritmo \verb|eaSimple|, viene usata la funzione
+\verb|map| registrata nell'istanza delle \verb|Toolbox| per applicare la
+funzione di valutazione a ciascun individuo della popolazione.
+
+Come per gli altri metodi è possibile registrare una qualunque funzione sotto
+il nome "map" e \textit{DEAP}, al fine di ottenere l'esecuzione in parallelo,
+suggerisce di registrare la funzione \verb|map| della classe \verb|Pool| del
+modulo \verb|multiprocessing|.
+
+Il modulo \verb|multiprocessing| è considerato lo standard per il calcolo
+parallelo in Python quando si ha del lavoro computazionalmente intensivo da
+compiere. Come suggerisce il nome sfrutta processi multipli per aggirare il
+problema posto dal GIL, aumentando però l'overhead di comunicazione tra i
+processi e il consumo complessivo di memoria.
+
+Al fine di gestire i processi e la distribuzione del carico in modo più semplice
+è disponibile una classe \verb|Pool|, che implementa un pool di processi in
+grado di bilanciare automaticamente il carico e comunicare dati input e output
+per ogni operazione. Il metodo \verb|map| della classe \verb|Pool| applica una
+certa funzione a tutti gli elementi di una struttura dati iterabile passata come
+argomento. Se non si specificano ulteriori argomenti, gli elementi dell'iterabile
+verranno inviati uno per volta ai processi una volta che questi sono pronti. Al
+contrario se si specifica il parametro \verb|chunksize| è possibile definire il
+numero di elementi che un processo deve elaborare prima di poterne ricevere
+altri.

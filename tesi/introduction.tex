@@ -1,0 +1,50 @@
+\chapter*{Introduzione}
+
+Il progetto di tesi verte sull'implementazione di una libreria di algoritmi
+genetici, in grado di sfruttare architetture multi-core per il calcolo
+parallelo. La necessità di un algoritmo genetico con questa struttura nasce in
+un contesto di explainable AI, in particolare si fa riferimento al progetto
+\textit{LORE}~\cite{guidotti2018LORE}, il quale utilizza un'implementazione
+fornita dalla libreria di algoritmi genetici \textit{DEAP}~\cite{fortin2012DEAP}.
+
+\textit{LORE} si propone di generare spiegazioni a decisioni o predizioni fatte
+da modelli di machine learning, spesso difficili da interpretare per via della
+loro elevata complessità, come ad esempio reti neurali profonde o foreste
+casuali. In una prima fase, del metodo si sfrutta un algoritmo genetico per la
+generazione di dati sintetici con determinate caratteristiche, fondamentali in
+seguito per la costruzione delle spiegazioni.
+
+Tale approccio risulta però essere particolarmente dispendioso, soprattutto in
+casi in cui la quantità di dati sintetici che si desidera generare è molto
+grande oppure quando il modello è particolarmente lento in fase di predizione
+(o entrambe).
+
+Da qui la necessità di implementare una libreria di algoritmi genetici in grado
+di produrre risultati molto simili a \textit{DEAP} ma più performante e in
+grado di sfruttare al meglio architetture multi-core.
+
+Dato che \textit{LORE} e \textit{DEAP}, così come la maggior parte delle
+librerie di machine learning, sono implementate (o forniscono un'API) in Python,
+la prima fase del lavoro si è focalizzata sull'esplorazione e la ricerca di
+possibili framework, in grado di lavorare in sinergia con Python. Le opzioni
+esplorate vanno da librerie standard di Python e moduli di terze parti, passando
+per l'implementazione di estensioni in linguaggi a basso livello come C/C++,
+fino ad arrivare alla sperimentazione di feature sperimentali come
+\textit{subinterpreters} e una delle prime versioni \textit{free-threaded}
+proposta con Python 3.13.
+
+Una volta implementata la libreria si è passati ad una fase di test per
+valutarne la correttezza, impiegando l'algoritmo nella risoluzione di problemi
+ben noti in letteratura facilmente rappresentabili tramite grafici. Tra questi
+abbiamo il problema dello zaino, del commesso viaggiatore e un semplice caso di
+regressione lineare. Si è infine testata la correttezza sul caso d'uso di
+\textit{LORE} precedentemente descritto.
+
+Il lavoro si è concluso con due fasi di test, la prima riguardante la qualità
+delle soluzioni prodotte e la seconda riguardante le performance. Come
+anticipato, l'obiettivo della tesi è stato quello di produrre qualcosa che
+funzionasse qualitativamente come \textit{DEAP} ma che fosse più performante.
+
+La libreria implementata sembra soddisfare le aspettative fornendo risultati
+qualitativi in linea con \textit{DEAP} ma dimostrando prestazioni e capacità
+di sfruttare architetture multi-core generalmente migliori.
