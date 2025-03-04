@@ -1,0 +1,263 @@
+\section{Prestazioni}
+
+Nella fase finale di test si sono messe a confronto le prestazioni delle due
+librerie, misurando i tempi d'esecuzione dei due algoritmi nelle loro versioni
+sequenziale e parallela. Tutti i test sono stati effettuati su una macchina con
+doppio processore AMD EPYC 7313, ciascuno dei quali con 16 core fisici, con una
+frequenza di clock massima di 3.7 GHz.
+
+Il problema di riferimento è ancora quello di generazione dati impiegato per i
+test qualitativi, in cui è stato eseguito l'algoritmo genetico utilizzando i
+tre modelli e andando a variare parametri come il numero di feature del dataset,
+numero di individui generati, e numero di worker impiegati. Come per i test
+precedenti, per ogni istanza di dato, l'algoritmo genetico è stato eseguito due
+volte andando a cambiare il target di classificazione nella funzione di
+valutazione.
+
+Tutti i test sono stati effettuati su 10 istanze, tutte composte da 64 feature,
+dello stesso dataset, per le quali è stato generato sia l'insieme $Z_=$ che
+l'insieme $Z_{\neq}$. Per ogni test sono state effettuate 20 iterazioni con una
+probabilità di crossover del 70\% e una probabilità di mutazione del 30\%,
+ripetendo ogni l'esecuzione 10 volte per poi calcolare media e deviazione
+standard dei tempi registrati.
+
+Per entrambi gli algoritmi sono stati misurati sia il tempo totale d'esecuzione
+che quello parziale delle fasi che i due algoritmi eseguono in parallelo.
+Quest'ultimo prende in considerazione, nel caso delle esecuzioni in parallelo
+anche delle frazioni seriali che il processo principale impiega per le fasi di
+invio e ricezione.
+
+\subsection{Tempo d'esecuzione}
+
+La prima analisi riguarda i tempi d'esecuzione al variare del numero
+di individui generati dall'algoritmo, partendo da un minimo di 1.000 individui
+generati, fino ad arrivare ad un massimo di 16.000. Ogni simulazione su una
+stessa istanza è stata ripetuta variando anche il numero di worker, partendo
+dalla versione sequenziale, fino ad arrivare alla versione parallela con un
+massimo di 32 worker.
+
+In più del 90\% delle simulazioni \textit{PPGA} è riuscito a terminare prima di
+\textit{DEAP}, con un miglioramento medio variabile a seconda del modello di
+machine learning impiegato. Nella tabella di seguito sono riportate le
+percentuali di miglioramento medio di \textit{PPGA} su \textit{DEAP},
+calcolato sia sul tempo d'esecuzione totale che sulla sola fase parallelizzata.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrr}
+		\toprule
+		Modello        & Totale  & Fase Parallela \\
+		\midrule
+		Neural Network & 31.40\% & 50.19\%        \\
+		Random Forest  & 21.56\% & 25.09\%        \\
+		SVM            & 32.01\% & 48.32\%        \\
+		\bottomrule
+	\end{tabular}
+	\caption{Miglioramento medio rispetto a DEAP}
+	\label{tab: time_improv_DEAP}
+\end{table}
+
+Non si sono notate invece particolari differenze nel tempo relativo che i due
+algoritmi, nella loro versione sequenziale, passano nella fase parallelizzabile.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrr}
+		\toprule
+		Modello        & PPGA    & DEAP    \\
+		\midrule
+		Neural Network & 88.93\% & 91.18\% \\
+		Random Forest  & 99.58\% & 99.68\% \\
+		SVM            & 90.32\% & 92.88\% \\
+		\bottomrule
+	\end{tabular}
+	\caption{Percentuale di tempo passato nella fase parallelizzabile}
+\end{table}
+
+Questo fornisce un indicazione di quanto l'impiego di una paradigma di calcolo
+parallelo possa incidere.
+
+I grafici di seguito mostrano l'andamento del tempo d'esecuzione dei due
+algoritmi all'aumentare del numero di individui generati. In rosso le
+simulazioni riguardanti \textit{DEAP}, mentre in blu quelle riguardanti
+\textit{PPGA}; le linee con tonalità più chiara indicano le simulazioni che
+hanno impiegato un minor numero di worker.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=\linewidth]{immagini/time_pop2.svg}
+	\caption{Runtime al variare del numero di individui generati}
+	\label{fig: time_pop}
+\end{figure}
+
+Nelle simulazioni in cui è stata impiegata la rete neurale e la \textit{SVM},
+si osserva che in entrambi i casi \textit{PPGA} tende ad avere tempi
+d'esecuzione migliori, anche per input di dimensione differente. Nel caso in
+cui invece è stato impiegato un modello \textit{Random Forest}, la differenza
+tra i due algoritmi si appiana ma \textit{PPGA} tende ad avere mediamente dei
+tempi d'esecuzione inferiori.
+
+Da considerare anche la scalabilità dei due algoritmi all'aumentare del numero
+di worker, i quali potrebbero creare un overhead di comunicazione più elevato
+del calcolo effettivo.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=\linewidth]{immagini/time_pop.svg}
+	\caption{Scalabilità}
+	\label{fig: scalability}
+\end{figure}
+
+Per entrambe le librerie sembra esserci un andamento simile quando si
+considerano le simulazioni eseguite con \textit{Random Forest}, mentre sembra
+esserci una differenza più accentuata quando vengono impiegati gli altri
+modelli, più performanti ma che riescono a beneficiare maggioramente del più
+alto grado di parallelismo.
+
+Come si può notare dalla tabella seguente, anche il guadagno ottenuto dalle
+versioni parallele dei due algoritmi è significativamente diverso, a seconda
+del modello di machine learning impiegato.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrrrrr}
+		\toprule
+		Modello        & Workers & PPGA    & $\mathrm{PPGA}_p$ & DEAP    & $\mathrm{DEAP}_p$ \\
+		\midrule
+		Neural Network & 1       & 4.684   & 4.177             & 5.299   & 4.831             \\
+		Neural Network & 32      & 1.764   & 0.575             & 3.251   & 2.712             \\
+		Random Forest  & 1       & 130.852 & 130.314           & 172.356 & 171.804           \\
+		Random Forest  & 32      & 8.458   & 7.109             & 8.350   & 7.793             \\
+		SVM            & 1       & 5.434   & 4.920             & 6.772   & 6.292             \\
+		SVM            & 32      & 1.686   & 0.535             & 2.897   & 2.328             \\
+		\bottomrule
+	\end{tabular}
+	\caption{Tempo d'esecuzione per la generazione di $8.000$ individui}
+	\label{tab: runtime}
+\end{table}
+
+Nel caso di \textit{Random Forest}, \textit{PPGA} riesce infatti a diminuire il
+tempo d'esecuzione, passando da più di 2 minuti a soli 8 secondi impiegando 32
+worker. Nel caso invece degli altri modelli più performanti in fase di
+predizione, il miglioramento è meno accentuato ma sicuramente significativo in
+un caso d'uso come quello di riferimento, in cui sono necessarie molte
+esecuzioni dell'algoritmo genetico.
+
+\subsection{Speed-up}
+
+Per riuscire ad avere un indicatore del livello di parallelismo raggiunto dai
+due algoritmi, sono stati calcolati i valori di \textit{speed-up} ottenuti
+sulle fasi parallelizzate dalle due librerie.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrrr}
+		\toprule
+		Modello        & Popolazione & PPGA   & DEAP   \\
+		\midrule
+		Neural Network & 8000        & 7.269  & 1.781  \\
+		Neural Network & 16000       & 8.859  & 1.958  \\
+		Random Forest  & 8000        & 18.331 & 22.046 \\
+		Random Forest  & 16000       & 20.315 & 23.407 \\
+		SVM            & 8000        & 9.192  & 2.703  \\
+		SVM            & 16000       & 9.049  & 2.716  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Speed-up con 32 worker}
+	\label{speed-up}
+\end{table}
+
+Dai test e similmente a quanto riportato in tabella, i valori di speed-up
+raggiunti da \textit{PPGA} sono superiori a quelli di \textit{DEAP} in più
+del 65\% delle simulazioni effettuate. Da notare per che nel caso di
+\textit{Random Forest} è \textit{DEAP} ad avere i valori migliori, soprattutto
+su input grandi. Facendo però riferimento ai tempi d'esecuzione riportati in
+tabella \ref{tab: runtime}, è possibile notare come, nella sua versione
+sequenziale, \textit{DEAP} impieghi più tempo di \textit{PPGA} e come entrambi
+ottengano un tempo d'esecuzione praticamente identico per le loro versioni
+parallele con 32 worker.
+
+Per quanto riguarda invece le simulazioni con rete neurale e \textit{SVM}, i
+valori di speed-up ottenuti da \textit{PPGA} sono generalmente superiori
+rispetto a \textit{DEAP}.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=\linewidth]{immagini/speedup_pop.svg}
+	\caption{Speed-up}
+	\label{fig: speedup_pop}
+\end{figure}
+
+Per le simulazioni effettuate con rete neurale o \textit{SVM}, i valori di
+speed-up crescono più lentamente, anche con un aumento esponenziale della
+dimensione dell'input. Come si è visto infatti per l'analisi dei tempi
+d'esecuzione, generando $8.000$ individui, l'algoritmo sequenziale di entrambe
+le librerie impiegava pochi secondi per terminare, rendendo più difficile
+ottenere uno speed-up significativo. Questo è dovuto anche all'elevato costo di
+comunicazione che richiede il multi-processing, che tende a crescere con il
+numero di worker. Per quanto riguarda invece le simulazioni con
+\textit{Random Forest} i valori di speed-up si discostano dalla retta ideale
+solo quando il numero di worker cresce significativamente o quando l'input è
+troppo piccolo, non a caso è il modello più lento in fase di predizione rispetto
+agli altri e che quindi trae maggior beneficio dalla parallelizzazione.
+
+% Possiamo quindi affermare che \textit{DEAP} sia stato in grado di ridurre in
+% modo più efficiente il tempo d'esecuzione quando questo diventa molto grande.
+% È necessario però tenere in conto che tanto maggiore è il tempo d'esecuzione
+% sequenziale, tanto più \quotes{facile} sarà ottenere uno speed-up elevato;
+% questo perché il tempo di comunicazione e sincronizzazione tra i worker passa
+% in secondo piano rispetto al tempo di calcolo.
+
+\subsection{Efficienza}
+
+Per confrontare quanto venga sfruttata bene l'architettura multi-core è stata
+calcolata l'\textit{efficienza} dei due algoritmi come il rapporto tra il valore
+di speed-up ottenuto e il numero di worker impiegati per una certa simulazione.
+Anche in questo \textit{PPGA} prevale con valori di efficienza migliori in più
+dell'80\% delle simulazioni effettuate.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=\linewidth]{immagini/efficiency_pop.svg}
+	\caption{Efficienza}
+	\label{fig: efficiency}
+\end{figure}
+
+Come è possibile vedere dai grafici, l'efficienza dei due algoritmi decresce
+con l'aumentare del numero di worker ma, nel caso di simulazioni con
+\textit{Random Forest}, questa rimane relativamente stabile su valori superiori
+all'80\% per input medi o grandi e un massimo di 16 worker. Quando si fa uso
+degli altri due modelli la decrescita è invece costante, ma si può vedere come
+i valori di efficienza di \textit{PPGA} siano sempre superiori a quelli di
+\textit{DEAP} per molte dimensioni dell'input.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrrr}
+		\toprule
+		Modello        & Workers & PPGA  & DEAP  \\
+		\midrule
+		Neural Network & 8       & 0.593 & 0.234 \\
+		Neural Network & 16      & 0.387 & 0.115 \\
+		Neural Network & 32      & 0.227 & 0.056 \\
+		Random Forest  & 8       & 0.946 & 0.949 \\
+		Random Forest  & 16      & 0.888 & 0.853 \\
+		Random Forest  & 32      & 0.573 & 0.689 \\
+		SVM            & 8       & 0.643 & 0.304 \\
+		SVM            & 16      & 0.417 & 0.156 \\
+		SVM            & 32      & 0.287 & 0.084 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Efficienza per la generazione di 8.000 individui}
+	\label{tab: efficiency}
+\end{table}
+
+Come si può vedere sia dalla tabella riportata di sopra, sia dai grafici, nelle
+simulazioni in cui sono stati impiegati rete neurale e \textit{SVM}, i valori
+di efficienza tendono ad essere superiori per \textit{PPGA}, nella quasi
+totalità dei casi. Per quanto riguarda invece le simulazioni con
+\textit{Random Forest}, il valore di efficienza decresce molto più lentamente
+per entrambe le librerie, raggiungendo un'efficienza migliore di quasi 10 punti
+percentuali per \textit{DEAP} quando vengono impiegati 32 worker, riflettendo
+lo speed-up più elevato evidenziato nella sezione precedente con lo stesso
+numero di worker.

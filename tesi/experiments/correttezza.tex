@@ -1,0 +1,235 @@
+\chapter{Sperimentazione}\label{cap: experiments}
+
+In fase di sperimentazione si è prima testata la correttezza di metodi e
+algoritmi offerti dalla libreria, confrontando i risultati prodotti con
+\textit{DEAP} e con algoritmi specializzati nella risoluzione di un problema
+specifico. Una volta testata la correttezza si è passati a test approfonditi
+sulla qualità delle soluzioni prodotte per il problema di generazione dati,
+descritto nel caso d'uso di \textit{LORE}. Si sono infine valutate le
+prestazioni della libreria utilizzando le versioni sequenziale e parallela
+dell'algoritmo. Anche per queste due ultime fasi si è implementato un algoritmo
+per la risoluzione del problema con \textit{DEAP} per effettuare un confronto
+tra i risultati prodotti.
+
+\section{Test di Correttezza}
+
+In fase di test si sono valutate correttezza, qualità e prestazioni della
+libreria tramite il confronto con \textit{DEAP} nella risoluzione di problemi
+ben noti come quello del commesso viaggiatore, dello zaino e alcuni casi di
+regressione lineare. Per questi tre problemi si è prima trovata una soluzione
+tramite un algoritmo specializzato e in seguito la si è confrontata con i
+risultati prodotti da \textit{DEAP} e \textit{PPGA}.
+
+\subsection{Problema del Commesso Viaggiatore}
+
+Tra i problemi presi in esame abbiamo una versione del commesso viaggiatore
+implementata tramite un grafo geometrico completo. I nodi rappresentano le
+città ed ognuno di essi è connesso a tutti gli altri tramite un arco
+bidirezionale, la cui lunghezza equivale alla distanza euclidea tra i nodi
+stessi. Non sono stati inoltre selezionati i punti di origine e destinazione;
+l'unico obiettivo è trovare il cammino di costo minimo e che attraversi tutte
+le città una sola volta, senza tornare al punto di partenza.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.75\linewidth]{immagini/tsp.svg}
+	\caption{Possibile soluzione commesso viaggiatore con 50 città}
+	\label{fig: deap_tsp}
+\end{figure}
+
+L'algoritmo specializzato è quello di Christofides, fornito dalla libreria
+\textit{NetworkX}, la quale è specializzata per lavorare su grafi. Le versioni
+\textit{DEAP} e \textit{PPGA} codificano invece una possibile soluzione in una
+sequenza di indici, rappresentante l'ordine con cui visitare le città.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\linewidth}
+		\centering
+		\begin{tabular}{rrrr}
+			\toprule
+			Città & NX    & PPGA   & DEAP   \\
+			\midrule
+			25    & 3.78  & 3.39   & 4.03   \\
+			50    & 5.72  & 5.51   & 9.34   \\
+			100   & 8.53  & 13.57  & 26.34  \\
+			200   & 11.98 & 44.52  & 67.69  \\
+			400   & 16.16 & 109.12 & 147.49 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\includesvg[width=\linewidth]{immagini/tsp_trend.svg}
+	\end{minipage}
+	\caption{Risultati commesso viaggiatore}
+	\label{fig: tsp}
+\end{figure}
+
+Come possiamo vedere dalla tabella, i risultati di \textit{PPGA} spesso superano
+\textit{DEAP} e si avvicinano alla soluzione trovata da \textit{NetworkX}. Il
+grafico riporta gli stessi valori in tabella mostrando chiaramente come le
+soluzioni trovate da \textit{PPGA} siano sempre migliori di \textit{DEAP}, anche
+se sembra che entrambe seguano lo stesso andamento peggiorativo con il crescere
+della dimensione dell'input.
+
+\subsection{Problema dello Zaino}
+
+Un altro caso interessante per capire come la libreria si comporti su problemi
+multi-obbiettivo è stato il problema dello zaino. Per questo problema è stata
+implementata un'euristica di tipo \textit{greedy} che ordina gli oggetti secondo
+il rapporto tra il loro valore e il loro peso in modo decrescente. Le versioni
+genetiche sono state invece implementate trattando valore e peso come due
+parametri da ottimizzare; in particolare l'obiettivo è stato quello di
+massimizzare il valore totale degli oggetti, cercando allo stesso tempo di
+minimizzare il peso complessivo. Ognuno dei cromosomi è strutturato come una
+lista di booleani, i quali indicano se un oggetto è stato preso o meno.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\linewidth}
+		\centering
+		\begin{tabular}{rrrr}
+			\toprule
+			Oggetti & Greedy & PPGA   & DEAP   \\
+			\midrule
+			25      & 13.25  & 13.25  & 13.26  \\
+			50      & 22.22  & 22.50  & 22.50  \\
+			100     & 37.63  & 37.66  & 37.66  \\
+			200     & 82.39  & 82.38  & 82.39  \\
+			400     & 155.47 & 155.44 & 155.37 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\includesvg[width=\linewidth]{immagini/knapsack_trend.svg}
+	\end{minipage}
+	\caption{Risultati problema dello zaino}
+	\label{fig: knapsack}
+\end{figure}
+
+Anche in questo caso \textit{PPGA} riesce ad eguagliare \textit{DEAP}, ottenendo
+risultati praticamente identici. La libreria non dispone tuttavia di costrutti
+come il fronte di Pareto o routine ottimizzate per lavorare a problemi di questo
+tipo. Pone comunque le basi per futuri sviluppi e implementazioni in questa
+direzione.
+
+\subsection{Regressione Lineare}
+
+Come ultimo problema è stato trattato un caso di regressione lineare semplice
+di modo da testare il comportamento di alcuni operatori genetici su cromosomi
+a valori reali. La retta di regressione di riferimento è stata prima calcolata
+tramite il modulo \verb|statistics| offerto da Python e in seguito tramite gli
+algoritmi genetici. In questo caso un cromosoma è formato da due soli elementi,
+ossia coefficiente angolare e intercetta della retta, mentre la funzione di
+valutazione calcola l'errore quadratico medio.
+
+
+\begin{figure}[H] % mettere figura con DEAP e PPGA
+	\centering
+	\includesvg[width=0.75\linewidth]{immagini/regresssion.svg}
+	\caption{Regressione lineare genetica}
+	\label{fig: reg}
+\end{figure}
+
+In figura \ref{fig: reg} in verde la retta di regressione calcolata tramite
+l'algoritmo offerto da \textit{Numpy} tramite la funzione \verb|polyfit|,
+mentre in rosso e blu le rette calcolate rispettivamente con \textit{DEAP} e
+\textit{PPGA}. I test sono stati infine ripetuti con un numero crescente di
+sample.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\linewidth}
+		\centering
+		\begin{tabular}{rrrr}
+			\toprule
+			Punti & Numpy & DEAP & PPGA \\
+			\midrule
+			50    & 3.01  & 3.01 & 3.01 \\
+			100   & 3.15  & 3.15 & 3.15 \\
+			200   & 3.55  & 3.55 & 3.55 \\
+			400   & 3.54  & 3.54 & 3.54 \\
+			800   & 3.55  & 3.55 & 3.55 \\
+			\bottomrule
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\includesvg[width=\linewidth]{immagini/regression_trend.svg}
+	\end{minipage}
+	\caption{Risultati regressione lineare}
+	\label{fig: regression}
+\end{figure}
+
+In modo simile al problema dello zaino, i risultati sono molto simili per tutti
+e tre gli algoritmi, anche all'aumentare del numero di campioni.
+
+\subsection{Generazione Dati per Explainable AI}
+
+Una volta terminata la fase di test sui problemi appena descritti si è passati
+alla generazione di un vicinato sintetico in modo simile a quanto fa il metodo
+\textit{LORE} per produrre spiegazioni. L'obiettivo è minimizzare la distanza
+tra i punti generati e un punto di riferimento specifico, facendo però in modo
+che questi siano classificati in una classe target specificata.
+
+Al fine di rendere più semplice l'implementazione dell'algoritmo e la verifica
+delle soluzioni si è lavorato, almeno inizialmente, su istanze di dato composte
+da sole 2 feature a valori reali, così che fossero facilmente rappresentabili
+graficamente.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.8\linewidth]{immagini/points.svg}
+	\caption{Dataset generazione dati}
+	\label{fig: xai_test}
+\end{figure}
+
+Come è possibile notare, in figura \ref{fig: xai_test} sono presenti due classi
+di punti, in questo caso identificate rispettivamente dai colori blu e rosso.
+Per ciascuno di essi sono necessarie due esecuzioni dell'algoritmo genetico per
+generare due tipi di dato sintetico.
+
+Le figure di seguito mostrano il risultato delle due esecuzioni dell'algoritmo
+genetico: contrassegnato da una croce, il dato di riferimento, mentre in giallo
+i punti generati dalle due esecuzioni dell'algoritmo genetico, rispettivamente
+per la generazione dell'insieme $Z_=$ (a sinistra) e $Z_{\neq}$ (a destra).
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.925\linewidth]{immagini/synth_points.svg}
+	\caption{Generazione dati sintetici}
+	\label{fig: synth_points}
+\end{figure}
+
+Come è possibile notare, nella prima immagine i punti si dispongono attorno al
+punto di riferimento senza però sovrapporsi totalmente. Nel secondo caso invece
+si nota come i punti generati si dispongano sul confine di classificazione che
+il modello ha individuato in fase di allenamento.
+
+Per ottenere questo risultato, la funzione di valutazione è stata definita in
+modo tale che ogni punto classificato diversamente dalla classe target fosse
+scartato. La funzione di valutazione inoltre fa in modo che anche i punti uguali
+all'istanza di riferimento vengano scartati, evitando così la completa
+sovrapposizione con l'istanza di riferimento.
+
+\begin{lstlisting}[caption={Funzione di valutazione}]
+def evaluate(chromosome, point, target, model):
+	synth_point_class = model.predict(chromosome.reshape(1, -1))
+	if synth_point_class != target:
+		return (np.inf,)
+
+	distance = np.linalg.norm(chromosome - point, ord=2)
+	distance = distance if distance > 0.0 else np.inf
+
+	return (distance,)
+\end{lstlisting}
+
+Per assicurarsi che i due gruppi di dati sintetici fossero classificati
+correttamente si è calcolato il rapporto tra il numero di punti classificati
+nella classe target e il numero totale di punti. Affinché la generazione sia
+considerata corretta, tale rapporto deve essere sempre pari a 1.

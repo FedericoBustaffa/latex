@@ -1,0 +1,150 @@
+\section{Test Qualitativi}
+
+Per il problema di generazione dati si sono svolti test qualitativi approfonditi
+con l'obiettivo di determinare quanto i risultati delle due librerie fossero
+simili su una larga varietà di input. A tal fine sono stati generati diversi
+dataset tramite \textit{Scikit-Learn}, che mette a disposizione la funzione
+\verb|make_classification|, in grado di produrre dataset con caratteristiche
+specifiche.
+
+\begin{lstlisting}[caption={Generazione dataset con \lstinline|make_classification|}]
+from sklearn.datasets import make_classification
+
+X, y = make_classification(
+	n_samples=1000,
+	n_features=32,
+	n_informative=32,
+	n_redundant=0,
+	n_repeated=0,
+	n_classes=2,
+	n_clusters_per_class=1,
+	random_state=0,
+)
+\end{lstlisting}
+
+Il codice appena presentato genera un dataset da $1000$ istanze, ciascuna
+composta da $32$ feature a valori reali e un vettore contenente la classe
+assegnata ad ogni istanza. Per i test si è utilizzata la funzione per generare
+dataset con un numero di feature crescente e, per ognuno di essi, si è eseguito
+l'algoritmo genetico generando sempre più individui così da studiare e
+confrontare i risultati delle due librerie al variare di questi due parametri.
+
+Una volta generati i dataset sono state effettuate simulazioni impiegando tre
+dei modelli di machine learning che offre \textit{Scikit-Learn}:
+\textit{MultiLayer Perceptron}, \textit{Support Vector Machine} e
+\textit{Random Forest}. Per ogni dataset sono state valutate dieci istanze dei
+dati, per le quali sono stati generati sia l'insieme $Z_=$ che l'insieme
+$Z_{\neq}$, in tutti i casi con un massimo di 100 iterazioni e con probabilità
+di crossover e mutazione rispettivamente del 70\% e 30\%. Al fine di valutare
+robustezza e variabilità dei risultati, ogni simulazione è stata ripetuta dieci
+volte, calcolando quindi media e deviazione standard dei risultati. Per ogni
+simulazione si sono quindi registrati i valori di distanza minima, media e
+massima di ogni popolazione sintetica generata, separando i risultati in base
+alla classe target.
+
+In più del 60\% delle simulazioni \textit{PPGA} ha ottenuto valori di distanza
+medi e massimi migliori rispetto a \textit{DEAP}. Per sapere invece a quanto
+ammonta il miglioramento di una libreria rispetto all'altra si sono considerati
+solo i valori medi di distanza, andando a calcolare il miglioramento minimo,
+medio e massimo nelle simulazioni in cui una libreria prevale sull'altra.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrr}
+		\toprule
+		Miglioramento (\%) & PPGA    & DEAP    \\
+		\midrule
+		Minimo             & 0.0028  & 0.0102  \\
+		Medio              & 33.0630 & 18.2321 \\
+		Massimo            & 93.1545 & 84.8844 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Percentuale di qualità relativa}
+	\label{tab: improvement}
+\end{table}
+
+Come si può vedere in tabella \ref{tab: improvement}, quando \textit{PPGA} su
+ottiene risultati migliori a \textit{DEAP}, questi sono mediamente migliori del
+33\%, mentre per \textit{DEAP} si arriva ad un miglioramento medio del 18\%.
+
+Si sono infine sommati tutti i valori di distanza medi ottenuti su ognuna delle
+simulazioni effettuate con entrambe le librerie, così da ottenere un punteggio
+complessivo per ognuna di esse. Anche in questo caso \textit{PPGA} prevale con
+un punteggio complessivo migliore di circa l'$11.74\%$ rispetto a \textit{DEAP}.
+
+Sono seguite analisi più approfondite per riuscire a individuare differenze
+qualitative su diverse tipologie di input, suddividendo i risultati ottenuti
+per modello di machine learning impiegato e classe target per la generazione
+dei dati sintetici. Come prima cosa si sono analizzate le distribuzioni dei
+valori di distanza ottenuti con le due librerie, che come si può dedurre dai
+grafici sottostanti sono molto simili per diverse tipologie di simulazioni.
+
+\begin{figure}[H]
+	\includesvg[width=0.95\linewidth]{immagini/hist.svg}
+	\caption{Istogramma delle frequenze dei valori di distanza}
+	\label{fig: hist_distance}
+\end{figure}
+
+In figura \ref{fig: hist_distance} l'istogramma delle frequenze per ogni
+tipologia di simulazione effettuata; in blu la distribuzione delle distanze
+relativa a \textit{PPGA}, mentre in arancio quella relativa a \textit{DEAP}.
+
+Sebbene l'istogramma delle frequenze sia molto simile per le due librerie, non
+confronta i risultati ottenuti su una specifica simulazione. In altre parole,
+si vuole valutare la differenza di qualità fissando il dataset, il modello di
+machine learning utilizzato e il numero di individui generati dall'algoritmo
+genetico. Per farlo è stata calcolata la differenza tra i valori medi di
+distanza ottenuti dalle due librerie sulle simulazioni eseguite con la stessa
+configurazione di input e parametri iniziali, ottenendo quindi la distribuzione
+della differenza dei risultati prodotti dalle due librerie su una stessa
+simulazione. Si è quindi contato il numero di simulazioni in cui il risultato
+delle due librerie avesse una differenza che superasse due deviazioni standard
+della distribuzione delle differenze, ricavando che neanche il 7\% supera tale
+valore.
+
+Si è poi studiato più in dettaglio come queste si comportano al variare del
+numero delle feature e del numero di individui sintetici generati.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/quality_feature.svg}
+	\caption{Distanza media al variare del numero di feature}
+	\label{fig: quality_feature}
+\end{figure}
+
+I grafici mostrano l'andamento dei valori di distanza al variare del numero di
+feature che compongono i dati. In blu le curve relative all'andamento di
+\textit{PPGA}, mentre in rosso quelle relative a \textit{DEAP}. Le diverse
+tonalità di blu e rosso indicano simulazioni in cui sono stati generati un
+diverso numero di individui.
+
+Si nota come l'andamento dei valori di distanza sia molto simile tra le due
+librerie, sia al variare del numero di feature che di individui generati.
+L'unico caso in cui sembra esserci una differenza più marcata è nel caso del
+\textit{Random Forest} in cui si generano dati classificati diversamente da
+quello di riferimento, dove tutte le curve relative a \textit{PPGA} stanno al
+di sotto di quelle relative a \textit{DEAP}.
+
+Negli altri casi le librerie sembrano produrre risultati molto simili per la
+stessa configurazione di parametri in input, mantenendo un andamento crescente
+dei valori di distanza, in cui \textit{PPGA} ottiene risultati leggermente
+migliori, soprattutto con un numero di feature più elevato. In modo analogo si
+è studiato l'andamento dei valori medi di distanza ottenuti all'aumentare del
+numero di individui generati.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/quality_pop.svg}
+	\caption{Distanza media al variare del numero di dati sintetici generati}
+	\label{fig: quality_pop}
+\end{figure}
+
+Come prima le curve relative a \textit{PPGA} hanno sempre valori di distanza
+inferiori rispetto alle corrispondenti curve relative a \textit{DEAP}. Sebbene
+i valori siano differenti, per entrambe le librerie si denota uno sviluppo
+decrescente dei valori di distanza all'aumentare del numero di individui
+generati, soprattutto quando il numero di feature è maggiore.
+
+In definitiva, dalle analisi condotte sulla qualità dei risultati, sembra che
+le due librerie producano risultati e si comportino in modo simile al variare
+dei diversi parametri e dati in input.

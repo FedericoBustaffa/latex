@@ -1,0 +1,310 @@
+\section{Implementazione}
+
+L'implementazione della libreria cerca di riprodurre quella proposta da
+\textit{DEAP}, fornendo alcuni dei suoi costrutti fondamentali come una classe
+\verb|ToolBox| e un modulo \verb|algorithms| contenente un algoritmo simile a
+\verb|eaSimple|.
+
+\subsection{Inizializzazione e Strutture Dati}
+
+A differenza di \textit{DEAP} non è presente un modulo \verb|creator| per
+definire il tipo di strutture dati che vanno a formare cromosomi e popolazione.
+I cromosomi sono infatti forzati ad essere array \textit{Numpy}, mentre la
+popolazione è contenuta dentro una lista Python.
+
+L'inizializzazione avviene interamente tramite la classe \verb|ToolBox|, con
+cui è possibile definire la tupla \verb|weights| dei pesi da attribuire a
+ciascuno dei parametri che si intende ottimizzare. La tupla contiene numeri
+reali il cui segno indica l'intenzione di minimizzare un parametro (segno
+negativo) o di massimizzarlo (segno positivo).
+
+È inoltre necessario definire la funzione di generazione, in cui si specifica
+come generare un generico cromosoma. Ogni individuo è un'istanza della classe
+\verb|Individual|, formata da tre componenti principali:
+\begin{itemize}
+	\item \verb|chromosome|: il cromosoma che identifica l'individuo e codifica
+	      la soluzione al problema di riferimento. Si tratta di un array
+	      \textit{Numpy} i cui elementi possono essere oggetti arbitrariamente
+	      complessi.
+	\item \verb|values|: una tupla contenente i valori grezzi dei parametri che
+	      si intende ottimizzare. Corrispondono al valore di ritorno della
+	      funzione di valutazione definita dall'utente.
+	\item \verb|fitness|: un valore reale che definisce il valore di fitness di
+	      un individuo. Viene calcolata tramite una somma pesata dei valori
+	      contenuti nella tupla \verb|values|, moltiplicati per i pesi definiti
+	      nella tupla \verb|weights| della classe \verb|ToolBox|.
+\end{itemize}
+Come è possibile dedurre dalla definizione del valore di fitness, le tuple
+\verb|weights| e \verb|values| devono contenere lo stesso numero di elementi.
+
+Una volta definiti i pesi dei parametri e la funzione di generazione dei
+cromosomi, è necessario definire quali metodi e operatori utilizzare.
+
+\begin{lstlisting}[caption={Utilizzo classe ToolBox PPGA}]
+from ppga import base, tools
+
+toolbox = base.ToolBox()
+toolbox.set_weights(weights=(2.0, -1.0))
+toolbox.set_generation(tools.gen_repetition, [0, 1], length=10)
+toolbox.set_selection(tools.sel_tournament, tournsize=3)
+toolbox.set_crossover(tools.cx_uniform)
+toolbox.set_mutation(tools.mut_bitflip)
+toolbox.set_evaluation(evaluate)
+\end{lstlisting}
+
+In modo simile a \textit{DEAP}, ognuno di essi verrà registrato in un'istanza
+della classe \verb|ToolBox|, attraverso uno specifico metodo per ognuna delle
+fasi possibili. In particolare sarà necessario definire il metodo di selezione,
+gli operatori genetici di crossover e mutazione e la funzione di valutazione e,
+per ognuno di essi, eventuali argomenti necessari al loro corretto funzionamento.
+
+\subsection{Algoritmo}
+
+Completati tutti i passi descritti nel paragrafo precedente è possibile
+utilizzare la \verb|ToolBox| e i metodi registrati al suo interno per dare
+forma ad un algoritmo genetico personalizzato. Nel modulo \verb|algorithms| è
+tuttavia presente l'implementazione di un algoritmo genetico generazionale
+simile a quella offerta da \textit{DEAP}.
+
+\begin{lstlisting}[caption={Utilizzo algoritmo PPGA}]
+from ppga import tools, algorithms
+
+hof = tools.HallOfFame(50)
+population, stats = algorithms.simple(
+	toolbox=toolbox,
+	population_size=100,
+	keep=0.1, cxpb=0.7, mutpb=0.3,
+	max_generations=50,
+	hall_of_fame=hof,
+)
+\end{lstlisting}
+
+L'algoritmo riproduce lo schema di algoritmo genetico riportato in figura
+\ref{fig:simple_ga} introducendo qualche modifica rispetto all'implementazione
+fornita da \textit{DEAP}. Quest'ultima genera infatti la popolazione iniziale e
+la valuta subito dopo, così da entrare nel ciclo con individui già valutati e
+permettendo una fase di selezione più significativa fin dalla prima iterazione.
+
+L'implementazione di \textit{PPGA} non valuta subito gli individui, rendendo la
+prima selezione del tutto casuale, poiché tutti gli individui avranno un valore
+di fitness pari a zero. Dai test condotti su diversi problemi questo non sembra
+però essere rilevante in quanto \textit{PPGA} riesce a produrre soluzioni di
+qualità simile o superiore a \textit{DEAP}.
+
+L'altra differenza con \textit{DEAP} è data dall'introduzione di un parametro
+\verb|keep|, il quale introduce un possibile comportamento \textit{elitista}.
+Questo può avere valori compresi tra 0 e 1 (inclusi) e indica la percentuale
+della vecchia generazione che si intende provare a far sopravvivere fino alla
+generazione successiva. Se il parametro ha valore 0 il comportamento della fase
+di rimpiazzo è uguale a quello di \verb|eaSimple|, mentre per valori maggiori
+di 0 viene prelevata la percentuale di popolazione indicata dal parametro dei
+migliori individui, per poi aggiungerli alla nuova generazione. Questo permette
+in alcuni casi una convergenza più rapida dell'intera popolazione, ma un valore
+troppo alto potrebbe portare ad una convergenza prematura e ad un calo troppo
+brusco della diversità genetica complessiva, con la possibilità di bloccarsi in
+un minimo (o massimo) locale.
+
+\subsection{Versione Parallela}
+
+La versione parallela dell'algoritmo si basa invece sulla struttura di algoritmo
+genetico parallelo riportato in figura \ref{fig: parallel_ga} e, a differenza
+di \textit{DEAP}, che esegue in parallelo solo la fase di valutazione, questo
+parallelizza anche le fasi di crossover e mutazione.
+
+\begin{lstlisting}[caption={Utilizzo algoritmo parallelo PPGA}]
+from ppga import tools, algorithms
+
+hof = tools.HallOfFame(50)
+population, stats = algorithms.simple(
+	toolbox=toolbox,
+	population_size=100,
+	keep=0.1, cxpb=0.7, mutpb=0.3,
+	max_generations=50,
+	hall_of_fame=hof,
+	workers_num=-1, # uses all physical cores
+)
+\end{lstlisting}
+
+Per riuscire a sfruttare il parallelismo è sufficiente specificare il valore
+del parametro \verb|workers_num|, impostato di norma a 0, che come suggerisce
+il nome, indica il numero di \textit{worker} che si desidera impiegare nelle
+fasi parallelizzate. I valori 0 e 1 producono un'esecuzione sequenziale, mentre
+il valore -1 permette l'impiego di un numero di worker pari al numero di core
+fisici della macchina su cui viene eseguito l'algoritmo. Valori maggiori di 1
+permettono di definire il numero esatto di worker che si intende impiegare, ma
+non sarà comunque possibile superare il numero di core fisici della macchina su
+cui si esegue il calcolo.
+
+Per implementare il modello parallelo sono state utilizzate unicamente le classi
+\verb|Process| e \verb|Queue| fornite dal modulo \verb|multiprocessing|, con le
+quali è stata implementata una classe \verb|Pool|, specializzata per il contesto
+d'interesse.
+
+Quando si decide di operare in parallelo, ogni \textit{worker} viene creato e
+rimane attivo fino a quando non viene invocato il metodo \verb|join|, con il
+quale si attende il termine di eventuali task rimasti in esecuzione, con la
+conseguente distruzione dei processi. Fino ad allora questi rimangono in attesa
+di nuovi task, i quali vengono sottomessi tramite la funzione \verb|map| dal
+processo principale. Tale funzione accetta una struttura dati iterabile, la
+funzione da applicare a ciascun elemento ed eventuali parametri aggiuntivi
+necessari alla funzione passata come argomento.
+
+\subsection{Distribuzione del Carico}
+
+Nel caso d'interesse è richiesta l'implementazione di un paradigma di tipo
+\textit{map}, che prevede l'applicazione della funzione a tutti gli elementi di
+una lista, che in questo caso contiene la popolazione di individui. A
+prescindere quindi dall'impiego o meno di un modello di calcolo parallelo, la
+quantità di individui elaborata dall'insieme delle fasi di crossover, mutazione
+e valutazione è fissata. Dai test risulta anche che il tempo di elaborazione di
+un singolo individuo sia poco variabile, a tal punto da ritenere non necessario
+un bilanciamento del carico dinamico.
+
+Si è quindi optato per una distribuzione del carico statica e omogenea tra i
+\textit{worker}, suddividendo la struttura dati in un numero di \textit{chunk}
+pari al numero di \textit{worker} impiegati.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/workload.svg}
+	\caption{Distribuzione del carico su 4 worker}
+	\label{fig: workload}
+\end{figure}
+
+La dimensione dei blocchi è calcolata come il rapporto tra la lunghezza della
+struttura dati totale e il numero di worker impiegati. Qualora il risultato non
+fosse intero, il resto della divisione verrebbe distribuito omogeneamente sui
+vari worker, producendo quindi alcuni blocchi più grandi di un'unità rispetto
+ad altri.
+
+\subsection{Comunicazione}
+
+Per la comunicazione tra processi \textit{worker} e processo principale sono
+state esplorate diverse opzioni per riuscire ad avere un overhead più contenuto
+possibile. Oltre a questo si è cercato di garantire la possibilità di operare
+con tipologie di dato arbitrariamente complesse. Si ricorda infatti che le
+strutture dati iterabili inviate sono liste di istanze della classe
+\verb|Individual|, le quali contengono cromosomi i cui elementi possono essere
+a loro volta arbitrariamente complessi.
+
+Il metodo di comunicazione che costituisce l'attuale implementazione prevede
+l'impiego di code con politica \textit{FIFO} fornite dal modulo
+\verb|multiprocessing|, le quali offrono diversi vantaggi e permettono di
+implementare in modo semplice un paradigma \textit{produttore-consumatore} per
+l'invio e la ricezione di dati. L'attuale implementazione sfrutta due code per
+ogni \textit{worker}, una per l'invio e una per la ricezione di messaggi.
+
+\begin{figure}[H]
+	\centering
+	\includesvg{immagini/queue.svg}
+	\caption{Sistema di comunicazione con due code}
+	\label{fig: double_queue}
+\end{figure}
+
+La scelta di una doppia coda è stata fatta per evitare eventuali conflitti
+che si potrebbero presentare dall'impiego di una sola coda; una singola coda
+implica infatti che questa sia una via di comunicazione bidirezionale tra i
+processi e dato che sia il processo worker che il processo principale si
+alternano i ruoli di produttore e consumatore, si potrebbero verificare
+situazioni imprevedibili. In sintesi, affinché tutto proceda senza errori è
+necessario che uno dei due processi, dopo aver inviato un messaggio, non ne
+invii altri prima di aver ricevuto la risposta.
+
+Un caso d'errore tipico si verifica quando, dopo aver terminato il task
+assegnatogli, il worker inserisce i risultati sulla coda su cui si mette in
+attesa subito dopo.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/deadlock.svg}
+	\caption{Possibile situazione di deadlock con coda singola}
+	\label{fig: deadlock}
+\end{figure}
+
+Come è possibile vedere nella parte in basso a destra della figura, se il
+processo principale non estrae il contenuto della coda prima che il worker si
+rimetta in attesa, sarà quest'ultimo ad estrarre i risultati. Questo li tratterà
+come se fossero il un nuovo task in input, provocando un errore nel flusso
+d'esecuzione del worker e deadlock nel processo principale che rimane in attesa
+di un messaggio che è già stato consumato.
+
+La soluzione più semplice e probabilmente una delle più efficienti è proprio
+quella delle due code. Avere due code, ciascuna con una \quotes{direzione}
+diversa, evita il problema appena descritto, non richiede alcun tipo di
+sincronizzazione particolare tra mittente e ricevitore e permette di non creare
+conflitti qualora si intenda sottomottere più task, senza attendere che i
+precedenti siano terminati.
+
+Una volta terminato il lavoro è possibile fermare l'esecuzione del \textit{pool}
+di processi tramite il metodo \verb|join|. Questo invia un \verb|None| a tutti i
+worker, che lo riconoscono come segnale di terminazione ed escono dal ciclo di
+attesa, terminando la loro esecuzione.
+
+Tramite questa architettura di comunicazione e la politica di distribuzione del
+carico descritta in precedenza, si riesce a limitare al minimo il numero di
+invii e ricezioni, che producono un overhead non sempre trascurabile,
+soprattutto per carichi di lavoro medi o più piccoli. Questo di norma non
+costituisce un problema in quanto i task più leggeri sono anche quelli che meno
+necessitano un'ottimizzazione pesante. In un caso come quello di \textit{LORE}
+però l'algoritmo genetico potrebbe essere eseguito centinaia o migliaia di
+volte, aumentando significativamente il tempo d'esecuzione totale.
+
+% \subsection*{Invio e ricezione asincroni}
+
+% Per riuscire quindi a sfruttare al meglio il parallelismo sono state esplorate
+% alcune varianti del modello per riuscire mitigare l'overhead di comunicazione.
+% L'idea per riuscire a ridurre il tempo di comunicazione consiste nel dividere
+% i \textit{chunk} di struttura dati da inviare a ciascun \textit{worker}, in
+% ulteriori \textit{sub-chunk}. A questo punto sarebbe possibile inserire i
+% \textit{sub-chunk} nella coda in modo separato. Affinché questo metodo funzioni
+% è necessario che il \textit{worker} estragga i \textit{sub-chunk} nella coda
+% mentre elabora quelli inviati in precedenza. Per riuscire ad implementare un
+% meccanismo del genere è necessario che ogni worker utilizzi un thread adibito
+% all'estrazione di elementi dalla coda, e quindi alla deserializzazione degli
+% stessi, fornendoli poi al processo \textit{worker}, per esempio tramite una
+% coda \textit{locale} che non necessita serializzazione, deserializzazione o
+% stream di dati.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includesvg[scale=0.6]{immagini/recv_pipeline.svg}
+% 	\caption{Pipeline di comunicazione}
+% 	\label{fig: queue_pipeline}
+% \end{figure}
+
+% In questo modo si cerca di sfruttare il fatto che il multithreading in Python
+% riesce ad eseguire istruzioni di tipo I/O (come lo stream di byte tra processi)
+% in parallelo, per esempio sfruttando tecnologie come il DMA. Il problema di
+% questa implementazione è che le fasi di serializzazione e deserializzazione
+% sono significativamente più dispendiose dello stream dati ed inoltre sono
+% operazioni di tipo CPU-bound. Ecco che tentare di ottimizzare la comunicazione
+% in questo modo non garantisce alcun tipo di vantaggio e anzi, potrebbe
+% introdurre un ulteriore overhead dovuto allo scheduling e alla sincronizzazione
+% dei thread.
+
+\subsection*{Memoria condivisa}
+
+Una terza possibilità prevede l'utilizzo del modulo \verb|shared_memory|, che
+permette di allocare blocchi di memoria condivisa tra i worker ma che non
+fanno parte dello spazio di memoria di nessuno di essi.
+
+Questa soluzione offre vantaggi considerevoli per quanto riguarda le performance
+ma porta con sé alcune problematiche da tenere di conto. La prima è che la
+dimensione del blocco di memoria è fissa, rendendo quindi necessaria una
+riallocazione completa, con conseguente copia dei dati contenuti, qualora lo
+spazio si esaurisse.
+
+La seconda è relativa ai tipi di dato che possono essere inseriti all'interno
+del blocco. È infatti possibile inserire array di byte, tipi primitivi come
+\verb|int| e \verb|float| o array numerici. Non è possibile inserire oggetti
+complessi a meno che questi non siano prima serializzati, comportando quindi
+una necessaria deserializzazione ogni volta che si intende leggerli, tornando
+al problema di performance evidenziato nelle implementazioni tramite code.
+
+In definitiva, questa rimane una valida opzione per ottenere prestazioni elevate
+quando si tratta di condividere dati, ma è necessario fare diversi compromessi
+sulla complessità dei cromosomi, sulla dimensione della popolazione e sul tipo
+di architettura della libreria.
+
+Si è quindi preferito avere un'implementazione più semplice e che permettesse
+maggiore flessibilità nella definizione di tipi e strutture dati.

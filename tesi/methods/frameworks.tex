@@ -1,0 +1,323 @@
+\section{Test dei Framework per il Parallelismo}\label{sec: frameworks}
+
+Per riuscire ad implementare una versione parallela dell'algoritmo genetico,
+il primo ostacolo da superare è quello imposto dal \textit{GIL}, il quale non
+permette l'esecuzione contemporanea di più thread. Durante la prima fase dello
+sviluppo della libreria si sono quindi esplorate le seguenti soluzioni per
+provare a risolvere il problema:
+\begin{itemize}
+	\item \textit{Compilazione Python}: framework come \textit{Numba} e
+	      \textit{Cython}, i quali permettono di rilasciare il \textit{GIL}
+	      compilando il codice Python.
+	\item \textit{Subinterpreters}: framework sperimentale che istanzia dei
+	      \textit{sotto-intepreti} all'interno dello stesso processo, ognuno
+	      dotato del proprio \textit{GIL}.
+	\item \textit{Free-Threading}: versione sperimentale dell'interprete
+	      \textit{CPython} con \textit{GIL} disabilitato.
+	\item \textit{Multiprocessing}: uso di processi multipli, ciascuno con il
+	      proprio interprete e quindi con il proprio \textit{GIL}.
+\end{itemize}
+Quasi subito però ci si è resi conto dell'inadeguatezza di alcuni di loro,
+fornendo però spunto per la definizione di ulteriori vincoli che il framework
+scelto avrebbe dovuto soddisfare:
+\begin{enumerate}
+	\item Esecuzione in parallelo di task CPU-bound.
+	\item Esecuzione in parallelo di funzioni definite dall'utente.
+	\item Esecuzione in parallelo di funzioni definite dall'utente che
+	      impiegano routine e strutture dati di librerie standard di Python o
+	      moduli di terze parti.
+\end{enumerate}
+Se anche uno solo di questi non venisse soddisfatto, la soluzione in esame
+verrebbe scartata, in quanto non è in grado di garantire esecuzione parallela,
+o di soddisfare alcuni requisiti fondamentali definiti in precedenza e validi
+anche per la versione sequenziale.
+
+Rifacendosi inoltre a quanto discusso nella sezione \ref{sec: bg_xai}, il metodo
+\textit{LORE} definisce una funzione di valutazione simile a quella descritta
+dall'algoritmo \ref{alg: lore_eval}, che prende come parametro il modello di
+classificazione di cui si vogliono spiegare le predizioni. Dato che il metodo
+vuole essere indipendente da tipologia e implementazione del modello di machine
+learning, è necessario garantire la possibilità di definire una funzione di
+valutazione per modelli provenienti da librerie di machine learning differenti
+come \textit{Scikit-Learn}, \textit{Tensorflow} o \textit{PyTorch}, giusto per
+citare alcune delle più popolari. L'impossibilità di usufruire di tali librerie
+o di effettuare predizioni in parallelo decreterebbe quindi l'inadeguatezza del
+framework. Il discorso in realtà si estende potenzialmente ad altre librerie
+largamente usate in moltissimi progetti Python, come ad esempio \textit{Numpy}
+o \textit{Pandas}.
+
+\subsection{Compilazione e Rilascio del GIL}
+
+Al fine di rilasciare il \textit{GIL} per riuscire a lavorare in multithreading
+sono state esplorate due opzioni che prevedono la compilazione del codice
+Python, rendendo quindi non più necessario l'interprete, che si occuperà solo
+di invocare codice già compilato.
+
+Sono necessarie tuttavia alcune premesse: compilare codice Python o avere a che
+fare con codice compilato in altri linguaggi non rilascia automaticamente il
+\textit{GIL}; è necessario infatti specificando le sezioni di codice che possono
+operare senza \textit{GIL}. L'altra premessa da fare è che non è possibile
+compilare codice contenente costrutti nativi di Python, per esempio funzioni
+builtin, liste o dizionari. Queste strutture dati sono molto flessibili e
+possono contenere elementi di qualunque; in una stessa lista infatti è possibile
+inserire numeri, stringhe o qualsiasi altro tipo arbitrariamente complesso, i
+quali però hanno bisogno di essere manipolati tramite l'interprete. Se invece
+consideriamo un array \textit{Numpy}, si ha sempre a che fare con un oggetto
+Python, ma la sua implementazione in C contiene un buffer con un layout di
+memoria ben preciso, in cui sono contenuti gli elementi che lo compongono. Le
+funzioni che fornisce \textit{Numpy} per le operazioni numeriche spesso
+rilasciano il \textit{GIL} poiché la loro implementazione in C agisce
+direttamente sul buffer di memoria e non su una qualche struttura dati Python,
+rendendo quindi l'interprete superfluo.
+
+\subsection*{Cython}
+
+L'approccio che propone \textit{Cython} ha invece lo scopo di generare un modulo
+compilato prima dell'esecuzione, sfruttando dei decoratori oppure scrivendo il
+codice in linguaggio \textit{Cython}, ossia un'estensione di Python che supporta
+nativamente la tipizzazione statica, incentivando uno stile di programmazione
+simile al C.
+
+\begin{lstlisting}[caption={Esempio utilizzo Cython}]
+cpdef float task(float[:] a) nogil:
+	cdef float s = 0
+	cdef int i = 0
+	with nogil:
+		for i in range(len(a)):
+			s += a[i]
+
+	return s
+\end{lstlisting}
+
+Si può subito notare un codice decisamente più verboso rispetto a prima;
+è inoltre necessario notare la \textit{keyword} \verb|nogil| che compare sia
+nella \textit{signature} che nel corpo della funzione. La prima non comporta il
+rilascio del \textit{GIL} ma segnala al compilatore che l'intera funzione deve
+rispettare i parametri per il rilascio; in caso contrario la compilazione
+fallisce. Nel secondo caso invece, il codice all'interno del blocco \verb|with|
+è effettivamente compilato con \textit{GIL} rilasciato. La \textit{keyword}
+sulla signature non è obbligatoria ma se la compilazione ha successo è indice
+del fatto che sia possibile inserire il blocco \verb|with nogil| in qualsiasi
+punto della funzione.
+
+Prima di poter sfruttare il codice prodotto è necessario compilarlo tramite
+uno script simile al seguente:
+
+\begin{lstlisting}[caption={Script di compilazione Cython}]
+from Cython.Build import cythonize
+from setuptools import setup
+setup(ext_modules=cythonize("module.pyx"))
+\end{lstlisting}
+
+\subsection*{Numba}
+
+Come prima opzione è stato valutato il framework \textit{Numba}, il quale opera
+molto bene in sinergia con \textit{Numpy} e il cui utilizzo più comune prevede
+l'impiego di decoratori sulle funzioni che si intende compilare.
+
+\begin{lstlisting}[caption={Esempio di utilizzo Numba}]
+from numba import njit
+import numpy as np
+
+@njit(nogil=True)
+def task(a: np.ndarray):
+	return np.sum(a)
+\end{lstlisting}
+
+Così facendo si abilita una compilazione di tipo \textit{Just-In-Time} che
+avviene a tempo d'esecuzione la prima volta che si invoca la funzione. Eventuali
+chiamate future verranno reindirizzate al codice binario prodotto in precedenza.
+
+La libreria mette a disposizione due decoratori, \verb|jit| e \verb|njit|, in
+grado di compilare la funzione. Il secondo però agisce in quella che viene
+definita modalità \quotes{nopython}, necessaria per il rilascio del \textit{GIL}
+e che fa in modo che la compilazione fallisca se nella funzione sono presenti
+costrutti Python nativi, non compilabili per le ragioni elencate in precedenza.
+
+
+\subsection*{Considerazioni}
+
+Entrambi i framework danno la possibilità di compilare codice Python nativo,
+effettuando alcune ottimizzazioni e cercando di inferire il tipo delle
+variabili quando possibile. Per riuscire però a generare codice capace di
+rilasciare il \textit{GIL} è necessario adottare uno stile di programmazione
+più rigido, definendo il tipo di ciascun oggetto coinvolto, senza utilizzare
+strutture dati Python come liste o dizionari per i motivi precedentemente
+evidenziati. Il primo lo fa incentivando l'uso di \textit{Numpy}, l'altro
+fornendo invece un'estensione del linguaggio simile al C.
+
+In generale si può dire che entrambi i framework soddisfino il primo requisito,
+in quanto danno la possibilità di produrre codice parallelizzabile, a patto che
+si adotti uno stile di programmazione più rigido e orientato a una tipizzazione
+statica delle variabili.
+
+Assumendo che l'utente sia in grado di produrre codice seguendo le linee guida
+necessarie per la compilazione e successivo rilascio del \textit{GIL}, sono
+entrambe opzioni che soddisfano anche il secondo requisito, poiché l'utente può
+definire funzioni in Python (o \textit{Cython}) eseguibili in parallelo.
+
+Entrambi i framework presentano però problemi quando si prova ad implementare
+la funzione di valutazione specifica per il caso d'uso di \textit{LORE},
+descritto in precedenza. L'introduzione del modello usato per la classificazione
+dei dati comporta l'impossibilità di compilare tale funzione rilasciando il
+\textit{GIL}. Questo perché i modelli di \textit{Scikit-Learn} sono oggetti
+Python su cui non è possibile rilasciare il \textit{GIL} in fase di predizione e
+dunque incompatibili per essere compilati con \textit{Numba} o \textit{Cython}.
+
+Nel caso di \textit{Cython} sarebbe possibile escludere la fase di predizione
+del modello dalla parte con \textit{GIL} rilasciato, comportando però
+l'acquisizione di quest'ultimo e l'attesa degli altri thread.
+
+\subsection{Framework Sperimentali}
+
+Un secondo possibile approccio è stato quello di considerare due funzionalità
+sperimentali, che mirano a risolvere il problema del \textit{GIL} più in
+profondità e senza tutti i compromessi che si dovrebbero fare con i framework
+precedentemente descritti. La prima sfrutta i \textit{Subinterpreters}, mentre
+l'altra fa uso di una versione sperimentale dell'interprete Python ma con il
+\textit{GIL} sempre rilasciato.
+
+\subsection*{Subinterpreters}
+
+I \textit{Subinterpreters} si basano sull'idea di istanziare più
+\textit{sotto-interpreti}, ciascuno dotato del proprio \textit{GIL} e
+coordinabili tramite thread multipli. Tuttavia l'API attualmente disponibile
+non supporta una metodo per assegnare i task ai \textit{subinterpreters} in
+modo simile al multithreading, che sfrutta puntatori a funzione. È infatti
+necessario sottomettere il codice da eseguire sotto forma di stringa come
+riportato nell'esempio seguente.
+
+\begin{lstlisting}[caption={Subinterpreters API Python 3.12}]
+from test.support import interpreters
+
+def handle():
+	interp = intepreters.create()
+	interp.run("print('Hello World')")
+	interp.close()
+
+worker = threading.Thread(target=handle)
+worker.start()
+worker.join()
+\end{lstlisting}
+
+Questo framework è presente da diversi anni ma disponibile solo per lo sviluppo
+di estensioni tramite l'API in C. Di recente è stata sviluppata una prima API
+utilizzabile direttamente da Python, ma che ancora fornisce poche funzionalità
+e che molte librerie non supportano. Si tratta inoltre di una soluzione in
+continuo sviluppo, le cui funzionalità variano da una versione Python all'altra
+e di cui si è analizzata solo la versione presente nei moduli standard di
+Python 3.12.
+
+Il framework presenta tuttavia alcune criticità in quanto gli interpreti,
+sebbene siano tutti all'interno dello stesso spazio di memoria, sono isolati
+gli uni dagli altri. Non è infatti possibile accedere a strutture dati in
+memoria condivisa o usare meccanismi di comunicazione che non prevedano fasi
+di serializzazione e stream dati come nel caso del multiprocessing quando si
+cerca di condividere oggetti arbitrariamente complessi. Per risolvere il
+problema, sembra che gli sviluppatori sia intenti a sviluppare un sistema ad
+alte prestazioni basato su code, in grado di sfruttare la memoria condivisa. In
+fase di sviluppo questa funzionalità non era però disponibile e non si è stati
+in grado di testarla. % controllare
+
+Il problema principale è tuttavia il mancato supporto delle librerie necessarie
+come \textit{Numpy} e \textit{Scikit-Learn}, che provocano errori e fallimenti
+anche solo dopo essere state importarte da un \textit{subinterpreter}. Risulta
+quindi chiaro che si tratti di una funzionalità non compatibile né per il caso
+d'uso d'interesse né per tanti altri.
+
+\subsection*{Free-Threading}
+
+Dalla versione 3.13 è possibile utilizzare una versione dell'interprete Python
+che rimuove il \textit{GIL}, risolvendo il problema alla radice anche per
+librerie che non lo rilasciano esplicitamente.
+
+Tramite questa soluzione diventa possibile sviluppare codice in Python nativo
+senza dover adottare alcuno stile di programmazione particolare come con
+\textit{Numba} o \textit{Cython} ma non è garantito il corretto funzionamento
+dei moduli coinvolti.
+
+L'implementazione degli algoritmi è esattamente la stessa che si avrebbe per la
+versione con il \textit{GIL} abilitato, con la differenza che in questo modo si
+ottiene vero parallelismo anche per compiti CPU-bound.
+
+\begin{lstlisting}[caption={Esempio multithreading}]
+from threading import Thread
+import numpy as np
+import queue
+
+def task(q: queue.Queue):
+	a = q.get()
+	q.put(np.sum(a))
+
+queues = [queue.Queue() for _ in range(8)]
+workers = [Thread(target=task, args=(q,)) for q in queues]
+for w, q in zip(workers, queues):
+	w.start()
+	q.put(np.random.random(size=(512,)))
+
+for w, q in zip(workers, queues):
+	print(q.get())
+	w.join()
+\end{lstlisting}
+
+
+Al momento dei test che hanno decretato la scelta del framework alcune delle
+librerie come \textit{Scipy} (dipendenza di \textit{Scikit-Learn}) non
+fornivano supporto per tale versione e non è stato possibile installarle e
+testarle, portando ad escludere subito l'opzione. Ad oggi è invece presente un
+supporto dichiarato dagli sviluppatori delle librerie stesse ed è quindi
+diventato possibile eseguire codice contenente modelli di \textit{Scikit-Learn}
+in multithreading.
+
+Si tratta tuttavia di una funzionalità ancora sperimentale e che viene in
+generale sconsigliata, se non per effettuare test; senza considerare che alcune
+delle librerie come \textit{Tensorflow} e \textit{PyTorch} non forniscono ancora
+una versione per Python 3.13 (con o senza \textit{GIL}).
+
+\subsection{Multiprocessing}
+
+L'ultima opzione consiste nell'impiego del modulo \verb|multiprocessing|. In
+questo modo è possibile sfruttare più processi, ciascuno dotato del proprio
+interprete e quindi del proprio \textit{GIL}, permettendo così di eseguire
+codice effettivamente in parallelo.
+
+\begin{lstlisting}[caption={Esempio multiprocessing}]
+import multiprocessing as mp
+import numpy as np
+
+def task(q: mp.Queue):
+	a = q.get()
+	q.put(np.sum(a))
+
+queues = [mp.Queue() for _ in range(8)]
+processes = [mp.Process(target=task, args=(q,)) for q in queues]
+for p, q in zip(processes, queues):
+	p.start()
+	q.put(np.random.random(size=(512,)))
+
+for p, q in zip(processes, queues):
+	print(q.get())
+	p.join()
+\end{lstlisting}
+
+Questa soluzione presenta diversi vantaggi, offre infatti una API praticamente
+identica al modulo \verb|threading|, rendendo l'implementazione semplice se si
+ha già esperienza in ambito multithreading.
+
+Un altro vantaggio, come possiamo vedere anche dall'esempio, è la compatibilità
+con codice Python nativo e con moduli di terze parti, evitando quindi di
+influenzare o limitare scelte architetturali o di design, sia della libreria che
+delle possibili implementazioni fornite dall'utente.
+
+Si tratta quindi di una soluzione semplice e flessibile, in grado di adattarsi
+bene ad eventuali sviluppi futuri; impiega però processi multipli, portando con
+sé le problematiche discusse nella sezione \ref{ssec: parallel_mp}.
+
+Tra tutte è l'unica opzione che soddisfa pienamente tutti i requisiti, senza
+alcun tipo di compromesso in termini di espressività e che permette l'esecuzione
+in parallelo di qualsiasi tipo di codice, comprendendo tutte le librerie Python
+standard e di terze parti. La scelta finale è quindi ricaduta su questa opzione,
+che sicuramente garantisce flessibilità ma pecca in efficienza per diversi
+aspetti. Riesce comunque ad apportare miglioramenti significativi, soprattutto
+su carichi di lavoro grandi, i quali rendono trascurabile il tempo necessario a
+condividere i dati tra i worker.

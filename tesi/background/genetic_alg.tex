@@ -1,0 +1,72 @@
+\chapter{Background}\label{cap: background}
+
+Per comprendere le motivazioni dietro all'implementazione della libreria è
+necessario analizzare il metodo \textit{LORE} di eXplainable AI (XAI), come
+questo sfrutti un algoritmo genetico per la generazione di dati sintetici e
+la natura dietro al problema di prestazioni riscontrato.
+
+Si sono quindi messe a fuoco la struttura e le operazioni tipiche di un
+algoritmo genetico, per riuscire a implementare una versione sequenziale che
+fosse facilmente parallelizzabile. Durante lo sviluppo della versione parallela
+dell'algoritmo ci si è però scontrati con il problema introdotto dal
+\textit{GIL}, che in Python limita molto l'esecuzione simultanea di più thread,
+almeno per quanto riguarda compiti CPU-bound. Si sono quindi individuate
+possibili soluzioni al problema, che comportano però alcuni compromessi in
+quanto a prestazioni o epsressività del codice.
+
+\section{Algoritmi Genetici}\label{sec: gen_alg}
+
+Gli algoritmi genetici fanno parte delle possibili tecniche euristiche adottate
+nell'ambito dell'ottimizzazione. Costituiscono infatti una valida scelta in
+molti casi in cui non si conosce un algoritmo efficiente per un problema
+specifico e non si è interessati alla ricerca di soluzioni ottime per esso.
+
+Il loro comportamento si ispira ad un modello evolutivo in cui gli individui
+migliori di una popolazione sopravvivono e si riproducono, portando quindi la
+popolazione iniziale ad uno \quotes{stadio superiore} con il passare delle
+generazioni.
+
+Le possibili strutture sono molto varie ma una delle più comuni prevede la
+rappresentazione di ogni individuo tramite un cromosoma. Questo è generalmente
+strutturato come un vettore o una stringa, i cui elementi rappresentano una
+possibile soluzione al problema o una sua codifica. Una delle strutture più
+semplici e comuni degli algoritmi genetici è composta dalle seguenti fasi:
+\begin{enumerate}
+	\item \textbf{Generazione}: viene generata in modo casuale una popolazione
+	      di individui il cui cromosoma rappresenta una possibile soluzione al
+	      problema.
+	\item \textbf{Selezione}: viene selezionato un certo numero di individui
+	      utilizzando metodi basati sul valore di \textit{fitness}, il quale
+	      indica la qualità della soluzione.
+	\item \textbf{Crossover}: i cromosomi di due o più individui vengono
+	      combinati per generarne di nuovi, i quali condividono parte del
+	      materiale genetico dei genitori.
+	\item \textbf{Mutazione}: vengono applicate variazioni casuali al cromosoma
+	      di un individuo, permettendo così l'esplorazione di nuove soluzioni e
+	      favorendo così la diversità genetica all'interno della popolazione.
+	\item \textbf{Valutazione}: ogni individuo viene valutato e gli viene
+	      attribuito un valore di \textit{fitness} in base alla qualità della
+	      soluzione che questo rappresenta.
+	\item \textbf{Rimpiazzo}: viene attuata una politica di rimpiazzo (in
+	      alcuni casi chiamata \quotes{di sopravvivenza}), che prevede la
+	      scelta degli individui da mantenere da una generazione all'altra.
+\end{enumerate}
+Tutte le fasi tranne la prima sono eseguite in un ciclo che termina quando
+viene soddisfatto un criterio di convergenza, che può essere definito in
+termini dei valori di fitness della popolazione, della sua biodiversità o, più
+semplicemente, definendo un limite massimo al numero delle iterazioni.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/simple_ga.svg}
+	\caption{Struttura di un algoritmo genetico semplice}
+	\label{fig:simple_ga}
+\end{figure}
+
+Data inoltre la natura stocastica dell'algoritmo, è possibile che le migliori
+soluzioni vengano trovate dopo poche iterazioni. Se il metodo di convergenza
+si basa semplicemente sul raggiungimento di un numero massimo di iterazioni e
+la fase di rimpiazzo sostituisce completamente la vecchia generazione con la
+nuova, si rischia di perdere alcune delle soluzioni migliori tra le varie
+generazioni. È infatti buona norma avere una struttura dati in grado di
+mantenere le migliori soluzioni mai generate, di modo da evitarne la perdita.

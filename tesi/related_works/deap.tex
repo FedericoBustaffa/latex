@@ -1,0 +1,158 @@
+\chapter{Lavori Correlati}\label{cap: related_works}
+
+Allo stato dell'arte, il metodo \textit{LORE} sfrutta l'implementazione fornita
+dalla libreria \textit{DEAP} di algoritmi genetici, la quale offre grande
+flessibilità, permettendo all'utente di definire le strutture dati necessarie
+a rappresentare cromosomi e popolazione e le varie fasi dell'algoritmo.
+Mette inoltre a disposizione un metodo per riuscire a sfruttare il parallelismo
+tramite il modulo \verb|multiprocessing|, riuscendo così a mantenere un alto
+livello di espressività e massima compatibilità con moduli di terze parti.
+
+\section*{DEAP}
+
+La libreria \textit{DEAP} fornisce un'API molto flessibile ma richiede una fase
+di inizializzazione in cui vengono definiti tipi, strutture dati e funzioni
+necessarie al corretto funzionamento dell'algoritmo.
+
+Come prima cosa è necessario definire la struttura di un generico cromosoma, il
+tipo di ciascun gene e i pesi da assegnare a ciascun parametro da ottimizzare.
+A tal fine vengono messi a disposizione il modulo \verb|creator| e la classe
+\verb|Toolbox|.
+
+Tramite \verb|creator| è possibile definire nuove classi con caratteristiche
+personalizzate e che si adattano alle proprie esigenze.
+
+\begin{lstlisting}[caption={Definizione fitness e strutture dati con DEAP}]
+from deap import creator
+
+creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+creator.create("Individual", list, fitness=creator.FitnessMin)
+\end{lstlisting}
+
+La classe \verb|Toolbox| serve invece ad immagazzinare funzioni e relativi
+parametri, di modo da poter essere utilizzati con facilità in seguito. Tramite
+tale classe è infatti possibile definire operatori genetici e metodi di
+inizializzazione, selezione e valutazione degli individui, ognuno dei quali
+viene registrato e legato ad una stringa che ne definisce il nome.
+
+\begin{lstlisting}[caption={Registrazione metodi e operatori con DEAP}]
+import random
+from deap import base, tools
+
+toolbox = base.Toolbox()
+toolbox.register("indices", random.sample, range(n), n)
+toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.indices)
+toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+toolbox.register("mate", tools.cxOrdered)
+toolbox.register("mutate", tools.mutShuffleIndexes)
+toolbox.register("select", tools.selTournament, tournsize=2)
+toolbox.register("evaluate", evaluate)
+\end{lstlisting}
+
+Ad eccezione della funzione di valutazione, che è strettamente legata al
+problema di interesse e deve essere quindi definita dall'utente caso per caso,
+\textit{DEAP} fornisce implementazioni per tutte le componenti appena citate,
+lasciando quindi il solo compito di scegliere quale si addice di più al
+problema in questione. Rimane comunque la possibilità di definire ciascuna
+delle componenti dell'algoritmo come meglio si crede in caso di esigenze
+particolari.
+
+\subsection*{Algoritmo}\label{ssec: rw_algos}
+
+Una volta definite tutte le componenti dell'algoritmo, è possibile invocare
+direttamente i metodi registrati nell'istanza della classe \verb|Toolbox|,
+andando a definire un comportamento personalizzato per esso. Una seconda opzione
+consiste invece nel ricorrere alle implementazioni fornite da \textit{DEAP}
+tramite il modulo \verb|algorithms|, che presenta diverse opzioni possibili,
+tra cui \verb|eaSimple|, che ha una struttura molto simile a quella definita in
+figura \ref{fig:simple_ga} ed è l'algoritmo attualmente impiegato da
+\textit{LORE}.
+
+L'algoritmo prende in input l'istanza della classe \verb|Toolbox|
+precedentemente definita, una popolazione iniziale, il numero massimo di
+iterazioni da compiere e le probabilità di crossover e mutazione. \`E possibile
+passare anche parametri opzionali per registrare dati statistici sui valori di
+fitness e una struttura dati per memorizzare i migliori $k$ individui mai
+prodotti durante le varie generazioni, la \verb|HallOfFame|.
+
+\begin{lstlisting}[caption={DEAP \lstinline|eaSimple|}]
+import numpy as np
+from deap import algorithms, tools
+
+stats = tools.Statistics(key=lambda ind: ind.fitness.values)
+stats.register("min", np.min)
+stats.register("mean", np.mean)
+stats.register("max", np.max)
+
+hall_of_fame = tools.HallOfFame(20)
+population = toolbox.population(n=100)
+population, logbook = algorithms.eaSimple(
+	population=population, toolbox=toolbox,
+	cxpb=0.7, mutpb=0.3, ngen=50,
+	stats=stats, halloffame=hall_of_fame
+)
+\end{lstlisting}
+
+A differenza dello schema \ref{fig:simple_ga}, \verb|eaSimple| effettua una
+prima valutazione degli individui subito dopo aver generato la popolazione
+iniziale e prima di entrare nel ciclo.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/deap_ga.svg}
+	\caption{Struttura dell'algoritmo eaSimple implementato da DEAP}
+	\label{fig: deap_ga}
+\end{figure}
+
+In fase di selezione vengono scelti sempre $n$ individui senza alcun controllo
+sui duplicati, rendendo possibile scegliere lo stesso individuo più volte.
+L'operatore di crossover viene applicato con una certa probabilità \verb|cxpb|,
+provocando la generazione di nuovi individui, nel caso venga applicato e la
+clonazione dei genitori in caso contrario.
+
+Segue poi la fase di mutazione che introduce una variazione nel cromosoma di
+ciascun individuo con una probabilità \verb|mutpb| e, a seconda del metodo di
+mutazione, potrebbe essere necessario specificare la probabilità di mutare
+ciascun gene del singolo cromosoma.
+
+I nuovi individui vengono infine valutati tramite la funzione di valutazione
+registrata, la \textit{HallOfFame} viene aggiornata e la nuova generazione
+prende il posto della vecchia, rimpiazzandola totalmente.
+
+\subsection*{Multi-Processing}
+
+La classe \verb|Toolbox| ha anche dei metodi predefiniti tra cui \verb|map|, la
+cui implementazione è data dall'omonima funzione built-in di Python e che viene
+utilizzata per applicare la funzione di valutazione a tutti gli individui. Per
+riuscire a valutare gli individui in parallelo sarà quindi sufficiente
+registrare nella classe \verb|Toolbox|, la funzione \verb|map| della classe
+\verb|Pool|, offerta dal modulo \verb|multiprocessing|.
+
+\begin{lstlisting}[caption={DEAP Multiprocessing}]
+import multiprocessing as mp
+pool = mp.Pool()
+toolbox.register("map", pool.map)
+\end{lstlisting}
+
+Il metodo \verb|map| della classe \verb|Pool| applica una certa funzione a
+tutti gli elementi di una struttura dati iterabile passata come argomento. Se
+non vengono specificati ulteriori argomenti, gli elementi dell'iterabile
+verranno distribuiti uno per volta ai processi non appena questi sono liberi.
+Se invece viene specificato il parametro \verb|chunksize| è possibile definire
+il numero di elementi che un processo deve elaborare prima di poterne ricevere
+altri.
+
+In questo modo l'algoritmo utilizza quest'ultima per valutare gli individui
+sfruttando più worker e modificando quindi la sua struttura dell'algoritmo come
+segue:
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.9\linewidth]{immagini/parallel_eaSimple}
+	\caption{Versione parallela di \lstinline|eaSimple| con 4 worker}
+	\label{fig: parallel_eaSimple}
+\end{figure}
+
+In questo modo si abilita facilmente la computazione parallela ma ci si imbatte
+in tutti i problemi di comunicazione tipici del multiprocessing, discussi in
+precedenza.

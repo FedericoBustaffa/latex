@@ -1,0 +1,95 @@
+\section{Explainable AI}\label{sec: bg_xai}
+
+L'explainable AI, è una branca della ricerca volta a fornire metodi per
+interpretare e \textit{spiegare} predizioni o decisioni fatte da determinati
+modelli di machine learning, chiamati \textit{black-box}. Di questi si
+conoscono architettura e modello matematico, ma allo stato dell'arte possono
+arrivare ad avere una quantità di parametri talmente elevata da rendere
+impossibile per un essere umano capire come e quanto i singoli parametri
+influiscano nelle decisioni prese dal modello.
+
+Al fine di riuscire ad interpretare le scelte fatte dai modelli
+\textit{black-box}, sono stati sviluppati vari metodi. Alcuni di questi cercano
+di comprendere la struttura globale del modello predittivo, per esempio cercando
+di definire i confini di classificazione. Altri metodi si concentrano invece
+sul fornire spiegazioni alle singole decisioni prese dal modello su specifiche
+istanze dei dati, fornendo quindi spiegazioni locali. I metodi di XAI possono
+inoltre fornire \textit{controfattuali}, ossia spiegazioni su come modificare i
+dati in input per cambiare le decisioni prese dal modello.
+
+\subsection*{LORE}
+
+Il metodo \textit{LORE} rientra nella categoria dei metodi di XAI locali, in
+quanto opera sulle singole istanze dei dati e lavora sotto l'assunzione che
+determinare i confini di classificazione locali sia in generale meno complesso
+di determinare l'intero confine. In questo modo riesce ad ottenere spiegazioni
+più accurate, ma per l'appunto locali e dunque valide solo per l'istanza
+analizzata.
+
+Il metodo prevede la generazione di dati sintetici tramite un algoritmo
+genetico; questi verranno in seguito usati per allenare un albero di decisione
+in grado di produrre regole fattuali e controfattuali.
+
+L'algoritmo genetico viene eseguito due volte per ognuna delle istanze dei dati
+classificate dal modello e di cui si vogliono produrre spiegazioni; la prima
+volta generando dati classificati allo stesso modo dell'istanza analizzata,
+producendo l'insieme $Z_=$, la seconda volta generando invece dati classificati
+diversamente, producendo l'insieme $Z_{\neq}$. In entrambi i casi l'algoritmo
+genetico cerca di minimizzare la distanza tra i punti generati e l'istanza
+analizzata, scartando di generazione in generazione i dati sintetici più lontani
+e/o non classificati correttamente.
+
+I dati hanno tipicamente una struttura vettoriale, in cui ogni elemento
+corrisponde a una caratteristica specifica. Un esempio banale è un vettore di
+due elementi, i quali definiscono rispettivamente altezza e peso di un
+individuo. Tra questi però è anche possibile definire dati dalla natura
+categoriale, come per esempio il colore degli occhi di un individuo, che non ha
+un significato matematico e per il quale non è possibile stabilire un ordine di
+importanza.
+
+Dato che \textit{LORE} utilizza un algoritmo genetico per generare individui
+sintetici che siano simili alle istanze classificate dal modello, la forma dei
+cromosomi è esattamente quella di un vettore di feature. Questo perché le
+feature di un individuo sintetico rappresentano intrinsecamente una possibile
+soluzione ai problemi di minimizzazione della distanza, in quanto costituiscono
+le coordinate dell'individuo nello spazio di lavoro e dunque la sua distanza
+dall'istanza di riferimento. In questo modo è inoltre possibile classificare
+gli individui sintetici per riuscire a scartare quelli non classificati
+correttamente.
+
+La funzione di valutazione ritorna quindi come unico valore la distanza tra
+l'individui sintetico e l'istanza di riferimento nel caso quello sintetico sia
+classificato correttamente. In caso contrario ritorna una distanza di $+\infty$.
+
+\begin{algorithm}[H]
+	\caption{LORE evaluation function}
+	\begin{algorithmic}
+		\Function{evaluate\_same}{chromosome, istance, model}
+		\State $C_i$ $\gets$ model.predict(istance)
+		\State $C_c$ $\gets$ model.predict(chromosome)
+		\If{$C_i \neq C_c$}
+		\State \Return $+\infty$
+		\Else
+		\State \Return distance (chromosome, istance)
+		\EndIf
+		\EndFunction
+	\end{algorithmic}
+	\label{alg: lore_eval}
+\end{algorithm}
+
+Nel caso di dati puramente numerici è possibile calcolare la distanza tramite
+funzioni come la norma vettoriale euclidea, ma nel caso di dati categoriali
+come quelli descritti in precedenza sarebbe necessario definire un metodo o un
+ordine di importanza tra di essi per riuscire a calcolare la distanza. Per
+semplicità i test sono stati condotti solo su dataset a valori reali, calcolando
+la distanza euclidea tra i punti.
+
+Una volta generati, i dati sintetici vengono usati per allenare un albero di
+decisione, in grado di produrre regole fattuali e controfattuali, che andranno
+poi a costituire la spiegazione della scelta fatta e come sia possibile
+modificare i dati per ottenere una predizione diversa. Le diramazioni di un
+albero decisionale corrispondono infatti a valori soglia delle feature che
+determinano una scelta piuttosto che un'altra. Seguendo quindi i cammini che
+portano alla stessa decisione effettuata dal modello si ottiene la spiegazione
+di tale scelta, seguendo invece cammini alternativi è possibile capire come
+cambiare tale scelta.

@@ -1,0 +1,67 @@
+\chapter{Metodologia}\label{cap: methods}
+
+La prima fase di sviluppo della libreria si è incentrata sull'individuazione
+e definizione di requisiti e struttura, mirando ad un'implementazione
+efficiente, senza però rinunciare ad un alto livello di espressività.
+
+La seconda fase ha invece riguardato l'esplorazione delle possibili soluzioni
+al problema introdotto dal \textit{GIL}, in cui sono stati testati e valutati
+diversi metodi per ottenere l'esecuzione.
+
+Una volta terminata la fase di sperimentazione dei vari framework si è passati
+allo sviluppo della libreria vera e propria e con essa, le versioni sequenziale
+e parallela dell'algoritmo.
+
+La fase finale del lavoro è stata di sperimentazione ed è stata suddivisa in
+tre parti: la prima, utilizzata anche in fase di sviluppo, è stata necessaria
+per testare la correttezza di quanto implementato. Si sono infatti considerati
+problemi ben noti in letteratura, tra cui il problema del commesso viaggiatore,
+il problema dello zaino e un caso di regressione lineare. Per le ultime due
+fasi è stato invece riprodotto il problema specifico del metodo \textit{LORE},
+valutando qualità e prestazioni tramite un'analisi comparativa con \textit{DEAP}.
+
+\section{Struttura e Requisiti}
+
+I primi requisiti individuati sono quelli imposti dalla natura stessa degli
+algoritmi genetici nella loro forma più comune. Primo fra tutti la struttura
+del cromosoma, tipicamente vettoriale o simile ad una lista, rendendo così più
+semplice l'implementazione degli operatori genetici classici, che operano bene
+su strutture di questo tipo. L'utente deve poter assumere di lavorare su
+cromosomi con tale forma, senza che debba essere lui a specificarla.
+
+Il secondo requisito consiste nel permettere all'utente di definire tutte le
+fasi dell'algoritmo, permettendogli quindi di implementare operatori genetici e
+altre funzionalità specifiche per il suo caso d'uso, se quelle fornite
+dalla libreria non siano in grado di soddisfare i suoi bisogni. Da questo
+nasce anche la necessità di garantire un livello minimo di espressività nel
+definire tali metodi. In particolare la funzione di valutazione è ciò che più
+contraddistingue il problema di riferimento ed è infatti sempre richiesto che
+sia l'utente a definirla. Non gli si può quindi precludere l'impiego di moduli
+o librerie necessarie alla valutazione degli individui, come ad esempio
+\textit{Numpy} e \textit{Scikit-Learn}, fondamentali alla valutazione degli
+individui nel caso del metodo \textit{LORE}.
+
+Quest'ultimo requisito ha avuto ripercussioni sulla scelta del framework per
+l'implementazione della versione parallela dell'algoritmo. Come anticipato,
+alcuni di questi richiedono compromessi sulla forma del codice, mentre altri,
+ancora sperimentali, potrebbero non essere pienamente supportati dalle librerie
+di cui l'utente potrebbe aver bisogno, rendendoli inadeguati.
+
+In quanto a struttura della libreria si è cercato di riprodurre API e costrutti
+simili a \textit{DEAP}, semplificando però alcuni costrutti e specializzandoli
+in base alla tipologia dei casi d'uso trattati. Come per \textit{DEAP} viene
+fornita una classe \verb|ToolBox| la quale ha il compito di registrare metodi,
+operatori genetici e parametri necessari alla generazione e valutazione di
+individui. Un costrutto simile rende la fase di test e l'effettivo utilizzo
+finale molto comodi, in particolar modo quando sono previste esecuzioni
+multiple, in cui si potrebbero dover variare parametri o metodi a seconda
+dell'input o dell'effetto che si vuole ottenere. Sarebbe anche possibile avere
+più istanze di \verb|ToolBox|, ognuna impostata con parametri e metodi anche
+molto diversi, così da poter cambiare l'intera struttura dell'algoritmo
+sostituendo semplicemente l'istanza della classe con cui si intende lavorare.
+
+Sempre in modo simile a \textit{DEAP} è stato implementato un algoritmo simile
+a \verb|eaSimple|, il quale accetta come parametri anche l'istanza della classe
+\verb|ToolBox| precedentemente definita. Questo approccio permette grande
+modularità, mantenendo la logica dell'algoritmo separata da metodi e parametri
+con cui opera.

@@ -1,50 +1,75 @@
-\chapter*{Introduzione}
+\chapter{Introduzione}\label{cap: introduction}
 
 Il progetto di tesi verte sull'implementazione di una libreria di algoritmi
-genetici, in grado di sfruttare architetture multi-core per il calcolo
-parallelo. La necessità di un algoritmo genetico con questa struttura nasce in
-un contesto di explainable AI, in particolare si fa riferimento al progetto
-\textit{LORE}~\cite{guidotti2018LORE}, il quale utilizza un'implementazione
-fornita dalla libreria di algoritmi genetici \textit{DEAP}~\cite{fortin2012DEAP}.
+genetici in grado di sfruttare architetture multi-core per il calcolo parallelo.
+La necessità di un algoritmo genetico con questa struttura nasce dal progetto
+\textit{LORE}~\cite{guidotti2018LORE} di explainable AI, il quale utilizza
+l'implementazione fornita dalla libreria di algoritmi genetici
+\textit{DEAP}~\cite{fortin2012DEAP}.
 
 \textit{LORE} si propone di generare spiegazioni a decisioni o predizioni fatte
 da modelli di machine learning, spesso difficili da interpretare per via della
-loro elevata complessità, come ad esempio reti neurali profonde o foreste
-casuali. In una prima fase, del metodo si sfrutta un algoritmo genetico per la
-generazione di dati sintetici con determinate caratteristiche, fondamentali in
-seguito per la costruzione delle spiegazioni.
+loro elevata complessità, come ad esempio \textit{deep neural networks} o
+\textit{random forest}, che proprio per questo motivo prendono spesso il nome
+di \textit{black-box}. In una prima fase, del metodo si sfrutta un algoritmo
+genetico per la generazione di dati sintetici con determinate caratteristiche,
+fondamentali in seguito per la produzione delle spiegazioni.
 
-Tale approccio risulta però essere particolarmente dispendioso, soprattutto in
-casi in cui la quantità di dati sintetici che si desidera generare è molto
-grande oppure quando il modello è particolarmente lento in fase di predizione
-(o entrambe).
+Tale approccio risulta però essere particolarmente dispendioso, soprattutto nei
+casi in cui le predizioni da \quotes{spiegare} sono molte, la quantità di dati
+sintetici che si desidera generare è molto grande oppure quando il modello è
+particolarmente lento in fase di predizione (o una combinazione delle tre).
 
-Da qui la necessità di implementare una libreria di algoritmi genetici in grado
-di produrre risultati molto simili a \textit{DEAP} ma più performante e in
-grado di sfruttare al meglio architetture multi-core.
+Da questa necessità nasce \textit{PPGA} (\textit{Parallel Processing for
+	Genetic  Algorithms}), una libreria di algoritmi genetici in  grado di
+produrre risultati qualitativamente simili a \textit{DEAP} ma più performante e
+in grado di sfruttare al meglio architetture multi-core.
 
-Dato che \textit{LORE} e \textit{DEAP}, così come la maggior parte delle
-librerie di machine learning, sono implementate (o forniscono un'API) in Python,
-la prima fase del lavoro si è focalizzata sull'esplorazione e la ricerca di
-possibili framework, in grado di lavorare in sinergia con Python. Le opzioni
-esplorate vanno da librerie standard di Python e moduli di terze parti, passando
-per l'implementazione di estensioni in linguaggi a basso livello come C/C++,
-fino ad arrivare alla sperimentazione di feature sperimentali come
-\textit{subinterpreters} e una delle prime versioni \textit{free-threaded}
-proposta con Python 3.13.
+\textit{LORE} e \textit{DEAP}, così come la maggior parte delle librerie di
+machine learning, sono implementati (o forniscono un'API) in Python, rendendo
+difficoltosa l'implementazione di un modello di calcolo parallelo a causa del
+\textit{GIL}, che limita il multithreading permettendo ad un solo thread alla
+volta di essere eseguito. La prima fase del lavoro si è quindi focalizzata
+sulla ricerca di possibili framework in grado di interfacciarsi e lavorare in
+sinergia con Python, cercando allo stesso tempo di aggirare il problema che
+introduce il \textit{GIL}.
 
 Una volta implementata la libreria si è passati ad una fase di test per
 valutarne la correttezza, impiegando l'algoritmo nella risoluzione di problemi
-ben noti in letteratura facilmente rappresentabili tramite grafici. Tra questi
-abbiamo il problema dello zaino, del commesso viaggiatore e un semplice caso di
-regressione lineare. Si è infine testata la correttezza sul caso d'uso di
-\textit{LORE} precedentemente descritto.
+ben noti in letteratura, facilmente rappresentabili tramite grafici e che non
+fossero computazionalmente troppo dispendiosi. Tra questi il problema dello
+zaino, del commesso viaggiatore e un semplice caso di regressione lineare. Si è
+infine testata la correttezza su una riproduzione semplificata del problema che
+il metodo \textit{LORE} necessita di risolvere per generare spiegazioni.
 
-Il lavoro si è concluso con due fasi di test, la prima riguardante la qualità
-delle soluzioni prodotte e la seconda riguardante le performance. Come
-anticipato, l'obiettivo della tesi è stato quello di produrre qualcosa che
-funzionasse qualitativamente come \textit{DEAP} ma che fosse più performante.
+Il lavoro si è concluso con due fasi di test, riguardanti rispettivamente la
+qualità delle soluzioni prodotte e le prestazioni offerte dalla libreria.
+Entrambe le tipologie di test sono state condotte sullo stesso problema di
+generazione dati, implementando un algoritmo risolutivo sia con \textit{PPGA}
+che con \textit{DEAP}, in modo da permettere un confronto tra le due librerie.
 
-La libreria implementata sembra soddisfare le aspettative fornendo risultati
-qualitativi in linea con \textit{DEAP} ma dimostrando prestazioni e capacità
-di sfruttare architetture multi-core generalmente migliori.
+La tesi si sviluppa su quattro sezioni principali: la prima inquadra meglio il
+contesto in cui si opera, trattando algoritmi genetici, calcolo parallelo ed
+eXplainable AI. Di quest'ultimo verrà trattato più in dettaglio il metodo
+\textit{LORE}, come sfrutta l'algoritmo genetico e quali sono le criticità che
+\textit{PPGA} tenta di risolvere. Saranno inoltre trattati in profondità gli
+algoritmi genetici, la loro struttura e come sia possibile ottimizzarli con il
+calcolo parallelo. Si tratteranno infine le problematiche implementative che
+comporta il \textit{GIL} e quali sono le sfide che pone nell'ambito degli
+algoritmi genetici che operano in parallelo.
+
+A seguire un resoconto di ciò che già esiste allo stato dell'arte, in particolar
+modo verrà trattato il funzionamento della libreria \textit{DEAP}, dei costrutti
+e dell'architettura parallela che propone, cercando quindi di evidenziarne
+limiti e punti di forza.
+
+Verrà trattata in seguito la metodologia che ha guidato lo sviluppo della
+libreria, evidenziando quindi i requisiti che questa deve soddisfare in termini
+di strutture dati, espressività e interazione con l'utente, sia nella versione
+sequenziale che in quella parallela dell'algoritmo. Si sono messi inoltre in
+evidenza vantaggi e problematiche dei vari framework esplorati per riuscire ad
+implementare la versione parallela dell'algoritmo.
+
+Infine un'analisi sulla sperimentazione effettuata al fine di giustificare
+scelte implementative, valutare qualità e correttezza degli algoritmi e
+confrontare le prestazioni di quanto implementato rispetto a \textit{DEAP}.

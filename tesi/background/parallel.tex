@@ -1,0 +1,160 @@
+\section{Calcolo Parallelo}\label{sec: parallel}
+
+Uno degli obiettivi principali del lavoro è stato quello di rimodellare la
+struttura descritta nella sezione precedente, in modo da riuscire ad eseguire in
+parallelo le fasi di crossover, mutazione e valutazione, le quali rappresentano
+(soprattutto la valutazione) il vero collo di bottiglia per le prestazioni in
+molti casi. Una delle soluzioni più semplici prevede l'implementazione di un
+paradigma \textit{map}, nel quale la popolazione viene distribuita omogeneamente
+tra i \textit{worker}.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.9\linewidth]{immagini/parallel_ga2.svg}
+	\caption{Algoritmo genetico parallelo}
+	\label{fig: parallel_ga}
+\end{figure}
+
+Tali fasi si prestano bene a questo tipo di paradigma poiché consistono
+nell'applicare una funzione in modo indipendente a ogni elemento di una lista.
+Da considerare però che l'operatore di crossover viene applicato con una certa
+probabilità, comportando una dimensione della popolazione inferiore a quella di
+partenza. Considerato questo fatto, anche la mutazione ha una certa probabilità
+di essere applicata ma, in ogni caso, lascia invariato il numero di individui.
+Una volta terminate queste due fasi, tutti gli individui verranno certamente
+valutati ed è qui che l'architettura parallela cerca di migliorare
+significativamente le prestazioni.
+
+\subsection{Python e GIL}\label{sec: parallel_GIL}
+
+Implementare modelli di calcolo parallelo in Python non è così immediato come
+in altri linguaggi come C, C++ o Java. In Python non è infatti possibile
+sfruttare il multithreading per compiti computazionalmente intensivi a causa
+del \textit{GIL} (Global Interpreter Lock). Come suggerisce il nome, si tratta
+di una variabile di mutua esclusione che ogni thread deve acquisire prima di
+eseguire il proprio codice, impedendo così agli altri di utilizzare
+contemporaneamente l'interprete. Cercare quindi di sfruttare il multithreading
+per questo tipo di compiti non porterà alcun beneficio, poiché i thread verranno
+eseguiti uno per volta, portando anzi a un potenziale deterioramento delle
+prestazioni della versione sequenziale dell'algoritmo, dovuto all'overhead di
+scheduling e sincronizzazione che il multithreading comporta.
+
+Al momento ciò che viene considerato lo standard in Python per risolvere questo
+tipo di problema è l'impiego di un paradigma multi-processo. In questo modo si
+hanno più interpreti che operano indipendentemente l'uno dall'altro e su spazi
+di memoria differenti. Questo approccio richiede però maggiori risorse sia in
+termini di memoria che di tempo, poiché la condivisione dati avviene tramite
+meccanismi di streaming di byte (come pipe o socket), i quali richiedono una
+fase di serializzazione e deserializzazione, aumentando così il tempo
+complessivo di invio e ricezione.
+
+Esistono però altri metodi che, sotto determinate ipotesi, permettono di
+sfruttare il parallelismo senza dover ricorrere all'utilizzo di più processi.
+Con le nuove versioni di Python sono state inoltre proposte nuove funzionalità
+(ancora sperimentali) che mirano proprio a risolvere o mitigare il problema.
+Parte del lavoro ha avuto infatti come obiettivo la ricerca di un metodo
+efficiente per parallelizzare codice Python ma che fosse compatibile con
+struttura e requisiti di un algoritmo genetico.
+
+Il problema principale sta nel fatto che non si intende fornire all'utente un
+insieme di metodi, algoritmi e strutture dati predefinite, che può usare come
+meglio crede; è infatti necessario avere la possibilità di definire operatori
+genetici, funzione di valutazione ed eventuali strutture dati, in modo specifico
+per il problema che si intende risolvere. Soprattutto la funzione di valutazione
+è una componente fondamentale e strettamente legata al problema e a come si
+intende risolverlo. Garantire questa flessibilità e modularità, permettendo
+l'esecuzione in parallelo di codice scritto dall'utente con \textit{GIL}
+rilasciato non è affatto scontato, ma soprattutto sposta in molti casi alcune
+problematiche che tale rilascio comporta, sull'utente.
+
+Come sarà chiaro più avanti, affinché il \textit{GIL} venga rilasciato, è
+necessario soddisfare determinate condizioni. Dato che però è l'utente a
+definire il codice che dovrà essere eseguito con il \textit{GIL} rilasciato,
+non c'è modo di controllare che questo operi in modo corretto. Anche assumendo
+che l'utente sappia cosa sta facendo e sia quindi in grado di produrre codice
+che soddisfa i requisiti per il rilascio del \textit{GIL}, potrebbero emergere
+problemi di natura differente. Per esempio alcune funzionalità sperimentali
+potrebbero non avere piena compatibilità o supporto con librerie e moduli di
+cui l'utente potrebber aver bisogno, portando quindi ad errori di natura più
+profonda e rendendo la libreria potenzialmente inutilizzabile in alcuni casi.
+
+\subsection{Multiprocessing}\label{ssec: parallel_mp}
+
+Come anticipato, in Python lo standard per il calcolo parallelo prevede un
+paradigma multi-processo, implementato dal modulo \verb|multiprocessing|, messo
+a disposizione dalla \textit{standard library} di Python. Questo modulo fornisce
+la classe \verb|Pool|, che implementa un \textit{pool} di processi in grado di
+bilanciare automaticamente il carico di lavoro e comunicare dati in input e
+output per ogni operazione. Il metodo \verb|map| della classe applica una certa
+funzione a tutti gli elementi di una struttura dati iterabile passata come
+argomento; se non vengono specificati ulteriori argomenti, gli elementi
+dell'iterabile verranno distribuiti uno per volta ai processi non appena questi
+sono liberi. Al contrario, se si specifica il parametro \verb|chunksize| è
+possibile definire il numero di elementi che un processo deve elaborare prima
+di poterne ricevere altri.
+
+Questo approccio risulta molto flessibile e di semplice utilizzo, ma non sempre
+ottimale per un contesto di calcolo parallelo come quello d'interesse.
+Meccanismi come il bilanciamento automatico del carico funzionano bene in
+contesti di programmazione concorrente o, più in generale, contesti in cui si
+ha a che fare con carichi di lavoro molto eterogenei tra loro.
+
+Uno dei problemi principali del multiprocessing è però la comunicazione tra
+processi, molto più dispendiosa rispetto a quella in memoria condivisa, in
+quanto vengono impiegati meccanismi di serializzazione e deserializzazione, in
+modo da poter comunicare i dati tramite pipe o socket.
+
+Affinché questa avvenga è necessario infatti serializzare e deserializzare i
+dati per poterli inviare tramite meccanismi di stream come pipe o socket. Il
+procedimento, dal punto di vista del processo principale, avviene in modo
+sequenziale, mentre i worker ricevono ed inviano dati in parallelo. Supponendo
+infatti che il processo principale debba assegnare compiti a $n$ worker è
+necessario che serializzi e invii i dati un blocco alla volta; in modo analogo
+sarà necessario deserializzare i risultati prodotti prima di proseguire.
+
+\begin{figure}[H]
+	\centering
+	\includesvg[width=0.95\linewidth]{immagini/mp_timeline.svg}
+	\caption{Timeline calcolo parallelo}
+	\label{fig: timelineMP}
+\end{figure}
+
+Come mostrato in figura, prima che si arrivi a pieno regime, il processo
+principale deve terminare l'invio dei dati per tutti i processi. Si potrebbe
+pensare di rendere invio e ricezione asincroni, affidando il compito a dei
+thread, che si occuperebbero di serializzare e inviare dati in modo
+indipendente, mentre in fase di ricezione si occuperebbero della
+deserializzazione. Il processo principale continuerebbe ad avere un frazione
+sequenziale ma si limiterebbe a delegare i thread per l'invio dati, mentre in
+fase di ricezione si occuperebbe solo di sincronizzarli, dopo che questi hanno
+ricevuto e deserializzato i risultati prodotti.
+
+\begin{figure}[H]
+	\centering
+	\includesvg{immagini/async_IPC.svg}
+	\caption{Comunicazione asincrona inter-processo}
+	\label{fig: async_IPC}
+\end{figure}
+
+Come mostrato in figura, i due thread fungono da handler per la comunicazione
+inter-processo, occupandosi non solo della fase di invio ma anche di ricezione.
+I risultati prodotti dai worker vengono raccolti dai thread e riuniti in una
+struttura dati condivisa e accessibile dal flusso d'esecuzione principale.
+
+Il problema di questo approccio è che, generalmente sono molto più dispendiose
+le fasi di serializzazione e deserializzazione che la fase di stream dati.
+Essendo le prime due operazioni CPU-bound, ogni thread verrebbe eseguito
+sequenzialmente, rendendo quindi trascurabile il guadagno ottenuto con uno
+stream dati, di tipo I/O-bound, e quindi effettivamente eseguito in parallelo.
+
+In generale, in un contesto di calcolo parallelo, si paga sempre un overhead di
+sincronizzazione, sia che si tratti di multiprocessing che di multithreading.
+La differenza prestazionale è tuttavia notevole ed è dovuta al fatto che, nel
+secondo caso, lavorando in memoria condivisa, è sufficiente che i thread
+condividano tra di loro puntatori alle strutture dati, senza alcun bisogno di
+meccanismi di serializzazione e stream dati. Le primitive di sincronizzazione,
+come variabili di mutua esclusione o di condizione, sono inoltre molto più
+performanti, riducendo significativamente l'overhead rispetto ad un contesto
+multi-processo. Questo ha portato all'esplorazione di possibili alternative
+in grado di sfruttare il basso overhead di sincronizzazione che si avrebbe in
+memoria condivisa, senza però perdere troppo in flessibilità ed espressività.

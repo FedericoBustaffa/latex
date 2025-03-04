@@ -1,1 +1,32 @@
-\chapter*{Conclusioni}
+\chapter{Conclusioni}\label{cap: conclusions}
+
+In conclusione, dai test effettuati, \textit{PPGA} ha mostrato un significativo
+miglioramento nei tempi di esecuzione rispetto a \textit{DEAP}, in particolare
+per problemi computazionalmente intensivi come il problema del commesso
+viaggiatore e la generazione di dati sintetici per \textit{LORE}. L'approccio
+parallelo adottato ha consentito di sfruttare in modo più efficiente le risorse
+hardware disponibili, riducendo l'impatto del \textit{GIL} di Python grazie
+all'uso del multiprocessing. Tuttavia, DEAP rimane una libreria più consolidata,
+con una maggiore flessibilità nella definizione degli operatori genetici e un
+supporto decisamente più completo.
+
+Nonostante i risultati positivi, \textit{PPGA} presenta alcune limitazioni.
+L'overhead introdotto dalla comunicazione tra processi può ridurre l'efficienza
+in problemi di piccola scala, dove il costo di sincronizzazione tra processi
+supera i benefici del parallelismo. Inoltre, la necessità di serializzare e
+deserializzare gli oggetti per la comunicazione tra i processi può introdurre
+un ulteriore collo di bottiglia. Per superare queste limitazioni, un futuro
+sviluppo della libreria potrebbe includere:
+\begin{itemize}
+	\item L'implementazione di algoritmi e costrutti più complessi, in grado di
+	      lavorare bene su un insieme più grande di problemi.
+	\item L'uso di \verb|shared memory| per ridurre il costo della comunicazione
+	      tra i worker, almeno per problemi che non richiedono strutture dati
+	      particolarmente complesse.
+\end{itemize}
+
+In futuro, sarebbe interessante estendere il confronto con altri framework di
+calcolo parallelo e valutare l'impatto di \textit{PPGA} in scenari reali.
+La libreria offre comunque un punto di partenza solido per futuri sviluppi e
+ottimizzazioni, contribuendo alla ricerca di metodi computazionali più veloci
+ed efficienti nell'ambito degli algoritmi genetici e dell'Explainable AI.

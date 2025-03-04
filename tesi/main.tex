@@ -25,9 +25,16 @@
 \ofoot[\pagemark]{\pagemark}
 \pagestyle{scrplain}
 % \usepackage{mathptmx} % font Times New Roman (simile)
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{caption}
 \usepackage{graphicx} % inserimento di immagini
 \usepackage{csquotes} % per le citazioni "in blocco"
 \usepackage{svg}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
 % \usepackage[backend=biber, sorting=nty, ]{biblatex} % bibliografia con pacchetto biblatex (https://ctan.org/pkg/biblatex?lang=en)
 \appto{\bibsetup}{\raggedright}
 
@@ -36,9 +43,12 @@
 \usepackage{titlesec} % per la formattazione dei titoli delle sezioni, capitoli etc.
 \usepackage{float} % per il posizionamento delle immagini
 
-\usepackage{listings} % per il codice di programmazione
 % Fonte https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings. Per la lista di sintassi riconosciute.
-\renewcommand{\lstlistingname}{Code}% Listing -> Codice
+\usepackage{listings} % per il codice di programmazione
+\usepackage{algpseudocodex}
+\usepackage{algorithm}
+\renewcommand{\lstlistingname}{Snippet}% Listing -> Codice
+\renewcommand{\lstlistlistingname}{Codice}% Listing -> Codice
 \usepackage{xcolor}  % stile del codice
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -57,17 +67,17 @@
   breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
   breaklines=true, % sets automatic line breaking
   captionpos=b, % sets the caption-position to bottom
-  commentstyle=\color{mygreen}, % comment style
+  commentstyle=\color{mygray}, % comment style
   deletekeywords={...}, % if you want to delete keywords from the given language
   escapeinside={\%*}{*)}, % if you want to add LaTeX within your code
   extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   frame=single, % adds a frame around the code
   keepspaces=true, % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{codepurple}, % keyword style
+  keywordstyle=\color{mygreen}, % keyword style
   language=Python, % the language of the code
   morekeywords={*,...}, % if you want to add more keywords to the set
   numbers=left, % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt, % how far the line-numbers are from the code
+  numbersep=2pt, % how far the line-numbers are from the code
   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
   rulecolor=\color{black}, % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false, % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
@@ -80,37 +90,20 @@
 }
 
 % END of listing package 
-
-% Esempio riconoscimento sintassi JavaScript 
-
-\lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, const, let, if, in, while, do, else, case, break},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={class, export, boolean, throw, implements, import, this},
-  ndkeywordstyle=\color{darkgray}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{mygreen}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-
 \lstset{
-   language=JavaScript,
-   extendedchars=true,
-   basicstyle=\footnotesize\ttfamily,
-   showstringspaces=false,
-   showspaces=false,
-   numbers=left,
-   numberstyle=\footnotesize,
-   numbersep=9pt,
-   tabsize=2,
-   breaklines=true,
-   showtabs=false,
-   captionpos=b
+  language=Python,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  morekeywords={as, with, nogil, cdef, cpdef},
+  showstringspaces=false,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  numbersep=9pt,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
 }
 
 % Formato delle intestazioni
@@ -131,7 +124,7 @@
     \vspace{2cm}
     {\Large { TESI DI LAUREA }}\\
     \vspace{2cm}
-    {\Large { Algoritmi genetici per Explainable AI }}
+    {\Large { Implementazione Parallela ed Efficiente di Algoritmi Genetici per Explainable AI }}
   \end{center}
 
   \vspace{2cm}
@@ -154,38 +147,34 @@
 \thispagestyle{empty}
 
 \listoffigures
+\lstlistoflistings
 
 \thispagestyle{empty}
 \clearpage
 \setcounter{page}{1}
 \addtocontents{toc}{\protect\thispagestyle{empty}}
-\addcontentsline{toc}{chapter}{Introduzione} % Capitolo non numerato
+% \addcontentsline{toc}{chapter}{Introduzione} % Capitolo non numerato
 
-\input{introduction.tex}
+\include{introduction}
 
-\clearpage
+\input{background/genetic_alg}
+\input{background/parallel}
+\input{background/xai}
 
-\input{background.tex}
+\input{related_works/deap}
 
-\clearpage
+\input{methods/requirements_structure}
+\input{methods/frameworks}
+\input{methods/implementation}
 
-\input{state_of_the_art.tex}
+\input{experiments/correttezza}
+\input{experiments/quality}
+\input{experiments/performance}
 
-\clearpage
+\input{conclusions}
 
-\input{methods.tex}
-
-\clearpage
-
-\input{experiments.tex}
-
-\addcontentsline{toc}{chapter}{Conclusioni} % Capitolo non numerato
-\input{conclusions.tex}
-
-
+\nocite{*}
 \bibliographystyle{plain}
 \bibliography{bibliography} % Entries are in the refs.bib file
-% \addbibresource{bibliography.bib}
-% \printbibliography
 
 \end{document}
