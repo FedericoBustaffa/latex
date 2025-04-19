@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
-\PYGZdl{}\PYG{+w}{ }gcc\PYG{+w}{ }\PYGZhy{}c\PYG{+w}{ }file.s
-\PYGZdl{}\PYG{+w}{ }objdump\PYG{+w}{ }\PYGZhy{}d\PYG{+w}{ }file.o\PYG{+w}{	}
-\end{Verbatim}
