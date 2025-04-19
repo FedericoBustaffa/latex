@@ -1,0 +1,110 @@
+\section{Esecuzione}
+Passiamo ora a descrivere come avviene l'esecuzione di $U$ e
+cosa ci aspettiamo che succeda. Definiamo la macchina $U$ come
+\[ U = (Q_U, \Sigma_U, \delta_U, s_U) \]
+e diciamo che per ogni generica $M$ e per ogni dati in ingresso
+$w \in \Sigma^*$ ci aspettiamo che
+\begin{itemize}
+	\item Se $M$ termina su $w$ e da come risultato $uav$
+	      \[
+		      (s, \underline{\start}, w) \rightarrow^*_0
+		      (h, u \underline{a} v)
+	      \]
+	      allora $U$ termina su $\rho(M) \tau(w)$ e il nastro è
+	      la codifica di $uav$
+	      \[
+		      (s_U, \underline{\start} \rho(M) \tau(w))
+		      \rightarrow^*_U (h, \tau(uav) \underline{\#})
+	      \]
+	\item Viceversa se $U$ termina su $\rho(M) \tau(w)$ e da come
+	      risultato $u'a'v'$
+	      \[
+		      (s_U, \underline{\start} \rho(M) \tau(w))
+		      \rightarrow^*_U (h, u' \underline{a'}v')
+	      \]
+	      allora $a' = \#$ è il bianco, $v' = \epsilon$ è la
+	      marca di fine stringa e $u' = \tau(uav)$ è la codifica
+	      di $uav$ per quale $u$, $a$ e $v$ tali che $M$ termina
+	      su $w$ e da come risultato $uav$
+	      \[
+		      (s, \underline{\start}, w) \rightarrow^*_0
+		      (h, u \underline{a} v)
+	      \]
+\end{itemize}
+Nella nostra MdT universale abbiamo che nel primo nastro c'è la
+codifica $\tau(w)$ di $w$, nel secondo nastro la codifica di
+$\rho(M)$ di $M$ e nel terzo c'è la codifica dello stato in cui
+si trova $M$.
+
+Ovviamente, prima di iniziare il calcolo, la MdT universale deve
+attraversare una fase di inizializzazione in cui scrive sui vari
+nastri le codifiche di $M$, $w$ ed $s$.
+
+Dopo la fase di inizializzazione passiamo a descrivere coem
+avviene la fase di calcolo. Dato che abbiamo tre nastri, per
+simplicità chiameremo cursore $i$ (con $i = \{ 1, 2, 3\}$) il
+cursore sull'$i$-esimo nastro. Iniziamo con il calcolo:
+\begin{enumerate}
+	\item Se il terzo nastro (quello con lo stato) contiene la
+	      codifica di $q_{h_i}$, allora spostiamo il cursore $2$
+	      sul primo carattere della stringa che codifica $M$.
+	\item Se il cursore $1$ è all'inizio di
+	      $\kappa(\sigma_{k_j})$, allora spostiamo il cursore
+	      $2$ sulla "quitupla" $S_{i,j}$.
+	\item Se $S_{i,j} = c \; \mid^p \; c \; \mid^q \; c \;
+		      \mid^{p'} \; c \; \mid^{q'} \; c \; \mid^r \; c$
+	      \begin{itemize}
+		      \item Si scrive sul terzo nastro $\mid^{p'}$ al
+		            posto di $\kappa(q_{h_i})$.
+		      \item Si scrive $\mid^{q'}$ sul primo nastro al
+		            posto di $\kappa(\sigma_{k_j})$,
+		            eventualmente spostando a destra o a
+		            sinistra la porzione di nastro a destra di
+		            $\kappa(\sigma_{k_j})$, a seconda che la
+		            lunghezza sia minore o maggiore di quella di
+		            $\mid^{q'}$.
+		      \item Si sposta il cursore $1$ al precedente o
+		            al successivo gruppo $c \; \mid^v \; c$,
+		            oppure lo si lascia dov'è a seconda del
+		            valore di $r$.
+	      \end{itemize}
+	\item Se $S_{i,j} = c \; \mid^p \; c \; \mid^q \;
+		      c \; d \; c \; d \; c \; d \; c$
+	      abbiamo una condizione di terminazione con
+	      \textbf{errore}.
+	\item Se invece $S_{i,j} = c \; \mid^p \; c
+		      \; \mid^q \; c \; \mid \; c \; \mid^{p'} \; c
+		      \; \mid^j \; c$ abbiamo una condizione di
+	      terminazione con \textbf{successo}.
+\end{enumerate}
+Se non fosse chiaro, un paragone con il comportamento di un
+classico interprete potrebbe chiarire alcuni concetti:
+\begin{itemize}
+	\item I primi due passi corrispondono al \verb|fetch|
+	      dell'istruzione. Attraverso il contenuto del terzo
+	      nastro e mediante il simbolo corrente si realizza
+	      il \verb|program counter|.
+	\item L'ultimo passo incorpora la decodifica dell'istruzione
+	      corrente e l'esecuzione vera e propria di quest'utima,
+	      con relativa memorizzazione del risultato. Questo se
+	      l'istruzione decodificata non è un errore o
+	      l'istruzione di fine esecuzione.
+\end{itemize}
+Questa è una delle infinite possibili implementazioni di una
+MdT universale, la quale può anche essere riscritta a singolo
+nastro o a più di tre nastri. Come vedremo nella parte di
+complessità il numero di nastri non aumenta in alcun modo la
+capacità espressiva della macchina anche se (almeno in teoria)
+è possibile implementare del \emph{"parallelismo"}.
+
+Concludiamo riprendendo quanto detto all'inizio sulla differenza
+tra semantica e sintassi. La semantica è, in generale, la
+funzione che vogliamo calcolare. La sintassi è invece come la
+calcoliamo, o per meglio dire, l'algoritmo che la calcola.
+Possiamo quindi avere diverse sintassi che fanno riferimento
+alla stessa semantica.
+
+Nel caso di una MdT universale le due cose sembrano mischiarsi
+ma non è così, la funzione rimane la stessa, semplicemente la
+sintassi della macchina $M$ viene convertita in quella della
+macchina $U$.

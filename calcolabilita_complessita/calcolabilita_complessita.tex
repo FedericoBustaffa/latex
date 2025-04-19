@@ -1,0 +1,120 @@
+\documentclass[12pt]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz, pgfplots}
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\hypersetup {
+    colorlinks=true,
+    urlcolor=blue,
+    linkcolor=blue
+}
+
+\input{structure}
+
+\pgfplotsset{compat=newest}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\B}{\mathcal{B}}
+\renewcommand{\P}{\mathcal{P}}
+\newcommand{\NP}{\mathcal{NP}}
+\renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\tx}{\tilde{x}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\start}{\triangleright}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\trn}{trn}
+\DeclareMathOperator{\arr}{arr}
+\DeclareMathOperator{\fl}{fl}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\nnz}{nnz}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\LS}{LOGSPACE}
+\DeclareMathOperator{\TIME}{TIME}
+
+\title{Elementi di calcolabilità e complessità}
+\author{Federico Bustaffa}
+\date{15/04/2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Lo scopo di questi appunti è rendere la comprensione dei
+	concetti spiegati all'interno del corso il più semplice
+	possibile fornendo esempi e spiegazioni quasi ad un livello
+	divulgativo per quanto mi sia possibile.
+
+	Non mancheranno il rigore e i formalismi spiegati a lezione
+	una volta definite le basi per poterli comprendere.
+
+	Ovviamente questi appunti rispecchiano la mia personale
+	interpretazione dei concetti mostrati all'interno del corso
+	e dunque anche i miei limiti di apprendimento degli stessi.
+
+	Il corso sarà suddiviso in due parti: la prima tratterà la
+	teoria della \textbf{calcolabilità}, mentre la seconda la
+	teoria della \textbf{complessità}.
+\end{abstract}
+
+\tableofcontents
+
+% -------------- CALCOLABILITA' -------------------
+\include{calcolabilita/introduzione/introduzione}
+\include{calcolabilita/introduzione/algoritmo}
+
+\include{calcolabilita/mdt/turing}
+\include{calcolabilita/mdt/transizione}
+\include{calcolabilita/mdt/computazione}
+
+\include{calcolabilita/for_while/sintassi}
+\include{calcolabilita/for_while/semantica}
+
+\include{calcolabilita/problemi_funzioni/problemi_funzioni}
+\include{calcolabilita/problemi_funzioni/codifiche}
+\include{calcolabilita/problemi_funzioni/calcolabili}
+
+\include{calcolabilita/ricorsive_primitive/ricorsive_primitive}
+\include{calcolabilita/ricorsive_primitive/enumerazione}
+
+\include{calcolabilita/diagonalizzazione/diagonalizzazione}
+\include{calcolabilita/diagonalizzazione/parziali}
+
+\include{calcolabilita/ricorsive_generali/ricorsive_generali}
+
+\include{calcolabilita/risultati/risultati}
+\include{calcolabilita/risultati/cardinalita}
+\include{calcolabilita/risultati/forma_normale}
+\include{calcolabilita/risultati/universale}
+
+\include{calcolabilita/mdt_universale/mdt_universale}
+\include{calcolabilita/mdt_universale/codifica}
+\include{calcolabilita/mdt_universale/esecuzione}
+
+\include{calcolabilita/insolubili_riducibili/insolubili_riducibili}
+\include{calcolabilita/insolubili_riducibili/insiemi_R_RE}
+\include{calcolabilita/insolubili_riducibili/riduzione}
+
+% -------------- COMPLESSITA' -------------------
+\include{complessita/introduzione/intro}
+\include{complessita/determinismo/determinismo}
+\include{complessita/determinismo/k_nastri}
+\include{complessita/determinismo/tempo}
+\include{complessita/determinismo/mdt_IO}
+\include{complessita/non_determinismo/non_determinismo}
+
+\end{document}

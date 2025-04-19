@@ -1,0 +1,160 @@
+\section{Forma normale ed equivalenze}
+Come abbiamo già visto, è possibile enumerare le MdT, associando
+loro un indice. Analogamente è possibile enumerare le funzioni
+ricorsive primitive e non è difficile pensare ad un'estensione
+per l'enumerazione di funzioni $\mu$-ricorsive.
+
+I due metodi hanno in comune il fatto che si basano solamente
+sui simboli usati per definire gli algoritmi. Infatti, sotto
+ragionevoli ipotesi, per i nostri scopi non c'è differenza tra
+un metodo di enumerazione e l'altro, purché sia \emph{effettivo}.
+
+Data un'enumerazione effettiva, indicheremo con $\varphi_i$ la
+funzione parziale che la macchina, o meglio l'algoritmo, $M_i$
+calcola e chiameremo $i$ \emph{indice}. L'indice è riferito
+alla macchina e non alla funzione, infatti potrebbe darsi che
+per $i \neq j$, valga $\varphi_i = \varphi_j$, ma sicuramente
+vale $M_i \neq M_j$.
+
+\begin{theorem}[Padding lemma] \label{th: padding lemma}
+	Ogni funzione calcolabile $\varphi_x$ ha $\# (N)$ indici.
+	Vale inoltre che $\forall x$ si può costruire, mediante una
+	funzione ricorsiva primitiva, un insieme infinito $A_x$ di
+	indici tale che $\forall y \in A_x$, vale
+	\[ \varphi_y = \varphi_x \]
+	\begin{proof}
+		Per ogni macchina $M_x$, se $Q = \{ q_0, \dots, q_k \}$
+		è l'insieme degli stati possibili di $M_x$. Aggiungendo
+		lo stato $q_{k+1}$ e la quintupla
+		\[ (q_{k+1}, \#, q_{k+1}, \#, -) \]
+		a tale macchina, si ottiene la macchina $M_{x_1}$ con
+		$x_1 \in A_x$. Possiamo continuare all'infinito
+		aggiungendo stati e quintuple che di fatto sono inutili,
+		o per meglio dire non vengono mai raggiunti dalla
+		macchina e non cambiano quindi cosa essa calcola.
+	\end{proof}
+\end{theorem}
+
+Questo teorema ci dice che esistono infiniti algoritmi
+numerabili che calcolano la stessa funzione e che alcuni di
+loro sono ottenibili \emph{facilmente} da un algoritmo dato.
+
+\begin{theorem}[Forma normale] \label{th: fn}
+	Esistono un predicato $T(i, x, y)$ e una funzione $U(y)$
+	calcolabili totali tali che $\forall i,x$ vale
+	\[ \varphi_i(x) = U(\mu y . T (i, x, y)) \]
+	Inoltre $T$ e $U$ sono ricorsive primitive.
+	\begin{proof}
+		Definiamo $T(i,x,y)$, detto comunemente
+		\textbf{predicato di Kleene}, vero se e solo se $y$ è
+		la codifica di una computazione terminante di $M_i$
+		con dato iniziale $x$. Per calcolare $T$ dato $i$,
+		recuperiamo $M_i$ dalla lista e cominciamo a scandire
+		i valori $y$. Decodifichiamo ognuno di essi e, avendo
+		come ingresso $x$ controlliamo se il risultato è una
+		computazione terminante della forma
+		\[ M_i(x) = c_0, c_1, \dots, c_n \]
+		Se lo è, allora $c_n = (h, \start z \underline{\#})$ e
+		definiamo $U$ in modo che $U(y) = z$.
+
+		Il procedimento è effettivo e quindi $T$ e $U$ sono
+		calcolabili per la tesi di Church-Turing, inoltre tale
+		procedimento termina sempre e dunque $T$ e $U$ sono
+		totali. Abbiamo inoltre che $T$ e $U$ sono ricorsive
+		primitive perché sia le codifiche usate, che i controlli
+		effettuati lo sono.
+	\end{proof}
+\end{theorem}
+
+Questo teorema ci dice che tra tutti gli algoritmi che calcolano
+la stessa funzione, uno di questi ha una forma privilegiata,
+ossia quella \emph{normale} e di conseguenza ogni funzione ha
+una forma normale.
+
+Proviamo ad uscire un minimo dal formalismo del teorema stesso
+procedendo per step. Iniziamo dal predicato di Kleene: esso è
+una funzione che semplicemente ritorna vero se $y$ è la codifica
+(in questo caso possiamo considerare l'enumerazione di G\"odel)
+di una computazione terminante della macchina $M_i$ che prende
+in input $x$.
+
+Come abbiamo già visto una computazione, vista come una sequenza
+finita di passi è anch'essa enumerabile ed è quindi possibile
+immaginare che valga
+\[ M_i (x) = c_0, c_1, \dots, c_n \]
+dove i vari $c_i$ sono le varie configurazioni raggiunte dalla
+macchina durante la computazione. Se la computazione termina
+allora abbiamo che $T$ ritorna vero e che sicuramente l'ultima
+configurazione, ossia $c_n$ è equivalente a
+\[ c_n = (h, \start z \underline{\#}) \]
+poiché siamo sicuramente giunti nello stato speciale $h$. Ho
+qualche dubbio sul fatto che il cursore debba essere perforza
+posizionato su un valore bianco in quanto, da quel che abbiamo
+visto fino ad ora, l'unico requisito affinché una computazione
+venga considerata terminata è che giunga nello stato $h$.
+
+Ciò che è importante capire è che $U$ è la parte di stringa
+della configurazione finale, privata del respingente.
+
+\begin{example}
+	Riprendiamo l'esempio della MdT in grado di riconoscere la
+	presenza di una sequenza di due $1$ in una stringa data in
+	input.
+
+	In quell'esempio avevamo definito una funzione di
+	transizione che sovrascriveva qualunque valore incontrasse
+	con un $\#$. Per qualsiasi stringa in input che contenesse
+	una sequenza di due $1$ consecutivi, la macchina si sarebbe
+	sempre arrestata con la seguente configurazione finale
+	\[ h / \start \# \dots \underline{\#} \]
+	Per il teorema dobbiamo andare a prendere il \emph{minimo}
+	$y$ che rappresenta una computazione terminante della
+	macchina $i$-esima che prende un certo input $x$.
+
+	Nel caso delle macchina di Turing ci sarà in realtà un solo
+	$y$ del genere (discorso differente ad esempio per le
+	funzioni ricorsive in cui possiamo avere diverse politiche
+	di valutazione). Nel nostro specifico, tale $y$, sarà quello
+	che codifica la computazione della macchina $i$ (quella che
+	abbiamo scritto noi) che prende in input la stringa
+	$x = 01011$ e che quindi avrà come configurazione finale
+	\[ h / \start \# \# \# \# \underline{\#} \]
+	Secondo il teorema vale che
+	\[ \varphi_i (x) = \varphi (01011) = U(y) = \# \# \# \# \# \]
+	che in realtà andrebbe convertito in nel formalismo
+	ricorsivo perché abbiamo effettivamente più senso.
+\end{example}
+
+\begin{corollary}
+	Le funzioni T-calcolabili sono $\mu$-ricorsive.
+\end{corollary}
+
+Questo corollario è una diretta conseguenza del teorema di
+forma normale. Possiamo quindi dire che ogni funzione calcolata
+da una MdT ammette una definizione $\mu$-ricorsiva.
+
+\begin{lemma}
+	Le funzioni $\mu$-calcolabili sono T-calcolabili.
+\end{lemma}
+
+Possiamo a questo punto concludere che l'equivalenza tra MdT
+e funzioni $\mu$-ricorsive.
+
+\begin{theorem}
+	Una funzione è T-calcolabili se e solo se è
+	$\mu$-calcolabile.
+\end{theorem}
+
+Il teorema di forma normale e quello d'equivalenza tra MdT e
+funzioni $\mu$-ricorsive ha il seguente corollario interessante
+dal punto di vista informatico. La sua rilevanza nel nostro
+campo è legata al fatto che le funzioni primitive ricorsive
+si possono rappresentare come un programma in linguaggio
+\verb|FOR|, mentre le $\mu$-ricorsive con un programma in
+linguaggio \verb|WHILE|.
+
+\begin{corollary}
+	Ogni funzione calcolabile parziale può essere può essere
+	ottenuta da due funzioni ricorsive primitive e una sola
+	applicazione dell'operatore $\mu$.
+\end{corollary}

@@ -1,0 +1,86 @@
+\subsection{Teorema di ricorsione (Kleene II)}
+
+Per ogni funzione $f$ calcolabile totale esiste $n$ tale che
+\[ \varphi_n = \varphi_{f(n)} \]
+
+\subsubsection{Dimostrazione}
+
+Dobbiamo quindi dimostrare che esiste questa $n$ per ogni $f$
+calcolabile totale. Per dimostrare che esiste andiamo a definire
+la funzione calcolabile
+\[
+	\psi (x, y) = \begin{cases}
+		\varphi_{\varphi_x(x)} (y) & \text{se } \varphi_x (x) \downarrow \\
+		\text{indefinita}          & \text{altrimenti}
+	\end{cases}
+\]
+Tale funzione è calcolabile poiché per calcolarla prendiamo
+$M_x$ e gli diamo $x$ in input
+\begin{itemize}
+	\item Se termina siamo nel primo ramo e soprattutto
+	      otteniamo un indice $\varphi_x(x)$ che è l'indice di
+	      $\varphi_{\varphi_x(x)} (y)$.
+	\item Se non termina siamo nel secondo ramo e quindi non
+	      otteniamo un indice.
+\end{itemize}
+La funzione è inoltre totale poiché è ovunque definita (il
+calcolo di $\varphi_x (x)$ o termina o non termina).
+
+Se $\psi$ è calcolabile, per Church-Turing ha un indice $i$
+e dunque vale che
+\[ \psi (x, y) = \varphi_i (x, y) \]
+A questo punto possiamo applicare il teorema del parametro e
+ottenere
+\[ \psi (x, y) = \varphi_i (x, y) = \varphi_{s(i, x)} (y) \]
+Ma la $\psi$ è fissata e dunque anche l'indice $i$ lo è. Possiamo
+allora scrivere che
+\[
+	\psi (x, y) = \varphi_i (x, y) = \varphi_{s(i, x)} (y) =
+	\varphi_{d(x)} (y)
+\]
+Abbiamo quindi che se $\varphi_x (x) \downarrow$ vale che
+\[
+	\psi (x, y) = \varphi_i (x, y) = \varphi_{s(i, x)} (y) =
+	\varphi_{d(x)} (y) = \varphi_{\varphi_x(x)} (y)
+\]
+Per il teorema del parametro sappiamo che $d$ è calcolabile,
+totale e iniettiva, e come possiamo vedere, non dipende da $f$
+poiché $f$ non compare ancora da nessuna parte. Noi però siamo
+ora in possesso di questo oggetto
+\[ \varphi_{d(x)} \]
+e vogliamo metterlo in correlazione con ciò che enuncia il
+teorema. In particolare supponiamo che $d(x) = n$ e quindi
+per dimostrare la tesi
+\[ \varphi_n = \varphi_{f(n)} \]
+vogliamo porre in qualche modo
+\[ \varphi_{d(x)} = \varphi_{f(d(x))} \]
+Per il momento non l'abbiamo ancora fatto, questo non è un vero
+passaggio. \`E solo per mostrare l'intuizione. Notiamo ora che,
+dato che $d$ ed $f$ sono entrambe calcolabili e totali, anche la
+loro composizione (chiamiamola $g$) lo è e dunque ha un indice.
+Vale quindi che
+\[ f(d(x)) = g(x) = \varphi_j (x) \]
+Tale funzione è totale perché sia $f$ che $d$ lo sono e quindi
+\[ \varphi_j (j) \downarrow \]
+Ma se questo converge abbiamo che
+\[ \varphi_{d(j)} = \varphi_{\varphi_j(j)} \]
+Ora calcoliamo $d(j)$ il quale ci darà un risultato $n$,
+otteniamo quindi che
+\[ \varphi_{d(j)} = \varphi_n \]
+ma come appena detto vale che
+\[ \varphi_{\varphi_j(j)} = \varphi_{d(j)} = \varphi_n \]
+A questo punto usiamo il fatto che
+\[ f(d(x)) = \varphi_j (x) \]
+per dedurre che
+\[
+	\varphi_{f(d(j))} = \varphi_{\varphi_j(j)} =
+	\varphi_{d(j)} = \varphi_n
+\]
+Abbiamo però detto che $d(j) = n$ e quindi vale
+\[
+	\varphi_{f(n)} = \varphi_{f(d(j))} =
+	\varphi_{\varphi_j(j)} = \varphi_{d(j)} = \varphi_n
+\]
+
+% da cui si deduce che
+% \[ d(x) = \varphi_x(x) \]

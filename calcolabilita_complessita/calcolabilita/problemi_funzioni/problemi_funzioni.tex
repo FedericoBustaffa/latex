@@ -1,0 +1,54 @@
+\chapter{Problemi e funzioni}
+Per il momento abbiamo usato i nostri costrutti per calcolare
+una funzione (la somma per esempio) o per decidere
+l'appartenenza di un elemento ad un insieme (decidere se una
+stringa è palindroma).
+
+In questa prima parte del corso andremo a definire meglio il
+concetto di \textbf{problema} e di \textbf{funzione} che, nel
+nostro caso, non hanno l'accezione cui siamo abituati.
+
+Un esempio di \emph{problema} è la domanda: "qual è il massimo
+comun divisore tra $x$ e $y$?". Se sostituiamo a $x$ e a $y$
+dei valori, per esempio 34 e 98, otteniamo un \textbf{caso}
+del problema.
+
+\begin{definition} \label{def: T-calcolabile}
+	Siano $\Sigma$, $\Sigma_0$ e $\Sigma_1$ tali che
+	\[ \#, \start \notin \Sigma_0 \cup \Sigma_1 \]
+	e
+	\[ \Sigma_0 \cup \Sigma_1 \subset \Sigma \]
+	allora diciamo che una funzione
+	\[ f : \Sigma_0 \to \Sigma_1 \]
+	è \textbf{Turing calcolabile} o \textbf{T-calcolabile},
+	se e solo se
+	\begin{gather*}
+		\forall w \in \Sigma_0^* : f(w) = z \\
+		\Updownarrow \\
+		(q_0, \underline{\start} w) \to_M^*
+		(h, \start z \underline{\#})
+	\end{gather*}
+	Si dice anche che $f$ è T-calcolabile se esiste una MdT
+	$M$ che la calcola.
+\end{definition}
+
+Ora che abbiamo la definizione precisa di cosa sia una
+funzione T-calcolabile proviamo a fare una cosa analoga per
+il linguaggio WHILE che abbiamo definito in precedenza.
+
+\begin{definition} \label{def: while-calcolabile}
+	Diciamo che una funzione
+	\[ f : \Var \to \N \]
+	è \textbf{WHILE-calcolabile} oppure diciamo che un comando
+	$C$ \textbf{calcola} $f$, se e solo se
+	\begin{gather*}
+		\forall \sigma \in \Var \to \N : f(x) = n \\
+		\Updownarrow \\
+		(C, \sigma) \to^* \sigma' \quad \land \quad
+		\sigma'(x) = n
+	\end{gather*}
+\end{definition}
+
+Notiamo che la variabile $x$ di input è anche la variabile
+di output, ossia quella che contiene il risultato.
+
